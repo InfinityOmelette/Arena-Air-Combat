@@ -171,13 +171,15 @@ public class FlightControl : MonoBehaviour
         {
             // simulating G-limit as limiting factor to turn rate
             percentTowardLimit = 1.0f - distanceToMax / upRange;
-            returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit * ( CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_FASTEST);
+            returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit * 
+                ( CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_FASTEST);
         }
         else // thrust is below cruise
         {
             // simulate aerodynamic performance as limiting factor to turn rate
             percentTowardLimit = 1.0f - distanceToMin / downRange;
-            returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit * (CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_SLOW);
+            returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit * 
+                (CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_SLOW);
         }
 
         currentControlAuthority = returnAuth;
@@ -262,7 +264,8 @@ public class FlightControl : MonoBehaviour
         readZRoll = roll;
 
         //returnTorque += -transform.up * roll * yawSlipRate;                               // YAW SLIP
-        returnTorque += transform.forward * roll * rollSlipRate * currentControlAuthority;  // ROLL SLIP
+        returnTorque += transform.forward * roll * 
+            rollSlipRate * currentControlAuthority;  // ROLL SLIP
 
 
         return returnTorque;

@@ -4,13 +4,31 @@ using UnityEngine;
 
 
 /*  
- *  calculateAxisDrag()
+ *  calculateLiftAndInducedDrag()
+ *      - LIFT IS PERPENDICULAR TO VELOCITY, NOT FORWARD
+ *      - Allows for more consistent thrust/drag ratio
+ *      - Magnitude scaled up by alpha (angle of attack), from 0 to 90 (positive or negative)
+ *          -   LIFT SCALED LINEARLY WITH ALPHA
+ *          -   DRAG SCALED EXPONENTIALLY WITH ALPHA
+ *      - To get Alpha: 
+ *          // *flip sign(s) if necessary*
+ *          var localVelocity = transform.InverseTransformDirection(rb.velocity);
+ *          var angleOfAttack = Mathf.Atan2(-localVelocity.y, localVelocity.z);
+ *      - Two force vectors
+ *          - Lift = liftCoeff * (velocity^2) * alpha * Cross(transform.right, velocity).normalized
+ *          - Drag = dragCoeff * (velocity^2) * (alpha^2) * (-velocity.normalized)
+ *          
+ *          WEIRD FUCKIN IDEA -- TWO "LIFT" VECTORS CALCULATED THE SAME WAY? (Up lift and side lift)
+ *              - AXIS RELATIVE TO VELOCITY
+ *              - "SIDE" LIFT
+ *              - Plus standard 
+ *  
+ *  
+ *  calculateAxisParasiticDrag()
  *      - Three drag axes - axis drag = (axisVel)^2 * (axis drag coeff)
  *          1. Longitudinal (fwd/back)
  *          2. Lateral (left/right)
- *          3. Vertical (up/down)
- *      - standard lift
- *          - (fwd velocity)^2 times standardLiftCoefficient
+ *          3. Vertical (up/down) -- DOES NOT INCLUDE WINGS. ONLY FUSELAGE DRAG
  *          
  *          
  *  aceCombatThrottleProcess()

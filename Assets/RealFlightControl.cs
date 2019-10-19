@@ -11,8 +11,19 @@ using UnityEngine;
  *          3. Vertical (up/down)
  *      - standard lift
  *          - (fwd velocity)^2 times standardLiftCoefficient
+ *          
+ *          
+ *  aceCombatThrottleProcess()
+ *      - Fundamentally unrealistic, so this will be drastically simplified
+ *      - Thrust can change rapidly -- constant thrustDelta steps
+ *      - MAYBE include afterburner stage? multiplies thrustDelta by x above thrust y
  *  
  *  
+ *  calculateControlAuthorityByThrust() --> change to by FORWARD velocity
+ *      - Set optimal turn rate to be at level speed with cruise thrust
+ *      - Decreases linearly specified rate above corner velocity
+ *      
+ *      
  *  calculateStabilityTorque()
  *      - Slight torque to point nose towards velocity
  *      - slip axis for vertical and lateral velocity
@@ -21,17 +32,7 @@ using UnityEngine;
  *          - lateral slip roll
  *          --> axis velocity * axis stability ratio * normalized cross vector
  *      - Increased angle of attack will increase stability torque
- *      
- *      
  *  
- *  calculateControlAuthorityByThrust() --> change to by FORWARD velocity
- *      - Set optimal turn rate to be at level speed with cruise thrust
- *      - Decreases linearly specified rate above corner velocity
- *  
- *  aceCombatThrottleProcess()
- *      - Fundamentally unrealistic, so this will be drastically simplified
- *      - Thrust can change rapidly -- constant thrustDelta steps
- *      - MAYBE include afterburner stage? multiplies thrustDelta by x above thrust y
  * 
  *  processSlipTorques() -- made obselete by stability torque
  *      - Remains mostly the same

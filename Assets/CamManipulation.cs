@@ -18,6 +18,8 @@ public class CamManipulation : MonoBehaviour
     public float thrustModMaxDistOffset;
     public float fwdGlobalVelocityScale;
 
+    public float freeLookLerpRate;
+
     public float rollRateMod;
     public float rollRateOffsetStepSize;
 
@@ -108,13 +110,13 @@ public class CamManipulation : MonoBehaviour
         // set horizontal rotation
         camAxisHorizRef.transform.localRotation = new Quaternion(
             camAxisHorizRef.transform.localRotation.x,      // x
-            horizLookTarget,                                // y
+            Mathf.Lerp(camAxisHorizRef.transform.localRotation.y, horizLookTarget, freeLookLerpRate),                                // y
             camAxisHorizRef.transform.localRotation.z,      // z
             camAxisHorizRef.transform.localRotation.w);     // w
 
         // set vertical rotation
         camAxisVertRef.transform.localRotation = new Quaternion(
-            vertLookTarget,                                 // x
+            Mathf.Lerp(camAxisVertRef.transform.localRotation.x, vertLookTarget, freeLookLerpRate),  // x
             camAxisVertRef.transform.localRotation.y,       // y
             camAxisVertRef.transform.localRotation.z,       // z
             camAxisVertRef.transform.localRotation.w);      // w

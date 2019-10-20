@@ -593,7 +593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerValue: 0
   thrust: 175
-  thrustDelta: 6
+  thrustDelta: 2
   thrustTarget: 0
   CRUISE_PERCENT: 35
   THRUST_MAX: 580
@@ -611,7 +611,7 @@ MonoBehaviour:
   currentControlAuthority: 0
   yawSlipRate: 0
   pitchSlipRate: 0.25
-  rollSlipRate: 0.00375
+  rollSlipRate: 0.00385
   noseDropSlipRate: 0.25
   readZRoll: 0
   alternateReadZRoll: 0.285
@@ -638,6 +638,7 @@ MonoBehaviour:
   camVelocityMod: 0.1
   thrustModMaxDistOffset: 18
   fwdGlobalVelocityScale: 0
+  freeLookLerpRate: 0.25
   rollRateMod: 0.145
   rollRateOffsetStepSize: 0.0425
   horizTravelMod: 0.95

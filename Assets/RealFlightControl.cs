@@ -70,8 +70,32 @@ public class RealFlightControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
+ 
+ /*  create general lift function:
+ *  calculateResultLiftVector(float AoA, float dragCoeff, float liftCoeff, float alphaToLiftOffset, float alphaToDragOffset, Vector3 velocity, Transform referenceTransform)
+ *      - LIFT IS PERPENDICULAR TO VELOCITY, NOT FORWARD
+ *      - Allows for more consistent thrust/drag ratio
+ *      - Magnitude scaled up by alpha(angle of attack), from 0 to 90 (positive or negative)
+ *          -   LIFT SCALED LINEARLY WITH ALPHA
+ *          -   DRAG SCALED EXPONENTIALLY WITH ALPHA
+ *          -   0 ALPHA WILL CREATE SOME LIFT/DRAG, DRAG WILL NEVER BE ZERO --> OFFSET ALPHA 
+ *      - To get Alpha: 
+ *          // *flip sign(s) if necessary*
+ *          var localVelocity = transform.InverseTransformDirection(rb.velocity);
+ *          var angleOfAttack = Mathf.Atan2(-localVelocity.y, localVelocity.z);
+ *      - Two force vectors
+ *          - Lift = ((liftCoeff* alpha) + alphaToLiftOffset) * (velocity^2) * Cross(transform.right, velocity).normalized
+ *          - Drag = ((dragCoeff* alpha)^2 + alphaToDragOffset) * (velocity^2) * (-velocity.normalized)
+ */          
+ 
+
+    //private Vector3 calculateResultLiftVector(float dragCoeff, float liftCoeff, float alphaToLiftOffset, float alphaToDragOffset, Vector3 velocity)
+    //{
+    //    // calculate AoA
+
+    //}
 
 }

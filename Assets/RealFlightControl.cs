@@ -4,31 +4,6 @@ using UnityEngine;
 
 
 /*  
- *  create general lift function:
- *  calculateResultLiftVector(float AoA, float dragCoeff, float liftCoeff, float alphaToLiftOffset, float alphaToDragOffset, Vector3 velocity, Transform referenceTransform)
- *      - LIFT IS PERPENDICULAR TO VELOCITY, NOT FORWARD
- *      - Allows for more consistent thrust/drag ratio
- *      - Magnitude scaled up by alpha (angle of attack), from 0 to 90 (positive or negative)
- *          -   LIFT SCALED LINEARLY WITH ALPHA
- *          -   DRAG SCALED EXPONENTIALLY WITH ALPHA
- *          -   0 ALPHA WILL CREATE SOME LIFT/DRAG, DRAG WILL NEVER BE ZERO --> OFFSET ALPHA 
- *      - To get Alpha: 
- *          // *flip sign(s) if necessary*
- *          var localVelocity = transform.InverseTransformDirection(rb.velocity);
- *          var angleOfAttack = Mathf.Atan2(-localVelocity.y, localVelocity.z);
- *      - Two force vectors
- *          - Lift = ((liftCoeff * alpha) + alphaToLiftOffset) * (velocity^2) * Cross(transform.right, velocity).normalized
- *          - Drag = ((dragCoeff * alpha)^2 + alphaToDragOffset) * (velocity^2) * (-velocity.normalized)
- *  
- *  
- *  calculateLiftsAndDrags() -- compensates for both induced and parasitic drag
- *          WEIRD FUCKIN IDEA -- TWO "LIFT" VECTORS CALCULATED THE SAME WAY? (Up lift and side lift)
- *              AXES RELATIVE TO VELOCITY
- *              - WING LIFT
- *              - "SIDE" LIFT
- *  
- *  
- *          
  *          
  *  aceCombatThrottleProcess()
  *      - Fundamentally unrealistic, so this will be drastically simplified
@@ -57,10 +32,30 @@ using UnityEngine;
 
 public class RealFlightControl : MonoBehaviour
 {
+
+    public float rollTorque;
+    public float pitchTorque;
+    public float yawTorque;
+
+    public float thrust;
+
+    public float wingLiftCoefficient;
+    public float wingDragCoefficient;
+
+    public float bodySideLiftCoefficient;
+    public float bodySideDragCoefficient;
+
+
+    public float readVelocity;
+    public float readVertVelocity;
+    public float readAoA;
+
+    private Rigidbody rbRef;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rbRef = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -69,23 +64,81 @@ public class RealFlightControl : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
 
-    /*  create general lift function:
-    *  calculateResultLiftVector(float AoA, float dragCoeff, float liftCoeff, float alphaToLiftOffset, float alphaToDragOffset, Vector3 velocity, Transform referenceTransform)
-    *      - LIFT IS PERPENDICULAR TO VELOCITY, NOT FORWARD
-    *      - Allows for more consistent thrust/drag ratio
-    *      - Magnitude scaled up by alpha(angle of attack), from 0 to 90 (positive or negative)
-    *          -   LIFT SCALED LINEARLY WITH ALPHA
-    *          -   DRAG SCALED EXPONENTIALLY WITH ALPHA
-    *          -   0 ALPHA WILL CREATE SOME LIFT/DRAG, DRAG WILL NEVER BE ZERO --> OFFSET ALPHA 
-    *      - To get Alpha: 
-    *          // *flip sign(s) if necessary*
-    *          var localVelocity = transform.InverseTransformDirection(rb.velocity);
-    *          var angleOfAttack = Mathf.Atan2(-localVelocity.y, localVelocity.z);
-    *      - Two force vectors
-    *          - Lift = ((liftCoeff* alpha) + alphaToLiftOffset) * (velocity^2) * Cross(transform.right, velocity).normalized
-    *          - Drag = (dragCoeff * (alpha^2) + alphaToDragOffset) * (velocity^2) * (-velocity.normalized)
-    */
+        readVelocity = rbRef.velocity.magnitude;
+        readVertVelocity = Vector3.Project(rbRef.velocity, Vector3.up).y;
+
+        rbRef.AddTorque(calculateControlTorque() * calculateControlAuthorityByVelocity());
+
+
+
+        Vector3 wingLift = calculateOnPlaneResultLiftVector(wingLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
+            wingDragCoefficient, 0.2f, 0.75f, 0.02f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            rbRef.velocity, transform.forward, transform.right);
+
+        Vector3 sideLift = calculateOnPlaneResultLiftVector(bodySideLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
+            bodySideDragCoefficient, 0.2f, 0.75f, 0.02f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            rbRef.velocity, transform.forward, transform.up);
+
+
+        Vector3 thrustVect = transform.forward * thrust;
+
+        rbRef.AddForce(wingLift + sideLift + thrustVect);
+    }
+
+    private Vector3 calculateControlTorque()
+    {
+        //  GET PITCH INPUT
+        float pitchInput = Input.GetAxis("Pitch");
+
+        //  BUILD INPUT TORQUE VECTOR
+        Vector3 torqueVect = -transform.forward * rollTorque * Input.GetAxis("Roll") +  // Roll torque
+            transform.right * pitchTorque * pitchInput +                    // Pitch torque
+            transform.up * yawTorque * Input.GetAxis("Rudder");                         // Yaw torque
+
+        return torqueVect;
+    }
+
+    private float calculateControlAuthorityByVelocity()
+    {
+        //// cruise thrust is set to be highest turn rate
+        //// above this, G limit is limiting factor to turn rate
+        //// below this, aerodynamic performance is limiting factor to turn rate
+
+
+        //float returnAuth = 0.0f;
+
+        //// above cruise thrust
+        //float distanceToMax = THRUST_MAX - thrust;
+        //float upRange = THRUST_MAX - THRUST_CRUISE;
+
+        //// below cruise thrust
+        //float distanceToMin = thrust - THRUST_MIN;
+        //float downRange = THRUST_CRUISE - THRUST_MIN;
+
+        //float percentTowardLimit;
+
+        //if (thrust > THRUST_CRUISE) // thrust is above cruise
+        //{
+        //    // simulating G-limit as limiting factor to turn rate
+        //    percentTowardLimit = 1.0f - distanceToMax / upRange;
+        //    returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit *
+        //        (CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_FASTEST);
+        //}
+        //else // thrust is below cruise
+        //{
+        //    // simulate aerodynamic performance as limiting factor to turn rate
+        //    percentTowardLimit = 1.0f - distanceToMin / downRange;
+        //    returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit *
+        //        (CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_SLOW);
+        //}
+
+        //currentControlAuthority = returnAuth;
+        //return returnAuth;
+        return 1.0f;
+    }
 
 
     private Vector3 calculateOnPlaneResultLiftVector(
@@ -93,27 +146,35 @@ public class RealFlightControl : MonoBehaviour
         float dragCoeff, float alphaOffsetDrag, float alphaAmplitudeDrag, float alphaParabolicityDrag,  // drag components 
         Vector3 velocity, Vector3 forward, Vector3 planeCrossVector)            // vector info
     {
-
+        // declare all variables
+        Vector3 liftVector;
+        Vector3 dragVector;
+        float alpha;    // angle of attack
+        float highAlphaShrinkLiftTemp;
+        float alphaModLift; // 1.0 maximum lift, sign is direction
+        float alphaModDrag; // 1.0 maximum lift -- because of trig, result will always be positive
 
         //  Use planeCrossVector to remove out-of-plane components of velocity and forward vector
         velocity = Vector3.ProjectOnPlane(velocity, planeCrossVector);  // not necessary to get angle, but will be used for magnitude
         forward = Vector3.ProjectOnPlane(forward, planeCrossVector);
 
         //  Set initial force vector directions
-        Vector3 liftVector = Vector3.Cross(velocity, planeCrossVector).normalized;
-        Vector3 dragVector = -velocity.normalized;
+        liftVector = Vector3.Cross(velocity, planeCrossVector).normalized;
+        dragVector = -velocity.normalized;
 
         //  Get angle between forward and velocity -- signed to plot on trig graph, neg alpha give neg lift, and drag always positive because trig
-        float alpha = Vector3.SignedAngle(forward, velocity, planeCrossVector) * Mathf.Deg2Rad; // RADIANS
+        alpha = Vector3.SignedAngle(forward, velocity, planeCrossVector) * Mathf.Deg2Rad; // RADIANS
+        if(planeCrossVector == transform.right)
+            readAoA = alpha * Mathf.Rad2Deg;
 
         //  Reduce lift when flying backwards
-        float highAlphaShrinkLiftTemp = 1.0f;
+        highAlphaShrinkLiftTemp = 1.0f;
         if (Mathf.Abs(alpha) > (Mathf.PI / 2))  // if alpha greater than 90 degrees
             highAlphaShrinkLiftTemp = highAlphaShrinkLift;  // reduce lift
 
         //  plot lift and drag vs alpha graphs on desmos to set the alphaMod values (1.0 roughly being highest expected force)
-        float alphaModLift = highAlphaShrinkLiftTemp * Mathf.Sin(2 * alpha);  // 2 to increase period such that 90 gives max, 180 is zero, and so on
-        float alphaModDrag = alphaAmplitudeDrag * (-(Mathf.Cos(alpha) * Mathf.Cos(alpha)) + 1) +
+        alphaModLift = highAlphaShrinkLiftTemp * Mathf.Sin(2 * alpha);  // 2 to increase period such that 90 gives max, 180 is zero, and so on
+        alphaModDrag = alphaAmplitudeDrag * (-(Mathf.Cos(alpha) * Mathf.Cos(alpha)) + 1) +
             alphaParabolicityDrag * alpha * alpha + alphaOffsetDrag;
 
         //  Lift calculation:

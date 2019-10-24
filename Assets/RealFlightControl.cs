@@ -37,7 +37,11 @@ public class RealFlightControl : MonoBehaviour
     public float pitchTorque;
     public float yawTorque;
 
-    public float thrust;
+    public float currentThrust;
+    public float currentThrustPercent;
+    public float MAX_THRUST_DELTA;
+    public float THRUST_MIN;
+    public float THRUST_MAX;
 
     public float wingLiftCoefficient;
     public float wingDragCoefficient;
@@ -70,22 +74,30 @@ public class RealFlightControl : MonoBehaviour
         readVelocity = rbRef.velocity.magnitude;
         readVertVelocity = Vector3.Project(rbRef.velocity, Vector3.up).y;
 
+        
         rbRef.AddTorque(calculateControlTorque() * calculateControlAuthorityByVelocity());
 
 
 
         Vector3 wingLift = calculateOnPlaneResultLiftVector(wingLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
-            wingDragCoefficient, 0.2f, 0.75f, 0.02f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            wingDragCoefficient, 0.05f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.right);
 
         Vector3 sideLift = calculateOnPlaneResultLiftVector(bodySideLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
-            bodySideDragCoefficient, 0.2f, 0.75f, 0.02f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            bodySideDragCoefficient, 0.0f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.up);
 
-
-        Vector3 thrustVect = transform.forward * thrust;
+        currentThrust = getNewThrust();
+        Vector3 thrustVect = transform.forward * getNewThrust();
 
         rbRef.AddForce(wingLift + sideLift + thrustVect);
+    }
+
+    private float getNewThrust()
+    {
+        currentThrust = Mathf.Clamp((MAX_THRUST_DELTA * Input.GetAxis("Throttle")) + currentThrust, THRUST_MIN, THRUST_MAX);
+        currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f;
+        return currentThrust;
     }
 
     private Vector3 calculateControlTorque()
@@ -147,9 +159,9 @@ public class RealFlightControl : MonoBehaviour
         Vector3 velocity, Vector3 forward, Vector3 planeCrossVector)            // vector info
     {
         // declare all variables
-        Vector3 liftVector;
-        Vector3 dragVector;
-        float alpha;    // angle of attack
+        Vector3 liftVector;     // build lift vector ON THIS PLANE
+        Vector3 dragVector;     // build drag vector ON THIS PLANE
+        float alpha;            // angle of attack ON THIS PLANE
         float highAlphaShrinkLiftTemp;
         float alphaModLift; // 1.0 maximum lift, sign is direction
         float alphaModDrag; // 1.0 maximum lift -- because of trig, result will always be positive
@@ -173,7 +185,7 @@ public class RealFlightControl : MonoBehaviour
             highAlphaShrinkLiftTemp = highAlphaShrinkLift;  // reduce lift
 
         //  plot lift and drag vs alpha graphs on desmos to set the alphaMod values (1.0 roughly being highest expected force)
-        alphaModLift = highAlphaShrinkLiftTemp * Mathf.Sin(2 * alpha);  // 2 to increase period such that 90 gives max, 180 is zero, and so on
+        alphaModLift = highAlphaShrinkLiftTemp * Mathf.Sin(2 * alpha) + alphaOffsetLift;  // 2 to increase period such that 90 gives max, 180 is zero, and so on
         alphaModDrag = alphaAmplitudeDrag * (-(Mathf.Cos(alpha) * Mathf.Cos(alpha)) + 1) +
             alphaParabolicityDrag * alpha * alpha + alphaOffsetDrag;
 

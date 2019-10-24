@@ -192,13 +192,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rollTorque: 4500
-  pitchTorque: 4000
+  pitchTorque: 6500
   yawTorque: 1750
-  thrust: 100
-  wingLiftCoefficient: 80
-  wingDragCoefficient: 16
-  bodySideLiftCoefficient: 25
-  bodySideDragCoefficient: 5
+  currentThrust: 0
+  currentThrustPercent: 0
+  MAX_THRUST_DELTA: 85
+  THRUST_MIN: 1000
+  THRUST_MAX: 12000
+  wingLiftCoefficient: 30
+  wingDragCoefficient: 30
+  bodySideLiftCoefficient: 10
+  bodySideDragCoefficient: 10
   readVelocity: 0
   readVertVelocity: 0
   readAoA: 0

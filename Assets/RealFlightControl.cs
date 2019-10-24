@@ -49,6 +49,11 @@ public class RealFlightControl : MonoBehaviour
     public float bodySideLiftCoefficient;
     public float bodySideDragCoefficient;
 
+    public float pitchStability;
+    public float pitchStabilityZeroOffset;
+    public float yawStability;
+   
+
 
     public float readVelocity;
     public float readVertVelocity;
@@ -74,8 +79,11 @@ public class RealFlightControl : MonoBehaviour
         readVelocity = rbRef.velocity.magnitude;
         readVertVelocity = Vector3.Project(rbRef.velocity, Vector3.up).y;
 
-        
-        rbRef.AddTorque(calculateControlTorque() * calculateControlAuthorityByVelocity());
+        Vector3 controlTorque = calculateControlTorque() * calculateControlAuthorityByVelocity();
+        Vector3 pitchStabilityTorque = calculateAxisStabilityTorque(pitchStability, pitchStabilityZeroOffset, rbRef.velocity, transform.forward, transform.right);
+        Vector3 yawStabilityTorque = calculateAxisStabilityTorque(yawStability, 0.0f, rbRef.velocity, transform.forward, transform.up);
+
+        rbRef.AddTorque(controlTorque + pitchStabilityTorque + yawStabilityTorque);
 
 
 
@@ -112,6 +120,16 @@ public class RealFlightControl : MonoBehaviour
 
         return torqueVect;
     }
+
+    private Vector3 calculateAxisStabilityTorque(float stabilityCoeff, float zeroOffset, Vector3 velocity, Vector3 forward, Vector3 axis)
+    {
+        velocity = Vector3.ProjectOnPlane(velocity, axis);
+        forward = Vector3.ProjectOnPlane(forward, axis);
+        float alpha = calculateAlphaOnPlane(velocity, forward, axis) * Mathf.Deg2Rad;
+        float alphaMod = Mathf.Sin(alpha - zeroOffset);
+        return axis * stabilityCoeff * alphaMod * velocity.magnitude * velocity.magnitude;
+    }
+
 
     private float calculateControlAuthorityByVelocity()
     {
@@ -153,10 +171,20 @@ public class RealFlightControl : MonoBehaviour
     }
 
 
+    
+
+    // returns angle in degrees
+    private float calculateAlphaOnPlane(Vector3 velocity, Vector3 forward, Vector3 planeNormal)
+    {
+        velocity = Vector3.ProjectOnPlane(velocity, planeNormal);
+        forward = Vector3.ProjectOnPlane(forward, planeNormal);
+        return Vector3.SignedAngle(forward, velocity, planeNormal); // angle in degrees
+    }
+
     private Vector3 calculateOnPlaneResultLiftVector(
         float liftCoeff, float alphaOffsetLift, float highAlphaShrinkLift,      // lift components
         float dragCoeff, float alphaOffsetDrag, float alphaAmplitudeDrag, float alphaParabolicityDrag,  // drag components 
-        Vector3 velocity, Vector3 forward, Vector3 planeCrossVector)            // vector info
+        Vector3 velocity, Vector3 forward, Vector3 planeNormal)            // vector info
     {
         // declare all variables
         Vector3 liftVector;     // build lift vector ON THIS PLANE
@@ -166,17 +194,19 @@ public class RealFlightControl : MonoBehaviour
         float alphaModLift; // 1.0 maximum lift, sign is direction
         float alphaModDrag; // 1.0 maximum lift -- because of trig, result will always be positive
 
-        //  Use planeCrossVector to remove out-of-plane components of velocity and forward vector
-        velocity = Vector3.ProjectOnPlane(velocity, planeCrossVector);  // not necessary to get angle, but will be used for magnitude
-        forward = Vector3.ProjectOnPlane(forward, planeCrossVector);
+        //  Use planeNormal to remove out-of-plane components of velocity and forward vector
+        velocity = Vector3.ProjectOnPlane(velocity, planeNormal);  // not necessary to get angle, but will be used for magnitude
+        forward = Vector3.ProjectOnPlane(forward, planeNormal);
 
         //  Set initial force vector directions
-        liftVector = Vector3.Cross(velocity, planeCrossVector).normalized;
+        liftVector = Vector3.Cross(velocity, planeNormal).normalized;
         dragVector = -velocity.normalized;
 
         //  Get angle between forward and velocity -- signed to plot on trig graph, neg alpha give neg lift, and drag always positive because trig
-        alpha = Vector3.SignedAngle(forward, velocity, planeCrossVector) * Mathf.Deg2Rad; // RADIANS
-        if(planeCrossVector == transform.right)
+        alpha = calculateAlphaOnPlane(velocity, forward, planeNormal) * Mathf.Deg2Rad; // RADIANS
+        
+        //  Only measure angle of attack on wing lift plane
+        if(planeNormal == transform.right)
             readAoA = alpha * Mathf.Rad2Deg;
 
         //  Reduce lift when flying backwards

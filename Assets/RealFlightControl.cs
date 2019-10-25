@@ -57,7 +57,8 @@ public class RealFlightControl : MonoBehaviour
 
     public float readVelocity;
     public float readVertVelocity;
-    public float readAoA;
+    public float pitchPlaneAoA;
+    public float yawPlaneAoA;
 
     private Rigidbody rbRef;
 
@@ -70,38 +71,57 @@ public class RealFlightControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //  Velocity measurements for UI
+        readVelocity = rbRef.velocity.magnitude;
+        readVertVelocity = Vector3.Project(rbRef.velocity, Vector3.up).y;
 
     }
 
     private void FixedUpdate()
     {
+        // =============================================  UPDATE CLASS-LEVEL PHYSICS VARIABLES
+        pitchPlaneAoA = calculateAlphaOnPlane(rbRef.velocity, transform.forward, transform.right);
+        yawPlaneAoA = calculateAlphaOnPlane(rbRef.velocity, transform.forward, transform.up);
 
-        readVelocity = rbRef.velocity.magnitude;
-        readVertVelocity = Vector3.Project(rbRef.velocity, Vector3.up).y;
 
-        Vector3 controlTorque = calculateControlTorque() * calculateControlAuthorityByVelocity();
+        //============================================== TORQUES
+
+        //  CONTROL TORQUES  
+        Vector3 controlTorque = calculateControlTorque();
+
+        //  STABILITY TORQUE
         Vector3 pitchStabilityTorque = calculateAxisStabilityTorque(pitchStability, pitchStabilityZeroOffset, rbRef.velocity, transform.forward, transform.right);
         Vector3 yawStabilityTorque = calculateAxisStabilityTorque(yawStability, 0.0f, rbRef.velocity, transform.forward, transform.up);
 
-        rbRef.AddTorque(controlTorque + pitchStabilityTorque + yawStabilityTorque);
+        
 
 
+        //=============================================  FORCES
 
+        //  WING LIFT
         Vector3 wingLift = calculateOnPlaneResultLiftVector(wingLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
             wingDragCoefficient, 0.05f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.right);
 
+        //  BODY SIDE LIFT
         Vector3 sideLift = calculateOnPlaneResultLiftVector(bodySideLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
             bodySideDragCoefficient, 0.0f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.up);
 
-        currentThrust = getNewThrust();
-        Vector3 thrustVect = transform.forward * getNewThrust();
+        //  THRUST
+        Vector3 thrustVect = transform.forward * inputNewThrust();
 
+
+        //============================================ ADD RESULTS
+
+        //  ADD RESULT VORCE
         rbRef.AddForce(wingLift + sideLift + thrustVect);
+
+        //  ADD RESULT TORQUE
+        rbRef.AddTorque(controlTorque + pitchStabilityTorque + yawStabilityTorque);
     }
 
-    private float getNewThrust()
+    private float inputNewThrust()
     {
         currentThrust = Mathf.Clamp((MAX_THRUST_DELTA * Input.GetAxis("Throttle")) + currentThrust, THRUST_MIN, THRUST_MAX);
         currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f;
@@ -111,16 +131,35 @@ public class RealFlightControl : MonoBehaviour
     private Vector3 calculateControlTorque()
     {
         //  GET PITCH INPUT
-        float pitchInput = Input.GetAxis("Pitch");
 
         //  BUILD INPUT TORQUE VECTOR
-        Vector3 torqueVect = -transform.forward * rollTorque * Input.GetAxis("Roll") +  // Roll torque
-            transform.right * pitchTorque * pitchInput +                    // Pitch torque
-            transform.up * yawTorque * Input.GetAxis("Rudder");                         // Yaw torque
+        Vector3 pitchTorqueVect = transform.right * pitchTorque * Input.GetAxis("Pitch") * calculateControlAxisAlphaMod(transform.right);
+        Vector3 yawTorqueVect = transform.up * yawTorque * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
+        Vector3 rollTorqueVect = -transform.forward * rollTorque * Input.GetAxis("Roll");
 
-        return torqueVect;
+
+
+
+
+        return (pitchTorqueVect + yawTorqueVect + rollTorqueVect) * calculateControlAuthVelocityMod();
     }
 
+    //  CONTROL AUTHORITY -- ALPHA -- SINGLE AXIS
+    private float calculateControlAxisAlphaMod(Vector3 axis)
+    {
+        Vector3 velocity = Vector3.ProjectOnPlane(rbRef.velocity, axis);
+        return Mathf.Cos(calculateAlphaOnPlane(rbRef.velocity, transform.forward, axis) * Mathf.Deg2Rad);
+    }
+
+    //  CONTROL AUTHORITY -- VELOCITY -- ALL AXES
+    private float calculateControlAuthVelocityMod()
+    {
+        float aeroModifier = rbRef.velocity.magnitude * rbRef.velocity.magnitude;
+        float gLimitModifier;
+        return aeroModifier;
+    }
+
+    //  AXIS STABILITY TORQUE
     private Vector3 calculateAxisStabilityTorque(float stabilityCoeff, float zeroOffset, Vector3 velocity, Vector3 forward, Vector3 axis)
     {
         velocity = Vector3.ProjectOnPlane(velocity, axis);
@@ -131,44 +170,7 @@ public class RealFlightControl : MonoBehaviour
     }
 
 
-    private float calculateControlAuthorityByVelocity()
-    {
-        //// cruise thrust is set to be highest turn rate
-        //// above this, G limit is limiting factor to turn rate
-        //// below this, aerodynamic performance is limiting factor to turn rate
-
-
-        //float returnAuth = 0.0f;
-
-        //// above cruise thrust
-        //float distanceToMax = THRUST_MAX - thrust;
-        //float upRange = THRUST_MAX - THRUST_CRUISE;
-
-        //// below cruise thrust
-        //float distanceToMin = thrust - THRUST_MIN;
-        //float downRange = THRUST_CRUISE - THRUST_MIN;
-
-        //float percentTowardLimit;
-
-        //if (thrust > THRUST_CRUISE) // thrust is above cruise
-        //{
-        //    // simulating G-limit as limiting factor to turn rate
-        //    percentTowardLimit = 1.0f - distanceToMax / upRange;
-        //    returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit *
-        //        (CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_FASTEST);
-        //}
-        //else // thrust is below cruise
-        //{
-        //    // simulate aerodynamic performance as limiting factor to turn rate
-        //    percentTowardLimit = 1.0f - distanceToMin / downRange;
-        //    returnAuth = CONTROL_AUTHORITY_CRUISE - percentTowardLimit *
-        //        (CONTROL_AUTHORITY_CRUISE - CONTROL_AUTHORITY_SLOW);
-        //}
-
-        //currentControlAuthority = returnAuth;
-        //return returnAuth;
-        return 1.0f;
-    }
+    
 
 
     
@@ -207,7 +209,7 @@ public class RealFlightControl : MonoBehaviour
         
         //  Only measure angle of attack on wing lift plane
         if(planeNormal == transform.right)
-            readAoA = alpha * Mathf.Rad2Deg;
+            pitchPlaneAoA = alpha * Mathf.Rad2Deg;
 
         //  Reduce lift when flying backwards
         highAlphaShrinkLiftTemp = 1.0f;

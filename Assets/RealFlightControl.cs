@@ -3,33 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-/*  
- *          
- *  aceCombatThrottleProcess()
- *      - Fundamentally unrealistic, so this will be drastically simplified
- *      - Thrust can change rapidly -- constant thrustDelta steps
- *      - MAYBE include afterburner stage? multiplies thrustDelta by x above thrust y
- *  
- *  
- *  calculateControlAuthorityByThrust() --> change to by FORWARD velocity
- *      - Set cruise thrust to be at optimal turn speed in level flight (mess with flight variables until it's at 30-50% thrust
- *      - Decreases linearly specified rate above corner velocity
- *      
- *      
- *  calculateStabilityTorque() -- REDO TO USE ANGLE OF ATTACK ALONG 2 PLANES
- *      - Slight torque to point nose towards velocity
- *      - slip axis for vertical and lateral velocity
- *          - vertical slip pitch
- *          - lateral slip yaw
- *          - lateral slip roll
- *          --> (axis velocity)^2 * axis stability ratio * normalized cross vector
- *      - Increased angle of attack will increase stability torque
- *  
- * 
- *  processSlipTorques() -- made obselete by stability torque
- * 
- */
-
 public class RealFlightControl : MonoBehaviour
 {
 
@@ -52,13 +25,19 @@ public class RealFlightControl : MonoBehaviour
     public float pitchStability;
     public float pitchStabilityZeroOffset;
     public float yawStability;
-   
 
+    public float MAX_POSITIVE_G;
+    public float POS_OVER_G_SLOPE;
+    public float MAX_NEGATIVE_G;
+    public float NEG_OVER_G_SLOPE;
+    public float readCurrentG;
 
     public float readVelocity;
     public float readVertVelocity;
     public float pitchPlaneAoA;
     public float yawPlaneAoA;
+
+    public float weightReduction;
 
     private Rigidbody rbRef;
 
@@ -80,20 +59,10 @@ public class RealFlightControl : MonoBehaviour
     private void FixedUpdate()
     {
         // =============================================  UPDATE CLASS-LEVEL PHYSICS VARIABLES
+
         pitchPlaneAoA = calculateAlphaOnPlane(rbRef.velocity, transform.forward, transform.right);
         yawPlaneAoA = calculateAlphaOnPlane(rbRef.velocity, transform.forward, transform.up);
 
-
-        //============================================== TORQUES
-
-        //  CONTROL TORQUES  
-        Vector3 controlTorque = calculateControlTorque();
-
-        //  STABILITY TORQUE
-        Vector3 pitchStabilityTorque = calculateAxisStabilityTorque(pitchStability, pitchStabilityZeroOffset, rbRef.velocity, transform.forward, transform.right);
-        Vector3 yawStabilityTorque = calculateAxisStabilityTorque(yawStability, 0.0f, rbRef.velocity, transform.forward, transform.up);
-
-        
 
 
         //=============================================  FORCES
@@ -112,13 +81,62 @@ public class RealFlightControl : MonoBehaviour
         Vector3 thrustVect = transform.forward * inputNewThrust();
 
 
+        //============================================== TORQUES
+
+        //  CONTROL TORQUES  
+        //Vector3 controlTorque = calculateControlTorque();
+        float velocityMod = calculateControlAuthVelocityMod();  // control authority
+        Vector3 pitchTorqueVect = transform.right * pitchTorque * velocityMod * Input.GetAxis("Pitch") * calculateControlAxisAlphaMod(transform.right); 
+        Vector3 rollTorqueVect = transform.up * yawTorque * velocityMod * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
+        Vector3 yawTorqueVect = -transform.forward * velocityMod * rollTorque * Input.GetAxis("Roll");
+
+
+        // if maximum lift reached, set maximum torque to zero
+        float currentG = wingLift.magnitude / rbRef.mass;
+        readCurrentG = currentG;
+  
+        pitchTorqueVect *= calculateGLimitMod(wingLift, transform.up, rbRef.mass, MAX_POSITIVE_G, POS_OVER_G_SLOPE,
+            MAX_NEGATIVE_G, NEG_OVER_G_SLOPE);
+
+        //float yawGLimitScale = 0.001f; // decrease maximum, increase slope
+        //yawTorqueVect *= calculateGLimitMod(sideLift, transform.right, rbRef.mass, MAX_POSITIVE_G * yawGLimitScale, POS_OVER_G_SLOPE / yawGLimitScale, 
+        //    MAX_POSITIVE_G * yawGLimitScale, POS_OVER_G_SLOPE / 2f);    // both positive and negative use the same sign, because side G limit symmetrical
+
+
+
+        //  STABILITY TORQUE
+        Vector3 pitchStabilityTorque = calculateAxisStabilityTorque(pitchStability, pitchStabilityZeroOffset, rbRef.velocity, transform.forward, transform.right);
+        Vector3 yawStabilityTorque = calculateAxisStabilityTorque(yawStability, 0.0f, rbRef.velocity, transform.forward, transform.up);
+
+
         //============================================ ADD RESULTS
 
         //  ADD RESULT VORCE
         rbRef.AddForce(wingLift + sideLift + thrustVect);
 
         //  ADD RESULT TORQUE
-        rbRef.AddTorque(controlTorque + pitchStabilityTorque + yawStabilityTorque);
+        rbRef.AddTorque(pitchTorqueVect + rollTorqueVect + yawTorqueVect + pitchStabilityTorque + yawStabilityTorque);
+    }
+
+    private float calculateGLimitMod(Vector3 lift, Vector3 upOrient, float mass, 
+        float MAX_POSITIVE_G, float pos_gLimitSlope, 
+        float MAX_NEGATIVE_G, float neg_gLimitSlope)
+    {
+        float gLimitMod = 1.0f;
+        float currentG = lift.magnitude / mass; // F/m = a
+
+        // set sign of G
+        if (Vector3.Angle(lift, upOrient) > 90f) // Determine if vectors are in the same hemisphere -- if not, lift is "negative"
+            currentG *= -1; // set direction
+
+        // increase gLimitMod the higher currentG is over max g
+        if (currentG > MAX_POSITIVE_G)
+            gLimitMod -= pos_gLimitSlope * (currentG - MAX_POSITIVE_G); // over G gap is squared
+        else if (currentG < -MAX_NEGATIVE_G)
+            gLimitMod -= neg_gLimitSlope *  (-MAX_NEGATIVE_G - currentG); // over G gap is squared
+
+        return Mathf.Max(0.0f, gLimitMod);  // modifier will never below zero -- negative control authority
+
     }
 
     private float inputNewThrust()
@@ -128,21 +146,7 @@ public class RealFlightControl : MonoBehaviour
         return currentThrust;
     }
 
-    private Vector3 calculateControlTorque()
-    {
-        //  GET PITCH INPUT
-
-        //  BUILD INPUT TORQUE VECTOR
-        Vector3 pitchTorqueVect = transform.right * pitchTorque * Input.GetAxis("Pitch") * calculateControlAxisAlphaMod(transform.right);
-        Vector3 yawTorqueVect = transform.up * yawTorque * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
-        Vector3 rollTorqueVect = -transform.forward * rollTorque * Input.GetAxis("Roll");
-
-
-
-
-
-        return (pitchTorqueVect + yawTorqueVect + rollTorqueVect) * calculateControlAuthVelocityMod();
-    }
+    
 
     //  CONTROL AUTHORITY -- ALPHA -- SINGLE AXIS
     private float calculateControlAxisAlphaMod(Vector3 axis)
@@ -154,9 +158,7 @@ public class RealFlightControl : MonoBehaviour
     //  CONTROL AUTHORITY -- VELOCITY -- ALL AXES
     private float calculateControlAuthVelocityMod()
     {
-        float aeroModifier = rbRef.velocity.magnitude * rbRef.velocity.magnitude;
-        float gLimitModifier;
-        return aeroModifier;
+        return rbRef.velocity.magnitude * rbRef.velocity.magnitude; ;
     }
 
     //  AXIS STABILITY TORQUE

@@ -9444,18 +9444,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2729229810556044894, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
       value: 0.67619133
       objectReference: {fileID: 0}
-    - target: {fileID: 2729229810556044894, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: m_Autodestruct
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2729229810556044894, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
@@ -9532,7 +9529,7 @@ PrefabInstance:
     - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: yawStability
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
@@ -9553,6 +9550,31 @@ PrefabInstance:
         type: 3}
       propertyPath: yawTorque
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: MAX_POSITIVE_G
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: MAX_NEGATIVE_G
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: NEG_OVER_G_SLOPE
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: POS_OVER_G_SLOPE
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: weightReduction
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273fc1587b2e47f42b315e0ec95d8bb2, type: 3}

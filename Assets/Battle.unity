@@ -9539,17 +9539,17 @@ PrefabInstance:
     - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: pitchTorque
-      value: 6
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: rollTorque
-      value: 3
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: yawTorque
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
@@ -9575,6 +9575,61 @@ PrefabInstance:
         type: 3}
       propertyPath: weightReduction
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: gLimitVelocitySensitivity
+      value: 175000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: negativePitchMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: maxControlAuthority
+      value: 2500
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: aeroPerformVelSensitivity
+      value: 0.335
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: gLimitVelSensitivity
+      value: 160000
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: wingDragCoefficient
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: bodySideLiftCoefficient
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: bodySideDragCoefficient
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: pitchTrimAssist
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7744941291827435729, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485475638230874169, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.93
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273fc1587b2e47f42b315e0ec95d8bb2, type: 3}

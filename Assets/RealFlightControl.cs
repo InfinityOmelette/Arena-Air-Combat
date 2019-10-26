@@ -10,6 +10,8 @@ public class RealFlightControl : MonoBehaviour
     public float pitchTorque;
     public float yawTorque;
 
+    public float negativePitchMultiplier;
+
     public float currentThrust;
     public float currentThrustPercent;
     public float MAX_THRUST_DELTA;
@@ -26,11 +28,16 @@ public class RealFlightControl : MonoBehaviour
     public float pitchStabilityZeroOffset;
     public float yawStability;
 
-    public float MAX_POSITIVE_G;
-    public float POS_OVER_G_SLOPE;
-    public float MAX_NEGATIVE_G;
-    public float NEG_OVER_G_SLOPE;
+    // // rewriting g limit to be a function of velocity
+    //public float MAX_POSITIVE_G;
+    //public float POS_OVER_G_SLOPE;
+    //public float MAX_NEGATIVE_G;
+    //public float NEG_OVER_G_SLOPE;
     public float readCurrentG;
+    public float maxControlAuthority;
+    public float aeroPerformVelSensitivity;
+    public float gLimitVelSensitivity;
+    public float readCurrentAuthMod;
 
     public float readVelocity;
     public float readVertVelocity;
@@ -69,8 +76,9 @@ public class RealFlightControl : MonoBehaviour
 
         //  WING LIFT
         Vector3 wingLift = calculateOnPlaneResultLiftVector(wingLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
-            wingDragCoefficient, 0.05f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            wingDragCoefficient, 0.02f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.right);
+        readCurrentG = wingLift.magnitude / rbRef.mass; // read current G accel
 
         //  BODY SIDE LIFT
         Vector3 sideLift = calculateOnPlaneResultLiftVector(bodySideLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
@@ -83,25 +91,22 @@ public class RealFlightControl : MonoBehaviour
 
         //============================================== TORQUES
 
-        //  CONTROL TORQUES  
+        //  CONTROL TORQUE MODIFIERS
         //Vector3 controlTorque = calculateControlTorque();
-        float velocityMod = calculateControlAuthVelocityMod();  // control authority
-        Vector3 pitchTorqueVect = transform.right * pitchTorque * velocityMod * Input.GetAxis("Pitch") * calculateControlAxisAlphaMod(transform.right); 
-        Vector3 rollTorqueVect = transform.up * yawTorque * velocityMod * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
-        Vector3 yawTorqueVect = -transform.forward * velocityMod * rollTorque * Input.GetAxis("Roll");
+        float authMod = calculateControlAuthVelocityMod(aeroPerformVelSensitivity, gLimitVelSensitivity, maxControlAuthority, rbRef.velocity);
+        readCurrentAuthMod = authMod;
 
+        //  INPUT PITCH TORQUE
+        float pitchInput = Input.GetAxis("Pitch");
+        if (pitchInput > 0)     //  Reduce negative pitch authority
+            pitchInput *= negativePitchMultiplier;
 
-        // if maximum lift reached, set maximum torque to zero
-        float currentG = wingLift.magnitude / rbRef.mass;
-        readCurrentG = currentG;
-  
-        pitchTorqueVect *= calculateGLimitMod(wingLift, transform.up, rbRef.mass, MAX_POSITIVE_G, POS_OVER_G_SLOPE,
-            MAX_NEGATIVE_G, NEG_OVER_G_SLOPE);
+        
 
-        //float yawGLimitScale = 0.001f; // decrease maximum, increase slope
-        //yawTorqueVect *= calculateGLimitMod(sideLift, transform.right, rbRef.mass, MAX_POSITIVE_G * yawGLimitScale, POS_OVER_G_SLOPE / yawGLimitScale, 
-        //    MAX_POSITIVE_G * yawGLimitScale, POS_OVER_G_SLOPE / 2f);    // both positive and negative use the same sign, because side G limit symmetrical
-
+        // CONTROL TORQUE VECTORS
+        Vector3 pitchTorqueVect = transform.right * pitchTorque * authMod * pitchInput * calculateControlAxisAlphaMod(transform.right); 
+        Vector3 rollTorqueVect = transform.up * yawTorque * authMod * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
+        Vector3 yawTorqueVect = -transform.forward * rollTorque * authMod * Input.GetAxis("Roll");
 
 
         //  STABILITY TORQUE
@@ -109,36 +114,20 @@ public class RealFlightControl : MonoBehaviour
         Vector3 yawStabilityTorque = calculateAxisStabilityTorque(yawStability, 0.0f, rbRef.velocity, transform.forward, transform.up);
 
 
-        //============================================ ADD RESULTS
+        //============================================ ADD RESULT VECTORS
 
         //  ADD RESULT VORCE
         rbRef.AddForce(wingLift + sideLift + thrustVect);
 
         //  ADD RESULT TORQUE
         rbRef.AddTorque(pitchTorqueVect + rollTorqueVect + yawTorqueVect + pitchStabilityTorque + yawStabilityTorque);
-    }
-
-    private float calculateGLimitMod(Vector3 lift, Vector3 upOrient, float mass, 
-        float MAX_POSITIVE_G, float pos_gLimitSlope, 
-        float MAX_NEGATIVE_G, float neg_gLimitSlope)
-    {
-        float gLimitMod = 1.0f;
-        float currentG = lift.magnitude / mass; // F/m = a
-
-        // set sign of G
-        if (Vector3.Angle(lift, upOrient) > 90f) // Determine if vectors are in the same hemisphere -- if not, lift is "negative"
-            currentG *= -1; // set direction
-
-        // increase gLimitMod the higher currentG is over max g
-        if (currentG > MAX_POSITIVE_G)
-            gLimitMod -= pos_gLimitSlope * (currentG - MAX_POSITIVE_G); // over G gap is squared
-        else if (currentG < -MAX_NEGATIVE_G)
-            gLimitMod -= neg_gLimitSlope *  (-MAX_NEGATIVE_G - currentG); // over G gap is squared
-
-        return Mathf.Max(0.0f, gLimitMod);  // modifier will never below zero -- negative control authority
+        
+        
 
     }
 
+    
+    //  SET THRUST
     private float inputNewThrust()
     {
         currentThrust = Mathf.Clamp((MAX_THRUST_DELTA * Input.GetAxis("Throttle")) + currentThrust, THRUST_MIN, THRUST_MAX);
@@ -146,7 +135,8 @@ public class RealFlightControl : MonoBehaviour
         return currentThrust;
     }
 
-    
+
+
 
     //  CONTROL AUTHORITY -- ALPHA -- SINGLE AXIS
     private float calculateControlAxisAlphaMod(Vector3 axis)
@@ -155,11 +145,19 @@ public class RealFlightControl : MonoBehaviour
         return Mathf.Cos(calculateAlphaOnPlane(rbRef.velocity, transform.forward, axis) * Mathf.Deg2Rad);
     }
 
-    //  CONTROL AUTHORITY -- VELOCITY -- ALL AXES
-    private float calculateControlAuthVelocityMod()
+    //  CONTROL AUTHORITY -- VELOCITY -- ALL AXES -- FACTORS G LIMIT AND AERO PERFORMANCE
+    private float calculateControlAuthVelocityMod(float aeroPerformLimitScalar, float gLimitScalar, float maxAuth, Vector3 velocity)
     {
-        return rbRef.velocity.magnitude * rbRef.velocity.magnitude; ;
+        //  Aero performance -- increases by velocity squared
+        float aeroPerformLimit = aeroPerformLimitScalar * velocity.magnitude * velocity.magnitude;
+
+        //  G limit -- inverse of velocity
+        float gLimit = gLimitScalar / velocity.magnitude;
+
+        // return the limiting factor -- maxAuth, aero performance, or g limit
+        return Mathf.Min(aeroPerformLimit, gLimit, maxAuth);
     }
+
 
     //  AXIS STABILITY TORQUE
     private Vector3 calculateAxisStabilityTorque(float stabilityCoeff, float zeroOffset, Vector3 velocity, Vector3 forward, Vector3 axis)

@@ -15,26 +15,41 @@ public class CamManipulation : MonoBehaviour
     public float camDefaultHorizDist;
     public float camDefaultHeight;
     public float camVelocityMod;
-    public float thrustModMaxDistOffset;
+
+    public float lookAheadDist;
+
+
+    //public float camHeightToDistRatio;
+
+    public float camDistOffsetMax;    // camera height will be constant
+    public float estHighSpeed;
+
+    public float estLowSpeed;
+
+
+   // public float thrustModMaxDistOffset;
     public float fwdGlobalVelocityScale;
 
     public float freeLookLerpRate;
 
     public float rollRateMod;
-    public float rollRateOffsetStepSize;
+    public float rollRateOffsetLerpRate;
 
 
     public float horizTravelMod = 120f;
     public float vertTravelMod = 80f;
 
-    
+    public GameObject lookAtObj;
+    public bool lookAtEnabled = false;
+
+    private Quaternion defaultCamRotation;
 
     // Start is called before the first frame update
     void Start()
     {
         myRB_ref = GetComponent<Rigidbody>();
 
-        camRef.transform.localPosition = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
+        defaultCamRotation = camRef.transform.localRotation;
 
         //camAxisXref.transform.rotation = new Quaternion(0.0f, 180f, 0f, 0f);
     }
@@ -42,39 +57,104 @@ public class CamManipulation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetButtonDown("CamLookAt"))
+            toggleLookAt();
     }
 
     private void FixedUpdate()
     {
 
 
-
-
-        //  ==========================================  ROLL ANGULAR VELOCITY ON CAMERA ROTATION
-        camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
-
+        
 
         //  ========================================     VELOCITY EFFECTS ON CAMERA POSITION
         camRef.transform.localPosition = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
-        camRef.transform.localPosition -= camDistanceByThrust();
+        camRef.transform.localPosition -= camDistanceByVelocity();
         camRef.transform.position -= velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod;
 
 
-        //  ==================================  FREE LOOK
-        processFreeLook();
+
+        if (lookAtEnabled)
+        {
+            if (lookAtObj != null)  // slightly redundant null check
+                camAxisRollRef.transform.LookAt(lookAtObj.transform.position);
+            else // if look at is enabled but reference is null, re-toggle look at
+                toggleLookAt();
+        }
+        else
+        {
+            // Roll angular velocity on camera rotation
+            camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
+
+            // right stick to look around aircraft
+            processFreeLook();
+        }
 
     }
 
-
-    private Vector3 camDistanceByThrust()
+    // toggle lookAt
+    private void toggleLookAt()
     {
-        FlightControl fc_scriptRef = GetComponent<FlightControl>();
-        float currentThrust = fc_scriptRef.thrust;
-        float THRUST_MIN = fc_scriptRef.THRUST_MIN;
-        float THRUST_MAX = fc_scriptRef.THRUST_MAX;
-        return new Vector3(0.0f, 0.0f, 
-            (currentThrust - THRUST_MIN) * (thrustModMaxDistOffset / THRUST_MAX));
+        
+
+        if (!lookAtEnabled && lookAtObj != null)  // lookAt is not turned on, turn it on if possible
+        {
+            // Reset cam axes -- start from zero, then lookat will modify from there
+            Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);   // remove any free look input
+            camAxisRollRef.transform.localRotation = zeroQuat;
+            camAxisHorizRef.transform.localRotation = zeroQuat;
+            camAxisVertRef.transform.localRotation = zeroQuat;
+
+            // switch enabled state
+            lookAtEnabled = true;
+
+
+        }
+        else // lookAt is on or failed to turn on, turn it off
+        {
+            // switch enabled state
+            lookAtEnabled = false;
+
+            //// Reset cam axes -- so free look can modify an undisturbed value
+            Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+            camAxisRollRef.transform.localRotation = zeroQuat;
+
+            // return cam rotation to default
+            camRef.transform.localRotation = defaultCamRotation;
+
+
+        }
+
+        
+    }
+
+    //private Vector3 camDistanceByThrust()
+    //{
+    //    FlightControl fc_scriptRef = GetComponent<FlightControl>();
+    //    float currentThrust = fc_scriptRef.thrust;
+    //    float THRUST_MIN = fc_scriptRef.THRUST_MIN;
+    //    float THRUST_MAX = fc_scriptRef.THRUST_MAX;
+    //    return new Vector3(0.0f, 0.0f, 
+    //        (currentThrust - THRUST_MIN) * (thrustModMaxDistOffset / THRUST_MAX));
+    //}
+
+    private Vector3 camDistanceByVelocity()
+    {
+        // at or below minimum speed, camera distance will be set to minimum
+        // at or above maximum speed, camera distance will be set to maximum
+        // in between, camera distance will scale linearly from minimum to maximum
+        // only horizontal distance will be changed
+
+        //  percentage along range
+        float percentageToMaxSpeed = (myRB_ref.velocity.magnitude - estLowSpeed) / (estHighSpeed - estLowSpeed);
+
+        //  clamp within range 0% to 100%
+        percentageToMaxSpeed = Mathf.Clamp(percentageToMaxSpeed, 0.0f, 1.0f);
+
+        //  set z distance to a % of max offset
+        //  set y distance (height) to maintain height/distance ratio
+        float horizOffset = percentageToMaxSpeed * camDistOffsetMax;
+        return new Vector3(0.0f, -horizOffset * (camDefaultHeight / camDefaultHorizDist), horizOffset);
     }
 
     private Vector3 localizeFwdVelocity()
@@ -129,7 +209,7 @@ public class CamManipulation : MonoBehaviour
         float rollRateOffsetTarget = rollRateVect.magnitude * rollRateMod; // Use magnitude to determine camera z offset strength
         if (rollRateVect.normalized == transform.forward)
             rollRateOffsetTarget *= -1;
-        float rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetStepSize);
+        float rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate);
         Quaternion returnQuat = new Quaternion(
             camAxisRollRef.transform.localRotation.x,
             camAxisRollRef.transform.localRotation.y,

@@ -9,8 +9,9 @@ public class RealFlightControl : MonoBehaviour
     public float rollTorque;
     public float pitchTorque;
     public float yawTorque;
+    public float pitchTrim;
 
-    public float negativePitchMultiplier;
+    public float downPitchMultiplier;
 
     public float currentThrust;
     public float currentThrustPercent;
@@ -20,19 +21,17 @@ public class RealFlightControl : MonoBehaviour
 
     public float wingLiftCoefficient;
     public float wingDragCoefficient;
+    public float wingDragOffset;
 
     public float bodySideLiftCoefficient;
     public float bodySideDragCoefficient;
+    public float bodySideDragOffset;
 
     public float pitchStability;
     public float pitchStabilityZeroOffset;
     public float yawStability;
 
-    // // rewriting g limit to be a function of velocity
-    //public float MAX_POSITIVE_G;
-    //public float POS_OVER_G_SLOPE;
-    //public float MAX_NEGATIVE_G;
-    //public float NEG_OVER_G_SLOPE;
+
     public float readCurrentG;
     public float maxControlAuthority;
     public float aeroPerformVelSensitivity;
@@ -44,7 +43,11 @@ public class RealFlightControl : MonoBehaviour
     public float pitchPlaneAoA;
     public float yawPlaneAoA;
 
-    public float weightReduction;
+    //public float readResultPitchInput;
+    //public float readMultipliedPitch;
+    //public float readRawPitch;
+
+    //public float weightReduction;
 
     private Rigidbody rbRef;
 
@@ -76,13 +79,13 @@ public class RealFlightControl : MonoBehaviour
 
         //  WING LIFT
         Vector3 wingLift = calculateOnPlaneResultLiftVector(wingLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
-            wingDragCoefficient, 0.02f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            wingDragCoefficient, wingDragOffset, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.right);
         readCurrentG = wingLift.magnitude / rbRef.mass; // read current G accel
 
         //  BODY SIDE LIFT
         Vector3 sideLift = calculateOnPlaneResultLiftVector(bodySideLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
-            bodySideDragCoefficient, 0.0f, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            bodySideDragCoefficient, bodySideDragOffset, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.up);
 
         //  THRUST
@@ -96,17 +99,12 @@ public class RealFlightControl : MonoBehaviour
         float authMod = calculateControlAuthVelocityMod(aeroPerformVelSensitivity, gLimitVelSensitivity, maxControlAuthority, rbRef.velocity);
         readCurrentAuthMod = authMod;
 
-        //  INPUT PITCH TORQUE
-        float pitchInput = Input.GetAxis("Pitch");
-        if (pitchInput > 0)     //  Reduce negative pitch authority
-            pitchInput *= negativePitchMultiplier;
-
         
 
         // CONTROL TORQUE VECTORS
-        Vector3 pitchTorqueVect = transform.right * pitchTorque * authMod * pitchInput * calculateControlAxisAlphaMod(transform.right); 
-        Vector3 rollTorqueVect = transform.up * yawTorque * authMod * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
-        Vector3 yawTorqueVect = -transform.forward * rollTorque * authMod * Input.GetAxis("Roll");
+        Vector3 pitchTorqueVect = transform.right * pitchTorque * authMod * processPitchInput(pitchTrim) * calculateControlAxisAlphaMod(transform.right); 
+        Vector3 yawTorqueVect = transform.up * yawTorque * authMod * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
+        Vector3 rollTorqueVect = -rbRef.velocity.normalized * rollTorque * authMod * Input.GetAxis("Roll"); // roll around velocity axis
 
 
         //  STABILITY TORQUE
@@ -126,7 +124,35 @@ public class RealFlightControl : MonoBehaviour
 
     }
 
-    
+    //  PITCH INPUT
+    private float processPitchInput(float pitchTrim)
+    {
+        //  remember, negative Pitch axis is positive pitch
+        // compress same side of trim pitch range
+        // stretch opposite side of trim pitch range
+
+
+        float pitchPosRange = 1.0f * downPitchMultiplier - pitchTrim; // distance from trim to positive (pitch down) gimbal limit
+        float pitchNegRange = Mathf.Abs(-1.0f - pitchTrim); // distance from trim to negative (pitch up) gimbal limit
+        float pitchInput = Input.GetAxis("Pitch");
+       // readRawPitch = pitchInput;
+
+        if (pitchInput > 0) // if positive (pitch down)
+            pitchInput *= pitchPosRange;
+        else        // if negative pitch (pitch up)
+            pitchInput *= pitchNegRange;
+
+        //readMultipliedPitch = pitchInput;
+
+        pitchInput += pitchTrim;
+
+        //readResultPitchInput = pitchInput;
+
+        return pitchInput;    // trim will never change maximum input
+
+    }
+
+
     //  SET THRUST
     private float inputNewThrust()
     {

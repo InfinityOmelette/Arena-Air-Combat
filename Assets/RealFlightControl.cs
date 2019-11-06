@@ -209,6 +209,7 @@ public class RealFlightControl : MonoBehaviour
         return Vector3.SignedAngle(forward, velocity, planeNormal); // angle in degrees
     }
 
+    // calculate lift and drag on specified plane
     private Vector3 calculateOnPlaneResultLiftVector(
         float liftCoeff, float alphaOffsetLift, float highAlphaShrinkLift,      // lift components
         float dragCoeff, float alphaOffsetDrag, float alphaAmplitudeDrag, float alphaParabolicityDrag,  // drag components 
@@ -238,7 +239,7 @@ public class RealFlightControl : MonoBehaviour
             pitchPlaneAoA = alpha * Mathf.Rad2Deg;
 
         //  Reduce lift when flying backwards
-        highAlphaShrinkLiftTemp = 1.0f;
+        highAlphaShrinkLiftTemp = 1.0f; // multiplier starts at 1.0 to not affect at all until changed
         if (Mathf.Abs(alpha) > (Mathf.PI / 2))  // if alpha greater than 90 degrees
             highAlphaShrinkLiftTemp = highAlphaShrinkLift;  // reduce lift
 

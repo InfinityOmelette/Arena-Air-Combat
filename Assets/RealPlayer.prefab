@@ -885,8 +885,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -248.7, y: -3}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -244.21, y: -3}
+  m_SizeDelta: {x: 168.98, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6497004733298342199
 CanvasRenderer:
@@ -1139,7 +1139,7 @@ MonoBehaviour:
   rollTorque: 5
   pitchTorque: 11
   yawTorque: 6.25
-  pitchTrim: -0.2
+  pitchTrim: -0.15
   downPitchMultiplier: 0.2
   currentThrust: 0
   currentThrustPercent: 0
@@ -1147,18 +1147,18 @@ MonoBehaviour:
   THRUST_MIN: 1000
   THRUST_MAX: 12000
   wingLiftCoefficient: 15
-  wingDragCoefficient: 20
-  wingDragOffset: 0.05
-  bodySideLiftCoefficient: 15
-  bodySideDragCoefficient: 15
+  wingDragCoefficient: 10
+  wingDragOffset: 0.125
+  bodySideLiftCoefficient: 7
+  bodySideDragCoefficient: 7
   bodySideDragOffset: 0
-  pitchStability: 10
+  pitchStability: 7
   pitchStabilityZeroOffset: 0
   yawStability: 17
   readCurrentG: 0
-  maxControlAuthority: 2600
-  aeroPerformVelSensitivity: 0.425
-  gLimitVelSensitivity: 180000
+  maxControlAuthority: 2750
+  aeroPerformVelSensitivity: 0.36
+  gLimitVelSensitivity: 200000
   readCurrentAuthMod: 0
   readVelocity: 0
   readVertVelocity: 0
@@ -1182,7 +1182,7 @@ MonoBehaviour:
   camRef: {fileID: 8678540673922653252}
   camDefaultHorizDist: 7
   camDefaultHeight: 1.5
-  camVelocityMod: 0.125
+  camVelocityMod: 0.075
   lookAheadDist: 200
   camDistOffsetMax: 13
   estHighSpeed: 110

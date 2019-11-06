@@ -45,7 +45,8 @@ public class hudControl : MonoBehaviour
     {
 
         // Set readout values
-        speedText.text = Mathf.RoundToInt(rbRef.velocity.magnitude).ToString() + "m/s";
+        float mpsVelToKPH = 3.6f;
+        speedText.text = Mathf.RoundToInt(rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
         throttleText.text = "< " + Mathf.RoundToInt(flightInfoObjRef.currentThrustPercent).ToString() + "%";
         altitudeText.text = Mathf.RoundToInt(transform.position.y).ToString() + "m";
         climbText.text = Mathf.RoundToInt(flightInfoObjRef.readVertVelocity).ToString() + "m/s >";

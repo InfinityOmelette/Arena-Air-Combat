@@ -25,6 +25,19 @@ public class hudControl : MonoBehaviour
     public float throttleTextMaxOffset;
 
 
+    // SPEDOMETER OFFSET
+    public GameObject spedometerRef;
+    private Vector3 spedometerOriginPos;
+    public float spedometerMaxSpeed;
+    public float spedometerMaxOffset;
+
+
+    //  ALTIMETER OFFSET
+    public GameObject altimeterRef;
+    private Vector3 altimeterOriginPos;
+    public float altimeterMaxOffset;
+    public float altimeterMaxAlt;
+
 
     // REFERENCES
     private Rigidbody rbRef;
@@ -36,8 +49,12 @@ public class hudControl : MonoBehaviour
     {
         rbRef = GetComponent<Rigidbody>();
         flightInfoObjRef = GetComponent<RealFlightControl>();
+
+
         climbTextOriginPos = climbText.transform.localPosition;
         throttleTextOriginPos = throttleText.transform.localPosition;
+        spedometerOriginPos = spedometerRef.transform.localPosition;
+        altimeterOriginPos = altimeterRef.transform.localPosition;
     }
 
     // Update is called once per frame
@@ -51,13 +68,35 @@ public class hudControl : MonoBehaviour
         altitudeText.text = Mathf.RoundToInt(transform.position.y).ToString() + "m";
         climbText.text = Mathf.RoundToInt(flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
 
+        processSpedometerOffset();
+       
+        processThrottleLadder();
+
 
         processClimbLadder();
 
-        processThrottleLadder();
+        processAltimeterOffset();
 
     }
 
+    // PROCESS SPEDOMETER OFFSET
+    //  - Raises speed indicator from bottom of slider as speed increases
+    //  - Stops at top, at or above maximum speed
+    private void processSpedometerOffset()
+    {
+        float speedScale = Mathf.Clamp(rbRef.velocity.magnitude / spedometerMaxSpeed, 0.0f, 1.0f);
+        spedometerRef.transform.localPosition = spedometerOriginPos + new Vector3(0.0f, speedScale * spedometerMaxOffset, 0.0f);
+
+    }
+
+
+    //  PROCESS ALTIMETER OFFSET
+    //   - Raises altimeter from bottom of slider as alt increases
+    private void processAltimeterOffset()
+    {
+        float altScale = Mathf.Clamp(transform.position.y / altimeterMaxAlt, 0.0f, 1.0f);
+        altimeterRef.transform.localPosition = altimeterOriginPos + new Vector3(0.0f, altScale * altimeterMaxOffset, 0.0f);
+    }
     
 
     // PROCESS THROTTLE LADDER

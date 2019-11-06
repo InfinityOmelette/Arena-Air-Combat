@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -171.7, y: 5.7}
+  m_AnchoredPosition: {x: -171.7, y: -107}
   m_SizeDelta: {x: 100, y: 83.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9150049319483471806
@@ -319,7 +319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 247, y: 15}
+  m_AnchoredPosition: {x: 246.20996, y: -99.60001}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8380405047191015580
@@ -621,7 +621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -250, y: 17.4}
+  m_AnchoredPosition: {x: -250, y: -95.29999}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7487828436735536253
@@ -732,7 +732,6 @@ RectTransform:
   - {fileID: 5858734962465951724}
   - {fileID: 8025169534150969628}
   - {fileID: 6712183409490184344}
-  - {fileID: 7161017353500537572}
   m_Father: {fileID: 2885134249146157130}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -885,7 +884,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -244.21, y: -3}
+  m_AnchoredPosition: {x: -244.21, y: -115.69999}
   m_SizeDelta: {x: 168.98, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6497004733298342199
@@ -993,7 +992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 247.4, y: -3}
+  m_AnchoredPosition: {x: 246.60995, y: -117.60001}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2219493808347291786
@@ -1146,19 +1145,19 @@ MonoBehaviour:
   MAX_THRUST_DELTA: 100
   THRUST_MIN: 1000
   THRUST_MAX: 12000
-  wingLiftCoefficient: 15
+  wingLiftCoefficient: 12.5
   wingDragCoefficient: 10
   wingDragOffset: 0.125
   bodySideLiftCoefficient: 7
   bodySideDragCoefficient: 7
   bodySideDragOffset: 0
-  pitchStability: 7
+  pitchStability: 4
   pitchStabilityZeroOffset: 0
   yawStability: 17
   readCurrentG: 0
   maxControlAuthority: 2750
-  aeroPerformVelSensitivity: 0.36
-  gLimitVelSensitivity: 200000
+  aeroPerformVelSensitivity: 0.28
+  gLimitVelSensitivity: 154000
   readCurrentAuthMod: 0
   readVelocity: 0
   readVertVelocity: 0
@@ -1216,6 +1215,12 @@ MonoBehaviour:
   climbLadderMax: 75
   throttleLadderCenterpointRef: {fileID: 7264125471119793197}
   throttleTextMaxOffset: 250
+  spedometerRef: {fileID: 1960561772011867732}
+  spedometerMaxSpeed: 120
+  spedometerMaxOffset: 220
+  altimeterRef: {fileID: 8757840235274776493}
+  altimeterMaxOffset: 220
+  altimeterMaxAlt: 1300
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,7 +1328,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: CLIMB
+  m_Text: CLMB
 --- !u!1 &8105754882559325443
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,7 +1513,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: THROTTLE
+  m_Text: THRTL
 --- !u!1 &8678540673922653252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,6 +1636,7 @@ RectTransform:
   m_Children:
   - {fileID: 5837434977310028293}
   - {fileID: 5724088530432572114}
+  - {fileID: 7161017353500537572}
   m_Father: {fileID: 3449659527323325554}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1687,7 +1693,7 @@ GameObject:
   - component: {fileID: 8066087983012286058}
   - component: {fileID: 3543802673258283154}
   m_Layer: 0
-  m_Name: SpeedLabelBox
+  m_Name: AltimeterLabelBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1704,12 +1710,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3449659527323325554}
-  m_RootOrder: 4
+  m_Father: {fileID: 8025169534150969628}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 204.6, y: 5.700012}
+  m_AnchoredPosition: {x: 203.81, y: -108.9}
   m_SizeDelta: {x: 100, y: 83.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8066087983012286058

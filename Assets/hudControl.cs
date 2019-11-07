@@ -84,29 +84,38 @@ public class hudControl : MonoBehaviour
         processThrottleLadder();
         processClimbLadder();
         processAltimeterOffset();
-        //drawNoseIndicator();
 
-    }
-
-
-    private void FixedUpdate()
-    {
-        //drawNoseIndicator();
+        // nose indicator
         drawItemOnScreen(noseIndicatorRef, cam.transform.position + transform.forward);
+
+        // velocity vector
         drawItemOnScreen(velocityVectorRef, cam.transform.position + rbRef.velocity.normalized);
+
     }
+
 
     
 
-    private void drawItemOnScreen(GameObject item, Vector3 position)
+
+
+
+    // Place item onto screen from world point
+    private void drawItemOnScreen(GameObject item, Vector3 worldPosition)
     {
-        Vector3 screenPos = cam.WorldToScreenPoint(position);
+        Vector3 screenPos = cam.WorldToScreenPoint(worldPosition);
         if (screenPos.z < 0) // if screenpos behind camera
             item.SetActive(false);
         else    // if in front of camera
             item.SetActive(true);
 
-        item.transform.position = screenPos;
+        // convert to local position on canvas -- (0,0) at center of screen
+        // THIS FIXES UI STUTTERING DURING FRAME LAG
+        screenPos = new Vector3(screenPos.x - Screen.width / 2,     // x
+                                 screenPos.y - Screen.height / 2,   // y
+                                 0.0f);                             // z
+
+        // local position prevents ui stuttering
+        item.transform.localPosition = screenPos;
     }
 
 

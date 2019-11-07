@@ -39,18 +39,30 @@ public class hudControl : MonoBehaviour
     public float altimeterMaxAlt;
 
 
+    // NOSE INDICATOR
+    public GameObject noseIndicatorRef;
+
+    // VELOCITY VECTOR
+    public GameObject velocityVectorRef;
+
+
+
     // REFERENCES
     private Rigidbody rbRef;
     private RealFlightControl flightInfoObjRef;
+    private Camera cam;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // SET REFERENCES
         rbRef = GetComponent<Rigidbody>();
         flightInfoObjRef = GetComponent<RealFlightControl>();
+        cam = Camera.main;
 
 
+        // SAVE ORIGINAL POSITIONS OF UI ELEMENTS -- WILL BE MODIFIED RELATIVE TO THESE
         climbTextOriginPos = climbText.transform.localPosition;
         throttleTextOriginPos = throttleText.transform.localPosition;
         spedometerOriginPos = spedometerRef.transform.localPosition;
@@ -69,15 +81,36 @@ public class hudControl : MonoBehaviour
         climbText.text = Mathf.RoundToInt(flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
 
         processSpedometerOffset();
-       
         processThrottleLadder();
-
-
         processClimbLadder();
-
         processAltimeterOffset();
+        //drawNoseIndicator();
 
     }
+
+
+    private void FixedUpdate()
+    {
+        //drawNoseIndicator();
+        drawItemOnScreen(noseIndicatorRef, cam.transform.position + transform.forward);
+        drawItemOnScreen(velocityVectorRef, cam.transform.position + rbRef.velocity.normalized);
+    }
+
+    
+
+    private void drawItemOnScreen(GameObject item, Vector3 position)
+    {
+        Vector3 screenPos = cam.WorldToScreenPoint(position);
+        if (screenPos.z < 0) // if screenpos behind camera
+            item.SetActive(false);
+        else    // if in front of camera
+            item.SetActive(true);
+
+        item.transform.position = screenPos;
+    }
+
+
+   
 
     // PROCESS SPEDOMETER OFFSET
     //  - Raises speed indicator from bottom of slider as speed increases

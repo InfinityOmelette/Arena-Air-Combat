@@ -43,18 +43,24 @@ public class RealFlightControl : MonoBehaviour
     public float pitchPlaneAoA;
     public float yawPlaneAoA;
 
-    //public float readResultPitchInput;
-    //public float readMultipliedPitch;
-    //public float readRawPitch;
 
-    //public float weightReduction;
-
+    private AirEnvironmentStats air;
     private Rigidbody rbRef;
 
     // Start is called before the first frame update
     void Start()
     {
         rbRef = GetComponent<Rigidbody>();
+        air = findAirStats("AirEnvironmentProperties");
+
+    }
+
+    private AirEnvironmentStats findAirStats(string statsObjName)
+    {
+        AirEnvironmentStats airRef = GameObject.Find(statsObjName).GetComponent<AirEnvironmentStats>();
+        if (airRef == null)
+            Debug.Log("No AirEnvironmentStats object found.");
+        return airRef;
     }
 
     // Update is called once per frame
@@ -114,11 +120,15 @@ public class RealFlightControl : MonoBehaviour
 
         //============================================ ADD RESULT VECTORS
 
+        float airDensity = 1.0f; // default value if no air object found
+        if (air != null)
+            airDensity = air.getDensityAtAltitude(transform.position.y);
+
         //  ADD RESULT VORCE
-        rbRef.AddForce(wingLift + sideLift + thrustVect);
+        rbRef.AddForce((wingLift + sideLift + thrustVect) * airDensity);
 
         //  ADD RESULT TORQUE
-        rbRef.AddTorque(pitchTorqueVect + rollTorqueVect + yawTorqueVect + pitchStabilityTorque + yawStabilityTorque);
+        rbRef.AddTorque((pitchTorqueVect + rollTorqueVect + yawTorqueVect + pitchStabilityTorque + yawStabilityTorque) * airDensity);
         
         
 

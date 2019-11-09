@@ -70,7 +70,7 @@ public class hudControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
 
         // Set readout values
@@ -86,10 +86,10 @@ public class hudControl : MonoBehaviour
         processAltimeterOffset();
 
         // nose indicator
-        drawItemOnScreen(noseIndicatorRef, cam.transform.position + transform.forward);
+        drawItemOnScreen(noseIndicatorRef, cam.transform.position + transform.forward, 0.5f);
 
         // velocity vector
-        drawItemOnScreen(velocityVectorRef, cam.transform.position + rbRef.velocity.normalized);
+        drawItemOnScreen(velocityVectorRef, cam.transform.position + rbRef.velocity.normalized, 0.5f);
 
     }
 
@@ -100,7 +100,7 @@ public class hudControl : MonoBehaviour
 
 
     // Place item onto screen from world point
-    private void drawItemOnScreen(GameObject item, Vector3 worldPosition)
+    private void drawItemOnScreen(GameObject item, Vector3 worldPosition, float lerpRate)
     {
         Vector3 screenPos = cam.WorldToScreenPoint(worldPosition);
         if (screenPos.z < 0) // if screenpos behind camera
@@ -115,7 +115,7 @@ public class hudControl : MonoBehaviour
                                  0.0f);                             // z
 
         // local position prevents ui stuttering
-        item.transform.localPosition = screenPos;
+        item.transform.localPosition = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
     }
 
 

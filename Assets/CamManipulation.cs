@@ -70,7 +70,7 @@ public class CamManipulation : MonoBehaviour
         //  ========================================     VELOCITY EFFECTS ON CAMERA POSITION
         camRef.transform.localPosition = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
         camRef.transform.localPosition -= camDistanceByVelocity();
-        camRef.transform.position -= velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod;
+        camRef.transform.localPosition -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
 
 
 

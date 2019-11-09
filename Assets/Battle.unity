@@ -8722,7 +8722,7 @@ Light:
   serializedVersion: 9
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.4
+  m_Intensity: 0.45
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -8778,13 +8778,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889391235}
-  m_LocalRotation: {x: 0.65546596, y: 0.3173303, z: -0.6088225, w: 0.3146443}
+  m_LocalRotation: {x: 0.64811105, y: 0.33114848, z: -0.6014184, w: 0.32952818}
   m_LocalPosition: {x: 50, y: 300, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 413.023, y: -95.789, z: -543.133}
+  m_LocalEulerAnglesHint: {x: 415.635, y: -96.04201, z: -543.339}
 --- !u!154 &1889391238
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -9747,6 +9747,26 @@ PrefabInstance:
         type: 3}
       propertyPath: far clip plane
       value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906151737960660523, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Name
+      value: WheelMeshes
+      objectReference: {fileID: 0}
+    - target: {fileID: 5412560476765801333, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273fc1587b2e47f42b315e0ec95d8bb2, type: 3}

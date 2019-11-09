@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.32623774, g: 0.36248052, b: 0.420239, a: 1}
+  m_IndirectSpecularColor: {r: 0.3263113, g: 0.36256695, b: 0.42029497, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2542,8 +2542,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495644555}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1949.9, y: 249.7, z: 1330.8}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0037608668, w: 0.99999297}
+  m_LocalPosition: {x: 1949.8983, y: 249.70305, z: 1330.8}
   m_LocalScale: {x: 0.9999996, y: 0.5255825, z: 5.6302676}
   m_Children:
   - {fileID: 1202552872}
@@ -2552,7 +2552,7 @@ Transform:
   - {fileID: 829118444}
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.43100002}
 --- !u!1 &496909370
 GameObject:
   m_ObjectHideFlags: 0
@@ -8778,13 +8778,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889391235}
-  m_LocalRotation: {x: 0.65466523, y: 0.31887454, z: -0.6080151, w: 0.31630695}
+  m_LocalRotation: {x: 0.65546596, y: 0.3173303, z: -0.6088225, w: 0.3146443}
   m_LocalPosition: {x: 50, y: 300, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 413.313, y: -95.815, z: -543.154}
+  m_LocalEulerAnglesHint: {x: 413.023, y: -95.789, z: -543.133}
 --- !u!154 &1889391238
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -9747,81 +9747,6 @@ PrefabInstance:
         type: 3}
       propertyPath: far clip plane
       value: 3500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412560476765801333, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionDistance
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412560476765801333, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 120000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412560476765801333, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.targetPosition
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412560476765801333, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 4500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5412560476765801333, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionDistance
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 120000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.targetPosition
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 4500
-      objectReference: {fileID: 0}
-    - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionDistance
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 120000
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.targetPosition
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 4500
-      objectReference: {fileID: 0}
-    - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: m_Mass
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273fc1587b2e47f42b315e0ec95d8bb2, type: 3}

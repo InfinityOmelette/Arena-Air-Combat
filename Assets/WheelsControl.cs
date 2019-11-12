@@ -32,15 +32,19 @@ public class WheelsControl : MonoBehaviour
     // steering and braking for all wheels
     private void processAllWheels()
     {
-        // Loop through all wheels
-        for(int i = 0; i < wheels.Length; i++)
+        if (gearIsDown) // don't bother looping through wheels if they're not down
         {
-            //  STEER PROCESS
-            wheels[i].doSteer(steerInputProcess());
+            // Loop through all wheels
+            for (int i = 0; i < wheels.Length; i++)
+            {
+                //  STEER PROCESS
+                wheels[i].doSteer(steerInputProcess());
 
-            //  BRAKE PROCESS
-            wheels[i].doBrake(brakeInputProcess());
+                //  BRAKE PROCESS
+                wheels[i].doBrake(brakeInputProcess());
 
+                //  gear check not included for each wheel every frame to reduce cpu load
+            }
         }
     }
 

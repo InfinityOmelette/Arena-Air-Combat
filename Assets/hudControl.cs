@@ -48,8 +48,9 @@ public class hudControl : MonoBehaviour
 
 
     // REFERENCES
-    private Rigidbody rbRef;
-    private RealFlightControl flightInfoObjRef;
+    public GameObject aircraftRootObj;
+    private Rigidbody root_rbRef;
+    private RealFlightControl root_flightInfoObjRef;
     private Camera cam;
 
 
@@ -57,8 +58,8 @@ public class hudControl : MonoBehaviour
     void Start()
     {
         // SET REFERENCES
-        rbRef = GetComponent<Rigidbody>();
-        flightInfoObjRef = GetComponent<RealFlightControl>();
+        root_rbRef = aircraftRootObj.GetComponent<Rigidbody>();
+        root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
         cam = Camera.main;
 
 
@@ -75,10 +76,10 @@ public class hudControl : MonoBehaviour
 
         // Set readout values
         float mpsVelToKPH = 3.6f;
-        speedText.text = Mathf.RoundToInt(rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
-        throttleText.text = "< " + Mathf.RoundToInt(flightInfoObjRef.currentThrustPercent).ToString() + "%";
-        altitudeText.text = Mathf.RoundToInt(transform.position.y).ToString() + "m";
-        climbText.text = Mathf.RoundToInt(flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
+        speedText.text = Mathf.RoundToInt(root_rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
+        throttleText.text = "< " + Mathf.RoundToInt(root_flightInfoObjRef.currentThrustPercent).ToString() + "%";
+        altitudeText.text = Mathf.RoundToInt(aircraftRootObj.transform.position.y).ToString() + "m";
+        climbText.text = Mathf.RoundToInt(root_flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
 
         processSpedometerOffset();
         processThrottleLadder();
@@ -86,10 +87,10 @@ public class hudControl : MonoBehaviour
         processAltimeterOffset();
 
         // nose indicator
-        drawItemOnScreen(noseIndicatorRef, cam.transform.position + transform.forward, 0.5f);
+        drawItemOnScreen(noseIndicatorRef, cam.transform.position + aircraftRootObj.transform.forward, 0.5f);
 
         // velocity vector
-        drawItemOnScreen(velocityVectorRef, cam.transform.position + rbRef.velocity.normalized, 0.5f);
+        drawItemOnScreen(velocityVectorRef, cam.transform.position + root_rbRef.velocity.normalized, 0.5f);
 
     }
 
@@ -126,7 +127,7 @@ public class hudControl : MonoBehaviour
     //  - Stops at top, at or above maximum speed
     private void processSpedometerOffset()
     {
-        float speedScale = Mathf.Clamp(rbRef.velocity.magnitude / spedometerMaxSpeed, 0.0f, 1.0f);
+        float speedScale = Mathf.Clamp(root_rbRef.velocity.magnitude / spedometerMaxSpeed, 0.0f, 1.0f);
         spedometerRef.transform.localPosition = spedometerOriginPos + new Vector3(0.0f, speedScale * spedometerMaxOffset, 0.0f);
 
     }
@@ -136,7 +137,7 @@ public class hudControl : MonoBehaviour
     //   - Raises altimeter from bottom of slider as alt increases
     private void processAltimeterOffset()
     {
-        float altScale = Mathf.Clamp(transform.position.y / altimeterMaxAlt, 0.0f, 1.0f);
+        float altScale = Mathf.Clamp(aircraftRootObj.transform.position.y / altimeterMaxAlt, 0.0f, 1.0f);
         altimeterRef.transform.localPosition = altimeterOriginPos + new Vector3(0.0f, altScale * altimeterMaxOffset, 0.0f);
     }
     
@@ -147,7 +148,7 @@ public class hudControl : MonoBehaviour
     private void processThrottleLadder()
     {
         // get throttle decimal
-        float throttleScale = flightInfoObjRef.currentThrustPercent / 100f; // give decimal from 0 to 1
+        float throttleScale = root_flightInfoObjRef.currentThrustPercent / 100f; // give decimal from 0 to 1
 
         // scale throttle ladder
         throttleLadderCenterpointRef.transform.localScale = new Vector3(throttleLadderCenterpointRef.transform.localScale.x,
@@ -166,7 +167,7 @@ public class hudControl : MonoBehaviour
     private void processClimbLadder()
     {
 
-        float climbScale = Mathf.Clamp(flightInfoObjRef.readVertVelocity / climbLadderMax, -1f, 1f);
+        float climbScale = Mathf.Clamp(root_flightInfoObjRef.readVertVelocity / climbLadderMax, -1f, 1f);
 
         // Scale climb ladder -- only changing Y scale but unity wants whole new vector cause it's bad
         climbLadderCenterpointRef.transform.localScale = new Vector3(climbLadderCenterpointRef.transform.localScale.x,  // x scale constant

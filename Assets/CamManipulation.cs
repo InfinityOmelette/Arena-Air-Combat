@@ -10,7 +10,7 @@ public class CamManipulation : MonoBehaviour
     public GameObject camAxisRollRef;
     public GameObject camRef;
 
-    private Rigidbody myRB_ref;
+    public Rigidbody aircraftRootRB;
 
     public float camDefaultHorizDist;
     public float camDefaultHeight;
@@ -47,7 +47,7 @@ public class CamManipulation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myRB_ref = GetComponent<Rigidbody>();
+        
 
         defaultCamRotation = camRef.transform.localRotation;
 
@@ -146,7 +146,7 @@ public class CamManipulation : MonoBehaviour
         // only horizontal distance will be changed
 
         //  percentage along range
-        float percentageToMaxSpeed = (myRB_ref.velocity.magnitude - estLowSpeed) / (estHighSpeed - estLowSpeed);
+        float percentageToMaxSpeed = (aircraftRootRB.velocity.magnitude - estLowSpeed) / (estHighSpeed - estLowSpeed);
 
         //  clamp within range 0% to 100%
         percentageToMaxSpeed = Mathf.Clamp(percentageToMaxSpeed, 0.0f, 1.0f);
@@ -161,7 +161,7 @@ public class CamManipulation : MonoBehaviour
     {
 
         
-        Vector3 velocityVect = myRB_ref.velocity;
+        Vector3 velocityVect = aircraftRootRB.velocity;
         Vector3 zDriftVectGlobal = Vector3.Project(velocityVect, transform.forward);
         float zDriftValLocal = zDriftVectGlobal.magnitude;
 
@@ -176,7 +176,7 @@ public class CamManipulation : MonoBehaviour
 
     private Vector3 velocityGlobalForwardMinimized(float fwdScaling)
     {
-        Vector3 returnVect = myRB_ref.velocity;
+        Vector3 returnVect = aircraftRootRB.velocity;
         Vector3 fwdVelocityMod = Vector3.Project(returnVect, transform.forward);
         returnVect -= fwdVelocityMod * (1.0f - fwdScaling);
         return returnVect;
@@ -205,7 +205,7 @@ public class CamManipulation : MonoBehaviour
 
     private Quaternion processAngularVelocityRotation()
     {
-        Vector3 rollRateVect = Vector3.Project(myRB_ref.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
+        Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
         float rollRateOffsetTarget = rollRateVect.magnitude * rollRateMod; // Use magnitude to determine camera z offset strength
         if (rollRateVect.normalized == transform.forward)
             rollRateOffsetTarget *= -1;

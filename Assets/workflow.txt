@@ -9,7 +9,7 @@ CORE PHYSICS
  Get fucking github to fucking work again for fuck's sake
  
 
- Re-organize code for efficiency and modularity
+
 
   CAMERA
  - Dynamic follow
@@ -23,20 +23,64 @@ CORE UI
  - velocity vector
 
 
+ WHEELS LOL
+  - lol it bouncey
+  - when hit ground it go boing boing
+  - Nosewheel steering
+  - Braking
+  - Wheel raise/lower
+
+
+OBJECT ORIENTIZE GAME OBJECTS
+  - Think of individual computer modules connected to each other
+
+FUEL SYSTEM
+  - Draw fuel based on throttle level
+  - Fuel/thrust efficiency changes based on altitude
+  - Mass changes as fuel level changes?
 
 COMBAT FLOW
  - game object system -- recognize others in playing field
+ - HUD squares around other planes
  - destruction modeling
  - cannon
- - missile launch -- lead target (simple lock)
 
-COMBAT UI
- - HUD squares around other planes
- - Radar
- 
-TARGET TRACKING
- - Target visibility
- - Target selection
- - Target lock
+MISSILES
+ - Physics
+ - Tracking (simple radar. Maintain lock until outside of detection cone)
+
+BASIC PLACEHOLDER MISSILE TYPES
+
+TARGET TRACKING -- assume all game units always visible
+ - Target selection -- select closest to nose
+ - Target lock -- if selected missile seeker can see target within cone
+ - create boolean for visibility -- draw box, selectable, lockable only if visible
+
+CLOSE RANGE VISUAL TALLY
+ - game unit visible if within visual range
+ - visual range changes depending on angle. (High in front, medium in up and sides, extremely low behind and below)
+
+RADAR SYSTEM
+ - Current scan zone (show as large solid square)
+ - Gimbal limits (show as large dotted square)
+ - scan zone moves to camera, within gimbal limits
+ - scan zone size can change? higher detection threshold for larger scan zone? -- NOT SURE IF THIS IS REALISTIC. NEED TO RESEARCH
+   >> NOT REALISTIC. NARROW SCAN ZONE ONLY AFFECTS FREQUENCY OF TARGET UPDATES. DETECTION THRESHOLD IS NOT CHANGED.
+   >> possible benefit would be reduced 'time to acquire' when bandit enters scan field
+ - Target detectability parameters result in radar signature value
+   > radar signature value must be above detection threshold to be visible
+   > time to acquire? to avoid player using small scan zone and spazzing around to find enemies?
+   > Target detectability parameters:
+     >> COLOR UNIQUENESS (is target closing/running)
+	 >> DISTANCE UNIQUENESS (what is behind target)
+	 >> RANGE (how far is target)
+
+ RADAR WARNING RECEIVER
+  - Shows info about incoming radar energy (bearing, strength, type)
+
+
+CONVERT TO ONLINE MULTIPLAYER
+
+DATALINK
 
 

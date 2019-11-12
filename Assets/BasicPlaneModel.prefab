@@ -552,6 +552,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 3471394500809244237}
+  maxSteerAngle: 0
+  steerRate: 0
+  brakeTorque: 500
 --- !u!1 &2506921079717829816
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,7 +921,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7143482686831388587}
   m_Layer: 0
-  m_Name: Wheels
+  m_Name: Wheel Meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1230,6 +1233,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 3309583414097398706}
+  maxSteerAngle: 55
+  steerRate: 3
+  brakeTorque: 0
 --- !u!1 &6455723195013090012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,8 +1406,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3269076524227614127}
+  - component: {fileID: 9221605066686024379}
   m_Layer: 0
-  m_Name: WheelController
+  m_Name: Wheels Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1423,6 +1430,24 @@ Transform:
   m_Father: {fileID: 9155057156102011821}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9221605066686024379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7414960107800869184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79112707e4d4ae4bb022cc0c7c55e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheels:
+  - {fileID: 1342663836207828148}
+  - {fileID: 7200593541632179356}
+  - {fileID: 5702722219296735469}
+  aircraftRootRB: {fileID: 0}
+  steerReductionSpeedFactor: 7
 --- !u!1 &7773332468785581151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,3 +1634,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 2716965110590681833}
+  maxSteerAngle: 0
+  steerRate: 0
+  brakeTorque: 500

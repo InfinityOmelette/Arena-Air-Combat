@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3263113, g: 0.36256695, b: 0.42029497, a: 1}
+  m_IndirectSpecularColor: {r: 0.32564142, g: 0.3617744, b: 0.41976282, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7245,7 +7245,7 @@ Transform:
   m_GameObject: {fileID: 1447291228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3857, y: -4.7, z: 4746}
-  m_LocalScale: {x: 1200, y: 10, z: 30}
+  m_LocalScale: {x: 560, y: 10, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 24
@@ -7704,8 +7704,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1593250935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1169.2, y: -4.7, z: 500.4}
-  m_LocalScale: {x: 800, y: 10, z: 20}
+  m_LocalPosition: {x: 1050.63, y: -4.7, z: 500.4}
+  m_LocalScale: {x: 560, y: 10, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 23
@@ -9758,15 +9758,30 @@ PrefabInstance:
       propertyPath: m_ForwardFriction.m_Stiffness
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5412560476765801333, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4848088544840659502, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6259890648536039050, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
-      propertyPath: m_ForwardFriction.m_Stiffness
-      value: 1
+      propertyPath: m_Mass
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273fc1587b2e47f42b315e0ec95d8bb2, type: 3}

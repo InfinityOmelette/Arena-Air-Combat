@@ -194,7 +194,6 @@ GameObject:
   m_Component:
   - component: {fileID: 975249862627658913}
   - component: {fileID: 975249862627658918}
-  - component: {fileID: 975249862627658919}
   - component: {fileID: 975249862627658912}
   m_Layer: 0
   m_Name: Cockpit
@@ -225,19 +224,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 975249862627658914}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!135 &975249862627658919
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975249862627658914}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &975249862627658912
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -554,7 +540,9 @@ MonoBehaviour:
   wheelCollider: {fileID: 3471394500809244237}
   maxSteerAngle: 0
   steerRate: 0
-  brakeTorque: 500
+  brakeTorque: 700
+  raisedHeight: 1.2
+  wheelDown: 1
 --- !u!1 &2506921079717829816
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,7 +985,7 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 0.3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
@@ -1233,9 +1221,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 3309583414097398706}
-  maxSteerAngle: 55
-  steerRate: 3
+  maxSteerAngle: 75
+  steerRate: 1
   brakeTorque: 0
+  raisedHeight: 1.2
+  wheelDown: 1
 --- !u!1 &6455723195013090012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,7 +1279,7 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 0.3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
@@ -1447,7 +1437,8 @@ MonoBehaviour:
   - {fileID: 7200593541632179356}
   - {fileID: 5702722219296735469}
   aircraftRootRB: {fileID: 0}
-  steerReductionSpeedFactor: 7
+  steerReductionSpeedFactor: 5
+  gearIsDown: 1
 --- !u!1 &7773332468785581151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,4 +1627,6 @@ MonoBehaviour:
   wheelCollider: {fileID: 2716965110590681833}
   maxSteerAngle: 0
   steerRate: 0
-  brakeTorque: 500
+  brakeTorque: 700
+  raisedHeight: 1.2
+  wheelDown: 1

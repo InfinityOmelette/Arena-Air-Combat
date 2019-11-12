@@ -10,9 +10,9 @@ public class WheelsControl : MonoBehaviour
 
 
     public float steerReductionSpeedFactor;
+    public bool gearIsDown;
 
-    
-    
+    private bool gearButtonPressed = false;
     
 
     // Start is called before the first frame update
@@ -21,32 +21,30 @@ public class WheelsControl : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     private void FixedUpdate()
     {
         processAllWheels();
+        checkGearInput();
     }
 
+    // steering and braking for all wheels
     private void processAllWheels()
     {
+        // Loop through all wheels
         for(int i = 0; i < wheels.Length; i++)
         {
-            // ================== STEER PROCESS
-            
+            //  STEER PROCESS
             wheels[i].doSteer(steerInputProcess());
 
-            // ====================== BRAKE PROCESS
-            float brakeInput = -Input.GetAxis("Throttle"); // negative so that decreasing throttle will have positive brake input
-            wheels[i].doBrake(brakeInput);
+            //  BRAKE PROCESS
+            wheels[i].doBrake(brakeInputProcess());
 
         }
     }
 
+    // calculate steering input, factoring in speed limiting
     private float steerInputProcess()
     {
         // get velocity from root parent
@@ -57,15 +55,41 @@ public class WheelsControl : MonoBehaviour
         // set steering
         return (steerReductionSpeedFactor * Input.GetAxis("Rudder")) /
           (steerReductionSpeedFactor + readVel); // (a / (a+x)) graph to approach 0 at increasing x, starting val 1 at x = 0
-        //return Input.GetAxis("Rudder");
 
     }
 
+    // calculate brake input
     private float brakeInputProcess()
     {
+        // negative so that decreasing throttle will have positive brake input
         return -Input.GetAxis("Throttle");
     }
 
+    // toggle gear on gear button press
+    private bool checkGearInput()
+    {
+        bool pressedRightNow = Input.GetAxis("D-Pad Horiz") > 0.5f; // if horiz axis is definitely positive
+        if(pressedRightNow != gearButtonPressed && pressedRightNow) // value changed on this step, and is pressed
+        {
+            gearIsDown = setGearEnabled(!gearIsDown); // toggle gear down
+        }
+        
 
-   
+        return gearButtonPressed = pressedRightNow;
+    }
+
+    // command all wheels to raise or lower
+    public bool setGearEnabled(bool enabled)
+    {
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            wheels[i].setWheelLowered(enabled);
+        }
+        
+
+        return enabled;
+    }
+
+
+
 }

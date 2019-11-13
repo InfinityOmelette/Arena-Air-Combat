@@ -34,12 +34,19 @@ CORE UI
 OBJECT ORIENTIZE GAME OBJECTS
   - Think of individual computer modules connected to each other
 
+Make nosewheel turn faster
+make max steering constant up until certain speed
+brake only apply when thrust near 0%
+
 FUEL SYSTEM
   - Draw fuel based on throttle level
   - Fuel/thrust efficiency changes based on altitude
   - Mass changes as fuel level changes?
+  - HUD display of air density and fuel burn rate
 
 COMBAT FLOW
+ - HUD identity object
+   > allows for lots of display information (range number, locked, radar signature, launch parameters, friendly, datalink/radar/visual)
  - game object system -- recognize others in playing field
  - HUD squares around other planes
  - destruction modeling
@@ -50,6 +57,8 @@ MISSILES
  - Tracking (simple radar. Maintain lock until outside of detection cone)
 
 BASIC PLACEHOLDER MISSILE TYPES
+
+WEAPON HARDPOINT OBJECT
 
 TARGET TRACKING -- assume all game units always visible
  - Target selection -- select closest to nose

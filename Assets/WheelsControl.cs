@@ -10,6 +10,9 @@ public class WheelsControl : MonoBehaviour
 
 
     public float steerReductionSpeedFactor;
+    public float steerReductionBeginSpeed;
+    public float parkingBrakeBelowThrustPercent; // apply parking brake below this thrust percent
+    public float parkingBrakeInput;  // applied only when speed and throttle are approximately zero
     public bool gearIsDown;
 
     private bool gearButtonPressed = false;
@@ -52,21 +55,37 @@ public class WheelsControl : MonoBehaviour
     private float steerInputProcess()
     {
         // get velocity from root parent
-        float readVel = 0.0f;
+        float readVel = 0.0f; // default value if unable to access
         if (aircraftRootRB != null)
             readVel = aircraftRootRB.velocity.magnitude; // only access reference if not null
 
-        // set steering
-        return (steerReductionSpeedFactor * Input.GetAxis("Rudder")) /
-          (steerReductionSpeedFactor + readVel); // (a / (a+x)) graph to approach 0 at increasing x, starting val 1 at x = 0
+        // get set steering limit based on speed
+        float steerInput = (steerReductionSpeedFactor) /
+          (steerReductionSpeedFactor + readVel - steerReductionBeginSpeed);
+
+        // get rudder input.
+        steerInput = Mathf.Abs(steerInput) * Input.GetAxis("Rudder");
+
+
+        // clamp and return steering input
+        return Mathf.Clamp(steerInput, -1.0f, 1.0f); ; // (a / (a+x)) graph to approach 0 at increasing x, starting val 1 at x = 0
 
     }
 
     // calculate brake input
     private float brakeInputProcess()
     {
-        // negative so that decreasing throttle will have positive brake input
-        return -Input.GetAxis("Throttle");
+        float brakeInput = 0.0f;
+
+        // Check that throttle is below necessary throttle to apply brake
+        if(aircraftRootRB.GetComponent<RealFlightControl>().currentThrustPercent < parkingBrakeBelowThrustPercent)
+        {
+            // negative so that decreasing throttle will have positive brake input
+            brakeInput = -Input.GetAxis("Throttle");
+            brakeInput = Mathf.Clamp(brakeInput + parkingBrakeInput, 0.0f, 1.0f);
+        }
+        
+        return brakeInput; // 1.0 is max brake, 0 is no brake
     }
 
     // toggle gear on gear button press

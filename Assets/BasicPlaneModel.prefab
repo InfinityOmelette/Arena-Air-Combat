@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 3309583414097398706}
   maxSteerAngle: 75
-  steerRate: 1
+  steerRate: 4
   brakeTorque: 0
   raisedHeight: 1.2
   wheelDown: 1
@@ -1437,7 +1437,10 @@ MonoBehaviour:
   - {fileID: 7200593541632179356}
   - {fileID: 5702722219296735469}
   aircraftRootRB: {fileID: 0}
-  steerReductionSpeedFactor: 5
+  steerReductionSpeedFactor: 6
+  steerReductionBeginSpeed: 12
+  parkingBrakeBelowThrustPercent: 3
+  parkingBrakeInput: 0.2
   gearIsDown: 1
 --- !u!1 &7773332468785581151
 GameObject:

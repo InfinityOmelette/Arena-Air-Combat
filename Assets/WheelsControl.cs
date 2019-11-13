@@ -62,15 +62,18 @@ public class WheelsControl : MonoBehaviour
             readVel = aircraftRootRB.velocity.magnitude; // only access reference if not null
 
         // get set steering limit based on speed
-        float steerInput = (steerReductionSpeedFactor) /
-          (steerReductionSpeedFactor + readVel - steerReductionBeginSpeed);
+        float steerInput = Mathf.Abs((steerReductionSpeedFactor) /
+          (steerReductionSpeedFactor + readVel - steerReductionBeginSpeed));
 
-        // get rudder input.
-        steerInput = Mathf.Abs(steerInput) * Input.GetAxis("Rudder");
+        // limit extremely high 1/x values to 1
+        steerInput = Mathf.Clamp(steerInput, 0.0f, 1.0f);
+
+        // factor in rudder input.
+        steerInput *= Input.GetAxis("Rudder");
 
 
         // clamp and return steering input
-        return Mathf.Clamp(steerInput, -1.0f, 1.0f); ; // (a / (a+x)) graph to approach 0 at increasing x, starting val 1 at x = 0
+        return steerInput; // (a / (a+x)) graph to approach 0 at increasing x, starting val 1 at x = 0
 
     }
 

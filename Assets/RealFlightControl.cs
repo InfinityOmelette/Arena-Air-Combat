@@ -19,7 +19,11 @@ public class RealFlightControl : MonoBehaviour
     public float THRUST_MIN;
     public float THRUST_MAX;
     public float currentThrottlePercent; // 0-100 to stay consistent with current thrust percent
-    public float THROTTLE_DELTA;
+    
+    public float MAX_THROTTLE_DELTA;
+    public float throttleAccel;
+    public float currentThrottleDelta;
+    
 
     public float wingLiftCoefficient;
     public float wingDragCoefficient;
@@ -174,8 +178,20 @@ public class RealFlightControl : MonoBehaviour
     // SET THROTTLE
     private float inputThrottle()
     {
-        // step throttle in input direction (up or down) within range 0 to 100
-        return Mathf.Clamp(Input.GetAxis("Throttle") * THROTTLE_DELTA + currentThrottlePercent, 0f, 100f);
+        float controllerInput = Input.GetAxis("Throttle");
+
+        // RESET currentThrottleDelta TO ZERO IF:
+        //  - controller input sign differs from currentThrottleDelta sign
+        //  - controller input approximately zero
+        if (Mathf.Sign(currentThrottleDelta) != Mathf.Sign(controllerInput) || Mathf.Approximately(controllerInput, 0.0f))
+            currentThrottleDelta = 0.0f; // reset
+
+        // Step currentThrottleDelta towards target delta
+        currentThrottleDelta = Mathf.MoveTowards(currentThrottleDelta, 
+            MAX_THROTTLE_DELTA * controllerInput, throttleAccel);
+
+        // step currentThrottlePercent by delta
+        return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + currentThrottleDelta, 0.0f, 100f);
     }
 
 

@@ -243,7 +243,7 @@ MonoBehaviour:
   rollTorque: 5
   pitchTorque: 11
   yawTorque: 6.25
-  pitchTrim: -0.1
+  pitchTrim: -0.13
   downPitchMultiplier: 0.2
   currentThrust: 100
   currentThrustPercent: 0
@@ -251,7 +251,9 @@ MonoBehaviour:
   THRUST_MIN: 300
   THRUST_MAX: 12000
   currentThrottlePercent: 0
-  THROTTLE_DELTA: 5
+  MAX_THROTTLE_DELTA: 5
+  throttleAccel: 0.175
+  currentThrottleDelta: 0
   wingLiftCoefficient: 12.5
   wingDragCoefficient: 8
   wingDragOffset: 0.125
@@ -405,7 +407,7 @@ PrefabInstance:
       propertyPath: aircraftRootRB
       value: 
       objectReference: {fileID: 7744941291827435729}
-    - target: {fileID: 74992874014441214, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    - target: {fileID: 6061619810519288837, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}
       propertyPath: root_flightData
       value: 
@@ -415,7 +417,7 @@ PrefabInstance:
       propertyPath: root_flightData
       value: 
       objectReference: {fileID: -8673316639226967037}
-    - target: {fileID: 6061619810519288837, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    - target: {fileID: 74992874014441214, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}
       propertyPath: root_flightData
       value: 

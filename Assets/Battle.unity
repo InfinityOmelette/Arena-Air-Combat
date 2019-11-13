@@ -764,6 +764,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157013815}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &177853430 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1804535475134679676, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7744941293315270100}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79112707e4d4ae4bb022cc0c7c55e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &217180056
 GameObject:
   m_ObjectHideFlags: 0
@@ -9876,6 +9888,41 @@ PrefabInstance:
       propertyPath: lookAtObj
       value: 
       objectReference: {fileID: 483690119}
+    - target: {fileID: -8673316639226967037, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: THROTTLE_DELTA
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381583882320039027, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: wheelDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368980897657535579, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: wheelDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014988581276336170, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: wheelDown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669436014197476546, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: dragActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492065738638622265, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: dragActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7444854471144225023, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: dragActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273fc1587b2e47f42b315e0ec95d8bb2, type: 3}
 --- !u!1001 &8279770281538122511
@@ -10000,5 +10047,10 @@ PrefabInstance:
       propertyPath: aircraftRootObj
       value: 
       objectReference: {fileID: 2134629394}
+    - target: {fileID: 8279770280686740557, guid: 3c9416ac20ca7844ea16551c9b9fb267,
+        type: 3}
+      propertyPath: wheelControllerInfo
+      value: 
+      objectReference: {fileID: 177853430}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c9416ac20ca7844ea16551c9b9fb267, type: 3}

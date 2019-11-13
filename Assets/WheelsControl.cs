@@ -16,12 +16,14 @@ public class WheelsControl : MonoBehaviour
     public bool gearIsDown;
 
     private bool gearButtonPressed = false;
+
+    public bool brakeCurrentlyApplied = false;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        //setGearEnabled(gearIsDown);
+        setGearEnabled(gearIsDown);
     }
 
     
@@ -76,14 +78,18 @@ public class WheelsControl : MonoBehaviour
     private float brakeInputProcess()
     {
         float brakeInput = 0.0f;
+        brakeCurrentlyApplied = false;
 
         // Check that throttle is below necessary throttle to apply brake
-        if(aircraftRootRB.GetComponent<RealFlightControl>().currentThrottlePercent < parkingBrakeBelowThrottlePercent)
+        if (aircraftRootRB.GetComponent<RealFlightControl>().currentThrottlePercent < parkingBrakeBelowThrottlePercent)
         {
             // negative so that decreasing throttle will have positive brake input
             brakeInput = -Input.GetAxis("Throttle");
             brakeInput = Mathf.Clamp(brakeInput + parkingBrakeInput, 0.0f, 1.0f);
+            if (brakeInput > parkingBrakeInput + 0.1f) // brake is definitely applied by player
+                brakeCurrentlyApplied = true;
         }
+        
         
         return brakeInput; // 1.0 is max brake, 0 is no brake
     }

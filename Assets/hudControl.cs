@@ -49,6 +49,7 @@ public class hudControl : MonoBehaviour
 
     // REFERENCES
     public GameObject aircraftRootObj;
+    public WheelsControl wheelControllerInfo;
     private Rigidbody root_rbRef;
     private RealFlightControl root_flightInfoObjRef;
     private Camera cam;
@@ -70,17 +71,20 @@ public class hudControl : MonoBehaviour
         altimeterOriginPos = altimeterRef.transform.localPosition;
     }
 
-    // Update is called once per frame
+    
     void LateUpdate()
     {
 
         // Set readout values
         float mpsVelToKPH = 3.6f;
+        throttleText.text = writeThrottleText();
         speedText.text = Mathf.RoundToInt(root_rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
-        throttleText.text = "< " + Mathf.RoundToInt(root_flightInfoObjRef.currentThrottlePercent).ToString() + "%";
         altitudeText.text = Mathf.RoundToInt(aircraftRootObj.transform.position.y).ToString() + "m";
         climbText.text = Mathf.RoundToInt(root_flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
 
+        
+
+        
         processSpedometerOffset();
         processThrottleLadder();
         processClimbLadder();
@@ -94,7 +98,18 @@ public class hudControl : MonoBehaviour
 
     }
 
+    // Either show throttle percentage or if brakes applied
+    private string writeThrottleText()
+    {
+        string returnString;
+        // set throttle text readout based on wheelcontroller info
+        if (wheelControllerInfo != null && wheelControllerInfo.brakeCurrentlyApplied) // if brake applied
+            returnString = "< BRK";
+        else // if brake is not applied
+            returnString = "< " + Mathf.RoundToInt(root_flightInfoObjRef.currentThrottlePercent).ToString() + "%";
 
+        return returnString;
+    }
     
 
 

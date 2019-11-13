@@ -18,6 +18,8 @@ public class RealFlightControl : MonoBehaviour
     public float MAX_THRUST_DELTA;
     public float THRUST_MIN;
     public float THRUST_MAX;
+    public float currentThrottlePercent; // 0-100 to stay consistent with current thrust percent
+    public float THROTTLE_DELTA;
 
     public float wingLiftCoefficient;
     public float wingDragCoefficient;
@@ -26,6 +28,8 @@ public class RealFlightControl : MonoBehaviour
     public float bodySideLiftCoefficient;
     public float bodySideDragCoefficient;
     public float bodySideDragOffset;
+
+    public float totalParasiticDrag;
 
     public float pitchStability;
     public float pitchStabilityZeroOffset;
@@ -76,6 +80,7 @@ public class RealFlightControl : MonoBehaviour
     {
         // =============================================  UPDATE CLASS-LEVEL PHYSICS VARIABLES
 
+        // Angle of attack on pitch and yaw planes
         pitchPlaneAoA = calculateAlphaOnPlane(rbRef.velocity, transform.forward, transform.right);
         yawPlaneAoA = calculateAlphaOnPlane(rbRef.velocity, transform.forward, transform.up);
 
@@ -85,18 +90,21 @@ public class RealFlightControl : MonoBehaviour
 
         //  WING LIFT
         Vector3 wingLift = calculateOnPlaneResultLiftVector(wingLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
-            wingDragCoefficient, wingDragOffset, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            wingDragCoefficient, wingDragOffset + totalParasiticDrag, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.right);
         readCurrentG = wingLift.magnitude / rbRef.mass; // read current G accel
 
         //  BODY SIDE LIFT
         Vector3 sideLift = calculateOnPlaneResultLiftVector(bodySideLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
-            bodySideDragCoefficient, bodySideDragOffset, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
+            bodySideDragCoefficient, bodySideDragOffset + totalParasiticDrag, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.up);
 
         //  THRUST
-        Vector3 thrustVect = transform.forward * inputNewThrust();
-
+        currentThrottlePercent = inputThrottle();       // set throttle
+        currentThrust = stepThrustToTarget(currentThrottlePercent); // step thrust value
+        currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
+        Vector3 thrustVect = transform.forward * currentThrust; // create thrust vector
+        
 
         //============================================== TORQUES
 
@@ -163,13 +171,32 @@ public class RealFlightControl : MonoBehaviour
     }
 
 
-    //  SET THRUST
-    private float inputNewThrust()
+    // SET THROTTLE
+    private float inputThrottle()
     {
-        currentThrust = Mathf.Clamp((MAX_THRUST_DELTA * Input.GetAxis("Throttle")) + currentThrust, THRUST_MIN, THRUST_MAX);
-        currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f;
-        return currentThrust;
+        // step throttle in input direction (up or down) within range 0 to 100
+        return Mathf.Clamp(Input.GetAxis("Throttle") * THROTTLE_DELTA + currentThrottlePercent, 0f, 100f);
     }
+
+
+    private float stepThrustToTarget(float targetThrottlePercent)
+    {
+        // target thrust is percentage along value range
+        float targetThrust = (targetThrottlePercent / 100.0f) * (THRUST_MAX - THRUST_MIN) + THRUST_MIN;
+
+        // step towards target thrust
+        return Mathf.MoveTowards(currentThrust, targetThrust, MAX_THRUST_DELTA);
+
+
+    }
+
+    ////  SET THRUST
+    //private float inputNewThrust()
+    //{
+    //    currentThrust = Mathf.Clamp((MAX_THRUST_DELTA * Input.GetAxis("Throttle")) + currentThrust, THRUST_MIN, THRUST_MAX);
+    //    currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f;
+    //    return currentThrust;
+    //}
 
 
 

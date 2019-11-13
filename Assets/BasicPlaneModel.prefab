@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 330442092970234556}
   - component: {fileID: 1654511849359144542}
   - component: {fileID: 5702722219296735469}
+  - component: {fileID: 117700750313437240}
   m_Layer: 0
   m_Name: WheelMesh RL
   m_TagString: Untagged
@@ -538,11 +539,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 3471394500809244237}
+  wheelDrag: {fileID: 0}
   maxSteerAngle: 0
   steerRate: 0
   brakeTorque: 700
   raisedHeight: 1.2
   wheelDown: 1
+--- !u!114 &117700750313437240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2152228309039691070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac12f361238f8f49b2f53bb999679b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root_flightData: {fileID: 0}
+  dragValue: 0.018
+  dragActive: 1
 --- !u!1 &2506921079717829816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,6 +1158,7 @@ GameObject:
   - component: {fileID: 3197264565223092742}
   - component: {fileID: 4230016369183387727}
   - component: {fileID: 1342663836207828148}
+  - component: {fileID: 74992874014441214}
   m_Layer: 0
   m_Name: WheelMesh F
   m_TagString: Untagged
@@ -1221,11 +1239,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 3309583414097398706}
-  maxSteerAngle: 75
+  wheelDrag: {fileID: 0}
+  maxSteerAngle: 60
   steerRate: 4
   brakeTorque: 0
   raisedHeight: 1.2
   wheelDown: 1
+--- !u!114 &74992874014441214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6448856300861974006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac12f361238f8f49b2f53bb999679b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root_flightData: {fileID: 0}
+  dragValue: 0.018
+  dragActive: 1
 --- !u!1 &6455723195013090012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1439,7 +1473,7 @@ MonoBehaviour:
   aircraftRootRB: {fileID: 0}
   steerReductionSpeedFactor: 6
   steerReductionBeginSpeed: 12
-  parkingBrakeBelowThrustPercent: 3
+  parkingBrakeBelowThrottlePercent: 1
   parkingBrakeInput: 0.2
   gearIsDown: 1
 --- !u!1 &7773332468785581151
@@ -1548,6 +1582,7 @@ GameObject:
   - component: {fileID: 2973273901039763929}
   - component: {fileID: 8782625426136545253}
   - component: {fileID: 7200593541632179356}
+  - component: {fileID: 6061619810519288837}
   m_Layer: 0
   m_Name: WheelMesh RR
   m_TagString: Untagged
@@ -1628,8 +1663,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelCollider: {fileID: 2716965110590681833}
+  wheelDrag: {fileID: 0}
   maxSteerAngle: 0
   steerRate: 0
   brakeTorque: 700
   raisedHeight: 1.2
   wheelDown: 1
+--- !u!114 &6061619810519288837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8073147305405749226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac12f361238f8f49b2f53bb999679b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root_flightData: {fileID: 0}
+  dragValue: 0.018
+  dragActive: 1

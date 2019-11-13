@@ -77,7 +77,7 @@ public class hudControl : MonoBehaviour
         // Set readout values
         float mpsVelToKPH = 3.6f;
         speedText.text = Mathf.RoundToInt(root_rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
-        throttleText.text = "< " + Mathf.RoundToInt(root_flightInfoObjRef.currentThrustPercent).ToString() + "%";
+        throttleText.text = "< " + Mathf.RoundToInt(root_flightInfoObjRef.currentThrottlePercent).ToString() + "%";
         altitudeText.text = Mathf.RoundToInt(aircraftRootObj.transform.position.y).ToString() + "m";
         climbText.text = Mathf.RoundToInt(root_flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
 
@@ -147,12 +147,13 @@ public class hudControl : MonoBehaviour
     //  - positions text to fill position
     private void processThrottleLadder()
     {
-        // get throttle decimal
-        float throttleScale = root_flightInfoObjRef.currentThrustPercent / 100f; // give decimal from 0 to 1
+        // get throttle and thrust decimal
+        float thrustScale = root_flightInfoObjRef.currentThrustPercent / 100f;      // give thrust decimal from 0 to 1
+        float throttleScale = root_flightInfoObjRef.currentThrottlePercent / 100f;  // give throttle decimal from 0 to 1
 
-        // scale throttle ladder
+        // scale Thrust ladder
         throttleLadderCenterpointRef.transform.localScale = new Vector3(throttleLadderCenterpointRef.transform.localScale.x,
-            throttleScale,
+            thrustScale,
             throttleLadderCenterpointRef.transform.localScale.y);
 
         // Offset Throttle text

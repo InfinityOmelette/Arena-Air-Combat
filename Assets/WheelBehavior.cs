@@ -5,6 +5,7 @@ using UnityEngine;
 public class WheelBehavior : MonoBehaviour
 {
     public WheelCollider wheelCollider;
+    public ParasiticDrag wheelDrag;
 
     private Vector3 wheelCCenter;
     private RaycastHit hit;
@@ -21,7 +22,8 @@ public class WheelBehavior : MonoBehaviour
 
     void Start()
     {
-        
+        wheelDrag = GetComponent<ParasiticDrag>();
+        setWheelLowered(wheelDown);
     }
 
     void Update()
@@ -108,7 +110,9 @@ public class WheelBehavior : MonoBehaviour
         int loweredBoolInt = lowered ? 0 : 1; // 0 when true so that when lowered, center returns to 0
         wheelCollider.center = new Vector3(0.0f, raisedHeight * loweredBoolInt, 0.0f);
 
-    
+        // Enable or disable drag
+        wheelDrag.setDragActive(lowered);
+
         return wheelDown = lowered; // value only changes if successfully returns
     }
 

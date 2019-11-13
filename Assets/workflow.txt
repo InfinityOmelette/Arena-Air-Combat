@@ -9,8 +9,6 @@ CORE PHYSICS
  Get fucking github to fucking work again for fuck's sake
  
 
-
-
   CAMERA
  - Dynamic follow
  - Free look
@@ -38,6 +36,10 @@ Make nosewheel turn faster
 make max steering constant up until certain speed
 brake only apply when thrust near 0%
 
+Differentiate throttle vs thrust
+ - throttle changes rapidly (0-100 percent)
+ - thrust changes slowly (converted from percent along range scale)
+
 FUEL SYSTEM
   - Draw fuel based on throttle level
   - Fuel/thrust efficiency changes based on altitude
@@ -45,8 +47,10 @@ FUEL SYSTEM
   - HUD display of air density and fuel burn rate
 
 COMBAT FLOW
- - HUD identity object
+ - World identity object
    > allows for lots of display information (range number, locked, radar signature, launch parameters, friendly, datalink/radar/visual)
+ - HUD unit label object
+   > reads info from world identity object
  - game object system -- recognize others in playing field
  - HUD squares around other planes
  - destruction modeling

@@ -243,19 +243,22 @@ MonoBehaviour:
   rollTorque: 5
   pitchTorque: 11
   yawTorque: 6.25
-  pitchTrim: -0.15
+  pitchTrim: -0.12
   downPitchMultiplier: 0.2
-  currentThrust: 0
+  currentThrust: 100
   currentThrustPercent: 0
   MAX_THRUST_DELTA: 100
-  THRUST_MIN: 1000
+  THRUST_MIN: 300
   THRUST_MAX: 12000
+  currentThrottlePercent: 0
+  THROTTLE_DELTA: 5
   wingLiftCoefficient: 12.5
   wingDragCoefficient: 8
   wingDragOffset: 0.125
-  bodySideLiftCoefficient: 4
+  bodySideLiftCoefficient: 6
   bodySideDragCoefficient: 4
   bodySideDragOffset: 0
+  totalParasiticDrag: 0
   pitchStability: 4
   pitchStabilityZeroOffset: 0
   yawStability: 7
@@ -402,6 +405,21 @@ PrefabInstance:
       propertyPath: aircraftRootRB
       value: 
       objectReference: {fileID: 7744941291827435729}
+    - target: {fileID: 74992874014441214, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+        type: 3}
+      propertyPath: root_flightData
+      value: 
+      objectReference: {fileID: -8673316639226967037}
+    - target: {fileID: 117700750313437240, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+        type: 3}
+      propertyPath: root_flightData
+      value: 
+      objectReference: {fileID: -8673316639226967037}
+    - target: {fileID: 6061619810519288837, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+        type: 3}
+      propertyPath: root_flightData
+      value: 
+      objectReference: {fileID: -8673316639226967037}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d012f33e89f9a4641b2f7c0bb55e0c73, type: 3}
 --- !u!4 &1872948227366894442 stripped

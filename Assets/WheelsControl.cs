@@ -11,7 +11,7 @@ public class WheelsControl : MonoBehaviour
 
     public float steerReductionSpeedFactor;
     public float steerReductionBeginSpeed;
-    public float parkingBrakeBelowThrustPercent; // apply parking brake below this thrust percent
+    public float parkingBrakeBelowThrottlePercent; // apply parking brake below this thrust percent
     public float parkingBrakeInput;  // applied only when speed and throttle are approximately zero
     public bool gearIsDown;
 
@@ -21,15 +21,15 @@ public class WheelsControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //setGearEnabled(gearIsDown);
     }
 
     
 
     private void FixedUpdate()
     {
-        processAllWheels();
-        checkGearInput();
+        processAllWheels(); // inputs that are read every frame
+        checkGearInput();   // inputs that are toggle
     }
 
     // steering and braking for all wheels
@@ -78,7 +78,7 @@ public class WheelsControl : MonoBehaviour
         float brakeInput = 0.0f;
 
         // Check that throttle is below necessary throttle to apply brake
-        if(aircraftRootRB.GetComponent<RealFlightControl>().currentThrustPercent < parkingBrakeBelowThrustPercent)
+        if(aircraftRootRB.GetComponent<RealFlightControl>().currentThrottlePercent < parkingBrakeBelowThrottlePercent)
         {
             // negative so that decreasing throttle will have positive brake input
             brakeInput = -Input.GetAxis("Throttle");

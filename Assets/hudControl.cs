@@ -11,9 +11,6 @@ public class hudControl : MonoBehaviour
     public Text altitudeText;
     public Text throttleText;
     public Text climbText;
-    public Text fuelAmtText;
-    public Text thrustAvailText;
-    public Text airDensityText;
 
     // CLIMB LADDER VARIABLES
     public GameObject climbLadderCenterpointRef;
@@ -41,8 +38,6 @@ public class hudControl : MonoBehaviour
     public float altimeterMaxOffset;
     public float altimeterMaxAlt;
 
-    
-
 
     // NOSE INDICATOR
     public GameObject noseIndicatorRef;
@@ -57,7 +52,6 @@ public class hudControl : MonoBehaviour
     public WheelsControl wheelControllerInfo;
     private Rigidbody root_rbRef;
     private RealFlightControl root_flightInfoObjRef;
-    private EngineControl root_Engine;
     private Camera cam;
 
 
@@ -67,7 +61,6 @@ public class hudControl : MonoBehaviour
         // SET REFERENCES
         root_rbRef = aircraftRootObj.GetComponent<Rigidbody>();
         root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
-        root_Engine = aircraftRootObj.GetComponent<EngineControl>();
         cam = Camera.main;
 
 
@@ -88,9 +81,7 @@ public class hudControl : MonoBehaviour
         speedText.text = Mathf.RoundToInt(root_rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
         altitudeText.text = Mathf.RoundToInt(aircraftRootObj.transform.position.y).ToString() + "m";
         climbText.text = Mathf.RoundToInt(root_flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
-        airDensityText.text = "AIR DENSITY: " + Mathf.RoundToInt(root_Engine.currentAirDensity * 100f).ToString() + "%";
-        fuelAmtText.text = "FUEL: " + Mathf.RoundToInt(root_Engine.currentFuelMass) + "kg";
-        thrustAvailText.text = "THRUST AVAIL: " + Mathf.RoundToInt(root_Engine.currentBurnMod * 100f).ToString() + "%";
+
         
 
         
@@ -115,7 +106,7 @@ public class hudControl : MonoBehaviour
         if (wheelControllerInfo != null && wheelControllerInfo.brakeCurrentlyApplied) // if brake applied
             returnString = "< BRK";
         else // if brake is not applied
-            returnString = "< " + Mathf.RoundToInt(root_Engine.currentThrottlePercent).ToString() + "%";
+            returnString = "< " + Mathf.RoundToInt(root_flightInfoObjRef.currentThrottlePercent).ToString() + "%";
 
         return returnString;
     }
@@ -172,8 +163,8 @@ public class hudControl : MonoBehaviour
     private void processThrottleLadder()
     {
         // get throttle and thrust decimal
-        float thrustScale = root_Engine.currentBaseThrustPercent / 100f;      // give thrust decimal from 0 to 1
-        float throttleScale = root_Engine.currentThrottlePercent / 100f;  // give throttle decimal from 0 to 1
+        float thrustScale = root_flightInfoObjRef.currentThrustPercent / 100f;      // give thrust decimal from 0 to 1
+        float throttleScale = root_flightInfoObjRef.currentThrottlePercent / 100f;  // give throttle decimal from 0 to 1
 
         // scale Thrust ladder
         throttleLadderCenterpointRef.transform.localScale = new Vector3(throttleLadderCenterpointRef.transform.localScale.x,

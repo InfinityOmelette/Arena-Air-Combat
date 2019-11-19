@@ -189,7 +189,6 @@ GameObject:
   - component: {fileID: 7744941291827435740}
   - component: {fileID: 7744941291827435729}
   - component: {fileID: -8673316639226967037}
-  - component: {fileID: 3636017096789509247}
   m_Layer: 0
   m_Name: RealPlayer
   m_TagString: Untagged
@@ -246,6 +245,15 @@ MonoBehaviour:
   yawTorque: 6.25
   pitchTrim: -0.13
   downPitchMultiplier: 0.2
+  currentThrust: 100
+  currentThrustPercent: 0
+  MAX_THRUST_DELTA: 100
+  THRUST_MIN: 300
+  THRUST_MAX: 12000
+  currentThrottlePercent: 0
+  MAX_THROTTLE_DELTA: 5
+  throttleAccel: 0.175
+  currentThrottleDelta: 0
   wingLiftCoefficient: 12.5
   wingDragCoefficient: 8
   wingDragOffset: 0.125
@@ -265,27 +273,6 @@ MonoBehaviour:
   readVertVelocity: 0
   pitchPlaneAoA: 0
   yawPlaneAoA: 0
---- !u!114 &3636017096789509247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7744941291827435728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202972e525ea0af4388f4f15508da442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentThrust: 0
-  currentThrustPercent: 0
-  MAX_THRUST_DELTA: 100
-  THRUST_MIN: 100
-  THRUST_MAX: 12000
-  currentThrottlePercent: 0
-  MAX_THROTTLE_DELTA: 5
-  throttleAccel: 0.175
-  currentThrottleDelta: 0
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,11 +405,6 @@ PrefabInstance:
     - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}
       propertyPath: aircraftRootRB
-      value: 
-      objectReference: {fileID: 7744941291827435729}
-    - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-        type: 3}
-      propertyPath: root_RB
       value: 
       objectReference: {fileID: 7744941291827435729}
     - target: {fileID: 6061619810519288837, guid: d012f33e89f9a4641b2f7c0bb55e0c73,

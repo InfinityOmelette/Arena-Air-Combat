@@ -13,16 +13,16 @@ public class RealFlightControl : MonoBehaviour
 
     public float downPitchMultiplier;
 
-    //public float currentThrust;
-    //public float currentThrustPercent;
-    //public float MAX_THRUST_DELTA;
-    //public float THRUST_MIN;
-    //public float THRUST_MAX;
-    //public float currentThrottlePercent; // 0-100 to stay consistent with current thrust percent
+    public float currentThrust;
+    public float currentThrustPercent;
+    public float MAX_THRUST_DELTA;
+    public float THRUST_MIN;
+    public float THRUST_MAX;
+    public float currentThrottlePercent; // 0-100 to stay consistent with current thrust percent
     
-    //public float MAX_THROTTLE_DELTA;
-    //public float throttleAccel;
-    //public float currentThrottleDelta;
+    public float MAX_THROTTLE_DELTA;
+    public float throttleAccel;
+    public float currentThrottleDelta;
     
 
     public float wingLiftCoefficient;
@@ -103,11 +103,11 @@ public class RealFlightControl : MonoBehaviour
             bodySideDragCoefficient, bodySideDragOffset + totalParasiticDrag, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.up);
 
-        ////  THRUST
-        //currentThrottlePercent = inputThrottle();       // set throttle
-        //currentThrust = stepThrustToTarget(currentThrottlePercent); // step thrust value
-        //currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
-        //Vector3 thrustVect = transform.forward * currentThrust; // create thrust vector
+        //  THRUST
+        currentThrottlePercent = inputThrottle();       // set throttle
+        currentThrust = stepThrustToTarget(currentThrottlePercent); // step thrust value
+        currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
+        Vector3 thrustVect = transform.forward * currentThrust; // create thrust vector
         
 
         //============================================== TORQUES
@@ -137,8 +137,7 @@ public class RealFlightControl : MonoBehaviour
             airDensity = air.getDensityAtAltitude(transform.position.y);
 
         //  ADD RESULT VORCE
-        rbRef.AddForce((wingLift + sideLift) * airDensity); // removed thrust
-        
+        rbRef.AddForce((wingLift + sideLift + thrustVect) * airDensity);
 
         //  ADD RESULT TORQUE
         rbRef.AddTorque((pitchTorqueVect + rollTorqueVect + yawTorqueVect + pitchStabilityTorque + yawStabilityTorque) * airDensity);
@@ -176,36 +175,36 @@ public class RealFlightControl : MonoBehaviour
     }
 
 
-    //// SET THROTTLE
-    //private float inputThrottle()
-    //{
-    //    float controllerInput = Input.GetAxis("Throttle");
+    // SET THROTTLE
+    private float inputThrottle()
+    {
+        float controllerInput = Input.GetAxis("Throttle");
 
-    //    // RESET currentThrottleDelta TO ZERO IF:
-    //    //  - controller input sign differs from currentThrottleDelta sign
-    //    //  - controller input approximately zero
-    //    if (Mathf.Sign(currentThrottleDelta) != Mathf.Sign(controllerInput) || Mathf.Approximately(controllerInput, 0.0f))
-    //        currentThrottleDelta = 0.0f; // reset
+        // RESET currentThrottleDelta TO ZERO IF:
+        //  - controller input sign differs from currentThrottleDelta sign
+        //  - controller input approximately zero
+        if (Mathf.Sign(currentThrottleDelta) != Mathf.Sign(controllerInput) || Mathf.Approximately(controllerInput, 0.0f))
+            currentThrottleDelta = 0.0f; // reset
 
-    //    // Step currentThrottleDelta towards target delta
-    //    currentThrottleDelta = Mathf.MoveTowards(currentThrottleDelta, 
-    //        MAX_THROTTLE_DELTA * controllerInput, throttleAccel);
+        // Step currentThrottleDelta towards target delta
+        currentThrottleDelta = Mathf.MoveTowards(currentThrottleDelta, 
+            MAX_THROTTLE_DELTA * controllerInput, throttleAccel);
 
-    //    // step currentThrottlePercent by delta
-    //    return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + currentThrottleDelta, 0.0f, 100f);
-    //}
-
-
-    //private float stepThrustToTarget(float targetThrottlePercent)
-    //{
-    //    // target thrust is percentage along value range
-    //    float targetThrust = (targetThrottlePercent / 100.0f) * (THRUST_MAX - THRUST_MIN) + THRUST_MIN;
-
-    //    // step towards target thrust
-    //    return Mathf.MoveTowards(currentThrust, targetThrust, MAX_THRUST_DELTA);
+        // step currentThrottlePercent by delta
+        return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + currentThrottleDelta, 0.0f, 100f);
+    }
 
 
-    //}
+    private float stepThrustToTarget(float targetThrottlePercent)
+    {
+        // target thrust is percentage along value range
+        float targetThrust = (targetThrottlePercent / 100.0f) * (THRUST_MAX - THRUST_MIN) + THRUST_MIN;
+
+        // step towards target thrust
+        return Mathf.MoveTowards(currentThrust, targetThrust, MAX_THRUST_DELTA);
+
+
+    }
 
     ////  SET THRUST
     //private float inputNewThrust()

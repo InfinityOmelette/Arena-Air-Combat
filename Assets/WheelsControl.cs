@@ -6,8 +6,7 @@ public class WheelsControl : MonoBehaviour
 {
 
     public WheelBehavior[] wheels;
-    public Rigidbody root_RB;
-    private EngineControl root_Engine;
+    public Rigidbody aircraftRootRB;
 
 
     public float steerReductionSpeedFactor;
@@ -59,8 +58,8 @@ public class WheelsControl : MonoBehaviour
     {
         // get velocity from root parent
         float readVel = 0.0f; // default value if unable to access
-        if (root_RB != null)
-            readVel = root_RB.velocity.magnitude; // only access reference if not null
+        if (aircraftRootRB != null)
+            readVel = aircraftRootRB.velocity.magnitude; // only access reference if not null
 
         // get set steering limit based on speed
         float steerInput = Mathf.Abs((steerReductionSpeedFactor) /
@@ -85,7 +84,7 @@ public class WheelsControl : MonoBehaviour
         brakeCurrentlyApplied = false;
 
         // Check that throttle is below necessary throttle to apply brake
-        if (root_RB.GetComponent<EngineControl>().currentThrottlePercent < parkingBrakeBelowThrottlePercent)
+        if (aircraftRootRB.GetComponent<RealFlightControl>().currentThrottlePercent < parkingBrakeBelowThrottlePercent)
         {
             // negative so that decreasing throttle will have positive brake input
             brakeInput = -Input.GetAxis("Throttle");

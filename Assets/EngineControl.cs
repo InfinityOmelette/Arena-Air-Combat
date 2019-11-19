@@ -50,7 +50,9 @@ public class EngineControl : MonoBehaviour
 
         //  BURN RATE MODIFICATION
         float fuelBurnMod = calculateFuelBurnMod(transform.position.y, burnRateAltitudeResiliency); // calculate fuel burn mod
-        currentFuelMass -= fuelBurnMod * seaLevelMaxBurnRate * (currentBaseThrustPercent / 100f);       // burn fuel according to burn rate and target thrust
+
+        // burn fuel according to burn rate and target thrust (moving toward zero to avoid bouncing fuel level at 0)
+        currentFuelMass = Mathf.MoveTowards(currentFuelMass, 0.0f, fuelBurnMod * seaLevelMaxBurnRate * (currentBaseThrustPercent / 100f)); 
         currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
         float currentTrueThrust = currentBaseThrust * fuelBurnMod; // create thrust according to burn rate
 

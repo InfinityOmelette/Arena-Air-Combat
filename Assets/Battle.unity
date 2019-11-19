@@ -1287,7 +1287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airDensityAltitudeMod: 2000
-  effectiveSeaLevel: 100
+  effectiveSeaLevel: 0
 --- !u!4 &304189847
 Transform:
   m_ObjectHideFlags: 0
@@ -9584,6 +9584,34 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7744941293315270100}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2134629395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134629394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f13b6323368044bbc85856dc64092f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBaseThrust: 0
+  currentBaseThrustPercent: 0
+  MAX_THRUST_DELTA: 100
+  THRUST_MIN: 100
+  THRUST_MAX: 12000
+  currentThrottlePercent: 0
+  MAX_THROTTLE_DELTA: 7
+  throttleAccel: 0.125
+  currentThrottleDelta: 0
+  currentAirDensity: 0
+  currentBurnMod: 0
+  maxFuelMass: 250
+  currentFuelMass: 250
+  seaLevelMaxBurnRate: 0.1
+  burnRateAltitudeResiliency: 0.4
+  air: {fileID: 304189846}
 --- !u!1 &2136455878
 GameObject:
   m_ObjectHideFlags: 0

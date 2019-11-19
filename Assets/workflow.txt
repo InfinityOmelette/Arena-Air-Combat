@@ -44,7 +44,9 @@ Differentiate throttle vs thrust
   - attach to an object, link to flight data, and it will add  parasitic drag
   - wheels out has drag now
 
-FUEL SYSTEM
+ Fix throttle acceleration bug -- manually coded acceleration
+
+FUEL SYSTEM -- Engine Control script?
   - Draw fuel based on throttle level
   - Fuel/thrust efficiency changes based on altitude
   - Mass changes as fuel level changes?
@@ -60,11 +62,19 @@ COMBAT FLOW
  - destruction modeling
  - cannon
 
-MISSILES
- - Physics
- - Tracking (simple radar. Maintain lock until outside of detection cone)
+universal RealFlight script?
+  - move input management, engine management, out of RealFlightControl
+  - 
 
 BASIC PLACEHOLDER MISSILE TYPES
+ - Seeker cone
+ - Burn time
+ - Motor thrust
+ - lift/drag coeff (turn rate vs energy bleed)
+ - turning torque
+ - stability
+ - blast radius
+ - blast damage
 
 WEAPON HARDPOINT OBJECT
 
@@ -95,9 +105,12 @@ RADAR SYSTEM
  RADAR WARNING RECEIVER
   - Shows info about incoming radar energy (bearing, strength, type)
 
-
 CONVERT TO ONLINE MULTIPLAYER
 
 DATALINK
+
+REARMING
+
+ENLARGE MAP WITHOUT DESTROYING COMPUTERS
 
 

@@ -23,6 +23,9 @@ public class EngineControl : MonoBehaviour
     public float seaLevelMaxBurnRate;
     public float burnRateAltitudeResiliency; // 0 burns same as air density, 1.0 burns constant unchanged by air density
 
+    public float massUpdateGap;
+    private float previousFuelMassUpdate = 0;
+
     public AirEnvironmentStats air;
     Rigidbody rbRef;
 
@@ -39,6 +42,26 @@ public class EngineControl : MonoBehaviour
         if (air == null)
             Debug.Log("Error: " + gameObject.ToString() + " unable to find air ref");
     }
+
+
+    // ================================ LATEUPDATE
+    void LateUpdate()
+    {
+        updateFuelMass(); // root rigidbody will change mass depending on fuel level
+    }
+
+    private void updateFuelMass()
+    {
+        // 
+        //  THIS MIGHT NOT AFFECT EFFICIENCY MUCH AT ALL -- depends on how heavy it is to update mass
+        if (Mathf.Abs(previousFuelMassUpdate - currentFuelMass) > massUpdateGap) 
+        {
+            rbRef.mass -= previousFuelMassUpdate;   //  Return rigidbody to original mass
+            rbRef.mass += currentFuelMass;          //  Add updated amount of fuel to it
+            previousFuelMassUpdate = currentFuelMass; // record previous update
+        }
+    }
+
 
     // =============================== FIXEDUPDATE
     void FixedUpdate()

@@ -9611,6 +9611,7 @@ MonoBehaviour:
   currentFuelMass: 250
   seaLevelMaxBurnRate: 0.02
   burnRateAltitudeResiliency: 0.4
+  massUpdateGap: 1
   air: {fileID: 304189846}
 --- !u!1 &2136455878
 GameObject:
@@ -9819,12 +9820,12 @@ PrefabInstance:
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 10.8
       objectReference: {fileID: 0}
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 550.9
+      value: 548.2
       objectReference: {fileID: 0}
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
@@ -9937,11 +9938,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7492065738638622265, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: dragActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7444854471144225023, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: dragActive
       value: 1

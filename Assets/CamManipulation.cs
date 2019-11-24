@@ -76,8 +76,10 @@ public class CamManipulation : MonoBehaviour
 
         if (lookAtEnabled)
         {
-            if (lookAtObj != null)  // slightly redundant null check
-                camAxisRollRef.transform.LookAt(lookAtObj.transform.position);
+            if (lookAtObj != null)
+            {  // slightly redundant null check
+                camAxisRollRef.transform.LookAt(lookAtObj.transform.position, aircraftRootRB.transform.up);
+            }
             else // if look at is enabled but reference is null, re-toggle look at
                 toggleLookAt();
         }

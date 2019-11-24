@@ -14,6 +14,16 @@ public class hudControl : MonoBehaviour
     public Text fuelAmtText;
     public Text burnAvailText;
     public Text airDensityText;
+    public Text hpText;
+
+
+
+
+    // HP BAR VARIABLES
+    public GameObject hpBarCenterpointRef;
+    public GameObject hpBarParentRef;
+    private Vector3 hpTextOriginPos;
+    public float hpTextMaxOffset;
 
     // CLIMB LADDER VARIABLES
     public GameObject climbLadderCenterpointRef;
@@ -58,6 +68,7 @@ public class hudControl : MonoBehaviour
     private Rigidbody root_rbRef;
     private RealFlightControl root_flightInfoObjRef;
     private EngineControl root_Engine;
+    private CombatFlow root_combatFlow;
     private Camera cam;
 
 
@@ -68,6 +79,7 @@ public class hudControl : MonoBehaviour
         root_rbRef = aircraftRootObj.GetComponent<Rigidbody>();
         root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
         root_Engine = aircraftRootObj.GetComponent<EngineControl>();
+        root_combatFlow = aircraftRootObj.GetComponent<CombatFlow>();
         cam = Camera.main;
 
 
@@ -76,12 +88,17 @@ public class hudControl : MonoBehaviour
         throttleTextOriginPos = throttleText.transform.localPosition;
         spedometerOriginPos = spedometerRef.transform.localPosition;
         altimeterOriginPos = altimeterRef.transform.localPosition;
+        hpTextOriginPos = hpText.rectTransform.localPosition;
 
 
         //  MOVE TEXT TO TOP LEFT CORNER (same operation done to each)
         fuelAmtText.rectTransform.position = new Vector2(fuelAmtText.rectTransform.position.x - Screen.width/2f, fuelAmtText.rectTransform.position.y + Screen.height/2f);
         burnAvailText.rectTransform.position = new Vector2(burnAvailText.rectTransform.position.x - Screen.width / 2f, burnAvailText.rectTransform.position.y + Screen.height / 2f);
         airDensityText.rectTransform.position = new Vector2(airDensityText.rectTransform.position.x - Screen.width / 2f, airDensityText.rectTransform.position.y + Screen.height / 2f);
+
+
+        //  MOVE HP BAR TO TOP MIDDLE
+        hpBarParentRef.transform.localPosition = new Vector3(0.0f, Screen.height / 2f, 0.0f);
 
     }
 
@@ -100,6 +117,7 @@ public class hudControl : MonoBehaviour
         airDensityText.text = "AIR DENSITY: " + Mathf.RoundToInt(root_Engine.currentAirDensity * 100f).ToString() + "%";
         fuelAmtText.text = "FUEL: " + Mathf.RoundToInt(root_Engine.currentFuelMass) + "kg";
         burnAvailText.text = "BURN AVAIL: " + Mathf.RoundToInt(root_Engine.currentBurnMod * 100f).ToString() + "%";
+        hpText.text = Mathf.RoundToInt(root_combatFlow.currentHP).ToString() + "HP";
         
 
         
@@ -107,6 +125,8 @@ public class hudControl : MonoBehaviour
         processThrottleLadder();
         processClimbLadder();
         processAltimeterOffset();
+        processHealthBar();
+        
 
         // nose indicator
         drawItemOnScreen(noseIndicatorRef, cam.transform.position + aircraftRootObj.transform.forward, 0.5f);
@@ -114,6 +134,20 @@ public class hudControl : MonoBehaviour
         // velocity vector
         drawItemOnScreen(velocityVectorRef, cam.transform.position + root_rbRef.velocity.normalized, 0.5f);
 
+    }
+
+    // SCALE HEALTH FILL AND OFFSET TEXT
+    private void processHealthBar()
+    {
+        float healthScale = Mathf.Clamp(root_combatFlow.currentHP / root_combatFlow.maxHP, 0.0f, 1.0f);
+
+        // Scale health fill to health percentage
+        hpBarCenterpointRef.transform.localScale = new Vector3(healthScale, 1.0f, 1.0f);
+
+        // Offset text as scale of max offset
+        hpText.rectTransform.localPosition = hpTextOriginPos + new Vector3(healthScale * hpTextMaxOffset, 0.0f, 0.0f);
+
+        
     }
 
     // Either show throttle percentage or if brakes applied

@@ -189,6 +189,8 @@ GameObject:
   - component: {fileID: 7744941291827435740}
   - component: {fileID: 7744941291827435729}
   - component: {fileID: -8673316639226967037}
+  - component: {fileID: 6943344650122781586}
+  - component: {fileID: 6897607545244989051}
   m_Layer: 0
   m_Name: RealPlayer
   m_TagString: Untagged
@@ -264,6 +266,53 @@ MonoBehaviour:
   readVertVelocity: 0
   pitchPlaneAoA: 0
   yawPlaneAoA: 0
+--- !u!114 &6943344650122781586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f13b6323368044bbc85856dc64092f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBaseThrust: 0
+  currentBaseThrustPercent: 0
+  MAX_THRUST_DELTA: 100
+  THRUST_MIN: 100
+  THRUST_MAX: 12000
+  currentThrottlePercent: 0
+  MAX_THROTTLE_DELTA: 7
+  throttleAccel: 0.125
+  currentThrottleDelta: 0
+  currentAirDensity: 0
+  currentBurnMod: 0
+  maxFuelMass: 250
+  currentFuelMass: 250
+  seaLevelMaxBurnRate: 0.02
+  burnRateAltitudeResiliency: 0.4
+  massUpdateGap: 1
+  air: {fileID: 0}
+--- !u!114 &6897607545244989051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 100
+  isLocalPlayer: 0
+  team: 0
+  type: 0
+  unitName: 
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0

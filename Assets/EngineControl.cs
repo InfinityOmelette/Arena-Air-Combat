@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EngineControl : MonoBehaviour
 {
+    
+
     public float currentBaseThrust;
     public float currentBaseThrustPercent;
     public float MAX_THRUST_DELTA;
@@ -52,7 +54,7 @@ public class EngineControl : MonoBehaviour
 
     private void updateFuelMass()
     {
-        // 
+        // Only update after value changes by certain amount
         //  THIS MIGHT NOT AFFECT EFFICIENCY MUCH AT ALL -- depends on how heavy it is to update mass
         if (Mathf.Abs(previousFuelMassUpdate - currentFuelMass) > massUpdateGap) 
         {

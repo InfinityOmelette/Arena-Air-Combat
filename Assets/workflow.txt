@@ -64,9 +64,20 @@ COMBAT FLOW
 
 universal RealFlight script?
   - move input management, engine management, out of RealFlightControl
-  - 
+  - separate scripts control input
+
 SIMPLE AI
   - Fly towards waypoint objects, use physics
+
+MULTIPLE CAMERA HANDLING
+  - SPECTATOR CAM
+  - DEATH CAM
+  - CAM CONTROLLER 
+
+TARGET TRACKING -- assume all game units always visible
+ - Target selection -- select closest to nose
+ - Target lock -- if selected missile seeker can see target within cone
+ - create boolean for visibility -- draw box, selectable, lockable only if visible
 
 BASIC PLACEHOLDER MISSILE TYPES
  - Seeker cone
@@ -80,10 +91,7 @@ BASIC PLACEHOLDER MISSILE TYPES
 
 WEAPON HARDPOINT OBJECT
 
-TARGET TRACKING -- assume all game units always visible
- - Target selection -- select closest to nose
- - Target lock -- if selected missile seeker can see target within cone
- - create boolean for visibility -- draw box, selectable, lockable only if visible
+
 
 CLOSE RANGE VISUAL TALLY
  - game unit visible if within visual range

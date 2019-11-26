@@ -28,6 +28,8 @@ public class EngineControl : MonoBehaviour
     public float massUpdateGap;
     private float previousFuelMassUpdate = 0;
 
+    public float input_throttleAxis;
+
     public AirEnvironmentStats air;
     Rigidbody rbRef;
 
@@ -94,7 +96,7 @@ public class EngineControl : MonoBehaviour
     // SET THROTTLE
     private float inputThrottle()
     {
-        float controllerInput = Input.GetAxis("Throttle");
+        float controllerInput = input_throttleAxis;
 
         // RESET currentThrottleDelta TO ZERO IF:
         //  - controller input sign differs from currentThrottleDelta sign

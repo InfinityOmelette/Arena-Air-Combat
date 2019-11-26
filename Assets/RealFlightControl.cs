@@ -6,6 +6,11 @@ using UnityEngine;
 public class RealFlightControl : MonoBehaviour
 {
 
+
+    public float input_pitch;
+    public float input_roll;
+    public float input_yaw;
+
     public float rollTorque;
     public float pitchTorque;
     public float yawTorque;
@@ -121,8 +126,8 @@ public class RealFlightControl : MonoBehaviour
 
         // CONTROL TORQUE VECTORS
         Vector3 pitchTorqueVect = transform.right * pitchTorque * authMod * processPitchInput(pitchTrim) * calculateControlAxisAlphaMod(transform.right); 
-        Vector3 yawTorqueVect = transform.up * yawTorque * authMod * Input.GetAxis("Rudder") * calculateControlAxisAlphaMod(transform.up);
-        Vector3 rollTorqueVect = -rbRef.velocity.normalized * rollTorque * authMod * Input.GetAxis("Roll"); // roll around velocity axis
+        Vector3 yawTorqueVect = transform.up * yawTorque * authMod * input_yaw * calculateControlAxisAlphaMod(transform.up);
+        Vector3 rollTorqueVect = -rbRef.velocity.normalized * rollTorque * authMod * input_roll; // roll around velocity axis
 
 
         //  STABILITY TORQUE
@@ -157,7 +162,7 @@ public class RealFlightControl : MonoBehaviour
 
         float pitchPosRange = 1.0f * downPitchMultiplier - pitchTrim; // distance from trim to positive (pitch down) gimbal limit
         float pitchNegRange = Mathf.Abs(-1.0f - pitchTrim); // distance from trim to negative (pitch up) gimbal limit
-        float pitchInput = Input.GetAxis("Pitch");
+        float pitchInput = input_pitch;
        // readRawPitch = pitchInput;
 
         if (pitchInput > 0) // if positive (pitch down)
@@ -175,45 +180,6 @@ public class RealFlightControl : MonoBehaviour
 
     }
 
-
-    //// SET THROTTLE
-    //private float inputThrottle()
-    //{
-    //    float controllerInput = Input.GetAxis("Throttle");
-
-    //    // RESET currentThrottleDelta TO ZERO IF:
-    //    //  - controller input sign differs from currentThrottleDelta sign
-    //    //  - controller input approximately zero
-    //    if (Mathf.Sign(currentThrottleDelta) != Mathf.Sign(controllerInput) || Mathf.Approximately(controllerInput, 0.0f))
-    //        currentThrottleDelta = 0.0f; // reset
-
-    //    // Step currentThrottleDelta towards target delta
-    //    currentThrottleDelta = Mathf.MoveTowards(currentThrottleDelta, 
-    //        MAX_THROTTLE_DELTA * controllerInput, throttleAccel);
-
-    //    // step currentThrottlePercent by delta
-    //    return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + currentThrottleDelta, 0.0f, 100f);
-    //}
-
-
-    //private float stepThrustToTarget(float targetThrottlePercent)
-    //{
-    //    // target thrust is percentage along value range
-    //    float targetThrust = (targetThrottlePercent / 100.0f) * (THRUST_MAX - THRUST_MIN) + THRUST_MIN;
-
-    //    // step towards target thrust
-    //    return Mathf.MoveTowards(currentThrust, targetThrust, MAX_THRUST_DELTA);
-
-
-    //}
-
-    ////  SET THRUST
-    //private float inputNewThrust()
-    //{
-    //    currentThrust = Mathf.Clamp((MAX_THRUST_DELTA * Input.GetAxis("Throttle")) + currentThrust, THRUST_MIN, THRUST_MAX);
-    //    currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f;
-    //    return currentThrust;
-    //}
 
 
 

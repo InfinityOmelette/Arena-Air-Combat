@@ -19,6 +19,11 @@ public class WheelsControl : MonoBehaviour
     private bool gearButtonPressed = false;
 
     public bool brakeCurrentlyApplied = false;
+
+    public float input_brakeAxis;
+    public float input_rudderAxis;
+    public float input_dPadHoriz;
+
     
 
     // Start is called before the first frame update
@@ -34,6 +39,8 @@ public class WheelsControl : MonoBehaviour
         processAllWheels(); // inputs that are read every frame
         checkGearInput();   // inputs that are toggle
     }
+
+
 
     // steering and braking for all wheels
     private void processAllWheels()
@@ -70,7 +77,7 @@ public class WheelsControl : MonoBehaviour
         steerInput = Mathf.Clamp(steerInput, 0.0f, 1.0f);
 
         // factor in rudder input.
-        steerInput *= Input.GetAxis("Rudder");
+        steerInput *= input_rudderAxis;
 
 
         // clamp and return steering input
@@ -88,7 +95,7 @@ public class WheelsControl : MonoBehaviour
         if (root_RB.GetComponent<EngineControl>().currentThrottlePercent < parkingBrakeBelowThrottlePercent)
         {
             // negative so that decreasing throttle will have positive brake input
-            brakeInput = -Input.GetAxis("Throttle");
+            brakeInput = -input_brakeAxis;
             brakeInput = Mathf.Clamp(brakeInput + parkingBrakeInput, 0.0f, 1.0f);
             if (brakeInput > parkingBrakeInput + 0.1f) // brake is definitely applied by player
                 brakeCurrentlyApplied = true;
@@ -101,7 +108,7 @@ public class WheelsControl : MonoBehaviour
     // toggle gear on gear button press
     private bool checkGearInput()
     {
-        bool pressedRightNow = Input.GetAxis("D-Pad Horiz") > 0.5f; // if horiz axis is definitely positive
+        bool pressedRightNow = input_dPadHoriz > 0.5f; // if horiz axis is definitely positive
         if(pressedRightNow != gearButtonPressed && pressedRightNow) // value changed on this step, and is pressed
         {
             gearIsDown = setGearEnabled(!gearIsDown); // toggle gear down

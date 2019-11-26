@@ -44,6 +44,11 @@ public class CamManipulation : MonoBehaviour
 
     private Quaternion defaultCamRotation;
 
+
+    public bool input_camLookAtButtonDown = false; // to be set by external input script
+    public float input_freeLookHoriz;
+    public float input_freeLookVert;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,7 +62,7 @@ public class CamManipulation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("CamLookAt"))
+        if(input_camLookAtButtonDown)
             toggleLookAt();
     }
 
@@ -186,8 +191,8 @@ public class CamManipulation : MonoBehaviour
 
     private void processFreeLook()
     {
-        float horizLookTarget = Input.GetAxis("CamLookX") * horizTravelMod;
-        float vertLookTarget = Input.GetAxis("CamLookY") * vertTravelMod;
+        float horizLookTarget = input_freeLookHoriz * horizTravelMod;
+        float vertLookTarget = input_freeLookVert * vertTravelMod;
 
         // set horizontal rotation
         camAxisHorizRef.transform.localRotation = new Quaternion(

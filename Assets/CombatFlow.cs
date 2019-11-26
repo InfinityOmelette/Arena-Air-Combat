@@ -29,15 +29,20 @@ public class CombatFlow : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    
+
     void FixedUpdate()
     {
-
-        if (Input.GetKeyDown(KeyCode.C))
-            currentHP -= 3;
-
         if (currentHP <= 0)
             die();
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        // putting this in Update so that frame freeze doesn't repeat damage for each physics step during freeze
+        if (Input.GetKeyDown(KeyCode.C))
+            currentHP -= 3;
     }
 
 
@@ -62,7 +67,7 @@ public class CombatFlow : MonoBehaviour
 
     void destroySelf()
     {
-
+        
     }
 
 

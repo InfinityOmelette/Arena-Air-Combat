@@ -178,6 +178,9 @@ MonoBehaviour:
   vertTravelMod: 0.6
   lookAtObj: {fileID: 0}
   lookAtEnabled: 0
+  input_camLookAtButtonDown: 0
+  input_freeLookHoriz: 0
+  input_freeLookVert: 0
 --- !u!1 &7744941291827435728
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +194,7 @@ GameObject:
   - component: {fileID: -8673316639226967037}
   - component: {fileID: 6943344650122781586}
   - component: {fileID: 6897607545244989051}
+  - component: {fileID: 1785817150400101556}
   m_Layer: 0
   m_Name: RealPlayer
   m_TagString: Untagged
@@ -242,6 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb11f100068b9da40b9904cc1599a308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input_pitch: 0
+  input_roll: 0
+  input_yaw: 0
   rollTorque: 5
   pitchTorque: 11
   yawTorque: 6.25
@@ -294,6 +301,7 @@ MonoBehaviour:
   seaLevelMaxBurnRate: 0.02
   burnRateAltitudeResiliency: 0.4
   massUpdateGap: 1
+  input_throttleAxis: 0
   air: {fileID: 0}
 --- !u!114 &6897607545244989051
 MonoBehaviour:
@@ -313,6 +321,22 @@ MonoBehaviour:
   team: 0
   type: 0
   unitName: 
+--- !u!114 &1785817150400101556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012959fdedd3adf4fa83ada5b8b022f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flight: {fileID: -8673316639226967037}
+  engine: {fileID: 6943344650122781586}
+  cam: {fileID: 5788782208438821183}
+  wheels: {fileID: 1804535475134679676}
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,3 +499,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7418351656778924231}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1804535475134679676 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 7418351656778924231}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79112707e4d4ae4bb022cc0c7c55e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -60,19 +60,31 @@ COMBAT FLOW
  - game object system -- recognize others in playing field
  - HUD squares around other planes
  - destruction modeling
- - cannon
 
 universal RealFlight script?
   - move input management, engine management, out of RealFlightControl
   - separate scripts control input
 
-SIMPLE AI
-  - Fly towards waypoint objects, use physics
-
 MULTIPLE CAMERA HANDLING
   - SPECTATOR CAM
   - DEATH CAM
   - CAM CONTROLLER 
+
+DEATH HANDLING
+ - explosion
+ - spectator cam if player (with or without flying enabled)
+
+
+CANNON
+ - Particle emission
+ - Particle collision
+ - Damage dealing
+
+
+SIMPLE AI
+  - Fly towards waypoint objects, use physics
+
+
 
 TARGET TRACKING -- assume all game units always visible
  - Target selection -- select closest to nose

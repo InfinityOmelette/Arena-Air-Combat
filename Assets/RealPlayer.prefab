@@ -175,8 +175,8 @@ MonoBehaviour:
   freeLookLerpRate: 0.35
   rollRateMod: 0.145
   rollRateOffsetLerpRate: 0.035
-  horizTravelMod: 0.95
-  vertTravelMod: 0.6
+  horizTravelMod: 140
+  vertTravelMod: 80
   lookAtObj: {fileID: 0}
   lookAtEnabled: 0
   input_camLookAtButtonDown: 0
@@ -422,11 +422,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7744941291827435740}
     m_Modifications:
-    - target: {fileID: 6686687560308897219, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-        type: 3}
-      propertyPath: m_Name
-      value: BasicPlaneModel
-      objectReference: {fileID: 0}
     - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}
       propertyPath: aircraftRootRB
@@ -491,6 +486,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686687560308897219, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+        type: 3}
+      propertyPath: m_Name
+      value: BasicPlaneModel
       objectReference: {fileID: 0}
     - target: {fileID: 6061619810519288837, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}

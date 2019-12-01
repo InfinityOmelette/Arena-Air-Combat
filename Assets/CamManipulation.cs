@@ -194,19 +194,15 @@ public class CamManipulation : MonoBehaviour
         float horizLookTarget = input_freeLookHoriz * horizTravelMod;
         float vertLookTarget = input_freeLookVert * vertTravelMod;
 
-        // set horizontal rotation
-        camAxisHorizRef.transform.localRotation = new Quaternion(
-            camAxisHorizRef.transform.localRotation.x,      // x
-            Mathf.Lerp(camAxisHorizRef.transform.localRotation.y, horizLookTarget, freeLookLerpRate),                                // y
-            camAxisHorizRef.transform.localRotation.z,      // z
-            camAxisHorizRef.transform.localRotation.w);     // w
+        Vector3 currentLocalEuler = camAxisHorizRef.transform.localEulerAngles;
 
-        // set vertical rotation
-        camAxisVertRef.transform.localRotation = new Quaternion(
-            Mathf.Lerp(camAxisVertRef.transform.localRotation.x, vertLookTarget, freeLookLerpRate),  // x
-            camAxisVertRef.transform.localRotation.y,       // y
-            camAxisVertRef.transform.localRotation.z,       // z
-            camAxisVertRef.transform.localRotation.w);      // w
+        //camAxisRollRef.transform.localEulerAngles = new Vector3(Mathf.Lerp(currentLocalEuler.x, vertLookTarget, freeLookLerpRate), // x
+        //    Mathf.Lerp(currentLocalEuler.y, horizLookTarget, freeLookLerpRate),  // y
+        //    camAxisRollRef.transform.localEulerAngles.z);   // z
+
+        camAxisHorizRef.transform.localEulerAngles = new Vector3(vertLookTarget, horizLookTarget, currentLocalEuler.z);
+
+        
     }
 
 

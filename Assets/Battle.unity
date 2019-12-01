@@ -7139,6 +7139,7 @@ GameObject:
   - component: {fileID: 1437951498}
   - component: {fileID: 1437951497}
   - component: {fileID: 1437951500}
+  - component: {fileID: 1437951501}
   m_Layer: 0
   m_Name: SpectateCam
   m_TagString: Untagged
@@ -7228,6 +7229,21 @@ MonoBehaviour:
   fwdSpeed: 300
   strafeSpd: 300
   vertSpd: 300
+--- !u!114 &1437951501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437951496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5024f9329949c34eae05dd9e334b075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showUI: 0
+  aircraftInputActive: 0
+  mouseIsLocked: 1
 --- !u!1 &1443931292
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,9 @@ public class CamerasManager : MonoBehaviour
 
     public bool showUI;
     public bool aircraftInputActive;
+    public bool lockMouse;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -30,12 +33,18 @@ public class CamerasManager : MonoBehaviour
                 activeCamIndex = 1; // show airplane perspective
                 showUI = true;
                 aircraftInputActive = true;
+                lockMouse = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
             else
             {
                 activeCamIndex = 0; // show spectator cam
                 showUI = false;
                 aircraftInputActive = false;
+                lockMouse = true;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
 
             enableCamIndex(activeCamIndex, showUI, aircraftInputActive);
@@ -55,7 +64,11 @@ public class CamerasManager : MonoBehaviour
 
         uiRef.SetActive(showUI);
         aircraftInputRef.enabled = enableAircraftControl;
+  
     }
+
+
+
 
     
 }

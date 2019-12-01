@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -96,7 +96,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: ef252b4f82f26964a825c365a2a3eee3,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -7179,7 +7180,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 7000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -9984,7 +9985,7 @@ PrefabInstance:
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.8
+      value: 474
       objectReference: {fileID: 0}
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
@@ -10081,6 +10082,31 @@ PrefabInstance:
       propertyPath: lookAtObj
       value: 
       objectReference: {fileID: 483690119}
+    - target: {fileID: 5788782208438821183, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: horizTravelMod
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788782208438821183, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: vertTravelMod
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788782208438821183, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: rollRateOffsetStep
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788782208438821183, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: rollRateOffsetLerpRate
+      value: 0.035
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788782208438821183, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: rollRateMod
+      value: 0.17
+      objectReference: {fileID: 0}
     - target: {fileID: 8381583882320039027, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: wheelDown

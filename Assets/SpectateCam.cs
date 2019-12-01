@@ -24,13 +24,13 @@ public class SpectateCam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ROTATION
         float currentYawRate = yawRateMod * Input.GetAxis("Mouse X");
         float currentPitchRate = -pitchRateMod * Input.GetAxis("Mouse Y");
-
         transform.localEulerAngles += new Vector3(currentPitchRate, currentYawRate, 0.0f);
 
 
-
+        //  MOVEMENT
         transform.position += (transform.forward * fwdSpeed * Input.GetAxis("Pitch") + 
             transform.right * strafeSpd * Input.GetAxis("Roll") + 
             transform.up * vertSpd * Input.GetAxis("Throttle")) * Time.deltaTime;

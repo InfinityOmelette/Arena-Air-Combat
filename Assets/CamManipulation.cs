@@ -194,27 +194,19 @@ public class CamManipulation : MonoBehaviour
         float horizLookTarget = input_freeLookHoriz * horizTravelMod;
         float vertLookTarget = input_freeLookVert * vertTravelMod;
 
-        Vector3 currentLocalEuler = camAxisHorizRef.transform.localEulerAngles;
+        // set horizontal rotation
+        camAxisHorizRef.transform.localRotation = new Quaternion(
+            camAxisHorizRef.transform.localRotation.x,      // x
+            Mathf.Lerp(camAxisHorizRef.transform.localRotation.y, horizLookTarget, freeLookLerpRate),                                // y
+            camAxisHorizRef.transform.localRotation.z,      // z
+            camAxisHorizRef.transform.localRotation.w);     // w
 
-        //camAxisRollRef.transform.localEulerAngles = new Vector3(Mathf.Lerp(currentLocalEuler.x, vertLookTarget, freeLookLerpRate), // x
-        //    Mathf.Lerp(currentLocalEuler.y, horizLookTarget, freeLookLerpRate),  // y
-        //    camAxisRollRef.transform.localEulerAngles.z);   // z
-
-        camAxisHorizRef.transform.localEulerAngles = new Vector3(vertLookTarget, horizLookTarget, currentLocalEuler.z);
-
-        //// set horizontal rotation
-        //camAxisHorizRef.transform.localRotation = new Quaternion(
-        //    camAxisHorizRef.transform.localRotation.x,      // x
-        //    Mathf.Lerp(camAxisHorizRef.transform.localRotation.y, horizLookTarget, freeLookLerpRate),                                // y
-        //    camAxisHorizRef.transform.localRotation.z,      // z
-        //    camAxisHorizRef.transform.localRotation.w);     // w
-
-        //// set vertical rotation
-        //camAxisVertRef.transform.localRotation = new Quaternion(
-        //    Mathf.Lerp(camAxisVertRef.transform.localRotation.x, vertLookTarget, freeLookLerpRate),  // x
-        //    camAxisVertRef.transform.localRotation.y,       // y
-        //    camAxisVertRef.transform.localRotation.z,       // z
-        //    camAxisVertRef.transform.localRotation.w);      // w
+        // set vertical rotation
+        camAxisVertRef.transform.localRotation = new Quaternion(
+            Mathf.Lerp(camAxisVertRef.transform.localRotation.x, vertLookTarget, freeLookLerpRate),  // x
+            camAxisVertRef.transform.localRotation.y,       // y
+            camAxisVertRef.transform.localRotation.z,       // z
+            camAxisVertRef.transform.localRotation.w);      // w
     }
 
 
@@ -222,9 +214,8 @@ public class CamManipulation : MonoBehaviour
     {
         Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
         float rollRateOffsetTarget = rollRateVect.magnitude * rollRateMod; // Use magnitude to determine camera z offset strength
-        if (rollRateVect.normalized == transform.forward) // determine direction of roll
+        if (rollRateVect.normalized == transform.forward)
             rollRateOffsetTarget *= -1;
-
         float rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate);
         Quaternion returnQuat = new Quaternion(
             camAxisRollRef.transform.localRotation.x,

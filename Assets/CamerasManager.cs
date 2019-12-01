@@ -70,7 +70,7 @@ public class CamerasManager : MonoBehaviour
     //  LOCK OR UNLOCK MOUSE CURSOR
     public void setMouseLock(bool lockMouse)
     {
-        Cursor.visible = !lockMouse; // not visible if mouse is locked and vice versa
+        Cursor.visible = !lockMouse;
         if (!lockMouse)
             Cursor.lockState = CursorLockMode.None;
         else

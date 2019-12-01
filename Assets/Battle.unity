@@ -4284,6 +4284,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875630849}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &875703926 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7121171246493503251, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7744941293315270100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &889345026
 GameObject:
   m_ObjectHideFlags: 0
@@ -5507,6 +5513,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079711865}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1081337911 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8279770280686740559, guid: 3c9416ac20ca7844ea16551c9b9fb267,
+    type: 3}
+  m_PrefabInstance: {fileID: 8279770281538122511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1081371710
 GameObject:
   m_ObjectHideFlags: 0
@@ -6703,6 +6715,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f89f0f716937824291da525e4c8efcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameras:
+  - {fileID: 1437951496}
+  - {fileID: 875703926}
+  uiRef: {fileID: 1081337911}
+  activeCamIndex: 0
+  aircraftInputRef: {fileID: 2134629398}
+  showUI: 0
+  aircraftInputActive: 0
 --- !u!4 &1334556735
 Transform:
   m_ObjectHideFlags: 0
@@ -7117,6 +7137,7 @@ GameObject:
   - component: {fileID: 1437951499}
   - component: {fileID: 1437951498}
   - component: {fileID: 1437951497}
+  - component: {fileID: 1437951500}
   m_Layer: 0
   m_Name: SpectateCam
   m_TagString: Untagged
@@ -7131,7 +7152,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437951496}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &1437951498
 Camera:
   m_ObjectHideFlags: 0
@@ -7139,7 +7160,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437951496}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -7189,6 +7210,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1437951500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437951496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba143732273b484688f99b454317d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yawRateMod: 2
+  pitchRateMod: 2
+  fwdSpeed: 100
+  strafeSpd: 100
+  vertSpd: 100
 --- !u!1 &1443931292
 GameObject:
   m_ObjectHideFlags: 0
@@ -9710,6 +9748,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7744941293315270100}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2134629398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1785817150400101556, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7744941293315270100}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134629394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012959fdedd3adf4fa83ada5b8b022f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2136455878
 GameObject:
   m_ObjectHideFlags: 0

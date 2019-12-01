@@ -7179,7 +7179,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 6000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -10081,6 +10081,16 @@ PrefabInstance:
       propertyPath: lookAtObj
       value: 
       objectReference: {fileID: 483690119}
+    - target: {fileID: 5788782208438821183, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: horizTravelMod
+      value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 5788782208438821183, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: vertTravelMod
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 8381583882320039027, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: wheelDown

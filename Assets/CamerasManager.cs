@@ -13,14 +13,14 @@ public class CamerasManager : MonoBehaviour
 
     public bool showUI;
     public bool aircraftInputActive;
-    public bool lockMouse;
+    public bool mouseIsLocked;
 
     
 
     // Start is called before the first frame update
     void Start()
     {
-        enableCamIndex(activeCamIndex, showUI, aircraftInputActive); // enable first camera in list
+        enableCamIndex(activeCamIndex); // enable first camera in list
     }
 
     // Update is called once per frame
@@ -28,44 +28,56 @@ public class CamerasManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if(activeCamIndex == 0)
-            {
-                activeCamIndex = 1; // show airplane perspective
-                showUI = true;
-                aircraftInputActive = true;
-                lockMouse = false;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                activeCamIndex = 0; // show spectator cam
-                showUI = false;
-                aircraftInputActive = false;
-                lockMouse = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
 
-            enableCamIndex(activeCamIndex, showUI, aircraftInputActive);
+            // toggle 
+            if (activeCamIndex == 0) // if cam currently on spectator
+                activeCamIndex = 1; // show airplane
+            else
+                activeCamIndex = 0; // show spectator
+
+            enableCamIndex(activeCamIndex);
         }
     }
 
-    void enableCamIndex(short index, bool showUI, bool enableAircraftControl)
+    //  SWITCH TO CAM PERSPECTIVE
+    void enableCamIndex(short index)
     {
 
-        cameras[index].SetActive(true); // activate proper camera
+        // activate proper camera
+        cameras[index].SetActive(true);
 
+        // deactivate all cameras that aren't specified cam
         for (short i = 0; i < cameras.Length; i++)
         {
-            if(i != index)
-                cameras[i].SetActive(false); // deactivate all cameras that aren't specified cam
+            if (i != index)
+                cameras[i].SetActive(false);
         }
 
+        // Set object data according to camera properties reference
+        CamProperties camPropertiesRef = cameras[index].GetComponent<CamProperties>();
+        showUI = camPropertiesRef.showUI;
+        mouseIsLocked = camPropertiesRef.mouseIsLocked;
+        aircraftInputActive = camPropertiesRef.aircraftInputActive;
+
+
+        // Use that data to complete the perspective change
         uiRef.SetActive(showUI);
-        aircraftInputRef.enabled = enableAircraftControl;
-  
+        aircraftInputRef.enabled = aircraftInputActive;
+        setMouseLock(mouseIsLocked);
     }
+
+
+    //  LOCK OR UNLOCK MOUSE CURSOR
+    public void setMouseLock(bool lockMouse)
+    {
+        Cursor.visible = !lockMouse;
+        if (!lockMouse)
+            Cursor.lockState = CursorLockMode.None;
+        else
+            Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    
 
 
 

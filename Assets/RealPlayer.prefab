@@ -124,6 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6403846366911295104}
   - component: {fileID: 5788782208438821183}
+  - component: {fileID: 3469465798034293480}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -181,6 +182,21 @@ MonoBehaviour:
   input_camLookAtButtonDown: 0
   input_freeLookHoriz: 0
   input_freeLookVert: 0
+--- !u!114 &3469465798034293480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7121171246493503251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5024f9329949c34eae05dd9e334b075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showUI: 1
+  aircraftInputActive: 1
+  mouseIsLocked: 0
 --- !u!1 &7744941291827435728
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +427,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: BasicPlaneModel
       objectReference: {fileID: 0}
+    - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+        type: 3}
+      propertyPath: aircraftRootRB
+      value: 
+      objectReference: {fileID: 7744941291827435729}
+    - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+        type: 3}
+      propertyPath: root_RB
+      value: 
+      objectReference: {fileID: 7744941291827435729}
     - target: {fileID: 9155057156102011821, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -466,16 +492,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-        type: 3}
-      propertyPath: aircraftRootRB
-      value: 
-      objectReference: {fileID: 7744941291827435729}
-    - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-        type: 3}
-      propertyPath: root_RB
-      value: 
-      objectReference: {fileID: 7744941291827435729}
     - target: {fileID: 6061619810519288837, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}
       propertyPath: root_flightData

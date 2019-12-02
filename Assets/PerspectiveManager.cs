@@ -30,14 +30,19 @@ public class PerspectiveManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-
+            short tempIndex;
             // toggle 
             if (activeCamIndex == 0) // if cam currently on spectator
-                activeCamIndex = 1; // show airplane
+                tempIndex = 1; // show airplane
             else
-                activeCamIndex = 0; // show spectator
+                tempIndex = 0; // show spectator
 
-            enableCamIndex(activeCamIndex);
+            if(cameras[tempIndex] != null)
+            {
+                activeCamIndex = tempIndex;
+                enableCamIndex(activeCamIndex);
+            }
+            
         }
     }
 

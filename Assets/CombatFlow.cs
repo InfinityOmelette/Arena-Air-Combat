@@ -18,10 +18,14 @@ public class CombatFlow : MonoBehaviour
     public float maxHP;
     public float currentHP;
     public bool isLocalPlayer;
+
+
+    public float explosionRadius; // damage falls off linearly from maximum at center, to zero at radius
+    public float explosionMaxDamage;
     
     // inefficient -- lots of non-player combat objects will have useless perspective references
     public PerspectiveManager camManager;
-    public GameObject unitCam;
+    public GameObject unitCam; // leave null if item won't have its own camera
 
     public Team team;
     public Type type;
@@ -47,9 +51,15 @@ public class CombatFlow : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // putting this in Update so that frame freeze doesn't repeat damage for each physics step during freeze
+        // Debug key to test damage player
         if (Input.GetKeyDown(KeyCode.C) && isLocalPlayer)
             currentHP -= 3;
+
+        // Debug key to test damage all NPC's with this script
+        if (Input.GetKeyDown(KeyCode.V) && !isLocalPlayer)
+        {
+            currentHP -= 30;
+        }
     }
 
 
@@ -71,7 +81,8 @@ public class CombatFlow : MonoBehaviour
 
     void explode()
     {
-
+        // blast radius deals damage
+        // explosion render
     }
 
     void destroySelf()

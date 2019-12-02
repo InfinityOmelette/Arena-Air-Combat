@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5024f9329949c34eae05dd9e334b075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camType: 2
   showUI: 1
   aircraftInputActive: 1
   mouseIsLocked: 0
@@ -422,6 +423,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7744941291827435740}
     m_Modifications:
+    - target: {fileID: 6686687560308897219, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+        type: 3}
+      propertyPath: m_Name
+      value: BasicPlaneModel
+      objectReference: {fileID: 0}
     - target: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}
       propertyPath: aircraftRootRB
@@ -486,11 +492,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686687560308897219, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-        type: 3}
-      propertyPath: m_Name
-      value: BasicPlaneModel
       objectReference: {fileID: 0}
     - target: {fileID: 6061619810519288837, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
         type: 3}

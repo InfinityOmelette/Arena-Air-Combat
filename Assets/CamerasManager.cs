@@ -20,7 +20,7 @@ public class CamerasManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enableCamIndex(activeCamIndex); // enable first camera in list
+        //enableCamIndex(activeCamIndex); // enable first camera in list
     }
 
     // Update is called once per frame
@@ -43,27 +43,31 @@ public class CamerasManager : MonoBehaviour
     void enableCamIndex(short index)
     {
 
-        // activate proper camera
-        cameras[index].SetActive(true);
-
-        // deactivate all cameras that aren't specified cam
-        for (short i = 0; i < cameras.Length; i++)
+        if (cameras[index] != null) // only proceed if index is valid
         {
-            if (i != index)
-                cameras[i].SetActive(false);
+
+            // activate proper camera
+            cameras[index].SetActive(true);
+
+            // deactivate all cameras that aren't specified cam
+            for (short i = 0; i < cameras.Length; i++)
+            {
+                if (i != index)
+                    cameras[i].SetActive(false);
+            }
+
+            // Set object data according to camera properties reference
+            CamProperties camPropertiesRef = cameras[index].GetComponent<CamProperties>();
+            showUI = camPropertiesRef.showUI;
+            mouseIsLocked = camPropertiesRef.mouseIsLocked;
+            aircraftInputActive = camPropertiesRef.aircraftInputActive;
+
+
+            // Use that data to complete the perspective change
+            uiRef.SetActive(showUI);
+            aircraftInputRef.enabled = aircraftInputActive;
+            setMouseLock(mouseIsLocked);
         }
-
-        // Set object data according to camera properties reference
-        CamProperties camPropertiesRef = cameras[index].GetComponent<CamProperties>();
-        showUI = camPropertiesRef.showUI;
-        mouseIsLocked = camPropertiesRef.mouseIsLocked;
-        aircraftInputActive = camPropertiesRef.aircraftInputActive;
-
-
-        // Use that data to complete the perspective change
-        uiRef.SetActive(showUI);
-        aircraftInputRef.enabled = aircraftInputActive;
-        setMouseLock(mouseIsLocked);
     }
 
 
@@ -78,8 +82,26 @@ public class CamerasManager : MonoBehaviour
     }
 
     
+    // SOMEWHAT INEFFICIENT. SCRIPT LOOPS THROUGH NON-DESIRED CAMERAS TWICE
+    public void switchToType(CamProperties.CamType type)
+    {
+        bool camFound = false;
+        // search for camera of desired type
+        for(short i = 0; i < cameras.Length; i++)
+        {
+            CamProperties camProperties = cameras[i].GetComponent<CamProperties>();
+            if(camProperties.camType == type) // if this camera is desired type
+            {
+                enableCamIndex(i); // switch to camera
+                camFound = true;
+            }
+        }
 
-
+        if (!camFound)
+        {
+            Debug.Log("Unable to find camera of type: " + type.ToString());
+        }
+    }
 
 
     

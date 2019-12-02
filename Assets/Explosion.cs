@@ -16,16 +16,19 @@ public class Explosion : MonoBehaviour
 
     public float lightRange;
     public float flashIntensity;
-    public float lightDecayFactor; // decay per second
+    public float lightDecayTime; // seconds to full decay
 
-    public float alphaDecay;
-    
+
+    private Material mat;
+
 
     // Start is called before the first frame update
     void Start()
     {
         transform.localScale *= 0f; // start small
+        mat = GetComponent<MeshRenderer>().material;
         GetComponent<Light>().enabled = false;
+
     }
 
     // Update is called once per frame
@@ -44,28 +47,54 @@ public class Explosion : MonoBehaviour
                 // rapidly expand towards radius
                 stepSize(radius, expandTime);
 
+                // set color to yellow
+                mat.color = new Color(1.0f, 1.0f, 0.0f, 1.0f); // YELLOW
+
+
                 // change behavior when radius is maxed
                 if (Mathf.Approximately(transform.localScale.x, radius))
                 {
+                    mat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f); // WHITE
+
                     radiusMaxed = true;
                     GetComponent<Collider>().enabled = false; // dissipation will not collide
-                    
+
+
+                    // Set smoke alpha to 2/3. 
+                    //  - for unknown reason, alpha decay would only reach .333 in specified time when alpha started at 1. This is compensating for that
+                    Color color = mat.color;
+                    color.a = 0.67f;
+                    mat.color = color;
                 }
 
 
             }
             else // radius is maxed --> dissipate and expand slowly
             {
+                // STEP SIZE GROWTH
                 float dissipateRadius = radius * fadeRadiusScale;
                 stepSize(dissipateRadius, fadeOutTime);
-                
-                // MOVE LIGHT DECAY HERE
 
-                // MOVE ALPHA DECAY HERE
 
+                // INEFFICIENT -- LIGHT AND ALPHA DECAY AND STEP SIZE LIKELY COULD BE SIMPLIFIED TO ONE COMMON FUNCTION FOR EACH
+
+                // STEP LIGHT DECAY
+                Light light = GetComponent<Light>();
+                float lightStepSize = flashIntensity * Time.deltaTime / lightDecayTime;
+                light.intensity = Mathf.MoveTowards(light.intensity, 0.0f, lightStepSize);
+
+
+                // STEP ALPHA DECAY
+                Color color = mat.color; // copy of color data
+                float colorStepSize = Time.deltaTime / (fadeOutTime); // will fully fade 1 second before deletion
+                color.a = Mathf.MoveTowards(color.a, 0.0f, colorStepSize);
+                mat.color = color;         // save modified values into reference material color
+
+                Debug.Log("Current Alpha: " + mat.color.a);
 
                 if (Mathf.Approximately(transform.localScale.x, dissipateRadius))
                 {
+                   // Debug.Log("Current scale: " + transform.localScale.x + ", targetRadius: " + dissipateRadius);
                     Destroy(gameObject);
                 }
 
@@ -77,21 +106,7 @@ public class Explosion : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        if (radiusMaxed)
-        {
-            Light light = GetComponent<Light>();
-            light.intensity *= lightDecayFactor;
-
-            Material mat = GetComponent<MeshRenderer>().material; // reference to material object data
-            Color color = mat.color; // copy of color data
-            color.a *= alphaDecay;   // modify copy
-            mat.color = color;         // save modified values into reference material color
-
-            Debug.Log("Current alpha: " + GetComponent<MeshRenderer>().material.color.a.ToString());
-        }
-    }
+    
 
     private void stepSize(float maxRadius, float myExpandTime)
     {
@@ -111,5 +126,6 @@ public class Explosion : MonoBehaviour
         Light light = GetComponent<Light>();
         light.enabled = true;
         light.range = lightRange;
+        light.intensity = flashIntensity;
     }
 }

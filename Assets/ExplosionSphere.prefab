@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d5ab0f69880d0bf47ad3d43865f64f9e, type: 2}
+  - {fileID: 2100000, guid: 95f39a36f0634b84388984fd8250f344, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,12 +109,11 @@ MonoBehaviour:
   radius: 20
   coreDamage: 100
   expandTime: 0.075
-  fadeOutTime: 11
-  fadeRadiusScale: 2.3
+  fadeOutTime: 17
+  fadeRadiusScale: 4
   lightRange: 75
-  flashIntensity: 3
-  lightDecayFactor: 0.7
-  alphaDecay: 0.985
+  flashIntensity: 75
+  lightDecayTime: 0.5
 --- !u!108 &7663392623036823821
 Light:
   m_ObjectHideFlags: 0

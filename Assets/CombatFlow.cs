@@ -18,17 +18,21 @@ public class CombatFlow : MonoBehaviour
     public float maxHP;
     public float currentHP;
     public bool isLocalPlayer;
-    public CamerasManager camManager;
+    
+    // inefficient -- lots of non-player combat objects will have useless perspective references
+    public PerspectiveManager camManager;
+    public GameObject unitCam;
+
     public Team team;
     public Type type;
-    public string unitName;
     public bool isAlive = true;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        camChange(CamProperties.CamType.PLAYER);
+        if(isLocalPlayer)
+            camChange(CamProperties.CamType.PLAYER);
         
     }
 
@@ -44,14 +48,14 @@ public class CombatFlow : MonoBehaviour
     private void Update()
     {
         // putting this in Update so that frame freeze doesn't repeat damage for each physics step during freeze
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && isLocalPlayer)
             currentHP -= 3;
     }
 
 
     void die()
     {
-        isAlive = false;
+        isAlive = false; // he ded now
         if(isLocalPlayer)
             camChange(CamProperties.CamType.SPECTATOR);
         explode();
@@ -72,6 +76,12 @@ public class CombatFlow : MonoBehaviour
 
     void destroySelf()
     {
+        if(camManager != null)
+        {
+            // remove this camera from perspectiveManager's list
+            //  Is this a crusty way of doing this? Might be perspectiveManager's responsibility instead?
+            camManager.cameras.Remove(unitCam);
+        }
         Destroy(gameObject);
     }
 

@@ -6697,7 +6697,7 @@ GameObject:
   - component: {fileID: 1334556735}
   - component: {fileID: 1334556734}
   m_Layer: 0
-  m_Name: CamManager
+  m_Name: PerspectiveManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6715,12 +6715,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f89f0f716937824291da525e4c8efcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiRef: {fileID: 1081337911}
+  activeCamIndex: 0
   cameras:
   - {fileID: 1437951496}
   - {fileID: 875703926}
-  uiRef: {fileID: 1081337911}
-  activeCamIndex: 0
-  aircraftInputRef: {fileID: 2134629398}
+  aircraftPlayerInputRef: {fileID: 2134629398}
   showUI: 0
   aircraftInputActive: 0
   mouseIsLocked: 0
@@ -10112,11 +10112,6 @@ PrefabInstance:
       propertyPath: air
       value: 
       objectReference: {fileID: 304189846}
-    - target: {fileID: 6897607545244989051, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
-        type: 3}
-      propertyPath: isLocalPlayer
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6897607545244989051, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: camManager

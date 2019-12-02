@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamerasManager : MonoBehaviour
+public class PerspectiveManager : MonoBehaviour
 {
 
-    public GameObject[] cameras;
+    
     public GameObject uiRef;
     public short activeCamIndex;
 
-    public PlayerInput_Aircraft aircraftInputRef;
+    public List<GameObject> cameras;
+
+    public PlayerInput_Aircraft aircraftPlayerInputRef;
 
     public bool showUI;
     public bool aircraftInputActive;
@@ -50,7 +52,7 @@ public class CamerasManager : MonoBehaviour
             cameras[index].SetActive(true);
 
             // deactivate all cameras that aren't specified cam
-            for (short i = 0; i < cameras.Length; i++)
+            for (short i = 0; i < cameras.Count; i++)
             {
                 if (i != index)
                     cameras[i].SetActive(false);
@@ -65,7 +67,7 @@ public class CamerasManager : MonoBehaviour
 
             // Use that data to complete the perspective change
             uiRef.SetActive(showUI);
-            aircraftInputRef.enabled = aircraftInputActive;
+            aircraftPlayerInputRef.enabled = aircraftInputActive;
             setMouseLock(mouseIsLocked);
         }
     }
@@ -87,7 +89,7 @@ public class CamerasManager : MonoBehaviour
     {
         bool camFound = false;
         // search for camera of desired type
-        for(short i = 0; i < cameras.Length; i++)
+        for(short i = 0; i < cameras.Count; i++)
         {
             CamProperties camProperties = cameras[i].GetComponent<CamProperties>();
             if(camProperties.camType == type) // if this camera is desired type

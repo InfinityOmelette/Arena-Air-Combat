@@ -334,10 +334,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP: 100
-  isLocalPlayer: 0
+  isLocalPlayer: 1
+  camManager: {fileID: 0}
+  unitCam: {fileID: 7121171246493503251}
   team: 0
   type: 0
   unitName: 
+  isAlive: 1
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0

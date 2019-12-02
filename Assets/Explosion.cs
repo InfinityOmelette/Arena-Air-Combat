@@ -16,7 +16,9 @@ public class Explosion : MonoBehaviour
 
     public float lightRange;
     public float flashIntensity;
-    public float lightDecayFactor;
+    public float lightDecayFactor; // decay per second
+
+    public float alphaDecay;
     
 
     // Start is called before the first frame update
@@ -56,8 +58,11 @@ public class Explosion : MonoBehaviour
             {
                 float dissipateRadius = radius * fadeRadiusScale;
                 stepSize(dissipateRadius, fadeOutTime);
-                Light light = GetComponent<Light>();
-                light.intensity *= lightDecayFactor;
+                
+                // MOVE LIGHT DECAY HERE
+
+                // MOVE ALPHA DECAY HERE
+
 
                 if (Mathf.Approximately(transform.localScale.x, dissipateRadius))
                 {
@@ -70,6 +75,22 @@ public class Explosion : MonoBehaviour
         }
         
 
+    }
+
+    private void FixedUpdate()
+    {
+        if (radiusMaxed)
+        {
+            Light light = GetComponent<Light>();
+            light.intensity *= lightDecayFactor;
+
+            Material mat = GetComponent<MeshRenderer>().material; // reference to material object data
+            Color color = mat.color; // copy of color data
+            color.a *= alphaDecay;   // modify copy
+            mat.color = color;         // save modified values into reference material color
+
+            Debug.Log("Current alpha: " + GetComponent<MeshRenderer>().material.color.a.ToString());
+        }
     }
 
     private void stepSize(float maxRadius, float myExpandTime)

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3588510817834397779}
   - component: {fileID: 7663392623036823821}
   m_Layer: 0
-  m_Name: PrefabExplode
+  m_Name: PrefabExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,13 +108,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 20
   coreDamage: 100
-  expandTime: 0.075
+  expandTime: 0.1
   fadeOutTime: 17
   fadeRadiusScale: 4
-  lightRangeScaleFactor: 8
-  flashIntensity: 75
-  lightDecayTime: 0.3
-  smokeColorFadeTime: 0
+  lightRangeScaleFactor: 6
+  flashIntensity: 3
+  lightDecayTime: 0.25
+  smokeGlowDecayTime: 0.75
   mat: {fileID: 2100000, guid: 7707bd9a1285b644d9724893b04c22a3, type: 2}
   emissionColor: {r: 1, g: 0.4526977, b: 0, a: 1}
   smokeColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
@@ -128,7 +128,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 9
   m_Type: 2
-  m_Color: {r: 1, g: 0.78535163, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.58040816, b: 0, a: 1}
   m_Intensity: 20
   m_Range: 50
   m_SpotAngle: 30

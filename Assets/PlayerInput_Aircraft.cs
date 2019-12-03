@@ -34,6 +34,12 @@ public class PlayerInput_Aircraft : MonoBehaviour
     {
         cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
 
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Explosion.createExplosionAt(transform.position + transform.forward * 2500f, 20, 0);
+        }
+
+
     }
 
 

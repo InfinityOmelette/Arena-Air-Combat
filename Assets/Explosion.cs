@@ -67,8 +67,6 @@ public class Explosion : MonoBehaviour
 
         mat.EnableKeyword("_EMISSION"); // lets us access material emission
 
-        //mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
-
         mat.SetColor("_EmissionColor", emissionColor); // emission layer will have desired flash color
         mat.color = smokeColor;    // main color will have desired smoke color
 
@@ -77,7 +75,7 @@ public class Explosion : MonoBehaviour
         rend.material = mat;
         GetComponent<Light>().intensity = flashIntensity;
         GetComponent<Light>().enabled = false;
-
+        
 
         
     }
@@ -134,6 +132,12 @@ public class Explosion : MonoBehaviour
             }
             else // radius is maxed --> dissipate and expand slowly
             {
+                Color color = mat.color;
+
+
+                // SMOKE GLOW DECAY
+                mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), smokeColor, emissionColor, smokeGlowDecayTime));
+
                 // STEP SIZE GROWTH
                 float slowExpandScale = stepValOverTime(transform.localScale.x, radius * fadeRadiusScale, radius, fadeOutTime);
                 transform.localScale = new Vector3(slowExpandScale, slowExpandScale, slowExpandScale);
@@ -149,7 +153,6 @@ public class Explosion : MonoBehaviour
                 
                 if (Mathf.Approximately(light.intensity, 0.0f))
                 {
-                    Color color = mat.color;
 
 
                     // SMOKE GLOW DECAY

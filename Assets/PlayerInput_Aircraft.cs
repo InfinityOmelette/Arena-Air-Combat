@@ -16,6 +16,8 @@ public class PlayerInput_Aircraft : MonoBehaviour
     public CamManipulation cam;
     public WheelsControl wheels;
 
+    public float testExplosionDistance;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +38,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            Explosion.createExplosionAt(transform.position + transform.forward * 2500f, 20, 0);
+            Explosion.createExplosionAt(transform.position + transform.forward * testExplosionDistance, 20, 0);
         }
 
 

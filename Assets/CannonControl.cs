@@ -27,12 +27,13 @@ public class CannonControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
 
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKey(KeyCode.Space)) // turn or keep guns on
         {
 
+            
 
             if (!gunsOn)
             {
@@ -44,7 +45,7 @@ public class CannonControl : MonoBehaviour
 
             gunsOn = true;
         }
-        else
+        else // turn or keep guns off
         {
             if (gunsOn)
             {
@@ -56,7 +57,7 @@ public class CannonControl : MonoBehaviour
             gunsOn = false;
         }
 
-        
+
 
 
 

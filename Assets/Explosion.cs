@@ -48,12 +48,13 @@ public class Explosion : MonoBehaviour
         GameObject newExplosion = GameObject.Instantiate(getExplodePrefab());
         newExplosion.transform.position = position;
         newExplosion.GetComponent<Explosion>().goExplode(radius, coreDamage);
-
+        //Debug.Log("static create explosion called");
     }
 
     public static void linkExplosionPrefabRef()
     {
         explosionPrefab = (GameObject)Resources.Load("PrefabExplosion", typeof(GameObject));
+        
     }
 
     // Start is called before the first frame update

@@ -66,9 +66,10 @@ public class CombatFlow : MonoBehaviour
     void die()
     {
         isAlive = false; // he ded now
-        if(isLocalPlayer)
-            camChange(PerspectiveProperties.CamType.SPECTATOR);
         explode();
+        if (isLocalPlayer)
+            camChange(PerspectiveProperties.CamType.SPECTATOR);
+        
         destroySelf();
 
     }
@@ -83,6 +84,7 @@ public class CombatFlow : MonoBehaviour
     {
         // blast radius deals damage
         // explosion render
+        Explosion.createExplosionAt(transform.position, explosionRadius, explosionMaxDamage);
     }
 
     void destroySelf()

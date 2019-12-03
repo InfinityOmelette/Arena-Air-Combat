@@ -64,7 +64,7 @@ public class PerspectiveManager : MonoBehaviour
             }
 
             // Set object data according to camera properties reference
-            CamProperties camPropertiesRef = cameras[index].GetComponent<CamProperties>();
+            PerspectiveProperties camPropertiesRef = cameras[index].GetComponent<PerspectiveProperties>();
             showUI = camPropertiesRef.showUI;
             mouseIsLocked = camPropertiesRef.mouseIsLocked;
             aircraftInputActive = camPropertiesRef.aircraftInputActive;
@@ -90,13 +90,13 @@ public class PerspectiveManager : MonoBehaviour
 
     
     // SOMEWHAT INEFFICIENT. SCRIPT LOOPS THROUGH NON-DESIRED CAMERAS TWICE
-    public void switchToType(CamProperties.CamType type)
+    public void switchToType(PerspectiveProperties.CamType type)
     {
         bool camFound = false;
         // search for camera of desired type
         for(short i = 0; i < cameras.Count; i++)
         {
-            CamProperties camProperties = cameras[i].GetComponent<CamProperties>();
+            PerspectiveProperties camProperties = cameras[i].GetComponent<PerspectiveProperties>();
             if(camProperties.camType == type) // if this camera is desired type
             {
                 enableCamIndex(i); // switch to camera

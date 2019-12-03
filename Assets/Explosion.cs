@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+
+    
+
     public float radius;
     public float coreDamage; // damage falls off linearly from max at core to zero at radius
 
@@ -14,26 +17,53 @@ public class Explosion : MonoBehaviour
     private bool doExplode = false;
     private bool radiusMaxed = false;
 
-    public float lightRange;
+    public float lightRangeScaleFactor;
     public float flashIntensity;
     public float lightDecayTime; // seconds to full decay
+    public float smokeColorFadeTime;
 
 
-    private Material mat;
+    public Material mat;
+    private MeshRenderer rend;
+
+    public Color emissionColor;
+    public Color smokeColor;
 
 
     // Start is called before the first frame update
     void Start()
     {
+
         transform.localScale *= 0f; // start small
-        mat = GetComponent<MeshRenderer>().material;
+
+        // convert references to copies of original material
+        mat = new Material(mat);
+
+        mat.EnableKeyword("_EMISSION"); // lets us access material emission
+
+        //mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
+
+        mat.SetColor("_EmissionColor", emissionColor); // emission layer will have desired flash color
+        mat.color = smokeColor;    // main color will have desired smoke color
+
+
+        rend = GetComponent<MeshRenderer>();
+        rend.material = mat;   
         GetComponent<Light>().enabled = false;
+
+
+        
+
+
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        
 
         if (Input.GetKeyDown(KeyCode.B))
         {
@@ -45,26 +75,22 @@ public class Explosion : MonoBehaviour
             if (!radiusMaxed) // radius isn't maxed -- rapid expansion
             {
                 // rapidly expand towards radius
-                stepSize(radius, expandTime);
+                float rapidExpandScale = stepValOverTime(transform.localScale.x, radius, 0.0f, expandTime);
+                transform.localScale = new Vector3(rapidExpandScale, rapidExpandScale, rapidExpandScale);
 
-                // set color to yellow
-                mat.color = new Color(1.0f, 1.0f, 0.0f, 1.0f); // YELLOW
+                
 
 
                 // change behavior when radius is maxed
                 if (Mathf.Approximately(transform.localScale.x, radius))
                 {
-                    mat.color = new Color(1.0f, 1.0f, 1.0f, 1.0f); // WHITE
+                    
 
                     radiusMaxed = true;
                     GetComponent<Collider>().enabled = false; // dissipation will not collide
 
 
-                    // Set smoke alpha to 2/3. 
-                    //  - for unknown reason, alpha decay would only reach .333 in specified time when alpha started at 1. This is compensating for that
-                    Color color = mat.color;
-                    color.a = 0.67f;
-                    mat.color = color;
+                    
                 }
 
 
@@ -72,27 +98,39 @@ public class Explosion : MonoBehaviour
             else // radius is maxed --> dissipate and expand slowly
             {
                 // STEP SIZE GROWTH
-                float dissipateRadius = radius * fadeRadiusScale;
-                stepSize(dissipateRadius, fadeOutTime);
+                float slowExpandScale = stepValOverTime(transform.localScale.x, radius * fadeRadiusScale, radius, fadeOutTime);
+                transform.localScale = new Vector3(slowExpandScale, slowExpandScale, slowExpandScale);
 
-
-                // INEFFICIENT -- LIGHT AND ALPHA DECAY AND STEP SIZE LIKELY COULD BE SIMPLIFIED TO ONE COMMON FUNCTION FOR EACH
-
-                // STEP LIGHT DECAY
+                // STEP LIGHT INTENSITY DECAY
                 Light light = GetComponent<Light>();
-                float lightStepSize = flashIntensity * Time.deltaTime / lightDecayTime;
-                light.intensity = Mathf.MoveTowards(light.intensity, 0.0f, lightStepSize);
+                light.intensity = stepValOverTime(light.intensity, 0.0f, flashIntensity, lightDecayTime);
+
+                // STEP LIGHT RANGE DECAY
+                light.range = stepValOverTime(light.range, 0.0f, radius * lightRangeScaleFactor, lightDecayTime);
 
 
-                // STEP ALPHA DECAY
-                Color color = mat.color; // copy of color data
-                float colorStepSize = Time.deltaTime / (fadeOutTime); // will fully fade 1 second before deletion
-                color.a = Mathf.MoveTowards(color.a, 0.0f, colorStepSize);
-                mat.color = color;         // save modified values into reference material color
 
-                Debug.Log("Current Alpha: " + mat.color.a);
+                
+                if (light.range < transform.localScale.x)
+                {
+                    Color color = mat.color;
 
-                if (Mathf.Approximately(transform.localScale.x, dissipateRadius))
+
+                    // IMMEDIATELY TURN COLOR BLACK
+                    mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), smokeColor, emissionColor, lightDecayTime));
+                    
+
+
+                    color.a = stepValOverTime(color.a, 0.0f, 1.0f, fadeOutTime - lightDecayTime); // subtracting light decay time is overkill
+                    mat.color = color;         // save modified values into reference material color
+                }
+
+
+                
+
+                
+
+                if (Mathf.Approximately(transform.localScale.x, radius * fadeRadiusScale))
                 {
                    // Debug.Log("Current scale: " + transform.localScale.x + ", targetRadius: " + dissipateRadius);
                     Destroy(gameObject);
@@ -106,15 +144,28 @@ public class Explosion : MonoBehaviour
 
     }
 
-    
+    // STATIC METHOD OTHER OBJECTS WILL CALL
+    public static void createExplosionAt(Vector3 position, float radius, float coreDamage)
+    {
 
-    private void stepSize(float maxRadius, float myExpandTime)
+    }
+
+
+    private Color stepColorOverTime(Color currentColor, Color targetColor, Color beginColor, float timeToCompletion)
+    {
+        currentColor.r = stepValOverTime(currentColor.r, targetColor.r, beginColor.r, timeToCompletion);
+        currentColor.g = stepValOverTime(currentColor.g, targetColor.g, beginColor.g, timeToCompletion);
+        currentColor.b = stepValOverTime(currentColor.b, targetColor.b, beginColor.b, timeToCompletion);
+        currentColor.a = stepValOverTime(currentColor.a, targetColor.a, beginColor.a, timeToCompletion);
+        return currentColor;
+    }
+
+    private float stepValOverTime(float currentVal, float targetVal, float beginVal, float timeToCompletion)
     {
         // step blast size
-        float stepSize = maxRadius * Time.deltaTime / myExpandTime;
-        float scale = transform.localScale.x;
-        scale = Mathf.MoveTowards(scale, maxRadius, stepSize);
-        transform.localScale = new Vector3(scale, scale, scale);
+        float difference = Mathf.Abs(targetVal - beginVal);
+        float stepSize = difference * Time.deltaTime / timeToCompletion;
+        return Mathf.MoveTowards(currentVal, targetVal, stepSize);
     }
 
     public void goExplode(float setRadius, float setCoreDamage)
@@ -125,7 +176,9 @@ public class Explosion : MonoBehaviour
 
         Light light = GetComponent<Light>();
         light.enabled = true;
-        light.range = lightRange;
+        light.range = radius * lightRangeScaleFactor;
         light.intensity = flashIntensity;
+
+
     }
 }

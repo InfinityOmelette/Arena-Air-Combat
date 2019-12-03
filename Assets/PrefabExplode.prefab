@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3588510817834397779}
   - component: {fileID: 7663392623036823821}
   m_Layer: 0
-  m_Name: ExplosionSphere
+  m_Name: PrefabExplode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 95f39a36f0634b84388984fd8250f344, type: 2}
+  - {fileID: 2100000, guid: 7707bd9a1285b644d9724893b04c22a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,9 +111,13 @@ MonoBehaviour:
   expandTime: 0.075
   fadeOutTime: 17
   fadeRadiusScale: 4
-  lightRange: 75
+  lightRangeScaleFactor: 8
   flashIntensity: 75
-  lightDecayTime: 0.5
+  lightDecayTime: 0.3
+  smokeColorFadeTime: 0
+  mat: {fileID: 2100000, guid: 7707bd9a1285b644d9724893b04c22a3, type: 2}
+  emissionColor: {r: 1, g: 0.4526977, b: 0, a: 1}
+  smokeColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
 --- !u!108 &7663392623036823821
 Light:
   m_ObjectHideFlags: 0
@@ -126,7 +130,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.78535163, b: 0, a: 1}
   m_Intensity: 20
-  m_Range: 500
+  m_Range: 50
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -157,7 +161,7 @@ Light:
       e33: 1
     m_UseCullingMatrixOverride: 0
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:

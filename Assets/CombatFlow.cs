@@ -36,7 +36,7 @@ public class CombatFlow : MonoBehaviour
     void Start()
     {
         if(isLocalPlayer)
-            camChange(CamProperties.CamType.PLAYER);
+            camChange(PerspectiveProperties.CamType.PLAYER);
         
     }
 
@@ -67,13 +67,13 @@ public class CombatFlow : MonoBehaviour
     {
         isAlive = false; // he ded now
         if(isLocalPlayer)
-            camChange(CamProperties.CamType.SPECTATOR);
+            camChange(PerspectiveProperties.CamType.SPECTATOR);
         explode();
         destroySelf();
 
     }
 
-    void camChange(CamProperties.CamType camType)
+    void camChange(PerspectiveProperties.CamType camType)
     {
         if(camManager != null)
             camManager.switchToType(camType);

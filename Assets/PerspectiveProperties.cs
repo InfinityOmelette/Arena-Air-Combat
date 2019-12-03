@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamProperties : MonoBehaviour
+public class PerspectiveProperties : MonoBehaviour
 {
     public enum CamType
     {

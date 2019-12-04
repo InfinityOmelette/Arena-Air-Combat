@@ -12,13 +12,17 @@ public class SpectateCam : MonoBehaviour
     public float strafeSpd;
     public float vertSpd;
 
+    private bool gunsOn = false;
+
+    public GameObject cannon;
+
     
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        cannon.GetComponent<ParticleSystem>().Stop();
     }
 
     // Update is called once per frame
@@ -34,6 +38,28 @@ public class SpectateCam : MonoBehaviour
         transform.position += (transform.forward * fwdSpeed * Input.GetAxis("Pitch") + 
             transform.right * strafeSpd * Input.GetAxis("Roll") + 
             transform.up * vertSpd * Input.GetAxis("Throttle")) * Time.deltaTime;
+
+
+        if (Input.GetKey(KeyCode.Space)) // turn or keep guns on
+        {
+
+
+
+            if (!gunsOn)
+            {
+                cannon.GetComponent<ParticleSystem>().Play();
+            }
+
+            gunsOn = true;
+        }
+        else // turn or keep guns off
+        {
+            if (gunsOn)
+            {
+                    cannon.GetComponent<ParticleSystem>().Stop();
+            }
+            gunsOn = false;
+        }
 
     }
 }

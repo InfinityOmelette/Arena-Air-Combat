@@ -10,6 +10,7 @@ public class ParticleBehavior : MonoBehaviour
     private ParticleCollisionEvent[] collisionEvents;
 
     public long collisionCount = 0;
+    public float impactFuseVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -37,9 +38,24 @@ public class ParticleBehavior : MonoBehaviour
 
         int eventCount = pSystem.GetCollisionEvents(other, collisionEvents);
 
+        // whenever a collision event is triggered, this loops through and processes every one
         for(int i = 0; i < eventCount; i++)
         {
-            Explosion.createExplosionAt(collisionEvents[i].intersection, 3, 0);
+
+
+            Vector3 incidentVelocity = collisionEvents[i].velocity;
+            Vector3 normal = collisionEvents[i].normal;
+            Vector3 incidentNormal = Vector3.Project(incidentVelocity, normal);
+
+            Debug.Log("Impact incidence: " + incidentNormal.magnitude.ToString());
+
+            if (incidentNormal.magnitude > 300) // if impact velocity is high enough
+            {
+                Debug.Log("Heavy impact, exploding...");
+                Explosion.createExplosionAt(collisionEvents[i].intersection, 3, 0);
+            }
+
+            
         }
         
 

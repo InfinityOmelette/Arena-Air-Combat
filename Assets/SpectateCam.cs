@@ -12,6 +12,10 @@ public class SpectateCam : MonoBehaviour
     public float strafeSpd;
     public float vertSpd;
 
+
+    public float pitchMax;
+    public float pitchMin;
+
     private bool gunsOn = false;
 
     public GameObject cannon;
@@ -28,23 +32,54 @@ public class SpectateCam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float currentYawRate = yawRateMod * Input.GetAxis("Mouse X");
-        float currentPitchRate = -pitchRateMod * Input.GetAxis("Mouse Y");
 
-        transform.localEulerAngles += new Vector3(currentPitchRate, currentYawRate, 0.0f);
+        rotateCam(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+
+        flyCam(Input.GetAxis("Pitch"), Input.GetAxis("Roll"), Input.GetAxis("Throttle"));
+
+        cannonProcess(Input.GetKey(KeyCode.Space));
+
+    }
 
 
+    void rotateCam(float inputX, float inputY)
+    {
+        float currentYawRate = yawRateMod * inputX;
+        float currentPitchRate = -pitchRateMod * inputY;
 
-        transform.position += (transform.forward * fwdSpeed * Input.GetAxis("Pitch") + 
-            transform.right * strafeSpd * Input.GetAxis("Roll") + 
+        
+
+        Vector3 newRotationEuler = transform.localEulerAngles + new Vector3(currentPitchRate, currentYawRate, 0.0f);
+
+        // Convert pitch angle to  -180 to 180 scale because unity gay
+        float angleTemp = newRotationEuler.x;
+        if (angleTemp > 180)
+            angleTemp -= 360f;
+
+        angleTemp = Mathf.Clamp(angleTemp, pitchMin, pitchMax);
+
+        
+        // Convert pitch angle back to 0-360 scale
+        if (angleTemp < 0)
+            angleTemp += 360;
+
+        newRotationEuler.x = angleTemp;
+
+        transform.localEulerAngles = newRotationEuler;
+
+    }
+
+    void flyCam(float fwdinput, float sideInput, float vertInput)
+    {
+        transform.position += (transform.forward * fwdSpeed * Input.GetAxis("Pitch") +
+            transform.right * strafeSpd * Input.GetAxis("Roll") +
             transform.up * vertSpd * Input.GetAxis("Throttle")) * Time.deltaTime;
+    }
 
-
-        if (Input.GetKey(KeyCode.Space)) // turn or keep guns on
+    void cannonProcess(bool input)
+    {
+        if (input) // turn or keep guns on
         {
-
-
-
             if (!gunsOn)
             {
                 cannon.GetComponent<ParticleSystem>().Play();
@@ -56,10 +91,9 @@ public class SpectateCam : MonoBehaviour
         {
             if (gunsOn)
             {
-                    cannon.GetComponent<ParticleSystem>().Stop();
+                cannon.GetComponent<ParticleSystem>().Stop();
             }
             gunsOn = false;
         }
-
     }
 }

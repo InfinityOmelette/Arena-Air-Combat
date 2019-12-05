@@ -12,6 +12,8 @@ public class CannonControl : MonoBehaviour
     public float convergence;
 
 
+    public float cannonInput;
+
     private bool gunsOn;
 
     // Start is called before the first frame update
@@ -30,7 +32,7 @@ public class CannonControl : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKey(KeyCode.Space)) // turn or keep guns on
+        if (cannonInput > 0.5f) // if button is definitely pressed
         {
 
             

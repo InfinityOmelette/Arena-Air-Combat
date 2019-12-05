@@ -15,6 +15,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
     public EngineControl engine;
     public CamManipulation cam;
     public WheelsControl wheels;
+    public CannonControl cannons;
 
     public float testExplosionDistance;
 
@@ -68,6 +69,9 @@ public class PlayerInput_Aircraft : MonoBehaviour
         // CAMERA
         cam.input_freeLookHoriz = Input.GetAxis("CamLookX");
         cam.input_freeLookVert = Input.GetAxis("CamLookY");
+
+        // CANNONS
+        cannons.cannonInput = Input.GetAxis("Cannon");
 
     }
 }

@@ -32,6 +32,9 @@ public class CombatFlow : MonoBehaviour
     public bool isAlive = true;
 
 
+    public bool doDebugDamage = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +59,7 @@ public class CombatFlow : MonoBehaviour
             currentHP -= 3;
 
         // Debug key to test damage all NPC's with this script
-        if (Input.GetKeyDown(KeyCode.V) && !isLocalPlayer)
+        if (Input.GetKeyDown(KeyCode.V) && !isLocalPlayer && doDebugDamage)
         {
             currentHP -= 30;
         }
@@ -84,7 +87,7 @@ public class CombatFlow : MonoBehaviour
     {
         // blast radius deals damage
         // explosion render
-        Explosion.createExplosionAt(transform.position, explosionRadius, explosionMaxDamage);
+        Explosion.createExplosionAt(transform.position, explosionRadius, explosionMaxDamage, true, 8f, Color.yellow, true);
     }
 
     void destroySelf()
@@ -97,6 +100,9 @@ public class CombatFlow : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
+
+    
 
 
 

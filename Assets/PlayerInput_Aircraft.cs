@@ -39,7 +39,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.B))
         {
-            Explosion.createExplosionAt(transform.position + transform.forward * testExplosionDistance, 20, 0);
+            Explosion.createExplosionAt(transform.position + transform.forward * testExplosionDistance, 20, 0, true, 8, Color.yellow, true);
         }
 
 

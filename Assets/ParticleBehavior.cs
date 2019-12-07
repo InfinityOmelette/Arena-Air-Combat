@@ -10,6 +10,8 @@ public class ParticleBehavior : MonoBehaviour
     private ParticleCollisionEvent[] collisionEvents;
 
     public long collisionCount = 0;
+    public float impactDamage;
+    public float bounceDamage;
 
     private ParticleSystem.Particle[] myParticles;
 
@@ -29,11 +31,11 @@ public class ParticleBehavior : MonoBehaviour
         //pSystem.GetParticles(myParticles);
     }
 
-    void initializeArrayIfNeeded()
-    {
+    //void initializeArrayIfNeeded()
+    //{
         
 
-    }
+    //}
 
     
 
@@ -41,10 +43,10 @@ public class ParticleBehavior : MonoBehaviour
     private void OnParticleCollision(GameObject other) // other is target hit by emitter
     {
 
-        initializeArrayIfNeeded();
-        pSystem.GetParticles(myParticles);
+       // initializeArrayIfNeeded();
+        //pSystem.GetParticles(myParticles);
 
-        Debug.Log("Other's name: " + other.name);
+        //Debug.Log("Other's name: " + other.name);
 
         int collCount = pSystem.GetSafeCollisionEventSize();
 
@@ -58,10 +60,11 @@ public class ParticleBehavior : MonoBehaviour
         int eventCount = pSystem.GetCollisionEvents(other, collisionEvents);
 
 
-        for (int i = 0; i < myParticles.Length; i++)
-        {
-            myParticles[i].remainingLifetime = 0f;
-        }
+        //// test loop. This does nothing of actual value
+        //for (int i = 0; i < myParticles.Length; i++)
+        //{
+        //    myParticles[i].remainingLifetime = 0f;
+        //}
 
         // whenever a collision event is triggered, this loops through and processes every one
         for (int i = 0; i < eventCount; i++)
@@ -75,22 +78,41 @@ public class ParticleBehavior : MonoBehaviour
             ParticleSystem emitterForThisCollision = GetComponent<ParticleSystem>();
             var coll = emitterForThisCollision.collision;
 
-            if (incidentNormal.magnitude > ParticleBehavior.impactFuseVelocity) // if impact velocity is high enough
-            {
-                Debug.Log("Exploding at impact incidence: " + incidentNormal.magnitude.ToString());
+            // Target information
+            GameObject target = other.transform.root.gameObject;
+            CombatFlow targetFlow = target.GetComponent<CombatFlow>();
+            float currentDamage = 0f;
+            //Debug.Log("Bullet from: " + gameObject.name + " hit target: " + other.name);
 
+            if (incidentNormal.magnitude > ParticleBehavior.impactFuseVelocity) // if impact velocity is high enough, impact
+            {
+                //Debug.Log("Exploding at impact incidence: " + incidentNormal.magnitude.ToString());
+
+                //Debug.Log("Explode");
 
                 coll.lifetimeLoss = 1f;
 
 
-                Explosion.createExplosionAt(collisionEvents[i].intersection, 3, 0);
+                Explosion.createExplosionAt(collisionEvents[i].intersection, 3, 0, false, 4, Color.yellow, true);
+
+                currentDamage = impactDamage;
+
+                
+
+                
                 
 
             }
-            else
+            else // low impact velocity, bounce
             {
+                //Debug.Log("Bounce");
                 coll.lifetimeLoss = .4f;
+                Explosion.createExplosionAt(collisionEvents[i].intersection, 1.5f, 0, false, 2, Color.black, false);
+                currentDamage = bounceDamage;
             }
+
+            if (targetFlow != null)
+                targetFlow.currentHP -= currentDamage;
 
         }
         

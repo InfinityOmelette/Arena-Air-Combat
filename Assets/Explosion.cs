@@ -16,6 +16,7 @@ public class Explosion : MonoBehaviour
 
     private bool doExplode = false;
     private bool radiusMaxed = false;
+    private bool killCollNextUpdate = false;
 
     public float lightRangeScaleFactor;
     public float flashIntensity;
@@ -34,6 +35,10 @@ public class Explosion : MonoBehaviour
 
     private static GameObject explosionPrefab;
 
+    // *********************************************************************************
+    // **************************   STATIC METHODS   ***********************************
+    // *********************************************************************************
+
     public static GameObject getExplodePrefab()
     {
         if (explosionPrefab == null)
@@ -41,13 +46,24 @@ public class Explosion : MonoBehaviour
         return explosionPrefab;
     }
 
+
+
     // STATIC METHOD OTHER OBJECTS WILL CALL
-    public static void createExplosionAt(Vector3 position, float radius, float coreDamage)
+    // caller can set:
+    //  position
+    //  radius
+    //  damage
+    //  collisions enabled
+    //  dissipation time
+    //  glow color
+    //  emit light enabled
+    public static void createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
+        bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight)
     {
 
         GameObject newExplosion = GameObject.Instantiate(getExplodePrefab());
         newExplosion.transform.position = position;
-        newExplosion.GetComponent<Explosion>().goExplode(radius, coreDamage);
+        newExplosion.GetComponent<Explosion>().goExplode(setRadius, setCoreDamage, doCollide, dissipationTime, glowColor, doEmitLight);
         //Debug.Log("static create explosion called");
     }
 
@@ -57,10 +73,16 @@ public class Explosion : MonoBehaviour
         
     }
 
+
+    // *********************************************************************************
+    // **********************   NON-STATIC METHODS   ***********************************
+    // *********************************************************************************
+
+
     // Start is called before the first frame update
     void Start()
     {
-
+        //GetComponent<Light>().enabled = false;
         transform.localScale *= 0f; // start small
 
         // convert references to copies of original material
@@ -74,14 +96,26 @@ public class Explosion : MonoBehaviour
         
         rend = GetComponent<MeshRenderer>();
         rend.material = mat;
-        GetComponent<Light>().intensity = flashIntensity;
-        GetComponent<Light>().enabled = false;
+        
+        
         
 
         
     }
 
-    
+
+    private void FixedUpdate()
+    {
+        if (doExplode && GetComponent<Collider>().enabled)
+        {
+            killCollNextUpdate = true;
+        }
+
+        if (killCollNextUpdate)
+        {
+            GetComponent<Collider>().enabled = false;
+        }
+    }
 
 
     // Update is called once per frame
@@ -95,16 +129,22 @@ public class Explosion : MonoBehaviour
         if (doExplode)
         {
 
-            if (!secondCallMade)
-            {
-                goExplode(radius, coreDamage);
-                secondCallMade = true;
-            }
+            
+
+            //if (!secondCallMade)
+            //{
+                
+            //    goExplode(radius, coreDamage, GetComponent<Collider>().enabled, fadeOutTime, emissionColor, GetComponent<Light>().enabled);
+            //    secondCallMade = true;
+            //}
 
             
             
             //Debug.Log("Light intensity: " + GetComponent<Light>().intensity.ToString());
             Light light = GetComponent<Light>();
+
+            
+
             if (!radiusMaxed) // radius isn't maxed -- rapid expansion
             {
                 
@@ -123,7 +163,6 @@ public class Explosion : MonoBehaviour
                     
 
                     radiusMaxed = true;
-                    GetComponent<Collider>().enabled = false; // dissipation will not collide
 
 
                     
@@ -203,17 +242,74 @@ public class Explosion : MonoBehaviour
         return Mathf.MoveTowards(currentVal, targetVal, stepSize);
     }
 
-    public void goExplode(float setRadius, float setCoreDamage)
+    // radius
+    // damage
+    // dissipation time
+    // glow color
+    // WHEN THIS FUNCTION IS CALLED, THIS RUNS BEFORE START
+    // CONSIDER MAKING THESE PROCEDURAL TO SIMPLIFY CALL
+    public void goExplode(float setRadius, float setCoreDamage, bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight)
     {
+        // smoke settings
+        emissionColor = glowColor;
+        //mat.SetColor("_EmissionColor", Color.yellow);
         radius = setRadius;
         coreDamage = setCoreDamage;
         doExplode = true;
+        fadeOutTime = dissipationTime;
+        GetComponent<Collider>().enabled = false;
 
+        // sphere collider radius set to 1 in prefab. This won't change. .5 matches object radius, 1 is double
+
+
+        // light settings
         Light light = GetComponent<Light>();
-        light.enabled = true;
-        light.range = radius * lightRangeScaleFactor;
-        light.intensity = flashIntensity;
+        light.enabled = doEmitLight;
+        //light.enabled = false;
+        //Debug.Log("emitLight set to: " + doEmitLight + ", setting is: " + light.enabled);
+        if (doEmitLight)
+        {
+            //light.intensity = flashIntensity;
+            light.color = glowColor;
+            light.range = radius * lightRangeScaleFactor;
+            //light.intensity = flashIntensity;
+            Debug.Log("Light intensity set to: " + flashIntensity + ", current setting: " + light.intensity) ;
+        }
+        
 
 
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // deal damage
+        // apply force
+
+
+        GameObject targetRootObj = other.transform.root.gameObject;
+
+        Rigidbody targetRb = targetRootObj.GetComponent<Rigidbody>();
+        CombatFlow targetCF = targetRootObj.GetComponent<CombatFlow>();
+
+
+
+
+        Debug.Log("Explosion collided with: " + targetRootObj.name);
+
+        if (targetRb != null)
+        {
+            targetRb.AddExplosionForce(coreDamage, transform.position, radius * 2);
+            
+
+
+        }
+
+        if (targetCF != null)
+        {
+            targetCF.currentHP -= coreDamage;
+        }
+    }
+
+    
 }

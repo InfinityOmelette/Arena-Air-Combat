@@ -394,6 +394,7 @@ MonoBehaviour:
   team: 0
   type: 0
   isAlive: 1
+  doDebugDamage: 0
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,6 +789,16 @@ PrefabInstance:
       propertyPath: CollisionModule.collidesWith.m_Bits
       value: 55
       objectReference: {fileID: 0}
+    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: impactDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -918,6 +929,16 @@ PrefabInstance:
         type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits
       value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: impactDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}

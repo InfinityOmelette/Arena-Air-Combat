@@ -33,14 +33,10 @@ public class ParticleBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //pSystem.GetParticles(myParticles);
+        
     }
 
-    //void initializeArrayIfNeeded()
-    //{
-        
 
-    //}
 
     
 
@@ -48,10 +44,7 @@ public class ParticleBehavior : MonoBehaviour
     private void OnParticleCollision(GameObject other) // other is target hit by emitter
     {
 
-       // initializeArrayIfNeeded();
-        //pSystem.GetParticles(myParticles);
-
-        //Debug.Log("Other's name: " + other.name);
+        // CONSTRUCT ARRAY OF ALL COLLISION EVENTS
 
         int collCount = pSystem.GetSafeCollisionEventSize();
 
@@ -65,21 +58,25 @@ public class ParticleBehavior : MonoBehaviour
         int eventCount = pSystem.GetCollisionEvents(other, collisionEvents);
 
 
-        //// test loop. This does nothing of actual value
-        //for (int i = 0; i < myParticles.Length; i++)
-        //{
-        //    myParticles[i].remainingLifetime = 0f;
-        //}
+
 
         // whenever a collision event is triggered, this loops through and processes every one
         for (int i = 0; i < eventCount; i++)
         {
 
-            
+            // Get velocity of (I'm assuming) particle 
             Vector3 incidentVelocity = collisionEvents[i].velocity;
+
+            // If other object has rigidbody, subtract its velocity to get relative velocity
+            Rigidbody otherRBref = other.GetComponent<Rigidbody>();
+            if (otherRBref != null)
+                incidentVelocity -= otherRBref.velocity;
+
+            // Calculate component of velocity along normal
             Vector3 normal = collisionEvents[i].normal;
             Vector3 incidentNormal = Vector3.Project(incidentVelocity, normal);
 
+            // Reference to particle emitter
             ParticleSystem emitterForThisCollision = GetComponent<ParticleSystem>();
             var coll = emitterForThisCollision.collision;
 
@@ -87,38 +84,33 @@ public class ParticleBehavior : MonoBehaviour
             GameObject target = other.transform.root.gameObject;
             CombatFlow targetFlow = target.GetComponent<CombatFlow>();
             float currentDamage = 0f;
-            //Debug.Log("Bullet from: " + gameObject.name + " hit target: " + other.name);
+
 
             if (incidentNormal.magnitude > ParticleBehavior.impactFuseVelocity) // if impact velocity is high enough, impact
             {
-                //Debug.Log("Exploding at impact incidence: " + incidentNormal.magnitude.ToString());
-
-                //Debug.Log("Explode");
-
+                // set emitter to have all its projectiles lose 100% of lifetime upon collision
                 coll.lifetimeLoss = 1f;
 
-
-                //Explosion.createExplosionAt(collisionEvents[i].intersection, 3, 0, false, 4, Color.yellow, true, Color.grey);
+                // create impact explosion
                 impactExplosionProperties.explode(collisionEvents[i].intersection);
                 
-
+                // damage
                 currentDamage = impactDamage;
-
-                
-
-                
-                
 
             }
             else // low impact velocity, bounce
             {
-                //Debug.Log("Bounce");
+                // set emitter to have all its projectiles lose 40% of lifetime upon collision
                 coll.lifetimeLoss = .4f;
-                //Explosion.createExplosionAt(collisionEvents[i].intersection, 1.5f, 0, false, 2, Color.grey, false, Color.grey);
+
+                // create bounce explosion at intersection
                 bounceExplosionProperties.explode(collisionEvents[i].intersection);
+
+                // damage
                 currentDamage = bounceDamage;
             }
 
+            // only attempt to sent HP subtraction if target has CombatFlow script component
             if (targetFlow != null)
                 targetFlow.currentHP -= currentDamage;
 

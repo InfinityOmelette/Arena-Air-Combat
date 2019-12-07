@@ -34,13 +34,16 @@ public class CombatFlow : MonoBehaviour
 
     public bool doDebugDamage = false;
 
+    private ExplodeStats explodeStats;
+
 
     // Start is called before the first frame update
     void Start()
     {
         if(isLocalPlayer)
             camChange(PerspectiveProperties.CamType.PLAYER);
-        
+
+        explodeStats = GetComponent<ExplodeStats>();
     }
 
     
@@ -87,7 +90,7 @@ public class CombatFlow : MonoBehaviour
     {
         // blast radius deals damage
         // explosion render
-        Explosion.createExplosionAt(transform.position, explosionRadius, explosionMaxDamage, true, 8f, Color.yellow, true);
+        explodeStats.explode(transform.position);
     }
 
     void destroySelf()

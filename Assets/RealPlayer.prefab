@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: -8673316639226967037}
   - component: {fileID: 6943344650122781586}
   - component: {fileID: 6897607545244989051}
+  - component: {fileID: 9024033700797437041}
   - component: {fileID: 1785817150400101556}
   m_Layer: 8
   m_Name: RealPlayer
@@ -395,6 +396,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &9024033700797437041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 20
+  damage: 40
+  collisionsEnabled: 1
+  dissipationTime: 11
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.7698325, b: 0, a: 0}
+  smokeColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -779,6 +799,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.6
       objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: impactDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -788,6 +818,26 @@ PrefabInstance:
         type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits
       value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: dissipationTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815251015398722670, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -799,20 +849,10 @@ PrefabInstance:
       propertyPath: bounceDamage
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5815251015398722670, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
+      propertyPath: explosions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
@@ -920,6 +960,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.6
       objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: impactDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -930,20 +980,15 @@ PrefabInstance:
       propertyPath: CollisionModule.collidesWith.m_Bits
       value: 55
       objectReference: {fileID: 0}
-    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: impactDamage
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: bounceDamage
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: dissipationTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5815251015398722670, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -954,6 +999,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: impactDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}

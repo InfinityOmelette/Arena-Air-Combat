@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1889391236}
-  m_IndirectSpecularColor: {r: 0.32564142, g: 0.3617744, b: 0.41976282, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -580,6 +580,56 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114502148}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &127526166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 127526167}
+  - component: {fileID: 127526168}
+  m_Layer: 0
+  m_Name: BounceStats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &127526167
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127526166}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1437951499}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &127526168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127526166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 1.5
+  damage: 0
+  collisionsEnabled: 0
+  dissipationTime: 2
+  emitLightEnabled: 0
+  glowColor: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
+  smokeColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
 --- !u!1 &144387771
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +840,7 @@ GameObject:
   - component: {fileID: 217180058}
   - component: {fileID: 217180057}
   - component: {fileID: 217180062}
+  - component: {fileID: 217180063}
   m_Layer: 0
   m_Name: Dummy Plane (16)
   m_TagString: Untagged
@@ -888,7 +939,7 @@ Transform:
   - {fileID: 1781612844}
   - {fileID: 1819886053}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &217180062
 MonoBehaviour:
@@ -913,6 +964,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &217180063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217180056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &219267257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,6 +1081,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1461029774}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &220493833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 220493832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eada3edf2245d4340ba67ae30f6cb5c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionCount: 0
+  impactDamage: 0
+  bounceDamage: 0
+  impactExplosionProperties: {fileID: 1318137881}
+  bounceExplosionProperties: {fileID: 127526168}
 --- !u!1 &224463657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1319,8 @@ MonoBehaviour:
   collisionCount: 0
   impactDamage: 0
   bounceDamage: 0
+  impactExplosionProperties: {fileID: 0}
+  bounceExplosionProperties: {fileID: 0}
 --- !u!199 &251663964
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -6024,7 +6113,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: -11.455001, y: 52.571003, z: 149.58301}
 --- !u!1 &264234365
 GameObject:
@@ -6161,7 +6250,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &311455501
 GameObject:
@@ -6328,7 +6417,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &328406248
 GameObject:
@@ -6528,6 +6617,7 @@ GameObject:
   - component: {fileID: 358699566}
   - component: {fileID: 358699565}
   - component: {fileID: 358699570}
+  - component: {fileID: 358699571}
   m_Layer: 0
   m_Name: Dummy Plane (14)
   m_TagString: Untagged
@@ -6626,7 +6716,7 @@ Transform:
   - {fileID: 1852174820}
   - {fileID: 1382046648}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &358699570
 MonoBehaviour:
@@ -6651,6 +6741,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &358699571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358699564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &374479939
 GameObject:
   m_ObjectHideFlags: 0
@@ -6763,7 +6872,7 @@ Transform:
   - {fileID: 1764003954}
   - {fileID: 537355824}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &374479945
 MonoBehaviour:
@@ -7262,6 +7371,7 @@ GameObject:
   - component: {fileID: 483690121}
   - component: {fileID: 483690120}
   - component: {fileID: 483690125}
+  - component: {fileID: 483690126}
   m_Layer: 0
   m_Name: Dummy Plane (10)
   m_TagString: Untagged
@@ -7360,7 +7470,7 @@ Transform:
   - {fileID: 949963257}
   - {fileID: 1962784359}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &483690125
 MonoBehaviour:
@@ -7385,6 +7495,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &483690126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483690119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &495644555
 GameObject:
   m_ObjectHideFlags: 0
@@ -7399,6 +7528,7 @@ GameObject:
   - component: {fileID: 495644557}
   - component: {fileID: 495644556}
   - component: {fileID: 495644561}
+  - component: {fileID: 495644562}
   m_Layer: 0
   m_Name: Dummy Plane (12)
   m_TagString: Untagged
@@ -7497,7 +7627,7 @@ Transform:
   - {fileID: 377529464}
   - {fileID: 829118444}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.43100002}
 --- !u!114 &495644561
 MonoBehaviour:
@@ -7522,6 +7652,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &495644562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495644555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &496909370
 GameObject:
   m_ObjectHideFlags: 0
@@ -7904,6 +8053,7 @@ GameObject:
   - component: {fileID: 545467741}
   - component: {fileID: 545467740}
   - component: {fileID: 545467745}
+  - component: {fileID: 545467746}
   m_Layer: 0
   m_Name: Dummy Plane (15)
   m_TagString: Untagged
@@ -8002,7 +8152,7 @@ Transform:
   - {fileID: 732798331}
   - {fileID: 1079711866}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &545467745
 MonoBehaviour:
@@ -8027,6 +8177,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &545467746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545467739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &602054827
 GameObject:
   m_ObjectHideFlags: 0
@@ -8133,6 +8302,7 @@ GameObject:
   - component: {fileID: 618268916}
   - component: {fileID: 618268915}
   - component: {fileID: 618268920}
+  - component: {fileID: 618268921}
   m_Layer: 0
   m_Name: Dummy Plane (13)
   m_TagString: Untagged
@@ -8231,7 +8401,7 @@ Transform:
   - {fileID: 1245498920}
   - {fileID: 1710296932}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &618268920
 MonoBehaviour:
@@ -8256,6 +8426,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &618268921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618268914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &625369520
 GameObject:
   m_ObjectHideFlags: 0
@@ -8822,6 +9011,7 @@ GameObject:
   - component: {fileID: 747787064}
   - component: {fileID: 747787063}
   - component: {fileID: 747787068}
+  - component: {fileID: 747787069}
   m_Layer: 0
   m_Name: Dummy Plane (11)
   m_TagString: Untagged
@@ -8920,7 +9110,7 @@ Transform:
   - {fileID: 1018557083}
   - {fileID: 1059256784}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &747787068
 MonoBehaviour:
@@ -8945,6 +9135,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &747787069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747787062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &790547742
 GameObject:
   m_ObjectHideFlags: 0
@@ -9601,75 +9810,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949963256}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &976480918
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7031010644802760699, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_Name
-      value: MG_Emitter
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1148.1218
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 26.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 638.30566
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d8f6313db706977489b7bb8d630436ad, type: 3}
 --- !u!1 &986231191
 GameObject:
   m_ObjectHideFlags: 0
@@ -9868,6 +10008,7 @@ GameObject:
   - component: {fileID: 1016180218}
   - component: {fileID: 1016180217}
   - component: {fileID: 1016180222}
+  - component: {fileID: 1016180223}
   m_Layer: 0
   m_Name: Dummy Plane (9)
   m_TagString: Untagged
@@ -9966,7 +10107,7 @@ Transform:
   - {fileID: 311455502}
   - {fileID: 2114183964}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1016180222
 MonoBehaviour:
@@ -9991,6 +10132,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1016180223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016180216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1018557082
 GameObject:
   m_ObjectHideFlags: 0
@@ -10423,7 +10583,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 18.495, y: 34.899002, z: 148.451}
 --- !u!198 &1069056096
 ParticleSystem:
@@ -15098,6 +15258,8 @@ MonoBehaviour:
   collisionCount: 0
   impactDamage: 0
   bounceDamage: 0
+  impactExplosionProperties: {fileID: 0}
+  bounceExplosionProperties: {fileID: 0}
 --- !u!1 &1069158186
 GameObject:
   m_ObjectHideFlags: 0
@@ -15578,6 +15740,7 @@ GameObject:
   - component: {fileID: 1094576329}
   - component: {fileID: 1094576328}
   - component: {fileID: 1094576333}
+  - component: {fileID: 1094576334}
   m_Layer: 0
   m_Name: Jeff
   m_TagString: Untagged
@@ -15668,7 +15831,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094576327}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 800.4, y: 4.13, z: 553.2}
+  m_LocalPosition: {x: 830.1, y: 11.7, z: 553.2}
   m_LocalScale: {x: 0.9999996, y: 0.5255825, z: 5.6302676}
   m_Children:
   - {fileID: 910470974}
@@ -15676,7 +15839,7 @@ Transform:
   - {fileID: 1299622864}
   - {fileID: 1116103339}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1094576333
 MonoBehaviour:
@@ -15701,6 +15864,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 1
+--- !u!114 &1094576334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094576327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 25
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1116103338
 GameObject:
   m_ObjectHideFlags: 0
@@ -15807,6 +15989,7 @@ GameObject:
   - component: {fileID: 1129356848}
   - component: {fileID: 1129356847}
   - component: {fileID: 1129356852}
+  - component: {fileID: 1129356853}
   m_Layer: 0
   m_Name: Dummy Plane (1)
   m_TagString: Untagged
@@ -15905,7 +16088,7 @@ Transform:
   - {fileID: 602054828}
   - {fileID: 408545252}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1129356852
 MonoBehaviour:
@@ -15930,6 +16113,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1129356853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129356846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1165910957
 GameObject:
   m_ObjectHideFlags: 0
@@ -16128,6 +16330,7 @@ GameObject:
   - component: {fileID: 1193678959}
   - component: {fileID: 1193678958}
   - component: {fileID: 1193678963}
+  - component: {fileID: 1193678964}
   m_Layer: 0
   m_Name: Dummy Plane (2)
   m_TagString: Untagged
@@ -16226,7 +16429,7 @@ Transform:
   - {fileID: 802067349}
   - {fileID: 1073146774}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1193678963
 MonoBehaviour:
@@ -16251,6 +16454,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1193678964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193678957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1202552871
 GameObject:
   m_ObjectHideFlags: 0
@@ -16711,6 +16933,56 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299622863}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1318137879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318137880}
+  - component: {fileID: 1318137881}
+  m_Layer: 0
+  m_Name: ImpactStats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1318137880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318137879}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1437951499}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318137881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318137879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 3
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.7657565, b: 0, a: 1}
+  smokeColor: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
 --- !u!1 &1334556733
 GameObject:
   m_ObjectHideFlags: 0
@@ -16761,7 +17033,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1363470010
 GameObject:
@@ -16800,6 +17072,8 @@ MonoBehaviour:
   collisionCount: 0
   impactDamage: 0
   bounceDamage: 0
+  impactExplosionProperties: {fileID: 0}
+  bounceExplosionProperties: {fileID: 0}
 --- !u!199 &1363470012
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -21592,7 +21866,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 18.495, y: 34.899002, z: 148.451}
 --- !u!1 &1375814903
 GameObject:
@@ -21884,6 +22158,7 @@ GameObject:
   - component: {fileID: 1425568388}
   - component: {fileID: 1425568387}
   - component: {fileID: 1425568392}
+  - component: {fileID: 1425568393}
   m_Layer: 0
   m_Name: Dummy Plane (8)
   m_TagString: Untagged
@@ -21982,7 +22257,7 @@ Transform:
   - {fileID: 790547743}
   - {fileID: 1166116632}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1425568392
 MonoBehaviour:
@@ -22007,6 +22282,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1425568393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425568386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1437951496
 GameObject:
   m_ObjectHideFlags: 0
@@ -22090,8 +22384,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1461029775}
+  - {fileID: 1318137880}
+  - {fileID: 127526167}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1437951500
 MonoBehaviour:
@@ -22143,6 +22439,7 @@ GameObject:
   - component: {fileID: 1443931294}
   - component: {fileID: 1443931293}
   - component: {fileID: 1443931298}
+  - component: {fileID: 1443931299}
   m_Layer: 0
   m_Name: Dummy Plane (7)
   m_TagString: Untagged
@@ -22241,7 +22538,7 @@ Transform:
   - {fileID: 1585507528}
   - {fileID: 264234366}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1443931298
 MonoBehaviour:
@@ -22266,6 +22563,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1443931299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443931292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1447291228
 GameObject:
   m_ObjectHideFlags: 0
@@ -22356,7 +22672,7 @@ Transform:
   m_LocalScale: {x: 560, y: 10, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1461029774
 PrefabInstance:
@@ -22365,6 +22681,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1437951499}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: impactDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bounceDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7031010644802760699, guid: d8f6313db706977489b7bb8d630436ad,
         type: 3}
       propertyPath: m_Name
@@ -22444,21 +22772,6 @@ PrefabInstance:
         type: 3}
       propertyPath: CollisionModule.m_Dampen.scalar
       value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954656003432202760, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954656003432202760, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: impactDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954656003432202760, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: bounceDamage
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8f6313db706977489b7bb8d630436ad, type: 3}
@@ -22928,7 +23241,7 @@ RectTransform:
   m_Children:
   - {fileID: 918624065}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -22949,6 +23262,7 @@ GameObject:
   - component: {fileID: 1668784108}
   - component: {fileID: 1668784107}
   - component: {fileID: 1668784112}
+  - component: {fileID: 1668784113}
   m_Layer: 0
   m_Name: Dummy Plane (6)
   m_TagString: Untagged
@@ -23047,7 +23361,7 @@ Transform:
   - {fileID: 1497247597}
   - {fileID: 986231192}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1668784112
 MonoBehaviour:
@@ -23072,6 +23386,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1668784113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668784106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1710296931
 GameObject:
   m_ObjectHideFlags: 0
@@ -23362,6 +23695,7 @@ GameObject:
   - component: {fileID: 1789408624}
   - component: {fileID: 1789408623}
   - component: {fileID: 1789408628}
+  - component: {fileID: 1789408629}
   m_Layer: 0
   m_Name: Dummy Plane (17)
   m_TagString: Untagged
@@ -23460,7 +23794,7 @@ Transform:
   - {fileID: 1297463230}
   - {fileID: 667060051}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1789408628
 MonoBehaviour:
@@ -23485,6 +23819,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1789408629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789408622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1809356613
 GameObject:
   m_ObjectHideFlags: 0
@@ -23591,6 +23944,7 @@ GameObject:
   - component: {fileID: 1810604593}
   - component: {fileID: 1810604592}
   - component: {fileID: 1810604597}
+  - component: {fileID: 1810604598}
   m_Layer: 0
   m_Name: Dummy Plane
   m_TagString: Untagged
@@ -23689,7 +24043,7 @@ Transform:
   - {fileID: 1165910958}
   - {fileID: 1564127234}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1810604597
 MonoBehaviour:
@@ -23714,6 +24068,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1810604598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810604591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1819886052
 GameObject:
   m_ObjectHideFlags: 0
@@ -23843,6 +24216,8 @@ MonoBehaviour:
   collisionCount: 0
   impactDamage: 0
   bounceDamage: 0
+  impactExplosionProperties: {fileID: 0}
+  bounceExplosionProperties: {fileID: 0}
 --- !u!199 &1826132357
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -28635,7 +29010,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: -11.455001, y: 52.571003, z: 149.58301}
 --- !u!1 &1852174819
 GameObject:
@@ -29030,6 +29405,7 @@ GameObject:
   - component: {fileID: 1919763896}
   - component: {fileID: 1919763895}
   - component: {fileID: 1919763900}
+  - component: {fileID: 1919763901}
   m_Layer: 0
   m_Name: Dummy Plane (5)
   m_TagString: Untagged
@@ -29128,7 +29504,7 @@ Transform:
   - {fileID: 50233476}
   - {fileID: 1518359001}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1919763900
 MonoBehaviour:
@@ -29153,6 +29529,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &1919763901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919763894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1 &1949784096
 GameObject:
   m_ObjectHideFlags: 0
@@ -29737,6 +30132,7 @@ GameObject:
   - component: {fileID: 2136455880}
   - component: {fileID: 2136455879}
   - component: {fileID: 2136455884}
+  - component: {fileID: 2136455885}
   m_Layer: 0
   m_Name: Dummy Plane (4)
   m_TagString: Untagged
@@ -29835,7 +30231,7 @@ Transform:
   - {fileID: 2062498545}
   - {fileID: 157013816}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2136455884
 MonoBehaviour:
@@ -29860,6 +30256,25 @@ MonoBehaviour:
   type: 0
   isAlive: 1
   doDebugDamage: 0
+--- !u!114 &2136455885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136455878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 25
+  damage: 0
+  collisionsEnabled: 1
+  dissipationTime: 8
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
+  smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
 --- !u!1001 &900633974069884999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29910,7 +30325,7 @@ PrefabInstance:
     - target: {fileID: 900633973277626236, guid: c6a657cae6863184392886b19cc64fb8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 900633973277626236, guid: c6a657cae6863184392886b19cc64fb8,
         type: 3}
@@ -29989,7 +30404,7 @@ PrefabInstance:
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}

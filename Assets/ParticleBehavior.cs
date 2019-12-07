@@ -15,6 +15,11 @@ public class ParticleBehavior : MonoBehaviour
 
     private ParticleSystem.Particle[] myParticles;
 
+    public ExplodeStats impactExplosionProperties;
+    public ExplodeStats bounceExplosionProperties;
+
+    
+
 
     public static float impactFuseVelocity = 100f; // impact incident velocity must be at least this value to explode
 
@@ -93,7 +98,9 @@ public class ParticleBehavior : MonoBehaviour
                 coll.lifetimeLoss = 1f;
 
 
-                Explosion.createExplosionAt(collisionEvents[i].intersection, 3, 0, false, 4, Color.yellow, true);
+                //Explosion.createExplosionAt(collisionEvents[i].intersection, 3, 0, false, 4, Color.yellow, true, Color.grey);
+                impactExplosionProperties.explode(collisionEvents[i].intersection);
+                
 
                 currentDamage = impactDamage;
 
@@ -107,7 +114,8 @@ public class ParticleBehavior : MonoBehaviour
             {
                 //Debug.Log("Bounce");
                 coll.lifetimeLoss = .4f;
-                Explosion.createExplosionAt(collisionEvents[i].intersection, 1.5f, 0, false, 2, Color.black, false);
+                //Explosion.createExplosionAt(collisionEvents[i].intersection, 1.5f, 0, false, 2, Color.grey, false, Color.grey);
+                bounceExplosionProperties.explode(collisionEvents[i].intersection);
                 currentDamage = bounceDamage;
             }
 

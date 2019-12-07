@@ -24,9 +24,11 @@ public class Explosion : MonoBehaviour
     public float smokeGlowDecayTime;
 
 
+
     public Material mat;
     private MeshRenderer rend;
 
+    
     public Color emissionColor;
     public Color smokeColor;
 
@@ -34,6 +36,7 @@ public class Explosion : MonoBehaviour
     bool secondCallMade = false;
 
     private static GameObject explosionPrefab;
+
 
     // *********************************************************************************
     // **************************   STATIC METHODS   ***********************************
@@ -58,12 +61,13 @@ public class Explosion : MonoBehaviour
     //  glow color
     //  emit light enabled
     public static void createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
-        bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight)
+        bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor)
     {
-
+        //Debug.Log("Explosion settings: position: " + position + ", radius: " + setRadius + ", damage: " + setCoreDamage + " doCollide: " + doCollide +
+         //   ", dissipationTime: " + dissipationTime + "glowColor: " + glowColor + ", doEmitLight: " + doEmitLight + ", newSmokeColor: " + newSmokeColor);
         GameObject newExplosion = GameObject.Instantiate(getExplodePrefab());
         newExplosion.transform.position = position;
-        newExplosion.GetComponent<Explosion>().goExplode(setRadius, setCoreDamage, doCollide, dissipationTime, glowColor, doEmitLight);
+        newExplosion.GetComponent<Explosion>().goExplode(setRadius, setCoreDamage, doCollide, dissipationTime, glowColor, doEmitLight, newSmokeColor);
         //Debug.Log("static create explosion called");
     }
 
@@ -78,17 +82,26 @@ public class Explosion : MonoBehaviour
     // **********************   NON-STATIC METHODS   ***********************************
     // *********************************************************************************
 
+    private void Awake()
+    {
+        // material reference points to copy of original -- each explosion has its own material
+        mat = new Material(mat);
+
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+
+        //Debug.Log("Start called");
+
         //GetComponent<Light>().enabled = false;
         transform.localScale *= 0f; // start small
+        
+        
 
-        // convert references to copies of original material
-        mat = new Material(mat);
-
-        mat.EnableKeyword("_EMISSION"); // lets us access material emission
+        setEmissionEnabled(true);
+        
 
         mat.SetColor("_EmissionColor", emissionColor); // emission layer will have desired flash color
         mat.color = smokeColor;    // main color will have desired smoke color
@@ -101,6 +114,17 @@ public class Explosion : MonoBehaviour
         
 
         
+    }
+
+    bool setEmissionEnabled(bool doEmit)
+    {
+
+        if(doEmit)
+            mat.EnableKeyword("_EMISSION"); // lets us access material emission
+        else
+            mat.DisableKeyword("_EMISSION"); // lets us access material emission
+
+        return doEmit;
     }
 
 
@@ -176,7 +200,8 @@ public class Explosion : MonoBehaviour
 
 
                 // SMOKE GLOW DECAY
-                mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), smokeColor, emissionColor, smokeGlowDecayTime));
+                 mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), smokeColor, emissionColor, smokeGlowDecayTime));
+                
 
                 // STEP SIZE GROWTH
                 float slowExpandScale = stepValOverTime(transform.localScale.x, radius * fadeRadiusScale, radius, fadeOutTime);
@@ -191,12 +216,13 @@ public class Explosion : MonoBehaviour
 
                 //Debug.Log("Current light intensity: " + light.intensity.ToString());
                 
-                if (Mathf.Approximately(light.intensity, 0.0f))
+                if (Mathf.Approximately(light.intensity, 0.0f)) // light component has fully faded
                 {
 
-
                     // SMOKE GLOW DECAY
-                    mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), smokeColor, emissionColor, smokeGlowDecayTime));
+                    //Color color1
+                    // mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), emitTarget, emissionColor, smokeGlowDecayTime));
+
                     
 
                     // SMOKE ALPHA DECAY
@@ -208,7 +234,7 @@ public class Explosion : MonoBehaviour
                 
 
                 
-
+                //  max radius has been reched -- kill self
                 if (Mathf.Approximately(transform.localScale.x, radius * fadeRadiusScale))
                 {
                    // Debug.Log("Current scale: " + transform.localScale.x + ", targetRadius: " + dissipateRadius);
@@ -248,16 +274,21 @@ public class Explosion : MonoBehaviour
     // glow color
     // WHEN THIS FUNCTION IS CALLED, THIS RUNS BEFORE START
     // CONSIDER MAKING THESE PROCEDURAL TO SIMPLIFY CALL
-    public void goExplode(float setRadius, float setCoreDamage, bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight)
+    public void goExplode(float setRadius, float setCoreDamage, bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor)
     {
+        //Debug.Log("goExplode called");
+
         // smoke settings
         emissionColor = glowColor;
+        smokeColor = newSmokeColor;
+
         //mat.SetColor("_EmissionColor", Color.yellow);
         radius = setRadius;
         coreDamage = setCoreDamage;
         doExplode = true;
         fadeOutTime = dissipationTime;
-        GetComponent<Collider>().enabled = false;
+        GetComponent<Collider>().enabled = doCollide;
+
 
         // sphere collider radius set to 1 in prefab. This won't change. .5 matches object radius, 1 is double
 
@@ -269,11 +300,11 @@ public class Explosion : MonoBehaviour
         //Debug.Log("emitLight set to: " + doEmitLight + ", setting is: " + light.enabled);
         if (doEmitLight)
         {
-            //light.intensity = flashIntensity;
+            
             light.color = glowColor;
             light.range = radius * lightRangeScaleFactor;
-            //light.intensity = flashIntensity;
-            Debug.Log("Light intensity set to: " + flashIntensity + ", current setting: " + light.intensity) ;
+            // light.intensity dynamically changes at runtime.
+            //Debug.Log("Light intensity set to: " + flashIntensity + ", current setting: " + light.intensity) ;
         }
         
 

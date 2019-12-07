@@ -93,6 +93,56 @@ CapsuleCollider:
   m_Height: 2.000001
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4246865729466976302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193739692655939918}
+  - component: {fileID: 2841702368167520896}
+  m_Layer: 0
+  m_Name: Impact Properties
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &193739692655939918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4246865729466976302}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5072710595775559579}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2841702368167520896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4246865729466976302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
+  damage: 0
+  collisionsEnabled: 0
+  dissipationTime: 3
+  emitLightEnabled: 1
+  glowColor: {r: 1, g: 0.9656743, b: 0, a: 1}
+  smokeColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
 --- !u!1 &5815251015398722670
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +236,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &4659581609248590362
+--- !u!114 &7569868343482116481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,7 +249,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionCount: 0
-  impactFuseVelocity: 300
+  impactDamage: 0
+  bounceDamage: 0
+  impactExplosionProperties: {fileID: 2841702368167520896}
+  bounceExplosionProperties: {fileID: 6685327531406274122}
 --- !u!1 &7156727981668905918
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,6 +284,8 @@ Transform:
   - {fileID: 4957760895351644023}
   - {fileID: 8401701662660166754}
   - {fileID: 6969001383883059526}
+  - {fileID: 193739692655939918}
+  - {fileID: 6814326799447841182}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -327,6 +382,56 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &9012739496869812708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6814326799447841182}
+  - component: {fileID: 6685327531406274122}
+  m_Layer: 0
+  m_Name: Bounce Properties
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6814326799447841182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9012739496869812708}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5072710595775559579}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6685327531406274122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9012739496869812708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 1.5
+  damage: 0
+  collisionsEnabled: 0
+  dissipationTime: 2
+  emitLightEnabled: 0
+  glowColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+  smokeColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
 --- !u!1001 &82743988653350584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334,6 +439,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5072710595775559579}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: impactExplosionProperties
+      value: 
+      objectReference: {fileID: 2841702368167520896}
+    - target: {fileID: 0}
+      propertyPath: bounceExplosionProperties
+      value: 
+      objectReference: {fileID: 6685327531406274122}
     - target: {fileID: 7031010644802760699, guid: d8f6313db706977489b7bb8d630436ad,
         type: 3}
       propertyPath: m_Name

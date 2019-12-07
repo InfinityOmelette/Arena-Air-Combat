@@ -368,7 +368,7 @@ MonoBehaviour:
   currentBurnMod: 0
   maxFuelMass: 250
   currentFuelMass: 250
-  seaLevelMaxBurnRate: 0.02
+  seaLevelMaxBurnRate: 0.005
   burnRateAltitudeResiliency: 0.4
   massUpdateGap: 1
   input_throttleAxis: 0
@@ -413,8 +413,8 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 11
   emitLightEnabled: 1
-  glowColor: {r: 1, g: 0.7698325, b: 0, a: 0}
-  smokeColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+  glowColor: {r: 1, g: 0.7698325, b: 0, a: 1}
+  smokeColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0

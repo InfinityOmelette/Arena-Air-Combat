@@ -20,13 +20,24 @@ public class SpectateCam : MonoBehaviour
 
     public GameObject cannon;
 
-    
 
+
+    private void Awake()
+    {
+        
+    }
+
+
+    // begin with cannon off
+    private void OnEnable()
+    {
+        cannon.GetComponent<ParticleSystem>().Stop();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        cannon.GetComponent<ParticleSystem>().Stop();
+        
     }
 
     // Update is called once per frame

@@ -210,8 +210,8 @@ public class Explosion : MonoBehaviour
                 // STEP LIGHT INTENSITY DECAY
                 light.intensity = stepValOverTime(light.intensity, 0.0f, flashIntensity, lightDecayTime);
 
-                // STEP LIGHT RANGE INCREASE
-                light.range = stepValOverTime(light.range, lightRangeScaleFactor * slowExpandScale, radius * lightRangeScaleFactor, lightDecayTime);
+                // STEP LIGHT RANGE INCREASE -- light range will step to 1.5 times the expansion phase's max radius
+                light.range = stepValOverTime(light.range, lightRangeScaleFactor * radius * 1.2f, radius * lightRangeScaleFactor, lightDecayTime);
 
 
                 //Debug.Log("Current light intensity: " + light.intensity.ToString());

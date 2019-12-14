@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 6897607545244989051}
   - component: {fileID: 9024033700797437041}
   - component: {fileID: 1785817150400101556}
+  - component: {fileID: 6801930850055786249}
   m_Layer: 8
   m_Name: RealPlayer
   m_TagString: Untagged
@@ -433,6 +434,18 @@ MonoBehaviour:
   wheels: {fileID: 1804535475134679676}
   cannons: {fileID: 8059042160316306020}
   testExplosionDistance: 0
+--- !u!114 &6801930850055786249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04d7132535e62e48b93acd9474c16c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,6 +702,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d012f33e89f9a4641b2f7c0bb55e0c73, type: 3}
+--- !u!4 &1872948227366894442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9155057156102011821, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 7418351656778924231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1804535475134679676 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
@@ -701,12 +720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79112707e4d4ae4bb022cc0c7c55e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1872948227366894442 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9155057156102011821, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-    type: 3}
-  m_PrefabInstance: {fileID: 7418351656778924231}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7761172204820125723
 PrefabInstance:
   m_ObjectHideFlags: 0

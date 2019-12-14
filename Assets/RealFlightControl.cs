@@ -107,12 +107,6 @@ public class RealFlightControl : MonoBehaviour
         Vector3 sideLift = calculateOnPlaneResultLiftVector(bodySideLiftCoefficient, 0.0f, 0.25f, // LIFT: coeff, alphaOffsetLift, highAlphaShrinkLift
             bodySideDragCoefficient, bodySideDragOffset + totalParasiticDrag, 1.9f, 0.05f,                //  DRAG: coeff, offset, amplitude, parabolicity, 
             rbRef.velocity, transform.forward, transform.up);
-
-        ////  THRUST
-        //currentThrottlePercent = inputThrottle();       // set throttle
-        //currentThrust = stepThrustToTarget(currentThrottlePercent); // step thrust value
-        //currentThrustPercent = (currentThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
-        //Vector3 thrustVect = transform.forward * currentThrust; // create thrust vector
         
 
         //============================================== TORQUES
@@ -123,7 +117,6 @@ public class RealFlightControl : MonoBehaviour
         readCurrentAuthMod = authMod;
 
         
-
         // CONTROL TORQUE VECTORS
         Vector3 pitchTorqueVect = transform.right * pitchTorque * authMod * processPitchInput(pitchTrim) * calculateControlAxisAlphaMod(transform.right); 
         Vector3 yawTorqueVect = transform.up * yawTorque * authMod * input_yaw * calculateControlAxisAlphaMod(transform.up);

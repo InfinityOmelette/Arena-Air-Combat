@@ -146,33 +146,13 @@ public class Explosion : MonoBehaviour
     void Update()
     {
 
-
-
-        
-
         if (doExplode)
         {
 
-            
-
-            //if (!secondCallMade)
-            //{
-                
-            //    goExplode(radius, coreDamage, GetComponent<Collider>().enabled, fadeOutTime, emissionColor, GetComponent<Light>().enabled);
-            //    secondCallMade = true;
-            //}
-
-            
-            
-            //Debug.Log("Light intensity: " + GetComponent<Light>().intensity.ToString());
             Light light = GetComponent<Light>();
-
-            
 
             if (!radiusMaxed) // radius isn't maxed -- rapid expansion
             {
-                
-
                 // rapidly expand towards radius
                 float rapidExpandScale = stepValOverTime(transform.localScale.x, radius, 0.0f, expandTime);
                 transform.localScale = new Vector3(rapidExpandScale, rapidExpandScale, rapidExpandScale);
@@ -180,24 +160,15 @@ public class Explosion : MonoBehaviour
                 // expand flash range relative to radius
                 light.range = transform.localScale.x * lightRangeScaleFactor;
 
-
                 // change behavior when radius is maxed
                 if (Mathf.Approximately(transform.localScale.x, radius))
                 {
-                    
-
                     radiusMaxed = true;
-
-
-                    
                 }
-
-
             }
             else // radius is maxed --> dissipate and expand slowly
             {
                 Color color = mat.color;
-
 
                 // SMOKE GLOW DECAY
                  mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), smokeColor, emissionColor, smokeGlowDecayTime));
@@ -212,36 +183,20 @@ public class Explosion : MonoBehaviour
 
                 // STEP LIGHT RANGE INCREASE -- light range will step to 1.5 times the expansion phase's max radius
                 light.range = stepValOverTime(light.range, lightRangeScaleFactor * radius * 1.2f, radius * lightRangeScaleFactor, lightDecayTime);
-
-
-                //Debug.Log("Current light intensity: " + light.intensity.ToString());
                 
                 if (Mathf.Approximately(light.intensity, 0.0f)) // light component has fully faded
                 {
-
-                    // SMOKE GLOW DECAY
-                    //Color color1
-                    // mat.SetColor("_EmissionColor", stepColorOverTime(mat.GetColor("_EmissionColor"), emitTarget, emissionColor, smokeGlowDecayTime));
-
-                    
-
                     // SMOKE ALPHA DECAY
                     color.a = stepValOverTime(color.a, 0.0f, 1.0f, fadeOutTime - lightDecayTime); // subtracting light decay time is overkill
                     mat.color = color;         // save modified values into reference material color
                 }
 
-
-                
-
-                
                 //  max radius has been reched -- kill self
                 if (Mathf.Approximately(transform.localScale.x, radius * fadeRadiusScale))
                 {
                    // Debug.Log("Current scale: " + transform.localScale.x + ", targetRadius: " + dissipateRadius);
                     Destroy(gameObject);
                 }
-
-
 
             }
         }

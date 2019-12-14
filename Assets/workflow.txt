@@ -83,8 +83,28 @@ CANNON
  - Damage dealing
  - Ricochet or explode based off of impact velocity (WIP: INCLUDE TARGET VELOCITY IN IMPACT VELOCITY MEASUREMENT)
 
+ 
+ Spawn Manager Class? Or static container in CombatFlow script?
+
  TARGETING COMPUTER CLASS
- - Store reference to all visible gameobjects
+ - Loop through each spawned object --> attempt to see each
+ - DETECTION CONDITIONS -- if succeeds, appropriate icon drawn onscreen over object
+   > Visual
+   > Radar
+   > Datalink
+ - HUD icon over object
+   > change image based on CombatFlow's type
+   > icon object spawned for every game object, kept offscreen
+   > range shown by number -- SHOULD HAVE INTUITIVE VISUAL INDICATION, TOO (multiple tiers of square sizes based on range? Or dynamically scaling?)
+ - Lock onto target (quick press)
+   > icon shows more data
+      >> Detection conditions
+	  >> Range slider
+	  >> Target bearing arrow (top down? or by perspective?)
+	  >> Target altitude + climb rate
+	  >> Target speed
+	  >> Target type 
+ - Look at target (press and hold)
 
 SIMPLE AI
   - Fly towards waypoint objects, use physics

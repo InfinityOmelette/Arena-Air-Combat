@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class hudControl : MonoBehaviour
 {
 
+    public static GameObject mainHud;
+
     // TEXT OBJECTS
     public Text speedText;
     public Text altitudeText;
@@ -71,6 +73,11 @@ public class hudControl : MonoBehaviour
     private CombatFlow root_combatFlow;
     private Camera cam;
 
+
+    private void Awake()
+    {
+        hudControl.mainHud = gameObject;
+    }
 
     // Start is called before the first frame update
     void Start()

@@ -5,6 +5,9 @@ using UnityEngine;
 public class CombatFlow : MonoBehaviour
 {
 
+    public static List<GameObject> combatUnits;
+
+
     public enum Team 
     { 
         RED, BLUE, NEUTRAL 
@@ -27,6 +30,8 @@ public class CombatFlow : MonoBehaviour
     public PerspectiveManager camManager;
     public GameObject unitCam; // leave null if item won't have its own camera
 
+    public GameObject myHudIconRef;
+
     public Team team;
     public Type type;
     public bool isAlive = true;
@@ -37,6 +42,14 @@ public class CombatFlow : MonoBehaviour
     private ExplodeStats explodeStats;
 
 
+    private void Awake()
+    {
+        if (CombatFlow.combatUnits == null)
+            CombatFlow.combatUnits = new List<GameObject>();
+
+        CombatFlow.combatUnits.Add(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +57,8 @@ public class CombatFlow : MonoBehaviour
             camChange(PerspectiveProperties.CamType.PLAYER);
 
         explodeStats = GetComponent<ExplodeStats>();
+
+        // add my icon to hud
     }
 
     
@@ -75,7 +90,8 @@ public class CombatFlow : MonoBehaviour
         explode();
         if (isLocalPlayer)
             camChange(PerspectiveProperties.CamType.SPECTATOR);
-        
+        CombatFlow.combatUnits.Remove(gameObject);
+        // remove my icon from hud
         destroySelf();
 
     }

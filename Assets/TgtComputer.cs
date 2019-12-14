@@ -25,14 +25,24 @@ public class TgtComputer : MonoBehaviour
     private void LateUpdate()
     {
 
+        List<GameObject> flowArray = CombatFlow.combatUnits;
+
         // Loop through all combatUnits
         for(int i = 0; i < CombatFlow.combatUnits.Count; i++)
         {
+            // attempt to see target
+            CombatFlow currentFlow = flowArray[i].GetComponent<CombatFlow>();
 
-            // attempt to see combatUnits here
-
-            // if visible, draw HUD item at position
-            // otherwise, hide HUD item (move to useless position or set to 
+            if (currentFlow.isLocalPlayer)
+            {
+                currentFlow.myHudIconRef.GetComponent<TgtHudIcon>().isVisible = false;
+            }
+            else
+            {
+                currentFlow.myHudIconRef.GetComponent<TgtHudIcon>().isVisible = true;
+            }
+            
+            
             
 
         }

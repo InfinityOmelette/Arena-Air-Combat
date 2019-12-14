@@ -79,7 +79,9 @@ public class hudControl : MonoBehaviour
         hudControl.mainHud = gameObject;
     }
 
-    // Start is called before the first frame update
+    // ====================================================================
+    // **********************************     START     *******************
+    // ====================================================================
     void Start()
     {
         // SET REFERENCES
@@ -109,9 +111,11 @@ public class hudControl : MonoBehaviour
 
     }
 
-    
 
-    
+
+    // ====================================================================
+    // *****************************     LATEUPDATE     *******************
+    // ====================================================================
     void LateUpdate()
     {
 
@@ -175,13 +179,12 @@ public class hudControl : MonoBehaviour
 
 
     // Place item onto screen from world point
-    private void drawItemOnScreen(GameObject item, Vector3 worldPosition, float lerpRate)
+    public void drawItemOnScreen(GameObject item, Vector3 worldPosition, float lerpRate)
     {
         Vector3 screenPos = cam.WorldToScreenPoint(worldPosition);
+        bool onScreen = true;
         if (screenPos.z < 0) // if screenpos behind camera
-            item.SetActive(false);
-        else    // if in front of camera
-            item.SetActive(true);
+            onScreen = false;
 
         // convert to local position on canvas -- (0,0) at center of screen
         // THIS FIXES UI STUTTERING DURING FRAME LAG
@@ -189,8 +192,16 @@ public class hudControl : MonoBehaviour
                                  screenPos.y - Screen.height / 2,   // y
                                  0.0f);                             // z
 
-        // local position prevents ui stuttering
-        item.transform.localPosition = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
+        if (onScreen)
+        {
+            // local position prevents ui stuttering
+            item.transform.localPosition = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
+        }
+        else
+        {
+            item.transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2);
+        }
+            
     }
 
 

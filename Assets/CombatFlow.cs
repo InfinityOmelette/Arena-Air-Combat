@@ -58,7 +58,7 @@ public class CombatFlow : MonoBehaviour
 
         explodeStats = GetComponent<ExplodeStats>();
 
-        // add my icon to hud
+        myHudIconRef = IconManager.tgtIconManager.spawnIcon(this);// add my icon to hud
     }
 
     
@@ -117,6 +117,7 @@ public class CombatFlow : MonoBehaviour
             //  Is this a crusty way of doing this? Might be perspectiveManager's responsibility instead?
             camManager.cameras.Remove(unitCam);
         }
+        Destroy(myHudIconRef);
         Destroy(gameObject);
     }
 

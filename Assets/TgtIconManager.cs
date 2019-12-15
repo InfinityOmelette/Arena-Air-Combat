@@ -36,8 +36,7 @@ public class TgtIconManager : MonoBehaviour
         TgtHudIcon iconScript = iconObj.GetComponent<TgtHudIcon>();
         iconScript.rootFlow = unitFlow;
         iconScript.tgtIconManager = this;
-
-        //Debug.Log(iconScript.tgtIconManager);
+       
         return iconObj;
     }
 

@@ -46,14 +46,20 @@ public class TgtComputer : MonoBehaviour
             }
 
             //  Send visibility result
-            currentFlowHudIcon.isVisible = isVisible;
+            currentFlowHudIcon.isDetected = isVisible;
 
 
 
             //  =====================  DISTANCE
 
             // Distance between this gameobject and target
-            currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position); 
+            currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+
+
+
+            // ======================== LINE OF SIGHT
+            int terrainLayer = 1 << 10;
+            currentFlowHudIcon.hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
 
 
         }

@@ -10,12 +10,17 @@ public class TgtHudIcon : MonoBehaviour
     public TgtIconManager tgtIconManager;
 
 
-    public Image tgtImage;
+    public GameObject tgtImageCenter;
+    public Image tgtImageLOS;
+    public Image tgtImageNoLOS;
+
+
     public Text tgtTitleText;
     public Text tgtVisConditionsText;
     public Text tgtDistText;
 
-    public bool isVisible;
+    public bool isDetected;
+    public bool hasLineOfSight;
     public bool showInfo;
 
     public float currentDistance;
@@ -41,15 +46,32 @@ public class TgtHudIcon : MonoBehaviour
         if (rootFlow != null)
         {
 
-            if (isVisible)
+            if (isDetected)
             {
                 
                 updateTexts();
                 resizeForDist(currentDistance);
+                setImageLOS(hasLineOfSight);
                 hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
             }
             else
                 transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen
+        }
+    }
+
+    void setImageLOS(bool hasLOS)
+    {
+        if (hasLOS)
+        {
+            // Show only LOS image
+            tgtImageLOS.enabled = true;
+            tgtImageNoLOS.enabled = false;
+        }
+        else // no line of sight
+        {
+            // show only no LOS image
+            tgtImageLOS.enabled = false;
+            tgtImageNoLOS.enabled = true;
         }
     }
 
@@ -60,8 +82,8 @@ public class TgtHudIcon : MonoBehaviour
 
 
         // Move text to stay aligned with box
-        tgtDistText.transform.localPosition = tgtImage.transform.localScale.x * distTextOriginPos;
-        tgtTitleText.transform.localPosition = tgtImage.transform.localScale.x * titleTextOriginPos;
+        tgtDistText.transform.localPosition = tgtImageCenter.transform.localScale.x * distTextOriginPos;
+        tgtTitleText.transform.localPosition = tgtImageCenter.transform.localScale.x * titleTextOriginPos;
     }
 
 
@@ -76,16 +98,13 @@ public class TgtHudIcon : MonoBehaviour
         float currentScale;
 
         // First, get ratio for currentDistance along the range from estimated close to maximum (ex: 1.0 max distance, 0.0 min distance, 0.5 halfway)
-        float currentDistOnRange = Mathf.Clamp(currentDistance - tgtIconManager.estimatedCloseDistance, 0.001f, tgtIconManager.estimatedFarDistance);
-        Debug.Log("Current dist on range: " + currentDistOnRange + ", estimatedCloseDistance: " + tgtIconManager.estimatedCloseDistance +
-            ", estimatedFarDistance: " + tgtIconManager.estimatedFarDistance + ", currentDistance - estimatedCloseDistance: " + tgtIconManager.estimatedCloseDistance);
-
+        float currentDistOnRange = Mathf.Clamp(currentDistance - tgtIconManager.estimatedCloseDistance, 0.0f, tgtIconManager.estimatedFarDistance);
         currentScale = currentDistOnRange / (tgtIconManager.estimatedFarDistance - tgtIconManager.estimatedCloseDistance);
 
         
         currentScale = -currentScale * (tgtIconManager.maxIconScale - tgtIconManager.minIconScale) + tgtIconManager.maxIconScale;
-        
-        tgtImage.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
+
+        tgtImageCenter.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
     }
 
 

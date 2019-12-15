@@ -393,6 +393,7 @@ MonoBehaviour:
   explosionMaxDamage: 100
   camManager: {fileID: 0}
   unitCam: {fileID: 7121171246493503251}
+  myHudIconRef: {fileID: 0}
   team: 0
   type: 0
   isAlive: 1
@@ -446,6 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04d7132535e62e48b93acd9474c16c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainHud: {fileID: 0}
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,7 +832,7 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits
-      value: 55
+      value: 567
       objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -991,7 +993,7 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits
-      value: 55
+      value: 567
       objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}

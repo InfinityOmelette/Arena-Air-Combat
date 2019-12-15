@@ -58,7 +58,7 @@ public class CombatFlow : MonoBehaviour
 
         explodeStats = GetComponent<ExplodeStats>();
 
-        myHudIconRef = IconManager.tgtIconManager.spawnIcon(this);// add my icon to hud
+        myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this);// add my icon to hud
     }
 
     

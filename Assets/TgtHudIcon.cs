@@ -7,13 +7,28 @@ public class TgtHudIcon : MonoBehaviour
 {
 
     public CombatFlow rootFlow;
+    public TgtIconManager tgtIconManager;
+
+
+    public Image tgtImage;
+    public Text tgtTitleText;
+    public Text tgtVisConditionsText;
+    public Text tgtDistText;
 
     public bool isVisible;
+    public bool showInfo;
+
+    public float currentDistance;
+
+
+    private Vector3 distTextOriginPos;
+    private Vector3 titleTextOriginPos;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        distTextOriginPos = tgtDistText.transform.localPosition;
+        titleTextOriginPos = tgtTitleText.transform.localPosition;
     }
 
     // Update is called once per frame
@@ -25,13 +40,52 @@ public class TgtHudIcon : MonoBehaviour
 
         if (rootFlow != null)
         {
-            //Debug.Log("Rootflow position: " + rootFlow.transform.position);
 
             if (isVisible)
+            {
+                
+                updateTexts();
+                resizeForDist(currentDistance);
                 hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
+            }
             else
                 transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen
         }
+    }
+
+    void updateTexts()
+    {
+        // Convert meters to kilometers, show 2 decimal places
+        tgtDistText.text = (currentDistance / 1000f).ToString("F2") + "km";
+
+
+        // Move text to stay aligned with box
+        tgtDistText.transform.localPosition = tgtImage.transform.localScale.x * distTextOriginPos;
+        tgtTitleText.transform.localPosition = tgtImage.transform.localScale.x * titleTextOriginPos;
+    }
+
+
+    //  Visually intuitive way to indicate object's distance
+    void resizeForDist(float dist)
+    {
+        // at or below minimum distance, currentScale is set to maxIconScale
+        // at or above maximum distance, currentScale is set to minIconScale
+        // when distance is between minimum and maximum, current scale is linearly scaled between min and max iconScale
+
+
+        float currentScale;
+
+        // First, get ratio for currentDistance along the range from estimated close to maximum (ex: 1.0 max distance, 0.0 min distance, 0.5 halfway)
+        float currentDistOnRange = Mathf.Clamp(currentDistance - tgtIconManager.estimatedCloseDistance, 0.001f, tgtIconManager.estimatedFarDistance);
+        Debug.Log("Current dist on range: " + currentDistOnRange + ", estimatedCloseDistance: " + tgtIconManager.estimatedCloseDistance +
+            ", estimatedFarDistance: " + tgtIconManager.estimatedFarDistance + ", currentDistance - estimatedCloseDistance: " + tgtIconManager.estimatedCloseDistance);
+
+        currentScale = currentDistOnRange / (tgtIconManager.estimatedFarDistance - tgtIconManager.estimatedCloseDistance);
+
+        
+        currentScale = -currentScale * (tgtIconManager.maxIconScale - tgtIconManager.minIconScale) + tgtIconManager.maxIconScale;
+        
+        tgtImage.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
     }
 
 

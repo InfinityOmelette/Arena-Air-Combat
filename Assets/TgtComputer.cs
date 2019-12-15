@@ -30,20 +30,31 @@ public class TgtComputer : MonoBehaviour
         // Loop through all combatUnits
         for(int i = 0; i < CombatFlow.combatUnits.Count; i++)
         {
-            // attempt to see target
-            CombatFlow currentFlow = flowArray[i].GetComponent<CombatFlow>();
+            // =====================  VISIBILITY
 
-            if (currentFlow.isLocalPlayer)
+            // Current CombatFlow to attempt to see
+            CombatFlow currentFlow = flowArray[i].GetComponent<CombatFlow>();
+            TgtHudIcon currentFlowHudIcon = currentFlow.myHudIconRef.GetComponent<TgtHudIcon>();
+
+            // Various conditions will attempt to make this true
+            bool isVisible = false; 
+
+            // Show unit if this is NOT the local player
+            if (!currentFlow.isLocalPlayer)
             {
-                currentFlow.myHudIconRef.GetComponent<TgtHudIcon>().isVisible = false;
+                isVisible = true;
             }
-            else
-            {
-                currentFlow.myHudIconRef.GetComponent<TgtHudIcon>().isVisible = true;
-            }
-            
-            
-            
+
+            //  Send visibility result
+            currentFlowHudIcon.isVisible = isVisible;
+
+
+
+            //  =====================  DISTANCE
+
+            // Distance between this gameobject and target
+            currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position); 
+
 
         }
     }

@@ -92,19 +92,55 @@ public class TgtHudIcon : MonoBehaviour
     {
         // at or below minimum distance, currentScale is set to maxIconScale
         // at or above maximum distance, currentScale is set to minIconScale
-        // when distance is between minimum and maximum, current scale is linearly scaled between min and max iconScale
-
+        // between min and max dist, currentScale follows curved graph (rational)
 
         float currentScale;
 
-        // First, get ratio for currentDistance along the range from estimated close to maximum (ex: 1.0 max distance, 0.0 min distance, 0.5 halfway)
-        float currentDistOnRange = Mathf.Clamp(currentDistance - tgtIconManager.estimatedCloseDistance, 0.0f, tgtIconManager.estimatedFarDistance);
-        currentScale = currentDistOnRange / (tgtIconManager.estimatedFarDistance - tgtIconManager.estimatedCloseDistance);
+        // at or below close distance will be seen as zero
+        dist = Mathf.Max(dist - tgtIconManager.estimatedCloseDistance, 0.0f);
+
+        // =========================  EXPONENTIAL
+
+        //float vertStretch = tgtIconManager.maxIconScale - tgtIconManager.minIconScale;
+        //float exponent = Mathf.Pow(tgtIconManager.exponentDecay, dist);
+
+        //currentScale = vertStretch * exponent + tgtIconManager.minIconScale;
+
+
+        // ==========================  RATIONAL
+
+        // vert stretch graph so x = 0 is always result in maxIconScale no matter vertical offset
+        float vertStretch = tgtIconManager.maxIconScale - tgtIconManager.minIconScale;
+
+        // core rational graph horizontally offset so x = 0 results in 1
+        float rational = tgtIconManager.rationalCoeff / (dist + tgtIconManager.rationalCoeff);
+
+        // minimum scale for icon
+        float vertOffset = tgtIconManager.minIconScale;
+
+        // linear component
+        float linear = tgtIconManager.linearCoeff * dist;
+
+        // Combine the above into rational graph
+        currentScale = Mathf.Max(vertStretch * rational + vertOffset + linear , tgtIconManager.minIconScale);
+
+
+        // ======================  OUTPUT
+
+        // Output: change scale of image
+        tgtImageCenter.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
+
+
+        // ====================== LINEAR
+
+        //// First, get ratio for currentDistance along the range from estimated close to maximum (ex: 1.0 max distance, 0.0 min distance, 0.5 halfway)
+        //float currentDistOnRange = Mathf.Clamp(currentDistance - tgtIconManager.estimatedCloseDistance, 0.0f, tgtIconManager.estimatedFarDistance);
+        //currentScale = currentDistOnRange / (tgtIconManager.estimatedFarDistance - tgtIconManager.estimatedCloseDistance);
 
         
-        currentScale = -currentScale * (tgtIconManager.maxIconScale - tgtIconManager.minIconScale) + tgtIconManager.maxIconScale;
+        //currentScale = -currentScale * (tgtIconManager.maxIconScale - tgtIconManager.minIconScale) + tgtIconManager.maxIconScale;
 
-        tgtImageCenter.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
+        //tgtImageCenter.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
     }
 
 

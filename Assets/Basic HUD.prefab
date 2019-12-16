@@ -600,10 +600,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tgtIconPrefab: {fileID: 4320422470932381622, guid: f4ace1b4e761ac4479e12dc2e3b569f6,
     type: 3}
-  estimatedFarDistance: 2000
-  estimatedCloseDistance: 10
-  maxIconScale: 0.8
-  minIconScale: 0.18
+  estimatedCloseDistance: 250
+  rationalCoeff: 400
+  linearCoeff: -0.000026
+  exponentDecay: 0.99885
+  maxIconScale: 1
+  minIconScale: 0.12
 --- !u!1 &6236976856666120067
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,8 +9,14 @@ public class TgtIconManager : MonoBehaviour
 
     public GameObject tgtIconPrefab;
 
-    public float estimatedFarDistance;
+    //public float estimatedFarDistance;
     public float estimatedCloseDistance;
+    public float rationalCoeff; // a / (x + a) --> rational where x = 0 is always 1
+    public float linearCoeff;
+
+    //public float exponentDecay;
+
+    
 
     public float maxIconScale;
     public float minIconScale;

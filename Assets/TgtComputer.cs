@@ -8,6 +8,8 @@ public class TgtComputer : MonoBehaviour
     public hudControl mainHud;
 
 
+    public GameObject lockedTarget;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +60,7 @@ public class TgtComputer : MonoBehaviour
 
 
             // ======================== LINE OF SIGHT
-            int terrainLayer = 1 << 10;
+            int terrainLayer = 1 << 10; // line only collides with terrain layer
             currentFlowHudIcon.hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
 
 

@@ -16,9 +16,16 @@ public class PlayerInput_Aircraft : MonoBehaviour
     public CamManipulation cam;
     public WheelsControl wheels;
     public CannonControl cannons;
+    public TgtComputer tgtComputer;
 
     public float testExplosionDistance;
 
+
+
+    private void Awake()
+    {
+        tgtComputer = GetComponent<TgtComputer>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +42,11 @@ public class PlayerInput_Aircraft : MonoBehaviour
     //  BUTTON DOWN PRESSES GO HERE
     void Update()
     {
-        cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
+        //cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
+
+        tgtComputer.tgtButtonUp = Input.GetButtonUp("CamLookAt");
+        // if button held, activate camLookAt
+
 
         if (Input.GetKeyDown(KeyCode.B))
         {
@@ -68,8 +79,8 @@ public class PlayerInput_Aircraft : MonoBehaviour
         wheels.input_rudderAxis = yaw;
 
         // CAMERA
-        cam.input_freeLookHoriz = Input.GetAxis("CamLookX");
-        cam.input_freeLookVert = Input.GetAxis("CamLookY");
+        cam.input_freeLookHoriz = Mathf.Lerp(cam.input_freeLookHoriz, Input.GetAxis("CamLookX"), cam.freeLookLerpRate);
+        cam.input_freeLookVert = Mathf.Lerp(cam.input_freeLookVert, Input.GetAxis("CamLookY"), cam.freeLookLerpRate);
 
         // CANNONS
         cannons.cannonInput = Input.GetAxis("Cannon");

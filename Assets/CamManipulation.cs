@@ -64,6 +64,9 @@ public class CamManipulation : MonoBehaviour
     {
         if(input_camLookAtButtonDown)
             toggleLookAt();
+
+
+        
     }
 
     private void FixedUpdate()
@@ -194,15 +197,13 @@ public class CamManipulation : MonoBehaviour
         float horizLookTarget = input_freeLookHoriz * horizTravelMod;
         float vertLookTarget = input_freeLookVert * vertTravelMod;
 
+
         Vector3 currentLocalEuler = camAxisHorizRef.transform.localEulerAngles;
 
-        //camAxisRollRef.transform.localEulerAngles = new Vector3(Mathf.Lerp(currentLocalEuler.x, vertLookTarget, freeLookLerpRate), // x
-        //    Mathf.Lerp(currentLocalEuler.y, horizLookTarget, freeLookLerpRate),  // y
-        //    camAxisRollRef.transform.localEulerAngles.z);   // z
 
         camAxisHorizRef.transform.localEulerAngles = new Vector3(vertLookTarget, horizLookTarget, currentLocalEuler.z);
 
-        
+
     }
 
 

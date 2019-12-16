@@ -30,7 +30,7 @@ public class CombatFlow : MonoBehaviour
     public PerspectiveManager camManager;
     public GameObject unitCam; // leave null if item won't have its own camera
 
-    public GameObject myHudIconRef;
+    public TgtHudIcon myHudIconRef;
 
     public Team team;
     public Type type;
@@ -58,7 +58,8 @@ public class CombatFlow : MonoBehaviour
 
         explodeStats = GetComponent<ExplodeStats>();
 
-        myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this);// add my icon to hud
+        // spawn icon, set reference here to the TgtHudIconScript of icon spawned
+        myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this).GetComponent<TgtHudIcon>();// add my icon to hud
     }
 
     
@@ -88,6 +89,8 @@ public class CombatFlow : MonoBehaviour
     {
         isAlive = false; // he ded now
         explode();
+
+
         if (isLocalPlayer)
             camChange(PerspectiveProperties.CamType.SPECTATOR);
         CombatFlow.combatUnits.Remove(gameObject);
@@ -117,7 +120,7 @@ public class CombatFlow : MonoBehaviour
             //  Is this a crusty way of doing this? Might be perspectiveManager's responsibility instead?
             camManager.cameras.Remove(unitCam);
         }
-        Destroy(myHudIconRef);
+        Destroy(myHudIconRef.gameObject);
         Destroy(gameObject);
     }
 

@@ -10,7 +10,7 @@ public class CombatFlow : MonoBehaviour
 
     public enum Team 
     { 
-        RED, BLUE, NEUTRAL 
+        TEAM1, TEAM2, NEUTRAL 
     }
 
     public enum Type

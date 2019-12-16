@@ -15,11 +15,12 @@ public class TgtIconManager : MonoBehaviour
     public float linearCoeff;
 
     //public float exponentDecay;
-
-    
-
     public float maxIconScale;
     public float minIconScale;
+
+    public Color friendlyColor;
+    public Color enemyColor;
+    public Color lockedColor;
 
     private void Awake()
     {

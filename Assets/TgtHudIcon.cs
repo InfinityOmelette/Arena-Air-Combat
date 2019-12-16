@@ -25,6 +25,12 @@ public class TgtHudIcon : MonoBehaviour
 
     public float currentDistance;
 
+    public bool isLocked;
+
+    public Color teamColor;
+    public Color activeColor;
+    public bool isFriendly;
+
 
     private Vector3 distTextOriginPos;
     private Vector3 titleTextOriginPos;
@@ -48,7 +54,13 @@ public class TgtHudIcon : MonoBehaviour
 
             if (isDetected)
             {
+
                 
+                if (!isLocked)
+                    setTeamColor(); // a bit inefficient. Keeps checking team color every frame.
+                else
+                    changeChildColors(tgtIconManager.lockedColor);
+
                 updateTexts();
                 resizeForDist(currentDistance);
                 setImageLOS(hasLineOfSight);
@@ -144,5 +156,34 @@ public class TgtHudIcon : MonoBehaviour
     }
 
 
-    
+    public Color setTeamColor()
+    {
+        Color returnColor;
+        if (isFriendly)
+            returnColor = tgtIconManager.friendlyColor;
+        else
+            returnColor = tgtIconManager.enemyColor;
+        return changeChildColors(teamColor = returnColor);
+    }
+
+
+    // go to all child references, change their colors
+    public Color changeChildColors(Color color)
+    {
+        if (activeColor != color)  // don't set anything if no change required
+        {
+            activeColor = color;
+
+            tgtImageLOS.color = activeColor;
+            tgtImageNoLOS.color = activeColor;
+            tgtTitleText.color = activeColor;
+            tgtVisConditionsText.color = activeColor;
+            tgtDistText.color = activeColor;
+
+            
+        }
+
+        return color;
+    }
+
 }

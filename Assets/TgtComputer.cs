@@ -10,10 +10,13 @@ public class TgtComputer : MonoBehaviour
 
     public GameObject lockedTarget;
 
+    public CombatFlow localPlayerFlow;
+
     // Start is called before the first frame update
     void Start()
     {
         mainHud = hudControl.mainHud.GetComponent<hudControl>();
+        localPlayerFlow = GetComponent<CombatFlow>();
     }
 
     // Update is called once per frame
@@ -62,6 +65,13 @@ public class TgtComputer : MonoBehaviour
             // ======================== LINE OF SIGHT
             int terrainLayer = 1 << 10; // line only collides with terrain layer
             currentFlowHudIcon.hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
+
+
+            // ========================  IFF
+            if (localPlayerFlow.team == currentFlow.team)
+                currentFlowHudIcon.isFriendly = true;
+            else
+                currentFlowHudIcon.isFriendly = false;
 
 
         }

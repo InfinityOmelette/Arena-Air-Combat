@@ -23,6 +23,7 @@ public class TgtIconManager : MonoBehaviour
     public Color enemyColor;
     public Color lockedColor;
 
+    public float targetedBlinkTime;
 
     public Sprite aircraftHudImageLOS;
     public Sprite aircraftHudImageNoLOS;

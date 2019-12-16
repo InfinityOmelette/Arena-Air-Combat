@@ -19,13 +19,25 @@ public class TgtHudIcon : MonoBehaviour
     public Text tgtVisConditionsText;
     public Text tgtDistText;
 
+    private bool doBlink;
+    private float currentBlinkUpTime;
+
     public bool isDetected;
     public bool hasLineOfSight;
     public bool showInfo;
 
     public float currentDistance;
 
-    public bool isLocked;
+    public enum TargetedState
+    {
+        NONE,
+        TARGETED,
+        LOCKED
+    }
+
+    public TargetedState targetedState;
+
+    
 
     public Color teamColor;
     public Color activeColor;
@@ -56,18 +68,35 @@ public class TgtHudIcon : MonoBehaviour
             {
 
                 
-                if (!isLocked)
-                    setTeamColor(); // a bit inefficient. Keeps checking team color every frame.
-                else
+                // SET COLOR BASED ON LOCK STATE
+                if (targetedState == TargetedState.LOCKED) // LOCKED
+                {
                     changeChildColors(tgtIconManager.lockedColor);
+                    doBlink = false;
+                }
+                else // NONE OR TARGETED
+                {
+                    setTeamColor(); // a bit inefficient. Checks team every frame
+                    if(targetedState == TargetedState.TARGETED)
+                    {
+                        doBlink = true;
+                    }
+                    else
+                    {
+                        doBlink = false;
+                    }
+                }
 
+
+
+                blinkProcess(); // either show steady or blink depending on targeted state
                 updateTexts();
                 resizeForDist(currentDistance);
                 setImageLOS(hasLineOfSight);
                 hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
             }
             else
-                transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen
+                transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
         }
     }
 
@@ -186,4 +215,25 @@ public class TgtHudIcon : MonoBehaviour
         return color;
     }
 
+
+    void blinkProcess()
+    {
+        // count down until switch time, then change image center enabled state
+
+        if (doBlink)
+        {
+            currentBlinkUpTime -= Time.deltaTime;
+
+            if (currentBlinkUpTime < 0.0f)
+            {
+                tgtImageCenter.SetActive(!tgtImageCenter.active); // switch image enabled state
+                currentBlinkUpTime = tgtIconManager.targetedBlinkTime; // reset timer
+            }
+        }
+        else
+        {
+            tgtImageCenter.SetActive(true); // keep image enabled if doBlink is not enabled
+        }
+
+    }
 }

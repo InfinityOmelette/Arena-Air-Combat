@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TgtIconManager : MonoBehaviour
 {
@@ -22,8 +23,22 @@ public class TgtIconManager : MonoBehaviour
     public Color enemyColor;
     public Color lockedColor;
 
+
+    public Sprite aircraftHudImageLOS;
+    public Sprite aircraftHudImageNoLOS;
+
+    public Sprite missileHudImageLOS;
+    public Sprite missileHudImageNoLOS;
+
     private void Awake()
     {
+
+        aircraftHudImageLOS = Resources.Load<Sprite>("HUD Images/HudSquare");
+        aircraftHudImageNoLOS = Resources.Load<Sprite>("HUD Images/HudSquareNoLOS");
+
+        missileHudImageLOS = Resources.Load<Sprite>("HUD Images/MissileLOS");
+        missileHudImageNoLOS = Resources.Load<Sprite>("HUD Images/MissileNoLOS");
+
         if (TgtIconManager.tgtIconManager == null)
             TgtIconManager.tgtIconManager = this;
     }
@@ -43,6 +58,18 @@ public class TgtIconManager : MonoBehaviour
         TgtHudIcon iconScript = iconObj.GetComponent<TgtHudIcon>();
         iconScript.rootFlow = unitFlow;
         iconScript.tgtIconManager = this;
+
+        // IMAGE SETTING
+        if(unitFlow.type == CombatFlow.Type.AIRCRAFT)
+        {
+            iconScript.tgtImageLOS.sprite = aircraftHudImageLOS;
+            iconScript.tgtImageNoLOS.sprite = aircraftHudImageNoLOS;
+        }
+        else if(unitFlow.type == CombatFlow.Type.PROJECTILE)
+        {
+            iconScript.tgtImageLOS.sprite = missileHudImageLOS;
+            iconScript.tgtImageNoLOS.sprite = missileHudImageNoLOS;
+        }
        
         return iconObj;
     }

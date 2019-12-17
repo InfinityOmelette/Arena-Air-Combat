@@ -62,6 +62,7 @@ public class hudControl : MonoBehaviour
     // VELOCITY VECTOR
     public GameObject velocityVectorRef;
 
+    public float velocityVectorMinSpeed;
 
 
     // REFERENCES
@@ -71,7 +72,6 @@ public class hudControl : MonoBehaviour
     private RealFlightControl root_flightInfoObjRef;
     private EngineControl root_Engine;
     private CombatFlow root_combatFlow;
-    private Camera cam;
 
 
     private void Awake()
@@ -89,7 +89,6 @@ public class hudControl : MonoBehaviour
         root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
         root_Engine = aircraftRootObj.GetComponent<EngineControl>();
         root_combatFlow = aircraftRootObj.GetComponent<CombatFlow>();
-        cam = Camera.main;
 
 
         // SAVE ORIGINAL POSITIONS OF UI ELEMENTS -- WILL BE MODIFIED RELATIVE TO THESE
@@ -129,21 +128,30 @@ public class hudControl : MonoBehaviour
         fuelAmtText.text = "FUEL: " + Mathf.RoundToInt(root_Engine.currentFuelMass) + "kg";
         burnAvailText.text = "BURN AVAIL: " + Mathf.RoundToInt(root_Engine.currentBurnMod * 100f).ToString() + "%";
         hpText.text = Mathf.RoundToInt(root_combatFlow.currentHP).ToString() + "HP";
-        
 
-        
+
+
         processSpedometerOffset();
         processThrottleLadder();
         processClimbLadder();
         processAltimeterOffset();
         processHealthBar();
-        
+
 
         // nose indicator
-        drawItemOnScreen(noseIndicatorRef, cam.transform.position + aircraftRootObj.transform.forward, 0.5f);
+        drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, 0.5f);
 
         // velocity vector
-        drawItemOnScreen(velocityVectorRef, cam.transform.position + root_rbRef.velocity.normalized, 0.5f);
+        if (aircraftRootObj.GetComponent<Rigidbody>().velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
+        {
+            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + root_rbRef.velocity.normalized, 1f);
+            //Debug.Log("Fast enough, onScreen:");
+        }
+        else
+        {   // place behind screen if too slow
+            //Debug.Log("too slow, offscreen");
+            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position - Camera.main.transform.forward, 1f);
+        }
 
     }
 
@@ -181,7 +189,7 @@ public class hudControl : MonoBehaviour
     // Place item onto screen from world point
     public void drawItemOnScreen(GameObject item, Vector3 worldPosition, float lerpRate)
     {
-        Vector3 screenPos = cam.WorldToScreenPoint(worldPosition);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
         bool onScreen = true;
         if (screenPos.z < 0) // if screenpos behind camera
             onScreen = false;

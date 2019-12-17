@@ -144,13 +144,13 @@ public class hudControl : MonoBehaviour
         // velocity vector
         if (aircraftRootObj.GetComponent<Rigidbody>().velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
         {
-            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + root_rbRef.velocity.normalized, 1f);
+            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + root_rbRef.velocity.normalized, 0.5f);
             //Debug.Log("Fast enough, onScreen:");
         }
         else
         {   // place behind screen if too slow
             //Debug.Log("too slow, offscreen");
-            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position - Camera.main.transform.forward, 1f);
+            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
         }
 
     }

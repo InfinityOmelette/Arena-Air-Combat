@@ -20,6 +20,9 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
     public float testExplosionDistance;
 
+    private bool tgtTimerActive;
+    public float tgtLookAtHoldTime; // how long to hold until timer reaches zero
+    public float currentTgtHoldTime;
 
 
     private void Awake()
@@ -44,7 +47,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
     {
         //cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
 
-        tgtComputer.tgtButtonUp = Input.GetButtonUp("CamLookAt");
+        tgtButtonProcess();
         // if button held, activate camLookAt
 
 
@@ -55,6 +58,61 @@ public class PlayerInput_Aircraft : MonoBehaviour
         }
 
 
+    }
+
+
+    // Press and quick release changes target
+    // Press and hold looks at current target
+    // Release will always disable lookAt
+    private void tgtButtonProcess()
+    {
+
+        if (Input.GetButtonDown("CamLookAt")) // button pressed, start timer
+        {
+            tgtTimerActive = true;
+            currentTgtHoldTime = tgtLookAtHoldTime;
+        }
+
+
+        if (tgtTimerActive)
+        {
+            
+            if (currentTgtHoldTime >= 0f) // tick timer down
+            {
+                currentTgtHoldTime -= Time.deltaTime;
+            }
+            else  // time run out, but still active, so look at target
+            {
+                //Debug.Log("Looking at: " + tgtComputer.currentTarget);
+                if (tgtComputer.currentTarget != null)
+                {
+                    cam.lookAtObj = tgtComputer.currentTarget.gameObject;
+                    cam.setLookAt(true);
+                }
+                tgtTimerActive = false;
+            }
+        }
+        
+        
+
+        if (Input.GetButtonUp("CamLookAt")) // button released, check time and either change target or look at target
+        {
+            //Debug.Log("Button released at: " + currentTgtHoldTime + " seconds remain");
+            tgtTimerActive = false;
+            cam.setLookAt(false);
+            if(currentTgtHoldTime > 0) // timer did not reach zero, select new target
+            {
+                tgtComputer.tgtButtonUp = true;
+
+            }
+        }
+        else // disable all when nothing is released this frame
+        {
+            tgtComputer.tgtButtonUp = false;
+
+        }
+
+        //tgtComputer.tgtButtonUp = Input.GetButtonUp("CamLookAt");
     }
 
 
@@ -79,8 +137,10 @@ public class PlayerInput_Aircraft : MonoBehaviour
         wheels.input_rudderAxis = yaw;
 
         // CAMERA
-        cam.input_freeLookHoriz = Mathf.Lerp(cam.input_freeLookHoriz, Input.GetAxis("CamLookX"), cam.freeLookLerpRate);
-        cam.input_freeLookVert = Mathf.Lerp(cam.input_freeLookVert, Input.GetAxis("CamLookY"), cam.freeLookLerpRate);
+        //cam.input_freeLookHoriz = Mathf.Lerp(cam.input_freeLookHoriz, Input.GetAxis("CamLookX"), cam.freeLookLerpRate);
+        //cam.input_freeLookVert = Mathf.Lerp(cam.input_freeLookVert, Input.GetAxis("CamLookY"), cam.freeLookLerpRate);
+        cam.input_freeLookHoriz = Input.GetAxis("CamLookX");
+        cam.input_freeLookVert = Input.GetAxis("CamLookY");
 
         // CANNONS
         cannons.cannonInput = Input.GetAxis("Cannon");

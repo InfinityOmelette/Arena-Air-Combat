@@ -32,8 +32,12 @@ public class CamManipulation : MonoBehaviour
 
     public float freeLookLerpRate;
 
+    public float camRotateLerpRate;
+
     public float rollRateMod;
     public float rollRateOffsetLerpRate;
+
+    private Quaternion targetLocalRotation;
 
 
     public float horizTravelMod = 120f;
@@ -81,12 +85,17 @@ public class CamManipulation : MonoBehaviour
         camRef.transform.localPosition -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
 
 
+        
 
         if (lookAtEnabled)
         {
             if (lookAtObj != null)
             {  // slightly redundant null check
-                camAxisRollRef.transform.LookAt(lookAtObj.transform.position, aircraftRootRB.transform.up);
+                //camAxisRollRef.transform.LookAt(lookAtObj.transform.position, aircraftRootRB.transform.up);
+                targetLocalRotation = Quaternion.LookRotation(
+                    aircraftRootRB.transform.InverseTransformPoint( lookAtObj.transform.position),
+                    Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
+
             }
             else // if look at is enabled but reference is null, re-toggle look at
                 toggleLookAt();
@@ -100,40 +109,50 @@ public class CamManipulation : MonoBehaviour
             processFreeLook();
         }
 
+
+        camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, camRotateLerpRate);
+
+    }
+
+    public void setLookAt(bool setLook)
+    {
+        if (setLook != lookAtEnabled)
+            toggleLookAt();
     }
 
     // toggle lookAt
     private void toggleLookAt()
     {
-        
 
-        if (!lookAtEnabled && lookAtObj != null)  // lookAt is not turned on, turn it on if possible
-        {
-            // Reset cam axes -- start from zero, then lookat will modify from there
-            Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);   // remove any free look input
-            camAxisRollRef.transform.localRotation = zeroQuat;
-            camAxisHorizRef.transform.localRotation = zeroQuat;
-            camAxisVertRef.transform.localRotation = zeroQuat;
+        lookAtEnabled = !lookAtEnabled;
 
-            // switch enabled state
-            lookAtEnabled = true;
+        //if (!lookAtEnabled && lookAtObj != null)  // lookAt is not turned on, turn it on if possible
+        //{
+        //    // Reset cam axes -- start from zero, then lookat will modify from there
+        //    Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);   // remove any free look input
+        //    camAxisRollRef.transform.localRotation = zeroQuat;
+        //    camAxisHorizRef.transform.localRotation = zeroQuat;
+        //    camAxisVertRef.transform.localRotation = zeroQuat;
 
-
-        }
-        else // lookAt is on or failed to turn on, turn it off
-        {
-            // switch enabled state
-            lookAtEnabled = false;
-
-            //// Reset cam axes -- so free look can modify an undisturbed value
-            Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-            camAxisRollRef.transform.localRotation = zeroQuat;
-
-            // return cam rotation to default
-            camRef.transform.localRotation = defaultCamRotation;
+        //    // switch enabled state
+        //    lookAtEnabled = true;
 
 
-        }
+        //}
+        //else // lookAt is on or failed to turn on, turn it off
+        //{
+        //    // switch enabled state
+        //    lookAtEnabled = false;
+
+        //    //// Reset cam axes -- so free look can modify an undisturbed value
+        //    Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+        //    camAxisRollRef.transform.localRotation = zeroQuat;
+
+        //    // return cam rotation to default
+        //    camRef.transform.localRotation = defaultCamRotation;
+
+
+        //}
 
         
     }
@@ -200,8 +219,11 @@ public class CamManipulation : MonoBehaviour
 
         Vector3 currentLocalEuler = camAxisHorizRef.transform.localEulerAngles;
 
+        Vector3 targetLocalEuler = new Vector3(vertLookTarget, horizLookTarget, 0f);
 
-        camAxisHorizRef.transform.localEulerAngles = new Vector3(vertLookTarget, horizLookTarget, currentLocalEuler.z);
+        // Convert targetLocal to local quaternion
+        targetLocalRotation = Quaternion.Euler(targetLocalEuler);
+        
 
 
     }

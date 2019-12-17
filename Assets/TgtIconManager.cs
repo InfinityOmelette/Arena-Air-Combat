@@ -59,6 +59,7 @@ public class TgtIconManager : MonoBehaviour
         TgtHudIcon iconScript = iconObj.GetComponent<TgtHudIcon>();
         iconScript.rootFlow = unitFlow;
         iconScript.tgtIconManager = this;
+        iconScript.tgtTitleText.text = unitFlow.gameObject.name;
 
         // IMAGE SETTING
         if(unitFlow.type == CombatFlow.Type.AIRCRAFT)

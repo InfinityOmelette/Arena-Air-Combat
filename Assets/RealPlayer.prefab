@@ -224,6 +224,7 @@ MonoBehaviour:
   estLowSpeed: 25
   fwdGlobalVelocityScale: 0
   freeLookLerpRate: 0.15
+  camRotateLerpRate: 0.2
   rollRateMod: 0.145
   rollRateOffsetLerpRate: 0.035
   horizTravelMod: 145
@@ -436,6 +437,8 @@ MonoBehaviour:
   cannons: {fileID: 8059042160316306020}
   tgtComputer: {fileID: 0}
   testExplosionDistance: 0
+  tgtLookAtHoldTime: 0.4
+  currentTgtHoldTime: 0
 --- !u!114 &6801930850055786249
 MonoBehaviour:
   m_ObjectHideFlags: 0

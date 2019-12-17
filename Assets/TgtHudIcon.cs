@@ -71,19 +71,34 @@ public class TgtHudIcon : MonoBehaviour
                 // SET COLOR BASED ON LOCK STATE
                 if (targetedState == TargetedState.LOCKED) // LOCKED
                 {
+                    tgtTitleText.enabled = true;
+                    //tgtDistText.enabled = true;
                     changeChildColors(tgtIconManager.lockedColor);
                     doBlink = false;
                 }
                 else // NONE OR TARGETED
                 {
-                    setTeamColor(); // a bit inefficient. Checks team every frame
+                    setTeamInfo(); // a bit inefficient. Checks team every frame
                     if(targetedState == TargetedState.TARGETED)
                     {
+                        tgtTitleText.enabled = true;
+                        //tgtDistText.enabled = true;
                         doBlink = true;
                     }
-                    else
+                    else // NONE -- NOT TARGETED AT ALL
                     {
                         doBlink = false;
+
+                        if (isFriendly)     // IF UNTARGETED AND FRIENDLY
+                        {
+                            tgtTitleText.enabled = true;
+                            //tgtDistText.enabled = true;
+                        }
+                        else                // IF  UNTARGETED AND NOT FRIENDLY
+                        {
+                            tgtTitleText.enabled = false;
+                            //tgtDistText.enabled = false;
+                        }
                     }
                 }
 
@@ -185,13 +200,19 @@ public class TgtHudIcon : MonoBehaviour
     }
 
 
-    public Color setTeamColor()
+    public Color setTeamInfo()
     {
         Color returnColor;
         if (isFriendly)
+        {
             returnColor = tgtIconManager.friendlyColor;
+            tgtTitleText.enabled = true;
+        }
         else
+        {
             returnColor = tgtIconManager.enemyColor;
+            tgtTitleText.enabled = true;
+        }
         return changeChildColors(teamColor = returnColor);
     }
 

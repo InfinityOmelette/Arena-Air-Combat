@@ -17,6 +17,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
     public WheelsControl wheels;
     public CannonControl cannons;
     public TgtComputer tgtComputer;
+    public HardpointController hardpointController;
 
     public float testExplosionDistance;
 
@@ -49,6 +50,15 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
         tgtButtonProcess();
         // if button held, activate camLookAt
+
+        if(Input.GetButtonDown("Weapon Launch"))
+        {
+            hardpointController.launchButtonDown = true;
+        }
+        else
+        {
+            hardpointController.launchButtonDown = false;
+        }
 
 
         if (Input.GetKeyDown(KeyCode.B))

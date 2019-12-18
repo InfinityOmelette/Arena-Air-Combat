@@ -61,7 +61,7 @@ public class TgtComputer : MonoBehaviour
             bool isVisible = false; 
 
             // Show unit if this is NOT the local player
-            if (!currentFlow.isLocalPlayer)
+            if (!currentFlow.isLocalPlayer && currentFlow.isActive)
             {
                 isVisible = true;
             }

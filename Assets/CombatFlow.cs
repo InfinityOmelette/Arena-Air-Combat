@@ -34,7 +34,7 @@ public class CombatFlow : MonoBehaviour
 
     public Team team;
     public Type type;
-    public bool isAlive = true;
+    public bool isActive = true;
 
 
     public bool doDebugDamage = false;
@@ -66,7 +66,7 @@ public class CombatFlow : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (currentHP <= 0 && isAlive) // 0hp and is currently alive
+        if (currentHP <= 0 && isActive) // 0hp and is currently alive
             die(); // kill self
     }
 
@@ -87,7 +87,7 @@ public class CombatFlow : MonoBehaviour
 
     void die()
     {
-        isAlive = false; // he ded now
+        isActive = false; // he ded now
         explode();
 
 

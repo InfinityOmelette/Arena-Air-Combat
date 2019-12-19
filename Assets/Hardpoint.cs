@@ -60,7 +60,7 @@ public class Hardpoint : MonoBehaviour
         }
         else // weapon is not loaded
         {
-            Debug.Log("cannot fire weapon from hardpoint: " + gameObject.name + ", no weapon loaded");
+            //Debug.Log("cannot fire weapon from hardpoint: " + gameObject.name + ", no weapon loaded");
         }
     }
 

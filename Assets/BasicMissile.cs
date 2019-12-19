@@ -12,6 +12,8 @@ public class BasicMissile : Weapon
 
     public GameObject missileModel;
     public GameObject missileActive;
+    public GameObject effectsPrefab;
+    public Transform effectsCenter;
     public GameObject effectsObj;
     private Rigidbody rbRef;
     private CombatFlow myCombatFlow;
@@ -28,6 +30,10 @@ public class BasicMissile : Weapon
         myCombatFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
+
+        effectsObj = Instantiate(effectsPrefab);
+        effectsObj.transform.position = effectsCenter.position;
+
         effectsObj.GetComponent<Light>().enabled = false;
         effectsObj.GetComponent<TrailRenderer>().enabled = false;
 
@@ -52,6 +58,7 @@ public class BasicMissile : Weapon
     void Update()
     {
         tryArm();
+        effectsObj.transform.position = effectsCenter.position;
     }
 
     
@@ -70,6 +77,7 @@ public class BasicMissile : Weapon
 
     private void OnCollisionEnter(Collision collision)
     {
+        effectsObj.GetComponent<Light>().enabled = false;
         myCombatFlow.currentHP -= 100f; // die immediately on collision
         CombatFlow otherFlow = collision.gameObject.GetComponent<CombatFlow>();
         if(otherFlow != null)

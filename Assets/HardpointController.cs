@@ -114,46 +114,61 @@ public class HardpointController : MonoBehaviour
 
     short nextAvailableHardpointIndex(short typeIndex)
     {
-        activeHardpointIndexes[typeIndex]++; // increment index for this type
+        float smallestReloadTime = 0;
 
-        if(activeHardpointIndexes[typeIndex] > weaponTypeLists[typeIndex].Count - 1)
+        // check if current is null -- no need to search if this index is already good
+        if (weaponTypeLists[typeIndex][activeHardpointIndexes[typeIndex]].loadedWeaponObj == null)
         {
-            // loop through all in weaponTypeList, select first available
-            // if that fails, select the one with least reload time remaining
 
-            bool availableFound = false;
-            float smallestTimeRemainVal = -1f; 
-            short smallestTimeRemainIndex = -1; // -1 to signify first value hasn't been selected
+            activeHardpointIndexes[typeIndex]++; // increment index for this type
 
-            for (short i = 0; i < weaponTypeLists[typeIndex].Count - 1 && !availableFound; i++)
+
+            if (activeHardpointIndexes[typeIndex] > weaponTypeLists[typeIndex].Count - 1 ||         // check if index is past range for this type
+                weaponTypeLists[typeIndex][activeHardpointIndexes[typeIndex]].loadedWeaponObj == null) // check if this next index is good as well
             {
+                // loop through all in weaponTypeList, select first available
+                // if that fails, select the one with least reload time remaining
 
-                Hardpoint currentHardpoint = weaponTypeLists[typeIndex][i];
-                
-                // check if current hardpoint has loaded weapon
-                if(currentHardpoint.loadedWeaponObj != null)
+                bool availableFound = false;
+                float smallestTimeRemainVal = -1f; // -1 to signify first value hasn't been selected
+                short smallestTimeRemainIndex = 0; // default to first index
+
+                // loop through all the hardpoints for this type
+                for (short i = 0; i < weaponTypeLists[typeIndex].Count && !availableFound; i++)
                 {
-                    availableFound = true;
-                    activeHardpointIndexes[typeIndex] = i;
+
+                    Hardpoint currentHardpoint = weaponTypeLists[typeIndex][i];
+                    //Debug.Log("Reloadtime at " + i + ": " + currentHardpoint.currentTimer);
+
+                    // check if current hardpoint has loaded weapon
+                    if (currentHardpoint.loadedWeaponObj != null)
+                    {
+                        availableFound = true;
+                        activeHardpointIndexes[typeIndex] = i;
+                        //Debug.Log("Available found at index: " + activeHardpointIndexes[typeIndex]);
+                    }
+
+                    // save smallest timer value and index
+                    if (currentHardpoint.currentTimer < smallestTimeRemainVal || smallestTimeRemainVal < 0)
+                    {
+                        //Debug.Log("New small time found: " + currentHardpoint.currentTimer);
+                        smallestTimeRemainVal = currentHardpoint.currentTimer;
+                        smallestReloadTime = smallestTimeRemainVal;
+                        smallestTimeRemainIndex = i;
+                    }
+
                 }
 
-                // save smallest timer value and index
-                if(currentHardpoint.currentTimer < smallestTimeRemainVal || smallestTimeRemainIndex < 0)
+
+                // looped through all, couldn't find available. Select least reload time remaining
+                if (!availableFound)
                 {
-                    smallestTimeRemainVal = currentHardpoint.currentTimer;
-                    smallestTimeRemainIndex = i;
+                    activeHardpointIndexes[typeIndex] = smallestTimeRemainIndex;
+                    //Debug.Log("None available found. Defaulting to least time remaining at: " + smallestTimeRemainIndex);
                 }
-
-            }
-
-
-            // looped through all, couldn't find available. Select least reload time remaining
-            if (!availableFound)
-            {
-                activeHardpointIndexes[typeIndex] = smallestTimeRemainIndex;
             }
         }
-
+        //Debug.Log("============== RESULT: hardpoint " + activeHardpointIndexes[typeIndex] + " selected, with reload time remaining: ");
 
         return activeHardpointIndexes[typeIndex];
     }

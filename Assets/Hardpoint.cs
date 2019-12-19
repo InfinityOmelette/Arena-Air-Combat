@@ -10,7 +10,10 @@ public class Hardpoint : MonoBehaviour
 
     public Transform spawnCenter;
 
-    public GameObject currentWeaponObj;
+    public GameObject loadedWeaponObj;
+
+    public float reloadTime;
+    public float currentTimer;
 
 
 
@@ -25,11 +28,12 @@ public class Hardpoint : MonoBehaviour
     void spawnWeapon()
     {
         // instantiates prefab IN WORLD SPACE, fixed joint to player
-        currentWeaponObj = GameObject.Instantiate(weaponTypePrefab);
-        currentWeaponObj.transform.position = spawnCenter.position;
-        currentWeaponObj.transform.rotation = spawnCenter.rotation;
+        loadedWeaponObj = GameObject.Instantiate(weaponTypePrefab);
+        loadedWeaponObj.transform.position = spawnCenter.position;
+        loadedWeaponObj.transform.rotation = spawnCenter.rotation;
 
-        currentWeaponObj.GetComponent<Weapon>().linkToOwner(transform.root.gameObject);
+
+        loadedWeaponObj.GetComponent<Weapon>().linkToOwner(transform.root.gameObject);
 
 
         
@@ -38,19 +42,43 @@ public class Hardpoint : MonoBehaviour
 
     public void launchWithLock(GameObject targetObj)
     {
+        if (loadedWeaponObj != null)
+        {
+            loadedWeaponObj.GetComponent<Weapon>().myTarget = targetObj;
+            launch();
+        }
         
-        currentWeaponObj.GetComponent<Weapon>().myTarget = targetObj;
-        launchNoLock();
     }
 
-    public void launchNoLock()
+    public void launch() // doesn't need lock
     {
-        currentWeaponObj.GetComponent<Weapon>().launch();
+        if (loadedWeaponObj != null)
+        {
+            loadedWeaponObj.GetComponent<Weapon>().launch();
+            loadedWeaponObj = null;
+            currentTimer = reloadTime;
+        }
+        else // weapon is not loaded
+        {
+            Debug.Log("cannot fire weapon from hardpoint: " + gameObject.name + ", no weapon loaded");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(loadedWeaponObj == null)
+        {
+            
+            if(currentTimer > 0)
+            {
+                currentTimer -= Time.deltaTime;
+            }
+            else // reload timer runs out, reload
+            {
+                spawnWeapon();
+            }
 
+        }
     }
 }

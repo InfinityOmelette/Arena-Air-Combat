@@ -281,7 +281,7 @@ public class Explosion : MonoBehaviour
 
 
 
-        Debug.Log("Explosion collided with: " + targetRootObj.name);
+        //Debug.Log("Explosion collided with: " + targetRootObj.name);
 
         if (targetRb != null)
         {

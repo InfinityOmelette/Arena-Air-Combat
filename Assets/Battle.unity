@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1889391236}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.32564142, g: 0.3617744, b: 0.41976282, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -523,7 +523,7 @@ Transform:
   - {fileID: 274865536}
   - {fileID: 817912852}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &114502148
 GameObject:
@@ -976,7 +976,7 @@ Transform:
   - {fileID: 1781612844}
   - {fileID: 1819886053}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &217180062
 MonoBehaviour:
@@ -993,14 +993,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 1
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &217180063
 MonoBehaviour:
@@ -6151,7 +6150,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: -11.455001, y: 52.571003, z: 149.58301}
 --- !u!1 &264234365
 GameObject:
@@ -6348,7 +6347,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &311455501
 GameObject:
@@ -6458,7 +6457,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!154 &311858755
 TerrainCollider:
@@ -6515,7 +6514,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &328406248
 GameObject:
@@ -6814,7 +6813,7 @@ Transform:
   - {fileID: 1852174820}
   - {fileID: 1382046648}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &358699570
 MonoBehaviour:
@@ -6831,14 +6830,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &358699571
 MonoBehaviour:
@@ -6972,7 +6970,7 @@ Transform:
   - {fileID: 1764003954}
   - {fileID: 537355824}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &374479945
 MonoBehaviour:
@@ -6989,14 +6987,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &374479946
 MonoBehaviour:
@@ -7590,7 +7587,7 @@ Transform:
   - {fileID: 949963257}
   - {fileID: 1962784359}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &483690125
 MonoBehaviour:
@@ -7607,14 +7604,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &483690126
 MonoBehaviour:
@@ -7748,7 +7744,7 @@ Transform:
   - {fileID: 377529464}
   - {fileID: 829118444}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.43100002}
 --- !u!114 &495644561
 MonoBehaviour:
@@ -7765,14 +7761,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 1
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &495644562
 MonoBehaviour:
@@ -8274,7 +8269,7 @@ Transform:
   - {fileID: 732798331}
   - {fileID: 1079711866}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &545467745
 MonoBehaviour:
@@ -8291,14 +8286,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &545467746
 MonoBehaviour:
@@ -8524,7 +8518,7 @@ Transform:
   - {fileID: 1245498920}
   - {fileID: 1710296932}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &618268920
 MonoBehaviour:
@@ -8541,14 +8535,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &618268921
 MonoBehaviour:
@@ -9234,7 +9227,7 @@ Transform:
   - {fileID: 1018557083}
   - {fileID: 1059256784}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &747787068
 MonoBehaviour:
@@ -9251,14 +9244,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &747787069
 MonoBehaviour:
@@ -10262,7 +10254,7 @@ Transform:
   - {fileID: 311455502}
   - {fileID: 2114183964}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1016180222
 MonoBehaviour:
@@ -10279,14 +10271,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1016180223
 MonoBehaviour:
@@ -10739,7 +10730,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 18.495, y: 34.899002, z: 148.451}
 --- !u!198 &1069056096
 ParticleSystem:
@@ -15996,7 +15987,7 @@ Transform:
   - {fileID: 1299622864}
   - {fileID: 1116103339}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1094576333
 MonoBehaviour:
@@ -16013,14 +16004,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 1
 --- !u!114 &1094576334
 MonoBehaviour:
@@ -16296,7 +16286,7 @@ Transform:
   - {fileID: 602054828}
   - {fileID: 408545252}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1129356852
 MonoBehaviour:
@@ -16313,14 +16303,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1129356853
 MonoBehaviour:
@@ -16638,7 +16627,7 @@ Transform:
   - {fileID: 802067349}
   - {fileID: 1073146774}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1193678963
 MonoBehaviour:
@@ -16655,14 +16644,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 1
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1193678964
 MonoBehaviour:
@@ -17273,7 +17261,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1363470010
 GameObject:
@@ -22106,7 +22094,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 18.495, y: 34.899002, z: 148.451}
 --- !u!1 &1375814903
 GameObject:
@@ -22497,7 +22485,7 @@ Transform:
   - {fileID: 790547743}
   - {fileID: 1166116632}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1425568392
 MonoBehaviour:
@@ -22514,14 +22502,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 1
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1425568393
 MonoBehaviour:
@@ -22628,7 +22615,7 @@ Transform:
   - {fileID: 1318137880}
   - {fileID: 127526167}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1437951500
 MonoBehaviour:
@@ -22779,7 +22766,7 @@ Transform:
   - {fileID: 1585507528}
   - {fileID: 264234366}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1443931298
 MonoBehaviour:
@@ -22796,14 +22783,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1443931299
 MonoBehaviour:
@@ -22914,7 +22900,7 @@ Transform:
   m_LocalScale: {x: 560, y: 10, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1461029774
 PrefabInstance:
@@ -22934,11 +22920,6 @@ PrefabInstance:
     - target: {fileID: 0}
       propertyPath: bounceDamage
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760699, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_Name
-      value: SpecMG
       objectReference: {fileID: 0}
     - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
         type: 3}
@@ -22994,6 +22975,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760699, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: m_Name
+      value: SpecMG
       objectReference: {fileID: 0}
     - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
         type: 3}
@@ -23513,7 +23499,7 @@ RectTransform:
   m_Children:
   - {fileID: 918624065}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -23633,7 +23619,7 @@ Transform:
   - {fileID: 1497247597}
   - {fileID: 986231192}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1668784112
 MonoBehaviour:
@@ -23650,14 +23636,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1668784113
 MonoBehaviour:
@@ -24097,7 +24082,7 @@ Transform:
   - {fileID: 1297463230}
   - {fileID: 667060051}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1789408628
 MonoBehaviour:
@@ -24114,14 +24099,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1789408629
 MonoBehaviour:
@@ -24348,7 +24332,7 @@ Transform:
   - {fileID: 1165910958}
   - {fileID: 1564127234}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -4.1200004, y: 90.823006, z: -65.450005}
 --- !u!114 &1810604597
 MonoBehaviour:
@@ -24365,14 +24349,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1810604598
 MonoBehaviour:
@@ -29336,7 +29319,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: -11.455001, y: 52.571003, z: 149.58301}
 --- !u!1 &1852174819
 GameObject:
@@ -29612,7 +29595,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 415.635, y: -96.04201, z: -543.339}
 --- !u!154 &1889391238
 TerrainCollider:
@@ -29830,7 +29813,7 @@ Transform:
   - {fileID: 50233476}
   - {fileID: 1518359001}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1919763900
 MonoBehaviour:
@@ -29847,14 +29830,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &1919763901
 MonoBehaviour:
@@ -30558,7 +30540,7 @@ Transform:
   - {fileID: 2062498545}
   - {fileID: 157013816}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2136455884
 MonoBehaviour:
@@ -30575,14 +30557,13 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
-  explosionRadius: 20
   explosionMaxDamage: 20
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 0
-  isAlive: 1
+  isActive: 1
   doDebugDamage: 0
 --- !u!114 &2136455885
 MonoBehaviour:
@@ -30619,6 +30600,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 900633973277626237, guid: c6a657cae6863184392886b19cc64fb8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 900633973277626236, guid: c6a657cae6863184392886b19cc64fb8,
         type: 3}
@@ -30658,7 +30644,7 @@ PrefabInstance:
     - target: {fileID: 900633973277626236, guid: c6a657cae6863184392886b19cc64fb8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 24
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 900633973277626236, guid: c6a657cae6863184392886b19cc64fb8,
         type: 3}
@@ -30734,6 +30720,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileModel
       objectReference: {fileID: 0}
+    - target: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6942193217100502082, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -30772,7 +30763,7 @@ PrefabInstance:
     - target: {fileID: 6942193217100502082, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6942193217100502082, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
@@ -30793,6 +30784,80 @@ PrefabInstance:
     - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
     - {fileID: -1806566014927314313, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+--- !u!1001 &7285490948175298515
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_Name
+      value: BasicBomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 855
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 24.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 549.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.64811105
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.33114848
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6014184
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.32952818
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957420883659105117, guid: 18ebd03327c38e448812fa1002c951ae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
 --- !u!1001 &7744941293315270100
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30804,6 +30869,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RealPlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7744941291827435728, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1785817150400101556, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
@@ -30958,7 +31028,7 @@ PrefabInstance:
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 7744941291827435740, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
         type: 3}

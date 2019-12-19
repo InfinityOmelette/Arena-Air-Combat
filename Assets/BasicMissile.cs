@@ -12,15 +12,13 @@ public class BasicMissile : Weapon
 
     public GameObject missileModel;
     public GameObject missileActive;
+    public GameObject effectsObj;
     private Rigidbody rbRef;
     private CombatFlow myCombatFlow;
 
 
     public float speed;
-    public float armingTime;
-    private float armTimeRemaining;
-    public bool launched = false;
-    public bool armed = false;
+    
 
     
 
@@ -30,8 +28,10 @@ public class BasicMissile : Weapon
         myCombatFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
+        effectsObj.GetComponent<Light>().enabled = false;
+        effectsObj.GetComponent<TrailRenderer>().enabled = false;
 
-        GetComponent<CombatFlow>().isActive = false;
+        myCombatFlow.isActive = false;
         
 
     }
@@ -44,50 +44,17 @@ public class BasicMissile : Weapon
     }
     
 
-    // consider making this recursive to go into all of the children's children as well?
-    bool setColliders(bool enableColl)
-    {
-        //Debug.Log("SET COLLIDERS BEGINS");
-        return setChildColliders(gameObject, enableColl);
-    }
-
-
-    bool setChildColliders(GameObject obj, bool enableColl)
-    {
-        //Debug.Log("SetChildColliders called for: " + obj + ", which has " + obj.transform.childCount + " children");
-        if (obj.transform.childCount > 0)
-        {
-            
-            for (short i = 0; i < obj.transform.childCount; i++)
-            {
-                GameObject childObj = obj.transform.GetChild(i).gameObject;
-                Collider childColl = childObj.GetComponent<Collider>();
-                if (childColl != null)
-                    childColl.enabled = enableColl;
-                setChildColliders(childObj, enableColl);
-            }
-        }
-        return enableColl;
-    }
+    
 
 
 
 
     void Update()
     {
-        if (launched)
-        {
-
-            if(armTimeRemaining < 0)
-            {
-                armed = true;
-                setColliders(true);
-            }
-
-            armTimeRemaining -= Time.deltaTime;
-
-        }
+        tryArm();
     }
+
+    
 
     private void FixedUpdate()
     {
@@ -116,6 +83,9 @@ public class BasicMissile : Weapon
     public void launch()
     {
         Destroy(GetComponent<FixedJoint>());
+        rbRef.angularVelocity = new Vector3(0.0f, 0.0f, 0.0f);
+        effectsObj.GetComponent<Light>().enabled = true;
+        effectsObj.GetComponent<TrailRenderer>().enabled = true;
         launched = true;
         armTimeRemaining = armingTime;
         myCombatFlow.isActive = true;

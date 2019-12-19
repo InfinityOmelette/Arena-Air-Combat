@@ -60,6 +60,15 @@ public class PlayerInput_Aircraft : MonoBehaviour
             hardpointController.launchButtonDown = false;
         }
 
+        if (Input.GetButtonDown("Weapon Change") || Input.GetKeyDown(KeyCode.P))
+        {
+            hardpointController.changeButtonDown = true;
+        }
+        else
+        {
+            hardpointController.changeButtonDown = false;
+        }
+
 
         if (Input.GetKeyDown(KeyCode.B))
         {

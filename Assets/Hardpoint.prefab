@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795696536439311323}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.087, z: 0.14099997}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: -0.087, z: 0.045}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5967983075009958474}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!1 &1505007702539010322
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,3 +170,6 @@ MonoBehaviour:
   weaponTypePrefab: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
     type: 3}
   spawnCenter: {fileID: 7454611196334543948}
+  loadedWeaponObj: {fileID: 0}
+  reloadTime: 10
+  currentTimer: 0

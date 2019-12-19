@@ -23,7 +23,6 @@ public class CombatFlow : MonoBehaviour
     public bool isLocalPlayer;
 
 
-    public float explosionRadius; // damage falls off linearly from maximum at center, to zero at radius
     public float explosionMaxDamage;
     
     // inefficient -- lots of non-player combat objects will have useless perspective references

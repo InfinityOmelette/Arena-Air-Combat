@@ -12,6 +12,7 @@ public class ExplodeStats : MonoBehaviour
     public bool emitLightEnabled;
     public Color glowColor;
     public Color smokeColor;
+    public bool doExplode = true;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +28,10 @@ public class ExplodeStats : MonoBehaviour
 
     public void explode(Vector3 position)
     {
-        Explosion.createExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor);
+        if (doExplode)
+        {
+            Explosion.createExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor);
+        }
     }
 
 }

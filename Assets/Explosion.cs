@@ -37,6 +37,8 @@ public class Explosion : MonoBehaviour
 
     private static GameObject explosionPrefab;
 
+    private List<GameObject> explosionVictimRootList;
+
 
     // *********************************************************************************
     // **************************   STATIC METHODS   ***********************************
@@ -68,7 +70,7 @@ public class Explosion : MonoBehaviour
         GameObject newExplosion = GameObject.Instantiate(getExplodePrefab());
         newExplosion.transform.position = position;
         newExplosion.GetComponent<Explosion>().goExplode(setRadius, setCoreDamage, doCollide, dissipationTime, glowColor, doEmitLight, newSmokeColor);
-        //Debug.Log("static create explosion called");
+        //Debug.Log("***********************************************  static create explosion called");
     }
 
     public static void linkExplosionPrefabRef()
@@ -86,6 +88,7 @@ public class Explosion : MonoBehaviour
     {
         // material reference points to copy of original -- each explosion has its own material
         mat = new Material(mat);
+        explosionVictimRootList = new List<GameObject>();
 
     }
 
@@ -130,15 +133,22 @@ public class Explosion : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (doExplode && GetComponent<Collider>().enabled)
-        {
-            killCollNextUpdate = true;
-        }
 
-        if (killCollNextUpdate)
-        {
-            GetComponent<Collider>().enabled = false;
-        }
+        // Start explosion
+
+        //Collider coll = GetComponent<Collider>();
+
+        //if (doExplode && coll.enabled)
+        //{
+        //    killCollNextUpdate = true;
+        //    SphereCollider sphereColl = (SphereCollider)coll;
+        //    sphereColl.radius = radius;
+        //}
+
+        //if (killCollNextUpdate)
+        //{
+        //    coll.enabled = false;
+        //}
     }
 
 
@@ -151,8 +161,14 @@ public class Explosion : MonoBehaviour
 
             Light light = GetComponent<Light>();
 
+            //SphereCollider coll = GetComponent<SphereCollider>();
+            //Debug.Log("SphereCollider info: enabled: " + coll.enabled + ", radius: " + coll.radius);
+
             if (!radiusMaxed) // radius isn't maxed -- rapid expansion
             {
+
+                
+
                 // rapidly expand towards radius
                 float rapidExpandScale = stepValOverTime(transform.localScale.x, radius, 0.0f, expandTime);
                 transform.localScale = new Vector3(rapidExpandScale, rapidExpandScale, rapidExpandScale);
@@ -168,6 +184,8 @@ public class Explosion : MonoBehaviour
             }
             else // radius is maxed --> dissipate and expand slowly
             {
+                GetComponent<Collider>().enabled = false; // collider won't intersect during dissipation phase
+
                 Color color = mat.color;
 
                 // SMOKE GLOW DECAY
@@ -231,7 +249,7 @@ public class Explosion : MonoBehaviour
     // CONSIDER MAKING THESE PROCEDURAL TO SIMPLIFY CALL
     public void goExplode(float setRadius, float setCoreDamage, bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor)
     {
-        //Debug.Log("goExplode called");
+       // Debug.Log("=================================================== goExplode called");
 
         // smoke settings
         emissionColor = glowColor;
@@ -243,6 +261,8 @@ public class Explosion : MonoBehaviour
         doExplode = true;
         fadeOutTime = dissipationTime;
         GetComponent<Collider>().enabled = doCollide;
+
+        //Debug.Log("Setting collider to " + GetComponent<Collider>().enabled);
 
 
         // sphere collider radius set to 1 in prefab. This won't change. .5 matches object radius, 1 is double
@@ -267,35 +287,92 @@ public class Explosion : MonoBehaviour
     }
 
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        //Debug.Log("Explosion collided with " + collision.other.gameObject);
+        explosionContactProcess(collision.gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log("Explosion triggered on: " + other.gameObject);
+        explosionContactProcess(other.gameObject);
+    }
+
+    private void explosionContactProcess(GameObject victim)
     {
         // deal damage
         // apply force
 
 
-        GameObject targetRootObj = other.transform.root.gameObject;
+        GameObject targetRootObj = victim.transform.root.gameObject;
+        //Debug.Log("Explosion contacted: " + victim.name + " with root: " + targetRootObj.name);
 
-        Rigidbody targetRb = targetRootObj.GetComponent<Rigidbody>();
-        CombatFlow targetCF = targetRootObj.GetComponent<CombatFlow>();
-
-
-
-
-        //Debug.Log("Explosion collided with: " + targetRootObj.name);
-
-        if (targetRb != null)
+        // only act upon victim root if he is a new victim
+        if (isNewVictim(targetRootObj))
         {
-            targetRb.AddExplosionForce(coreDamage, transform.position, radius * 2);
+
+            
+            
+            explosionVictimRootList.Add(targetRootObj);
             
 
+            Rigidbody targetRb = targetRootObj.GetComponent<Rigidbody>();
+            CombatFlow targetCF = targetRootObj.GetComponent<CombatFlow>();
 
-        }
+            bool noForce = false; // I know this is super crusty way to do this
 
-        if (targetCF != null)
-        {
-            targetCF.currentHP -= coreDamage;
+
+            if(targetCF != null)
+            {
+
+
+                // explosions will never intersect with projectiles
+                if (targetCF.type != CombatFlow.Type.PROJECTILE)
+                {
+                    Debug.Log("Explosion acting upon victim: " + targetRootObj + " for " + coreDamage + " damage, list count: " + explosionVictimRootList.Count);
+                    targetCF.currentHP -= coreDamage;
+                }
+                else
+                    noForce = true;
+            }
+
+
+            if (targetRb != null && !noForce)
+            {
+                targetRb.AddExplosionForce(coreDamage, transform.position, radius * 2);
+
+            }
+
+
+
+
+
         }
     }
+
+
+    private bool isNewVictim(GameObject victimRoot)
+    {
+        bool isNewVictim = true;
+
+        string victimListContents = "Victim list (size " + explosionVictimRootList.Count.ToString() + ") contents: ";
+        for(short i = 0; i < explosionVictimRootList.Count; i++)
+        {
+            //victimListContents += "(" + explosionVictimRootList[i].name + "), ";
+            if(victimRoot == explosionVictimRootList[i])
+            {
+                isNewVictim = false;
+            }
+
+
+        }
+       // Debug.Log("Is new victim?: " + isNewVictim + " from " + victimListContents);
+        return isNewVictim;
+    }
+
+
+
 
     
 }

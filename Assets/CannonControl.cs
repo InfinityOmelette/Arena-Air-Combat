@@ -7,9 +7,8 @@ public class CannonControl : MonoBehaviour
 
     public GameObject[] cannons;
 
-    public float debugFireRate;
 
-    public float convergence;
+    public float convergenceRange;
 
 
     public float cannonInput;
@@ -24,7 +23,7 @@ public class CannonControl : MonoBehaviour
         gunsOn = false;
         for (int i = 0; i < cannons.Length; i++)
         {
-            cannons[i].transform.LookAt(transform.position + transform.forward * convergence);
+            cannons[i].transform.LookAt(transform.position + transform.forward * convergenceRange);
             cannons[i].GetComponent<ParticleSystem>().Stop();
 
         }
@@ -39,7 +38,7 @@ public class CannonControl : MonoBehaviour
 
             
 
-            if (!gunsOn)
+            if (!gunsOn) // turn or keep guns on
             {
                 for (int i = 0; i < cannons.Length; i++)
                 {

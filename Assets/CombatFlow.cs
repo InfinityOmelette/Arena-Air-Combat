@@ -35,10 +35,11 @@ public class CombatFlow : MonoBehaviour
     public Type type;
     public bool isActive = true;
 
+    private bool deathCommanded = false;
 
     public bool doDebugDamage = false;
 
-    private ExplodeStats explodeStats;
+    public ExplodeStats explodeStats;
 
 
     private void Awake()
@@ -84,17 +85,21 @@ public class CombatFlow : MonoBehaviour
     }
 
 
-    void die()
+    public void die()
     {
-        isActive = false; // he ded now
-        explode();
+        if (!deathCommanded) // avoid repeated calls by outside objects
+        {
+            deathCommanded = true;
+            isActive = false; // he ded now
+            explode();
 
 
-        if (isLocalPlayer)
-            camChange(PerspectiveProperties.CamType.SPECTATOR);
-        CombatFlow.combatUnits.Remove(gameObject);
-        // remove my icon from hud
-        destroySelf();
+            if (isLocalPlayer)
+                camChange(PerspectiveProperties.CamType.SPECTATOR);
+            CombatFlow.combatUnits.Remove(gameObject);
+            // remove my icon from hud
+            destroySelf();
+        }
 
     }
 
@@ -108,6 +113,7 @@ public class CombatFlow : MonoBehaviour
     {
         // blast radius deals damage
         // explosion render
+        //Debug.Log("----------------------------- Combat flow explode() called by " + gameObject.name);
         explodeStats.explode(transform.position);
     }
 

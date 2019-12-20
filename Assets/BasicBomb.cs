@@ -16,6 +16,7 @@ public class BasicBomb : Weapon
     // Start is called before the first frame update
     void Start()
     {
+        impactDestroysProjectiles = true;
         myCombatFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);

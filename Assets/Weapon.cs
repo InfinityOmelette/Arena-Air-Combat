@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour
     public float armingTime;
     public float armTimeRemaining;
     public bool armed = false;
-
+    public bool impactDestroysProjectiles = false;
 
 
 

@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d71df772c18b92e4ca7302fdb2b861a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -143,6 +143,7 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.9656743, b: 0, a: 1}
   smokeColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  doExplode: 1
 --- !u!1 &5815251015398722670
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +433,7 @@ MonoBehaviour:
   emitLightEnabled: 0
   glowColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   smokeColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
+  doExplode: 1
 --- !u!1001 &82743988653350584
 PrefabInstance:
   m_ObjectHideFlags: 0

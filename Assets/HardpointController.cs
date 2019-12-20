@@ -8,7 +8,7 @@ public class HardpointController : MonoBehaviour
 
     public Hardpoint[] hardpoints;
 
-    public List<List<Hardpoint>> weaponTypeLists; // two dimensional list -- hardpoint array for each weapon type
+    public List<List<Hardpoint>> weaponTypeHardpointLists; // two dimensional list -- hardpoint array for each weapon type
     short[] activeHardpointIndexes;   // use weaponTypeArrays[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]]
 
     public short activeTypeIndex;
@@ -19,13 +19,14 @@ public class HardpointController : MonoBehaviour
 
 
     public bool launchButtonDown;
+    public bool launchButtonUp;
     public bool changeButtonDown;
 
     // Commands missiles to launch
 
     private void Awake()
     {
-        weaponTypeLists = new List<List<Hardpoint>>();
+        weaponTypeHardpointLists = new List<List<Hardpoint>>();
         
     }
 
@@ -52,15 +53,15 @@ public class HardpointController : MonoBehaviour
             short typeIndex = findTypeIndex(hardpoints[i].weaponTypePrefab);
             if(typeIndex < 0)
             {
-                weaponTypeLists.Add(new List<Hardpoint>()); // add new list
-                typeIndex = (short)(weaponTypeLists.Count - 1); // should never be < 0, with list being added this block
+                weaponTypeHardpointLists.Add(new List<Hardpoint>()); // add new list
+                typeIndex = (short)(weaponTypeHardpointLists.Count - 1); // should never be < 0, with list being added this block
             }
-            weaponTypeLists[typeIndex].Add(hardpoints[i]); // add item to existing list
+            weaponTypeHardpointLists[typeIndex].Add(hardpoints[i]); // add item to existing list
 
         }
 
         // all types are now known, have short designating active for each
-        activeHardpointIndexes = new short[weaponTypeLists.Count];
+        activeHardpointIndexes = new short[weaponTypeHardpointLists.Count];
     }
 
     // search through each list to find existing weapon prefab type
@@ -69,9 +70,9 @@ public class HardpointController : MonoBehaviour
     {
         short typeIndex = -1; // -1 if cannot be found
 
-        for(short i = 0; i < weaponTypeLists.Count && typeIndex == -1; i++)
+        for(short i = 0; i < weaponTypeHardpointLists.Count && typeIndex == -1; i++)
         {
-            if(prefabLink == weaponTypeLists[i][0].weaponTypePrefab)
+            if(prefabLink == weaponTypeHardpointLists[i][0].weaponTypePrefab)
             {
                 typeIndex = i;
             }
@@ -91,6 +92,11 @@ public class HardpointController : MonoBehaviour
             launchProcess();
         }
 
+        if (launchButtonUp)
+        {
+            weaponTypeHardpointLists[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]].launchEnd();
+        }
+
         if (changeButtonDown)
         {
             changeWeaponType();
@@ -100,7 +106,7 @@ public class HardpointController : MonoBehaviour
     void launchProcess()
     {
         nextAvailableHardpointIndex(activeTypeIndex);
-        Hardpoint currentActiveHardpoint = weaponTypeLists[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]];
+        Hardpoint currentActiveHardpoint = weaponTypeHardpointLists[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]];
 
         if (tgtComputer.currentTarget == null) // if no target is locked
         {
@@ -117,14 +123,14 @@ public class HardpointController : MonoBehaviour
         float smallestReloadTime = 0;
 
         // check if current is null -- no need to search if this index is already good
-        if (weaponTypeLists[typeIndex][activeHardpointIndexes[typeIndex]].loadedWeaponObj == null)
+        if (weaponTypeHardpointLists[typeIndex][activeHardpointIndexes[typeIndex]].loadedWeaponObj == null)
         {
 
             activeHardpointIndexes[typeIndex]++; // increment index for this type
 
 
-            if (activeHardpointIndexes[typeIndex] > weaponTypeLists[typeIndex].Count - 1 ||         // check if index is past range for this type
-                weaponTypeLists[typeIndex][activeHardpointIndexes[typeIndex]].loadedWeaponObj == null) // check if this next index is good as well
+            if (activeHardpointIndexes[typeIndex] > weaponTypeHardpointLists[typeIndex].Count - 1 ||         // check if index is past range for this type
+                weaponTypeHardpointLists[typeIndex][activeHardpointIndexes[typeIndex]].loadedWeaponObj == null) // check if this next index is good as well
             {
                 // loop through all in weaponTypeList, select first available
                 // if that fails, select the one with least reload time remaining
@@ -134,10 +140,10 @@ public class HardpointController : MonoBehaviour
                 short smallestTimeRemainIndex = 0; // default to first index
 
                 // loop through all the hardpoints for this type
-                for (short i = 0; i < weaponTypeLists[typeIndex].Count && !availableFound; i++)
+                for (short i = 0; i < weaponTypeHardpointLists[typeIndex].Count && !availableFound; i++)
                 {
 
-                    Hardpoint currentHardpoint = weaponTypeLists[typeIndex][i];
+                    Hardpoint currentHardpoint = weaponTypeHardpointLists[typeIndex][i];
                     //Debug.Log("Reloadtime at " + i + ": " + currentHardpoint.currentTimer);
 
                     // check if current hardpoint has loaded weapon
@@ -177,7 +183,7 @@ public class HardpointController : MonoBehaviour
     void changeWeaponType()
     {
         activeTypeIndex++;
-        if (activeTypeIndex > weaponTypeLists.Count - 1)
+        if (activeTypeIndex > weaponTypeHardpointLists.Count - 1)
             activeTypeIndex = 0;
     }
 }

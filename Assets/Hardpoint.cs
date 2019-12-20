@@ -64,6 +64,11 @@ public class Hardpoint : MonoBehaviour
         }
     }
 
+    public void launchEnd()
+    {
+        // tell weapon to stop launching
+    }
+
     // Update is called once per frame
     void Update()
     {

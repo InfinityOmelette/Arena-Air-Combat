@@ -104,17 +104,14 @@ public class BasicMissile : Weapon
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-
-        effectsObj.GetComponent<Light>().enabled = false;
-
-        GameObject otherRoot = collision.gameObject.transform.root.gameObject;
+        GameObject otherRoot = other.gameObject.transform.root.gameObject;
         CombatFlow otherFlow = otherRoot.GetComponent<CombatFlow>();
-        
+
         Weapon otherWeapon = otherRoot.gameObject.GetComponent<Weapon>();
 
-        bool doDealImpact = true;
+
 
         // If other has a flow and is the one impact victim
         if (otherFlow != null && otherRoot != impactVictimRoot)
@@ -128,37 +125,35 @@ public class BasicMissile : Weapon
                 myCombatFlow.explodeStats.doExplode = false; // death will only trigger enemy explosion
             }
 
-            // =========  TRY TO DEAL IMPACT -- FOLLOWING CONDITIONS FAIL IMPACT
+            // =========  TRY TO DEAL IMPACT
 
+            bool doDealImpact = false;
 
-            //  Can do damage if victim has Weapon component, and this weapon is set to destroy projectiles
-            if(otherWeapon == null && !impactDestroysProjectiles)
+            // leaving this super obfuscated like this in case more complex conditions wanted later
+            if (otherFlow != null)
             {
-                doDealImpact = false;
+                doDealImpact = true;
             }
 
-            // obviously can't deal impact if there is no combatFlow to do it to
-            if(otherFlow == null)
-            {
-                doDealImpact = false;
-            }
 
             // finally, deal the impact
             if (doDealImpact)
             {
+                
                 otherFlow.currentHP -= impactDamage;
                 Debug.Log("Impact dealing " + impactDamage + " damage to " + otherFlow);
             }
+
             
-            
-            
+
         }
 
-        myCombatFlow.die(); // die immediately on collision
-
-
-
+        
+        effectsObj.GetComponent<Light>().enabled = false;
+        myCombatFlow.currentHP -= myCombatFlow.currentHP;
     }
+
+
 
 
 

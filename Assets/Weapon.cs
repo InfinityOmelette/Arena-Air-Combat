@@ -9,7 +9,6 @@ public class Weapon : MonoBehaviour
     public float armingTime;
     public float armTimeRemaining;
     public bool armed = false;
-    public bool impactDestroysProjectiles = false;
 
 
 
@@ -59,6 +58,12 @@ public class Weapon : MonoBehaviour
     virtual public void launch()
     {
         Debug.Log("Parent Launch called");
+    }
+
+
+    virtual public void launchEnd()
+    {
+
     }
 
     virtual public void linkToOwner( GameObject owner)

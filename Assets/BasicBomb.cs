@@ -16,7 +16,6 @@ public class BasicBomb : Weapon
     // Start is called before the first frame update
     void Start()
     {
-        impactDestroysProjectiles = true;
         myCombatFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
@@ -55,18 +54,16 @@ public class BasicBomb : Weapon
         myCombatFlow.isActive = true;
     }
 
-    
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Bomb collided");
         myCombatFlow.currentHP -= 100f; // die immediately on collision
-        CombatFlow otherFlow = collision.gameObject.GetComponent<CombatFlow>();
+        CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
         if (otherFlow != null)
         {
             otherFlow.currentHP -= 100f;
         }
-
-        
     }
+
 }

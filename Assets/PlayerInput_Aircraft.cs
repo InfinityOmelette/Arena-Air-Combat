@@ -26,6 +26,10 @@ public class PlayerInput_Aircraft : MonoBehaviour
     public float currentTgtHoldTime;
 
 
+    public float pitchInputLerp;
+    public float rollInputLerp;
+    public float rudderInputLerp;
+
     private void Awake()
     {
         tgtComputer = GetComponent<TgtComputer>();
@@ -152,9 +156,9 @@ public class PlayerInput_Aircraft : MonoBehaviour
         float throttle = Input.GetAxis("Throttle");
 
         // FLIGHT
-        flight.input_pitch = Input.GetAxis("Pitch");
-        flight.input_yaw = yaw;
-        flight.input_roll = Input.GetAxis("Roll");
+        flight.input_pitch = Mathf.Lerp(flight.input_pitch, Input.GetAxis("Pitch"), pitchInputLerp);
+        flight.input_yaw = Mathf.Lerp(flight.input_yaw, yaw, rudderInputLerp);
+        flight.input_roll = Mathf.Lerp(flight.input_roll, Input.GetAxis("Roll"), rollInputLerp);
 
         // ENGINE
         engine.input_throttleAxis = throttle;
@@ -163,7 +167,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
         // WHEELS
         wheels.input_brakeAxis = throttle;
         wheels.input_dPadHoriz = Input.GetAxis("D-Pad Horiz");
-        wheels.input_rudderAxis = yaw;
+        wheels.input_rudderAxis = Mathf.Lerp(wheels.input_rudderAxis, yaw, rudderInputLerp);
 
         // CAMERA
         //cam.input_freeLookHoriz = Mathf.Lerp(cam.input_freeLookHoriz, Input.GetAxis("CamLookX"), cam.freeLookLerpRate);

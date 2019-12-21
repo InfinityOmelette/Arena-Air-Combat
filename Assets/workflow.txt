@@ -130,6 +130,24 @@ BASIC PLACEHOLDER MISSILE TYPES
 
 WEAPON HARDPOINT OBJECT
 
+ABSTRACT WEAPON CLASS -- allows many types of weapons to be recognized equally as 'Weapon'
+
+HARDPOINT CONTROLLER -- switch between weapon types
+
+
+
+Remove majority of BasicAirplane colliders to reduce lag
+
+New airplane model looks sicccc as fuccccc
+
+De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
+ - Explosion has a specified team? Cannot hurt allied CombatFlow's?
+ - Bombs cannot collide with friendly explosions?
+ - Remove pointless goExplode function in Explode class -- just set those values from the static method
+ - More explosion properties -- expand time, team, destroyProjectiles
+
+
+ Create non-dropping weapon pods
 
 
 CLOSE RANGE VISUAL TALLY

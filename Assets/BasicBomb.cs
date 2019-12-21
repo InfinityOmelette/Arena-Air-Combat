@@ -13,8 +13,8 @@ public class BasicBomb : Weapon
 
 
 
-    // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
         myCombatFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();

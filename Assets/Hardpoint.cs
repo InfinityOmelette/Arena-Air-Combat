@@ -34,6 +34,7 @@ public class Hardpoint : MonoBehaviour
 
 
         loadedWeaponObj.GetComponent<Weapon>().linkToOwner(transform.root.gameObject);
+        loadedWeaponObj.GetComponent<Weapon>().myTeam = transform.root.GetComponent<CombatFlow>().team;
 
 
         

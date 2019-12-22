@@ -11,8 +11,10 @@ public class BasicBomb : Weapon
 
     public Rigidbody rbRef;
 
+    public float impactDamage;
 
 
+    private GameObject oneImpactVictim;
     
     void Awake()
     {
@@ -57,12 +59,40 @@ public class BasicBomb : Weapon
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Bomb collided");
-        myCombatFlow.currentHP -= 100f; // die immediately on collision
-        CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
-        if (otherFlow != null)
+        if (oneImpactVictim == null)
         {
-            otherFlow.currentHP -= 100f;
+            
+
+            bool doAct = true; // various conditions will try to make this false
+
+
+            // impact with effects
+            if (other.CompareTag("Effects") && !impactOnEffects)
+                doAct = false;
+
+
+            // friendly fire
+            CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
+            if (otherFlow != null)
+            {
+                if (otherFlow.team == myTeam && !friendlyImpact)
+                    doAct = false;
+            }
+
+            // don't act if touching explosion
+
+            if (doAct)
+            {
+                oneImpactVictim = other.transform.root.gameObject;
+
+                Debug.Log("Bomb collided");
+                myCombatFlow.currentHP -= myCombatFlow.currentHP; // die immediately on collision
+                                                                  //CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
+                if (otherFlow != null)
+                {
+                    otherFlow.currentHP -= impactDamage;
+                }
+            }
         }
     }
 

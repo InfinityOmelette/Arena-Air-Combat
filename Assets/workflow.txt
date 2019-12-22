@@ -134,11 +134,14 @@ ABSTRACT WEAPON CLASS -- allows many types of weapons to be recognized equally a
 
 HARDPOINT CONTROLLER -- switch between weapon types
 
-
+New airplane model looks sicccc as fuccccc
 
 Remove majority of BasicAirplane colliders to reduce lag
+ -- THIS WILL CHANGE AIRCRAFT HANDLING
 
-New airplane model looks sicccc as fuccccc
+Investigate lookAt camera wonkiness
+
+
 
 De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
  - Explosion has a specified team? Cannot hurt allied CombatFlow's?
@@ -146,8 +149,15 @@ De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
  - Remove pointless goExplode function in Explode class -- just set those values from the static method
  - More explosion properties -- expand time, team, destroyProjectiles
 
+ Camera axis angle offset in various cases like bomb selected, or gear down
 
  Create non-dropping weapon pods
+
+ HUD shows weapon graphic for each hardpoint, selected weapon, reload remaining, highlight all of selected type
+  - each hardpoint carries new HUD icon obj, image changed by weapon, reads hardpoint reload data
+  - updateHUD() in hardpointController -- called when weapon changed or fired
+
+  Afterburner graphic
 
 
 CLOSE RANGE VISUAL TALLY

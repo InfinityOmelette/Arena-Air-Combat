@@ -16,14 +16,18 @@ public class Explosion : MonoBehaviour
 
     private bool doExplode = false;
     private bool radiusMaxed = false;
-    private bool killCollNextUpdate = false;
+
+    public float explosiveForce;
 
     public float lightRangeScaleFactor;
     public float flashIntensity;
     public float lightDecayTime; // seconds to full decay
     public float smokeGlowDecayTime;
 
-
+    // NEWLY ADDED PROPERTIES
+    public CombatFlow.Team team;
+    public bool friendlyFire = true;
+    public bool damageProjectiles = true;
 
     public Material mat;
     private MeshRenderer rend;
@@ -33,7 +37,6 @@ public class Explosion : MonoBehaviour
     public Color smokeColor;
 
 
-    bool secondCallMade = false;
 
     private static GameObject explosionPrefab;
 
@@ -62,15 +65,67 @@ public class Explosion : MonoBehaviour
     //  dissipation time
     //  glow color
     //  emit light enabled
-    public static void createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
-        bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor)
+
+    // expand time
+    // team
+    // damageProjectiles
+    // friendlyFire
+    public static Explosion createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
+        bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor,
+        float newExpandTime, CombatFlow.Team newTeam, bool newDamageProjectiles, bool newFriendlyFire, 
+        float newExplosiveForce)
     {
         //Debug.Log("Explosion settings: position: " + position + ", radius: " + setRadius + ", damage: " + setCoreDamage + " doCollide: " + doCollide +
          //   ", dissipationTime: " + dissipationTime + "glowColor: " + glowColor + ", doEmitLight: " + doEmitLight + ", newSmokeColor: " + newSmokeColor);
         GameObject newExplosion = GameObject.Instantiate(getExplodePrefab());
         newExplosion.transform.position = position;
-        newExplosion.GetComponent<Explosion>().goExplode(setRadius, setCoreDamage, doCollide, dissipationTime, glowColor, doEmitLight, newSmokeColor);
+
+        Explosion newExplosionScript = newExplosion.GetComponent<Explosion>();
+
         //Debug.Log("***********************************************  static create explosion called");
+
+
+        // Debug.Log("=================================================== goExplode called");
+
+        // smoke settings
+        newExplosionScript.emissionColor = glowColor;
+        newExplosionScript.smokeColor = newSmokeColor;
+
+        //mat.SetColor("_EmissionColor", Color.yellow);
+        newExplosionScript.radius = setRadius;
+        newExplosionScript.coreDamage = setCoreDamage;
+        newExplosionScript.doExplode = true;
+        newExplosionScript.fadeOutTime = dissipationTime;
+        newExplosionScript.GetComponent<Collider>().enabled = doCollide;
+
+        newExplosionScript.expandTime = newExpandTime;
+        newExplosionScript.team = newTeam;
+        newExplosionScript.damageProjectiles = newDamageProjectiles;
+        newExplosionScript.friendlyFire = newFriendlyFire;
+        newExplosionScript.explosiveForce = newExplosiveForce;
+
+        //Debug.Log("Setting collider to " + GetComponent<Collider>().enabled);
+
+
+        // sphere collider radius set to 1 in prefab. This won't change. .5 matches object radius, 1 is double
+
+
+        // light settings
+        Light light = newExplosionScript.GetComponent<Light>();
+        light.enabled = doEmitLight;
+        //light.enabled = false;
+        //Debug.Log("emitLight set to: " + doEmitLight + ", setting is: " + light.enabled);
+        if (doEmitLight)
+        {
+
+            light.color = glowColor;
+            light.range = newExplosionScript.radius * newExplosionScript.lightRangeScaleFactor;
+            // light.intensity dynamically changes at runtime.
+            //Debug.Log("Light intensity set to: " + flashIntensity + ", current setting: " + light.intensity) ;
+        }
+
+        return newExplosionScript;
+
     }
 
     public static void linkExplosionPrefabRef()
@@ -241,50 +296,7 @@ public class Explosion : MonoBehaviour
         return Mathf.MoveTowards(currentVal, targetVal, stepSize);
     }
 
-    // radius
-    // damage
-    // dissipation time
-    // glow color
-    // WHEN THIS FUNCTION IS CALLED, THIS RUNS BEFORE START
-    // CONSIDER MAKING THESE PROCEDURAL TO SIMPLIFY CALL
-    public void goExplode(float setRadius, float setCoreDamage, bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor)
-    {
-       // Debug.Log("=================================================== goExplode called");
 
-        // smoke settings
-        emissionColor = glowColor;
-        smokeColor = newSmokeColor;
-
-        //mat.SetColor("_EmissionColor", Color.yellow);
-        radius = setRadius;
-        coreDamage = setCoreDamage;
-        doExplode = true;
-        fadeOutTime = dissipationTime;
-        GetComponent<Collider>().enabled = doCollide;
-
-        //Debug.Log("Setting collider to " + GetComponent<Collider>().enabled);
-
-
-        // sphere collider radius set to 1 in prefab. This won't change. .5 matches object radius, 1 is double
-
-
-        // light settings
-        Light light = GetComponent<Light>();
-        light.enabled = doEmitLight;
-        //light.enabled = false;
-        //Debug.Log("emitLight set to: " + doEmitLight + ", setting is: " + light.enabled);
-        if (doEmitLight)
-        {
-            
-            light.color = glowColor;
-            light.range = radius * lightRangeScaleFactor;
-            // light.intensity dynamically changes at runtime.
-            //Debug.Log("Light intensity set to: " + flashIntensity + ", current setting: " + light.intensity) ;
-        }
-        
-
-
-    }
 
 
     private void OnCollisionEnter(Collision collision)
@@ -323,26 +335,60 @@ public class Explosion : MonoBehaviour
             bool noForce = false; // I know this is super crusty way to do this
 
 
+            // whether or not explosion should act upon victim
+            bool doAct = true; //various conditions will try to make this false
+
+
+            //  if target has a CombatFlow
             if(targetCF != null)
             {
+                // if target is friendly, and friendlyFire is disabled
+                if (targetCF.team == team && !friendlyFire)
+                    doAct = false;
+
+                // if target is a Projectile, and 
+                if (targetCF.type == CombatFlow.Type.PROJECTILE && !damageProjectiles)
+                    doAct = false;
+
+            }
 
 
-                // explosions will never intersect with projectiles
-                if (targetCF.type != CombatFlow.Type.PROJECTILE)
+            //  if explosion will act upon target
+            if (doAct)
+            {
+                // if target has a rigidBody, add explosive force
+                if(targetRb != null)
+                {
+                    targetRb.AddExplosionForce(explosiveForce, transform.position, radius);
+                }
+
+                if(targetCF != null)
                 {
                     Debug.Log("Explosion acting upon victim: " + targetRootObj + " for " + coreDamage + " damage, list count: " + explosionVictimRootList.Count);
                     targetCF.currentHP -= coreDamage;
                 }
-                else
-                    noForce = true;
             }
 
+            //if(targetCF != null)
+            //{
 
-            if (targetRb != null && !noForce)
-            {
-                targetRb.AddExplosionForce(coreDamage, transform.position, radius * 2);
 
-            }
+            //    // explosions will never intersect with projectiles
+            //    if (targetCF.type != CombatFlow.Type.PROJECTILE)
+            //    {
+            //        Debug.Log("Explosion acting upon victim: " + targetRootObj + " for " + coreDamage + " damage, list count: " + explosionVictimRootList.Count);
+            //        targetCF.currentHP -= coreDamage;
+            //    }
+            //    else
+            //        noForce = true;
+            //}
+
+
+            //if (targetRb != null && !noForce)
+            //{
+            //    targetRb.AddExplosionForce(coreDamage, transform.position, radius * 2);
+
+            //}
 
 
 

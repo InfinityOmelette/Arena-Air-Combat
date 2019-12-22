@@ -1406,6 +1406,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.7337059, b: 0, a: 1}
   smokeColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
+  expandTime: 0.15
+  explosiveForce: 2500
+  damageProjectiles: 1
+  friendlyFire: 0
+  team: 0
   doExplode: 1
 --- !u!138 &-4558703967161263445
 FixedJoint:
@@ -1438,9 +1443,13 @@ MonoBehaviour:
   armingTime: 0.5
   armTimeRemaining: 0
   armed: 0
+  friendlyImpact: 0
+  impactOnEffects: 0
+  myTeam: 0
   ownerObj: {fileID: 0}
   myCombatFlow: {fileID: 0}
   rbRef: {fileID: 0}
+  impactDamage: 0
 --- !u!1 &5682025624188498081
 GameObject:
   m_ObjectHideFlags: 0

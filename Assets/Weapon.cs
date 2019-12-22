@@ -9,7 +9,9 @@ public class Weapon : MonoBehaviour
     public float armingTime;
     public float armTimeRemaining;
     public bool armed = false;
-
+    public bool friendlyImpact;
+    public bool impactOnEffects;
+    public CombatFlow.Team myTeam;
 
 
     public void tryArm()

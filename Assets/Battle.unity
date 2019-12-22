@@ -667,6 +667,11 @@ MonoBehaviour:
   emitLightEnabled: 0
   glowColor: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
   smokeColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
+  expandTime: 0
+  explosiveForce: 0
+  damageProjectiles: 0
+  friendlyFire: 0
+  team: 0
   doExplode: 1
 --- !u!1 &144387771
 GameObject:
@@ -1010,6 +1015,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &219267257
 GameObject:
@@ -6849,6 +6859,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &374479939
 GameObject:
@@ -7008,6 +7023,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.38829634, b: 0, a: 1}
   smokeColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &377529463
 GameObject:
@@ -7627,6 +7647,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &495644555
 GameObject:
@@ -7786,6 +7811,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &496909370
 GameObject:
@@ -8313,6 +8343,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &602054827
 GameObject:
@@ -8564,6 +8599,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &625369520
 GameObject:
@@ -9275,6 +9315,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &790547742
 GameObject:
@@ -9772,6 +9817,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889345026}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &899793717 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6801349663249705164, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7744941293315270100}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79112707e4d4ae4bb022cc0c7c55e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &910470973
 GameObject:
   m_ObjectHideFlags: 0
@@ -10304,6 +10361,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1018557082
 GameObject:
@@ -16039,6 +16101,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!114 &1094576335
 MonoBehaviour:
@@ -16340,6 +16407,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1165910957
 GameObject:
@@ -16683,6 +16755,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1202552871
 GameObject:
@@ -17132,6 +17209,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.7657565, b: 0, a: 1}
   smokeColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+  expandTime: 0
+  explosiveForce: 0
+  damageProjectiles: 0
+  friendlyFire: 0
+  team: 0
   doExplode: 1
 --- !u!1 &1334556733
 GameObject:
@@ -22452,6 +22534,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1437951496
 GameObject:
@@ -22735,6 +22822,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1447291228
 GameObject:
@@ -23590,6 +23682,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1710296931
 GameObject:
@@ -24055,6 +24152,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1809356613
 GameObject:
@@ -24307,6 +24409,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!114 &1810604599
 MonoBehaviour:
@@ -29882,6 +29989,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &1949784096
 GameObject:
@@ -30611,6 +30723,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.54082924, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
+  expandTime: 0.15
+  explosiveForce: 300
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1001 &900633974069884999
 PrefabInstance:
@@ -31723,6 +31840,226 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2313690146684585658, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784174926286773157, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6524932584960729452, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232819457375196528, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: -3.7163777e-19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232819457375196528, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 5.13e-43
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232819457375196528, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3113736261221259706, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1217507623540249963, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604694203440578517, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1605591532501244025, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673358689305188849, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3822002317744244773, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454018337192353002, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577799156821076340, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417778616774534482, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943681539060230616, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6066641934402321774, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530376819113666868, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213149929225202747, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668071537811825173, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005197357078447343, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 392190428573830214, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3963265262859927151, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6984513316814493160, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5669870532635929516, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1306647776542030766, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657265142087042997, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327780489631278554, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2445068435524000227, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704848456184002768, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817353635616876788, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440253286540069157, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384405270633489327, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849881788377356409, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6801978721173852011, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5152058714129117964, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 723536379914125847, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 20460230879494615, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5089449785389847856, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 422903851013897793, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 473064358367377749, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434199162057154131, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1519743046518631965, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491398610340984260, guid: 273fc1587b2e47f42b315e0ec95d8bb2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 273fc1587b2e47f42b315e0ec95d8bb2, type: 3}
 --- !u!1001 &8279770281538122511
@@ -31851,6 +32188,6 @@ PrefabInstance:
         type: 3}
       propertyPath: wheelControllerInfo
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 899793717}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c9416ac20ca7844ea16551c9b9fb267, type: 3}

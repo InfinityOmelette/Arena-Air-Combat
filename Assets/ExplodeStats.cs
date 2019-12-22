@@ -12,12 +12,30 @@ public class ExplodeStats : MonoBehaviour
     public bool emitLightEnabled;
     public Color glowColor;
     public Color smokeColor;
+    public float expandTime;
+    public float explosiveForce;
+
+    public bool damageProjectiles;
+    public bool friendlyFire;
+    public CombatFlow.Team team;
+
+
+
     public bool doExplode = true;
+
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        CombatFlow myFlow = transform.root.gameObject.GetComponent<CombatFlow>();
+        if(myFlow != null)
+            team = myFlow.team;
+        else
+        {
+            //Debug.Log("Unable to find combatFlow for: " + gameObject.name);
+        }
     }
 
     // Update is called once per frame
@@ -30,7 +48,8 @@ public class ExplodeStats : MonoBehaviour
     {
         if (doExplode)
         {
-            Explosion.createExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor);
+            Explosion.createExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce);
         }
     }
 

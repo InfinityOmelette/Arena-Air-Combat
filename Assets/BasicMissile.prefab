@@ -1169,6 +1169,9 @@ MonoBehaviour:
   armingTime: 0.5
   armTimeRemaining: 0
   armed: 0
+  friendlyImpact: 0
+  impactOnEffects: 0
+  myTeam: 0
   ownerObj: {fileID: 0}
   missileModel: {fileID: 0}
   missileActive: {fileID: 0}
@@ -1176,8 +1179,8 @@ MonoBehaviour:
     type: 3}
   effectsCenter: {fileID: 450453812365546490}
   effectsObj: {fileID: 0}
-  proximityFuseRange: 6
-  fuseLeadTime: 0.2
+  proximityFuseRange: 15
+  fuseLeadTime: 0.1
   impactDamage: 10
   speed: 100
 --- !u!114 &4268398709732474751
@@ -1223,4 +1226,9 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.6639284, b: 0, a: 1}
   smokeColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
+  expandTime: 0.075
+  explosiveForce: 300
+  damageProjectiles: 0
+  friendlyFire: 1
+  team: 0
   doExplode: 1

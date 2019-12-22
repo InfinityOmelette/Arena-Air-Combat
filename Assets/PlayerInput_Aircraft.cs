@@ -91,6 +91,19 @@ public class PlayerInput_Aircraft : MonoBehaviour
         }
 
 
+
+        float camOffsetVertTemp = 0f;
+        float camOffsetHorizTemp = 0f;
+
+        if (wheels.gearIsDown)
+        {
+            camOffsetVertTemp = 5f;
+        }
+
+
+        cam.camAxisTargetOffset_Vert = camOffsetVertTemp;
+        cam.camAxisTargetOffset_Horiz = camOffsetHorizTemp;
+
     }
 
 

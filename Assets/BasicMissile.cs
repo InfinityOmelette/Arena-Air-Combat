@@ -24,7 +24,7 @@ public class BasicMissile : Weapon
     public float speed;
 
     private Vector3 targetPosition;
-
+    private bool guidedLaunch;
     private GameObject impactVictimRoot;
     
 
@@ -111,46 +111,59 @@ public class BasicMissile : Weapon
 
         Weapon otherWeapon = otherRoot.gameObject.GetComponent<Weapon>();
 
+        bool doExplode = true; // various conditions will try to make this false
 
+        if (other.CompareTag("Effects") && !impactOnEffects)
+            doExplode = false;
 
-        // If other has a flow and is the one impact victim
-        if (otherFlow != null && otherRoot != impactVictimRoot)
+        if (otherFlow != null)
         {
-            //myCombatFlow.explodeStats.doExplode = false;
-            impactVictimRoot = otherRoot;
-
-            // don't explode if victim will die and if victim is not a projectile
-            if (impactDamage > otherFlow.currentHP && otherFlow.type != CombatFlow.Type.PROJECTILE)
-            {
-                myCombatFlow.explodeStats.doExplode = false; // death will only trigger enemy explosion
-            }
-
-            // =========  TRY TO DEAL IMPACT
-
-            bool doDealImpact = false;
-
-            // leaving this super obfuscated like this in case more complex conditions wanted later
-            if (otherFlow != null)
-            {
-                doDealImpact = true;
-            }
-
-
-            // finally, deal the impact
-            if (doDealImpact)
-            {
-                
-                otherFlow.currentHP -= impactDamage;
-                Debug.Log("Impact dealing " + impactDamage + " damage to " + otherFlow);
-            }
-
-            
-
+            if (otherFlow.team == myTeam && !friendlyImpact)
+                doExplode = false;
         }
 
-        
-        effectsObj.GetComponent<Light>().enabled = false;
-        myCombatFlow.currentHP -= myCombatFlow.currentHP;
+        if (doExplode)
+        {
+
+            // If other has a flow and is the one impact victim
+            if (otherFlow != null && otherRoot != impactVictimRoot)
+            {
+                //myCombatFlow.explodeStats.doExplode = false;
+                impactVictimRoot = otherRoot;
+
+                // don't explode if victim will die and if victim is not a projectile
+                if (impactDamage > otherFlow.currentHP && otherFlow.type != CombatFlow.Type.PROJECTILE)
+                {
+                    myCombatFlow.explodeStats.doExplode = false; // death will only trigger enemy explosion
+                }
+
+                // =========  TRY TO DEAL IMPACT
+
+                bool doDealImpact = false;
+
+                // leaving this super obfuscated like this in case more complex conditions wanted later
+                if (otherFlow != null)
+                {
+                    doDealImpact = true;
+                }
+
+
+                // finally, deal the impact
+                if (doDealImpact)
+                {
+
+                    otherFlow.currentHP -= impactDamage;
+                    Debug.Log("Impact dealing " + impactDamage + " damage to " + otherFlow);
+                }
+
+
+
+            }
+
+
+            effectsObj.GetComponent<Light>().enabled = false;
+            myCombatFlow.currentHP -= myCombatFlow.currentHP;
+        }
     }
 
 
@@ -168,6 +181,8 @@ public class BasicMissile : Weapon
         launched = true;
         armTimeRemaining = armingTime;
         myCombatFlow.isActive = true;
+
+        guidedLaunch = myTarget != null;
         
     }
 
@@ -176,9 +191,11 @@ public class BasicMissile : Weapon
     {
         bool fuseTriggered = false;
         
-
-        if (myTarget != null)
+        // explode if targetPosition has not been set yet
+        if (guidedLaunch)
         {
+            
+
             float distance = Vector3.Distance(targetPosition, transform.position);
             if(distance < proximityFuseRange)
             {

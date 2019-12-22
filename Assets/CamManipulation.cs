@@ -48,6 +48,9 @@ public class CamManipulation : MonoBehaviour
 
     private Quaternion defaultCamRotation;
 
+    // Euler, camera will point offset by these
+    public float camAxisTargetOffset_Horiz;
+    public float camAxisTargetOffset_Vert;
 
     public bool input_camLookAtButtonDown = false; // to be set by external input script
     public float input_freeLookHoriz;
@@ -213,11 +216,10 @@ public class CamManipulation : MonoBehaviour
 
     private void processFreeLook()
     {
-        float horizLookTarget = input_freeLookHoriz * horizTravelMod;
-        float vertLookTarget = input_freeLookVert * vertTravelMod;
+        float horizLookTarget = Mathf.Clamp(input_freeLookHoriz * horizTravelMod + camAxisTargetOffset_Horiz, -horizTravelMod, horizTravelMod);
+        float vertLookTarget = Mathf.Clamp(input_freeLookVert * vertTravelMod + camAxisTargetOffset_Vert, -vertTravelMod, vertTravelMod);
 
 
-        Vector3 currentLocalEuler = camAxisHorizRef.transform.localEulerAngles;
 
         Vector3 targetLocalEuler = new Vector3(vertLookTarget, horizLookTarget, 0f);
 

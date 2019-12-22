@@ -143,6 +143,11 @@ MonoBehaviour:
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.9656743, b: 0, a: 1}
   smokeColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  expandTime: 0.07
+  explosiveForce: 50
+  damageProjectiles: 1
+  friendlyFire: 1
+  team: 0
   doExplode: 1
 --- !u!1 &5815251015398722670
 GameObject:
@@ -433,6 +438,11 @@ MonoBehaviour:
   emitLightEnabled: 0
   glowColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   smokeColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
+  expandTime: 0.15
+  explosiveForce: 10
+  damageProjectiles: 0
+  friendlyFire: 0
+  team: 0
   doExplode: 1
 --- !u!1001 &82743988653350584
 PrefabInstance:

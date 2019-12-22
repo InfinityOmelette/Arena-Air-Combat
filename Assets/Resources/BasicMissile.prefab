@@ -167,7 +167,6 @@ GameObject:
   - component: {fileID: 330039482445133988}
   - component: {fileID: 8184001815004674086}
   - component: {fileID: 6988580423434539965}
-  - component: {fileID: 6754113214695370230}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -235,20 +234,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6754113214695370230
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444434537013585905}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &1216796976873565860
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,7 +665,6 @@ GameObject:
   - component: {fileID: 6446900028125635225}
   - component: {fileID: 2150459758545151735}
   - component: {fileID: 6746682797686677445}
-  - component: {fileID: 1260545546347390229}
   m_Layer: 0
   m_Name: Nosecone
   m_TagString: Untagged
@@ -748,19 +732,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1260545546347390229
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4555250443578366196}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5172489432054196631
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,6 +888,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &8326097113324871018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4380824636043613448}
+  - component: {fileID: 8399131147697053159}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4380824636043613448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8326097113324871018}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -3.43}
+  m_LocalScale: {x: 1, y: 6.867441, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6942193217100502082}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!136 &8399131147697053159
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8326097113324871018}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8793669658870385402
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,6 +1135,7 @@ Transform:
   - {fileID: 8408565335436683210}
   - {fileID: 8915516644479056652}
   - {fileID: 6620943420017020566}
+  - {fileID: 4380824636043613448}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
@@ -1172,6 +1189,7 @@ MonoBehaviour:
   friendlyImpact: 0
   impactOnEffects: 0
   myTeam: 0
+  groupHardpointsTogether: 0
   ownerObj: {fileID: 0}
   missileModel: {fileID: 0}
   missileActive: {fileID: 0}
@@ -1198,7 +1216,6 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
-  explosionMaxDamage: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}

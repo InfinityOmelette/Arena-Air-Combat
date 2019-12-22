@@ -839,7 +839,6 @@ GameObject:
   - component: {fileID: 9115297328320176370}
   - component: {fileID: 8465537029193959547}
   - component: {fileID: 2030661161041078294}
-  - component: {fileID: 239367380631449884}
   m_Layer: 0
   m_Name: Nosecap
   m_TagString: Untagged
@@ -907,19 +906,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &239367380631449884
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4483585931774334489}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.50000066
-  m_Center: {x: -0.00030517587, y: 0.000032424934, z: -0.00024414068}
 --- !u!1 &4573540097819086232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,7 +1364,6 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
-  explosionMaxDamage: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -1400,7 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 85
-  damage: 0
+  damage: 300
   collisionsEnabled: 1
   dissipationTime: 30
   emitLightEnabled: 1
@@ -1446,6 +1431,7 @@ MonoBehaviour:
   friendlyImpact: 0
   impactOnEffects: 0
   myTeam: 0
+  groupHardpointsTogether: 0
   ownerObj: {fileID: 0}
   myCombatFlow: {fileID: 0}
   rbRef: {fileID: 0}
@@ -1606,6 +1592,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &6435665428803564813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 658382280890418168}
+  - component: {fileID: 7665507478169797946}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &658382280890418168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435665428803564813}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -13.14}
+  m_LocalScale: {x: 2.087217, y: 17.067759, z: 2.0872178}
+  m_Children: []
+  m_Father: {fileID: 8250399329507890579}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!136 &7665507478169797946
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435665428803564813}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.50000006
+  m_Height: 1.9999998
+  m_Direction: 1
+  m_Center: {x: 0.00006109475, y: 0.0000019073485, z: 0.000060945746}
 --- !u!1 &6684075195655560156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1873,6 +1904,7 @@ Transform:
   - {fileID: 3883885075719924860}
   - {fileID: 8747539896525222610}
   - {fileID: 3805616985145332325}
+  - {fileID: 658382280890418168}
   m_Father: {fileID: 8957420883659105117}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

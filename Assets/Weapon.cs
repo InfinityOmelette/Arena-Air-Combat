@@ -14,6 +14,11 @@ public class Weapon : MonoBehaviour
     public CombatFlow.Team myTeam;
 
 
+    // hardpointController will call Fire and FireEnd on all of this type simultaneously
+    // hardpointcontroller will NOT 
+    public bool groupHardpointsTogether;
+
+
     public void tryArm()
     {
         if (launched && !armed)

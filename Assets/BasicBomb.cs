@@ -56,12 +56,22 @@ public class BasicBomb : Weapon
         myCombatFlow.isActive = true;
     }
 
-
     private void OnTriggerEnter(Collider other)
+    {
+        contactProcess(other.gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        contactProcess(collision.gameObject);
+    }
+
+
+    private void contactProcess(GameObject other)
     {
         if (oneImpactVictim == null)
         {
-            
+
 
             bool doAct = true; // various conditions will try to make this false
 
@@ -95,5 +105,7 @@ public class BasicBomb : Weapon
             }
         }
     }
+
+    
 
 }

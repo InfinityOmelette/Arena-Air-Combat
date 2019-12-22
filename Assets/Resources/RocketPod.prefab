@@ -2178,6 +2178,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2613914835306264400}
+  - component: {fileID: 8255334105050933577}
+  - component: {fileID: 8720454956961673997}
+  - component: {fileID: 4797625508143902666}
+  - component: {fileID: 1928006486093276839}
   m_Layer: 8
   m_Name: RocketPod
   m_TagString: Untagged
@@ -2200,6 +2204,86 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &8255334105050933577
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282535372062044719}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8720454956961673997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282535372062044719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
+  isLocalPlayer: 0
+  explosionMaxDamage: 0
+  camManager: {fileID: 0}
+  unitCam: {fileID: 0}
+  myHudIconRef: {fileID: 0}
+  team: 0
+  type: 0
+  isActive: 1
+  doDebugDamage: 0
+  explodeStats: {fileID: 0}
+--- !u!114 &4797625508143902666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282535372062044719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35934e704f47a3b4eb414bba2ff85588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0
+  coreDamage: 0
+  expandTime: 0
+  fadeOutTime: 0
+  fadeRadiusScale: 0
+  explosiveForce: 0
+  lightRangeScaleFactor: 0
+  flashIntensity: 0
+  lightDecayTime: 0
+  smokeGlowDecayTime: 0
+  team: 0
+  friendlyFire: 1
+  damageProjectiles: 1
+  mat: {fileID: 0}
+  emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  smokeColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &1928006486093276839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282535372062044719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cff5587c55da5249a9dc64b94a34978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6855708959548756079
 GameObject:
   m_ObjectHideFlags: 0

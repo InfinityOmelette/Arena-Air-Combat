@@ -151,14 +151,18 @@ De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
 
  Camera axis angle offset in various cases like bomb selected, or gear down
 
+ Added ground targets
+
  Create non-dropping weapon pods
+
+  Afterburner graphic
+
 
  HUD shows weapon graphic for each hardpoint, selected weapon, reload remaining, highlight all of selected type
   - each hardpoint carries new HUD icon obj, image changed by weapon, reads hardpoint reload data
   - updateHUD() in hardpointController -- called when weapon changed or fired
 
-  Afterburner graphic
-
+ 
 
 CLOSE RANGE VISUAL TALLY
  - game unit visible if within visual range

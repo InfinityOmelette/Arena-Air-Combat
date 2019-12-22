@@ -30,6 +30,14 @@ public class EngineControl : MonoBehaviour
 
     public float input_throttleAxis;
 
+
+
+    public float minAB_thrust;
+    public float minAB_Scale;
+    public float maxAB_Scale;
+
+    public GameObject afterburnerGraphic;
+
     public AirEnvironmentStats air;
     Rigidbody rbRef;
 
@@ -52,6 +60,34 @@ public class EngineControl : MonoBehaviour
     void LateUpdate()
     {
         updateFuelMass(); // root rigidbody will change mass depending on fuel level
+        processAfterburnerGraphic();
+    }
+
+
+    private void processAfterburnerGraphic()
+    {
+        // min 3 max 10 scale
+
+        if(currentBaseThrustPercent > minAB_thrust)
+        {
+            afterburnerGraphic.GetComponent<Renderer>().enabled = true;
+
+            // linearly scale from 0 to 1 as thrust increases from minAB_thrust to 100% thrust
+            float thrustRangeDecimal = (currentBaseThrustPercent - minAB_thrust) / 100f;
+
+            // linearly scale new Z scale from min to max as thrust decimal increases from 0 to 1
+            float newScaleZ = thrustRangeDecimal * (maxAB_Scale - minAB_Scale) + minAB_Scale;
+
+
+            Vector3 originalLocalScale = afterburnerGraphic.transform.localScale;
+
+            afterburnerGraphic.transform.localScale = 
+                new Vector3(originalLocalScale.x, originalLocalScale.y, newScaleZ);
+        }
+        else
+        {
+            afterburnerGraphic.GetComponent<Renderer>().enabled = false;
+        }
     }
 
     private void updateFuelMass()

@@ -31,6 +31,9 @@ public class TgtIconManager : MonoBehaviour
     public Sprite missileHudImageLOS;
     public Sprite missileHudImageNoLOS;
 
+    public Sprite groundHudImageLOS;
+    public Sprite groundHudImageNoLOS;
+
     private void Awake()
     {
 
@@ -39,6 +42,9 @@ public class TgtIconManager : MonoBehaviour
 
         missileHudImageLOS = Resources.Load<Sprite>("HUD Images/MissileLOS");
         missileHudImageNoLOS = Resources.Load<Sprite>("HUD Images/MissileNoLOS");
+
+        groundHudImageLOS = Resources.Load<Sprite>("HUD Images/GroundUnitLOS");
+        groundHudImageNoLOS = Resources.Load<Sprite>("HUD Images/GroundUnitNoLOS");
 
         if (TgtIconManager.tgtIconManager == null)
             TgtIconManager.tgtIconManager = this;
@@ -71,6 +77,11 @@ public class TgtIconManager : MonoBehaviour
         {
             iconScript.tgtImageLOS.sprite = missileHudImageLOS;
             iconScript.tgtImageNoLOS.sprite = missileHudImageNoLOS;
+        }
+        else if(unitFlow.type == CombatFlow.Type.GROUND)
+        {
+            iconScript.tgtImageLOS.sprite = groundHudImageLOS;
+            iconScript.tgtImageNoLOS.sprite = groundHudImageNoLOS;
         }
        
         return iconObj;

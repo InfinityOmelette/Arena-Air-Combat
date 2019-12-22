@@ -114,7 +114,7 @@ public class TgtComputer : MonoBehaviour
             //Debug.Log("Current target is: " + currentFlow.gameObject + ", at " + currentAngle + " degrees, smallest angle is: " + smallestAngle + " degrees.");
 
             // angle within max, angle smallest, and target is not on same team as localPlayer
-            if (currentFlow.type == CombatFlow.Type.AIRCRAFT && // can only lock onto aircraft
+            if (currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
                 currentAngle < changeTargetMaxAngle && 
                 currentAngle < smallestAngle && 
                 !currentFlow.isLocalPlayer &&

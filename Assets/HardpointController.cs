@@ -22,6 +22,7 @@ public class HardpointController : MonoBehaviour
     public bool launchButtonUp;
     public bool changeButtonDown;
 
+    public bool groupThisType;
     // Commands missiles to launch
 
     private void Awake()
@@ -82,7 +83,10 @@ public class HardpointController : MonoBehaviour
     }
 
 
-
+    public Hardpoint getActiveHardpoint()
+    {
+        return weaponTypeHardpointLists[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]];
+    }
 
     // Update is called once per frame
     void Update()

@@ -201,6 +201,7 @@ MonoBehaviour:
   launchButtonDown: 0
   launchButtonUp: 0
   changeButtonDown: 0
+  groupThisType: 0
 --- !u!1 &6537783614964785157
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +299,8 @@ MonoBehaviour:
   vertTravelMod: 80
   lookAtObj: {fileID: 0}
   lookAtEnabled: 0
+  camAxisTargetOffset_Horiz: 0
+  camAxisTargetOffset_Vert: 0
   input_camLookAtButtonDown: 0
   input_freeLookHoriz: 0
   input_freeLookVert: 0
@@ -389,7 +392,7 @@ MonoBehaviour:
   input_pitch: 0
   input_roll: 0
   input_yaw: 0
-  rollTorque: 4.5
+  rollTorque: 3
   pitchTorque: 14
   yawTorque: 6
   pitchTrim: -0.18
@@ -442,6 +445,10 @@ MonoBehaviour:
   burnRateAltitudeResiliency: 0.4
   massUpdateGap: 1
   input_throttleAxis: 0
+  minAB_thrust: 65
+  minAB_Scale: 3
+  maxAB_Scale: 21
+  afterburnerGraphic: {fileID: 6524932584960729452}
   air: {fileID: 0}
 --- !u!114 &6897607545244989051
 MonoBehaviour:
@@ -458,7 +465,6 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 1
-  explosionMaxDamage: 100
   camManager: {fileID: 0}
   unitCam: {fileID: 7121171246493503251}
   myHudIconRef: {fileID: 0}
@@ -514,9 +520,12 @@ MonoBehaviour:
   testExplosionDistance: 0
   tgtLookAtHoldTime: 0.4
   currentTgtHoldTime: 0
-  pitchInputLerp: 0.05
+  pitchInputLerp: 0.025
   rollInputLerp: 0.15
-  rudderInputLerp: 0.05
+  rudderInputLerp: 0.025
+  gearOffset: 5
+  rocketPodOffset: 5
+  bombOffset: 15
 --- !u!114 &6801930850055786249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,6 +1029,12 @@ PrefabInstance:
       objectReference: {fileID: -8673316639226967037}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d012f33e89f9a4641b2f7c0bb55e0c73, type: 3}
+--- !u!1 &6524932584960729452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8869751597250331419, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 2421396772111508087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6801349663249705164 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
@@ -1341,7 +1356,7 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponTypePrefab
       value: 
-      objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
+      objectReference: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
         type: 3}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -1873,7 +1888,7 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponTypePrefab
       value: 
-      objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
+      objectReference: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
         type: 3}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}

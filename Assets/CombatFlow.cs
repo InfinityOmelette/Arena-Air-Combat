@@ -15,7 +15,7 @@ public class CombatFlow : MonoBehaviour
 
     public enum Type
     {
-        AIRCRAFT, PROJECTILE
+        AIRCRAFT, PROJECTILE , GROUND
     }
     
     public float maxHP;
@@ -23,7 +23,6 @@ public class CombatFlow : MonoBehaviour
     public bool isLocalPlayer;
 
 
-    public float explosionMaxDamage;
     
     // inefficient -- lots of non-player combat objects will have useless perspective references
     public PerspectiveManager camManager;

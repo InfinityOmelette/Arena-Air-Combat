@@ -157,12 +157,24 @@ De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
 
   Afterburner graphic
 
+  Make hardpoints more versatile
+  - launchBegin and launchEnd
+  - call launchEnd on button release -- THEN find next available hardpoint
+	>>>>>>>> WILL STILL NEED TO SEARCH FOR HARDPOINT ON BUTTON PRESS 
+		>>> only if current isn't ready to launch?
+		>>> might still be possible to do this by having next at beginning of launch as-is
+  - (weapon change will automatically call launchEnd on the current selection before changing)
+  - (launchEnd does nothing if hardpoint hasn't launched yet)
+  - hardpoint keeps reference to previous projectile while reloading -- connection broken as soon as next projectile launched
+
 
  HUD shows weapon graphic for each hardpoint, selected weapon, reload remaining, highlight all of selected type
   - each hardpoint carries new HUD icon obj, image changed by weapon, reads hardpoint reload data
   - updateHUD() in hardpointController -- called when weapon changed or fired
 
  
+ REALISTIC MISSILE GUIDANCE
+
 
 CLOSE RANGE VISUAL TALLY
  - game unit visible if within visual range

@@ -65,7 +65,7 @@ public class CombatFlow : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (currentHP <= 0 && isActive) // 0hp and is currently alive
+        if (currentHP <= 0) // 0hp and is currently alive
             die(); // kill self
     }
 
@@ -88,6 +88,7 @@ public class CombatFlow : MonoBehaviour
     {
         if (!deathCommanded) // avoid repeated calls by outside objects
         {
+            Debug.Log("Death commanded for " + gameObject.name);
             deathCommanded = true;
             isActive = false; // he ded now
             explode();
@@ -113,6 +114,7 @@ public class CombatFlow : MonoBehaviour
         // blast radius deals damage
         // explosion render
         //Debug.Log("----------------------------- Combat flow explode() called by " + gameObject.name);
+        Debug.Log("Explode called for " + gameObject.name);
         explodeStats.explode(transform.position);
     }
 

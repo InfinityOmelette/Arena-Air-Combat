@@ -47,6 +47,8 @@ public class BasicBomb : Weapon
     override
     public void launch()
     {
+        myHardpoint.readyToFire = false;
+
         Destroy(GetComponent<FixedJoint>());
 
         rbRef.velocity = ownerObj.GetComponent<Rigidbody>().velocity;

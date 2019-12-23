@@ -11,16 +11,19 @@ public class Hardpoint : MonoBehaviour
     public Transform spawnCenter;
 
     public GameObject loadedWeaponObj;
+    public GameObject activeWeaponObj;
 
     public float reloadTime;
     public float currentTimer;
+    public bool readyToFire;
 
 
-
+    public bool dropOnLaunch = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        readyToFire = false;
         spawnWeapon();
     }
 
@@ -37,13 +40,15 @@ public class Hardpoint : MonoBehaviour
         loadedWeaponObj.GetComponent<Weapon>().myTeam = transform.root.GetComponent<CombatFlow>().team;
 
 
-        
+        loadedWeaponObj.GetComponent<Weapon>().myHardpoint = this;
+
+        readyToFire = true;        
         
     }
 
     public void launchWithLock(GameObject targetObj)
     {
-        if (loadedWeaponObj != null)
+        if (readyToFire)
         {
             loadedWeaponObj.GetComponent<Weapon>().myTarget = targetObj;
             launch();
@@ -53,10 +58,10 @@ public class Hardpoint : MonoBehaviour
 
     public void launch() // doesn't need lock
     {
-        if (loadedWeaponObj != null)
+        if (readyToFire)
         {
             loadedWeaponObj.GetComponent<Weapon>().launch();
-            loadedWeaponObj = null;
+            activeWeaponObj = loadedWeaponObj;
             currentTimer = reloadTime;
         }
         else // weapon is not loaded
@@ -68,6 +73,10 @@ public class Hardpoint : MonoBehaviour
     public void launchEnd()
     {
         // tell weapon to stop launching
+        if (activeWeaponObj != null)
+        {
+            activeWeaponObj.GetComponent<Weapon>().launchEnd();
+        }
     }
 
     // Update is called once per frame
@@ -82,7 +91,8 @@ public class Hardpoint : MonoBehaviour
             }
             else // reload timer runs out, reload
             {
-                spawnWeapon();
+                if(dropOnLaunch)
+                    spawnWeapon();
             }
 
         }

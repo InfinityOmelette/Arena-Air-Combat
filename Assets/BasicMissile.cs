@@ -11,10 +11,15 @@ public class BasicMissile : Weapon
 
 
     public GameObject missileModel;
+
+
+    // TEST: will anything bad happen if I delete this?
     public GameObject missileActive;
+
     public GameObject effectsPrefab;
     public Transform effectsCenter;
     public GameObject effectsObj;
+
     private Rigidbody rbRef;
     private CombatFlow myCombatFlow;
 
@@ -174,6 +179,8 @@ public class BasicMissile : Weapon
     override
     public void launch()
     {
+        myHardpoint.readyToFire = false;
+
         Destroy(GetComponent<FixedJoint>());
         rbRef.angularVelocity = new Vector3(0.0f, 0.0f, 0.0f);
         effectsObj.GetComponent<Light>().enabled = true;

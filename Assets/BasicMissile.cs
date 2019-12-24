@@ -18,7 +18,6 @@ public class BasicMissile : Weapon
 
     public GameObject effectsPrefab;
     public Transform effectsCenter;
-    public GameObject effectsObj;
 
     private Rigidbody rbRef;
     private CombatFlow myCombatFlow;
@@ -180,6 +179,8 @@ public class BasicMissile : Weapon
     public void launch()
     {
         myHardpoint.readyToFire = false;
+        myHardpoint.loadedWeaponObj = null;
+
 
         Destroy(GetComponent<FixedJoint>());
         rbRef.angularVelocity = new Vector3(0.0f, 0.0f, 0.0f);

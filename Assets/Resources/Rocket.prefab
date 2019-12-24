@@ -613,8 +613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 10
-  damage: 50
+  radius: 8
+  damage: 90
   collisionsEnabled: 1
   dissipationTime: 8
   emitLightEnabled: 1
@@ -668,10 +668,11 @@ MonoBehaviour:
   armed: 0
   friendlyImpact: 0
   impactOnEffects: 0
+  myHardpoint: {fileID: 0}
   myTeam: 0
   projectileLifetime: 10
   groupHardpointsTogether: 0
-  rocketEffectsPrefab: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
+  rocketEffectsPrefab: {fileID: 3795491082417072009, guid: 7ea534138d7c7e24fbd0b2d22acae9a3,
     type: 3}
   rocketEffectsObj: {fileID: 0}
   effectsCenter: {fileID: 3878264266046290918}

@@ -70,7 +70,8 @@ public class EngineControl : MonoBehaviour
 
         if(currentBaseThrustPercent > minAB_thrust)
         {
-            afterburnerGraphic.GetComponent<Renderer>().enabled = true;
+            //afterburnerGraphic.GetComponent<Renderer>().enabled = true;
+            afterburnerGraphic.SetActive(true);
 
             // linearly scale from 0 to 1 as thrust increases from minAB_thrust to 100% thrust
             float thrustRangeDecimal = (currentBaseThrustPercent - minAB_thrust) / 100f;
@@ -86,7 +87,8 @@ public class EngineControl : MonoBehaviour
         }
         else
         {
-            afterburnerGraphic.GetComponent<Renderer>().enabled = false;
+            //afterburnerGraphic.GetComponent<Renderer>().enabled = false;
+            afterburnerGraphic.SetActive(false);
         }
     }
 

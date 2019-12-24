@@ -810,6 +810,66 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &5842557803725764389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6497045721923172255}
+  m_Layer: 0
+  m_Name: LineCast Rear
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6497045721923172255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5842557803725764389}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -7.33}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_Children: []
+  m_Father: {fileID: 6942193217100502082}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6515176973647415626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5298431441269686104}
+  m_Layer: 0
+  m_Name: LineCast Front
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5298431441269686104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6515176973647415626}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.58}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_Children: []
+  m_Father: {fileID: 6942193217100502082}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7591047554614940448
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,8 +973,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8326097113324871018}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -3.43}
-  m_LocalScale: {x: 1, y: 6.867441, z: 1}
+  m_LocalPosition: {x: 1e-15, y: -2e-15, z: 0.23}
+  m_LocalScale: {x: 1, y: 3.5200446, z: 1}
   m_Children: []
   m_Father: {fileID: 6942193217100502082}
   m_RootOrder: 14
@@ -1136,6 +1196,8 @@ Transform:
   - {fileID: 8915516644479056652}
   - {fileID: 6620943420017020566}
   - {fileID: 4380824636043613448}
+  - {fileID: 5298431441269686104}
+  - {fileID: 6497045721923172255}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
@@ -1188,15 +1250,22 @@ MonoBehaviour:
   armed: 0
   friendlyImpact: 0
   impactOnEffects: 0
+  myHardpoint: {fileID: 0}
   myTeam: 0
+  projectileLifetime: 0
+  effectsObj: {fileID: 0}
   groupHardpointsTogether: 0
+  sequentialLaunch: 0
+  fireRateTimer: 0
+  roundsRemain: 0
+  linecastFront: {fileID: 0}
+  linecastBack: {fileID: 0}
   ownerObj: {fileID: 0}
   missileModel: {fileID: 0}
   missileActive: {fileID: 0}
   effectsPrefab: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
     type: 3}
   effectsCenter: {fileID: 450453812365546490}
-  effectsObj: {fileID: 0}
   proximityFuseRange: 15
   fuseLeadTime: 0.1
   impactDamage: 10

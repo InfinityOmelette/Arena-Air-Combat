@@ -15,12 +15,14 @@ public class HardpointController : MonoBehaviour
     public List<bool> groupThisType_List;
 
 
+
     public TgtComputer tgtComputer;
 
 
-    public bool launchButtonDown;
-    public bool launchButtonUp;
+
     public bool changeButtonDown;
+
+    public bool launchActive;
 
     
     // Commands missiles to launch
@@ -101,16 +103,7 @@ public class HardpointController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (launchButtonDown)
-        {
-            launchProcess();
-        }
 
-        if (launchButtonUp)
-        {
-            launchEndProcess();
-            
-        }
 
         if (changeButtonDown)
         {
@@ -118,12 +111,15 @@ public class HardpointController : MonoBehaviour
         }
     }
 
-    void launchEndProcess()
+    public void launchEndProcess()
     {
-        
+
         // if fire these together, call launchEnd on whole group
 
         // otherwise, launchEnd on just active one
+
+        launchActive = false;
+
 
         if (groupThisType_List[activeTypeIndex])
         {
@@ -142,9 +138,11 @@ public class HardpointController : MonoBehaviour
         }
     }
 
-    void launchProcess()
+    public void launchProcess()
     {
-        
+
+        launchActive = true;
+
         if (groupThisType_List[activeTypeIndex]) // if this type is to be launched all together
         {
             Debug.Log("Grouped LaunchProcess");
@@ -154,10 +152,33 @@ public class HardpointController : MonoBehaviour
 
             // loop through all hardpoints of this type, fire each
             Debug.Log("Amount in group: " + weaponTypeHardpointLists[activeTypeIndex].Count);
+
+            // raw fire rate divided by count in this active type
+            float launchDelayPerSequencePos = weaponTypeHardpointLists[activeTypeIndex][0].fireRateDelayRaw / 
+                                                (weaponTypeHardpointLists[activeTypeIndex].Count);
+
+            // select starting index
+            short index = selectGroupStartIndex(); // write a function to select hardpoint whose weapon has the most shots remaining of those ready to fire
+
+            // loop through each
+            //  i is used just to step forward correct number of times. Actual active index is 'index' variable
             for (short i = 0; i < weaponTypeHardpointLists[activeTypeIndex].Count; i++)
             {
-                Debug.Log("========= FIRING WEAPON IN GROUP: " + weaponTypeHardpointLists[activeTypeIndex][i].loadedWeaponObj.name);
-                launchHardpoint(weaponTypeHardpointLists[activeTypeIndex][i]);
+                Debug.Log("========= FIRING WEAPON IN GROUP: " + weaponTypeHardpointLists[activeTypeIndex][index].loadedWeaponObj.name);
+
+
+                // set delay based on number of times i has stepped forward * launchDelayPerSequencePos
+
+                weaponTypeHardpointLists[activeTypeIndex][index].effectiveLaunchDelayMax =
+                    launchDelayPerSequencePos * i;
+
+                launchHardpoint(weaponTypeHardpointLists[activeTypeIndex][index]);
+
+
+                if(++index > (weaponTypeHardpointLists[activeTypeIndex].Count - 1)) // if past end of array
+                {
+                    index = 0;
+                }
             }
 
         }
@@ -173,12 +194,42 @@ public class HardpointController : MonoBehaviour
         
     }
 
+
+    // 0 default
+    // of the hardpoints readyToFire, select one with most roundsRemaining
+    short selectGroupStartIndex()
+    {
+        short mostRoundsRemainIndex = 0;
+        short mostRoundsRemain = 0;
+
+        for(short i = 0; i < weaponTypeHardpointLists[activeTypeIndex].Count; i++)
+        {
+            Hardpoint currentHardpoint = weaponTypeHardpointLists[activeTypeIndex][i];
+            if (currentHardpoint.readyToFire)
+            {
+                Weapon loadedWeap = currentHardpoint.loadedWeaponObj.GetComponent<Weapon>();
+                if (loadedWeap != null)
+                {
+                    if(loadedWeap.roundsRemain > mostRoundsRemain)
+                    {
+                        mostRoundsRemain = loadedWeap.roundsRemain;
+                        mostRoundsRemainIndex = i;
+                    }
+                }
+            }
+
+        }
+
+
+        return mostRoundsRemainIndex;
+    }
+
     // try to launch with lock
     void launchHardpoint(Hardpoint hardpoint)
     {
         if (tgtComputer.currentTarget == null) // if no target is locked
         {
-            hardpoint.launch();
+            hardpoint.launchStart();
         }
         else // if target is locked
         {
@@ -198,9 +249,9 @@ public class HardpointController : MonoBehaviour
 
             activeHardpointIndexes[typeIndex]++; // increment index for this type
 
-
-            if (activeHardpointIndexes[typeIndex] > weaponTypeHardpointLists[typeIndex].Count - 1 ||         // check if index is past range for this type
-                !weaponTypeHardpointLists[typeIndex][activeHardpointIndexes[typeIndex]].readyToFire) // check if this next index is good as well
+            // if we need to search for a different hardpoint
+            if (activeHardpointIndexes[typeIndex] > weaponTypeHardpointLists[typeIndex].Count - 1 ||        // check if index is past range for this type
+                !weaponTypeHardpointLists[typeIndex][activeHardpointIndexes[typeIndex]].readyToFire)        // check if this next index is good as well
             {
                 // loop through all in weaponTypeList, select first available
                 // if that fails, select the one with least reload time remaining
@@ -225,10 +276,10 @@ public class HardpointController : MonoBehaviour
                     }
 
                     // save smallest timer value and index
-                    if (currentHardpoint.currentTimer < smallestTimeRemainVal || smallestTimeRemainVal < 0)
+                    if (currentHardpoint.currentReloadTimer < smallestTimeRemainVal || smallestTimeRemainVal < 0)
                     {
-                        Debug.Log("New small time found: " + currentHardpoint.currentTimer);
-                        smallestTimeRemainVal = currentHardpoint.currentTimer;
+                        Debug.Log("New small time found: " + currentHardpoint.currentReloadTimer);
+                        smallestTimeRemainVal = currentHardpoint.currentReloadTimer;
                         smallestReloadTime = smallestTimeRemainVal;
                         smallestTimeRemainIndex = i;
                     }

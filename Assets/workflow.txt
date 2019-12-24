@@ -168,12 +168,16 @@ De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
   - hardpoint keeps reference to previous projectile while reloading -- connection broken as soon as next projectile launched
 
 
+  use raycasting and repositioning to de-crust terrain explosions
+  - increase physics step time to decrease CPU load
+  - change lerps to use some form of deltaTime
+
  HUD shows weapon graphic for each hardpoint, selected weapon, reload remaining, highlight all of selected type
   - each hardpoint carries new HUD icon obj, image changed by weapon, reads hardpoint reload data
   - updateHUD() in hardpointController -- called when weapon changed or fired
 
  
- REALISTIC MISSILE GUIDANCE
+ REALISTIC MISSILE PERFORMANCE + GUIDANCE
 
 
 CLOSE RANGE VISUAL TALLY

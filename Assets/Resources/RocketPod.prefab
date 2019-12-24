@@ -2331,21 +2331,31 @@ MonoBehaviour:
   armed: 0
   friendlyImpact: 0
   impactOnEffects: 0
+  myHardpoint: {fileID: 0}
   myTeam: 0
+  projectileLifetime: 0
+  effectsObj: {fileID: 0}
   groupHardpointsTogether: 1
+  sequentialLaunch: 0
+  fireRateTimer: 0
+  roundsRemain: 30
+  linecastFront: {fileID: 0}
+  linecastBack: {fileID: 0}
   ownerObj: {fileID: 0}
   myCombatFlow: {fileID: 0}
   rbRef: {fileID: 0}
   rocketPrefab: {fileID: 8686298913641633874, guid: 58f6637fa252cc042a989ea6a53e10eb,
     type: 3}
   rocketArmingTime: 0.25
-  rocketForce: 10
-  fireRateTimer: 0
-  rocketFireRateDelay: 0.25
-  rocketMotorBurntime: 0.25
-  rocketMagazineSize: 20
-  rocketMagazineReloadSize: 10
+  rocketForce: 250
+  rocketFireRateDelay: 0.2
+  rocketMotorBurntime: 0.5
+  magazineSize: 30
+  reloadTimerMax: 20
+  reloadTimerCurrent: 0
   rocketSpawnAheadDistance: 1
+  rocketSpreadHoriz: 1.5
+  rocketSpreadVert: 1.5
 --- !u!138 &-3749949954440553011
 FixedJoint:
   m_ObjectHideFlags: 0

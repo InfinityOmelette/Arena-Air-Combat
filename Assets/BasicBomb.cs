@@ -48,6 +48,7 @@ public class BasicBomb : Weapon
     public void launch()
     {
         myHardpoint.readyToFire = false;
+        myHardpoint.loadedWeaponObj = null; // no longer loaded -- remove reference
 
         Destroy(GetComponent<FixedJoint>());
 

@@ -96,7 +96,7 @@ public class CombatFlow : MonoBehaviour
 
             if (isLocalPlayer)
                 camChange(PerspectiveProperties.CamType.SPECTATOR);
-            CombatFlow.combatUnits.Remove(gameObject);
+            
             // remove my icon from hud
             destroySelf();
         }
@@ -126,6 +126,13 @@ public class CombatFlow : MonoBehaviour
             //  Is this a crusty way of doing this? Might be perspectiveManager's responsibility instead?
             camManager.cameras.Remove(unitCam);
         }
+
+        //Weapon weaponRef = GetComponent<Weapon>();
+        //if(weaponRef != null)
+        //{
+        //    Destroy(weaponRef.effectsObj);
+        //}
+        CombatFlow.combatUnits.Remove(gameObject);
         Destroy(myHudIconRef.gameObject);
         Destroy(gameObject);
     }

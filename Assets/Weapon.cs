@@ -18,10 +18,20 @@ public class Weapon : MonoBehaviour
 
     public float projectileLifetime;
 
+    public GameObject effectsObj;
 
     // hardpointController will call Fire and FireEnd on all of this type simultaneously
     // hardpointcontroller will NOT step to next type
     public bool groupHardpointsTogether;
+    public bool sequentialLaunch; // ultimately ignored if groupHardpointsTogether is false
+
+    public float fireRateTimer;
+
+    public short roundsRemain;
+
+
+    public GameObject linecastFront;
+    public GameObject linecastBack;
 
 
 
@@ -115,6 +125,12 @@ public class Weapon : MonoBehaviour
         Debug.Log("Parent LinkToOwner called");
     }
 
+
+    // called repeatedly from update until reload is complete
+    virtual public void reloadProcess()
+    {
+        Debug.Log("weapon reloadProcess doing nothing"); // should only be called if weapon does not drop on launch
+    }
 
     public float setArmTime(float newArmTime)
     {

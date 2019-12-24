@@ -7,7 +7,6 @@ public class Rocket : Weapon
 
 
     public GameObject rocketEffectsPrefab;
-    public GameObject rocketEffectsObj;
     public Transform effectsCenter;
 
 
@@ -29,14 +28,16 @@ public class Rocket : Weapon
     private bool tempArmed = false;
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
         armed = false;
         setColliders(false);
-        rocketEffectsObj = Instantiate(rocketEffectsPrefab);
+        effectsObj = Instantiate(rocketEffectsPrefab);
         
-        rocketEffectsObj.transform.position = effectsCenter.position;
+        effectsObj.transform.position = effectsCenter.position;
 
         rbRef = GetComponent<Rigidbody>();
         myFlow = GetComponent<CombatFlow>();
@@ -64,7 +65,8 @@ public class Rocket : Weapon
             else
             {
                 burnActive = false;
-                rocketEffectsObj.GetComponent<Light>().enabled = false;
+                if(effectsObj != null)
+                    effectsObj.GetComponent<Light>().enabled = false;
             }
 
 
@@ -98,7 +100,7 @@ public class Rocket : Weapon
         if (burnActive)
         {
             rbRef.AddForce(transform.forward * motorForce);
-            rocketEffectsObj.transform.position = effectsCenter.transform.position;
+            effectsObj.transform.position = effectsCenter.transform.position;
         }
         else
         {
@@ -117,27 +119,31 @@ public class Rocket : Weapon
 
         CombatFlow rootFlow = otherRoot.GetComponent<CombatFlow>();
 
-        bool doExplode = true;
+        
 
-
-        if(rootFlow != null)
+        if (!otherRoot.CompareTag("Effects")) // do not do anything against effects
         {
-            if (rootFlow.team != myTeam || friendlyImpact)
-            {
-                
-                rootFlow.currentHP -= impactDamage;
-            }
-            else
-            {
-                doExplode = false;
-            }
-        }
+            bool doExplode = true;
 
-        if (doExplode)
-        {
-            myFlow.currentHP -= myFlow.currentHP;
-            rocketEffectsObj.GetComponent<Light>().enabled = false;
-            Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
+            if (rootFlow != null)
+            {
+                if (rootFlow.team != myTeam || friendlyImpact)
+                {
+
+                    rootFlow.currentHP -= impactDamage;
+                }
+                else
+                {
+                    doExplode = false;
+                }
+            }
+
+            if (doExplode)
+            {
+                myFlow.currentHP -= myFlow.currentHP;
+                effectsObj.GetComponent<Light>().enabled = false;
+                Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
+            }
         }
 
         

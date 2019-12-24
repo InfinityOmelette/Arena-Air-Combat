@@ -87,7 +87,6 @@ public class CamManipulation : MonoBehaviour
         camRef.transform.localPosition -= camDistanceByVelocity();
         camRef.transform.localPosition -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
 
-
         
 
         if (lookAtEnabled)
@@ -99,19 +98,22 @@ public class CamManipulation : MonoBehaviour
                     aircraftRootRB.transform.InverseTransformPoint( lookAtObj.transform.position),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
 
+
+
             }
             else // if look at is enabled but reference is null, re-toggle look at
                 toggleLookAt();
         }
         else
         {
-            // Roll angular velocity on camera rotation
-            camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
+            
 
             // right stick to look around aircraft
             processFreeLook();
         }
 
+        // Roll angular velocity on camera rotation
+        camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
 
         camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, camRotateLerpRate);
 
@@ -233,12 +235,22 @@ public class CamManipulation : MonoBehaviour
 
     private Quaternion processAngularVelocityRotation()
     {
-        Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
-        float rollRateOffsetTarget = rollRateVect.magnitude * rollRateMod; // Use magnitude to determine camera z offset strength
-        if (rollRateVect.normalized == transform.forward)
-            rollRateOffsetTarget *= -1;
-        float rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate);
-        Quaternion returnQuat = new Quaternion(
+        Quaternion returnQuat;
+        float rollRateOffsetTarget = 0f; // will target 0 z rotation if lookAt is enabled
+        float rollRateOffsetResult;
+
+        
+        if (!lookAtEnabled)
+        {
+            Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
+            rollRateOffsetTarget = rollRateVect.magnitude * rollRateMod; // Use magnitude to determine camera z offset strength
+            if (rollRateVect.normalized == transform.forward)
+                rollRateOffsetTarget *= -1;
+        }
+
+        rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate);
+        
+        returnQuat = new Quaternion(
             camAxisRollRef.transform.localRotation.x,
             camAxisRollRef.transform.localRotation.y,
             rollRateOffsetResult,

@@ -52,6 +52,8 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
 
 
+
+
     //  BUTTON DOWN PRESSES GO HERE
     void Update()
     {
@@ -60,23 +62,11 @@ public class PlayerInput_Aircraft : MonoBehaviour
         tgtButtonProcess();
         // if button held, activate camLookAt
 
-        if(Input.GetButtonDown("Weapon Launch"))
-        {
-            hardpointController.launchButtonDown = true;
-        }
-        else
-        {
-            hardpointController.launchButtonDown = false;
-        }
 
-        if (Input.GetButtonUp("Weapon Launch"))
-        {
-            hardpointController.launchButtonUp = true;
-        }
-        else
-        {
-            hardpointController.launchButtonUp = false;
-        }
+        
+
+
+        
 
 
         if (Input.GetButtonDown("Weapon Change") || Input.GetKeyDown(KeyCode.P))
@@ -217,5 +207,27 @@ public class PlayerInput_Aircraft : MonoBehaviour
         // CANNONS
         cannons.cannonInput = Input.GetAxis("Cannon");
 
+
+        launchManagement();
+
+
+    }
+
+    // CALL FROM FIXEDUPDATE
+    void launchManagement()
+    {
+        // button pressed, but no launch active
+        if (Input.GetButton("Weapon Launch") && !hardpointController.launchActive)
+        {
+            // launchprocess
+            hardpointController.launchProcess();
+        }
+
+        // button NOT pressed, but launch IS active
+        if(!Input.GetButton("Weapon Launch") && hardpointController.launchActive)
+        {
+            // end the launch
+            hardpointController.launchEndProcess();
+        }
     }
 }

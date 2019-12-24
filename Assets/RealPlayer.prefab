@@ -199,9 +199,8 @@ MonoBehaviour:
   activeTypeIndex: 0
   groupThisType_List: 
   tgtComputer: {fileID: 6801930850055786249}
-  launchButtonDown: 0
-  launchButtonUp: 0
   changeButtonDown: 0
+  launchActive: 0
 --- !u!1 &6537783614964785157
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,18 +429,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentBaseThrust: 0
   currentBaseThrustPercent: 0
-  MAX_THRUST_DELTA: 10
+  MAX_THRUST_DELTA: 15
   THRUST_MIN: 100
   THRUST_MAX: 9500
   currentThrottlePercent: 0
   MAX_THROTTLE_DELTA: 2
-  throttleAccel: 0.04
+  throttleAccel: 0.015
   currentThrottleDelta: 0
   currentAirDensity: 0
   currentBurnMod: 0
   maxFuelMass: 250
   currentFuelMass: 250
-  seaLevelMaxBurnRate: 0.005
+  seaLevelMaxBurnRate: 0.001
   burnRateAltitudeResiliency: 0.4
   massUpdateGap: 1
   input_throttleAxis: 0
@@ -801,6 +800,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -912,6 +916,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6282535372062044719, guid: d2bcdd024eb0a5343b126eecb07740bf,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: launchDelayMax
+      value: 0.0416
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1134,8 +1143,13 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponTypePrefab
       value: 
-      objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
+      objectReference: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1247,6 +1261,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6282535372062044719, guid: d2bcdd024eb0a5343b126eecb07740bf,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: launchDelayMax
+      value: 0.083
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1358,6 +1377,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1890,6 +1914,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2004,8 +2033,13 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponTypePrefab
       value: 
-      objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
+      objectReference: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2117,6 +2151,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2233,6 +2272,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2344,6 +2388,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5531036496383959406, guid: 18ebd03327c38e448812fa1002c951ae,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2826,6 +2875,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -3344,6 +3398,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: reloadTimeMax
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2748581251918278682, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalScale.x

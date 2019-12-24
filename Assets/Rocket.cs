@@ -94,7 +94,7 @@ public class Rocket : Weapon
     void FixedUpdate()
     {
 
-        
+        checkLinecastCollision();
 
 
         if (burnActive)
@@ -111,15 +111,23 @@ public class Rocket : Weapon
 
     private void OnTriggerEnter(Collider other)
     {
+
+        contactProcess(other.gameObject);
+        
+    }
+
+    override
+    public void contactProcess(GameObject other)
+    {
         //Debug.Log("Rocket colliding. Arming time: " + armingTime + ", arming timer: " + armTimeRemaining + ", isArmed: " + armed);
 
         GameObject otherRoot = other.transform.root.gameObject;
 
-        
+
 
         CombatFlow rootFlow = otherRoot.GetComponent<CombatFlow>();
 
-        
+
 
         if (!otherRoot.CompareTag("Effects")) // do not do anything against effects
         {
@@ -145,8 +153,6 @@ public class Rocket : Weapon
                 Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
             }
         }
-
-        
     }
 
 

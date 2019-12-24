@@ -30,11 +30,41 @@ public class Weapon : MonoBehaviour
     public short roundsRemain;
 
 
-    public GameObject linecastFront;
-    public GameObject linecastBack;
+    private Vector3 previousPos;
+    public float lineCastBackTime;
+    private float linecastCurrentTimer;
 
 
 
+    // call from fixedUpdate()
+    // either countdown reposition timer
+    public void checkLinecastCollision()
+    {
+
+        if (linecastCurrentTimer > 0)
+        {
+            linecastCurrentTimer -= Time.deltaTime;
+        }
+        else
+        {
+            previousPos = transform.position;
+            linecastCurrentTimer = lineCastBackTime;
+        }
+
+        if (armed)
+        {
+            RaycastHit hitInfo = new RaycastHit();
+            short terrainLayer = 1 << 10;
+            if (Physics.Linecast(previousPos, transform.position,
+                out hitInfo, terrainLayer))
+            {
+                Debug.Log("*********************************************************************  linecast hit");
+                transform.position = hitInfo.point;
+                contactProcess(hitInfo.collider.gameObject);
+            }
+        }
+
+    }
 
     public void tryArm()
     {
@@ -137,6 +167,12 @@ public class Weapon : MonoBehaviour
         armingTime = newArmTime;
         armTimeRemaining = newArmTime;
         return newArmTime;
+    }
+
+    
+    public virtual void contactProcess(GameObject other)
+    {
+
     }
 
 }

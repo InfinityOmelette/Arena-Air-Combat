@@ -44,6 +44,12 @@ public class BasicBomb : Weapon
     }
 
 
+    private void FixedUpdate()
+    {
+        checkLinecastCollision();
+    }
+
+
     override
     public void launch()
     {
@@ -69,8 +75,8 @@ public class BasicBomb : Weapon
         contactProcess(collision.gameObject);
     }
 
-
-    private void contactProcess(GameObject other)
+    override
+    public void contactProcess(GameObject other)
     {
         if (oneImpactVictim == null)
         {

@@ -74,6 +74,8 @@ public class BasicMissile : Weapon
 
     private void FixedUpdate()
     {
+        checkLinecastCollision();
+
         if ( launched)
         {
             if(myTarget != null)
@@ -109,6 +111,12 @@ public class BasicMissile : Weapon
     }
 
     private void OnTriggerEnter(Collider other)
+    {
+        contactProcess(other.gameObject);
+    }
+
+    override
+    public void contactProcess(GameObject other)
     {
         GameObject otherRoot = other.gameObject.transform.root.gameObject;
         CombatFlow otherFlow = otherRoot.GetComponent<CombatFlow>();
@@ -169,8 +177,6 @@ public class BasicMissile : Weapon
             myCombatFlow.currentHP -= myCombatFlow.currentHP;
         }
     }
-
-
 
 
 

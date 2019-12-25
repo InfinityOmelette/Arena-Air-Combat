@@ -30,6 +30,9 @@ public class BasicBomb : Weapon
     {
         ownerObj = newOwner;
         GetComponent<FixedJoint>().connectedBody = ownerObj.GetComponent<Rigidbody>();
+
+        myHardpoint.roundsMax = 1;
+        myHardpoint.roundsRemain = 1;
     }
 
     // Update is called once per frame
@@ -59,6 +62,8 @@ public class BasicBomb : Weapon
         Destroy(GetComponent<FixedJoint>());
 
         rbRef.velocity = ownerObj.GetComponent<Rigidbody>().velocity;
+
+        myHardpoint.roundsRemain = 0;
 
         launched = true;
         armTimeRemaining = armingTime;

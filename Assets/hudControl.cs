@@ -64,6 +64,7 @@ public class hudControl : MonoBehaviour
 
     public float velocityVectorMinSpeed;
 
+    public WeaponIndicatorManager weaponIndicatorManager;
 
     // REFERENCES
     public GameObject aircraftRootObj;

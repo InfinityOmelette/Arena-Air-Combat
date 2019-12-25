@@ -27,6 +27,7 @@ public class Weapon : MonoBehaviour
 
     public float fireRateTimer;
 
+    public short roundsMax;
     public short roundsRemain;
 
 
@@ -34,7 +35,7 @@ public class Weapon : MonoBehaviour
     public float lineCastBackTime;
     private float linecastCurrentTimer;
 
-
+    public Sprite iconImageSpriteFile; // inefficient -- not necessary for every weapon instance to contain this reference.
 
     // call from fixedUpdate()
     // either countdown reposition timer
@@ -54,7 +55,7 @@ public class Weapon : MonoBehaviour
         if (armed)
         {
             RaycastHit hitInfo = new RaycastHit();
-            short terrainLayer = 1 << 10;
+            short terrainLayer = 1 << 10; // only check collisions with terrain
             if (Physics.Linecast(previousPos, transform.position,
                 out hitInfo, terrainLayer))
             {

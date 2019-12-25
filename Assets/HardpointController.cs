@@ -15,6 +15,7 @@ public class HardpointController : MonoBehaviour
     public List<bool> groupThisType_List;
 
 
+    public WeaponIndicatorManager weaponIndicatorManager;
 
     public TgtComputer tgtComputer;
 
@@ -37,6 +38,11 @@ public class HardpointController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // putting this in Start to guarantee that hudControl's awake() has run first so that static mainHud property is set
+        weaponIndicatorManager = hudControl.mainHud.GetComponent<hudControl>().weaponIndicatorManager;
+        if (weaponIndicatorManager == null)
+            Debug.Log("HARDPOINT CONTROLLER UNABLE TO FIND WEAPON INDICATOR MANAGER");
+
         fillHardpointArray();
     }
 
@@ -63,17 +69,28 @@ public class HardpointController : MonoBehaviour
                 // Read from this prefab if this hardpoint type should be launched together. Add this bool to the list
                 groupThisType_List.Add(hardpoints[i].weaponTypePrefab.GetComponent<Weapon>().groupHardpointsTogether);
 
-                //Debug.Log()
+                // tell weapon indicator manager to spawn new container
+                weaponIndicatorManager.spawnNewContainer(hardpoints[i].weaponTypePrefab);
 
             }
             weaponTypeHardpointLists[typeIndex].Add(hardpoints[i]); // add item to existing list
+
+            Debug.Log("Size of hardpoint list: " + weaponTypeHardpointLists[typeIndex].Count);
+
+            // tell weapon indicator manager to spawn new indicator inside typeIndex container
+            weaponIndicatorManager.spawnNewIndicator(typeIndex, 
+                (short)(weaponTypeHardpointLists[typeIndex].Count - 1), // hardpoint order position will be size of type's list - 1
+                hardpoints[i]); // hardpoint that the new indicator will be linked to
 
         }
 
         // all types are now known, have short designating active for each
         activeHardpointIndexes = new short[weaponTypeHardpointLists.Count];
 
-        
+
+        weaponIndicatorManager.showActiveWeaponType(0); // hud will assume the first weapon type is selected
+
+        Debug.Log("Reached end of hardpoint function");
         
     }
 
@@ -307,5 +324,6 @@ public class HardpointController : MonoBehaviour
         activeTypeIndex++;
         if (activeTypeIndex > weaponTypeHardpointLists.Count - 1)
             activeTypeIndex = 0;
+        weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
     }
 }

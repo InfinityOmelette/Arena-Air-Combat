@@ -29,6 +29,10 @@ public class Hardpoint : MonoBehaviour
     public bool dropOnLaunch = true;
 
 
+    public short roundsMax;
+    public short roundsRemain;
+
+
     
 
     // Start is called before the first frame update

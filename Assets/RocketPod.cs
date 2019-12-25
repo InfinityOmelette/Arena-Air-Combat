@@ -19,7 +19,6 @@ public class RocketPod : Weapon
     public float rocketMotorBurntime;
 
 
-    public short magazineSize;
     
 
     public float reloadTimerMax;
@@ -46,7 +45,7 @@ public class RocketPod : Weapon
     // Start is called before the first frame update
     void Start()
     {
-        roundsRemain = magazineSize;
+        roundsRemain = roundsMax;
     }
 
     // Update is called once per frame
@@ -69,6 +68,12 @@ public class RocketPod : Weapon
                     Debug.Log("No rockets remaining. Ignoring launch");
                 }
             }
+        }
+
+
+        if(myHardpoint != null)
+        {
+            myHardpoint.roundsRemain = roundsRemain;
         }
         
     }
@@ -174,7 +179,7 @@ public class RocketPod : Weapon
         else  // if reload timer done, make ready to fire again
         {
             myHardpoint.readyToFire = true; // prevent this from being called again until next reload cycle
-            roundsRemain = magazineSize;
+            roundsRemain = roundsMax;
         }
         
     }
@@ -186,6 +191,9 @@ public class RocketPod : Weapon
         GetComponent<FixedJoint>().connectedBody = ownerObj.GetComponent<Rigidbody>();
         myHardpoint.reloadTimeMax = reloadTimerMax;
         myHardpoint.fireRateDelayRaw = rocketFireRateDelay;
+
+        myHardpoint.roundsMax = roundsMax;
+        myHardpoint.roundsRemain = roundsRemain;
 
         Debug.Log("Linking " + gameObject.name + " to owner: " + ownerObjArg.name);
     }

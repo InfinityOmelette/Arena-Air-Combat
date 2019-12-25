@@ -56,6 +56,9 @@ public class BasicMissile : Weapon
     {
         ownerObj = ownerObjArg;
         GetComponent<FixedJoint>().connectedBody = ownerObj.GetComponent<Rigidbody>();
+
+        myHardpoint.roundsMax = 1;
+        myHardpoint.roundsRemain = 1;
     }
     
 
@@ -195,6 +198,8 @@ public class BasicMissile : Weapon
         launched = true;
         armTimeRemaining = armingTime;
         myCombatFlow.isActive = true;
+
+        myHardpoint.roundsRemain = 0;
 
         guidedLaunch = myTarget != null;
         

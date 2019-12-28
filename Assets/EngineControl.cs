@@ -29,8 +29,8 @@ public class EngineControl : MonoBehaviour
     private float previousFuelMassUpdate = 0;
 
     public float input_throttleAxis;
-
-
+    public float input_scrollWheelAxis;
+    public float scrollWheelMultiplier;
 
     public float minAB_thrust;
     public float minAB_Scale;
@@ -63,6 +63,20 @@ public class EngineControl : MonoBehaviour
         processAfterburnerGraphic();
     }
 
+    private void Update()
+    {
+
+        currentThrottlePercent = inputThrottleFromMouse();
+
+    }
+
+
+    private float inputThrottleFromMouse()
+    {
+        float newThrottle = currentThrottlePercent;
+        newThrottle += input_scrollWheelAxis * scrollWheelMultiplier;
+        return Mathf.Clamp(newThrottle, 0f, 100f);
+    }
 
     private void processAfterburnerGraphic()
     {
@@ -109,7 +123,8 @@ public class EngineControl : MonoBehaviour
     void FixedUpdate()
     {
         //  THRUST BASE
-        currentThrottlePercent = inputThrottle();       // set throttle
+        currentThrottlePercent = inputThrottleFromJoypad();       // set throttle
+
         currentBaseThrust = stepBaseThrustToTarget(currentThrottlePercent); // step thrust value
         currentBaseThrustPercent = (currentBaseThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
 
@@ -132,8 +147,9 @@ public class EngineControl : MonoBehaviour
 
 
     // SET THROTTLE
-    private float inputThrottle()
+    private float inputThrottleFromJoypad()
     {
+
         float controllerInput = input_throttleAxis;
 
         // RESET currentThrottleDelta TO ZERO IF:

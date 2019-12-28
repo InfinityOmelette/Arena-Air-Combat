@@ -63,27 +63,13 @@ public class PlayerInput_Aircraft : MonoBehaviour
         // if button held, activate camLookAt
 
 
+
+        cam.input_mouseLookToggleBtnDown = Input.GetKeyDown(KeyCode.P);
+
+        hardpointController.changeButtonDown = Input.GetButtonDown("Weapon Change");
+        
         
 
-
-        
-
-
-        if (Input.GetButtonDown("Weapon Change") || Input.GetKeyDown(KeyCode.P))
-        {
-            hardpointController.changeButtonDown = true;
-        }
-        else
-        {
-            hardpointController.changeButtonDown = false;
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            GetComponent<ExplodeStats>().explode(transform.position + transform.forward * testExplosionDistance);
-            //Explosion.createExplosionAt(transform.position + transform.forward * testExplosionDistance, 20, 0, true, 8, Color.yellow, true, Color.cyan);
-        }
 
         
         processCamOffset();
@@ -184,6 +170,13 @@ public class PlayerInput_Aircraft : MonoBehaviour
         float yaw = Input.GetAxis("Rudder");
         float throttle = Input.GetAxis("Throttle");
 
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        // HARDPOINT CONTROLLER
+        hardpointController.input_scrollWheel = Input.GetAxis("Scrollwheel");
+        
+
         // FLIGHT
         flight.input_pitch = Mathf.Lerp(flight.input_pitch, Input.GetAxis("Pitch"), pitchInputLerp);
         flight.input_yaw = Mathf.Lerp(flight.input_yaw, yaw, rudderInputLerp);
@@ -191,7 +184,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
         // ENGINE
         engine.input_throttleAxis = throttle;
-
+        
 
         // WHEELS
         wheels.input_brakeAxis = throttle;
@@ -203,6 +196,9 @@ public class PlayerInput_Aircraft : MonoBehaviour
         //cam.input_freeLookVert = Mathf.Lerp(cam.input_freeLookVert, Input.GetAxis("CamLookY"), cam.freeLookLerpRate);
         cam.input_freeLookHoriz = Input.GetAxis("CamLookX");
         cam.input_freeLookVert = Input.GetAxis("CamLookY");
+        cam.input_mouseSpeedX = mouseX;
+        cam.input_mouseSpeedY = mouseY;
+        
 
         // CANNONS
         cannons.cannonInput = Input.GetAxis("Cannon");
@@ -213,7 +209,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
     }
 
-    // CALL FROM FIXEDUPDATE
+    // CALL FROM FIXEDUPDATE -- determine precise physics update when button pressed
     void launchManagement()
     {
         // button pressed, but no launch active

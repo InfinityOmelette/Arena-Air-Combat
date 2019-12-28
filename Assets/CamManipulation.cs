@@ -30,9 +30,11 @@ public class CamManipulation : MonoBehaviour
    // public float thrustModMaxDistOffset;
     public float fwdGlobalVelocityScale;
 
-    public float freeLookLerpRate;
+   
 
     public float camRotateLerpRate;
+    public float mouseRotateLerpRate;
+    private float activeRotateLerpRate;
 
     public float rollRateMod;
     public float rollRateOffsetLerpRate;
@@ -56,6 +58,19 @@ public class CamManipulation : MonoBehaviour
     public float input_freeLookHoriz;
     public float input_freeLookVert;
 
+
+    public float input_mouseSpeedX;
+    public float input_mouseSpeedY;
+    public float mouse_yawRate;
+    public float mouse_pitchRate;
+
+    public float maxMouseTraverseSpeed;
+
+    public bool mouseLookEnabled;
+    public bool input_mouseLookToggleBtnDown;
+
+    private Quaternion previousRotationTarget;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +87,8 @@ public class CamManipulation : MonoBehaviour
         if(input_camLookAtButtonDown)
             toggleLookAt();
 
-
+        if (input_mouseLookToggleBtnDown)
+            mouseLookEnabled = !mouseLookEnabled;
         
     }
 
@@ -98,6 +114,7 @@ public class CamManipulation : MonoBehaviour
                     aircraftRootRB.transform.InverseTransformPoint( lookAtObj.transform.position),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
 
+                activeRotateLerpRate = camRotateLerpRate;
 
 
             }
@@ -115,7 +132,7 @@ public class CamManipulation : MonoBehaviour
         // Roll angular velocity on camera rotation
         camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
 
-        camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, camRotateLerpRate);
+        camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, activeRotateLerpRate);
 
     }
 
@@ -131,33 +148,6 @@ public class CamManipulation : MonoBehaviour
 
         lookAtEnabled = !lookAtEnabled;
 
-        //if (!lookAtEnabled && lookAtObj != null)  // lookAt is not turned on, turn it on if possible
-        //{
-        //    // Reset cam axes -- start from zero, then lookat will modify from there
-        //    Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);   // remove any free look input
-        //    camAxisRollRef.transform.localRotation = zeroQuat;
-        //    camAxisHorizRef.transform.localRotation = zeroQuat;
-        //    camAxisVertRef.transform.localRotation = zeroQuat;
-
-        //    // switch enabled state
-        //    lookAtEnabled = true;
-
-
-        //}
-        //else // lookAt is on or failed to turn on, turn it off
-        //{
-        //    // switch enabled state
-        //    lookAtEnabled = false;
-
-        //    //// Reset cam axes -- so free look can modify an undisturbed value
-        //    Quaternion zeroQuat = new Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
-        //    camAxisRollRef.transform.localRotation = zeroQuat;
-
-        //    // return cam rotation to default
-        //    camRef.transform.localRotation = defaultCamRotation;
-
-
-        //}
 
         
     }
@@ -218,19 +208,81 @@ public class CamManipulation : MonoBehaviour
 
     private void processFreeLook()
     {
-        float horizLookTarget = Mathf.Clamp(input_freeLookHoriz * horizTravelMod + camAxisTargetOffset_Horiz, -horizTravelMod, horizTravelMod);
-        float vertLookTarget = Mathf.Clamp(input_freeLookVert * vertTravelMod + camAxisTargetOffset_Vert, -vertTravelMod, vertTravelMod);
+        // prioritize stick -- if no stick input, change by mouse
+        Vector3 targetLocalEuler;
+        //
 
+        // If there is no stick input..
+        if (mouseLookEnabled)
+        {
 
+            activeRotateLerpRate = mouseRotateLerpRate;
 
-        Vector3 targetLocalEuler = new Vector3(vertLookTarget, horizLookTarget, 0f);
+            // use mouse input to rotate camera
+            targetLocalEuler = mouseFreeLookEuler(
+                input_mouseSpeedX, 
+                input_mouseSpeedY);
+
+            
+        }
+        else // THERE IS STICK INPUT, PRIORITIZE STICK
+        {
+            activeRotateLerpRate = camRotateLerpRate;
+
+            float horizLookTarget = Mathf.Clamp(input_freeLookHoriz * horizTravelMod + camAxisTargetOffset_Horiz, -horizTravelMod, horizTravelMod);
+            float vertLookTarget = Mathf.Clamp(input_freeLookVert * vertTravelMod + camAxisTargetOffset_Vert, -vertTravelMod, vertTravelMod);
+
+            targetLocalEuler = new Vector3(vertLookTarget, horizLookTarget, 0f);
+        }
 
         // Convert targetLocal to local quaternion
         targetLocalRotation = Quaternion.Euler(targetLocalEuler);
-        
 
+        previousRotationTarget = targetLocalRotation;
 
     }
+
+    // read mouse input, return a euler angle
+    private Vector3 mouseFreeLookEuler(float mouseSpeedX, float mouseSpeedY)
+    {
+        // horribly inefficient. Surely this can be done in 5 lines or fewer
+
+        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX;
+        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY;
+
+
+
+        // NEW TARGET
+        Vector3 newRotationEuler = Mathf.Rad2Deg * Quaternion.ToEulerAngles(targetLocalRotation) +
+            new Vector3(angleOffsetVert, angleOffsetHoriz, 0.0f);
+
+
+        newRotationEuler.x = unEulerize(newRotationEuler.x);
+        newRotationEuler.y = unEulerize(newRotationEuler.y);
+
+        // CLAMP PITCH
+        newRotationEuler.x = Mathf.Clamp(newRotationEuler.x, -vertTravelMod, vertTravelMod);
+
+        // CLAMP YAW
+        newRotationEuler.y = Mathf.Clamp(newRotationEuler.y, -horizTravelMod, horizTravelMod);
+
+        newRotationEuler.z = 0f;
+
+        Debug.Log("Entering mouseFreeLookEuler with mouse speed: (" + mouseSpeedX + ", " + mouseSpeedY + "), target offset of: (" +
+            angleOffsetHoriz + ", " + angleOffsetVert + "), newEuler is (" + newRotationEuler.x + ", " + newRotationEuler.y + ", " +
+            newRotationEuler.z + ")");
+
+        return newRotationEuler;
+    }
+
+    private float unEulerize(float val)
+    {
+        if (val > 180)
+            val -= 360f;
+        return val;
+    }
+
+    
 
 
     private Quaternion processAngularVelocityRotation()

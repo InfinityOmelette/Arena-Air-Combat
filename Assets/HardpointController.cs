@@ -19,7 +19,7 @@ public class HardpointController : MonoBehaviour
 
     public TgtComputer tgtComputer;
 
-
+    public float input_scrollWheel;
 
     public bool changeButtonDown;
 
@@ -120,11 +120,17 @@ public class HardpointController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
 
         if (changeButtonDown)
         {
-            changeWeaponType();
+            changeWeaponType(1);
+        }
+        else 
+        {
+            short scrollAdvance = (short)Mathf.RoundToInt(-input_scrollWheel);
+            Debug.Log("ScrollAdvance: " + scrollAdvance + "with raw: " + input_scrollWheel);
+            changeWeaponType(scrollAdvance);
         }
     }
 
@@ -318,12 +324,25 @@ public class HardpointController : MonoBehaviour
     }
 
 
-    void changeWeaponType()
+    void changeWeaponType(short advance)
     {
-        launchEndProcess();
-        activeTypeIndex++;
-        if (activeTypeIndex > weaponTypeHardpointLists.Count - 1)
-            activeTypeIndex = 0;
-        weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
+        if (advance != 0)
+        {
+            // end previous launch when any change made
+            launchEndProcess();
+
+            // advance
+            activeTypeIndex += advance;
+
+            // looping
+            if (activeTypeIndex > weaponTypeHardpointLists.Count - 1)
+                activeTypeIndex = 0;
+            else if (activeTypeIndex < 0)
+                activeTypeIndex = (short)(weaponTypeHardpointLists.Count - 1);
+
+
+            // indicator shows change -- this is only UI update
+            weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
+        }
     }
 }

@@ -21,7 +21,8 @@ public class HardpointController : MonoBehaviour
 
     public float input_scrollWheel;
 
-    public bool changeButtonDown;
+    public float input_changeWeaponAxis;
+    private bool changeButtonHeld;
 
     public bool launchActive;
 
@@ -122,15 +123,20 @@ public class HardpointController : MonoBehaviour
     {
         
 
-        if (changeButtonDown)
+        if ((Mathf.Abs(input_changeWeaponAxis) > .3f)) // if definitely pressed, either direction
         {
-            changeWeaponType(1);
+            if (!changeButtonHeld)
+            {
+                changeButtonHeld = true;
+                advanceWeaponType((short)Mathf.RoundToInt(input_changeWeaponAxis));
+            }
         }
         else 
         {
+            changeButtonHeld = false;
             short scrollAdvance = (short)Mathf.RoundToInt(-input_scrollWheel);
             Debug.Log("ScrollAdvance: " + scrollAdvance + "with raw: " + input_scrollWheel);
-            changeWeaponType(scrollAdvance);
+            advanceWeaponType(scrollAdvance);
         }
     }
 
@@ -324,7 +330,21 @@ public class HardpointController : MonoBehaviour
     }
 
 
-    void changeWeaponType(short advance)
+    public void setWeaponType(short index)
+    {
+        // check that index is within the range of weapon types
+        if(index >= 0 && index < weaponTypeHardpointLists.Count)
+        {
+            launchEndProcess();         // end currently selected weapon
+            activeTypeIndex = index;    // change type
+
+            // indicator shows change -- this is only UI update
+            weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
+        }
+    }
+
+
+    void advanceWeaponType(short advance)
     {
         if (advance != 0)
         {

@@ -105,9 +105,12 @@ public class WeaponIndicatorManager : MonoBehaviour
         newContainerObj.transform.SetParent(statusIndicatorsCenter.transform); // statusIndicatorsCenter is parent of all containers
         newContainerObj.transform.localPosition = new Vector3(0f, 0f, 0f);      // might be unnecessary
 
-        weaponTypesText.text += newPrefabType.name + "\n";
+        
 
         indicatorTypeContainers.Add(newContainerObj);
+
+        weaponTypesText.text += (indicatorTypeContainers.Count).ToString() + " --- " + newPrefabType.name + "\n";
+
         return newContainerObj;
     }
 

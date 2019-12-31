@@ -66,8 +66,8 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
         cam.input_mouseLookToggleBtnDown = Input.GetKeyDown(KeyCode.P);
 
-        hardpointController.changeButtonDown = Input.GetButtonDown("Weapon Change");
-        
+        hardpointController.input_changeWeaponAxis = Input.GetAxis("Weapon Change");
+        getWeaponSelectNumber();
         
 
 
@@ -173,8 +173,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        // HARDPOINT CONTROLLER
-        hardpointController.input_scrollWheel = Input.GetAxis("Scrollwheel");
+        
         
 
         // FLIGHT
@@ -184,7 +183,8 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
         // ENGINE
         engine.input_throttleAxis = throttle;
-        
+        engine.input_scrollWheelAxis = Input.GetAxis("Scrollwheel");
+
 
         // WHEELS
         wheels.input_brakeAxis = throttle;
@@ -207,6 +207,53 @@ public class PlayerInput_Aircraft : MonoBehaviour
         launchManagement();
 
 
+    }
+
+    void getWeaponSelectNumber()
+    {
+        short selectIndex = -1; // -1 for no change by default if none pressed
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectIndex = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectIndex = 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectIndex = 2;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            selectIndex = 3;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            selectIndex = 4;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            selectIndex = 5;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            selectIndex = 6;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            selectIndex = 7;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            selectIndex = 8;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            selectIndex = 9;
+        }
+
+        hardpointController.setWeaponType(selectIndex);
     }
 
     // CALL FROM FIXEDUPDATE -- determine precise physics update when button pressed

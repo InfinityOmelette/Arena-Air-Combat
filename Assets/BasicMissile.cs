@@ -10,13 +10,10 @@ public class BasicMissile : Weapon
     public GameObject ownerObj;
 
 
-    public GameObject missileModel;
 
 
-    // TEST: will anything bad happen if I delete this?
-    public GameObject missileActive;
 
-    public GameObject effectsPrefab;
+    public GameObject effectsOriginalObj;
     public Transform effectsCenter;
 
     private Rigidbody rbRef;
@@ -39,7 +36,8 @@ public class BasicMissile : Weapon
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
 
-        effectsObj = Instantiate(effectsPrefab);
+        effectsObj = Instantiate(effectsOriginalObj);
+        Destroy(effectsOriginalObj);
         effectsObj.transform.position = effectsCenter.position;
 
         effectsObj.GetComponent<Light>().enabled = false;

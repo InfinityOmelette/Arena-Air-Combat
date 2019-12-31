@@ -176,10 +176,27 @@ De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
   - each hardpoint carries new HUD icon obj, image changed by weapon, reads hardpoint reload data
   - updateHUD() in hardpointController -- called when weapon changed or fired
 
- 
+ Decent mouse controls
+  - forward/back buttons for throttle
+  - scroll wheel for weapon select
+  - left click guns
+  - right click for launch
+
  REALISTIC MISSILE PERFORMANCE + GUIDANCE
   - Reasonable missile physics values -- ~1.5km range
   - Predicted lead angle (seek constant-bearing-decreasing-range) aka proportional guidance
+    > Target bearing line 
+	> Target velocity --> target tangential velocity
+	> Projected lead axis/plane -- coplanar with target bearing line and target velocity (cross of the two)
+	> Projectile velocity
+	> Projected lead -- trig function to get lead angle -- ANGLE OFF OF BEARING LINE IN-PLANE WITH TARGET VELOCITY
+	  >>> Direction vectors? Target quaternions?
+	  >>> tangential component of projectile velocity matches tangential component of target velocity
+	> torque vector is cross of projectile velocity and target direction vector?
+	  >>> angle between belocity and target direction vector 
+	  >>> torque vector separated into PITCH and YAW input components
+	> pitch and yaw components fed into realFlight script
+
   - Predicted average velocity over remaining flight time
   - Lofting stage (function of distance)
 

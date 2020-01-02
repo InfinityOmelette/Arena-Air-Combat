@@ -246,6 +246,9 @@ GameObject:
   - component: {fileID: 2679821413425894064}
   - component: {fileID: 637947378790004450}
   - component: {fileID: 4638551824527901223}
+  - component: {fileID: 5955528555778302879}
+  - component: {fileID: 9132587599179994770}
+  - component: {fileID: 4757553564507883173}
   - component: {fileID: 6128235843230067690}
   - component: {fileID: 4305602229554513232}
   m_Layer: 0
@@ -299,8 +302,8 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 3
-  m_UseGravity: 0
+  m_AngularDrag: 30
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -341,7 +344,9 @@ MonoBehaviour:
   myHardpoint: {fileID: 0}
   myTeam: 0
   projectileLifetime: 0
+  effectsOriginalObj: {fileID: 1887905859767574810}
   effectsObj: {fileID: 0}
+  effectsCenter: {fileID: 7527746291013076847}
   groupHardpointsTogether: 0
   sequentialLaunch: 0
   fireRateTimer: 0
@@ -351,12 +356,85 @@ MonoBehaviour:
   iconImageSpriteFile: {fileID: 21300000, guid: f970423cf0322b540b9d8c078fef0db5,
     type: 3}
   ownerObj: {fileID: 0}
-  effectsOriginalObj: {fileID: 1887905859767574810}
-  effectsCenter: {fileID: 7527746291013076847}
-  proximityFuseRange: 7
+  proximityFuseRange: 10
   fuseLeadTime: 0.1
-  impactDamage: 30
-  speed: 600
+  impactDamage: 0
+  speed: 0
+--- !u!114 &5955528555778302879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376343893072065190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f04f5ab53407244972ae2aff7c52ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetRB: {fileID: 0}
+  rocketMotor: {fileID: 0}
+  myFlightControl: {fileID: 0}
+  myRB: {fileID: 0}
+  maxCorrectionErrorAngle: 15
+  weaponRef: {fileID: 0}
+  assumedGravityAccel: 0
+  targetPosForwardProjectionTime: 0.1
+--- !u!114 &9132587599179994770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376343893072065190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb11f100068b9da40b9904cc1599a308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  input_pitch: 0
+  input_roll: 0
+  input_yaw: 0
+  rollTorque: 0
+  pitchTorque: 80
+  yawTorque: 80
+  pitchTrim: 0
+  downPitchMultiplier: 1
+  wingLiftCoefficient: 0.035
+  wingDragCoefficient: 0.25
+  wingDragOffset: 0.001
+  bodySideLiftCoefficient: 0.035
+  bodySideDragCoefficient: 0.25
+  bodySideDragOffset: 0.001
+  totalParasiticDrag: 0
+  pitchStability: 0
+  pitchStabilityZeroOffset: 0
+  yawStability: 0
+  readCurrentG: 0
+  maxControlAuthority: 6.7
+  aeroPerformVelSensitivity: 0.000059
+  gLimitVelSensitivity: 2500
+  readCurrentAuthMod: 0
+  readVelocity: 0
+  readVertVelocity: 0
+  pitchPlaneAoA: 0
+  yawPlaneAoA: 0
+--- !u!114 &4757553564507883173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376343893072065190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrustForce: 175
+  burnTime: 2
+  doBurn: 0
 --- !u!114 &6128235843230067690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,8 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 10
-  damage: 50
+  radius: 15
+  damage: 0
   collisionsEnabled: 1
   dissipationTime: 5
   emitLightEnabled: 1
@@ -2393,11 +2471,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_Time
@@ -2406,7 +2479,12 @@ PrefabInstance:
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_Parameters.widthMultiplier
-      value: 1
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6bd0690b0d1b734d9d11488553094e5, type: 3}

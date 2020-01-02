@@ -200,6 +200,13 @@ De-crust explosions and weapon collisions -- WILL REQUIRE DESIGN DECISIONS
   - Predicted average velocity over remaining flight time
   - Lofting stage (function of distance)
 
+  - BUGS:
+    > predicted average velocity always showed zero
+	> wibble wobble
+	> Maneuvering target, won't track if in missile's rear hemisphere
+	> Stationary target, won't track if in missile's front hemisphere
+	> Missiles apply angular drag when docked to player -- they might not??
+
 
 CLOSE RANGE VISUAL TALLY
  - game unit visible if within visual range

@@ -18,7 +18,9 @@ public class Weapon : MonoBehaviour
 
     public float projectileLifetime;
 
+    public GameObject effectsOriginalObj;
     public GameObject effectsObj;
+    public Transform effectsCenter;
 
     // hardpointController will call Fire and FireEnd on all of this type simultaneously
     // hardpointcontroller will NOT step to next type

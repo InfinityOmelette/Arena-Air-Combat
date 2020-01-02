@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// loading and detonation properties
 public class BasicMissile : Weapon
 {
 
@@ -13,8 +15,8 @@ public class BasicMissile : Weapon
 
 
 
-    public GameObject effectsOriginalObj;
-    public Transform effectsCenter;
+    //public GameObject effectsOriginalObj;
+    
 
     private Rigidbody rbRef;
     private CombatFlow myCombatFlow;
@@ -36,12 +38,12 @@ public class BasicMissile : Weapon
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
 
-        effectsObj = Instantiate(effectsOriginalObj);
-        Destroy(effectsOriginalObj);
-        effectsObj.transform.position = effectsCenter.position;
+        //effectsObj = Instantiate(effectsOriginalObj);
+        //Destroy(effectsOriginalObj);
+        //effectsObj.transform.position = effectsCenter.position;
 
-        effectsObj.GetComponent<Light>().enabled = false;
-        effectsObj.GetComponent<TrailRenderer>().enabled = false;
+        //effectsObj.GetComponent<Light>().enabled = false;
+        //effectsObj.GetComponent<TrailRenderer>().enabled = false;
 
         myCombatFlow.isActive = false;
 
@@ -68,7 +70,7 @@ public class BasicMissile : Weapon
     void Update()
     {
         tryArm();
-        effectsObj.transform.position = effectsCenter.position;
+        //effectsObj.transform.position = effectsCenter.position;
     }
 
     
@@ -84,9 +86,9 @@ public class BasicMissile : Weapon
                 updateTargetPosition();
                 
 
-                transform.LookAt(targetPosition);
+               // transform.LookAt(targetPosition);
             }
-            rbRef.velocity = transform.forward * speed;
+            //rbRef.velocity = transform.forward * speed;
 
 
             if (checkProximityFuse())
@@ -190,7 +192,8 @@ public class BasicMissile : Weapon
 
 
         Destroy(GetComponent<FixedJoint>());
-        rbRef.angularVelocity = new Vector3(0.0f, 0.0f, 0.0f);
+        
+
         effectsObj.GetComponent<Light>().enabled = true;
         effectsObj.GetComponent<TrailRenderer>().enabled = true;
         launched = true;

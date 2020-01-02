@@ -37,7 +37,7 @@ public class TgtComputer : MonoBehaviour
         if(currentTarget != null)
         {
             
-            Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green, 1f);
+            Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green);
         }
     }
 

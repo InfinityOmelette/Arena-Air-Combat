@@ -6,8 +6,7 @@ public class Rocket : Weapon
 {
 
 
-    public GameObject rocketEffectsPrefab;
-    public Transform effectsCenter;
+    public GameObject rocketEffectsPrefab;//blah
 
 
     private Rigidbody rbRef;

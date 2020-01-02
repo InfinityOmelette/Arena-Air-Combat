@@ -6,6 +6,7 @@ using UnityEngine;
 public class RealFlightControl : MonoBehaviour
 {
 
+    public bool debug;
 
     public float input_pitch;
     public float input_roll;
@@ -122,10 +123,20 @@ public class RealFlightControl : MonoBehaviour
         Vector3 yawTorqueVect = transform.up * yawTorque * authMod * input_yaw * calculateControlAxisAlphaMod(transform.up);
         Vector3 rollTorqueVect = -rbRef.velocity.normalized * rollTorque * authMod * input_roll; // roll around velocity axis
 
+        if (debug)
+        {
+            Debug.Log("Pitch magnitude: " + pitchTorqueVect.magnitude + ", yaw magnitude: " + yawTorqueVect.magnitude + "pitchInputProcess: " + 
+                processPitchInput(pitchTrim) + ", pitch controlAxisAlphaMod: " + calculateControlAxisAlphaMod(transform.right));
+            Debug.DrawRay(transform.position, pitchTorqueVect.normalized * 30f, Color.magenta);
+            Debug.DrawRay(transform.position, yawTorqueVect.normalized * 30f, Color.cyan);
+        }
+
 
         //  STABILITY TORQUE
         Vector3 pitchStabilityTorque = calculateAxisStabilityTorque(pitchStability, pitchStabilityZeroOffset, rbRef.velocity, transform.forward, transform.right);
         Vector3 yawStabilityTorque = calculateAxisStabilityTorque(yawStability, 0.0f, rbRef.velocity, transform.forward, transform.up);
+
+        
 
 
         //============================================ ADD RESULT VECTORS

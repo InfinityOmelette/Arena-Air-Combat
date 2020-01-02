@@ -693,6 +693,9 @@ GameObject:
   - component: {fileID: 2204281938336825292}
   - component: {fileID: 3710398866252045214}
   - component: {fileID: 8933170854878359387}
+  - component: {fileID: 5614070720692325809}
+  - component: {fileID: 3456510896575939194}
+  - component: {fileID: 6561829509626332724}
   - component: {fileID: 7974841232584541846}
   - component: {fileID: 29026782760298540}
   m_Layer: 0
@@ -746,8 +749,8 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 3
-  m_UseGravity: 0
+  m_AngularDrag: 30
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -788,7 +791,9 @@ MonoBehaviour:
   myHardpoint: {fileID: 0}
   myTeam: 0
   projectileLifetime: 0
+  effectsOriginalObj: {fileID: 2380599895826448973}
   effectsObj: {fileID: 0}
+  effectsCenter: {fileID: 6039433206879824403}
   groupHardpointsTogether: 0
   sequentialLaunch: 0
   fireRateTimer: 0
@@ -798,12 +803,85 @@ MonoBehaviour:
   iconImageSpriteFile: {fileID: 21300000, guid: 638cc192b31b99c4fbd90cce26420188,
     type: 3}
   ownerObj: {fileID: 0}
-  effectsOriginalObj: {fileID: 2380599895826448973}
-  effectsCenter: {fileID: 6039433206879824403}
   proximityFuseRange: 15
   fuseLeadTime: 0.1
-  impactDamage: 80
-  speed: 300
+  impactDamage: 0
+  speed: 0
+--- !u!114 &5614070720692325809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935868276171530202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f04f5ab53407244972ae2aff7c52ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetRB: {fileID: 0}
+  rocketMotor: {fileID: 0}
+  myFlightControl: {fileID: 0}
+  myRB: {fileID: 0}
+  maxCorrectionErrorAngle: 2
+  weaponRef: {fileID: 0}
+  assumedGravityAccel: 0
+  targetPosForwardProjectionTime: 0.15
+--- !u!114 &3456510896575939194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935868276171530202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb11f100068b9da40b9904cc1599a308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  input_pitch: 0
+  input_roll: 0
+  input_yaw: 0
+  rollTorque: 0
+  pitchTorque: 20
+  yawTorque: 20
+  pitchTrim: 0
+  downPitchMultiplier: 1
+  wingLiftCoefficient: 0.035
+  wingDragCoefficient: 0.25
+  wingDragOffset: 0.001
+  bodySideLiftCoefficient: 0.035
+  bodySideDragCoefficient: 0.25
+  bodySideDragOffset: 0.001
+  totalParasiticDrag: 0
+  pitchStability: 0
+  pitchStabilityZeroOffset: 0
+  yawStability: 0
+  readCurrentG: 0
+  maxControlAuthority: 6.7
+  aeroPerformVelSensitivity: 0.000059
+  gLimitVelSensitivity: 2500
+  readCurrentAuthMod: 0
+  readVelocity: 0
+  readVertVelocity: 0
+  pitchPlaneAoA: 0
+  yawPlaneAoA: 0
+--- !u!114 &6561829509626332724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935868276171530202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrustForce: 175
+  burnTime: 2.5
+  doBurn: 0
 --- !u!114 &7974841232584541846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -840,7 +918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 26
-  damage: 120
+  damage: 0
   collisionsEnabled: 1
   dissipationTime: 11
   emitLightEnabled: 1
@@ -2125,15 +2203,15 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_Parameters.widthMultiplier
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6bd0690b0d1b734d9d11488553094e5, type: 3}

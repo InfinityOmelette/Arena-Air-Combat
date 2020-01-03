@@ -113,9 +113,11 @@ public class MissileGuidance : MonoBehaviour
                 // ============================  ESTIMATIONS
 
                 // estimate average missile speed based on distance, thrust, remaining burn time, altitude difference
-                estimatedMissileVelocityAverage = myRB.velocity + transform.forward.normalized * Mathf.Min(estimatedTimeToImpact, rocketMotor.burnTime) * 
-                   rocketMotor.thrustForce - Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
-                //estimatedMissileVelocityAverage = myRB.velocity;
+                //estimatedMissileVelocityAverage = myRB.velocity + 
+                  //  transform.forward.normalized * Mathf.Min(estimatedTimeToImpact, rocketMotor.burnTime) * rocketMotor.thrustForce; //-
+                     //Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
+                estimatedMissileVelocityAverage = myRB.velocity;
+                Debug.DrawRay(transform.position, estimatedMissileVelocityAverage, Color.red);
 
                 // estimate closing speed -- positive for closing, negative for separating
                 Vector3 closingVector = Vector3.Project(estimatedTargetVelocityAverage -
@@ -147,37 +149,39 @@ public class MissileGuidance : MonoBehaviour
 
                 Debug.DrawRay(targetPos_now, targetTangentialVelocity, Color.blue);
                 Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.cyan);
-                Debug.Log("Estimated target average velocity: " + estimatedTargetVelocityAverage.magnitude);
+                //Debug.Log("Estimated target average velocity: " + estimatedTargetVelocityAverage.magnitude);
 
                 // Lead angle -- direction vector
                 //  - trig from velocity magnitude to get angle where tangential velocity matches target tangential velocity
                 float leadAngleDegrees = Mathf.Rad2Deg * Mathf.Asin(targetTangentialVelocity.magnitude / estimatedMissileVelocityAverage.magnitude);
 
-                
+                Debug.Log("leadAngleDegrees: " + leadAngleDegrees);
+
+                Debug.DrawRay(transform.position, leadRotationAxis.normalized * 10f);
 
                 // Lead direction
                 Vector3 leadDirection = Quaternion.AngleAxis(leadAngleDegrees, leadRotationAxis) * targetBearingLine.normalized;
 
                 // Show lead direction
-                Debug.DrawRay(transform.position, leadDirection * Vector3.Distance(targetRB.position, transform.position), Color.green);
+                //Debug.DrawRay(transform.position, leadDirection * Vector3.Distance(targetRB.position, transform.position), Color.green);
 
-                // Target bearing line
-                Debug.DrawRay(transform.position, targetBearingLine.normalized * 
-                    Vector3.Distance(targetPos_now, transform.position), Color.red);
+                // Target bearing line -- uses drawRay to confirm line vector
+                //Debug.DrawRay(transform.position, targetBearingLine.normalized * 
+                //  Vector3.Distance(targetPos_now, transform.position), Color.red);
 
-                //  Corrected velocity
-                Debug.DrawRay(transform.position, leadDirection.normalized * myRB.velocity.magnitude, Color.yellow);
+                //  Corrected velocity -- CYAN
+                Debug.DrawRay(transform.position, leadDirection.normalized * myRB.velocity.magnitude, Color.cyan);
 
-                // Target's current velocity
-                //Debug.DrawRay(targetPos_now, targetRB.velocity, Color.yellow);
+                // Target's current velocity -- YELLOW
+                Debug.DrawRay(targetPos_now, targetRB.velocity, Color.yellow);
 
                 // Target average velocity
-               // Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.white);
+                // Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.white);
 
 
                 // Parallel target bearing line, placed at end of corrected velocity
-                Debug.DrawRay(transform.position + leadDirection.normalized * myRB.velocity.magnitude,
-                    targetBearingLine.normalized * 1000f, Color.magenta);
+                //Debug.DrawRay(transform.position + leadDirection.normalized * myRB.velocity.magnitude,
+                //  targetBearingLine.normalized * 1000f, Color.magenta);
 
 
                 //  ==========================  CORRECTIVE TORQUE CALCULATION
@@ -186,14 +190,17 @@ public class MissileGuidance : MonoBehaviour
                 //  - cross of velocity and lead direction vector
                 //  - magnitude -- angleBetween velocity and lead direction, ratio of angle vs maxAngle (max 1.0)
                 //  - projected onto xy plane to nullify any roll requirement
+                float currentVelocityErrorAngle = Vector3.Angle(estimatedMissileVelocityAverage, leadDirection); // degrees
                 Vector3 correctiveTorqueVect = 
-                    Vector3.ProjectOnPlane(Vector3.Cross(myRB.velocity, leadDirection), transform.forward).normalized *
-                    (Mathf.Min(leadAngleDegrees / maxCorrectionErrorAngle, 1.0f));
+                    Vector3.ProjectOnPlane(Vector3.Cross(myRB.velocity, leadDirection), transform.forward).normalized * // torque direction
+                    (Mathf.Min(currentVelocityErrorAngle / maxCorrectionErrorAngle, 1.0f));  // torque magnitude
 
 
-                //Debug.DrawRay(transform.position, correctiveTorqueVect * 30f, Color.blue);
+
+
+                Debug.DrawRay(transform.position, correctiveTorqueVect * 30f, Color.blue);
                // Debug.DrawRay(transform.position, correctiveTorqueVect.normalized * 30f, Color.green);
-                //Debug.DrawRay(transform.position, myRB.velocity, Color.yellow);
+                Debug.DrawRay(transform.position, myRB.velocity, Color.yellow);
                 //Debug.DrawRay(transform.position, transform.forward * 100f, Color.white);
 
                 

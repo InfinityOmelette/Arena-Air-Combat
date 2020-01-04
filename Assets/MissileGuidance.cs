@@ -113,11 +113,10 @@ public class MissileGuidance : MonoBehaviour
                 // ============================  ESTIMATIONS
 
                 // estimate average missile speed based on distance, thrust, remaining burn time, altitude difference
-                //estimatedMissileVelocityAverage = myRB.velocity + 
-                  //  transform.forward.normalized * Mathf.Min(estimatedTimeToImpact, rocketMotor.burnTime) * rocketMotor.thrustForce; //-
-                     //Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
-                estimatedMissileVelocityAverage = myRB.velocity;
-                Debug.DrawRay(transform.position, estimatedMissileVelocityAverage, Color.red);
+                estimatedMissileVelocityAverage = myRB.velocity + 
+                    transform.forward.normalized * Mathf.Min(Mathf.Abs(estimatedTimeToImpact), rocketMotor.burnTime) * rocketMotor.thrustForce -
+                     Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
+                //estimatedMissileVelocityAverage = myRB.velocity;
 
                 // estimate closing speed -- positive for closing, negative for separating
                 Vector3 closingVector = Vector3.Project(estimatedTargetVelocityAverage -
@@ -125,16 +124,23 @@ public class MissileGuidance : MonoBehaviour
                 float closingSpeed = closingVector.magnitude;
 
                 // if closing vect not in same direction as bearing line, we are separating. Change sign to negative
-                if (!Mathf.Approximately(Vector3.Angle(closingVector, targetBearingLine), 0.0f))
+                if (!Mathf.Approximately(Vector3.Angle(-closingVector, targetBearingLine), 0.0f))
                     closingSpeed *= -1;
 
                 // estimate time to intercept
-                estimatedTimeToImpact = closingSpeed * Vector3.Distance(targetRB.position, transform.position);
+                estimatedTimeToImpact = Vector3.Distance(targetRB.position, transform.position) / closingSpeed;
 
                 // estimate target average velocity
                 //estimatedTargetVelocityAverage = targetRB.velocity + (targetAccel * estimatedTimeToImpact / 2);
                 estimatedTargetVelocityAverage = targetRB.velocity;
 
+                Debug.Log("Estimations ------------ estimated missile average velocity: " + estimatedMissileVelocityAverage.magnitude +
+                    " estimated TARGET average velocity: " + estimatedTargetVelocityAverage.magnitude + " estimated time to impact: " +
+                    estimatedTimeToImpact + " seconds, closing speed: " + closingSpeed);
+
+                Debug.DrawRay(transform.position, estimatedMissileVelocityAverage, Color.magenta); // show estimated missilve velocity average
+                Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.magenta); // estimated target average velocity
+                Debug.DrawRay(transform.position, closingVector, Color.white);
 
                 //==================================  LEAD ANGLE CALCULATION
 

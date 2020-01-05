@@ -376,7 +376,7 @@ MonoBehaviour:
   rocketMotor: {fileID: 0}
   myFlightControl: {fileID: 0}
   myRB: {fileID: 0}
-  maxCorrectionErrorAngle: 0.25
+  maxCorrectionErrorAngle: 10
   weaponRef: {fileID: 0}
   assumedGravityAccel: 0
   targetPosForwardProjectionTime: 0.1
@@ -401,10 +401,10 @@ MonoBehaviour:
   yawTorque: 80
   pitchTrim: 0
   downPitchMultiplier: 1
-  wingLiftCoefficient: 0.035
+  wingLiftCoefficient: 0.05
   wingDragCoefficient: 0.25
   wingDragOffset: 0.001
-  bodySideLiftCoefficient: 0.035
+  bodySideLiftCoefficient: 0.05
   bodySideDragCoefficient: 0.25
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
@@ -432,8 +432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 175
-  burnTime: 2
+  thrustForce: 115
+  burnTime: 1.75
   doBurn: 0
 --- !u!114 &6128235843230067690
 MonoBehaviour:

@@ -613,8 +613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 8
-  damage: 90
+  radius: 10
+  damage: 150
   collisionsEnabled: 1
   dissipationTime: 8
   emitLightEnabled: 1
@@ -671,18 +671,21 @@ MonoBehaviour:
   myHardpoint: {fileID: 0}
   myTeam: 0
   projectileLifetime: 10
+  effectsOriginalObj: {fileID: 0}
   effectsObj: {fileID: 0}
+  effectsCenter: {fileID: 3878264266046290918}
   groupHardpointsTogether: 0
   sequentialLaunch: 0
   fireRateTimer: 0
+  roundsMax: 0
   roundsRemain: 0
   lineCastBackTime: 0.25
+  iconImageSpriteFile: {fileID: 0}
   rocketEffectsPrefab: {fileID: 3795491082417072009, guid: 7ea534138d7c7e24fbd0b2d22acae9a3,
     type: 3}
-  effectsCenter: {fileID: 3878264266046290918}
-  impactDamage: 10
+  impactDamage: 90
   motorBurnTime: 0.75
-  motorForce: 500
+  motorForce: 750
   burnActive: 1
   myCollider: {fileID: 0}
   tempTimerMax: 0.25

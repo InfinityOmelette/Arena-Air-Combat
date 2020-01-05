@@ -54,7 +54,7 @@ MonoBehaviour:
   - {fileID: 793729928460659032}
   - {fileID: 1428595059716884278}
   - {fileID: 5948967897164891282}
-  convergenceRange: 150
+  convergenceRange: 500
   cannonInput: 0
 --- !u!1 &544080348685911050
 GameObject:
@@ -112,7 +112,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 6500
+  far clip plane: 50000
   field of view: 64.8
   orthographic: 0
   orthographic size: 5
@@ -461,6 +461,7 @@ MonoBehaviour:
   maxAB_Scale: 21
   afterburnerGraphic: {fileID: 6524932584960729452}
   air: {fileID: 0}
+  contrailRef: {fileID: 3576832200315428976}
 --- !u!114 &6897607545244989051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1096,6 +1097,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2421396772111508087}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3576832200315428976 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1169232104840561159, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 2421396772111508087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a507eb4716a911547be37c8a838c3f2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6801349663249705164 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9221605066686024379, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
@@ -1772,12 +1785,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -2803,12 +2816,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -2877,15 +2890,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
---- !u!4 &3301379967937392512 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7761172204820125723}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &793729928460659032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7761172204820125723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3301379967937392512 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
     type: 3}
   m_PrefabInstance: {fileID: 7761172204820125723}
   m_PrefabAsset: {fileID: 0}
@@ -3115,12 +3128,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -3291,12 +3304,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}

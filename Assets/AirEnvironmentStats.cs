@@ -8,6 +8,8 @@ public class AirEnvironmentStats : MonoBehaviour
     public float airDensityAltitudeMod; // increase to have higher densities at higher altitudes
     public float effectiveSeaLevel; // below this, altitude will be effectively 0. Density constant in this region
 
+    public float contrailAltitude;
+
     // Start is called before the first frame update
     void Start()
     {

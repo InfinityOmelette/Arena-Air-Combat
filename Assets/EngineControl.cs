@@ -39,6 +39,8 @@ public class EngineControl : MonoBehaviour
     public GameObject afterburnerGraphic;
 
     public AirEnvironmentStats air;
+    public Contrail contrailRef;
+
     Rigidbody rbRef;
 
     // ================================ START
@@ -61,6 +63,8 @@ public class EngineControl : MonoBehaviour
     {
         updateFuelMass(); // root rigidbody will change mass depending on fuel level
         processAfterburnerGraphic();
+
+        contrailRef.engineOn = currentFuelMass > 0f;
     }
 
     private void Update()
@@ -69,6 +73,8 @@ public class EngineControl : MonoBehaviour
         currentThrottlePercent = inputThrottleFromMouse();
 
     }
+
+
 
 
     private float inputThrottleFromMouse()

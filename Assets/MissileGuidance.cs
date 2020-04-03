@@ -89,165 +89,156 @@ public class MissileGuidance : MonoBehaviour
         if(myTarget != null)
             targetRB = weaponRef.myTarget.GetComponent<Rigidbody>();
 
+        
         if (weaponRef.myTarget != null)
         {
 
-            // UPDATE TARGET POSITION AND VELOCITY
-            targetPos_now = targetRB.position + projectForwardByTime(targetPosForwardProjectionTime); // aim slightly ahead
-            targetVel_now = targetRB.velocity;
+            // ======================== LINE OF SIGHT
+            bool lineOfSight = false;
+            int terrainLayer = 1 << 10; // line only collides with terrain layer
+            lineOfSight = !Physics.Linecast(transform.position, weaponRef.myTarget.transform.position, terrainLayer);
 
-            // UPDATE TARGET ACCELERATION
-            targetAccel = Vector3.up * assumedGravityAccel; // compensate for gravity acceleration -- keep velocity from sagging downwards
-            if (targetVel_prev != null)
-                targetAccel += (targetVel_now - targetVel_prev) * Time.deltaTime; // target acceleration by looking at change in velocity
-
-
-            if (weaponRef.launched)
+            if (lineOfSight)
             {
-                myFlightControl.enabled = true;
-
-                // Target bearing line
-                Vector3 targetBearingLine = targetPos_now - transform.position;
-
-
-                // ============================  ESTIMATIONS
-
-                // estimate average missile speed based on distance, thrust, remaining burn time, altitude difference
-                estimatedMissileVelocityAverage = myRB.velocity + 
-                    transform.forward.normalized * Mathf.Min(Mathf.Abs(estimatedTimeToImpact), rocketMotor.burnTime) * rocketMotor.thrustForce -
-                     Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
-                //estimatedMissileVelocityAverage = myRB.velocity;
-
-                // estimate closing speed -- positive for closing, negative for separating
-                Vector3 closingVector = Vector3.Project(estimatedTargetVelocityAverage -
-                    estimatedMissileVelocityAverage, targetBearingLine);
-                float closingSpeed = closingVector.magnitude;
-
-                // if closing vect not in same direction as bearing line, we are separating. Change sign to negative
-                if (!Mathf.Approximately(Vector3.Angle(-closingVector, targetBearingLine), 0.0f))
-                    closingSpeed *= -1;
-
-                // estimate time to intercept
-                estimatedTimeToImpact = Vector3.Distance(targetRB.position, transform.position) / closingSpeed;
-
-                // estimate target average velocity
-                //estimatedTargetVelocityAverage = targetRB.velocity + (targetAccel * estimatedTimeToImpact / 2);
-                estimatedTargetVelocityAverage = targetRB.velocity;
-
-                Debug.Log("Estimations ------------ estimated missile average velocity: " + estimatedMissileVelocityAverage.magnitude +
-                    " estimated TARGET average velocity: " + estimatedTargetVelocityAverage.magnitude + " estimated time to impact: " +
-                    estimatedTimeToImpact + " seconds, closing speed: " + closingSpeed);
-
-                Debug.DrawRay(transform.position, estimatedMissileVelocityAverage, Color.magenta); // show estimated missilve velocity average
-                Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.magenta); // estimated target average velocity
-                Debug.DrawRay(transform.position, closingVector, Color.white);
-
-                //==================================  LEAD ANGLE CALCULATION
-
-                // Lead axis (cross of bearing line and target velocity)
-                Vector3 leadRotationAxis = Vector3.Cross(targetBearingLine, estimatedTargetVelocityAverage);
-
-                // Target tangential velocity --> missile will try to match its tangential velocity to this
-                Vector3 targetTangentialVelocity = Vector3.Project(estimatedTargetVelocityAverage,
-                    Vector3.Cross(leadRotationAxis, targetBearingLine));
-
-
-
-                Debug.DrawRay(targetPos_now, targetTangentialVelocity, Color.blue);
-                Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.cyan);
-                //Debug.Log("Estimated target average velocity: " + estimatedTargetVelocityAverage.magnitude);
-
-                // Lead angle -- direction vector
-                //  - trig from velocity magnitude to get angle where tangential velocity matches target tangential velocity
-                float leadAngleDegrees = Mathf.Rad2Deg * Mathf.Asin(targetTangentialVelocity.magnitude / estimatedMissileVelocityAverage.magnitude);
-
-                Debug.Log("leadAngleDegrees: " + leadAngleDegrees);
-
-                Debug.DrawRay(transform.position, leadRotationAxis.normalized * 10f);
-
-                // Lead direction
-                Vector3 leadDirection = Quaternion.AngleAxis(leadAngleDegrees, leadRotationAxis) * targetBearingLine.normalized;
-
-                // Show lead direction
-                //Debug.DrawRay(transform.position, leadDirection * Vector3.Distance(targetRB.position, transform.position), Color.green);
-
-                // Target bearing line -- uses drawRay to confirm line vector
-                //Debug.DrawRay(transform.position, targetBearingLine.normalized * 
-                //  Vector3.Distance(targetPos_now, transform.position), Color.red);
-
-                //  Corrected velocity -- CYAN
-                Debug.DrawRay(transform.position, leadDirection.normalized * myRB.velocity.magnitude, Color.cyan);
-
-                // Target's current velocity -- YELLOW
-                Debug.DrawRay(targetPos_now, targetRB.velocity, Color.yellow);
-
-                // Target average velocity
-                // Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.white);
-
-
-                // Parallel target bearing line, placed at end of corrected velocity
-                //Debug.DrawRay(transform.position + leadDirection.normalized * myRB.velocity.magnitude,
-                //  targetBearingLine.normalized * 1000f, Color.magenta);
-
-
-                //  ==========================  CORRECTIVE TORQUE CALCULATION
-
-                // correctiveTorqueVector -- axis to torque around to move velocity towards lead direction
-                //  - cross of velocity and lead direction vector
-                //  - magnitude -- angleBetween velocity and lead direction, ratio of angle vs maxAngle (max 1.0)
-                //  - projected onto xy plane to nullify any roll requirement
-                float currentVelocityErrorAngle = Vector3.Angle(estimatedMissileVelocityAverage, leadDirection); // degrees
-                Vector3 correctiveTorqueVect = 
-                    Vector3.ProjectOnPlane(Vector3.Cross(myRB.velocity, leadDirection), transform.forward).normalized * // torque direction
-                    (Mathf.Min(currentVelocityErrorAngle / maxCorrectionErrorAngle, 1.0f));  // torque magnitude
-
-
-
-
-                Debug.DrawRay(transform.position, correctiveTorqueVect * 30f, Color.blue);
-               // Debug.DrawRay(transform.position, correctiveTorqueVect.normalized * 30f, Color.green);
-                Debug.DrawRay(transform.position, myRB.velocity, Color.yellow);
-                //Debug.DrawRay(transform.position, transform.forward * 100f, Color.white);
-
-                
-
-                // Convert to yaw/pitch inputs, -1.0 to 1.0
-                myFlightControl.input_pitch = transform.InverseTransformDirection(correctiveTorqueVect).x;
-                myFlightControl.input_yaw = transform.InverseTransformDirection(correctiveTorqueVect).y;
-
-                Debug.Log("Missile pitch input: " + myFlightControl.input_pitch);
-
-                
-
+                guidanceProcess();
             }
-
-            targetPos_prev = targetPos_now;
-            targetVel_prev = targetVel_now;
+           
         }
     }
 
-    private void proportionalNavigation()
+    private void guidanceProcess()
     {
+        // UPDATE TARGET POSITION AND VELOCITY
+        targetPos_now = targetRB.position + projectForwardByTime(targetPosForwardProjectionTime); // aim slightly ahead
+        targetVel_now = targetRB.velocity;
 
-    }
+        // UPDATE TARGET ACCELERATION
+        targetAccel = Vector3.up * assumedGravityAccel; // compensate for gravity acceleration -- keep velocity from sagging downwards
+        if (targetVel_prev != null)
+            targetAccel += (targetVel_now - targetVel_prev) * Time.deltaTime; // target acceleration by looking at change in velocity
 
-    private void myNavigation()
-    {
-        // Target bearing line
+
+        if (weaponRef.launched)
+        {
+            myFlightControl.enabled = true;
+
+            // Target bearing line
+            Vector3 targetBearingLine = targetPos_now - transform.position;
 
 
-        // Lead axis (cross of bearing line and target velocity)
+            // ============================  ESTIMATIONS
 
-        // Target tangential velocity --> missile will try to match its tangential velocity to this
+            // estimate average missile speed based on distance, thrust, remaining burn time, altitude difference
+            estimatedMissileVelocityAverage = myRB.velocity +
+                transform.forward.normalized * Mathf.Min(Mathf.Abs(estimatedTimeToImpact), rocketMotor.burnTime) * rocketMotor.thrustForce -
+                 Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
+            //estimatedMissileVelocityAverage = myRB.velocity;
 
-        // Lead angle -- direction vector
-        //  - trig from velocity to get angle where tangential velocity matches target tangential velocity
+            // estimate closing speed -- positive for closing, negative for separating
+            Vector3 closingVector = Vector3.Project(estimatedTargetVelocityAverage -
+                estimatedMissileVelocityAverage, targetBearingLine);
+            float closingSpeed = closingVector.magnitude;
 
-        // correctiveTorqueVector -- axis to torque around to move velocity towards lead direction
-        //  - cross of velocity and lead direction vector
-        //  - magnitude -- angleBetween velocity and lead direction, ratio of angle vs maxAngle (max 1.0)
+            // if closing vect not in same direction as bearing line, we are separating. Change sign to negative
+            if (!Mathf.Approximately(Vector3.Angle(-closingVector, targetBearingLine), 0.0f))
+                closingSpeed *= -1;
 
-        // Convert to yaw/pitch inputs, -1.0 to 1.0
+            // estimate time to intercept
+            estimatedTimeToImpact = Vector3.Distance(targetRB.position, transform.position) / closingSpeed;
+
+            // estimate target average velocity
+            //estimatedTargetVelocityAverage = targetRB.velocity + (targetAccel * estimatedTimeToImpact / 2);
+            estimatedTargetVelocityAverage = targetRB.velocity;
+
+            Debug.Log("Estimations ------------ estimated missile average velocity: " + estimatedMissileVelocityAverage.magnitude +
+                " estimated TARGET average velocity: " + estimatedTargetVelocityAverage.magnitude + " estimated time to impact: " +
+                estimatedTimeToImpact + " seconds, closing speed: " + closingSpeed);
+
+            Debug.DrawRay(transform.position, estimatedMissileVelocityAverage, Color.magenta); // show estimated missilve velocity average
+            Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.magenta); // estimated target average velocity
+            Debug.DrawRay(transform.position, closingVector, Color.white);
+
+            //==================================  LEAD ANGLE CALCULATION
+
+            // Lead axis (cross of bearing line and target velocity)
+            Vector3 leadRotationAxis = Vector3.Cross(targetBearingLine, estimatedTargetVelocityAverage);
+
+            // Target tangential velocity --> missile will try to match its tangential velocity to this
+            Vector3 targetTangentialVelocity = Vector3.Project(estimatedTargetVelocityAverage,
+                Vector3.Cross(leadRotationAxis, targetBearingLine));
+
+
+
+            Debug.DrawRay(targetPos_now, targetTangentialVelocity, Color.blue);
+            Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.cyan);
+            //Debug.Log("Estimated target average velocity: " + estimatedTargetVelocityAverage.magnitude);
+
+            // Lead angle -- direction vector
+            //  - trig from velocity magnitude to get angle where tangential velocity matches target tangential velocity
+            float leadAngleDegrees = Mathf.Rad2Deg * Mathf.Asin(targetTangentialVelocity.magnitude / estimatedMissileVelocityAverage.magnitude);
+
+            Debug.Log("leadAngleDegrees: " + leadAngleDegrees);
+
+            Debug.DrawRay(transform.position, leadRotationAxis.normalized * 10f);
+
+            // Lead direction
+            Vector3 leadDirection = Quaternion.AngleAxis(leadAngleDegrees, leadRotationAxis) * targetBearingLine.normalized;
+
+            // Show lead direction
+            //Debug.DrawRay(transform.position, leadDirection * Vector3.Distance(targetRB.position, transform.position), Color.green);
+
+            // Target bearing line -- uses drawRay to confirm line vector
+            //Debug.DrawRay(transform.position, targetBearingLine.normalized * 
+            //  Vector3.Distance(targetPos_now, transform.position), Color.red);
+
+            //  Corrected velocity -- CYAN
+            Debug.DrawRay(transform.position, leadDirection.normalized * myRB.velocity.magnitude, Color.cyan);
+
+            // Target's current velocity -- YELLOW
+            Debug.DrawRay(targetPos_now, targetRB.velocity, Color.yellow);
+
+            // Target average velocity
+            // Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.white);
+
+
+            // Parallel target bearing line, placed at end of corrected velocity
+            //Debug.DrawRay(transform.position + leadDirection.normalized * myRB.velocity.magnitude,
+            //  targetBearingLine.normalized * 1000f, Color.magenta);
+
+
+            //  ==========================  CORRECTIVE TORQUE CALCULATION
+
+            // correctiveTorqueVector -- axis to torque around to move velocity towards lead direction
+            //  - cross of velocity and lead direction vector
+            //  - magnitude -- angleBetween velocity and lead direction, ratio of angle vs maxAngle (max 1.0)
+            //  - projected onto xy plane to nullify any roll requirement
+            float currentVelocityErrorAngle = Vector3.Angle(estimatedMissileVelocityAverage, leadDirection); // degrees
+            Vector3 correctiveTorqueVect =
+                Vector3.ProjectOnPlane(Vector3.Cross(myRB.velocity, leadDirection), transform.forward).normalized * // torque direction
+                (Mathf.Min(currentVelocityErrorAngle / maxCorrectionErrorAngle, 1.0f));  // torque magnitude
+
+
+
+
+            Debug.DrawRay(transform.position, correctiveTorqueVect * 30f, Color.blue);
+            // Debug.DrawRay(transform.position, correctiveTorqueVect.normalized * 30f, Color.green);
+            Debug.DrawRay(transform.position, myRB.velocity, Color.yellow);
+            //Debug.DrawRay(transform.position, transform.forward * 100f, Color.white);
+
+
+
+            // Convert to yaw/pitch inputs, -1.0 to 1.0
+            myFlightControl.input_pitch = transform.InverseTransformDirection(correctiveTorqueVect).x;
+            myFlightControl.input_yaw = transform.InverseTransformDirection(correctiveTorqueVect).y;
+
+            Debug.Log("Missile pitch input: " + myFlightControl.input_pitch);
+
+
+
+        }
+
+        targetPos_prev = targetPos_now;
+        targetVel_prev = targetVel_now;
     }
 
     private Vector3 projectForwardByTime(float projectionTime)

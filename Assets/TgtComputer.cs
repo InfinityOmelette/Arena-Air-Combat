@@ -8,6 +8,8 @@ public class TgtComputer : MonoBehaviour
     public hudControl mainHud;
     public PlayerInput_Aircraft playerInput;
 
+    public Radar myRadar;
+
     public CombatFlow currentTarget;
     public bool radarLocked;
 
@@ -18,9 +20,16 @@ public class TgtComputer : MonoBehaviour
 
     public bool tgtButtonUp;
 
+    public float visibleRange;
+
+    public List<CombatFlow> lstDatalink;
+
     // Start is called before the first frame update
     void Start()
     {
+
+        lstDatalink = new List<CombatFlow>();
+        myRadar = GetComponent<Radar>();
         playerInput = GetComponent<PlayerInput_Aircraft>();
         mainHud = hudControl.mainHud.GetComponent<hudControl>();
         localPlayerFlow = GetComponent<CombatFlow>();
@@ -51,24 +60,11 @@ public class TgtComputer : MonoBehaviour
         // Loop through all combatUnits
         for(int i = 0; i < CombatFlow.combatUnits.Count; i++)
         {
-            // =====================  VISIBILITY
+            
 
             // Current CombatFlow to attempt to see
             CombatFlow currentFlow = flowArray[i].GetComponent<CombatFlow>();
             TgtHudIcon currentFlowHudIcon = currentFlow.myHudIconRef;
-
-            // Various conditions will attempt to make this true
-            bool isVisible = false; 
-
-            // Show unit if this is NOT the local player
-            if (!currentFlow.isLocalPlayer && currentFlow.isActive)
-            {
-                isVisible = true;
-            }
-
-            //  Send visibility result
-            currentFlowHudIcon.isDetected = isVisible;
-
 
 
             //  =====================  DISTANCE
@@ -88,6 +84,50 @@ public class TgtComputer : MonoBehaviour
                 currentFlowHudIcon.isFriendly = true;
             else
                 currentFlowHudIcon.isFriendly = false;
+
+
+
+            // =====================  VISIBILITY
+
+            // Various conditions will attempt to make this true
+            bool isVisible = false;
+
+            
+
+            // Show unit if this is NOT the local player
+            if (!currentFlow.isLocalPlayer && currentFlow.isActive)
+            {
+
+                
+
+                if (currentFlow.team == localPlayerFlow.team)
+                {
+                    isVisible = true;
+                }
+                else
+                {
+                    isVisible = Vector3.Distance(currentFlow.transform.position, transform.position) < visibleRange
+                        && currentFlow.myHudIconRef.hasLineOfSight;
+                    if (!isVisible)
+                    {
+                        isVisible = myRadar.tryDetect(currentFlow);
+                    }
+                }
+            }
+
+            //  Send visibility result
+            currentFlowHudIcon.isDetected = isVisible;
+
+            if (!isVisible && currentTarget == currentFlow)
+            {
+                currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
+                currentTarget = null;
+
+            }
+
+            // ========= TRY TO LOCK
+            tryLockTarget(currentFlow);
+        
 
 
         }
@@ -151,9 +191,23 @@ public class TgtComputer : MonoBehaviour
         return currentTarget = newTarget;
     }
 
-
-    void tryLockTarget()
+    void tryLockTarget(CombatFlow currentFlow)
     {
-
+        if(currentFlow == currentTarget)
+        {
+            radarLocked = myRadar.tryLock(currentFlow);
+            if (radarLocked)
+            {
+                currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.LOCKED;
+            }
+            else
+            {
+                currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.TARGETED;
+            }
+        }
+        else // confirm no targeted state if this flow is NOT the current target
+        {
+            currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
+        }
     }
 }

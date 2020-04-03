@@ -256,7 +256,7 @@ public class HardpointController : MonoBehaviour
     // try to launch with lock
     void launchHardpoint(Hardpoint hardpoint)
     {
-        if (tgtComputer.currentTarget == null) // if no target is locked
+        if (tgtComputer.currentTarget == null || !tgtComputer.radarLocked) // if no target is locked
         {
             hardpoint.launchStart();
         }

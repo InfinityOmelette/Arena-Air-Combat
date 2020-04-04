@@ -34,6 +34,7 @@ public class MissileGuidance : MonoBehaviour
     public RocketMotor rocketMotor;
     public RealFlightControl myFlightControl;
     public Rigidbody myRB;
+    private Radar myRadar;
 
     public float maxCorrectionErrorAngle; // at this angle error, torque is max
 
@@ -58,6 +59,7 @@ public class MissileGuidance : MonoBehaviour
 
     private Vector3 targetAccel;
 
+    private CombatFlow targetFlow = null;
     
 
     private void Awake()
@@ -66,6 +68,7 @@ public class MissileGuidance : MonoBehaviour
         rocketMotor = GetComponent<RocketMotor>();
         myFlightControl = GetComponent<RealFlightControl>();
         myRB = GetComponent<Rigidbody>();
+        myRadar = GetComponent<Radar>();
     }
 
     // Start is called before the first frame update
@@ -100,7 +103,15 @@ public class MissileGuidance : MonoBehaviour
 
             if (lineOfSight)
             {
-                guidanceProcess();
+                if(weaponRef.launched && targetFlow == null) // outer control layer already checkks that weaponRef.myTarget != null
+                {
+                    targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
+                }
+
+                if (myRadar.tryDetect(targetFlow))
+                {
+                    guidanceProcess();
+                }
             }
            
         }

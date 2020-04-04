@@ -478,6 +478,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 1
+  detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 7121171246493503251}
   myHudIconRef: {fileID: 0}
@@ -559,7 +560,7 @@ MonoBehaviour:
   localPlayerFlow: {fileID: 0}
   changeTargetMaxAngle: 30
   tgtButtonUp: 0
-  visibleRange: 500
+  visibleRange: 10
   lstDatalink: []
 --- !u!114 &4119210450518891418
 MonoBehaviour:
@@ -573,9 +574,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanConeAngle: 40
-  maxDetectRange: 1500
-  lockAngle: 20
+  scanConeAngle: 45
+  maxDetectRange: 3000
+  distCoeff: 2.5
+  lockAngle: 17.5
+  detectionThreshold: 1.5
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0

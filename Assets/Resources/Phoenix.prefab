@@ -694,6 +694,7 @@ GameObject:
   - component: {fileID: 3710398866252045214}
   - component: {fileID: 8933170854878359387}
   - component: {fileID: 5614070720692325809}
+  - component: {fileID: 519547984996097237}
   - component: {fileID: 3456510896575939194}
   - component: {fileID: 6561829509626332724}
   - component: {fileID: 7974841232584541846}
@@ -827,6 +828,23 @@ MonoBehaviour:
   weaponRef: {fileID: 0}
   assumedGravityAccel: 0
   targetPosForwardProjectionTime: 0.1
+--- !u!114 &519547984996097237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935868276171530202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scanConeAngle: 13
+  maxDetectRange: 5000
+  distCoeff: 2.5
+  lockAngle: 0
+  detectionThreshold: 1.2
 --- !u!114 &3456510896575939194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,6 +915,7 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
+  detectabilityCoeff: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}

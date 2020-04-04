@@ -22,6 +22,8 @@ public class CombatFlow : MonoBehaviour
     public float currentHP;
     public bool isLocalPlayer;
 
+    public float detectabilityCoeff;
+
 
     
     // inefficient -- lots of non-player combat objects will have useless perspective references
@@ -39,6 +41,8 @@ public class CombatFlow : MonoBehaviour
     public bool doDebugDamage = false;
 
     public ExplodeStats explodeStats;
+
+  
 
 
     private void Awake()

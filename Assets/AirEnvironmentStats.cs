@@ -10,10 +10,21 @@ public class AirEnvironmentStats : MonoBehaviour
 
     public float contrailAltitude;
 
+    private static AirEnvironmentStats air;
+
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+
+    public static AirEnvironmentStats getAir()
+    {
+        if(air == null)
+        {
+            air = GameObject.Find("AirEnvironmentProperties").GetComponent<AirEnvironmentStats>();
+        }
+        return air;
     }
 
     // Update is called once per frame

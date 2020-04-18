@@ -35,6 +35,8 @@ public class PlayerInput_Aircraft : MonoBehaviour
     public float rocketPodOffset;
     public float bombOffset;
 
+    public bool isReady = false;
+
     private void Awake()
     {
         tgtComputer = GetComponent<TgtComputer>();
@@ -48,65 +50,62 @@ public class PlayerInput_Aircraft : MonoBehaviour
         
     }
 
-
-
-
-
-
-
     //  BUTTON DOWN PRESSES GO HERE
     void Update()
     {
-        //cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
+        if (isReady)
+        {
 
-        tgtButtonProcess();
-        // if button held, activate camLookAt
+            //cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
 
+            tgtButtonProcess();
+            // if button held, activate camLookAt
 
+            cam.input_mouseLookToggleBtnDown = Input.GetKeyDown(KeyCode.P);
 
-        cam.input_mouseLookToggleBtnDown = Input.GetKeyDown(KeyCode.P);
+            hardpointController.input_changeWeaponAxis = Input.GetAxis("Weapon Change");
+            getWeaponSelectNumber();
 
-        hardpointController.input_changeWeaponAxis = Input.GetAxis("Weapon Change");
-        getWeaponSelectNumber();
-        
-
-
-        
-        processCamOffset();
+            processCamOffset();
+        }
     }
 
     private void processCamOffset()
     {
-        float camOffsetVertTemp = 0f;
-        float camOffsetHorizTemp = 0f;
-
-        if (wheels.gearIsDown)
+        if (isReady)
         {
-            camOffsetVertTemp = gearOffset;
+
+            float camOffsetVertTemp = 0f;
+            float camOffsetHorizTemp = 0f;
+
+            if (wheels.gearIsDown)
+            {
+                camOffsetVertTemp = gearOffset;
+            }
+
+            // if selected weapon type needs to move camera
+            Hardpoint activeHardpointRef = hardpointController.getActiveHardpoint();
+
+            if (activeHardpointRef != null)
+            {
+
+                BasicBomb bombScript = activeHardpointRef.weaponTypePrefab.GetComponent<BasicBomb>();
+                BasicMissile missileScript = activeHardpointRef.weaponTypePrefab.GetComponent<BasicMissile>();
+                RocketPod rocketPodScript = activeHardpointRef.weaponTypePrefab.GetComponent<RocketPod>();
+
+
+                if (rocketPodScript != null)
+                    camOffsetVertTemp = rocketPodOffset;
+
+                if (bombScript != null)
+                    camOffsetVertTemp = bombOffset;
+
+            }
+
+
+            cam.camAxisTargetOffset_Vert = camOffsetVertTemp;
+            cam.camAxisTargetOffset_Horiz = camOffsetHorizTemp;
         }
-
-        // if selected weapon type needs to move camera
-        Hardpoint activeHardpointRef = hardpointController.getActiveHardpoint();
-
-        if (activeHardpointRef != null)
-        {
-            
-            BasicBomb bombScript = activeHardpointRef.weaponTypePrefab.GetComponent<BasicBomb>();
-            BasicMissile missileScript = activeHardpointRef.weaponTypePrefab.GetComponent<BasicMissile>();
-            RocketPod rocketPodScript = activeHardpointRef.weaponTypePrefab.GetComponent<RocketPod>();
-
-
-            if (rocketPodScript != null)
-                camOffsetVertTemp = rocketPodOffset;
-
-            if (bombScript != null)
-                camOffsetVertTemp = bombOffset;
-
-        }
-        
-
-        cam.camAxisTargetOffset_Vert = camOffsetVertTemp;
-        cam.camAxisTargetOffset_Horiz = camOffsetHorizTemp;
     }
 
     // Press and quick release changes target

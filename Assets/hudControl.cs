@@ -85,11 +85,7 @@ public class hudControl : MonoBehaviour
     // ====================================================================
     void Start()
     {
-        // SET REFERENCES
-        root_rbRef = aircraftRootObj.GetComponent<Rigidbody>();
-        root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
-        root_Engine = aircraftRootObj.GetComponent<EngineControl>();
-        root_combatFlow = aircraftRootObj.GetComponent<CombatFlow>();
+        
 
 
         // SAVE ORIGINAL POSITIONS OF UI ELEMENTS -- WILL BE MODIFIED RELATIVE TO THESE
@@ -111,6 +107,19 @@ public class hudControl : MonoBehaviour
 
     }
 
+    public void linkHudToAircraft(GameObject aircraftRoot)
+    {
+        aircraftRootObj = aircraftRoot;
+
+        // SET REFERENCES
+        root_rbRef = aircraftRootObj.GetComponent<Rigidbody>();
+        root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
+        root_Engine = aircraftRootObj.GetComponent<EngineControl>();
+        root_combatFlow = aircraftRootObj.GetComponent<CombatFlow>();
+
+        
+    }
+
 
 
     // ====================================================================
@@ -119,39 +128,43 @@ public class hudControl : MonoBehaviour
     void LateUpdate()
     {
 
-        // Set readout values
-        float mpsVelToKPH = 3.6f;
-        throttleText.text = writeThrottleText();
-        speedText.text = Mathf.RoundToInt(root_rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
-        altitudeText.text = Mathf.RoundToInt(aircraftRootObj.transform.position.y).ToString() + "m";
-        climbText.text = Mathf.RoundToInt(root_flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
-        airDensityText.text = "AIR DENSITY: " + Mathf.RoundToInt(root_Engine.currentAirDensity * 100f).ToString() + "%";
-        fuelAmtText.text = "FUEL: " + Mathf.RoundToInt(root_Engine.currentFuelMass) + "kg";
-        burnAvailText.text = "BURN AVAIL: " + Mathf.RoundToInt(root_Engine.currentBurnMod * 100f).ToString() + "%";
-        hpText.text = Mathf.RoundToInt(root_combatFlow.currentHP).ToString() + "HP";
-
-
-
-        processSpedometerOffset();
-        processThrottleLadder();
-        processClimbLadder();
-        processAltimeterOffset();
-        processHealthBar();
-
-
-        // nose indicator
-        drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, 0.5f);
-
-        // velocity vector
-        if (aircraftRootObj.GetComponent<Rigidbody>().velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
+        if (aircraftRootObj != null)
         {
-            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + root_rbRef.velocity.normalized, 0.5f);
-            //Debug.Log("Fast enough, onScreen:");
-        }
-        else
-        {   // place behind screen if too slow
-            //Debug.Log("too slow, offscreen");
-            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
+
+            // Set readout values
+            float mpsVelToKPH = 3.6f;
+            throttleText.text = writeThrottleText();
+            speedText.text = Mathf.RoundToInt(root_rbRef.velocity.magnitude * mpsVelToKPH).ToString() + "kph";
+            altitudeText.text = Mathf.RoundToInt(aircraftRootObj.transform.position.y).ToString() + "m";
+            climbText.text = Mathf.RoundToInt(root_flightInfoObjRef.readVertVelocity).ToString() + "m/s >";
+            airDensityText.text = "AIR DENSITY: " + Mathf.RoundToInt(root_Engine.currentAirDensity * 100f).ToString() + "%";
+            fuelAmtText.text = "FUEL: " + Mathf.RoundToInt(root_Engine.currentFuelMass) + "kg";
+            burnAvailText.text = "BURN AVAIL: " + Mathf.RoundToInt(root_Engine.currentBurnMod * 100f).ToString() + "%";
+            hpText.text = Mathf.RoundToInt(root_combatFlow.currentHP).ToString() + "HP";
+
+
+
+            processSpedometerOffset();
+            processThrottleLadder();
+            processClimbLadder();
+            processAltimeterOffset();
+            processHealthBar();
+
+
+            // nose indicator
+            drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, 0.5f);
+
+            // velocity vector
+            if (aircraftRootObj.GetComponent<Rigidbody>().velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
+            {
+                drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + root_rbRef.velocity.normalized, 0.5f);
+                //Debug.Log("Fast enough, onScreen:");
+            }
+            else
+            {   // place behind screen if too slow
+                //Debug.Log("too slow, offscreen");
+                drawItemOnScreen(velocityVectorRef, Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
+            }
         }
 
     }

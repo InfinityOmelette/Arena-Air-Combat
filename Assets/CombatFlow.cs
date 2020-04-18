@@ -56,8 +56,6 @@ public class CombatFlow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(isLocalPlayer)
-            camChange(PerspectiveProperties.CamType.PLAYER);
 
         explodeStats = GetComponent<ExplodeStats>();
 
@@ -96,10 +94,6 @@ public class CombatFlow : MonoBehaviour
             deathCommanded = true;
             isActive = false; // he ded now
             explode();
-
-
-            if (isLocalPlayer)
-                camChange(PerspectiveProperties.CamType.SPECTATOR);
             
             // remove my icon from hud
             destroySelf();
@@ -107,11 +101,6 @@ public class CombatFlow : MonoBehaviour
 
     }
 
-    void camChange(PerspectiveProperties.CamType camType)
-    {
-        if(camManager != null)
-            camManager.switchToType(camType);
-    }
 
     void explode()
     {

@@ -16,6 +16,13 @@ public class PerspectiveProperties : MonoBehaviour
     public bool aircraftInputActive;
     public bool mouseIsLocked;
 
-
+    // Start is called before the first frame update
+    void Start()
+    {
+        Debug.Log("PerspectiveProperties started");
+        PerspectiveManager pManager = PerspectiveManager.getPManager();
+        pManager.addCam(gameObject);
+        pManager.enableCam(gameObject);
+    }
 
 }

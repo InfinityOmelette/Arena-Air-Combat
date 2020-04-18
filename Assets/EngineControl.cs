@@ -54,7 +54,7 @@ public class EngineControl : MonoBehaviour
     private void checkAirStatsRefError()
     {
         if (air == null)
-            Debug.Log("Error: " + gameObject.ToString() + " unable to find air ref");
+            air = AirEnvironmentStats.getAir();
     }
 
 

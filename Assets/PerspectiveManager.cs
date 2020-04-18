@@ -17,39 +17,36 @@ public class PerspectiveManager : MonoBehaviour
     public bool aircraftInputActive;
     public bool mouseIsLocked;
 
+    public static PerspectiveManager globalPerspectiveManager;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
         //enableCamIndex(activeCamIndex); // enable first camera in list
+        cameras = new List<GameObject>();
+    }
+
+    public static PerspectiveManager getPManager()
+    {
+        if(globalPerspectiveManager == null)
+        {
+            globalPerspectiveManager = GameObject.Find("PerspectiveManager").GetComponent<PerspectiveManager>();
+        }
+        return globalPerspectiveManager;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            short tempIndex;
-            // toggle 
-            if (activeCamIndex == 0) // if cam currently on spectator
-                tempIndex = 1; // show airplane
-            else
-                tempIndex = 0; // show spectator
 
-            if(cameras[tempIndex] != null)
-            {
-                activeCamIndex = tempIndex;
-                enableCamIndex(activeCamIndex);
-            }
-            
-        }
     }
 
     //  SWITCH TO CAM PERSPECTIVE
     void enableCamIndex(short index)
     {
-
+        
         if (cameras[index] != null) // only proceed if index is valid
         {
 
@@ -70,11 +67,47 @@ public class PerspectiveManager : MonoBehaviour
             aircraftInputActive = camPropertiesRef.aircraftInputActive;
 
 
-            // Use that data to complete the perspective change
-            uiRef.SetActive(showUI);
-            aircraftPlayerInputRef.enabled = aircraftInputActive;
-            setMouseLock(mouseIsLocked);
+            
         }
+    }
+
+    public GameObject getActiveCam()
+    {
+        return cameras[activeCamIndex];
+    }
+
+    // Must be called on object that has a Camera and PerspectiveProperties object
+    public void enableCam(GameObject cam)
+    {
+        Debug.Log("EnableCam called");
+
+        for(short i = 0; i < cameras.Count; i++)
+        {
+            bool camActive = cameras[i] == cam;
+            cameras[i].SetActive(camActive);
+
+            if (camActive)
+            {
+                Debug.Log("Enabling cam " + i);
+                activeCamIndex = i;
+            }
+
+        }
+
+
+        // Set object data according to camera properties reference
+        PerspectiveProperties camPropertiesRef = cam.GetComponent<PerspectiveProperties>();
+        showUI = camPropertiesRef.showUI;
+        mouseIsLocked = camPropertiesRef.mouseIsLocked;
+        aircraftInputActive = camPropertiesRef.aircraftInputActive;
+
+      
+        // Use that data to complete the perspective change
+        uiRef.SetActive(showUI);
+        //aircraftPlayerInputRef.enabled = aircraftInputActive;
+        setMouseLock(mouseIsLocked);
+
+
     }
 
 
@@ -108,6 +141,11 @@ public class PerspectiveManager : MonoBehaviour
         {
             Debug.Log("Unable to find camera of type: " + type.ToString());
         }
+    }
+
+    public void addCam(GameObject newCam)
+    {
+        cameras.Add(newCam);
     }
 
 

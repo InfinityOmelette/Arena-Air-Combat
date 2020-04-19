@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 6801930850055786249}
   - component: {fileID: 4119210450518891418}
   - component: {fileID: 4424309726456864805}
-  - component: {fileID: 5542430605455655132}
+  - component: {fileID: -5467275007762761004}
   m_Layer: 8
   m_Name: RealPlayer
   m_TagString: Untagged
@@ -597,14 +597,14 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 0
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 5542430605455655132}
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5542430605455655132
+--- !u!114 &-5467275007762761004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -613,12 +613,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7744941291827435728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  updatesPerSecond: 12
+  posLerp: 0.2
+  proceedRadius: 2
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0

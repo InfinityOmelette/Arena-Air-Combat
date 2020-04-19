@@ -48,7 +48,6 @@ namespace Com.MyCompany.MyGame
                     spawner.setPlayerAsControllable(playerObj);
                     //playerObj.name = PhotonNetwork.NickName;
 
-
                 }
             }
         }

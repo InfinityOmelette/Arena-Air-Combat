@@ -37,6 +37,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
         GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, findEmptySpawnPoint().transform.position, Quaternion.identity, 0);
         localPlayerInstance = player;
+        player.GetComponent<CombatFlow>().setNetName(PhotonNetwork.NickName);
 
         return player;
     }

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatFlow : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+
+public class CombatFlow : MonoBehaviourPunCallbacks
 {
 
     public static List<GameObject> combatUnits;
@@ -42,6 +45,8 @@ public class CombatFlow : MonoBehaviour
 
     public ExplodeStats explodeStats;
 
+
+    //private PhotonView photonView;
   
 
 
@@ -51,6 +56,8 @@ public class CombatFlow : MonoBehaviour
             CombatFlow.combatUnits = new List<GameObject>();
 
         CombatFlow.combatUnits.Add(gameObject);
+
+
     }
 
     // Start is called before the first frame update
@@ -85,6 +92,18 @@ public class CombatFlow : MonoBehaviour
         }
     }
 
+    public void setNetName(string name)
+    {
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("rpcSetName", RpcTarget.AllBuffered, name);
+        
+    }
+
+    [PunRPC]
+    public void rpcSetName(string name)
+    {
+        gameObject.name = name;
+    }
 
     public void die()
     {

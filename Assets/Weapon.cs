@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon : MonoBehaviour
+using Photon.Pun;
+using Photon.Realtime;
+
+public class Weapon : MonoBehaviourPunCallbacks
 {
 
     public GameObject myTarget;
@@ -177,5 +180,8 @@ public class Weapon : MonoBehaviour
     {
 
     }
+
+
+    
 
 }

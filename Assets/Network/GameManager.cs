@@ -19,6 +19,8 @@ namespace Com.MyCompany.MyGame
 
         public GameObject hudObj;
 
+        public GameObject spawnUIPanel;
+
         // set these references in editor
         public GameObject[] teamSpawnerCollections;
 
@@ -26,11 +28,14 @@ namespace Com.MyCompany.MyGame
 
         void Start()
         {
-            spawnPlayer();
+            //spawnPlayer();
         }
 
-        public void spawnPlayer()
+        public void spawnPlayer(int teamNum)
         {
+            localTeam = CombatFlow.convertNumToTeam((short)teamNum);
+            spawnUIPanel.SetActive(false);
+
             // call almost all of this at runtime after player selects team
             if (playerPrefab == null)
             {

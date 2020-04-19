@@ -34,10 +34,16 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     public GameObject spawnPlayer(GameObject playerPrefab)
     {
         //playerPrefab.name = PhotonNetwork.NickName;
+        GameObject emptySpawn = findEmptySpawnPoint();
 
-        GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, findEmptySpawnPoint().transform.position, Quaternion.identity, 0);
+        GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
         localPlayerInstance = player;
-        player.GetComponent<CombatFlow>().setNetName(PhotonNetwork.NickName);
+
+        player.transform.rotation = emptySpawn.transform.rotation;
+
+        CombatFlow playerFlow = player.GetComponent<CombatFlow>();
+        playerFlow.setNetName(PhotonNetwork.NickName);
+        playerFlow.setNetTeam(CombatFlow.convertTeamToNum(team));
 
         return player;
     }
@@ -57,8 +63,9 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         playerObj.GetComponent<EngineControl>().enabled = true;
 
         // Link hud to obj
-        hudObj.SetActive(true);
-        hudObj.GetComponent<hudControl>().linkHudToAircraft(playerObj);
+        hudControl hud = hudObj.GetComponent<hudControl>();
+        hud.setHudVisible(true);
+        hud.linkHudToAircraft(playerObj);
 
         // Enable controllers
         inputRoot.cam.gameObject.SetActive(true);       // camera
@@ -77,7 +84,32 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
     public GameObject findEmptySpawnPoint()
     {
-        //GameObject[] spawnPoints = 
-        return spawnPoint_TEMP;
+        GameObject[] children = new GameObject[transform.childCount];
+        //GameObject defaultObj = childrenTransforms[0].gameObject; // default to first
+
+        int selectIndex = -1;
+
+        for(int i = 0; i < children.Length && selectIndex == -1; i++)
+        {
+            children[i] = transform.GetChild(i).gameObject;
+            GayAssColliderScript collScript = children[i].GetComponent<GayAssColliderScript>();
+
+            if (!collScript.isTriggered)
+            {
+                selectIndex = i;
+            }
+
+        }
+
+        if(selectIndex < 0)
+        {
+            selectIndex = 0;
+        }
+
+
+        return children[selectIndex];
     }
+
+
+
 }

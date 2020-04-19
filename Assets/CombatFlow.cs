@@ -47,7 +47,30 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
 
     //private PhotonView photonView;
-  
+
+    public static Team convertNumToTeam(short num)
+    {
+        if (num == 0)
+        {
+            return Team.TEAM1;
+        }
+        else
+        {
+            return Team.TEAM2;
+        }
+    }
+
+    public static short convertTeamToNum(Team team)
+    {
+        if (team == Team.TEAM1)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
 
 
     private void Awake()
@@ -92,6 +115,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
     }
 
+    
     public void setNetName(string name)
     {
         PhotonView photonView = PhotonView.Get(this);
@@ -103,6 +127,18 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public void rpcSetName(string name)
     {
         gameObject.name = name;
+    }
+
+    public void setNetTeam(short teamNum)
+    {
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("rpcSetTeam", RpcTarget.AllBuffered, teamNum);
+    }
+
+    [PunRPC]
+    public void rpcSetTeam(short teamNum)
+    {
+        team = convertNumToTeam(teamNum);
     }
 
     public void die()

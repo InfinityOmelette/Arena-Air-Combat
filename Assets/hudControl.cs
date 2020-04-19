@@ -74,7 +74,19 @@ public class hudControl : MonoBehaviour
     private EngineControl root_Engine;
     private CombatFlow root_combatFlow;
 
+    public bool startVisible;
 
+    public void setHudVisible(bool makeVisible)
+    {
+        if (makeVisible)
+        {
+            transform.localScale = new Vector3(1.0f, 1f, 1f);
+        }
+        else
+        {
+            transform.localScale = new Vector3(0f, 0f, 0f);
+        }
+    }
     private void Awake()
     {
         hudControl.mainHud = gameObject;
@@ -85,8 +97,8 @@ public class hudControl : MonoBehaviour
     // ====================================================================
     void Start()
     {
-        
 
+        
 
         // SAVE ORIGINAL POSITIONS OF UI ELEMENTS -- WILL BE MODIFIED RELATIVE TO THESE
         climbTextOriginPos = climbText.transform.localPosition;
@@ -104,6 +116,8 @@ public class hudControl : MonoBehaviour
 
         //  MOVE HP BAR TO TOP MIDDLE
         hpBarParentRef.transform.localPosition = new Vector3(0.0f, Screen.height / 2f, 0.0f);
+
+        setHudVisible(startVisible);
 
     }
 

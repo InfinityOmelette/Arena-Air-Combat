@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class TgtComputer : MonoBehaviour
 {
@@ -69,8 +70,10 @@ public class TgtComputer : MonoBehaviour
 
             //  =====================  DISTANCE
 
-            // Distance between this gameobject and target
-            currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+            
+             // Distance between this gameobject and target
+             currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+           
 
 
 

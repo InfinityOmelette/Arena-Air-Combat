@@ -21,13 +21,8 @@ public class NetPosition : MonoBehaviour
     private PhotonView photonView;
 
     private float lifeTime;
-
     
-    private Vector3 targetPos;
-    private bool doLerp = false;
-
     public float posLerp;
-    public float proceedRadius;
 
 
     void Awake()
@@ -66,16 +61,7 @@ public class NetPosition : MonoBehaviour
                 photonView.RPC("updatePositionAndVelocity", RpcTarget.All, myPos, myRotation, myVel, lifeTime);
 
             }
-        }
-        else if (targetPos != null && doLerp) 
-        {
-            transform.position = Vector3.Lerp(transform.position, targetPos, posLerp);
 
-            // Once enters radius around target position, continue flying off of velocity
-            if ((targetPos - transform.position).magnitude < proceedRadius)
-            {
-                doLerp = false;
-            }
         }
     }
 
@@ -86,13 +72,15 @@ public class NetPosition : MonoBehaviour
         // Ignore any out of order calls
         if(originLifeTime > lifeTime || myFlow.isLocalPlayer)
         {
-            doLerp = true;
+            // project target position forward based on time to send
+            targetPos = targetPos + targetVel * (originLifeTime - lifeTime);
+            transform.position = Vector3.Lerp(transform.position, targetPos, posLerp);
             lifeTime = originLifeTime;
-            this.targetPos = targetPos; // lerp towards this in fixedUpdate
             transform.rotation = targetRotation;
             myRB.velocity = targetVel;
         }
     }
+
 
 
 

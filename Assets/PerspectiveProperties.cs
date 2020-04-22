@@ -15,6 +15,7 @@ public class PerspectiveProperties : MonoBehaviour
     public bool showUI;
     public bool aircraftInputActive;
     public bool mouseIsLocked;
+    public Camera camRef;
 
     // Start is called before the first frame update
     void Start()

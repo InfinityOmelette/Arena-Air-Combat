@@ -61,77 +61,98 @@ public class TgtComputer : MonoBehaviour
         // Loop through all combatUnits
         for(int i = 0; i < CombatFlow.combatUnits.Count; i++)
         {
-            
 
-            // Current CombatFlow to attempt to see
-            CombatFlow currentFlow = flowArray[i].GetComponent<CombatFlow>();
-            TgtHudIcon currentFlowHudIcon = currentFlow.myHudIconRef;
-
-
-            //  =====================  DISTANCE
-
-            
-             // Distance between this gameobject and target
-             currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
-           
-
-
-
-            // ======================== LINE OF SIGHT
-            int terrainLayer = 1 << 10; // line only collides with terrain layer
-            currentFlowHudIcon.hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
-
-
-            // ========================  IFF
-            if (localPlayerFlow.team == currentFlow.team)
-                currentFlowHudIcon.isFriendly = true;
-            else
-                currentFlowHudIcon.isFriendly = false;
-
-
-
-            // =====================  VISIBILITY
-
-            // Various conditions will attempt to make this true
-            bool isVisible = false;
-
-            
-
-            // Show unit if this is NOT the local player
-            if (!currentFlow.isLocalPlayer && currentFlow.isActive)
+            if (flowArray[i] != null)
             {
 
-                
+                // Current CombatFlow to attempt to see
+                CombatFlow currentFlow = flowArray[i].GetComponent<CombatFlow>();
 
-                if (currentFlow.team == localPlayerFlow.team)
+
+                if (currentFlow != null)
                 {
-                    isVisible = true;
-                }
-                else
-                {
-                    isVisible = Vector3.Distance(currentFlow.transform.position, transform.position) < visibleRange
-                        && currentFlow.myHudIconRef.hasLineOfSight;
-                    if (!isVisible)
+
+                    TgtHudIcon currentFlowHudIcon = currentFlow.myHudIconRef;
+
+                    if (currentFlowHudIcon != null)
                     {
-                        isVisible = myRadar.tryDetect(currentFlow);
+
+                        //  =====================  DISTANCE
+
+                        bool showError = true;
+                        try
+                        {
+                            // Distance between this gameobject and target
+                            currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+                            showError = false;
+                        }
+                        catch (Exception e)
+                        {
+                            //showError = true;
+                            Debug.LogError("TgtComputer failed at " + currentFlow.name);
+                        }
+
+                        if (showError)
+                        {
+                            Debug.LogError("TgtComputer failed at " + currentFlow.name);
+                        }
+
+
+
+
+                        // ======================== LINE OF SIGHT
+                        int terrainLayer = 1 << 10; // line only collides with terrain layer
+                        currentFlowHudIcon.hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
+
+
+                        // ========================  IFF
+                        currentFlowHudIcon.isFriendly = localPlayerFlow.team == currentFlow.team;
+
+
+                        // =====================  VISIBILITY
+
+                        // Various conditions will attempt to make this true
+                        bool isVisible = false;
+
+
+
+                        // Show unit if this is NOT the local player
+                        if (!currentFlow.isLocalPlayer && currentFlow.isActive)
+                        {
+
+
+
+                            if (currentFlow.team == localPlayerFlow.team)
+                            {
+                                isVisible = true;
+                            }
+                            else
+                            {
+                                isVisible = Vector3.Distance(currentFlow.transform.position, transform.position) < visibleRange
+                                    && currentFlow.myHudIconRef.hasLineOfSight;
+                                if (!isVisible)
+                                {
+                                    isVisible = myRadar.tryDetect(currentFlow);
+                                }
+                            }
+                        }
+
+                        //  Send visibility result
+                        currentFlowHudIcon.isDetected = isVisible;
+
+                        if (!isVisible && currentTarget == currentFlow)
+                        {
+                            currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
+                            currentTarget = null;
+
+                        }
+
+                        // ========= TRY TO LOCK
+                        tryLockTarget(currentFlow);
                     }
+
                 }
             }
-
-            //  Send visibility result
-            currentFlowHudIcon.isDetected = isVisible;
-
-            if (!isVisible && currentTarget == currentFlow)
-            {
-                currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
-                currentTarget = null;
-
-            }
-
-            // ========= TRY TO LOCK
-            tryLockTarget(currentFlow);
-        
-
 
         }
     }
@@ -150,22 +171,30 @@ public class TgtComputer : MonoBehaviour
         // loop through every combatFlow object
         for(short i = 0; i < flowObjArray.Count; i++)
         {
-            CombatFlow currentFlow = flowObjArray[i].GetComponent<CombatFlow>();
-
-            float currentAngle = Vector3.Angle(playerInput.cam.camAxisHorizRef.transform.forward, currentFlow.transform.position - transform.position);
-
-            //Debug.Log("Current target is: " + currentFlow.gameObject + ", at " + currentAngle + " degrees, smallest angle is: " + smallestAngle + " degrees.");
-
-            // angle within max, angle smallest, and target is not on same team as localPlayer
-            if (currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
-                currentAngle < changeTargetMaxAngle && 
-                currentAngle < smallestAngle && 
-                !currentFlow.isLocalPlayer &&
-                currentFlow.team != localPlayerFlow.team)
+            if (flowObjArray[i] != null)
             {
-                //Debug.Log("SMALLEST ANGLE: " + currentAngle + " degrees.");
-                smallestAngle = currentAngle;
-                newTarget = flowObjArray[i].GetComponent<CombatFlow>();
+
+                CombatFlow currentFlow = flowObjArray[i].GetComponent<CombatFlow>();
+
+                if (currentFlow != null)
+                {
+
+                    float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position - transform.position);
+
+                    //Debug.Log("Current target is: " + currentFlow.gameObject + ", at " + currentAngle + " degrees, smallest angle is: " + smallestAngle + " degrees.");
+
+                    // angle within max, angle smallest, and target is not on same team as localPlayer
+                    if (currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
+                        currentAngle < changeTargetMaxAngle &&
+                        currentAngle < smallestAngle &&
+                        !currentFlow.isLocalPlayer &&
+                        currentFlow.team != localPlayerFlow.team)
+                    {
+                        //Debug.Log("SMALLEST ANGLE: " + currentAngle + " degrees.");
+                        smallestAngle = currentAngle;
+                        newTarget = flowObjArray[i].GetComponent<CombatFlow>();
+                    }
+                }
             }
 
 

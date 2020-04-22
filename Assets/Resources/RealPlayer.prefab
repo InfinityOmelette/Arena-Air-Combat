@@ -328,6 +328,7 @@ MonoBehaviour:
   showUI: 1
   aircraftInputActive: 1
   mouseIsLocked: 1
+  camRef: {fileID: 6102165659019915357}
 --- !u!1 &7744941291827435728
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +580,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scanConeAngle: 45
   maxDetectRange: 3000
-  distCoeff: 2.5
   lockAngle: 17.5
   detectionThreshold: 1.5
 --- !u!114 &4424309726456864805
@@ -618,7 +618,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updatesPerSecond: 12
   posLerp: 0.2
-  proceedRadius: 2
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,11 +1758,6 @@ PrefabInstance:
       propertyPath: dissipationTime
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: explosions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -1773,6 +1767,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bounceDamage
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: explosions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
@@ -1984,11 +1983,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 45552cf03b18e5246a91c0543cf9ca5c, type: 2}
-    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: explosions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -1998,6 +1992,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bounceDamage
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: explosions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
@@ -2820,11 +2819,6 @@ PrefabInstance:
       propertyPath: dissipationTime
       value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: explosions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -2834,6 +2828,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bounceDamage
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: explosions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
@@ -2995,11 +2994,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d35a3a7b621c7a44fa048c362ecfe1cd, type: 2}
-    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: explosions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -3009,6 +3003,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bounceDamage
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: explosions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
@@ -3533,11 +3532,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 45552cf03b18e5246a91c0543cf9ca5c, type: 2}
-    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: explosions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -3547,6 +3541,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bounceDamage
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875083487360457904, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: explosions.Array.size
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}

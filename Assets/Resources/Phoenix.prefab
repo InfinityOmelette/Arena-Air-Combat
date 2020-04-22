@@ -699,6 +699,8 @@ GameObject:
   - component: {fileID: 6561829509626332724}
   - component: {fileID: 7974841232584541846}
   - component: {fileID: 29026782760298540}
+  - component: {fileID: 3786267972704520770}
+  - component: {fileID: 5521317897934048294}
   m_Layer: 0
   m_Name: PHOENIX
   m_TagString: Untagged
@@ -840,9 +842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanConeAngle: 13
+  scanConeAngle: 35
   maxDetectRange: 5000
-  distCoeff: 2.5
   lockAngle: 0
   detectionThreshold: 1.2
 --- !u!114 &3456510896575939194
@@ -949,6 +950,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &3786267972704520770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935868276171530202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &5521317897934048294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935868276171530202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 10
+  posLerp: 0.65
+  active: 0
 --- !u!1 &3046698194454117830
 GameObject:
   m_ObjectHideFlags: 0
@@ -2222,15 +2260,15 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Parameters.widthMultiplier
-      value: 3.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_Range
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6bd0690b0d1b734d9d11488553094e5, type: 3}

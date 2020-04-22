@@ -2273,8 +2273,9 @@ GameObject:
   - component: {fileID: 8255334105050933577}
   - component: {fileID: 1928006486093276839}
   - component: {fileID: -3749949954440553011}
+  - component: {fileID: 3801859860257002132}
   m_Layer: 8
-  m_Name: RocketPod
+  m_Name: ROCKETPOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2334,7 +2335,9 @@ MonoBehaviour:
   myHardpoint: {fileID: 0}
   myTeam: 0
   projectileLifetime: 0
+  effectsOriginalObj: {fileID: 0}
   effectsObj: {fileID: 0}
+  effectsCenter: {fileID: 0}
   groupHardpointsTogether: 1
   sequentialLaunch: 0
   fireRateTimer: 0
@@ -2371,6 +2374,28 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &3801859860257002132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282535372062044719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6855708959548756079
 GameObject:
   m_ObjectHideFlags: 0

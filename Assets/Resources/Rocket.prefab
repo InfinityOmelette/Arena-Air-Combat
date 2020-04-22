@@ -556,6 +556,7 @@ GameObject:
   - component: {fileID: 1508441354413137334}
   - component: {fileID: 1195842359684267916}
   - component: {fileID: 2852526732308735592}
+  - component: {fileID: -143509994507629933}
   m_Layer: 8
   m_Name: Rocket
   m_TagString: Untagged
@@ -641,6 +642,7 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
+  detectabilityCoeff: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -690,3 +692,24 @@ MonoBehaviour:
   myCollider: {fileID: 0}
   tempTimerMax: 0.25
   tempTimerCurrent: 0.25
+--- !u!114 &-143509994507629933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8686298913641633874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

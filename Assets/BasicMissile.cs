@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
 // loading and detonation properties
@@ -10,10 +11,6 @@ public class BasicMissile : Weapon
     // inherits target property from Weapon
 
     public GameObject ownerObj;
-
-
-
-
 
     //public GameObject effectsOriginalObj;
     
@@ -29,11 +26,14 @@ public class BasicMissile : Weapon
     private Vector3 targetPosition;
     private bool guidedLaunch;
     private GameObject impactVictimRoot;
+
+    private PhotonView photonView;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        photonView = PhotonView.Get(this);
         myCombatFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
@@ -81,20 +81,24 @@ public class BasicMissile : Weapon
 
         if ( launched)
         {
-            if(myTarget != null)
+            if (myCombatFlow.isLocalPlayer)
             {
-                updateTargetPosition();
-                
-
-               // transform.LookAt(targetPosition);
-            }
-            //rbRef.velocity = transform.forward * speed;
+                if (myTarget != null)
+                {
+                    updateTargetPosition();
 
 
-            if (checkProximityFuse())
-            {
-                effectsObj.GetComponent<Light>().enabled = false;
-                myCombatFlow.currentHP -= myCombatFlow.currentHP;
+                    // transform.LookAt(targetPosition);
+                }
+                //rbRef.velocity = transform.forward * speed;
+
+
+                if (checkProximityFuse())
+                {
+                    // make this rpc
+                    effectsObj.GetComponent<Light>().enabled = false;
+                    myCombatFlow.currentHP -= myCombatFlow.currentHP;
+                }
             }
         }
     }
@@ -184,15 +188,29 @@ public class BasicMissile : Weapon
 
 
 
+    // only callable by the local player. No need to check photon ownership
     override
     public void launch()
     {
+        myCombatFlow.isLocalPlayer = true; // NetPosition will propogate this instance to rest of clients
+
+        photonView.RPC("rpcLaunch", RpcTarget.AllBuffered);
+
+        guidedLaunch = myTarget != null;
+        
+    }
+
+    [PunRPC]
+    private void rpcLaunch()
+    {
+        GetComponent<NetPosition>().active = true;
+
         myHardpoint.readyToFire = false;
         myHardpoint.loadedWeaponObj = null;
 
 
         Destroy(GetComponent<FixedJoint>());
-        
+
 
         effectsObj.GetComponent<Light>().enabled = true;
         effectsObj.GetComponent<TrailRenderer>().enabled = true;
@@ -201,9 +219,6 @@ public class BasicMissile : Weapon
         myCombatFlow.isActive = true;
 
         myHardpoint.roundsRemain = 0;
-
-        guidedLaunch = myTarget != null;
-        
     }
 
 

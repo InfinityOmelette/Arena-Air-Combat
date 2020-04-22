@@ -23,6 +23,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     
     public float maxHP;
     public float currentHP;
+
+    // is or belongs to the local player
     public bool isLocalPlayer;
 
     public float detectabilityCoeff;

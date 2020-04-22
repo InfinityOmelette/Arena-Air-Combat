@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Hardpoint : MonoBehaviour
+public class Hardpoint : MonoBehaviourPunCallbacks
 {
 
 
@@ -32,34 +33,52 @@ public class Hardpoint : MonoBehaviour
     public short roundsMax;
     public short roundsRemain;
 
-
+    PhotonView photonView;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        photonView = PhotonView.Get(this);
         readyToFire = false;
-        spawnWeapon();
-    }
 
+        if (transform.root.GetComponent<CombatFlow>().isLocalPlayer)
+        {
+            spawnWeapon();
+        }
+    }
 
     void spawnWeapon()
     {
         // instantiates prefab IN WORLD SPACE, fixed joint to player
-        loadedWeaponObj = GameObject.Instantiate(weaponTypePrefab);
+        loadedWeaponObj = PhotonNetwork.Instantiate(weaponTypePrefab.name, spawnCenter.position, spawnCenter.rotation);
+
+        int weaponId = loadedWeaponObj.GetComponent<PhotonView>().ViewID;
+        //Debug.Log("weaponId: " + weaponId);
+
+        photonView.RPC("rpcInitializeWeapon", RpcTarget.AllBuffered, weaponId);
+        
+    }
+
+    [PunRPC]
+    void rpcInitializeWeapon(int weaponId)
+    {
+        loadedWeaponObj = PhotonNetwork.GetPhotonView(weaponId).gameObject;
+
         loadedWeaponObj.transform.position = spawnCenter.position;
         loadedWeaponObj.transform.rotation = spawnCenter.rotation;
 
         loadedWeaponObj.GetComponent<Weapon>().myHardpoint = this;
 
+        // locks weapon to hardpoint using fixedjoint
         loadedWeaponObj.GetComponent<Weapon>().linkToOwner(transform.root.gameObject);
+
         loadedWeaponObj.GetComponent<Weapon>().myTeam = transform.root.GetComponent<CombatFlow>().team;
 
 
-        
 
-        readyToFire = true;        
-        
+
+        readyToFire = true;
     }
 
     public void launchWithLock(GameObject targetObj)

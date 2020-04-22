@@ -42,6 +42,8 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public Sprite iconImageSpriteFile; // inefficient -- not necessary for every weapon instance to contain this reference.
 
+    //protected PhotonView photonView;
+
     // call from fixedUpdate()
     // either countdown reposition timer
     public void checkLinecastCollision()

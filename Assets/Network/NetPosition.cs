@@ -24,6 +24,7 @@ public class NetPosition : MonoBehaviour
     
     public float posLerp;
 
+    public bool active;
 
     void Awake()
     {
@@ -46,22 +47,25 @@ public class NetPosition : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (myFlow.isLocalPlayer)
+        if (active)
         {
-            lifeTime += Time.fixedDeltaTime;
-            currentTimer -= Time.fixedDeltaTime;
-            if (currentTimer < 0)
+            if (myFlow.isLocalPlayer)
             {
-                currentTimer = waitTime; // reset counter
+                lifeTime += Time.fixedDeltaTime;
+                currentTimer -= Time.fixedDeltaTime;
+                if (currentTimer < 0)
+                {
+                    currentTimer = waitTime; // reset counter
 
-                Vector3 myPos = transform.position;
-                Quaternion myRotation = transform.rotation;
-                Vector3 myVel = myRB.velocity;
+                    Vector3 myPos = transform.position;
+                    Quaternion myRotation = transform.rotation;
+                    Vector3 myVel = myRB.velocity;
 
-                photonView.RPC("updatePositionAndVelocity", RpcTarget.All, myPos, myRotation, myVel, lifeTime);
+                    photonView.RPC("updatePositionAndVelocity", RpcTarget.All, myPos, myRotation, myVel, lifeTime);
+
+                }
 
             }
-
         }
     }
 
@@ -69,15 +73,18 @@ public class NetPosition : MonoBehaviour
     [PunRPC]
     private void updatePositionAndVelocity(Vector3 targetPos, Quaternion targetRotation, Vector3 targetVel, float originLifeTime) 
     {
-        // Ignore any out of order calls
-        if(originLifeTime > lifeTime || myFlow.isLocalPlayer)
+        if (active)
         {
-            // project target position forward based on time to send
-            targetPos = targetPos + targetVel * (originLifeTime - lifeTime);
-            transform.position = Vector3.Lerp(transform.position, targetPos, posLerp);
-            lifeTime = originLifeTime;
-            transform.rotation = targetRotation;
-            myRB.velocity = targetVel;
+            // Ignore any out of order calls
+            if (originLifeTime > lifeTime || myFlow.isLocalPlayer)
+            {
+                // project target position forward based on time to send
+                targetPos = targetPos + targetVel * (originLifeTime - lifeTime);
+                transform.position = Vector3.Lerp(transform.position, targetPos, posLerp);
+                lifeTime = originLifeTime;
+                transform.rotation = targetRotation;
+                myRB.velocity = targetVel;
+            }
         }
     }
 

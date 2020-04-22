@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class HardpointController : MonoBehaviour
+public class HardpointController : MonoBehaviourPunCallbacks
 {
 
 
@@ -26,6 +27,8 @@ public class HardpointController : MonoBehaviour
 
     public bool launchActive;
 
+    private CombatFlow rootFlow;
+
     
     // Commands missiles to launch
 
@@ -33,18 +36,22 @@ public class HardpointController : MonoBehaviour
     {
         weaponTypeHardpointLists = new List<List<Hardpoint>>();
         groupThisType_List = new List<bool>();
+        rootFlow = transform.root.GetComponent<CombatFlow>();
         
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // putting this in Start to guarantee that hudControl's awake() has run first so that static mainHud property is set
-        weaponIndicatorManager = hudControl.mainHud.GetComponent<hudControl>().weaponIndicatorManager;
-        if (weaponIndicatorManager == null)
-            Debug.Log("HARDPOINT CONTROLLER UNABLE TO FIND WEAPON INDICATOR MANAGER");
+        if (rootFlow.isLocalPlayer)
+        {
+            // putting this in Start to guarantee that hudControl's awake() has run first so that static mainHud property is set
+            weaponIndicatorManager = hudControl.mainHud.GetComponent<hudControl>().weaponIndicatorManager;
+            if (weaponIndicatorManager == null)
+                Debug.Log("HARDPOINT CONTROLLER UNABLE TO FIND WEAPON INDICATOR MANAGER");
 
-        fillHardpointArray();
+            fillHardpointArray();
+        }
     }
 
     void fillHardpointArray()

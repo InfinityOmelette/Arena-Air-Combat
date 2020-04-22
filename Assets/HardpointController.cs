@@ -128,22 +128,24 @@ public class HardpointController : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
+        if (rootFlow.isLocalPlayer)
+        {
 
-        if ((Mathf.Abs(input_changeWeaponAxis) > .3f)) // if definitely pressed, either direction
-        {
-            if (!changeButtonHeld)
+            if ((Mathf.Abs(input_changeWeaponAxis) > .3f)) // if definitely pressed, either direction
             {
-                changeButtonHeld = true;
-                advanceWeaponType((short)Mathf.RoundToInt(input_changeWeaponAxis));
+                if (!changeButtonHeld)
+                {
+                    changeButtonHeld = true;
+                    advanceWeaponType((short)Mathf.RoundToInt(input_changeWeaponAxis));
+                }
             }
-        }
-        else 
-        {
-            changeButtonHeld = false;
-            short scrollAdvance = (short)Mathf.RoundToInt(-input_scrollWheel);
-            Debug.Log("ScrollAdvance: " + scrollAdvance + "with raw: " + input_scrollWheel);
-            advanceWeaponType(scrollAdvance);
+            else
+            {
+                changeButtonHeld = false;
+                short scrollAdvance = (short)Mathf.RoundToInt(-input_scrollWheel);
+                Debug.Log("ScrollAdvance: " + scrollAdvance + "with raw: " + input_scrollWheel);
+                advanceWeaponType(scrollAdvance);
+            }
         }
     }
 

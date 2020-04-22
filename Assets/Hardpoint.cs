@@ -34,15 +34,17 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     public short roundsRemain;
 
     PhotonView photonView;
-    
+
+    public CombatFlow rootFlow;
 
     // Start is called before the first frame update
     void Start()
     {
+        rootFlow = transform.root.GetComponent<CombatFlow>();
         photonView = PhotonView.Get(this);
         readyToFire = false;
 
-        if (transform.root.GetComponent<CombatFlow>().isLocalPlayer)
+        if (rootFlow.isLocalPlayer)
         {
             spawnWeapon();
         }
@@ -160,33 +162,34 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (readyToFire)
+        if (rootFlow.isLocalPlayer)
         {
-            if (launchCommanded)
+            if (readyToFire)
             {
-                if (countDownDelayTimer())
+                if (launchCommanded)
                 {
-                    launch();
+                    if (countDownDelayTimer())
+                    {
+                        launch();
+                    }
+
                 }
 
             }
-
-            
-
-        }
-        else // not ready to fire -- count down reload
-        {
-            if (currentReloadTimer > 0)
+            else // not ready to fire -- count down reload
             {
-                currentReloadTimer -= Time.deltaTime;
-            }
-            else // reload timer runs out, reload
-            {
+                if (currentReloadTimer > 0)
+                {
+                    currentReloadTimer -= Time.deltaTime;
+                }
+                else // reload timer runs out, reload
+                {
 
-                reloadProcess(); // may be called repeatedly until reload complete
+                    reloadProcess(); // may be called repeatedly until reload complete
+
+                }
 
             }
-
         }
     }
 

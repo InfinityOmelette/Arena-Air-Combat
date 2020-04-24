@@ -154,7 +154,7 @@ public class hudControl : MonoBehaviour
             airDensityText.text = "AIR DENSITY: " + Mathf.RoundToInt(root_Engine.currentAirDensity * 100f).ToString() + "%";
             fuelAmtText.text = "FUEL: " + Mathf.RoundToInt(root_Engine.currentFuelMass) + "kg";
             burnAvailText.text = "BURN AVAIL: " + Mathf.RoundToInt(root_Engine.currentBurnMod * 100f).ToString() + "%";
-            hpText.text = Mathf.RoundToInt(root_combatFlow.currentHP).ToString() + "HP";
+            hpText.text = Mathf.RoundToInt(root_combatFlow.getHP()).ToString() + "HP";
 
 
 
@@ -186,7 +186,7 @@ public class hudControl : MonoBehaviour
     // SCALE HEALTH FILL AND OFFSET TEXT
     private void processHealthBar()
     {
-        float healthScale = Mathf.Clamp(root_combatFlow.currentHP / root_combatFlow.maxHP, 0.0f, 1.0f);
+        float healthScale = Mathf.Clamp(root_combatFlow.getHP() / root_combatFlow.maxHP, 0.0f, 1.0f);
 
         // Scale health fill to health percentage
         hpBarCenterpointRef.transform.localScale = new Vector3(healthScale, 1.0f, 1.0f);

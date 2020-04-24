@@ -14,7 +14,7 @@ public class Explosion : MonoBehaviour
     public float fadeOutTime; // number of seconds -- graphic will continue to expand without dealing damage
     public float fadeRadiusScale;
 
-    private bool doExplode = false;
+    public bool doExplode = false;
     private bool radiusMaxed = false;
 
     public float explosiveForce;
@@ -41,6 +41,8 @@ public class Explosion : MonoBehaviour
     private static GameObject explosionPrefab;
 
     private List<GameObject> explosionVictimRootList;
+
+    public bool localOwned = false;
 
 
     // *********************************************************************************
@@ -70,61 +72,16 @@ public class Explosion : MonoBehaviour
     // team
     // damageProjectiles
     // friendlyFire
-    public static Explosion createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
+    public static void createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
         bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor,
         float newExpandTime, CombatFlow.Team newTeam, bool newDamageProjectiles, bool newFriendlyFire, 
         float newExplosiveForce)
     {
-        //Debug.Log("Explosion settings: position: " + position + ", radius: " + setRadius + ", damage: " + setCoreDamage + " doCollide: " + doCollide +
-         //   ", dissipationTime: " + dissipationTime + "glowColor: " + glowColor + ", doEmitLight: " + doEmitLight + ", newSmokeColor: " + newSmokeColor);
-        GameObject newExplosion = GameObject.Instantiate(getExplodePrefab());
-        newExplosion.transform.position = position;
 
-        Explosion newExplosionScript = newExplosion.GetComponent<Explosion>();
+        ExplodeManager expMan = ExplodeManager.getExplodeManager();
 
-        //Debug.Log("***********************************************  static create explosion called");
-
-
-        // Debug.Log("=================================================== goExplode called");
-
-        // smoke settings
-        newExplosionScript.emissionColor = glowColor;
-        newExplosionScript.smokeColor = newSmokeColor;
-
-        //mat.SetColor("_EmissionColor", Color.yellow);
-        newExplosionScript.radius = setRadius;
-        newExplosionScript.coreDamage = setCoreDamage;
-        newExplosionScript.doExplode = true;
-        newExplosionScript.fadeOutTime = dissipationTime;
-        newExplosionScript.GetComponent<Collider>().enabled = doCollide;
-
-        newExplosionScript.expandTime = newExpandTime;
-        newExplosionScript.team = newTeam;
-        newExplosionScript.damageProjectiles = newDamageProjectiles;
-        newExplosionScript.friendlyFire = newFriendlyFire;
-        newExplosionScript.explosiveForce = newExplosiveForce;
-
-        //Debug.Log("Setting collider to " + GetComponent<Collider>().enabled);
-
-
-        // sphere collider radius set to 1 in prefab. This won't change. .5 matches object radius, 1 is double
-
-
-        // light settings
-        Light light = newExplosionScript.GetComponent<Light>();
-        light.enabled = doEmitLight;
-        //light.enabled = false;
-        //Debug.Log("emitLight set to: " + doEmitLight + ", setting is: " + light.enabled);
-        if (doEmitLight)
-        {
-
-            light.color = glowColor;
-            light.range = newExplosionScript.radius * newExplosionScript.lightRangeScaleFactor;
-            // light.intensity dynamically changes at runtime.
-            //Debug.Log("Light intensity set to: " + flashIntensity + ", current setting: " + light.intensity) ;
-        }
-
-        return newExplosionScript;
+        expMan.createExplosionAt(position, setRadius, setCoreDamage, doCollide, dissipationTime, glowColor,
+            doEmitLight, newSmokeColor, newExpandTime, newTeam, newDamageProjectiles, newFriendlyFire, newExplosiveForce);
 
     }
 
@@ -298,19 +255,21 @@ public class Explosion : MonoBehaviour
 
 
 
-
+    // theoretically, this should not be called unless collider is active
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("Explosion collided with " + collision.other.gameObject);
         explosionContactProcess(collision.gameObject);
     }
 
+    // theoretically, this should not be called unless collider is active
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Explosion triggered on: " + other.gameObject);
         explosionContactProcess(other.gameObject);
     }
 
+    // theoretically, this should not be called unless collider is active
     private void explosionContactProcess(GameObject victim)
     {
         // deal damage
@@ -323,16 +282,11 @@ public class Explosion : MonoBehaviour
         // only act upon victim root if he is a new victim
         if (isNewVictim(targetRootObj))
         {
-
-            
-            
             explosionVictimRootList.Add(targetRootObj);
             
 
             Rigidbody targetRb = targetRootObj.GetComponent<Rigidbody>();
             CombatFlow targetCF = targetRootObj.GetComponent<CombatFlow>();
-
-            bool noForce = false; // I know this is super crusty way to do this
 
 
             // whether or not explosion should act upon victim
@@ -362,37 +316,13 @@ public class Explosion : MonoBehaviour
                     targetRb.AddExplosionForce(explosiveForce, transform.position, radius);
                 }
 
-                if(targetCF != null)
+                if(targetCF != null && coreDamage > 0)
                 {
-                    Debug.Log("Explosion acting upon victim: " + targetRootObj + " for " + coreDamage + " damage, list count: " + explosionVictimRootList.Count);
-                    targetCF.currentHP -= coreDamage;
+                    //Debug.Log("Explosion acting upon victim: " + targetRootObj + " for " + coreDamage + " damage, list count: " + explosionVictimRootList.Count);
+                    //targetCF.currentHP -= coreDamage;
+                    targetCF.dealDamage(coreDamage);
                 }
             }
-
-            //if(targetCF != null)
-            //{
-
-
-            //    // explosions will never intersect with projectiles
-            //    if (targetCF.type != CombatFlow.Type.PROJECTILE)
-            //    {
-            //        Debug.Log("Explosion acting upon victim: " + targetRootObj + " for " + coreDamage + " damage, list count: " + explosionVictimRootList.Count);
-            //        targetCF.currentHP -= coreDamage;
-            //    }
-            //    else
-            //        noForce = true;
-            //}
-
-
-            //if (targetRb != null && !noForce)
-            //{
-            //    targetRb.AddExplosionForce(coreDamage, transform.position, radius * 2);
-
-            //}
-
-
-
-
 
         }
     }

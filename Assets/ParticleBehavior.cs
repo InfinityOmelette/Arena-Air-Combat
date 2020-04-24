@@ -18,6 +18,8 @@ public class ParticleBehavior : MonoBehaviour
     public ExplodeStats impactExplosionProperties;
     public ExplodeStats bounceExplosionProperties;
 
+    private CombatFlow rootFlow;
+
     
 
 
@@ -28,6 +30,7 @@ public class ParticleBehavior : MonoBehaviour
     {
         pSystem = GetComponent<ParticleSystem>();
         myParticles = new ParticleSystem.Particle[500];
+        rootFlow = transform.root.GetComponent<CombatFlow>();
     }
 
     // Update is called once per frame
@@ -111,8 +114,10 @@ public class ParticleBehavior : MonoBehaviour
             }
 
             // only attempt to sent HP subtraction if target has CombatFlow script component
-            if (targetFlow != null)
-                targetFlow.currentHP -= currentDamage;
+            if (targetFlow != null && rootFlow.isLocalPlayer)
+            {
+                targetFlow.dealDamage(currentDamage);
+            }
 
         }
         

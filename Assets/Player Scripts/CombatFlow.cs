@@ -23,7 +23,9 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     }
     
     public float maxHP;
-    public float currentHP;
+    
+    [SerializeField]
+    private float currentHP;
 
     
     public bool isLocalPlayer;
@@ -93,6 +95,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     void Start()
     {
 
+        if(PhotonNetwork.PlayerList.Length == 1)
+        {
+            localOwned = true;
+        }
+
         explodeStats = GetComponent<ExplodeStats>();
 
         // spawn icon, set reference here to the TgtHudIconScript of icon spawned
@@ -145,6 +152,28 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public void rpcSetTeam(short teamNum)
     {
         team = convertNumToTeam(teamNum);
+    }
+
+    public float getHP()
+    {
+        return currentHP;
+    }
+
+    // any client can call this
+    public void dealDamage(float damage)
+    {
+        photonView.RPC("rpcDealDamage", RpcTarget.All, damage);
+    }
+
+    public void dealLocalDamage(float damage)
+    {
+        currentHP -= damage;
+    }
+
+    [PunRPC]
+    private void rpcDealDamage(float damage)
+    {
+        this.currentHP -= damage;
     }
 
     public void die()

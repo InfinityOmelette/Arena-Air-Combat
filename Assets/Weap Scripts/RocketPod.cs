@@ -180,17 +180,19 @@ public class RocketPod : Weapon
     override
     public void reloadProcess()
     {
+        
         // count down reload timer
-        if(reloadTimerCurrent > 0)
+        if (reloadTimerCurrent > 0)
         {
             reloadTimerCurrent -= Time.deltaTime;
             myHardpoint.currentReloadTimer = reloadTimerCurrent; // communicate reload time to hardpoint
         }
         else  // if reload timer done, make ready to fire again
         {
-            
+
             photonView.RPC("rpcReload", RpcTarget.All);
         }
+        
         
     }
 

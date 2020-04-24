@@ -40,8 +40,6 @@ public class CannonControl : MonoBehaviourPunCallbacks
         if (cannonInput) // if button is definitely pressed
         {
 
-            
-
             if (!gunsOn) // turn or keep guns on
             {
                 //photonView.RPC("rpcSetGunsOn", RpcTarget.All, true);
@@ -51,7 +49,6 @@ public class CannonControl : MonoBehaviourPunCallbacks
                     cannons[i].GetComponent<ParticleSystem>().Play();
                 }
             }
-            
             
         }
         else // turn or keep guns off
@@ -69,11 +66,5 @@ public class CannonControl : MonoBehaviourPunCallbacks
         }
 
     }
-
-    //[PunRPC]
-    //private void rpcSetGunsOn(bool gunsOn)
-    //{
-    //    this.gunsOn = gunsOn;
-    //}
 
 }

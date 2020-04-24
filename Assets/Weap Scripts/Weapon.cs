@@ -146,18 +146,20 @@ public class Weapon : MonoBehaviourPunCallbacks
             {
                 // Not bothering to check if null because all Weapons should contain a CombatFlow object
                 CombatFlow myFlow = GetComponent<CombatFlow>();
-                myFlow.currentHP -= myFlow.currentHP;
+                //myFlow.currentHP -= myFlow.currentHP;
+                myFlow.dealLocalDamage(myFlow.getHP());
             }
         }
     }
 
     public void killIfBelowFloor()
     {
-        if(transform.position.y < 0f)
+        CombatFlow combatFlow = GetComponent<CombatFlow>();
+        if (transform.position.y < 0f && combatFlow.localOwned)
         {
+            combatFlow.dealDamage(combatFlow.getHP());
             
-            CombatFlow combatFlow = GetComponent<CombatFlow>();
-            combatFlow.currentHP -= combatFlow.currentHP;
+            //combatFlow.currentHP -= combatFlow.currentHP;
         }
             
     }

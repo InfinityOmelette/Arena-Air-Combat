@@ -149,8 +149,11 @@ public class Rocket : Weapon
             {
                 if (otherFlow.team != myTeam || friendlyImpact)
                 {
-
-                    otherFlow.currentHP -= impactDamage;
+                    if (myFlow.localOwned)
+                    {
+                        //otherFlow.currentHP -= impactDamage;
+                        otherFlow.dealDamage(impactDamage);
+                    }
                 }
                 else
                 {
@@ -160,7 +163,8 @@ public class Rocket : Weapon
 
             if (doExplode)
             {
-                myFlow.currentHP -= myFlow.currentHP;
+               // myFlow.currentHP -= myFlow.currentHP;
+                myFlow.dealLocalDamage(myFlow.getHP());
                 effectsObj.GetComponent<Light>().enabled = false;
                 //Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
             }
@@ -196,8 +200,12 @@ public class Rocket : Weapon
             {
                 if (otherFlow.team != myTeam || friendlyImpact)
                 {
-
-                    otherFlow.currentHP -= impactDamage;
+                    if (myFlow.localOwned)
+                    {
+                        //otherFlow.currentHP -= impactDamage;
+                        otherFlow.dealDamage(impactDamage);
+                    }
+                    
                 }
                 else
                 {
@@ -207,9 +215,12 @@ public class Rocket : Weapon
 
             if (doExplode)
             {
-                myFlow.currentHP -= myFlow.currentHP;
+                //myFlow.currentHP -= myFlow.currentHP;
+
+                myFlow.dealLocalDamage(myFlow.getHP());
+
                 effectsObj.GetComponent<Light>().enabled = false;
-                Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
+                //Debug.Log("Rocket HP after impact: " + myFlow.getHP());
             }
         }
     }

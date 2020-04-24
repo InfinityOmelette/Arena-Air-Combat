@@ -105,9 +105,11 @@ public class BasicMissile : Weapon
                     {
                         effectsObj.GetComponent<Light>().enabled = false;
                     }
-                    if (myCombatFlow != null)
+                    if (myCombatFlow != null && myCombatFlow.localOwned)
                     {
-                        myCombatFlow.currentHP -= myCombatFlow.currentHP;
+                        // blow up local instance. Death itself should be networked fine
+                        myCombatFlow.dealLocalDamage(myCombatFlow.getHP()); 
+
                     }
                 }
             }
@@ -181,7 +183,7 @@ public class BasicMissile : Weapon
             impactVictimRoot = otherRoot;
 
             // don't explode if victim will die and if victim is not a projectile
-            if (impactDamage > otherFlow.currentHP && otherFlow.type != CombatFlow.Type.PROJECTILE)
+            if (impactDamage > otherFlow.getHP() && otherFlow.type != CombatFlow.Type.PROJECTILE)
             {
                 myCombatFlow.explodeStats.doExplode = false; // death will only trigger enemy explosion
             }
@@ -198,10 +200,10 @@ public class BasicMissile : Weapon
 
 
             // finally, deal the impact
-            if (doDealImpact)
+            if (doDealImpact && myCombatFlow.localOwned)
             {
 
-                otherFlow.currentHP -= impactDamage;
+                otherFlow.dealDamage(impactDamage);
                 Debug.Log("Impact dealing " + impactDamage + " damage to " + otherFlow);
             }
 
@@ -217,7 +219,7 @@ public class BasicMissile : Weapon
 
         if (myCombatFlow != null)
         {
-            myCombatFlow.currentHP -= myCombatFlow.currentHP;
+            myCombatFlow.dealLocalDamage(myCombatFlow.getHP());
         }
 
         

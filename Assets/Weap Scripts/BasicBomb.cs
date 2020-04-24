@@ -124,11 +124,12 @@ public class BasicBomb : Weapon
             }
 
             Debug.Log("Bomb collided");
-            myCombatFlow.currentHP -= myCombatFlow.currentHP; // die immediately on collision
-                                                              //CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
-            if (otherFlow != null)
+            // die immediately on collision
+            myCombatFlow.dealLocalDamage(myCombatFlow.getHP());
+                                                              
+            if (otherFlow != null && myCombatFlow.localOwned)
             {
-                otherFlow.currentHP -= impactDamage;
+                otherFlow.dealDamage(impactDamage);
             }
             
         }

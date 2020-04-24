@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class ExplodeStats : MonoBehaviour
+public class ExplodeStats : MonoBehaviourPunCallbacks
 {
 
     public float radius;
@@ -20,6 +21,7 @@ public class ExplodeStats : MonoBehaviour
     public CombatFlow.Team team;
 
 
+    private CombatFlow myFlow;
 
     public bool doExplode = true;
 
@@ -29,7 +31,7 @@ public class ExplodeStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CombatFlow myFlow = transform.root.gameObject.GetComponent<CombatFlow>();
+        myFlow = transform.root.gameObject.GetComponent<CombatFlow>();
         if(myFlow != null)
             team = myFlow.team;
         else
@@ -52,5 +54,16 @@ public class ExplodeStats : MonoBehaviour
                 expandTime, team, damageProjectiles, friendlyFire, explosiveForce);
         }
     }
+
+    public void netExplode(Vector3 position)
+    {
+        if (doExplode)
+        {
+            ExplodeManager.getExplodeManager().createNetExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce);
+        }
+    }
+
+    
 
 }

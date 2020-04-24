@@ -127,6 +127,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 34
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -196,6 +206,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -459,6 +479,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -528,6 +558,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -920,6 +960,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -1202,8 +1252,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194857866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.51, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.962584, z: 7.9033}
+  m_LocalPosition: {x: -46.51, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.79628, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 2031357647}
   m_RootOrder: 0
@@ -1249,6 +1299,8 @@ GameObject:
   - component: {fileID: 217180057}
   - component: {fileID: 217180062}
   - component: {fileID: 217180063}
+  - component: {fileID: 217180065}
+  - component: {fileID: 217180064}
   m_Layer: 9
   m_Name: Dummy Plane (16)
   m_TagString: Untagged
@@ -1364,6 +1416,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -1373,6 +1426,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &217180063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,6 +1452,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &217180064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217180056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &217180065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217180056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 13
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &219267257
 GameObject:
   m_ObjectHideFlags: 0
@@ -7071,6 +7162,8 @@ GameObject:
   - component: {fileID: 358699565}
   - component: {fileID: 358699570}
   - component: {fileID: 358699571}
+  - component: {fileID: 358699573}
+  - component: {fileID: 358699572}
   m_Layer: 9
   m_Name: Dummy Plane (14)
   m_TagString: Untagged
@@ -7186,6 +7279,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -7195,6 +7289,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &358699571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7220,6 +7315,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &358699572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358699564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &358699573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358699564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 16
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &374479939
 GameObject:
   m_ObjectHideFlags: 0
@@ -7235,6 +7367,8 @@ GameObject:
   - component: {fileID: 374479940}
   - component: {fileID: 374479945}
   - component: {fileID: 374479946}
+  - component: {fileID: 374479948}
+  - component: {fileID: 374479947}
   m_Layer: 9
   m_Name: Dummy Plane (18)
   m_TagString: Untagged
@@ -7350,6 +7484,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -7359,6 +7494,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &374479946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7384,6 +7520,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &374479947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374479939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &374479948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374479939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 15
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &377529463
 GameObject:
   m_ObjectHideFlags: 0
@@ -7895,6 +8068,85 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &454896235
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_Name
+      value: Truck (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1340.9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1105.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 49a37d31549b81b479c778f345f3e809, type: 3}
 --- !u!1 &483690119
 GameObject:
   m_ObjectHideFlags: 0
@@ -7910,6 +8162,8 @@ GameObject:
   - component: {fileID: 483690120}
   - component: {fileID: 483690125}
   - component: {fileID: 483690126}
+  - component: {fileID: 483690128}
+  - component: {fileID: 483690127}
   m_Layer: 9
   m_Name: Dummy Plane (10)
   m_TagString: Untagged
@@ -8025,6 +8279,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -8034,6 +8289,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &483690126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8059,6 +8315,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &483690127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483690119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &483690128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483690119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 18
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &495644555
 GameObject:
   m_ObjectHideFlags: 0
@@ -8074,6 +8367,8 @@ GameObject:
   - component: {fileID: 495644556}
   - component: {fileID: 495644561}
   - component: {fileID: 495644562}
+  - component: {fileID: 495644564}
+  - component: {fileID: 495644563}
   m_Layer: 9
   m_Name: Dummy Plane (12)
   m_TagString: Untagged
@@ -8189,6 +8484,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -8198,6 +8494,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &495644562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8223,6 +8520,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &495644563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495644555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &495644564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495644555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 17
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &496909370
 GameObject:
   m_ObjectHideFlags: 0
@@ -8649,6 +8983,8 @@ GameObject:
   - component: {fileID: 545467740}
   - component: {fileID: 545467745}
   - component: {fileID: 545467746}
+  - component: {fileID: 545467748}
+  - component: {fileID: 545467747}
   m_Layer: 9
   m_Name: Dummy Plane (15)
   m_TagString: Untagged
@@ -8764,6 +9100,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -8773,6 +9110,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &545467746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8798,6 +9136,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &545467747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545467739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &545467748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545467739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 11
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &586578030
 GameObject:
   m_ObjectHideFlags: 0
@@ -8824,8 +9199,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586578030}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.83, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: -7.83, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 1265437874}
   m_RootOrder: 3
@@ -8963,6 +9338,8 @@ GameObject:
   - component: {fileID: 618268915}
   - component: {fileID: 618268920}
   - component: {fileID: 618268921}
+  - component: {fileID: 618268923}
+  - component: {fileID: 618268922}
   m_Layer: 9
   m_Name: Dummy Plane (13)
   m_TagString: Untagged
@@ -9078,6 +9455,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -9087,6 +9465,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &618268921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9112,6 +9491,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &618268922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618268914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &618268923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618268914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 10
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &625369520
 GameObject:
   m_ObjectHideFlags: 0
@@ -9579,6 +9995,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 26
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -9758,6 +10184,8 @@ GameObject:
   - component: {fileID: 747787063}
   - component: {fileID: 747787068}
   - component: {fileID: 747787069}
+  - component: {fileID: 747787071}
+  - component: {fileID: 747787070}
   m_Layer: 9
   m_Name: Dummy Plane (11)
   m_TagString: Untagged
@@ -9873,6 +10301,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -9882,6 +10311,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &747787069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9907,6 +10337,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &747787070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747787062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &747787071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747787062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 14
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &783387945
 GameObject:
   m_ObjectHideFlags: 0
@@ -9946,8 +10413,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 783387945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.51, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.962584, z: 7.9033}
+  m_LocalPosition: {x: -46.51, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.79628, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 1265437874}
   m_RootOrder: 0
@@ -9972,6 +10439,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -10041,6 +10518,85 @@ PrefabInstance:
         type: 3}
       propertyPath: team
       value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 49a37d31549b81b479c778f345f3e809, type: 3}
+--- !u!1001 &788314339
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_Name
+      value: Truck (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1368.6998
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1105.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49a37d31549b81b479c778f345f3e809, type: 3}
@@ -10162,8 +10718,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799530622}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -34.13, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: -34.13, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 1265437874}
   m_RootOrder: 1
@@ -10544,6 +11100,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 29
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -10797,6 +11363,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 33
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -11350,6 +11926,8 @@ GameObject:
   - component: {fileID: 1016180217}
   - component: {fileID: 1016180222}
   - component: {fileID: 1016180223}
+  - component: {fileID: 1016180225}
+  - component: {fileID: 1016180224}
   m_Layer: 9
   m_Name: Dummy Plane (9)
   m_TagString: Untagged
@@ -11465,6 +12043,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -11474,6 +12053,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1016180223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11499,6 +12079,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1016180224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016180216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1016180225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016180216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 19
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1018557082
 GameObject:
   m_ObjectHideFlags: 0
@@ -11709,8 +12326,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039040252}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.83, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: -7.83, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 2031357647}
   m_RootOrder: 3
@@ -17237,6 +17854,8 @@ GameObject:
   - component: {fileID: 1094576335}
   - component: {fileID: 1094576333}
   - component: {fileID: 1094576334}
+  - component: {fileID: 1094576337}
+  - component: {fileID: 1094576336}
   m_Layer: 9
   m_Name: Jeff
   m_TagString: Untagged
@@ -17352,6 +17971,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -17361,6 +17981,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 1
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1094576334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17406,6 +18027,43 @@ MonoBehaviour:
   waypointsContainer: {fileID: 88078956}
   activeWaypointIndex: 0
   activeWaypointObj: {fileID: 0}
+--- !u!114 &1094576336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094576327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 1
+  active: 1
+--- !u!114 &1094576337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094576327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 9
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1116103338
 GameObject:
   m_ObjectHideFlags: 0
@@ -17543,6 +18201,8 @@ GameObject:
   - component: {fileID: 1129356847}
   - component: {fileID: 1129356852}
   - component: {fileID: 1129356853}
+  - component: {fileID: 1129356855}
+  - component: {fileID: 1129356854}
   m_Layer: 9
   m_Name: Dummy Plane (1)
   m_TagString: Untagged
@@ -17658,6 +18318,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -17667,6 +18328,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1129356853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17692,6 +18354,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1129356854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129356846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1129356855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129356846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 8
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1136518415
 GameObject:
   m_ObjectHideFlags: 0
@@ -18099,6 +18798,8 @@ GameObject:
   - component: {fileID: 1193678958}
   - component: {fileID: 1193678963}
   - component: {fileID: 1193678964}
+  - component: {fileID: 1193678966}
+  - component: {fileID: 1193678965}
   m_Layer: 9
   m_Name: Dummy Plane (2)
   m_TagString: Untagged
@@ -18214,6 +18915,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -18223,6 +18925,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1193678964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18248,6 +18951,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1193678965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193678957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1193678966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193678957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 7
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1196738720
 GameObject:
   m_ObjectHideFlags: 0
@@ -18274,8 +19014,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196738720}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.47, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: 5.47, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 2031357647}
   m_RootOrder: 4
@@ -18405,6 +19145,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -23942,6 +24692,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 31
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -24121,6 +24881,8 @@ GameObject:
   - component: {fileID: 1425568387}
   - component: {fileID: 1425568392}
   - component: {fileID: 1425568393}
+  - component: {fileID: 1425568395}
+  - component: {fileID: 1425568394}
   m_Layer: 9
   m_Name: Dummy Plane (8)
   m_TagString: Untagged
@@ -24236,6 +24998,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -24245,6 +25008,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1425568393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24270,6 +25034,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1425568394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425568386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1425568395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425568386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 12
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1443931292
 GameObject:
   m_ObjectHideFlags: 0
@@ -24285,6 +25086,8 @@ GameObject:
   - component: {fileID: 1443931293}
   - component: {fileID: 1443931298}
   - component: {fileID: 1443931299}
+  - component: {fileID: 1443931301}
+  - component: {fileID: 1443931300}
   m_Layer: 9
   m_Name: Dummy Plane (7)
   m_TagString: Untagged
@@ -24400,6 +25203,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -24409,6 +25213,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1443931299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24434,6 +25239,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1443931300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443931292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1443931301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443931292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 6
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1444094572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24441,6 +25283,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -25036,8 +25888,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564521102}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.31, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: -21.31, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 1265437874}
   m_RootOrder: 2
@@ -25075,6 +25927,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 39
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -25265,8 +26127,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615119145}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.47, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: 5.47, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 1265437874}
   m_RootOrder: 4
@@ -25412,6 +26274,8 @@ GameObject:
   - component: {fileID: 1668784107}
   - component: {fileID: 1668784112}
   - component: {fileID: 1668784113}
+  - component: {fileID: 1668784115}
+  - component: {fileID: 1668784114}
   m_Layer: 9
   m_Name: Dummy Plane (6)
   m_TagString: Untagged
@@ -25527,6 +26391,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -25536,6 +26401,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1668784113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25561,6 +26427,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1668784114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668784106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1668784115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668784106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 5
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1710296931
 GameObject:
   m_ObjectHideFlags: 0
@@ -25782,6 +26685,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -25951,6 +26864,8 @@ GameObject:
   - component: {fileID: 1789408623}
   - component: {fileID: 1789408628}
   - component: {fileID: 1789408629}
+  - component: {fileID: 1789408631}
+  - component: {fileID: 1789408630}
   m_Layer: 9
   m_Name: Dummy Plane (17)
   m_TagString: Untagged
@@ -26066,6 +26981,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -26075,6 +26991,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1789408629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26100,6 +27017,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1789408630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789408622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1789408631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789408622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1809356613
 GameObject:
   m_ObjectHideFlags: 0
@@ -26208,6 +27162,8 @@ GameObject:
   - component: {fileID: 1810604599}
   - component: {fileID: 1810604597}
   - component: {fileID: 1810604598}
+  - component: {fileID: 1810604601}
+  - component: {fileID: 1810604600}
   m_Layer: 9
   m_Name: Dummy Plane
   m_TagString: Untagged
@@ -26323,6 +27279,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -26332,6 +27289,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1810604598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26377,6 +27335,43 @@ MonoBehaviour:
   waypointsContainer: {fileID: 88078956}
   activeWaypointIndex: 0
   activeWaypointObj: {fileID: 0}
+--- !u!114 &1810604600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810604591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 1
+  active: 1
+--- !u!114 &1810604601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810604591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1819886052
 GameObject:
   m_ObjectHideFlags: 0
@@ -26476,6 +27471,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name
@@ -26574,8 +27579,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825383333}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -34.13, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: -34.13, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 2031357647}
   m_RootOrder: 1
@@ -31465,8 +32470,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832304737}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.31, y: 0, z: 0}
-  m_LocalScale: {x: 7.0449, y: 21.96259, z: 7.9033}
+  m_LocalPosition: {x: -21.31, y: -4.6, z: 0}
+  m_LocalScale: {x: 7.0449, y: 12.796283, z: 7.9033}
   m_Children: []
   m_Father: {fileID: 2031357647}
   m_RootOrder: 2
@@ -31850,6 +32855,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1886223602}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1887892932
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_Name
+      value: Truck (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1349.2999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1105.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 49a37d31549b81b479c778f345f3e809, type: 3}
 --- !u!1 &1889391235
 GameObject:
   m_ObjectHideFlags: 0
@@ -32060,6 +33144,8 @@ GameObject:
   - component: {fileID: 1919763895}
   - component: {fileID: 1919763900}
   - component: {fileID: 1919763901}
+  - component: {fileID: 1919763903}
+  - component: {fileID: 1919763902}
   m_Layer: 9
   m_Name: Dummy Plane (5)
   m_TagString: Untagged
@@ -32175,6 +33261,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -32184,6 +33271,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &1919763901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32209,6 +33297,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &1919763902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919763894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &1919763903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919763894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1949784096
 GameObject:
   m_ObjectHideFlags: 0
@@ -32720,6 +33845,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067561487}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &2097697478
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_Name
+      value: Truck (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1358.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1105.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 57
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5094645800246394472, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 49a37d31549b81b479c778f345f3e809, type: 3}
 --- !u!1 &2114183963
 GameObject:
   m_ObjectHideFlags: 0
@@ -32928,6 +34132,8 @@ GameObject:
   - component: {fileID: 2136455879}
   - component: {fileID: 2136455884}
   - component: {fileID: 2136455885}
+  - component: {fileID: 2136455887}
+  - component: {fileID: 2136455886}
   m_Layer: 9
   m_Name: Dummy Plane (4)
   m_TagString: Untagged
@@ -33043,6 +34249,7 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 100
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 1
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -33052,6 +34259,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &2136455885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33077,6 +34285,43 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+--- !u!114 &2136455886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136455878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updatesPerSecond: 3
+  posLerp: 0.25
+  active: 1
+--- !u!114 &2136455887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136455878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2138412281
 GameObject:
   m_ObjectHideFlags: 0
@@ -33161,6 +34406,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: viewIdField
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: m_Name

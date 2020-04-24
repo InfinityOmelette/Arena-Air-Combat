@@ -161,13 +161,13 @@ public class MissileGuidance : MonoBehaviour
             //estimatedTargetVelocityAverage = targetRB.velocity + (targetAccel * estimatedTimeToImpact / 2);
             estimatedTargetVelocityAverage = targetRB.velocity;
 
-            Debug.Log("Estimations ------------ estimated missile average velocity: " + estimatedMissileVelocityAverage.magnitude +
-                " estimated TARGET average velocity: " + estimatedTargetVelocityAverage.magnitude + " estimated time to impact: " +
-                estimatedTimeToImpact + " seconds, closing speed: " + closingSpeed);
+           // Debug.Log("Estimations ------------ estimated missile average velocity: " + estimatedMissileVelocityAverage.magnitude +
+          //      " estimated TARGET average velocity: " + estimatedTargetVelocityAverage.magnitude + " estimated time to impact: " +
+           //     estimatedTimeToImpact + " seconds, closing speed: " + closingSpeed);
 
-            Debug.DrawRay(transform.position, estimatedMissileVelocityAverage, Color.magenta); // show estimated missilve velocity average
-            Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.magenta); // estimated target average velocity
-            Debug.DrawRay(transform.position, closingVector, Color.white);
+          //  Debug.DrawRay(transform.position, estimatedMissileVelocityAverage, Color.magenta); // show estimated missilve velocity average
+           // Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.magenta); // estimated target average velocity
+           // Debug.DrawRay(transform.position, closingVector, Color.white);
 
             //==================================  LEAD ANGLE CALCULATION
 
@@ -180,17 +180,17 @@ public class MissileGuidance : MonoBehaviour
 
 
 
-            Debug.DrawRay(targetPos_now, targetTangentialVelocity, Color.blue);
-            Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.cyan);
+            //Debug.DrawRay(targetPos_now, targetTangentialVelocity, Color.blue);
+            //Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.cyan);
             //Debug.Log("Estimated target average velocity: " + estimatedTargetVelocityAverage.magnitude);
 
             // Lead angle -- direction vector
             //  - trig from velocity magnitude to get angle where tangential velocity matches target tangential velocity
             float leadAngleDegrees = Mathf.Rad2Deg * Mathf.Asin(targetTangentialVelocity.magnitude / estimatedMissileVelocityAverage.magnitude);
 
-            Debug.Log("leadAngleDegrees: " + leadAngleDegrees);
+            //Debug.Log("leadAngleDegrees: " + leadAngleDegrees);
 
-            Debug.DrawRay(transform.position, leadRotationAxis.normalized * 10f);
+            //Debug.DrawRay(transform.position, leadRotationAxis.normalized * 10f);
 
             // Lead direction
             Vector3 leadDirection = Quaternion.AngleAxis(leadAngleDegrees, leadRotationAxis) * targetBearingLine.normalized;
@@ -203,10 +203,10 @@ public class MissileGuidance : MonoBehaviour
             //  Vector3.Distance(targetPos_now, transform.position), Color.red);
 
             //  Corrected velocity -- CYAN
-            Debug.DrawRay(transform.position, leadDirection.normalized * myRB.velocity.magnitude, Color.cyan);
+           // Debug.DrawRay(transform.position, leadDirection.normalized * myRB.velocity.magnitude, Color.cyan);
 
-            // Target's current velocity -- YELLOW
-            Debug.DrawRay(targetPos_now, targetRB.velocity, Color.yellow);
+           // // Target's current velocity -- YELLOW
+           // Debug.DrawRay(targetPos_now, targetRB.velocity, Color.yellow);
 
             // Target average velocity
             // Debug.DrawRay(targetPos_now, estimatedTargetVelocityAverage, Color.white);
@@ -231,9 +231,9 @@ public class MissileGuidance : MonoBehaviour
 
 
 
-            Debug.DrawRay(transform.position, correctiveTorqueVect * 30f, Color.blue);
+           // Debug.DrawRay(transform.position, correctiveTorqueVect * 30f, Color.blue);
             // Debug.DrawRay(transform.position, correctiveTorqueVect.normalized * 30f, Color.green);
-            Debug.DrawRay(transform.position, myRB.velocity, Color.yellow);
+           // Debug.DrawRay(transform.position, myRB.velocity, Color.yellow);
             //Debug.DrawRay(transform.position, transform.forward * 100f, Color.white);
 
 
@@ -242,7 +242,7 @@ public class MissileGuidance : MonoBehaviour
             myFlightControl.input_pitch = transform.InverseTransformDirection(correctiveTorqueVect).x;
             myFlightControl.input_yaw = transform.InverseTransformDirection(correctiveTorqueVect).y;
 
-            Debug.Log("Missile pitch input: " + myFlightControl.input_pitch);
+           // Debug.Log("Missile pitch input: " + myFlightControl.input_pitch);
 
 
 

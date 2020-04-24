@@ -56,6 +56,7 @@ public class Hardpoint : MonoBehaviourPunCallbacks
         loadedWeaponObj = PhotonNetwork.Instantiate(weaponTypePrefab.name, spawnCenter.position, spawnCenter.rotation);
 
         int weaponId = loadedWeaponObj.GetComponent<PhotonView>().ViewID;
+        loadedWeaponObj.GetComponent<CombatFlow>().localOwned = true;
         //Debug.Log("weaponId: " + weaponId);
 
         photonView.RPC("rpcInitializeWeapon", RpcTarget.AllBuffered, weaponId);

@@ -2274,6 +2274,7 @@ GameObject:
   - component: {fileID: 1928006486093276839}
   - component: {fileID: -3749949954440553011}
   - component: {fileID: 3801859860257002132}
+  - component: {fileID: -6732470160358366233}
   m_Layer: 8
   m_Name: ROCKETPOD
   m_TagString: Untagged
@@ -2396,6 +2397,32 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-6732470160358366233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6282535372062044719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 1
+  currentHP: 1
+  isLocalPlayer: 0
+  localOwned: 0
+  detectabilityCoeff: 0
+  camManager: {fileID: 0}
+  unitCam: {fileID: 0}
+  myHudIconRef: {fileID: 0}
+  team: 0
+  type: 0
+  isActive: 0
+  doDebugDamage: 0
+  explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!1 &6855708959548756079
 GameObject:
   m_ObjectHideFlags: 0

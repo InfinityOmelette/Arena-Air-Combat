@@ -243,12 +243,13 @@ public class CamManipulation : MonoBehaviour
     }
 
     // read mouse input, return a euler angle
+    // call from fixedUpdate
     private Vector3 mouseFreeLookEuler(float mouseSpeedX, float mouseSpeedY)
     {
         // horribly inefficient. Surely this can be done in 5 lines or fewer
 
-        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX;
-        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY;
+        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.fixedDeltaTime;
+        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.fixedDeltaTime;
 
 
 
@@ -268,9 +269,9 @@ public class CamManipulation : MonoBehaviour
 
         newRotationEuler.z = 0f;
 
-        Debug.Log("Entering mouseFreeLookEuler with mouse speed: (" + mouseSpeedX + ", " + mouseSpeedY + "), target offset of: (" +
-            angleOffsetHoriz + ", " + angleOffsetVert + "), newEuler is (" + newRotationEuler.x + ", " + newRotationEuler.y + ", " +
-            newRotationEuler.z + ")");
+        //Debug.Log("Entering mouseFreeLookEuler with mouse speed: (" + mouseSpeedX + ", " + mouseSpeedY + "), target offset of: (" +
+        //    angleOffsetHoriz + ", " + angleOffsetVert + "), newEuler is (" + newRotationEuler.x + ", " + newRotationEuler.y + ", " +
+        //    newRotationEuler.z + ")");
 
         return newRotationEuler;
     }

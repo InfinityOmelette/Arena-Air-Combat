@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+[RequireComponent(typeof(PhotonView))]
 public class CombatFlow : MonoBehaviourPunCallbacks
 {
 
@@ -24,8 +25,10 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public float maxHP;
     public float currentHP;
 
-    // is or belongs to the local player
+    
     public bool isLocalPlayer;
+    public bool localOwned = false;
+
 
     public float detectabilityCoeff;
 
@@ -47,6 +50,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public ExplodeStats explodeStats;
 
+    public bool networkDeath;
 
     //private PhotonView photonView;
 
@@ -99,7 +103,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if (currentHP <= 0) // 0hp and is currently alive
+        if (currentHP <= 0 && (isLocalPlayer || localOwned)) // 0hp and is currently alive
             die(); // kill self
     }
 
@@ -147,24 +151,36 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     {
         if (!deathCommanded) // avoid repeated calls by outside objects
         {
-            Debug.Log("Death commanded for " + gameObject.name);
-            deathCommanded = true;
-            isActive = false; // he ded now
-            explode();
-            
-            // remove my icon from hud
-            destroySelf();
+            //Debug.Log("Death commanded for " + gameObject.name);
+            if (networkDeath && (isLocalPlayer || localOwned))
+            {
+                photonView.RPC("rpcDie", RpcTarget.All);
+            }
+            else
+            {
+                rpcDie(); // execute locally, don't propogate
+            }
         }
 
     }
 
+    [PunRPC]
+    private void rpcDie()
+    {
+        deathCommanded = true;
+        isActive = false;
+        explode();
+        destroySelf();
+    }
 
     void explode()
     {
         // blast radius deals damage
         // explosion render
         //Debug.Log("----------------------------- Combat flow explode() called by " + gameObject.name);
-        Debug.Log("Explode called for " + gameObject.name);
+        //Debug.Log("Explode called for " + gameObject.name);
+
+
         explodeStats.explode(transform.position);
     }
 

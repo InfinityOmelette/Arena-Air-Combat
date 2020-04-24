@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class DummyFlight : MonoBehaviour
+public class DummyFlight : MonoBehaviourPunCallbacks
 {
 
     // move towards waypoint
@@ -38,9 +39,21 @@ public class DummyFlight : MonoBehaviour
 
     private Rigidbody rbRef;
 
+    CombatFlow myFlow;
+
     private void Awake()
     {
         rbRef = GetComponent<Rigidbody>();
+        myFlow = GetComponent<CombatFlow>();
+        
+    }
+
+    private void checkIfLocalOwns()
+    {
+        if (!myFlow.localOwned && PhotonNetwork.PlayerList.Length == 1)
+        {
+            myFlow.localOwned = true;
+        }
     }
 
     // Start is called before the first frame update
@@ -69,39 +82,39 @@ public class DummyFlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        checkIfLocalOwns();
 
-        rbRef.velocity = transform.forward * forwardSpeed + transform.up * centripetalVelocity;
-
-        if (behaviorType == BehaviorType.WAYPOINT_MISSION)
+        if (myFlow.localOwned)
         {
+            rbRef.velocity = transform.forward * forwardSpeed + transform.up * centripetalVelocity;
 
-            float distance = Vector3.Distance(activeWaypointObj.transform.position, transform.position);
-            //Debug.Log("currently flying to: " + activeWaypointObj.name);
-
-            if (!waypointMissionFinished)
+            if (behaviorType == BehaviorType.WAYPOINT_MISSION)
             {
 
-                if (distance < waypointHitRange)
+                float distance = Vector3.Distance(activeWaypointObj.transform.position, transform.position);
+                //Debug.Log("currently flying to: " + activeWaypointObj.name);
+
+                if (!waypointMissionFinished)
                 {
-                    nextWaypoint();
+
+                    if (distance < waypointHitRange)
+                    {
+                        nextWaypoint();
+                    }
+
+                    // transform points towards activeWaypoint
+                    transform.rotation = Quaternion.LookRotation(activeWaypointObj.transform.position - transform.position, transform.up);
                 }
 
-                // transform points towards activeWaypoint
-                transform.rotation = Quaternion.LookRotation(activeWaypointObj.transform.position - transform.position, transform.up);
+            }
+            else if (behaviorType == BehaviorType.TURN)
+            {
+                // rbRef.AddForce(transform.up * centripetalVelocity);
+                transform.rotation = Quaternion.LookRotation(rbRef.velocity, transform.up);
             }
 
+
         }
-        else if (behaviorType == BehaviorType.TURN)
-        {
-           // rbRef.AddForce(transform.up * centripetalVelocity);
-            transform.rotation = Quaternion.LookRotation(rbRef.velocity, transform.up);
-        }
-
-
-
-        
-
-
 
     }
 

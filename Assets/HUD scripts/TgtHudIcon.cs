@@ -113,6 +113,10 @@ public class TgtHudIcon : MonoBehaviour
             else
                 transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
         }
+        else // hide if rootflow is null
+        {
+            transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen
+        }
     }
 
     void setImageLOS(bool hasLOS)

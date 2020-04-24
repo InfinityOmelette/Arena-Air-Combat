@@ -14,9 +14,9 @@ public class Radar : MonoBehaviour
     public float detectionThreshold;
 
     // Global physics coefficients:
-    public static float depthMod = 143; // at x meters depth, this factor is maxed
+    public static float depthMod = 600; // at x meters depth, this factor is maxed
     public static float colorMod = 317; // at y velocity towards/away from me, this factor is maxed
-    public static float distMod = 745;  // "a" value in desmos. Horizontal stretch
+    public static float distMod = 710;  // "a" value in desmos. Horizontal stretch
     public static float distCoeff = 2.5f; // "b" value in desmos. Vertical stretch. 2.5 average. effective distMod at 0 distance
 
 

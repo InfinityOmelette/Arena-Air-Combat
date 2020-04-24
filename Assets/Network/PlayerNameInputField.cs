@@ -63,9 +63,12 @@ namespace Omelette.TestGamePleaseIgnore
                 Debug.LogError("Player Name is null or empty");
                 return;
             }
-            PhotonNetwork.NickName = value;
+            else // only save if name is not null/empty
+            {
+                PhotonNetwork.NickName = value;
 
-            PlayerPrefs.SetString(playerNamePrefKey, value);
+                PlayerPrefs.SetString(playerNamePrefKey, value);
+            }
         }
 
         #endregion

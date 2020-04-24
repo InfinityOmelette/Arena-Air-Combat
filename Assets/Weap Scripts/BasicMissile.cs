@@ -30,6 +30,11 @@ public class BasicMissile : Weapon
     private PhotonView photonView;
     
 
+    void awake()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,7 +86,7 @@ public class BasicMissile : Weapon
 
         if ( launched)
         {
-            if (myCombatFlow.isLocalPlayer)
+            if (myCombatFlow.localOwned)
             {
                 if (myTarget != null)
                 {
@@ -96,8 +101,14 @@ public class BasicMissile : Weapon
                 if (checkProximityFuse())
                 {
                     // make this rpc
-                    effectsObj.GetComponent<Light>().enabled = false;
-                    myCombatFlow.currentHP -= myCombatFlow.currentHP;
+                    if (effectsObj != null)
+                    {
+                        effectsObj.GetComponent<Light>().enabled = false;
+                    }
+                    if (myCombatFlow != null)
+                    {
+                        myCombatFlow.currentHP -= myCombatFlow.currentHP;
+                    }
                 }
             }
         }
@@ -119,70 +130,98 @@ public class BasicMissile : Weapon
 
     private void OnTriggerEnter(Collider other)
     {
-        contactProcess(other.gameObject);
-    }
 
-    override
-    public void contactProcess(GameObject other)
-    {
-        GameObject otherRoot = other.gameObject.transform.root.gameObject;
-        CombatFlow otherFlow = otherRoot.GetComponent<CombatFlow>();
+        //Debug.Log(myCombatFlow.currentHP);
 
-        Weapon otherWeapon = otherRoot.gameObject.GetComponent<Weapon>();
-
-        bool doExplode = true; // various conditions will try to make this false
-
-        if (other.CompareTag("Effects") && !impactOnEffects)
-            doExplode = false;
-
-        if (otherFlow != null)
+        if (myCombatFlow != null)
         {
-            if (otherFlow.team == myTeam && !friendlyImpact)
-                doExplode = false;
-        }
-
-        if (doExplode)
-        {
-
-            // If other has a flow and is the one impact victim
-            if (otherFlow != null && otherRoot != impactVictimRoot)
+            if (myCombatFlow.localOwned)
             {
-                //myCombatFlow.explodeStats.doExplode = false;
-                impactVictimRoot = otherRoot;
+                GameObject otherRoot = other.transform.root.gameObject;
+                //CombatFlow otherFlow = otherRoot.GetComponent<CombatFlow>();
+                int otherId = getVictimId(otherRoot);
 
-                // don't explode if victim will die and if victim is not a projectile
-                if (impactDamage > otherFlow.currentHP && otherFlow.type != CombatFlow.Type.PROJECTILE)
+                if (explodeOnOther(otherRoot))
                 {
-                    myCombatFlow.explodeStats.doExplode = false; // death will only trigger enemy explosion
+                    //rpcContactProcess(transform.position, other.transform.root.gameObject.GetComponent<PhotonView>().ViewID);
+                    photonView.RPC("rpcContactProcess", RpcTarget.All,
+                        transform.position, otherId);
                 }
-
-                // =========  TRY TO DEAL IMPACT
-
-                bool doDealImpact = false;
-
-                // leaving this super obfuscated like this in case more complex conditions wanted later
-                if (otherFlow != null)
-                {
-                    doDealImpact = true;
-                }
-
-
-                // finally, deal the impact
-                if (doDealImpact)
-                {
-
-                    otherFlow.currentHP -= impactDamage;
-                    Debug.Log("Impact dealing " + impactDamage + " damage to " + otherFlow);
-                }
-
 
 
             }
+        }
+    }
+
+    
+
+    [PunRPC]
+    override
+    public void rpcContactProcess(Vector3 position, int otherId)
+    {
+        
+        GameObject otherRoot = null;
+        CombatFlow otherFlow = null;
+
+        if(otherId != -1)
+        {
+            otherRoot = PhotonNetwork.GetPhotonView(otherId).gameObject;
+            otherFlow = otherRoot.GetComponent<CombatFlow>();
+        }
+
+        transform.position = position;
+
+        //Weapon otherWeapon = otherRoot.gameObject.GetComponent<Weapon>();
+
+        
+        // If other has a flow and is the one impact victim
+        if (otherFlow != null && otherRoot != impactVictimRoot)
+        {
+            //myCombatFlow.explodeStats.doExplode = false;
+            impactVictimRoot = otherRoot;
+
+            // don't explode if victim will die and if victim is not a projectile
+            if (impactDamage > otherFlow.currentHP && otherFlow.type != CombatFlow.Type.PROJECTILE)
+            {
+                myCombatFlow.explodeStats.doExplode = false; // death will only trigger enemy explosion
+            }
+
+            // =========  TRY TO DEAL IMPACT
+
+            bool doDealImpact = false;
+
+            // leaving this super obfuscated like this in case more complex conditions wanted later
+            if (otherFlow != null)
+            {
+                doDealImpact = true;
+            }
 
 
+            // finally, deal the impact
+            if (doDealImpact)
+            {
+
+                otherFlow.currentHP -= impactDamage;
+                Debug.Log("Impact dealing " + impactDamage + " damage to " + otherFlow);
+            }
+
+
+
+        }
+
+        if (effectsObj != null)
+        {
             effectsObj.GetComponent<Light>().enabled = false;
+
+        }
+
+        if (myCombatFlow != null)
+        {
             myCombatFlow.currentHP -= myCombatFlow.currentHP;
         }
+
+        
+        
     }
 
 
@@ -192,7 +231,7 @@ public class BasicMissile : Weapon
     override
     public void launch()
     {
-        myCombatFlow.isLocalPlayer = true; // NetPosition will propogate this instance to rest of clients
+        myCombatFlow.localOwned = true; // NetPosition will propogate this instance to rest of clients
 
         photonView.RPC("rpcLaunch", RpcTarget.AllBuffered);
 
@@ -225,17 +264,20 @@ public class BasicMissile : Weapon
     private bool checkProximityFuse()
     {
         bool fuseTriggered = false;
-        
-        // explode if targetPosition has not been set yet
-        if (guidedLaunch)
-        {
-            
 
-            float distance = Vector3.Distance(targetPosition, transform.position);
-            if(distance < proximityFuseRange)
+        if (myCombatFlow.localOwned)
+        {
+            // explode if targetPosition has not been set yet
+            if (guidedLaunch)
             {
-                Debug.Log("Proximity fuse blew");
-                fuseTriggered = true;
+
+
+                float distance = Vector3.Distance(targetPosition, transform.position);
+                if (distance < proximityFuseRange)
+                {
+                    Debug.Log("Proximity fuse blew");
+                    fuseTriggered = true;
+                }
             }
         }
 

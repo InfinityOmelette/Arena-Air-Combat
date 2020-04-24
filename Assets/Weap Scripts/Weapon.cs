@@ -68,10 +68,40 @@ public class Weapon : MonoBehaviourPunCallbacks
             {
                 Debug.Log("*********************************************************************  linecast hit");
                 transform.position = hitInfo.point;
-                contactProcess(hitInfo.collider.gameObject);
+
+                int id = -1;
+                GameObject otherRootObj = hitInfo.collider.transform.root.gameObject;
+                CombatFlow otherFlow = otherRootObj.GetComponent<CombatFlow>();
+                if(otherFlow != null)
+                {
+                    id = otherRootObj.GetComponent<PhotonView>().ViewID;
+                }
+
+                if (explodeOnOther(otherRootObj))
+                {
+                    photonView.RPC("rpcContactProcess", RpcTarget.AllBuffered, transform.position,
+                    id);
+                }
+
+                
             }
         }
 
+    }
+
+    public int getVictimId(GameObject other)
+    {
+        int id = -1;
+        if(other != null)
+        {
+            CombatFlow otherFlow = other.GetComponent<CombatFlow>();
+
+            if (otherFlow != null)
+            {
+                id = other.GetComponent<PhotonView>().ViewID;
+            }
+        }
+        return id;
     }
 
     public void tryArm()
@@ -177,10 +207,35 @@ public class Weapon : MonoBehaviourPunCallbacks
         return newArmTime;
     }
 
-    
-    public virtual void contactProcess(GameObject other)
+
+    [PunRPC]
+    public virtual void rpcContactProcess(Vector3 position, int otherId)
     {
 
+    }
+
+    
+    public virtual bool explodeOnOther(GameObject other)
+    {
+        bool doAct = true; // various conditions will try to make this false
+
+        CombatFlow otherFlow = null;
+        if(other != null)
+        {
+            otherFlow = other.GetComponent<CombatFlow>();
+        }
+
+        // impact with effects
+        if (other.CompareTag("Effects") && !impactOnEffects)
+            doAct = false;
+
+
+        if (otherFlow != null)
+        {
+            if (otherFlow.team == myTeam && !friendlyImpact)
+                doAct = false;
+        }
+        return doAct;
     }
 
 

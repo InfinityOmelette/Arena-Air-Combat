@@ -49,7 +49,7 @@ public class NetPosition : MonoBehaviour
     {
         if (active)
         {
-            if (myFlow.isLocalPlayer)
+            if (myFlow.localOwned || myFlow.isLocalPlayer)
             {
                 lifeTime += Time.fixedDeltaTime;
                 currentTimer -= Time.fixedDeltaTime;
@@ -76,7 +76,7 @@ public class NetPosition : MonoBehaviour
         if (active)
         {
             // Ignore any out of order calls
-            if (originLifeTime > lifeTime || myFlow.isLocalPlayer)
+            if (originLifeTime > lifeTime || myFlow.isLocalPlayer || myFlow.localOwned)
             {
                 // project target position forward based on time to send
                 targetPos = targetPos + targetVel * (originLifeTime - lifeTime);

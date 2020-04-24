@@ -469,6 +469,7 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -478,6 +479,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 1
 --- !u!114 &4305602229554513232
 MonoBehaviour:
   m_ObjectHideFlags: 0

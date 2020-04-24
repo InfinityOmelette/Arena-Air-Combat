@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Rocket : Weapon
 {
@@ -27,7 +28,7 @@ public class Rocket : Weapon
     private bool tempArmed = false;
 
 
-
+    //PhotonView photonView;
 
     // Start is called before the first frame update
     void Start()
@@ -111,33 +112,50 @@ public class Rocket : Weapon
     private void OnTriggerEnter(Collider other)
     {
 
-        contactProcess(other.gameObject);
-        
+        //photonView.RPC("rpcContactProcess")
+
+        if (myFlow != null)
+        {
+
+            if (myFlow.localOwned)
+            {
+
+                if (explodeOnOther(other.gameObject))
+                {
+                    rpcContactProcess(transform.position, other.transform.root.GetComponent<PhotonView>().ViewID);
+                }
+            }
+        }
+
     }
 
+    [PunRPC]
     override
-    public void contactProcess(GameObject other)
+    public void rpcContactProcess(Vector3 position, int otherId)
     {
         //Debug.Log("Rocket colliding. Arming time: " + armingTime + ", arming timer: " + armTimeRemaining + ", isArmed: " + armed);
 
-        GameObject otherRoot = other.transform.root.gameObject;
+        GameObject otherRoot = null;
+        CombatFlow otherFlow = null;
 
+        if (otherId != -1)
+        {
+            otherRoot = PhotonNetwork.GetPhotonView(otherId).gameObject;
+            otherFlow = otherRoot.GetComponent<CombatFlow>();
+        }
 
+        transform.position = position;
 
-        CombatFlow rootFlow = otherRoot.GetComponent<CombatFlow>();
-
-
-
-        if (!otherRoot.CompareTag("Effects")) // do not do anything against effects
+        if (otherRoot != null && !otherRoot.CompareTag("Effects")) // do not do anything against effects
         {
             bool doExplode = true;
 
-            if (rootFlow != null)
+            if (otherFlow != null)
             {
-                if (rootFlow.team != myTeam || friendlyImpact)
+                if (otherFlow.team != myTeam || friendlyImpact)
                 {
 
-                    rootFlow.currentHP -= impactDamage;
+                    otherFlow.currentHP -= impactDamage;
                 }
                 else
                 {

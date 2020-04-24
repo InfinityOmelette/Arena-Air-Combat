@@ -700,7 +700,7 @@ GameObject:
   - component: {fileID: 7974841232584541846}
   - component: {fileID: 29026782760298540}
   - component: {fileID: 3786267972704520770}
-  - component: {fileID: 5521317897934048294}
+  - component: {fileID: -4074136941211557127}
   m_Layer: 0
   m_Name: PHOENIX
   m_TagString: Untagged
@@ -916,6 +916,7 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -925,6 +926,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 1
 --- !u!114 &29026782760298540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,7 +974,7 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5521317897934048294
+--- !u!114 &-4074136941211557127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

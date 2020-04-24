@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class BasicBomb : Weapon
 {
 
@@ -56,6 +56,15 @@ public class BasicBomb : Weapon
     override
     public void launch()
     {
+        myCombatFlow.localOwned = true;
+
+        photonView.RPC("rpcLaunch", RpcTarget.All);
+
+    }
+
+    [PunRPC]
+    private void rpcLaunch()
+    {
         myHardpoint.readyToFire = false;
         myHardpoint.loadedWeaponObj = null; // no longer loaded -- remove reference
 
@@ -72,51 +81,56 @@ public class BasicBomb : Weapon
 
     private void OnTriggerEnter(Collider other)
     {
-        contactProcess(other.gameObject);
+        if (myCombatFlow.localOwned)
+        {
+            GameObject otherRoot = other.gameObject.transform.root.gameObject;
+            int id = getVictimId(otherRoot);
+
+            photonView.RPC("rpcContactProcess", RpcTarget.All, transform.position, id);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        contactProcess(collision.gameObject);
+        if (myCombatFlow.localOwned)
+        {
+            GameObject otherRoot = collision.gameObject.transform.root.gameObject;
+            int id = getVictimId(otherRoot);
+
+            photonView.RPC("rpcContactProcess", RpcTarget.All, transform.position, id);
+        }
     }
 
+    [PunRPC]
     override
-    public void contactProcess(GameObject other)
+    public void rpcContactProcess(Vector3 position, int otherId)
     {
         if (oneImpactVictim == null)
         {
+            transform.position = position;
 
+            GameObject other = null;
+            CombatFlow otherFlow = null;
 
-            bool doAct = true; // various conditions will try to make this false
-
-
-            // impact with effects
-            if (other.CompareTag("Effects") && !impactOnEffects)
-                doAct = false;
-
-
-            // friendly fire
-            CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
-            if (otherFlow != null)
+            if (otherId != -1)
             {
-                if (otherFlow.team == myTeam && !friendlyImpact)
-                    doAct = false;
+                other = PhotonNetwork.GetPhotonView(otherId).gameObject;
+                otherFlow = other.gameObject.GetComponent<CombatFlow>();
             }
 
-            // don't act if touching explosion
-
-            if (doAct)
+            if (other != null)
             {
                 oneImpactVictim = other.transform.root.gameObject;
-
-                Debug.Log("Bomb collided");
-                myCombatFlow.currentHP -= myCombatFlow.currentHP; // die immediately on collision
-                                                                  //CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
-                if (otherFlow != null)
-                {
-                    otherFlow.currentHP -= impactDamage;
-                }
             }
+
+            Debug.Log("Bomb collided");
+            myCombatFlow.currentHP -= myCombatFlow.currentHP; // die immediately on collision
+                                                              //CombatFlow otherFlow = other.gameObject.GetComponent<CombatFlow>();
+            if (otherFlow != null)
+            {
+                otherFlow.currentHP -= impactDamage;
+            }
+            
         }
     }
 

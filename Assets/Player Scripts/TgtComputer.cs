@@ -122,7 +122,8 @@ public class TgtComputer : MonoBehaviour
 
 
 
-                            if (currentFlow.team == localPlayerFlow.team)
+                            //if (currentFlow.team == localPlayerFlow.team)
+                            if(true)
                             {
                                 isVisible = true;
                             }
@@ -133,6 +134,7 @@ public class TgtComputer : MonoBehaviour
                                 if (!isVisible)
                                 {
                                     isVisible = myRadar.tryDetect(currentFlow);
+
                                 }
                             }
                         }

@@ -2105,7 +2105,7 @@ GameObject:
   - component: {fileID: 4268398709732474751}
   - component: {fileID: 6194466470016553413}
   - component: {fileID: 1812734287292680527}
-  - component: {fileID: 9219852477773502781}
+  - component: {fileID: 7809785961381737416}
   m_Layer: 0
   m_Name: AMRAAM
   m_TagString: Untagged
@@ -2331,6 +2331,7 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -2340,6 +2341,7 @@ MonoBehaviour:
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 1
 --- !u!114 &6194466470016553413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2387,7 +2389,7 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &9219852477773502781
+--- !u!114 &7809785961381737416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

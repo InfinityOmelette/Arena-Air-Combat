@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerInput_Aircraft : MonoBehaviour
+public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
 {
     // =========== CONTROL INPUTS -- modifies input values in output module scripts
     // ------- NO OUTPUT PROCESSING. ONLY INPUT GATHERING, AND INPUT DELIVERY TO OUTPUT MODULE
@@ -18,6 +19,8 @@ public class PlayerInput_Aircraft : MonoBehaviour
     public CannonControl cannons;
     public TgtComputer tgtComputer;
     public HardpointController hardpointController;
+
+    private CombatFlow myFlow;
 
     public float testExplosionDistance;
 
@@ -40,6 +43,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
     private void Awake()
     {
         tgtComputer = GetComponent<TgtComputer>();
+        myFlow = GetComponent<CombatFlow>();
     }
 
     // Start is called before the first frame update
@@ -53,7 +57,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
     //  BUTTON DOWN PRESSES GO HERE
     void Update()
     {
-        if (isReady)
+        if (isReady && myFlow.isLocalPlayer)
         {
 
             //cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
@@ -72,7 +76,7 @@ public class PlayerInput_Aircraft : MonoBehaviour
 
     private void processCamOffset()
     {
-        if (isReady)
+        if (isReady && myFlow.isLocalPlayer)
         {
 
             float camOffsetVertTemp = 0f;
@@ -166,46 +170,70 @@ public class PlayerInput_Aircraft : MonoBehaviour
     //  CONTINUOUS AXIS INPUTS GO HERE
     private void FixedUpdate()
     {
-        float yaw = Input.GetAxis("Rudder");
-        float throttle = Input.GetAxis("Throttle");
+        if (myFlow.isLocalPlayer)
+        {
+            float yaw = Input.GetAxis("Rudder");
+            float throttle = Input.GetAxis("Throttle");
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-
-        
-        
-
-        // FLIGHT
-        flight.input_pitch = Mathf.Lerp(flight.input_pitch, Input.GetAxis("Pitch"), pitchInputLerp);
-        flight.input_yaw = Mathf.Lerp(flight.input_yaw, yaw, rudderInputLerp);
-        flight.input_roll = Mathf.Lerp(flight.input_roll, Input.GetAxis("Roll"), rollInputLerp);
-
-        // ENGINE
-        engine.input_throttleAxis = throttle;
-        engine.input_scrollWheelAxis = Input.GetAxis("Scrollwheel");
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = Input.GetAxis("Mouse Y");
 
 
-        // WHEELS
-        wheels.input_brakeAxis = throttle;
-        wheels.input_dPadHoriz = Input.GetAxis("D-Pad Horiz");
-        wheels.input_rudderAxis = Mathf.Lerp(wheels.input_rudderAxis, yaw, rudderInputLerp);
-
-        // CAMERA
-        //cam.input_freeLookHoriz = Mathf.Lerp(cam.input_freeLookHoriz, Input.GetAxis("CamLookX"), cam.freeLookLerpRate);
-        //cam.input_freeLookVert = Mathf.Lerp(cam.input_freeLookVert, Input.GetAxis("CamLookY"), cam.freeLookLerpRate);
-        cam.input_freeLookHoriz = Input.GetAxis("CamLookX");
-        cam.input_freeLookVert = Input.GetAxis("CamLookY");
-        cam.input_mouseSpeedX = mouseX;
-        cam.input_mouseSpeedY = mouseY;
-        
-
-        // CANNONS
-        cannons.cannonInput = Input.GetAxis("Cannon");
 
 
-        launchManagement();
+            // FLIGHT
+            flight.input_pitch = Mathf.Lerp(flight.input_pitch, Input.GetAxis("Pitch"), pitchInputLerp);
+            flight.input_yaw = Mathf.Lerp(flight.input_yaw, yaw, rudderInputLerp);
+            flight.input_roll = Mathf.Lerp(flight.input_roll, Input.GetAxis("Roll"), rollInputLerp);
+
+            // ENGINE
+            engine.input_throttleAxis = throttle;
+            engine.input_scrollWheelAxis = Input.GetAxis("Scrollwheel");
 
 
+            // WHEELS
+            wheels.input_brakeAxis = throttle;
+            wheels.input_dPadHoriz = Input.GetAxis("D-Pad Horiz");
+            wheels.input_rudderAxis = Mathf.Lerp(wheels.input_rudderAxis, yaw, rudderInputLerp);
+
+            // CAMERA
+            //cam.input_freeLookHoriz = Mathf.Lerp(cam.input_freeLookHoriz, Input.GetAxis("CamLookX"), cam.freeLookLerpRate);
+            //cam.input_freeLookVert = Mathf.Lerp(cam.input_freeLookVert, Input.GetAxis("CamLookY"), cam.freeLookLerpRate);
+            cam.input_freeLookHoriz = Input.GetAxis("CamLookX");
+            cam.input_freeLookVert = Input.GetAxis("CamLookY");
+            cam.input_mouseSpeedX = mouseX;
+            cam.input_mouseSpeedY = mouseY;
+
+
+            // CANNONS
+            if(Input.GetAxis("Cannon") > 0.5f)// cannon button is definitely pressed
+            {
+                // we need to send value to cannon
+                if (!cannons.cannonInput) 
+                {
+                    photonView.RPC("rpcActivateCannons", RpcTarget.All, true);
+                }
+            }
+            else // cannon button is definitely released
+            {
+                // we need to send value to cannon
+                if (cannons.cannonInput)
+                {
+                    photonView.RPC("rpcActivateCannons", RpcTarget.All, false);
+                }
+
+            }
+
+
+            launchManagement();
+
+        }
+    }
+
+    [PunRPC]
+    private void rpcActivateCannons(bool doActivate)
+    {
+        cannons.cannonInput = doActivate;
     }
 
     void getWeaponSelectNumber()

@@ -122,11 +122,49 @@ public class Rocket : Weapon
 
                 if (explodeOnOther(other.gameObject))
                 {
-                    rpcContactProcess(transform.position, other.transform.root.GetComponent<PhotonView>().ViewID);
+                    //rpcContactProcess(transform.position, getVictimId(other.transform.root.gameObject));
+                    impactLocal(transform.position, other.transform.root.gameObject);
                 }
             }
         }
 
+    }
+
+    override
+    public void impactLocal(Vector3 position, GameObject other)
+    {
+        GameObject otherRoot = other;
+        CombatFlow otherFlow = other.GetComponent<CombatFlow>();
+
+
+        transform.position = position;
+
+        if (otherRoot != null) // do not do anything against effects
+        {
+            bool doExplode = !otherRoot.CompareTag("Effects");
+
+            //Debug.LogWarning("NOTE: ROCKET FOUND OTHER ROOT GAMEOBJECT");
+
+            if (otherFlow != null)
+            {
+                if (otherFlow.team != myTeam || friendlyImpact)
+                {
+
+                    otherFlow.currentHP -= impactDamage;
+                }
+                else
+                {
+                    doExplode = false;
+                }
+            }
+
+            if (doExplode)
+            {
+                myFlow.currentHP -= myFlow.currentHP;
+                effectsObj.GetComponent<Light>().enabled = false;
+                //Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
+            }
+        }
     }
 
     [PunRPC]
@@ -134,6 +172,8 @@ public class Rocket : Weapon
     public void rpcContactProcess(Vector3 position, int otherId)
     {
         //Debug.Log("Rocket colliding. Arming time: " + armingTime + ", arming timer: " + armTimeRemaining + ", isArmed: " + armed);
+
+        Debug.LogWarning("NOTE: ROCKET CONTACT TRIGGERED");
 
         GameObject otherRoot = null;
         CombatFlow otherFlow = null;
@@ -146,9 +186,11 @@ public class Rocket : Weapon
 
         transform.position = position;
 
-        if (otherRoot != null && !otherRoot.CompareTag("Effects")) // do not do anything against effects
+        if (otherRoot != null) // do not do anything against effects
         {
-            bool doExplode = true;
+            bool doExplode = !otherRoot.CompareTag("Effects");
+
+            Debug.LogWarning("NOTE: ROCKET FOUND OTHER ROOT GAMEOBJECT");
 
             if (otherFlow != null)
             {

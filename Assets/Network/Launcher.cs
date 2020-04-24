@@ -92,7 +92,9 @@ namespace Omelette.TestGamePleaseIgnore
             {
                 // #Critical, we must first and foremost connect to Photon Online Server.
                 // keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
-                isConnecting = PhotonNetwork.ConnectUsingSettings(); PhotonNetwork.ConnectUsingSettings();
+                isConnecting = PhotonNetwork.ConnectUsingSettings(); //PhotonNetwork.ConnectUsingSettings();
+
+                //isConnecting = PhotonNetwork.ConnectToRegion("usw");
                 PhotonNetwork.GameVersion = gameVersion;
             }
         }
@@ -104,7 +106,7 @@ namespace Omelette.TestGamePleaseIgnore
         {
             Debug.Log("PUN Basics Tutorial/Launcher:  OnConnectedToMaster was called by PUN");
             
-
+            
             // we don't want to do anything if we are not attempting to join a room.
             // this case where isConnecting is false is typically when you lost or quit the game, when this level is loaded, OnConnectedToMaster will be called, in that case
             // we don't want to do anything.

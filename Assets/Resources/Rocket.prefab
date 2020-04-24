@@ -642,6 +642,7 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
+  localOwned: 0
   detectabilityCoeff: 0
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -651,6 +652,7 @@ MonoBehaviour:
   isActive: 0
   doDebugDamage: 0
   explodeStats: {fileID: 0}
+  networkDeath: 0
 --- !u!114 &2852526732308735592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,6 +685,7 @@ MonoBehaviour:
   roundsRemain: 0
   lineCastBackTime: 0.25
   iconImageSpriteFile: {fileID: 0}
+  networkImpact: 0
   rocketEffectsPrefab: {fileID: 3795491082417072009, guid: 7ea534138d7c7e24fbd0b2d22acae9a3,
     type: 3}
   impactDamage: 90
@@ -709,7 +712,8 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

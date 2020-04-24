@@ -42,6 +42,8 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public Sprite iconImageSpriteFile; // inefficient -- not necessary for every weapon instance to contain this reference.
 
+    public bool networkImpact = false;
+
     //protected PhotonView photonView;
 
     // call from fixedUpdate()
@@ -79,8 +81,18 @@ public class Weapon : MonoBehaviourPunCallbacks
 
                 if (explodeOnOther(otherRootObj))
                 {
-                    photonView.RPC("rpcContactProcess", RpcTarget.AllBuffered, transform.position,
-                    id);
+                    if (networkImpact)
+                    {
+                        photonView.RPC("rpcContactProcess", RpcTarget.AllBuffered, transform.position,
+                        id);
+                    }
+                    else // local impact
+                    {
+                        //Debug.LogError("MYERROR: linecast triggered");
+                        //rpcContactProcess(transform.position, id);
+                        impactLocal(hitInfo.point, otherRootObj);
+                    }
+                    
                 }
 
                 
@@ -238,6 +250,10 @@ public class Weapon : MonoBehaviourPunCallbacks
         return doAct;
     }
 
+    public virtual void impactLocal(Vector3 position, GameObject other)
+    {
+
+    }
 
     
 

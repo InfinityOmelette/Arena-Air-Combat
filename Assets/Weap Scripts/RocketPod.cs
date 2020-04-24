@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class RocketPod : Weapon
 {
@@ -155,15 +156,24 @@ public class RocketPod : Weapon
     public void launch()
     {
         Debug.Log("Rocket pod launch() called");
-        doLaunch = true;
+        //doLaunch = true;
+        photonView.RPC("doTheLaunch", RpcTarget.All, true);
     }
 
     override
     public void launchEnd()
     {
         Debug.Log("Ending rocket pod launch");
-        doLaunch = false;
+        //doLaunch = false;
+        photonView.RPC("doTheLaunch", RpcTarget.All, false);
     }
+
+    [PunRPC]
+    private void doTheLaunch(bool doLaunch)
+    {
+        this.doLaunch = doLaunch;
+    }
+
 
 
     // called repeatedly from update until reload is complete
@@ -178,10 +188,17 @@ public class RocketPod : Weapon
         }
         else  // if reload timer done, make ready to fire again
         {
-            myHardpoint.readyToFire = true; // prevent this from being called again until next reload cycle
-            roundsRemain = roundsMax;
+            
+            photonView.RPC("rpcReload", RpcTarget.All);
         }
         
+    }
+
+    [PunRPC]
+    private void rpcReload()
+    {
+        myHardpoint.readyToFire = true; // prevent this from being called again until next reload cycle
+        roundsRemain = roundsMax;
     }
 
     override

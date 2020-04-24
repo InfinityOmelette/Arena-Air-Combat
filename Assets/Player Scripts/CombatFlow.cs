@@ -103,7 +103,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if (currentHP <= 0 && (isLocalPlayer || localOwned)) // 0hp and is currently alive
+        if (currentHP <= 0 && (isLocalPlayer || localOwned || !networkDeath)) // 0hp and is currently alive
             die(); // kill self
     }
 

@@ -48,11 +48,24 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         return player;
     }
 
+    // moves all of nested children to layer, too
+    void MoveToLayer(Transform root, int layer)
+    {
+        root.gameObject.layer = layer;
+        foreach (Transform child in root)
+            MoveToLayer(child, layer);
+    }
+
     public void setPlayerAsControllable(GameObject playerObj)
     {
-        
+        // layer 8 is localPlayer layer
+        MoveToLayer(playerObj.transform, 8);
+
         PlayerInput_Aircraft inputRoot = playerObj.GetComponent<PlayerInput_Aircraft>();
         inputRoot.enabled = true;
+
+        const int localPlayerLayer = 8;
+        inputRoot.cannons.setIgnoreLayer(localPlayerLayer);
 
         CombatFlow playerFlow = playerObj.GetComponent<CombatFlow>();
         playerFlow.team = team;

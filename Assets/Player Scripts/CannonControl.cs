@@ -14,11 +14,11 @@ public class CannonControl : MonoBehaviourPunCallbacks
 
     public bool cannonInput;
 
-    
-
     private bool gunsOn;
 
     private CombatFlow rootFlow;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +65,17 @@ public class CannonControl : MonoBehaviourPunCallbacks
             
         }
 
+    }
+
+    public void setIgnoreLayer(int layerToIgnore)
+    {
+        for(int i = 0; i < cannons.Length; i++)
+        {
+
+            ParticleBehavior pbCannon = cannons[i].GetComponent<ParticleBehavior>();
+            pbCannon.setIgnoreLayer(layerToIgnore);
+
+        }
     }
 
 }

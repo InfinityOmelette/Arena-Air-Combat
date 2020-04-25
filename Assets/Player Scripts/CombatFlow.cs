@@ -53,6 +53,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public ExplodeStats explodeStats;
 
     public bool networkDeath;
+    public bool networkDamage = true;
 
     //private PhotonView photonView;
 
@@ -162,7 +163,14 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     // any client can call this
     public void dealDamage(float damage)
     {
-        photonView.RPC("rpcDealDamage", RpcTarget.All, damage);
+        if (networkDamage)
+        {
+            photonView.RPC("rpcDealDamage", RpcTarget.All, damage);
+        }
+        else
+        {
+            dealLocalDamage(damage);
+        }
     }
 
     public void dealLocalDamage(float damage)

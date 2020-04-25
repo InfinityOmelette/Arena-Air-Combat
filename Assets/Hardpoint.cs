@@ -83,13 +83,17 @@ public class Hardpoint : MonoBehaviourPunCallbacks
         loadedWeaponObj.transform.position = spawnCenter.position;
         loadedWeaponObj.transform.rotation = spawnCenter.rotation;
 
-        loadedWeaponObj.GetComponent<Weapon>().myHardpoint = this;
+        CombatFlow weaponFlow = loadedWeaponObj.GetComponent<CombatFlow>();
+        Weapon weapon = loadedWeaponObj.GetComponent<Weapon>();
+
+        weapon.myHardpoint = this;
 
         // locks weapon to hardpoint using fixedjoint
-        loadedWeaponObj.GetComponent<Weapon>().linkToOwner(transform.root.gameObject);
+        weapon.linkToOwner(transform.root.gameObject);
 
-        loadedWeaponObj.GetComponent<Weapon>().myTeam = transform.root.GetComponent<CombatFlow>().team;
-
+        weapon.myTeam = transform.root.GetComponent<CombatFlow>().team;
+        weaponFlow.team = weapon.myTeam;
+        //Debug.LogWarning("Setting weapon to player's team: " + transform.root.GetComponent<CombatFlow>().team);
 
 
 

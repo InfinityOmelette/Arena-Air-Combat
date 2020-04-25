@@ -78,27 +78,9 @@ public class TgtComputer : MonoBehaviour
                     {
 
                         //  =====================  DISTANCE
-
-                        bool showError = true;
-                        try
-                        {
-                            // Distance between this gameobject and target
-                            currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
-                            showError = false;
-                        }
-                        catch (Exception e)
-                        {
-                            //showError = true;
-                            Debug.LogError("TgtComputer failed at " + currentFlow.name);
-                        }
-
-                        if (showError)
-                        {
-                            Debug.LogError("TgtComputer failed at " + currentFlow.name);
-                        }
-
-
-
+                        
+                        // Distance between this gameobject and target
+                        currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
 
                         // ======================== LINE OF SIGHT
                         int terrainLayer = 1 << 10; // line only collides with terrain layer
@@ -107,6 +89,17 @@ public class TgtComputer : MonoBehaviour
 
                         // ========================  IFF
                         currentFlowHudIcon.isFriendly = localPlayerFlow.team == currentFlow.team;
+
+                        //{ // debug block
+
+                        //    Weapon currentWeap = currentFlow.GetComponent<Weapon>();
+                        //    if(currentWeap != null && currentFlow.localOwned)
+                        //    {
+                        //        Debug.LogWarning(currentFlow.gameObject.name + "'s team is: " + currentFlow.team + ", local player's is : "
+                        //            + localPlayerFlow.team);
+                        //    }
+
+                        //}
 
 
                         // =====================  VISIBILITY

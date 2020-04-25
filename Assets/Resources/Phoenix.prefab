@@ -928,6 +928,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 1
+  networkDamage: 0
 --- !u!114 &29026782760298540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2193,6 +2194,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileEffects
       objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2262,11 +2268,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

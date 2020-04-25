@@ -63,6 +63,18 @@ public class Hardpoint : MonoBehaviourPunCallbacks
         
     }
 
+    public void destroyWeapon()
+    {
+        if (rootFlow.isLocalPlayer)
+        {
+            if (loadedWeaponObj != null)
+            {
+                PhotonNetwork.Destroy(loadedWeaponObj);
+            }
+        }
+    }
+
+
     [PunRPC]
     void rpcInitializeWeapon(int weaponId)
     {

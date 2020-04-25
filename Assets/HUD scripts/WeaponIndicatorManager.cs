@@ -136,6 +136,20 @@ public class WeaponIndicatorManager : MonoBehaviour
         return newIndicator;
     }
 
+    public void deleteAll()
+    {
+        weaponTypesText.text = "";
+
+        // delete all children of corner objects
+        foreach (Transform child in statusIndicatorsCenter.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        indicatorTypeContainers.Clear();
+
+    }
+
     // Update is called once per frame
     void Update()
     {

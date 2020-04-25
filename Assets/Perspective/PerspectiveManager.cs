@@ -56,8 +56,9 @@ public class PerspectiveManager : MonoBehaviour
             // deactivate all cameras that aren't specified cam
             for (short i = 0; i < cameras.Count; i++)
             {
-                if (i != index)
+                if (i != index && cameras[i] != null) 
                     cameras[i].SetActive(false);
+
             }
 
             // Set object data according to camera properties reference
@@ -84,7 +85,10 @@ public class PerspectiveManager : MonoBehaviour
         for(short i = 0; i < cameras.Count; i++)
         {
             bool camActive = cameras[i] == cam;
-            cameras[i].SetActive(camActive);
+            if (cameras[i] != null)
+            {
+                cameras[i].SetActive(camActive);
+            }
 
             if (camActive)
             {
@@ -123,17 +127,21 @@ public class PerspectiveManager : MonoBehaviour
 
     
     // SOMEWHAT INEFFICIENT. SCRIPT LOOPS THROUGH NON-DESIRED CAMERAS TWICE
+    //  Doesn't need to be called rapidly, so might not be a problem
     public void switchToType(PerspectiveProperties.CamType type)
     {
         bool camFound = false;
         // search for camera of desired type
         for(short i = 0; i < cameras.Count; i++)
         {
-            PerspectiveProperties camProperties = cameras[i].GetComponent<PerspectiveProperties>();
-            if(camProperties.camType == type) // if this camera is desired type
+            if (cameras[i] != null)
             {
-                enableCamIndex(i); // switch to camera
-                camFound = true;
+                PerspectiveProperties camProperties = cameras[i].GetComponent<PerspectiveProperties>();
+                if (camProperties.camType == type) // if this camera is desired type
+                {
+                    enableCamIndex(i); // switch to camera
+                    camFound = true;
+                }
             }
         }
 

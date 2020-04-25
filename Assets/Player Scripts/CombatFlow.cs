@@ -183,7 +183,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             //Debug.Log("Death commanded for " + gameObject.name);
             if (networkDeath && (isLocalPlayer || localOwned))
             {
-                photonView.RPC("rpcDie", RpcTarget.All);
+                
+                photonView.RPC("rpcDie", RpcTarget.AllBuffered);
             }
             else
             {
@@ -215,6 +216,17 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     void destroySelf()
     {
+        
+        if (isLocalPlayer)
+        {
+            Debug.LogWarning("localplayer: " + gameObject.name + " destroyed. Calling showSpawnMenu");
+            GameManager.getGM().showSpawnMenu();
+
+            PlayerInput_Aircraft input = GetComponent<PlayerInput_Aircraft>();
+            input.hardpointController.destroyWeapons();
+
+        }
+
         if(camManager != null)
         {
             // remove this camera from perspectiveManager's list

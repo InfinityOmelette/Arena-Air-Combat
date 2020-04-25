@@ -54,8 +54,22 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void destroyWeapons()
+    {
+        CombatFlow rootFlow = transform.root.gameObject.GetComponent<CombatFlow>();
+        if (rootFlow.isLocalPlayer)
+        {
+            for(int i = 0; i < hardpoints.Length; i++)
+            {
+                hardpoints[i].destroyWeapon();
+            }
+        }
+    }
+
     void fillHardpointArray()
     {
+        weaponIndicatorManager.deleteAll();
+
         // raw array of hardpoints themselves
         hardpoints = new Hardpoint[transform.childCount];
 
@@ -69,8 +83,10 @@ public class HardpointController : MonoBehaviourPunCallbacks
             // if type is found, add to existing list
 
             short typeIndex = findTypeIndex(hardpoints[i].weaponTypePrefab);
-            if(typeIndex < 0)
-            { // new type found
+
+            // if new type found
+            if (typeIndex < 0)
+            { 
                 weaponTypeHardpointLists.Add(new List<Hardpoint>()); // add new list
                 typeIndex = (short)(weaponTypeHardpointLists.Count - 1); // should never be < 0, with list being added this block
 

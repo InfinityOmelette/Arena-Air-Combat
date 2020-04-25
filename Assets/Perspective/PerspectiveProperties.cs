@@ -18,6 +18,8 @@ public class PerspectiveProperties : MonoBehaviour
     public Camera camRef;
 
     // Start is called before the first frame update
+    // Perspective is automatically enabled. This is a bit crusty. 
+    //  - limits this script to ONLY be used when spawning a player
     void Start()
     {
         Debug.Log("PerspectiveProperties started");
@@ -25,5 +27,7 @@ public class PerspectiveProperties : MonoBehaviour
         pManager.addCam(gameObject);
         pManager.enableCam(gameObject);
     }
+
+
 
 }

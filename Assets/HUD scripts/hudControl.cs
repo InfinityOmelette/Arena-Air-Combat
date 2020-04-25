@@ -78,6 +78,7 @@ public class hudControl : MonoBehaviour
 
     public void setHudVisible(bool makeVisible)
     {
+        Debug.LogWarning("Making hud visible: " + makeVisible);
         if (makeVisible)
         {
             transform.localScale = new Vector3(1.0f, 1f, 1f);
@@ -90,15 +91,6 @@ public class hudControl : MonoBehaviour
     private void Awake()
     {
         hudControl.mainHud = gameObject;
-    }
-
-    // ====================================================================
-    // **********************************     START     *******************
-    // ====================================================================
-    void Start()
-    {
-
-        
 
         // SAVE ORIGINAL POSITIONS OF UI ELEMENTS -- WILL BE MODIFIED RELATIVE TO THESE
         climbTextOriginPos = climbText.transform.localPosition;
@@ -109,7 +101,7 @@ public class hudControl : MonoBehaviour
 
 
         //  MOVE TEXT TO TOP LEFT CORNER (same operation done to each)
-        fuelAmtText.rectTransform.position = new Vector2(fuelAmtText.rectTransform.position.x - Screen.width/2f, fuelAmtText.rectTransform.position.y + Screen.height/2f);
+        fuelAmtText.rectTransform.position = new Vector2(fuelAmtText.rectTransform.position.x - Screen.width / 2f, fuelAmtText.rectTransform.position.y + Screen.height / 2f);
         burnAvailText.rectTransform.position = new Vector2(burnAvailText.rectTransform.position.x - Screen.width / 2f, burnAvailText.rectTransform.position.y + Screen.height / 2f);
         airDensityText.rectTransform.position = new Vector2(airDensityText.rectTransform.position.x - Screen.width / 2f, airDensityText.rectTransform.position.y + Screen.height / 2f);
 
@@ -117,7 +109,19 @@ public class hudControl : MonoBehaviour
         //  MOVE HP BAR TO TOP MIDDLE
         hpBarParentRef.transform.localPosition = new Vector3(0.0f, Screen.height / 2f, 0.0f);
 
+
+        Debug.LogWarning("hiding initial hud");
         setHudVisible(startVisible);
+    }
+
+    // ====================================================================
+    // **********************************     START     *******************
+    // ====================================================================
+    void Start()
+    {
+
+        
+
 
     }
 
@@ -125,11 +129,15 @@ public class hudControl : MonoBehaviour
     {
         aircraftRootObj = aircraftRoot;
 
-        // SET REFERENCES
-        root_rbRef = aircraftRootObj.GetComponent<Rigidbody>();
-        root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
-        root_Engine = aircraftRootObj.GetComponent<EngineControl>();
-        root_combatFlow = aircraftRootObj.GetComponent<CombatFlow>();
+        if (aircraftRoot != null)
+        {
+
+            // SET REFERENCES
+            root_rbRef = aircraftRootObj.GetComponent<Rigidbody>();
+            root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
+            root_Engine = aircraftRootObj.GetComponent<EngineControl>();
+            root_combatFlow = aircraftRootObj.GetComponent<CombatFlow>();
+        }
 
         
     }
@@ -217,25 +225,29 @@ public class hudControl : MonoBehaviour
     // Place item onto screen from world point
     public void drawItemOnScreen(GameObject item, Vector3 worldPosition, float lerpRate)
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
-        bool onScreen = true;
-        if (screenPos.z < 0) // if screenpos behind camera
-            onScreen = false;
-
-        // convert to local position on canvas -- (0,0) at center of screen
-        // THIS FIXES UI STUTTERING DURING FRAME LAG
-        screenPos = new Vector3(screenPos.x - Screen.width / 2,     // x
-                                 screenPos.y - Screen.height / 2,   // y
-                                 0.0f);                             // z
-
-        if (onScreen)
+        if (aircraftRootObj != null)
         {
-            // local position prevents ui stuttering
-            item.transform.localPosition = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
-        }
-        else
-        {
-            item.transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2);
+
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
+            bool onScreen = true;
+            if (screenPos.z < 0) // if screenpos behind camera
+                onScreen = false;
+
+            // convert to local position on canvas -- (0,0) at center of screen
+            // THIS FIXES UI STUTTERING DURING FRAME LAG
+            screenPos = new Vector3(screenPos.x - Screen.width / 2,     // x
+                                     screenPos.y - Screen.height / 2,   // y
+                                     0.0f);                             // z
+
+            if (onScreen)
+            {
+                // local position prevents ui stuttering
+                item.transform.localPosition = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
+            }
+            else
+            {
+                item.transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2);
+            }
         }
             
     }

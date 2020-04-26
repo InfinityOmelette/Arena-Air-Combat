@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -210,6 +215,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -484,6 +494,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -562,6 +577,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -964,6 +984,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -1375,7 +1400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &217180057
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1495,6 +1520,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &217180063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7238,7 +7264,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &358699565
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7358,6 +7384,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &358699571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7443,7 +7470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &374479940
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7563,6 +7590,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &374479946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8150,6 +8178,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -8240,7 +8273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &483690120
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8360,6 +8393,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &483690126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8445,7 +8479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &495644556
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8565,6 +8599,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &495644562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9061,7 +9096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &545467740
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9181,6 +9216,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &545467746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9416,7 +9452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &618268915
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9536,6 +9572,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &618268921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10070,6 +10107,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -10262,7 +10304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &747787063
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10382,6 +10424,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &747787069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10514,6 +10557,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -10602,6 +10650,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -11175,6 +11228,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -11437,6 +11495,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -12004,7 +12067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1016180217
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12124,6 +12187,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1016180223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17932,7 +17996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1094576328
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18052,6 +18116,7 @@ MonoBehaviour:
   doDebugDamage: 1
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1094576334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18279,7 +18344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1129356847
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18399,6 +18464,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1129356853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18876,7 +18942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1193678958
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18996,6 +19062,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1193678964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19219,6 +19286,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -19458,8 +19530,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265437872}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1324.1, y: 12, z: 1041.3}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 1416, y: 12, z: 1085.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 783387947}
@@ -19469,7 +19541,7 @@ Transform:
   - {fileID: 1615119146}
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1274179206
 GameObject:
   m_ObjectHideFlags: 0
@@ -24767,6 +24839,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -24959,7 +25036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1425568387
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25079,6 +25156,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1425568393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25164,7 +25242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1443931293
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25284,6 +25362,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1443931299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25357,6 +25436,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -25511,7 +25595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1447291228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3857, y: -4.7, z: 4746}
+  m_LocalPosition: {x: 8514.9, y: -4.7, z: 9456}
   m_LocalScale: {x: 560, y: 10, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
@@ -26002,6 +26086,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -26352,7 +26441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1668784107
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -26472,6 +26561,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1668784113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26760,6 +26850,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -26942,7 +27037,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1789408623
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27062,6 +27157,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1789408629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27240,7 +27336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1810604592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27360,6 +27456,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1810604598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27545,6 +27642,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
@@ -32937,6 +33039,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -33222,7 +33329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1919763895
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -33342,6 +33449,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &1919763901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33927,6 +34035,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Truck (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}
       propertyPath: ObservedComponents.Array.size
@@ -34210,7 +34323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &2136455879
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -34330,6 +34443,7 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
 --- !u!114 &2136455885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34480,6 +34594,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Truck (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658450439490222779, guid: 49a37d31549b81b479c778f345f3e809,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5318638688207957474, guid: 49a37d31549b81b479c778f345f3e809,
         type: 3}

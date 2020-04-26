@@ -115,8 +115,7 @@ public class TgtComputer : MonoBehaviour
 
 
 
-                            //if (currentFlow.team == localPlayerFlow.team)
-                            if(true)
+                            if (currentFlow.team == localPlayerFlow.team)
                             {
                                 isVisible = true;
                             }
@@ -174,8 +173,12 @@ public class TgtComputer : MonoBehaviour
                 if (currentFlow != null)
                 {
 
-                    float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position - transform.position);
-
+                    float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position 
+                        - playerInput.cam.camRef.transform.position);
+                    if (currentFlow.type == CombatFlow.Type.AIRCRAFT)
+                    {
+                        Debug.LogWarning(currentFlow + "'s angle is: " + currentAngle + " off camera center");
+                    }
                     //Debug.Log("Current target is: " + currentFlow.gameObject + ", at " + currentAngle + " degrees, smallest angle is: " + smallestAngle + " degrees.");
 
                     // angle within max, angle smallest, and target is not on same team as localPlayer

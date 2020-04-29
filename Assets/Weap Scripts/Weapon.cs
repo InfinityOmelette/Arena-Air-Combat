@@ -214,6 +214,11 @@ public class Weapon : MonoBehaviourPunCallbacks
         Debug.Log("weapon reloadProcess doing nothing"); // should only be called if weapon does not drop on launch
     }
 
+    virtual public void destroyWeapon()
+    {
+        PhotonNetwork.Destroy(gameObject);
+    }
+
     public float setArmTime(float newArmTime)
     {
         armingTime = newArmTime;
@@ -256,6 +261,8 @@ public class Weapon : MonoBehaviourPunCallbacks
     {
 
     }
+
+
 
     
 

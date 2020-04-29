@@ -20,7 +20,9 @@ public class ParticleBehavior : MonoBehaviour
 
     private CombatFlow rootFlow;
 
-    
+    ParticleSystem emitterForThisCollision;
+
+
 
 
     public static float impactFuseVelocity = 100f; // impact incident velocity must be at least this value to explode
@@ -31,7 +33,8 @@ public class ParticleBehavior : MonoBehaviour
         pSystem = GetComponent<ParticleSystem>();
         myParticles = new ParticleSystem.Particle[500];
         rootFlow = transform.root.GetComponent<CombatFlow>();
-        
+        emitterForThisCollision = GetComponent<ParticleSystem>();
+
     }
 
     private ParticleSystem getPSystem()
@@ -83,98 +86,85 @@ public class ParticleBehavior : MonoBehaviour
     private void OnParticleCollision(GameObject other) // other is target hit by emitter
     {
 
-        // CONSTRUCT ARRAY OF ALL COLLISION EVENTS
+        
 
-        GameObject jibbyObj = other.transform.root.gameObject;
-        CombatFlow jibbyFlow = jibbyObj.GetComponent<CombatFlow>();
-        Weapon jibbyWeap = jibbyObj.GetComponent<Weapon>();
+        
+        
 
-        // pretty retardedly complex boolean logic but that's just showbiz baybee B)
-        //  aka, do nothing if impacting local player or one of local player's weapons
-        if (jibbyFlow != null && (jibbyFlow.isLocalPlayer || (jibbyWeap != null && jibbyFlow.localOwned)))
+        int collCount = pSystem.GetSafeCollisionEventSize();
+
+        if (collisionEvents == null)
+            collisionEvents = new ParticleCollisionEvent[collCount];
+
+        if (collCount > collisionEvents.Length)
+            collisionEvents = new ParticleCollisionEvent[collCount];
+
+
+        int eventCount = pSystem.GetCollisionEvents(other, collisionEvents);
+
+
+
+
+        // whenever a collision event is triggered, this loops through and processes every one
+        for (int i = 0; i < eventCount; i++)
         {
 
-        }
-        else
-        {
+            // Get velocity of (I'm assuming) particle 
+            Vector3 incidentVelocity = collisionEvents[i].velocity;
 
-            int collCount = pSystem.GetSafeCollisionEventSize();
+            // If other object has rigidbody, subtract its velocity to get relative velocity
+            Rigidbody otherRBref = other.GetComponent<Rigidbody>();
+            if (otherRBref != null)
+                incidentVelocity -= otherRBref.velocity;
 
-            if (collisionEvents == null)
-                collisionEvents = new ParticleCollisionEvent[collCount];
+            // Calculate component of velocity along normal
+            Vector3 normal = collisionEvents[i].normal;
+            Vector3 incidentNormal = Vector3.Project(incidentVelocity, normal);
 
-            if (collCount > collisionEvents.Length)
-                collisionEvents = new ParticleCollisionEvent[collCount];
+            // Reference to particle emitter
+            var coll = emitterForThisCollision.collision;
+
+            // Target information
+            GameObject target = other.transform.root.gameObject;
+            CombatFlow targetFlow = target.GetComponent<CombatFlow>();
+            float currentDamage = 0f;
 
 
-            int eventCount = pSystem.GetCollisionEvents(other, collisionEvents);
-
-
-
-
-            // whenever a collision event is triggered, this loops through and processes every one
-            for (int i = 0; i < eventCount; i++)
+            if (incidentNormal.magnitude > ParticleBehavior.impactFuseVelocity) // if impact velocity is high enough, impact
             {
+                // set emitter to have all its projectiles lose 100% of lifetime upon collision
+                coll.lifetimeLoss = 1f;
 
-                // Get velocity of (I'm assuming) particle 
-                Vector3 incidentVelocity = collisionEvents[i].velocity;
+                // create impact explosion
+                impactExplosionProperties.explode(collisionEvents[i].intersection);
 
-                // If other object has rigidbody, subtract its velocity to get relative velocity
-                Rigidbody otherRBref = other.GetComponent<Rigidbody>();
-                if (otherRBref != null)
-                    incidentVelocity -= otherRBref.velocity;
-
-                // Calculate component of velocity along normal
-                Vector3 normal = collisionEvents[i].normal;
-                Vector3 incidentNormal = Vector3.Project(incidentVelocity, normal);
-
-                // Reference to particle emitter
-                ParticleSystem emitterForThisCollision = GetComponent<ParticleSystem>();
-                var coll = emitterForThisCollision.collision;
-
-                // Target information
-                GameObject target = other.transform.root.gameObject;
-                CombatFlow targetFlow = target.GetComponent<CombatFlow>();
-                float currentDamage = 0f;
-
-
-                if (incidentNormal.magnitude > ParticleBehavior.impactFuseVelocity) // if impact velocity is high enough, impact
-                {
-                    // set emitter to have all its projectiles lose 100% of lifetime upon collision
-                    coll.lifetimeLoss = 1f;
-
-                    // create impact explosion
-                    impactExplosionProperties.explode(collisionEvents[i].intersection);
-
-                    // damage
-                    currentDamage = impactDamage;
-
-                }
-                else // low impact velocity, bounce
-                {
-                    // set emitter to have all its projectiles lose 40% of lifetime upon collision
-                    coll.lifetimeLoss = .4f;
-
-                    // create bounce explosion at intersection
-                    bounceExplosionProperties.explode(collisionEvents[i].intersection);
-
-                    // damage
-                    currentDamage = bounceDamage;
-                }
-
-                // only attempt to sent HP subtraction if target has CombatFlow script component
-                if (targetFlow != null && rootFlow.isLocalPlayer)
-                {
-                    targetFlow.dealDamage(currentDamage);
-                }
+                // damage
+                currentDamage = impactDamage;
 
             }
+            else // low impact velocity, bounce
+            {
+                // set emitter to have all its projectiles lose 40% of lifetime upon collision
+                coll.lifetimeLoss = .4f;
 
+                // create bounce explosion at intersection
+                bounceExplosionProperties.explode(collisionEvents[i].intersection);
 
-            // ParticlePhysicsExtensions.
-            collisionCount++;
+                // damage
+                currentDamage = bounceDamage;
+            }
+
+            // only attempt to sent HP subtraction if target has CombatFlow script component
+            if (targetFlow != null && rootFlow.isLocalPlayer)
+            {
+                targetFlow.dealDamage(currentDamage);
+            }
+
         }
-        
+
+
+        // ParticlePhysicsExtensions.
+        collisionCount++;
         
     }
 

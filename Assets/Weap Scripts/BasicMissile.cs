@@ -27,28 +27,25 @@ public class BasicMissile : Weapon
     private bool guidedLaunch;
     private GameObject impactVictimRoot;
 
-    private PhotonView photonView;
-    
+    private bool doDestroy = false;
 
     void awake()
     {
+        
         
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        photonView = PhotonView.Get(this);
+
         myCombatFlow = GetComponent<CombatFlow>();
+        //photonView = PhotonView.Get(this);
+
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
 
-        //effectsObj = Instantiate(effectsOriginalObj);
-        //Destroy(effectsOriginalObj);
-        //effectsObj.transform.position = effectsCenter.position;
-
-        //effectsObj.GetComponent<Light>().enabled = false;
-        //effectsObj.GetComponent<TrailRenderer>().enabled = false;
+        // RocketMotor instantiates effects obj
 
         myCombatFlow.isActive = false;
 
@@ -103,7 +100,8 @@ public class BasicMissile : Weapon
                     // make this rpc
                     if (effectsObj != null)
                     {
-                        effectsObj.GetComponent<Light>().enabled = false;
+                        //effectsObj.GetComponent<Light>().enabled = false;
+                        photonView.RPC("rpcDisableLight", RpcTarget.All);
                     }
                     if (myCombatFlow != null && myCombatFlow.localOwned)
                     {
@@ -114,6 +112,14 @@ public class BasicMissile : Weapon
                 }
             }
         }
+    }
+
+    // ugh, this is so inefficient, but at least isn't scaled up enough to really matter
+    //  - more efficient to batch this into another RPC, so that each instance independently determines when to disable light
+    [PunRPC]
+    private void rpcDisableLight()
+    {
+        effectsObj.GetComponent<Light>().enabled = false;
     }
 
     void updateTargetPosition()
@@ -129,6 +135,8 @@ public class BasicMissile : Weapon
             targetPosition = targetPosTemp;
         }
     }
+
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -161,7 +169,7 @@ public class BasicMissile : Weapon
     override
     public void rpcContactProcess(Vector3 position, int otherId)
     {
-        
+        Debug.LogWarning("rpcContactProcess locally called");
         GameObject otherRoot = null;
         CombatFlow otherFlow = null;
 
@@ -244,22 +252,31 @@ public class BasicMissile : Weapon
     [PunRPC]
     private void rpcLaunch()
     {
-        GetComponent<NetPosition>().active = true;
+        if (!doDestroy)
+        {
+            GetComponent<NetPosition>().active = true;
 
-        myHardpoint.readyToFire = false;
-        myHardpoint.loadedWeaponObj = null;
+            myHardpoint.readyToFire = false;
+            myHardpoint.loadedWeaponObj = null;
 
 
-        Destroy(GetComponent<FixedJoint>());
+            Destroy(GetComponent<FixedJoint>());
 
 
-        effectsObj.GetComponent<Light>().enabled = true;
-        effectsObj.GetComponent<TrailRenderer>().enabled = true;
-        launched = true;
-        armTimeRemaining = armingTime;
-        myCombatFlow.isActive = true;
+            effectsObj.GetComponent<Light>().enabled = true;
+            effectsObj.GetComponent<TrailRenderer>().enabled = true;
+            launched = true;
+            armTimeRemaining = armingTime;
 
-        myHardpoint.roundsRemain = 0;
+            if (myCombatFlow == null)
+            {
+                myCombatFlow = GetComponent<CombatFlow>();
+            }
+
+            myCombatFlow.isActive = true;
+
+            myHardpoint.roundsRemain = 0;
+        }
     }
 
 
@@ -284,5 +301,38 @@ public class BasicMissile : Weapon
         }
 
         return fuseTriggered;
+    }
+
+    override
+    public void destroyWeapon()
+    {
+        
+
+        if(myCombatFlow == null)
+        {
+            myCombatFlow = GetComponent<CombatFlow>();
+        }
+
+        if (myCombatFlow.localOwned)
+        {
+            photonView.RPC("rpcDestroyWeapon", RpcTarget.AllBuffered);
+        }
+        
+    }
+
+    [PunRPC]
+    private void rpcDestroyWeapon()
+    {
+        doDestroy = true;
+
+        //Debug.LogWarning("Destroying weapon");
+        //Debug.LogWarning("Effects obj found: " + effectsObj.name);
+        //Destroy(effectsObj.gameObject);
+
+        effectsObj.GetComponent<Light>().enabled = false;
+        //Debug.LogWarning("Destroy successful: " + effectsObj == null);
+        
+        
+        Destroy(gameObject);
     }
 }

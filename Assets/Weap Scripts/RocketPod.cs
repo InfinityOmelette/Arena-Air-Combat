@@ -39,6 +39,7 @@ public class RocketPod : Weapon
 
     private void Awake()
     {
+        myCombatFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
     }
@@ -108,6 +109,8 @@ public class RocketPod : Weapon
         Rocket newRocket = newObj.GetComponent<Rocket>();
         CombatFlow newFlow = newObj.GetComponent<CombatFlow>();
         Rigidbody newRB = newObj.GetComponent<Rigidbody>();
+
+        newFlow.localOwned = myCombatFlow.localOwned;
 
         // positioning
         newObj.transform.position = transform.position + ownerObj.transform.forward * rocketSpawnAheadDistance;

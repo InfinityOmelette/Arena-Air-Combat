@@ -843,7 +843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanConeAngle: 35
+  scanConeAngle: 25
   maxDetectRange: 5000
   lockAngle: 0
   detectionThreshold: 1.2
@@ -949,11 +949,12 @@ MonoBehaviour:
   glowColor: {r: 1, g: 0.6639284, b: 0, a: 1}
   smokeColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
   expandTime: 0.075
-  explosiveForce: 4500
+  explosiveForce: 5000
   damageProjectiles: 0
   friendlyFire: 1
   team: 0
   doExplode: 1
+  armingTime: 0
 --- !u!114 &3786267972704520770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2194,11 +2195,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileEffects
       objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2268,6 +2264,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

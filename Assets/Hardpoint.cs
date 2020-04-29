@@ -69,7 +69,8 @@ public class Hardpoint : MonoBehaviourPunCallbacks
         {
             if (loadedWeaponObj != null)
             {
-                PhotonNetwork.Destroy(loadedWeaponObj);
+                loadedWeaponObj.GetComponent<Weapon>().destroyWeapon();
+                //PhotonNetwork.Destroy(loadedWeaponObj);
             }
         }
     }
@@ -78,26 +79,33 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     [PunRPC]
     void rpcInitializeWeapon(int weaponId)
     {
-        loadedWeaponObj = PhotonNetwork.GetPhotonView(weaponId).gameObject;
 
-        loadedWeaponObj.transform.position = spawnCenter.position;
-        loadedWeaponObj.transform.rotation = spawnCenter.rotation;
+        PhotonView pView = PhotonNetwork.GetPhotonView(weaponId);
 
-        CombatFlow weaponFlow = loadedWeaponObj.GetComponent<CombatFlow>();
-        Weapon weapon = loadedWeaponObj.GetComponent<Weapon>();
+        if (pView != null) 
+        {
 
-        weapon.myHardpoint = this;
+            loadedWeaponObj = pView.gameObject;
 
-        // locks weapon to hardpoint using fixedjoint
-        weapon.linkToOwner(transform.root.gameObject);
+            loadedWeaponObj.transform.position = spawnCenter.position;
+            loadedWeaponObj.transform.rotation = spawnCenter.rotation;
 
-        weapon.myTeam = transform.root.GetComponent<CombatFlow>().team;
-        weaponFlow.team = weapon.myTeam;
-        //Debug.LogWarning("Setting weapon to player's team: " + transform.root.GetComponent<CombatFlow>().team);
+            CombatFlow weaponFlow = loadedWeaponObj.GetComponent<CombatFlow>();
+            Weapon weapon = loadedWeaponObj.GetComponent<Weapon>();
+
+            weapon.myHardpoint = this;
+
+            // locks weapon to hardpoint using fixedjoint
+            weapon.linkToOwner(transform.root.gameObject);
+
+            weapon.myTeam = transform.root.GetComponent<CombatFlow>().team;
+            weaponFlow.team = weapon.myTeam;
+            //Debug.LogWarning("Setting weapon to player's team: " + transform.root.GetComponent<CombatFlow>().team);
 
 
 
-        readyToFire = true;
+            readyToFire = true;
+        }
     }
 
     public void launchWithLock(GameObject targetObj)

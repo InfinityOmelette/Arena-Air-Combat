@@ -16,23 +16,36 @@ public class RocketMotor : MonoBehaviour
 
     public bool doBurn;
 
+    private bool makeEffect = true;
+
     private void Awake()
     {
         doBurn = false;
         myRB = GetComponent<Rigidbody>();
         myWeapon = GetComponent<Weapon>();
+
+        if (makeEffect)
+        {
+            myWeapon.effectsObj = Instantiate(myWeapon.effectsOriginalObj);
+            myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.position;
+
+            myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+            myWeapon.effectsObj.GetComponent<TrailRenderer>().enabled = false;
+
+            //myWeapon.effectsObj.GetComponent<AutoDelete>().setReference(gameObject);
+        }
+        Destroy(myWeapon.effectsOriginalObj);
     }
 
+    public void cancelEffect()
+    {
+        makeEffect = false;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        myWeapon.effectsObj = Instantiate(myWeapon.effectsOriginalObj);
-        Destroy(myWeapon.effectsOriginalObj);
-        myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.position;
-
-        myWeapon.effectsObj.GetComponent<Light>().enabled = false;
-        myWeapon.effectsObj.GetComponent<TrailRenderer>().enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -63,7 +76,13 @@ public class RocketMotor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(myWeapon != null)
+        if (!makeEffect && myWeapon.effectsObj != null)
+        {
+            Destroy(myWeapon.effectsObj);
+        }
+
+
+        if (myWeapon != null)
         {
             if(doBurn)
             {

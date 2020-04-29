@@ -2258,7 +2258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanConeAngle: 35
+  scanConeAngle: 30
   maxDetectRange: 5000
   lockAngle: 0
   detectionThreshold: 1
@@ -2364,11 +2364,12 @@ MonoBehaviour:
   glowColor: {r: 1, g: 0.6639284, b: 0, a: 1}
   smokeColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
   expandTime: 0.075
-  explosiveForce: 300
+  explosiveForce: 4000
   damageProjectiles: 0
   friendlyFire: 1
   team: 0
   doExplode: 1
+  armingTime: 0
 --- !u!114 &1812734287292680527
 MonoBehaviour:
   m_ObjectHideFlags: 0

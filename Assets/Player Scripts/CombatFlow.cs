@@ -55,6 +55,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public bool networkDeath;
     public bool networkDamage = true;
 
+    private bool firstFrameReached = false;
+
     //private PhotonView photonView;
 
     public static Team convertNumToTeam(short num)
@@ -129,6 +131,10 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
     }
 
+    private void LateUpdate()
+    {
+        firstFrameReached = true;
+    }
     
     public void setNetName(string name)
     {
@@ -191,7 +197,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             //Debug.Log("Death commanded for " + gameObject.name);
             if (networkDeath && (isLocalPlayer || localOwned))
             {
-                
+
+                //photonView.RPC("explode", RpcTarget.All); // don't buffer explosion
                 photonView.RPC("rpcDie", RpcTarget.AllBuffered);
             }
             else
@@ -211,23 +218,35 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         destroySelf();
     }
 
+    
+    
     void explode()
     {
-        // blast radius deals damage
-        // explosion render
-        //Debug.Log("----------------------------- Combat flow explode() called by " + gameObject.name);
-        //Debug.Log("Explode called for " + gameObject.name);
+        if (explodeStats != null)
+        {
 
+            if (isLocalPlayer || localOwned) // only deal damage if local instance owns the object
+            {
+                // will deal networked damage
+                explodeStats.explode(transform.position);
+            }
+            else
+            {
+                // cosmetic-only explosion that all non-owner instances will see
+                explodeStats.cosmeticLocalExplode(transform.position);
+            }
+        }
+        
 
-        explodeStats.explode(transform.position);
     }
 
     void destroySelf()
     {
+        Debug.LogWarning("Destroyself called");
         
         if (isLocalPlayer)
         {
-            Debug.LogWarning("localplayer: " + gameObject.name + " destroyed. Calling showSpawnMenu");
+            //Debug.LogWarning("localplayer: " + gameObject.name + " destroyed. Calling showSpawnMenu");
             GameManager.getGM().showSpawnMenu();
 
             PlayerInput_Aircraft input = GetComponent<PlayerInput_Aircraft>();
@@ -248,8 +267,28 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         //    Destroy(weaponRef.effectsObj);
         //}
         CombatFlow.combatUnits.Remove(gameObject);
-        Destroy(myHudIconRef.gameObject);
-        Destroy(gameObject);
+        if (myHudIconRef != null)
+        {
+            Destroy(myHudIconRef.gameObject);
+        }
+
+        //Destroy(gameObject);
+
+        Weapon myWeapon = GetComponent<Weapon>();
+
+        bool missileFound = false;
+        if (networkDeath && myWeapon != null && (localOwned || isLocalPlayer))
+        {
+
+            
+            myWeapon.destroyWeapon();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+
     }
 
 

@@ -25,6 +25,8 @@ public class TgtComputer : MonoBehaviour
 
     public List<CombatFlow> lstDatalink;
 
+    private HardpointController hardpointController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,7 @@ public class TgtComputer : MonoBehaviour
         playerInput = GetComponent<PlayerInput_Aircraft>();
         mainHud = hudControl.mainHud.GetComponent<hudControl>();
         localPlayerFlow = GetComponent<CombatFlow>();
+        hardpointController = playerInput.hardpointController;
     }
 
     // Update is called once per frame
@@ -175,18 +178,22 @@ public class TgtComputer : MonoBehaviour
 
                     float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position 
                         - playerInput.cam.camRef.transform.position);
-                    if (currentFlow.type == CombatFlow.Type.AIRCRAFT)
-                    {
-                        Debug.LogWarning(currentFlow + "'s angle is: " + currentAngle + " off camera center");
-                    }
+                    //if (currentFlow.type == CombatFlow.Type.AIRCRAFT)
+                    //{
+                    //    Debug.LogWarning(currentFlow + "'s angle is: " + currentAngle + " off camera center");
+                    //}
                     //Debug.Log("Current target is: " + currentFlow.gameObject + ", at " + currentAngle + " degrees, smallest angle is: " + smallestAngle + " degrees.");
 
                     // angle within max, angle smallest, and target is not on same team as localPlayer
-                    if (currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
+                    if (currentFlow.myHudIconRef.isDetected &&
+                        currentFlow.isActive &&
+                        currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
                         currentAngle < changeTargetMaxAngle &&
                         currentAngle < smallestAngle &&
                         !currentFlow.isLocalPlayer &&
-                        currentFlow.team != localPlayerFlow.team)
+                        currentFlow.team != localPlayerFlow.team
+                        
+                        )
                     {
                         //Debug.Log("SMALLEST ANGLE: " + currentAngle + " degrees.");
                         smallestAngle = currentAngle;
@@ -216,8 +223,6 @@ public class TgtComputer : MonoBehaviour
             }
         }
 
-        
-
         return currentTarget = newTarget;
     }
 
@@ -225,7 +230,21 @@ public class TgtComputer : MonoBehaviour
     {
         if(currentFlow == currentTarget)
         {
-            radarLocked = myRadar.tryLock(currentFlow);
+            float weaponScanZone = 0.0f;
+
+            Radar currentWeaponRadar = hardpointController.getActiveHardpoint().weaponTypePrefab.GetComponent<Radar>();
+
+            if(currentWeaponRadar != null)
+            {
+                weaponScanZone = currentWeaponRadar.scanConeAngle;
+                myRadar.lockAngle = weaponScanZone;
+                radarLocked = myRadar.tryLock(currentFlow);
+            }
+            else
+            {
+                radarLocked = false;
+            }
+            
             if (radarLocked)
             {
                 currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.LOCKED;

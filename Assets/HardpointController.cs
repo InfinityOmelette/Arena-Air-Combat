@@ -159,7 +159,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
             {
                 changeButtonHeld = false;
                 short scrollAdvance = (short)Mathf.RoundToInt(-input_scrollWheel);
-                Debug.Log("ScrollAdvance: " + scrollAdvance + "with raw: " + input_scrollWheel);
+                //Debug.Log("ScrollAdvance: " + scrollAdvance + "with raw: " + input_scrollWheel);
                 advanceWeaponType(scrollAdvance);
             }
         }

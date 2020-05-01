@@ -21,13 +21,16 @@ public class HardpointController : MonoBehaviourPunCallbacks
     public TgtComputer tgtComputer;
 
     public float input_scrollWheel;
-
     public float input_changeWeaponAxis;
+    public bool input_mouseLookToggleBtnDown;
+
     private bool changeButtonHeld;
 
     public bool launchActive;
 
     private CombatFlow rootFlow;
+
+    
 
     
     // Commands missiles to launch
@@ -99,7 +102,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
             }
             weaponTypeHardpointLists[typeIndex].Add(hardpoints[i]); // add item to existing list
 
-            Debug.Log("Size of hardpoint list: " + weaponTypeHardpointLists[typeIndex].Count);
+            //Debug.Log("Size of hardpoint list: " + weaponTypeHardpointLists[typeIndex].Count);
 
             // tell weapon indicator manager to spawn new indicator inside typeIndex container
             weaponIndicatorManager.spawnNewIndicator(typeIndex, 
@@ -114,8 +117,9 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
         weaponIndicatorManager.showActiveWeaponType(0); // hud will assume the first weapon type is selected
 
-        Debug.Log("Reached end of hardpoint function");
-        
+        weaponIndicatorManager.displayControllerHud(true);
+        //Debug.Log("Reached end of hardpoint function");
+
     }
 
     // search through each list to find existing weapon prefab type
@@ -161,6 +165,11 @@ public class HardpointController : MonoBehaviourPunCallbacks
                 short scrollAdvance = (short)Mathf.RoundToInt(-input_scrollWheel);
                 //Debug.Log("ScrollAdvance: " + scrollAdvance + "with raw: " + input_scrollWheel);
                 advanceWeaponType(scrollAdvance);
+            }
+
+            if (input_mouseLookToggleBtnDown)
+            {
+                weaponIndicatorManager.toggleControllerHud();
             }
         }
     }

@@ -110,7 +110,7 @@ public class hudControl : MonoBehaviour
         hpBarParentRef.transform.localPosition = new Vector3(0.0f, Screen.height / 2f, 0.0f);
 
 
-        Debug.LogWarning("hiding initial hud");
+        //Debug.LogWarning("hiding initial hud");
         setHudVisible(startVisible);
     }
 

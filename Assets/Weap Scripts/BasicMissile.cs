@@ -95,12 +95,7 @@ public class BasicMissile : Weapon
                 if (myTarget != null)
                 {
                     updateTargetPosition();
-
-
-                    // transform.LookAt(targetPosition);
                 }
-                //rbRef.velocity = transform.forward * speed;
-
 
                 if (checkProximityFuse())
                 {
@@ -114,7 +109,6 @@ public class BasicMissile : Weapon
                     {
                         // blow up local instance. Death itself should be networked fine
                         myCombatFlow.dealLocalDamage(myCombatFlow.getHP()); 
-
                     }
                 }
             }

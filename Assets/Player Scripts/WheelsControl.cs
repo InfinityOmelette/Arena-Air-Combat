@@ -22,7 +22,7 @@ public class WheelsControl : MonoBehaviour
 
     public float input_brakeAxis;
     public float input_rudderAxis;
-    public float input_dPadHoriz;
+    public float input_gear_button;
 
     
 
@@ -108,7 +108,7 @@ public class WheelsControl : MonoBehaviour
     // toggle gear on gear button press
     private bool checkGearInput()
     {
-        bool pressedRightNow = input_dPadHoriz > 0.5f; // if horiz axis is definitely positive
+        bool pressedRightNow = input_gear_button > 0.5f; // if horiz axis is definitely positive
         if(pressedRightNow != gearButtonPressed && pressedRightNow) // value changed on this step, and is pressed
         {
             gearIsDown = setGearEnabled(!gearIsDown); // toggle gear down

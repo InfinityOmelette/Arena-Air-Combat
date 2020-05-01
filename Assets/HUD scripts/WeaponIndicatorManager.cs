@@ -24,14 +24,24 @@ public class WeaponIndicatorManager : MonoBehaviour
     public float changeNotificationTimerMax;
     public float currentChangeNotificationTimer;
 
+    private bool showControllerHud = false;
+
 
     private Vector3 initWeapSelectBoxLocalPos;
 
     public GameObject cornerObjectsContainer;
 
+    public GameObject controllerHudObj;
+
+    public Color dpadColorSelected;
+    public Color dpadColorNotSelected;
+
 
     // these are the parent empty GameObjects that indicator icons of same type will be placed
     public List<GameObject> indicatorTypeContainers;  // assume initial active type is zero
+
+    public Image[] dPadWeaponDirections;
+    private byte dpadImagesSaved = 0;
 
     private void Awake()
     {
@@ -67,6 +77,19 @@ public class WeaponIndicatorManager : MonoBehaviour
         beginWeaponChangeNotification(weaponTypeIndex);
         placeSelectionBox(weaponTypeIndex);
 
+
+        for(int i = 0; i < dPadWeaponDirections.Length; i++)
+        {
+            if(i == weaponTypeIndex)
+            {
+                dPadWeaponDirections[i].color = dpadColorSelected;
+            }
+            else
+            {
+                dPadWeaponDirections[i].color = dpadColorNotSelected;
+            }
+        }
+
     }
 
     public void placeSelectionBox(short typeIndex)
@@ -101,6 +124,14 @@ public class WeaponIndicatorManager : MonoBehaviour
     public GameObject spawnNewContainer(GameObject newPrefabType)
     {
         Debug.Log("spawn container called");
+
+        if (dpadImagesSaved < dPadWeaponDirections.Length)
+        {
+            // also stores dpad image
+            dPadWeaponDirections[dpadImagesSaved].sprite = newPrefabType.GetComponent<Weapon>().iconImageSpriteFile;
+            dpadImagesSaved++;
+        }
+
         GameObject newContainerObj = new GameObject(newPrefabType.name + " container"); // name will be useful for debugging
         newContainerObj.transform.SetParent(statusIndicatorsCenter.transform); // statusIndicatorsCenter is parent of all containers
         newContainerObj.transform.localPosition = new Vector3(0f, 0f, 0f);      // might be unnecessary
@@ -149,6 +180,47 @@ public class WeaponIndicatorManager : MonoBehaviour
         indicatorTypeContainers.Clear();
 
     }
+
+    public void displayControllerHud(bool showContHud)
+    {
+        if(showContHud != this.showControllerHud)
+        {
+            toggleControllerHud();
+        }
+    }
+
+    public void toggleControllerHud()
+    {
+        showControllerHud = !showControllerHud;
+
+        Debug.LogWarning("Toggling controller hud");
+
+        // mouse hud objects:
+        //  - weaponTypesText
+        //  - selectedTypeBox
+
+
+        if (showControllerHud)
+        {
+            // hide mouse hud
+            weaponTypesText.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+            weaponSelectBox.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+
+            // show controller hud
+            controllerHudObj.transform.localScale = new Vector3(1, 1, 1);
+        }
+        else // show mouse hud
+        {
+            // hide controller hud
+            controllerHudObj.transform.localScale = new Vector3(0, 0, 0);
+
+            // show mouse hud
+            weaponTypesText.transform.localScale = new Vector3(1, 1, 1);
+            weaponSelectBox.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+    }
+
 
     // Update is called once per frame
     void Update()

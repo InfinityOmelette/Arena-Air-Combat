@@ -27,6 +27,8 @@ public class BasicMissile : Weapon
     private bool guidedLaunch;
     private GameObject impactVictimRoot;
 
+    public float selfDestructSpeed;
+
     private bool doDestroy = false;
 
     void awake()
@@ -81,10 +83,15 @@ public class BasicMissile : Weapon
     {
         checkLinecastCollision();
 
-        if ( launched)
+        if ( launched )
         {
             if (myCombatFlow.localOwned)
             {
+                if(armed && rbRef.velocity.magnitude < selfDestructSpeed)
+                {
+                    myCombatFlow.dealLocalDamage(myCombatFlow.getHP());
+                }
+
                 if (myTarget != null)
                 {
                     updateTargetPosition();

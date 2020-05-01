@@ -8,6 +8,9 @@ public class RocketMotor : MonoBehaviour
     public float thrustForce;
     public float burnTime;
 
+    public float cruiseThrust;
+    public float cruiseTime;
+
     private Rigidbody myRB;
     private Weapon myWeapon;
 
@@ -15,6 +18,8 @@ public class RocketMotor : MonoBehaviour
     
 
     public bool doBurn;
+
+    private bool doCruise;
 
     private bool makeEffect = true;
 
@@ -62,6 +67,7 @@ public class RocketMotor : MonoBehaviour
             }
             myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
             doBurn = true;
+            doCruise = true;
         }
         else
         {
@@ -70,6 +76,21 @@ public class RocketMotor : MonoBehaviour
                 myWeapon.effectsObj.GetComponent<Light>().enabled = false;
             }
             doBurn = false;
+            
+        }
+
+        if (doCruise && !doBurn)
+        {
+            if (cruiseTime > 0)
+            {
+                //Debug.Log("Time for cruise");
+                myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
+                cruiseTime -= Time.deltaTime;
+            }
+            else
+            {
+                doCruise = false;
+            }
         }
 
     }
@@ -84,15 +105,18 @@ public class RocketMotor : MonoBehaviour
 
         if (myWeapon != null)
         {
-            if(doBurn)
+            if (myWeapon.launched)
             {
-                
-
-                if (myRB != null)
-                    myRB.AddForce(transform.forward * thrustForce);
-
-
-
+                if (doBurn)
+                {
+                    if (myRB != null)
+                        myRB.AddForce(transform.forward * thrustForce);
+                }
+                else if (doCruise) // will only go to this if doBurn is false
+                {
+                    if (myRB != null)
+                        myRB.AddForce(transform.forward * cruiseThrust);
+                }
             }
         }
     }

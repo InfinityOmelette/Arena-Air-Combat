@@ -811,6 +811,7 @@ MonoBehaviour:
   fuseLeadTime: 0.1
   impactDamage: 0
   speed: 0
+  selfDestructSpeed: 15
 --- !u!114 &5614070720692325809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,7 +847,7 @@ MonoBehaviour:
   scanConeAngle: 25
   maxDetectRange: 5000
   lockAngle: 0
-  detectionThreshold: 1.2
+  detectionThreshold: 1
 --- !u!114 &3456510896575939194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,11 +869,11 @@ MonoBehaviour:
   yawTorque: 15
   pitchTrim: 0
   downPitchMultiplier: 1
-  wingLiftCoefficient: 0.035
-  wingDragCoefficient: 0.25
+  wingLiftCoefficient: 0.0225
+  wingDragCoefficient: 0.36
   wingDragOffset: 0.001
-  bodySideLiftCoefficient: 0.035
-  bodySideDragCoefficient: 0.25
+  bodySideLiftCoefficient: 0.0225
+  bodySideDragCoefficient: 0.36
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
   pitchStability: 0
@@ -899,8 +900,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 175
-  burnTime: 3.5
+  thrustForce: 300
+  burnTime: 1.25
+  cruiseThrust: 50
+  cruiseTime: 3.3
   doBurn: 0
 --- !u!114 &7974841232584541846
 MonoBehaviour:
@@ -918,7 +921,7 @@ MonoBehaviour:
   currentHP: 1
   isLocalPlayer: 0
   localOwned: 0
-  detectabilityCoeff: 0
+  detectabilityCoeff: 3
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -929,6 +932,7 @@ MonoBehaviour:
   explodeStats: {fileID: 0}
   networkDeath: 1
   networkDamage: 0
+  networkReceivedCannonImpacts: 0
 --- !u!114 &29026782760298540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2195,6 +2199,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileEffects
       objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2264,11 +2273,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

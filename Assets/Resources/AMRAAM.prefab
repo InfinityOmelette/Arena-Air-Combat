@@ -2226,6 +2226,7 @@ MonoBehaviour:
   fuseLeadTime: 0.1
   impactDamage: 0
   speed: 0
+  selfDestructSpeed: 15
 --- !u!114 &8026004602786430092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2284,10 +2285,10 @@ MonoBehaviour:
   pitchTrim: 0
   downPitchMultiplier: 1
   wingLiftCoefficient: 0.035
-  wingDragCoefficient: 0.25
+  wingDragCoefficient: 0.33
   wingDragOffset: 0.001
   bodySideLiftCoefficient: 0.035
-  bodySideDragCoefficient: 0.25
+  bodySideDragCoefficient: 0.33
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
   pitchStability: 0
@@ -2314,8 +2315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 175
-  burnTime: 2.5
+  thrustForce: 300
+  burnTime: 0.75
+  cruiseThrust: 50
+  cruiseTime: 2
   doBurn: 0
 --- !u!114 &4268398709732474751
 MonoBehaviour:
@@ -2333,7 +2336,7 @@ MonoBehaviour:
   currentHP: 1
   isLocalPlayer: 0
   localOwned: 0
-  detectabilityCoeff: 0
+  detectabilityCoeff: 3
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -2344,6 +2347,7 @@ MonoBehaviour:
   explodeStats: {fileID: 0}
   networkDeath: 1
   networkDamage: 0
+  networkReceivedCannonImpacts: 0
 --- !u!114 &6194466470016553413
 MonoBehaviour:
   m_ObjectHideFlags: 0

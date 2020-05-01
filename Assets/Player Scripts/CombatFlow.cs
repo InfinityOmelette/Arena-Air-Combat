@@ -55,7 +55,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public bool networkDeath;
     public bool networkDamage = true;
 
-    private bool firstFrameReached = false;
+    public bool networkReceivedCannonImpacts = false;
 
     //private PhotonView photonView;
 
@@ -129,11 +129,6 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         {
             currentHP -= 30;
         }
-    }
-
-    private void LateUpdate()
-    {
-        firstFrameReached = true;
     }
     
     public void setNetName(string name)

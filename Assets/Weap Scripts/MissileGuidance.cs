@@ -139,9 +139,19 @@ public class MissileGuidance : MonoBehaviour
 
             // ============================  ESTIMATIONS
 
+            float deltaVBoost = Mathf.Min(Mathf.Abs(estimatedTimeToImpact), rocketMotor.burnTime) * rocketMotor.thrustForce;
+            float deltaVCruise = Mathf.Min(Mathf.Abs(estimatedTimeToImpact - rocketMotor.burnTime), rocketMotor.cruiseTime) * rocketMotor.cruiseThrust;
+            if(estimatedTimeToImpact < rocketMotor.burnTime)
+            {
+                deltaVCruise = 0;
+            }
+
+            //Debug.LogWarning("DeltaVBoost" + deltaVBoost + "DeltaVCruise: " + deltaVCruise);
+
             // estimate average missile speed based on distance, thrust, remaining burn time, altitude difference
             estimatedMissileVelocityAverage = myRB.velocity +
-                transform.forward.normalized * Mathf.Min(Mathf.Abs(estimatedTimeToImpact), rocketMotor.burnTime) * rocketMotor.thrustForce -
+                transform.forward.normalized * deltaVBoost +
+                transform.forward.normalized * deltaVCruise -
                  Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
             //estimatedMissileVelocityAverage = myRB.velocity;
 

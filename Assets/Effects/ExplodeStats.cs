@@ -50,6 +50,11 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         }
     }
 
+    //public void netExplodeRelative(CombatFlow victim, Vector3 position)
+    //{
+
+    //}
+
     public void cosmeticLocalExplode(Vector3 position)
     {
         if (doExplode && armingTime <= 0)

@@ -130,6 +130,8 @@ public class ParticleBehavior : MonoBehaviour
             float currentDamage = 0f;
 
 
+            ExplodeStats netExplodeType = null;
+
             if (incidentNormal.magnitude > ParticleBehavior.impactFuseVelocity) // if impact velocity is high enough, impact
             {
                 // set emitter to have all its projectiles lose 100% of lifetime upon collision
@@ -153,6 +155,11 @@ public class ParticleBehavior : MonoBehaviour
                 // damage
                 currentDamage = bounceDamage;
             }
+
+            //if(netExplodeType != null && targetFlow != null && targetFlow.networkReceivedCannonImpacts)
+            //{
+            //    netExplodeType
+            //}
 
             // only attempt to sent HP subtraction if target has CombatFlow script component
             if (targetFlow != null && rootFlow.isLocalPlayer)

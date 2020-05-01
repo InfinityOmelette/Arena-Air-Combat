@@ -364,6 +364,7 @@ MonoBehaviour:
   fuseLeadTime: 0.1
   impactDamage: 0
   speed: 0
+  selfDestructSpeed: 15
 --- !u!114 &5955528555778302879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,7 +400,7 @@ MonoBehaviour:
   scanConeAngle: 40
   maxDetectRange: 5000
   lockAngle: 0
-  detectionThreshold: 0.8
+  detectionThreshold: 1
 --- !u!114 &9132587599179994770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,8 +453,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 115
-  burnTime: 2.25
+  thrustForce: 225
+  burnTime: 0.6
+  cruiseThrust: 50
+  cruiseTime: 1.5
   doBurn: 0
 --- !u!114 &6128235843230067690
 MonoBehaviour:
@@ -471,7 +474,7 @@ MonoBehaviour:
   currentHP: 1
   isLocalPlayer: 0
   localOwned: 0
-  detectabilityCoeff: 0
+  detectabilityCoeff: 3
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -482,6 +485,7 @@ MonoBehaviour:
   explodeStats: {fileID: 0}
   networkDeath: 1
   networkDamage: 0
+  networkReceivedCannonImpacts: 0
 --- !u!114 &4305602229554513232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2463,6 +2467,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileEffects
       objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2531,11 +2540,6 @@ PrefabInstance:
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,

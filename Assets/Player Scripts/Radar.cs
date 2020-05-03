@@ -43,7 +43,6 @@ public class Radar : MonoBehaviour
 
             float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
 
-
             isDetected = targetFlow.myHudIconRef.hasLineOfSight && // line of sight
                 maxDetectRange > Vector3.Distance(targetFlow.transform.position, transform.position) && // max range
                 angleOffNose < scanConeAngle && // scan cone
@@ -53,7 +52,6 @@ public class Radar : MonoBehaviour
 
         return isDetected;
     }
-
   
     public bool tryLock(CombatFlow targetFlow)
     {

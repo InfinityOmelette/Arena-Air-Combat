@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 public class HardpointController : MonoBehaviourPunCallbacks
 {
@@ -84,6 +85,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
             // if type cannot be found, start a new first level list
             // if type is found, add to existing list
+
+
 
             short typeIndex = findTypeIndex(hardpoints[i].weaponTypePrefab);
 

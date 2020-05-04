@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private static GameManager gm;
 
+    public GameObject localPlayer;
+
     public static GameManager getGM()
     {
         if(gm == null)
@@ -67,6 +69,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 TeamSpawner spawner = getSpawnerByTeam(localTeam);
                 GameObject playerObj = spawner.spawnPlayer(playerPrefab);
                 spawner.setPlayerAsControllable(playerObj);
+                localPlayer = playerObj;
                 //playerObj.name = PhotonNetwork.NickName;
 
             }

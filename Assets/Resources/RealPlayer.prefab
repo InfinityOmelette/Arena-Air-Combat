@@ -36,7 +36,7 @@ Transform:
   - {fileID: 8385074085116674634}
   - {fileID: 7775593598959117634}
   m_Father: {fileID: 7744941291827435740}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8059042160316306020
 MonoBehaviour:
@@ -312,7 +312,7 @@ Transform:
   m_Children:
   - {fileID: 3799754074077904519}
   m_Father: {fileID: 7744941291827435740}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5788782208438821183
 MonoBehaviour:
@@ -395,6 +395,7 @@ GameObject:
   - component: {fileID: 4119210450518891418}
   - component: {fileID: 4424309726456864805}
   - component: {fileID: -5467275007762761004}
+  - component: {fileID: 2574578892934523022}
   m_Layer: 9
   m_Name: RealPlayer
   m_TagString: Untagged
@@ -413,8 +414,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6403846366911295104}
   - {fileID: 7160427416421413583}
+  - {fileID: 6403846366911295104}
   - {fileID: 690796679822223153}
   - {fileID: 6816141353901119962}
   m_Father: {fileID: 0}
@@ -586,6 +587,7 @@ MonoBehaviour:
   cannons: {fileID: 8059042160316306020}
   tgtComputer: {fileID: 0}
   hardpointController: {fileID: 3718655085937672987}
+  myRadar: {fileID: 0}
   testExplosionDistance: 0
   tgtLookAtHoldTime: 0.4
   currentTgtHoldTime: 0
@@ -625,7 +627,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7744941291827435728}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
@@ -634,6 +636,9 @@ MonoBehaviour:
   maxDetectRange: 3750
   lockAngle: 25
   detectionThreshold: 1.1
+  radarOn: 0
+  radarID: AIR
+  rwrIcon: {fileID: 0}
 --- !u!114 &4424309726456864805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +676,18 @@ MonoBehaviour:
   updatesPerSecond: 12
   posLerp: 0.2
   active: 1
+--- !u!114 &2574578892934523022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +831,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.8113361
+      objectReference: {fileID: 0}
+    - target: {fileID: -138648782365146024, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2568,15 +2590,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
---- !u!1 &5948967897164891282 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3618685307294676433}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8385074085116674634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3618685307294676433}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5948967897164891282 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
     type: 3}
   m_PrefabInstance: {fileID: 3618685307294676433}
   m_PrefabAsset: {fileID: 0}
@@ -2958,6 +2980,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.8113361
+      objectReference: {fileID: 0}
+    - target: {fileID: -138648782365146024, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}

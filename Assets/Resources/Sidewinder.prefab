@@ -401,6 +401,9 @@ MonoBehaviour:
   maxDetectRange: 5000
   lockAngle: 0
   detectionThreshold: 1
+  radarOn: 0
+  radarID: SDW
+  rwrIcon: {fileID: 0}
 --- !u!114 &9132587599179994770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,7 +458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustForce: 225
   burnTime: 0.6
-  cruiseThrust: 45
+  cruiseThrust: 40
   cruiseTime: 1.5
   doBurn: 0
 --- !u!114 &6128235843230067690

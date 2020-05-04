@@ -19,6 +19,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     public CannonControl cannons;
     public TgtComputer tgtComputer;
     public HardpointController hardpointController;
+    public Radar myRadar;
 
     private CombatFlow myFlow;
 
@@ -44,6 +45,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     {
         tgtComputer = GetComponent<TgtComputer>();
         myFlow = GetComponent<CombatFlow>();
+        myRadar = GetComponent<Radar>();
     }
 
     // Start is called before the first frame update
@@ -74,6 +76,14 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
             getWeaponSelectNumber();
 
             processCamOffset();
+
+
+            if(Input.GetButtonDown("Radar Toggle"))
+            {
+                Debug.LogWarning("Toggling radar");
+                myRadar.toggleRadar();
+            }
+
         }
     }
 

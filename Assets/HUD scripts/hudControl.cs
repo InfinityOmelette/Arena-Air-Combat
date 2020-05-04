@@ -69,12 +69,15 @@ public class hudControl : MonoBehaviour
     // REFERENCES
     public GameObject aircraftRootObj;
     public WheelsControl wheelControllerInfo;
+    public GameObject rwrIconContainer;
     private Rigidbody root_rbRef;
     private RealFlightControl root_flightInfoObjRef;
     private EngineControl root_Engine;
     private CombatFlow root_combatFlow;
 
     public bool startVisible;
+
+    public GameObject rwrIconPrefab;
 
     public void setHudVisible(bool makeVisible)
     {

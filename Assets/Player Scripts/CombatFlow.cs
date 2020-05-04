@@ -238,7 +238,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     void destroySelf()
     {
         Debug.LogWarning("Destroyself called");
-        
+
+
         if (isLocalPlayer)
         {
             //Debug.LogWarning("localplayer: " + gameObject.name + " destroyed. Calling showSpawnMenu");
@@ -282,6 +283,9 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+
+
+
 
 
     }

@@ -31,15 +31,19 @@ public class BasicMissile : Weapon
 
     private bool doDestroy = false;
 
+    private Radar radar;
+
     void awake()
     {
-        
+
         
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        radar = GetComponent<Radar>();
+        Debug.LogWarning("Found radar of " + radar.gameObject.name);
 
         myCombatFlow = GetComponent<CombatFlow>();
         //photonView = PhotonView.Get(this);
@@ -247,7 +251,30 @@ public class BasicMissile : Weapon
         photonView.RPC("rpcLaunch", RpcTarget.AllBuffered);
 
         guidedLaunch = myTarget != null;
+
+        if (guidedLaunch)
+        {
+            int targetID = myTarget.GetComponent<PhotonView>().ViewID;
+            photonView.RPC("rpcPingPlayer", RpcTarget.All, targetID);
+        }
+
+        radar.radarOn = true;
         
+    }
+
+    [PunRPC]
+    private void rpcPingPlayer(int photonId)
+    {
+        PhotonView targetView = PhotonNetwork.GetPhotonView(photonId);
+        if(targetView != null)
+        {
+            CombatFlow targetFlow = targetView.GetComponent<CombatFlow>();
+            if (targetFlow.isLocalPlayer)
+            {
+                Debug.LogWarning("Activating missile radar targeting: " + targetFlow.gameObject);
+                radar.radarOn = true;
+            }
+        }
     }
 
     [PunRPC]

@@ -627,6 +627,7 @@ MonoBehaviour:
   friendlyFire: 0
   team: 0
   doExplode: 1
+  armingTime: 0
 --- !u!114 &1195842359684267916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,6 +645,7 @@ MonoBehaviour:
   isLocalPlayer: 0
   localOwned: 0
   detectabilityCoeff: 0
+  radarSymbol: .
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -654,6 +656,7 @@ MonoBehaviour:
   explodeStats: {fileID: 0}
   networkDeath: 0
   networkDamage: 0
+  networkReceivedCannonImpacts: 0
 --- !u!114 &2852526732308735592
 MonoBehaviour:
   m_ObjectHideFlags: 0

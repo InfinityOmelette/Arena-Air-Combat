@@ -70,6 +70,7 @@ public class hudControl : MonoBehaviour
     public GameObject aircraftRootObj;
     public WheelsControl wheelControllerInfo;
     public GameObject rwrIconContainer;
+    public MapManager mapManager;
     private Rigidbody root_rbRef;
     private RealFlightControl root_flightInfoObjRef;
     private EngineControl root_Engine;
@@ -78,6 +79,8 @@ public class hudControl : MonoBehaviour
     public bool startVisible;
 
     public GameObject rwrIconPrefab;
+
+
 
     public void setHudVisible(bool makeVisible)
     {
@@ -111,6 +114,11 @@ public class hudControl : MonoBehaviour
 
         //  MOVE HP BAR TO TOP MIDDLE
         hpBarParentRef.transform.localPosition = new Vector3(0.0f, Screen.height / 2f, 0.0f);
+
+        // MOVE MAP DISPLAY TO LOWER RIGHT
+        GameObject mapCent = mapManager.GetComponent<MapManager>().displayCenter;
+        mapCent.transform.localPosition = new Vector2(mapCent.transform.localPosition.x - Screen.width / 2f,
+            mapCent.transform.localPosition.y - Screen.height / 2f);
 
 
         //Debug.LogWarning("hiding initial hud");

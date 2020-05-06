@@ -672,7 +672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5446831171123645172}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.05, y: 0, z: 0}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_Children:
   - {fileID: 7185386610778367135}
@@ -1220,6 +1220,7 @@ MonoBehaviour:
   isLocalPlayer: 0
   localOwned: 0
   detectabilityCoeff: 6
+  radarSymbol: "\u2726"
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -1229,6 +1230,8 @@ MonoBehaviour:
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 0
+  networkDamage: 1
+  networkReceivedCannonImpacts: 0
 --- !u!114 &3503788892843838836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1254,6 +1257,7 @@ MonoBehaviour:
   friendlyFire: 0
   team: 0
   doExplode: 1
+  armingTime: 0
 --- !u!114 &-5318638688207957474
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class Radar : MonoBehaviourPun
     public static float distMod = 610;  // "a" value in desmos. Horizontal stretch
     public static float distCoeff = 2.5f; // "b" value in desmos. Vertical stretch. 2.5 average. effective distMod at 0 distance
 
-    private static float RWR_PING_DELAY = .15f; // must be nonzero
+    private static float RWR_PING_DELAY = .075f; // must be nonzero
 
     // This radar's performance:
     public float scanConeAngle;

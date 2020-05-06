@@ -34,7 +34,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public float detectabilityCoeff;
 
-
+    public string radarSymbol;
     
     // inefficient -- lots of non-player combat objects will have useless perspective references
     public PerspectiveManager camManager;
@@ -107,6 +107,16 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         // spawn icon, set reference here to the TgtHudIconScript of icon spawned
         myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this).GetComponent<TgtHudIcon>();// add my icon to hud
+
+        if (!isLocalPlayer)
+        {
+            spawnRadarIcon();
+        }
+    }
+
+    private void spawnRadarIcon()
+    {
+        hudControl.mainHud.GetComponent<hudControl>().mapManager.spawnIcon(this);
     }
 
     

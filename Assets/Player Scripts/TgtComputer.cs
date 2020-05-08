@@ -141,6 +141,7 @@ public class TgtComputer : MonoBehaviour
                         {
                             currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
                             currentTarget = null;
+                            hudControl.mainHud.GetComponent<hudControl>().mapManager.target = null;
 
                         }
 
@@ -209,6 +210,7 @@ public class TgtComputer : MonoBehaviour
         {
             TgtHudIcon newTargetHudIcon = newTarget.myHudIconRef;
             newTargetHudIcon.targetedState = TgtHudIcon.TargetedState.TARGETED;
+            hudControl.mainHud.GetComponent<hudControl>().mapManager.target = newTarget.transform;
         }
         
 

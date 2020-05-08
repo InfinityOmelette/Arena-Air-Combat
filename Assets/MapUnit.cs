@@ -77,7 +77,14 @@ public class MapUnit : MonoBehaviour
                 updateColor();
                 if (linkedTgtIcon.targetedState == TgtHudIcon.TargetedState.TARGETED)
                 {
-                    doBlink();
+                    if (mapManager.withinBounds(transform.localPosition) && linkedTgtIcon.isDetected)
+                    {
+                        doBlink();
+                    }
+                    else
+                    {
+                        show(false);
+                    }
                 }
                 else
                 {

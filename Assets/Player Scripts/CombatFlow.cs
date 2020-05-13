@@ -59,6 +59,9 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public List<int> seenBy; // photonID's of non-friendlies that can see this unit
 
+
+    private float seenCleanWaitMax = .75f;
+    private float seenCleanWaitTimer = -1f;
     //private PhotonView photonView;
 
        
@@ -143,6 +146,15 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.V) && !isLocalPlayer && doDebugDamage)
         {
             currentHP -= 30;
+        }
+
+        if(seenCleanWaitTimer > 0)
+        {
+            seenCleanWaitTimer -= Time.deltaTime;
+            if(seenCleanWaitTimer <= 0)
+            {
+                cleanSeenBy();
+            }
         }
     }
     
@@ -343,9 +355,38 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             CombatFlow currentFlow = CombatFlow.combatUnits[i];
             if(currentFlow != null)
             {
-                rpcRemoveSeenBy(photonView.ViewID);
+                //rpcRemoveSeenBy(photonView.ViewID);
+                int myID = photonView.ViewID;
+
+                // inefficient. Should have local way to do full function locally without rpc
+                if (currentFlow.seenBy.Contains(myID)) 
+                {
+                    currentFlow.rpcRemoveSeenBy(myID);
+                }
             }
             
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Player other)
+    {
+        //Debug.Log("OnPlayerLeftRoom called from " + gameObject.name);
+
+        seenCleanWaitTimer = seenCleanWaitMax;
+    }
+
+    private void cleanSeenBy()
+    {
+        for(int i = 0; i < seenBy.Count; i++)
+        {
+            if(PhotonNetwork.GetPhotonView(seenBy[i]) == null)
+            {
+                //Debug.LogError("Removing ID from seenBy for " + gameObject.name);
+                seenBy.RemoveAt(i);
+                i--; // next loop iteration should examine same index after removal
+            }
+
+
         }
     }
 

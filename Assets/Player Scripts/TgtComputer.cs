@@ -135,7 +135,7 @@ public class TgtComputer : MonoBehaviour
                             }
 
                             // if nonfriendly
-                            if (currentFlow.team != localPlayerFlow.team)
+                            if (currentFlow.team != localPlayerFlow.team && currentFlow.type != CombatFlow.Type.PROJECTILE)
                             {
                                 
                                 if (isVisible)

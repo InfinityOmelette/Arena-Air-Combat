@@ -158,6 +158,7 @@ public class TgtComputer : MonoBehaviour
                                 currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
                                 currentTarget = null;
                                 hudControl.mainHud.GetComponent<hudControl>().mapManager.target = null;
+                                playerInput.cam.lookAtObj = null;
 
                             }
 

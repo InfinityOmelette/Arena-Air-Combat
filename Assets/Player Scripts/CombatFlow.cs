@@ -9,7 +9,7 @@ using Photon.Realtime;
 public class CombatFlow : MonoBehaviourPunCallbacks
 {
 
-    public static List<GameObject> combatUnits;
+    public static List<CombatFlow> combatUnits;
 
 
     public enum Team 
@@ -57,7 +57,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public bool networkReceivedCannonImpacts = false;
 
+    public List<int> seenBy; // photonID's of non-friendlies that can see this unit
+
     //private PhotonView photonView;
+
+       
 
     public static Team convertNumToTeam(short num)
     {
@@ -87,10 +91,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     private void Awake()
     {
         if (CombatFlow.combatUnits == null)
-            CombatFlow.combatUnits = new List<GameObject>();
+            CombatFlow.combatUnits = new List<CombatFlow>();
+        
+        CombatFlow.combatUnits.Add(this);
 
-        CombatFlow.combatUnits.Add(gameObject);
-
+        seenBy = new List<int>();
 
     }
 
@@ -249,6 +254,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     {
         Debug.LogWarning("Destroyself called");
 
+        removeFromDatalink();
 
         if (isLocalPlayer)
         {
@@ -272,7 +278,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         //{
         //    Destroy(weaponRef.effectsObj);
         //}
-        CombatFlow.combatUnits.Remove(gameObject);
+        CombatFlow.combatUnits.Remove(this);
         if (myHudIconRef != null)
         {
             Destroy(myHudIconRef.gameObject);
@@ -294,12 +300,54 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
 
-
-
-
-
     }
 
+    public bool checkSeen(int viewer)
+    {
+        return seenBy.Count == 1 && seenBy[0] != viewer || seenBy.Count > 1;
+    }
+
+    public void tryAddSeenBy(int id)
+    {
+        if (!seenBy.Contains(id))
+        {
+            photonView.RPC("rpcAddSeenBy", RpcTarget.AllBuffered, id);
+        }
+    }
+
+    [PunRPC]
+    public void rpcAddSeenBy(int id)
+    {
+        seenBy.Add(id);
+    }
+
+    public void tryRemoveSeenBy(int id)
+    {
+        if (seenBy.Contains(id))
+        {
+            photonView.RPC("rpcRemoveSeenBy", RpcTarget.AllBuffered, id);
+        }
+    }
+
+    [PunRPC]
+    public void rpcRemoveSeenBy(int id)
+    {
+        seenBy.Remove(id);
+    }
+
+
+    private void removeFromDatalink()
+    {
+        for(int i = 0; i < CombatFlow.combatUnits.Count; i++)
+        {
+            CombatFlow currentFlow = CombatFlow.combatUnits[i];
+            if(currentFlow != null)
+            {
+                rpcRemoveSeenBy(photonView.ViewID);
+            }
+            
+        }
+    }
 
     
 

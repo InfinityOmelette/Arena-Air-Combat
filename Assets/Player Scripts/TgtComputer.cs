@@ -23,15 +23,12 @@ public class TgtComputer : MonoBehaviour
 
     public float visibleRange;
 
-    public List<CombatFlow> lstDatalink;
-
     private HardpointController hardpointController;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        lstDatalink = new List<CombatFlow>();
         myRadar = GetComponent<Radar>();
         playerInput = GetComponent<PlayerInput_Aircraft>();
         mainHud = hudControl.mainHud.GetComponent<hudControl>();
@@ -59,99 +56,119 @@ public class TgtComputer : MonoBehaviour
     private void LateUpdate()
     {
 
-        List<GameObject> flowArray = CombatFlow.combatUnits;
-
-        // Loop through all combatUnits
-        for(int i = 0; i < CombatFlow.combatUnits.Count; i++)
+        if (localPlayerFlow.isLocalPlayer)
         {
 
-            if (flowArray[i] != null)
+            List<CombatFlow> flowArray = CombatFlow.combatUnits;
+
+            // Loop through all combatUnits
+            for (int i = 0; i < CombatFlow.combatUnits.Count; i++)
             {
 
-                // Current CombatFlow to attempt to see
-                CombatFlow currentFlow = flowArray[i].GetComponent<CombatFlow>();
-
-
-                if (currentFlow != null)
+                if (flowArray[i] != null)
                 {
 
-                    TgtHudIcon currentFlowHudIcon = currentFlow.myHudIconRef;
+                    // Current CombatFlow to attempt to see
+                    CombatFlow currentFlow = flowArray[i];
 
-                    if (currentFlowHudIcon != null)
+
+                    if (currentFlow != null)
                     {
 
-                        //  =====================  DISTANCE
-                        
-                        // Distance between this gameobject and target
-                        currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+                        TgtHudIcon currentFlowHudIcon = currentFlow.myHudIconRef;
 
-                        // ======================== LINE OF SIGHT
-                        int terrainLayer = 1 << 10; // line only collides with terrain layer
-                        currentFlowHudIcon.hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
-
-
-                        // ========================  IFF
-                        currentFlowHudIcon.isFriendly = localPlayerFlow.team == currentFlow.team;
-
-                        //{ // debug block
-
-                        //    Weapon currentWeap = currentFlow.GetComponent<Weapon>();
-                        //    if(currentWeap != null && currentFlow.localOwned)
-                        //    {
-                        //        Debug.LogWarning(currentFlow.gameObject.name + "'s team is: " + currentFlow.team + ", local player's is : "
-                        //            + localPlayerFlow.team);
-                        //    }
-
-                        //}
-
-
-                        // =====================  VISIBILITY
-
-                        // Various conditions will attempt to make this true
-                        bool isVisible = false;
-
-
-
-                        // Show unit if this is NOT the local player
-                        if (!currentFlow.isLocalPlayer && currentFlow.isActive)
+                        if (currentFlowHudIcon != null)
                         {
 
+                            //  =====================  DISTANCE
+
+                            // Distance between this gameobject and target
+                            currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+
+                            // ======================== LINE OF SIGHT
+                            int terrainLayer = 1 << 10; // line only collides with terrain layer
+                            currentFlowHudIcon.hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
 
 
-                            if (currentFlow.team == localPlayerFlow.team)
+                            // ========================  IFF
+                            currentFlowHudIcon.isFriendly = localPlayerFlow.team == currentFlow.team;
+
+                            //{ // debug block
+
+                            //    Weapon currentWeap = currentFlow.GetComponent<Weapon>();
+                            //    if(currentWeap != null && currentFlow.localOwned)
+                            //    {
+                            //        Debug.LogWarning(currentFlow.gameObject.name + "'s team is: " + currentFlow.team + ", local player's is : "
+                            //            + localPlayerFlow.team);
+                            //    }
+
+                            //}
+
+
+                            // =====================  VISIBILITY
+
+                            // Various conditions will attempt to make this true
+                            bool isVisible = false;
+
+
+
+                            // Show unit if this is NOT the local player
+                            if (!currentFlow.isLocalPlayer && currentFlow.isActive)
                             {
-                                isVisible = true;
-                            }
-                            else
-                            {
-                                isVisible = Vector3.Distance(currentFlow.transform.position, transform.position) < visibleRange
-                                    && currentFlow.myHudIconRef.hasLineOfSight;
-                                if (!isVisible)
+
+
+
+                                if (currentFlow.team == localPlayerFlow.team)
                                 {
-                                    isVisible = myRadar.tryDetect(currentFlow);
+                                    isVisible = true;
+                                }
+                                else
+                                {
+                                    isVisible = Vector3.Distance(currentFlow.transform.position, transform.position) < visibleRange
+                                        && currentFlow.myHudIconRef.hasLineOfSight;
+                                    if (!isVisible)
+                                    {
+                                        isVisible = myRadar.tryDetect(currentFlow);
 
+                                    }
                                 }
                             }
+
+                            // if nonfriendly
+                            if (currentFlow.team != localPlayerFlow.team)
+                            {
+                                
+                                if (isVisible)
+                                {
+                                    currentFlow.tryAddSeenBy(localPlayerFlow.photonView.ViewID);
+                                }
+                                else
+                                {
+                                    currentFlow.tryRemoveSeenBy(localPlayerFlow.photonView.ViewID);
+                                }
+
+                                currentFlowHudIcon.dataLink = currentFlow.checkSeen(localPlayerFlow.photonView.ViewID);
+                            }
+
+                            //  Send visibility result
+                            currentFlowHudIcon.isDetected = isVisible;
+
+                            if (!isVisible && !currentFlowHudIcon.dataLink && currentTarget == currentFlow)
+                            {
+                                currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
+                                currentTarget = null;
+                                hudControl.mainHud.GetComponent<hudControl>().mapManager.target = null;
+
+                            }
+
+                            // ========= TRY TO LOCK
+                            tryLockTarget(currentFlow);
                         }
 
-                        //  Send visibility result
-                        currentFlowHudIcon.isDetected = isVisible;
-
-                        if (!isVisible && currentTarget == currentFlow)
-                        {
-                            currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
-                            currentTarget = null;
-                            hudControl.mainHud.GetComponent<hudControl>().mapManager.target = null;
-
-                        }
-
-                        // ========= TRY TO LOCK
-                        tryLockTarget(currentFlow);
                     }
-
                 }
-            }
 
+            }
         }
     }
 
@@ -162,7 +179,7 @@ public class TgtComputer : MonoBehaviour
     {
         //Debug.Log("================== Searching for targets...");
         CombatFlow newTarget = null; // default point to currentTarget -- if changeTarget unsuccessful, this won't change
-        List<GameObject> flowObjArray = CombatFlow.combatUnits;
+        List<CombatFlow> flowObjArray = CombatFlow.combatUnits;
 
         float smallestAngle = 180f; //180 is max angle Vector3.angleBetween gives
 
@@ -172,7 +189,7 @@ public class TgtComputer : MonoBehaviour
             if (flowObjArray[i] != null)
             {
 
-                CombatFlow currentFlow = flowObjArray[i].GetComponent<CombatFlow>();
+                CombatFlow currentFlow = flowObjArray[i];
 
                 if (currentFlow != null)
                 {
@@ -186,7 +203,7 @@ public class TgtComputer : MonoBehaviour
                     //Debug.Log("Current target is: " + currentFlow.gameObject + ", at " + currentAngle + " degrees, smallest angle is: " + smallestAngle + " degrees.");
 
                     // angle within max, angle smallest, and target is not on same team as localPlayer
-                    if (currentFlow.myHudIconRef.isDetected &&
+                    if ((currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
                         currentFlow.isActive &&
                         currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
                         currentAngle < changeTargetMaxAngle &&
@@ -211,6 +228,10 @@ public class TgtComputer : MonoBehaviour
             TgtHudIcon newTargetHudIcon = newTarget.myHudIconRef;
             newTargetHudIcon.targetedState = TgtHudIcon.TargetedState.TARGETED;
             hudControl.mainHud.GetComponent<hudControl>().mapManager.target = newTarget.transform;
+        }
+        else
+        {
+            hudControl.mainHud.GetComponent<hudControl>().mapManager.target = null;
         }
         
 

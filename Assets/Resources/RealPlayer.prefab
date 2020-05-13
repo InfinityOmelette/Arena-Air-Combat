@@ -134,7 +134,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.5
   far clip plane: 50000
   field of view: 64.8
   orthographic: 0
@@ -543,6 +543,7 @@ MonoBehaviour:
   networkDeath: 1
   networkDamage: 1
   networkReceivedCannonImpacts: 0
+  seenBy: 
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,7 +621,6 @@ MonoBehaviour:
   changeTargetMaxAngle: 25
   tgtButtonUp: 0
   visibleRange: 1100
-  lstDatalink: []
 --- !u!114 &4119210450518891418
 MonoBehaviour:
   m_ObjectHideFlags: 0

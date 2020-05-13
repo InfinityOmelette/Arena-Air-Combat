@@ -26,6 +26,9 @@ public class TgtHudIcon : MonoBehaviour
     public bool hasLineOfSight;
     public bool showInfo;
 
+    public bool dataLink;
+    public Text dataLinkText;
+
     public float currentDistance;
 
     public enum TargetedState
@@ -46,12 +49,14 @@ public class TgtHudIcon : MonoBehaviour
 
     private Vector3 distTextOriginPos;
     private Vector3 titleTextOriginPos;
+    private Vector3 dataLinkTextOriginPos;
 
     // Start is called before the first frame update
     void Start()
     {
         distTextOriginPos = tgtDistText.transform.localPosition;
         titleTextOriginPos = tgtTitleText.transform.localPosition;
+        dataLinkTextOriginPos = dataLinkText.transform.localPosition;
     }
 
     // Update is called once per frame
@@ -64,10 +69,9 @@ public class TgtHudIcon : MonoBehaviour
         if (rootFlow != null)
         {
 
-            if (isDetected)
+            if (isDetected || dataLink)
             {
 
-                
                 // SET COLOR BASED ON LOCK STATE
                 if (targetedState == TargetedState.LOCKED) // LOCKED
                 {
@@ -102,8 +106,7 @@ public class TgtHudIcon : MonoBehaviour
                     }
                 }
 
-
-
+                setDataLinkText();
                 blinkProcess(); // either show steady or blink depending on targeted state
                 updateTexts();
                 resizeForDist(currentDistance);
@@ -116,6 +119,18 @@ public class TgtHudIcon : MonoBehaviour
         else // hide if rootflow is null
         {
             transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen
+        }
+    }
+
+    void setDataLinkText()
+    {
+         if (dataLink)
+        {
+            dataLinkText.text = "DL";
+        }
+        else
+        {
+            dataLinkText.text = "";
         }
     }
 
@@ -144,6 +159,7 @@ public class TgtHudIcon : MonoBehaviour
         // Move text to stay aligned with box
         tgtDistText.transform.localPosition = tgtImageCenter.transform.localScale.x * distTextOriginPos;
         tgtTitleText.transform.localPosition = tgtImageCenter.transform.localScale.x * titleTextOriginPos;
+        dataLinkText.transform.localPosition = tgtImageCenter.transform.localScale.x * dataLinkTextOriginPos;
     }
 
 
@@ -233,7 +249,7 @@ public class TgtHudIcon : MonoBehaviour
             tgtTitleText.color = activeColor;
             tgtVisConditionsText.color = activeColor;
             tgtDistText.color = activeColor;
-
+            dataLinkText.color = activeColor;
             
         }
 

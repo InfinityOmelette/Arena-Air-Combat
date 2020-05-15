@@ -102,7 +102,7 @@ public class MapManager : MonoBehaviour
             stepIndex();
         }
 
-        if(target != null)
+        if(target != null && playerObj != null)
         {
             selectedTargetRange(Vector3.Distance(target.position, playerObj.transform.position));
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class AI_TurretMG : MonoBehaviour
 {
@@ -13,21 +14,27 @@ public class AI_TurretMG : MonoBehaviour
 
     private float schutDistance = 1200f;
 
-    private GameObject rootObj;
+    private CombatFlow rootFlow;
 
     public ParticleSystem gun;
 
     private float booleetSpeed;
 
+    private TurretNetworking turretNet;
+
+    public float changeCycleCounterMax;
+    private float changeCycleCounter;
+    
     //private bool isJef = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        
+        changeCycleCounter = changeCycleCounterMax;
 
-        rootObj = transform.root.gameObject;
+        turretNet = transform.root.GetComponent<TurretNetworking>();
+
+        rootFlow = transform.root.GetComponent<CombatFlow>();
         booleetSpeed = gun.startSpeed;
 
         schutDistance = booleetSpeed * gun.startLifetime;
@@ -43,70 +50,151 @@ public class AI_TurretMG : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(targetRb == null)
-        {
-            GameObject player = GameManager.getGM().localPlayer;
-            
-            if(player != null)
-            {
-                CombatFlow playerFlow = player.GetComponent<CombatFlow>();
-                if (playerFlow.team != rootObj.GetComponent<CombatFlow>().team)
-                {
 
-                    targetRb = player.GetComponent<Rigidbody>();
-                }
+        tryChangeTarget();
+        bool canShoot = false;
+        if (targetRb != null)
+        {
+            canShoot = targetInParams();
+            
+            if (canShoot)
+            {
+                setLead();
+            }
+            else
+            {
+                turretNet.setTarget(null);
+                rootFlow.returnOwnershipToHost();
             }
         }
         else
         {
-            float distance = Vector3.Distance(transform.position, targetRb.transform.position);
-            bool gunSet = distance < schutDistance;
+            rootFlow.returnOwnershipToHost();
+        }
 
-            setLead(distance);
+        setGunState(canShoot);
 
 
-            if (gunSet != gunsOn)
+
+
+    }
+
+    private void tryChangeTarget()
+    {
+        if (rootFlow.isHostInstance)
+        {
+
+            changeCycleCounter -= Time.deltaTime;
+            if (changeCycleCounter < 0)
             {
-                gunsOn = gunSet;
-                if (gunSet)
+                changeCycleCounter = changeCycleCounterMax;
+
+                CombatFlow targetFlow = findNearestTarget();
+                if (targetFlow != null && targetFlow.GetComponent<Rigidbody>() != targetRb)
                 {
-                    gun.Play();
+                    turretNet.setTarget(targetFlow);
+
+                    // only target's instance will deal damage. Rest will be cosmetic-only
+                    rootFlow.giveOwnership(targetFlow.photonView.ViewID);
                 }
-                else
+                
+            }
+        }
+    }
+
+    public void setTarget(GameObject obj)
+    {
+        if (obj != null)
+        {
+            targetRb = obj.GetComponent<Rigidbody>();
+        }
+        else
+        {
+            targetRb = null;
+        }
+    }
+
+    private CombatFlow findNearestTarget()
+    {
+        CombatFlow closestTarget = null;
+
+        // don't bother targeting someone outside of schutDistance
+        float shortestDist = schutDistance;
+
+        List<CombatFlow> allUnits = CombatFlow.combatUnits;
+
+        for(int i = 0; i < allUnits.Count; i++)
+        {
+            CombatFlow currentFlow = allUnits[i];
+
+            if (currentFlow != null)
+            {
+                if (currentFlow.team != rootFlow.team && currentFlow.type == CombatFlow.Type.AIRCRAFT)
                 {
-                    gun.Stop();
+                    
+                    float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+
+                    if (currentDistance < shortestDist)
+                    {
+                        int terrainLayer = 1 << 10; // line only collides with terrain layer
+                        bool hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
+                        if (hasLineOfSight)
+                        {
+                            closestTarget = currentFlow;
+                            shortestDist = currentDistance;
+                        }
+                    }
                 }
             }
         }
 
-       
+
+
+        return closestTarget;
     }
 
-    private void setLead(float distance)
+
+    private void setGunState(bool gunSet)
     {
-        
+        if (gunSet != gunsOn)
+        {
+            gunsOn = gunSet;
+            if (gunSet)
+            {
+                gun.Play();
+            }
+            else
+            {
+                gun.Stop();
+            }
+        }
+    }
+
+    private void setLead()
+    {
+        float distance = Vector3.Distance(transform.position, targetRb.transform.position);
         Vector3 targetBearingLine = targetRb.transform.position - transform.position;
         targetBearingLine = Vector3.Project(targetRb.velocity, targetBearingLine);
+
         float closingVel = targetBearingLine.magnitude;
-
-        
-
         if (Vector3.Distance(transform.position, targetRb.transform.position + targetBearingLine) < distance)
         {
             closingVel *= -1f;
         }
 
-        
-
         float timeToImpact = distance / (booleetSpeed - closingVel);
 
-        //if (isJef)
-        //{
-        //    Debug.LogWarning("Closing Vel: " + closingVel + " target Vel: " + targetRb.velocity.magnitude);
-        //}
-
         Vector3 targetPos = targetRb.transform.position + targetRb.velocity * timeToImpact;
-        transform.rotation = Quaternion.LookRotation(targetPos - rootObj.transform.position, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
+    }
+
+    private bool targetInParams()
+    {
+
+        float distance = Vector3.Distance(transform.position, targetRb.transform.position);
+        int terrainLayer = 1 << 10; // line only collides with terrain layer
+        bool hasLineOfSight = !Physics.Linecast(transform.position, targetRb.transform.position, terrainLayer);
+        return distance < schutDistance && hasLineOfSight;
     }
 
     //private void setLeadAngle()

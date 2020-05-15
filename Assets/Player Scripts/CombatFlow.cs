@@ -64,7 +64,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     private float seenCleanWaitTimer = -1f;
     //private PhotonView photonView;
 
-       
+    public bool isHostInstance = false;
 
     public static Team convertNumToTeam(short num)
     {
@@ -102,12 +102,15 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     }
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
 
         if(PhotonNetwork.PlayerList.Length == 1)
         {
+            isHostInstance = true;
             localOwned = true;
         }
 
@@ -265,7 +268,6 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     void destroySelf()
     {
         Debug.LogWarning("Destroyself called");
-
         removeFromDatalink();
 
         if (isLocalPlayer)
@@ -390,7 +392,37 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
     }
 
-    
+    public void returnOwnershipToHost()
+    {
+        if (localOwned && !isHostInstance)
+        {
+            photonView.RPC("rpcCheckIfHost", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    public void rpcCheckIfHost()
+    {
+        localOwned = isHostInstance;
+    }
+
+    public void giveOwnership(int photonID)
+    {
+
+        photonView.RPC("rpcSetOwnership", RpcTarget.All, photonID);
+    }
+
+    [PunRPC]
+    public void rpcSetOwnership(int photonID)
+    {
+        PhotonView view = PhotonNetwork.GetPhotonView(photonID);
+
+        if(view != null)
+        {
+            CombatFlow player = view.GetComponent<CombatFlow>();
+            localOwned = player.localOwned || player.isLocalPlayer;
+        }
+    }
 
 
 

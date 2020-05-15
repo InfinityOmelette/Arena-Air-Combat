@@ -162,7 +162,7 @@ public class ParticleBehavior : MonoBehaviour
             //}
 
             // only attempt to sent HP subtraction if target has CombatFlow script component
-            if (targetFlow != null && rootFlow.isLocalPlayer)
+            if (targetFlow != null && (rootFlow.isLocalPlayer || rootFlow.localOwned))
             {
                 targetFlow.dealDamage(currentDamage);
             }

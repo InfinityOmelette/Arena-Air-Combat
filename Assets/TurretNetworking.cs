@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(CombatFlow))]
 public class TurretNetworking : MonoBehaviourPunCallbacks
 {
 

@@ -44,7 +44,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public Team team;
     public Type type;
-    public bool isActive = true;
+    public bool isActive;
 
     private bool deathCommanded = false;
 

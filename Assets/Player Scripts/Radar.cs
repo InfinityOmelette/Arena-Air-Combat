@@ -42,14 +42,14 @@ public class Radar : MonoBehaviourPun
 
         spawnRwrIcon();
 
-        if (myFlow.type == CombatFlow.Type.PROJECTILE)
-        {
-            setRadarActive(false);
-        }
-        else
-        {
-            setRadarActive(true);
-        }
+        //if (myFlow.type == CombatFlow.Type.PROJECTILE)
+        //{
+        //    setRadarActive(false);
+        //}
+        //else
+        //{
+        //    setRadarActive(true);
+        //}
     }
 
     public void toggleRadar()
@@ -65,6 +65,7 @@ public class Radar : MonoBehaviourPun
     [PunRPC]
     public void rpcSetRadarActive(bool radarOn)
     {
+        //Debug.LogError("Setting radar of " + gameObject.name + " to " + radarOn);
         this.radarOn = radarOn;
     }
 
@@ -145,6 +146,7 @@ public class Radar : MonoBehaviourPun
 
     public bool tryDetect(CombatFlow targetFlow)
     {
+        
 
         bool isDetected = false;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 
 // loading and detonation properties
@@ -31,32 +32,40 @@ public class BasicMissile : Weapon
 
     private bool doDestroy = false;
 
-    private Radar radar;
+    public Radar radar;
 
     void awake()
     {
-
+        init();
         
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        radar = GetComponent<Radar>();
-        Debug.LogWarning("Found radar of " + radar.gameObject.name);
 
-        myCombatFlow = GetComponent<CombatFlow>();
+        //Debug.LogWarning("Found radar of " + radar.gameObject.name);
+
+
         //photonView = PhotonView.Get(this);
+        
+        
 
+
+
+
+    }
+
+    private void init()
+    {
+        myCombatFlow = GetComponent<CombatFlow>();
+        radar = GetComponent<Radar>();
         rbRef = GetComponent<Rigidbody>();
         setColliders(false);
 
         // RocketMotor instantiates effects obj
 
         myCombatFlow.isActive = false;
-
-
-        
     }
 
     override
@@ -246,20 +255,26 @@ public class BasicMissile : Weapon
     override
     public void launch()
     {
+        init();
         myCombatFlow.localOwned = true; // NetPosition will propogate this instance to rest of clients
+
 
         photonView.RPC("rpcLaunch", RpcTarget.AllBuffered);
 
         guidedLaunch = myTarget != null;
 
+        
+
         if (guidedLaunch)
         {
             int targetID = myTarget.GetComponent<PhotonView>().ViewID;
             photonView.RPC("rpcPingPlayer", RpcTarget.All, targetID);
+
+            //Debug.LogError("Guided launch against " + PhotonNetwork.GetPhotonView(targetID).name);
         }
 
         radar.radarOn = true;
-        
+
     }
 
     [PunRPC]
@@ -269,9 +284,14 @@ public class BasicMissile : Weapon
         if(targetView != null)
         {
             CombatFlow targetFlow = targetView.GetComponent<CombatFlow>();
+            if(radar == null)
+            {
+                radar = GetComponent<Radar>();
+            }
+
             if (targetFlow.isLocalPlayer)
             {
-                Debug.LogWarning("Activating missile radar targeting: " + targetFlow.gameObject);
+                //Debug.LogWarning("Activating missile radar targeting: " + targetFlow.gameObject);
                 radar.radarOn = true;
             }
         }
@@ -284,11 +304,19 @@ public class BasicMissile : Weapon
         {
             GetComponent<NetPosition>().active = true;
 
-            myHardpoint.readyToFire = false;
-            myHardpoint.loadedWeaponObj = null;
+            if (myHardpoint != null)
+            {
+                myHardpoint.readyToFire = false;
+                myHardpoint.loadedWeaponObj = null;
+            }
 
+            
 
-            Destroy(GetComponent<FixedJoint>());
+            FixedJoint joint = GetComponent<FixedJoint>();
+            if (joint != null)
+            {
+                Destroy(joint);
+            }
 
 
             effectsObj.GetComponent<Light>().enabled = true;
@@ -302,8 +330,10 @@ public class BasicMissile : Weapon
             }
 
             myCombatFlow.isActive = true;
-
-            myHardpoint.roundsRemain = 0;
+            if (myHardpoint != null)
+            {
+                myHardpoint.roundsRemain = 0;
+            }
         }
     }
 

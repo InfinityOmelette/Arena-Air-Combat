@@ -812,6 +812,7 @@ MonoBehaviour:
   impactDamage: 0
   speed: 0
   selfDestructSpeed: 15
+  radar: {fileID: 0}
 --- !u!114 &5614070720692325809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,7 +932,7 @@ MonoBehaviour:
   myHudIconRef: {fileID: 0}
   team: 0
   type: 1
-  isActive: 1
+  isActive: 0
   doDebugDamage: 0
   explodeStats: {fileID: 0}
   networkDeath: 1
@@ -2205,6 +2206,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileEffects
       objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2274,11 +2280,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

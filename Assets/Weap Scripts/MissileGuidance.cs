@@ -89,12 +89,13 @@ public class MissileGuidance : MonoBehaviour
     private void FixedUpdate()
     {
         GameObject myTarget = weaponRef.myTarget;
-        if(myTarget != null)
+        if(myTarget != null && targetRB == null)
             targetRB = weaponRef.myTarget.GetComponent<Rigidbody>();
 
         
         if (weaponRef.myTarget != null)
         {
+            //Debug.LogError("Weapon has target: " + weaponRef.myTarget.name);
 
             // ======================== LINE OF SIGHT
             bool lineOfSight = false;
@@ -103,13 +104,17 @@ public class MissileGuidance : MonoBehaviour
 
             if (lineOfSight)
             {
+                
+
                 if(weaponRef.launched && targetFlow == null) // outer control layer already checkks that weaponRef.myTarget != null
                 {
                     targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
                 }
-
+                //myRadar.tryDetect(targetFlow)
                 if (myRadar.tryDetect(targetFlow))
                 {
+                    //Debug.LogError("Weapon is targeting and has line of sight and successfully detects target");
+
                     guidanceProcess();
                 }
             }

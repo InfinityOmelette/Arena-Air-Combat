@@ -137,7 +137,7 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     {
         if (readyToFire)
         {
-            Debug.Log("launch() called");
+            //Debug.Log("launch() called");
             launchCommanded = false;
             loadedWeaponObj.GetComponent<Weapon>().launch();
             currentReloadTimer = reloadTimeMax;

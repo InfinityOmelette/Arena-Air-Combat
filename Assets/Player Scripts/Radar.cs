@@ -32,12 +32,22 @@ public class Radar : MonoBehaviourPun
     private RWR localPlayerRWR;
     private CombatFlow localPlayerFlow;
 
-    private CombatFlow myFlow;
+    public CombatFlow myFlow;
+
+    private BasicMissile missile;
+
+    public bool pingPlayer = false;
+
+    void Awake()
+    {
+        myFlow = GetComponent<CombatFlow>();
+        missile = GetComponent<BasicMissile>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        myFlow = GetComponent<CombatFlow>();
+        
         pingWaitCurrent = RWR_PING_DELAY;
 
         spawnRwrIcon();
@@ -50,6 +60,9 @@ public class Radar : MonoBehaviourPun
         //{
         //    setRadarActive(true);
         //}
+        //setRadarActive(radarOn);
+
+        
     }
 
     public void toggleRadar()
@@ -82,6 +95,8 @@ public class Radar : MonoBehaviourPun
     {
         if (localPlayerRWR == null)
         {
+            rwrIcon.showPingResult(false, 0.0f, 0.0f);
+
             GameObject localPlayer = GameManager.getGM().localPlayer;
             if (localPlayer != null)
             {
@@ -93,6 +108,8 @@ public class Radar : MonoBehaviourPun
         // no friendly pings
         if (!myFlow.isLocalPlayer && localPlayerRWR != null && myFlow.team != localPlayerFlow.team)
         {
+            
+
             if (pingTimer())
             {
                 tryPing();
@@ -108,7 +125,7 @@ public class Radar : MonoBehaviourPun
     private void tryPing()
     {
 
-        if ( localPlayerRWR != null)
+        if ( localPlayerRWR != null && pingPlayer)
         {
             localPlayerRWR.tryPing(this);
         }
@@ -147,7 +164,6 @@ public class Radar : MonoBehaviourPun
     public bool tryDetect(CombatFlow targetFlow)
     {
         
-
         bool isDetected = false;
 
         if (targetFlow != null)
@@ -172,7 +188,8 @@ public class Radar : MonoBehaviourPun
         float distMod = calculateDistMod(targetFlow);
         //float distAddMod = 0.65f;
 
-        return targetFlow.detectabilityCoeff * (calculateDepthMod(targetFlow) + distMod);
+        return targetFlow.detectabilityCoeff * (calculateDepthMod(targetFlow) + distMod) + targetFlow.detectabilityOffset;
+        //return 10f;
     }
 
     private float calculateDistMod(CombatFlow targetFlow)

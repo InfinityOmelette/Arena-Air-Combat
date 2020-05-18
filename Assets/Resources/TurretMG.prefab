@@ -140,6 +140,7 @@ MonoBehaviour:
   gun: {fileID: 4825768402240153092}
   changeCycleCounterMax: 0.25
   targetVelMultiplier: 1.035
+  rotationSpeed: 10
 --- !u!1001 &2472000239538149245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -222,6 +223,31 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3565
       objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: impactDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969001383883059526, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969001383883059526, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.424
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d28a6aca48d4f6d4082fb4c0d3977a8e, type: 2}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -297,31 +323,6 @@ PrefabInstance:
       propertyPath: ShapeModule.arc.value
       value: 360
       objectReference: {fileID: 0}
-    - target: {fileID: 6969001383883059526, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6969001383883059526, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.424
-      objectReference: {fileID: 0}
-    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d28a6aca48d4f6d4082fb4c0d3977a8e, type: 2}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: impactDamage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: bounceDamage
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: dissipationTime
@@ -342,7 +343,7 @@ PrefabInstance:
       propertyPath: damage
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5719875610098272620, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7790560028620566963, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -352,7 +353,7 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7790560028620566963, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 5719875610098272620, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Enabled
       value: 0

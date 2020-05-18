@@ -34,6 +34,8 @@ public class BasicMissile : Weapon
 
     public Radar radar;
 
+    private int targetID;
+
     void awake()
     {
         init();
@@ -289,11 +291,8 @@ public class BasicMissile : Weapon
                 radar = GetComponent<Radar>();
             }
 
-            if (targetFlow.isLocalPlayer)
-            {
-                //Debug.LogWarning("Activating missile radar targeting: " + targetFlow.gameObject);
-                radar.radarOn = true;
-            }
+            //radar.radarOn = targetFlow.isLocalPlayer;
+            radar.pingPlayer = targetFlow.isLocalPlayer;
         }
     }
 

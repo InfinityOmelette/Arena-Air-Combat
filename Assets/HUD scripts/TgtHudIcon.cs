@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TgtHudIcon : MonoBehaviour
 {
+    private static float HIDE_DISTANCE = 3500f;
 
     public CombatFlow rootFlow;
     public TgtIconManager tgtIconManager;
@@ -30,6 +31,7 @@ public class TgtHudIcon : MonoBehaviour
     public Text dataLinkText;
 
     public float currentDistance;
+
 
     public enum TargetedState
     {
@@ -106,12 +108,20 @@ public class TgtHudIcon : MonoBehaviour
                     }
                 }
 
-                setDataLinkText();
-                blinkProcess(); // either show steady or blink depending on targeted state
-                updateTexts();
-                resizeForDist(currentDistance);
-                setImageLOS(hasLineOfSight);
-                hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
+                if (currentDistance < HIDE_DISTANCE)
+                {
+
+                    setDataLinkText();
+                    blinkProcess(); // either show steady or blink depending on targeted state
+                    updateTexts();
+                    resizeForDist(currentDistance);
+                    setImageLOS(hasLineOfSight);
+                    hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
+                }
+                else
+                {
+                    transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if far away
+                }
             }
             else
                 transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected

@@ -910,6 +910,8 @@ MonoBehaviour:
   radarOn: 0
   radarID: SAM
   rwrIcon: {fileID: 0}
+  myFlow: {fileID: 0}
+  pingPlayer: 0
 --- !u!114 &6574464956620050637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,7 +966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustForce: 300
   burnTime: 0.75
-  cruiseThrust: 75
+  cruiseThrust: 50
   cruiseTime: 2
   doBurn: 0
 --- !u!114 &9149277709478247661
@@ -984,6 +986,7 @@ MonoBehaviour:
   isLocalPlayer: 0
   localOwned: 0
   detectabilityCoeff: 3
+  detectabilityOffset: 0
   radarSymbol: I
   camManager: {fileID: 0}
   unitCam: {fileID: 0}

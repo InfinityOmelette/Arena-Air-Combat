@@ -128,6 +128,8 @@ public class MissileGuidance : MonoBehaviour
         targetPos_now = targetRB.position + projectForwardByTime(targetPosForwardProjectionTime); // aim slightly ahead
         targetVel_now = targetRB.velocity;
 
+
+
         // UPDATE TARGET ACCELERATION
         targetAccel = Vector3.up * assumedGravityAccel; // compensate for gravity acceleration -- keep velocity from sagging downwards
         if (targetVel_prev != null)

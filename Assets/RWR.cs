@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class RWR : MonoBehaviour
 {
+    private CombatFlow myFlow;
+
+    void Awake()
+    {
+        myFlow = GetComponent<CombatFlow>();
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,13 +26,17 @@ public class RWR : MonoBehaviour
 
     public void tryPing(Radar radarSource)
     {
-        bool isPinging = radarSource.radarOn && radarSource.withinScope(transform.position);
-        float distance = Vector3.Distance(transform.position, radarSource.transform.position);
-        float bearing = calculateBearing(radarSource.transform.position);
+        if (myFlow.team != radarSource.myFlow.team)
+        {
 
-        IconRWR rwrIcon = radarSource.rwrIcon;
+            bool isPinging = radarSource.radarOn && radarSource.withinScope(transform.position);
+            float distance = Vector3.Distance(transform.position, radarSource.transform.position);
+            float bearing = calculateBearing(radarSource.transform.position);
 
-        rwrIcon.showPingResult(isPinging, distance, bearing);
+            IconRWR rwrIcon = radarSource.rwrIcon;
+
+            rwrIcon.showPingResult(isPinging, distance, bearing);
+        }
     }
 
     private float calculateBearing(Vector3 position)

@@ -27,7 +27,8 @@ public class SamAI : MonoBehaviour
 
     public GameObject missilePrefab;
 
-    
+    public float acquireTimeMax;
+    private float acquireTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -73,15 +74,29 @@ public class SamAI : MonoBehaviour
                 // fire as soon as target acquired
                 if(currentTarget != null)
                 {
-                    // do fire
-                    // reset timer
-                    samNet.launchMissile(currentTarget);
-                    //Debug.LogError("Firing SAM at " + currentTarget.name);
-                    fireRateTimer = fireRateDelay;
+                    if (acquireCountdown())
+                    {
+                        // do fire
+                        // reset timer
+                        samNet.launchMissile(currentTarget);
+                        //Debug.LogError("Firing SAM at " + currentTarget.name);
+                        fireRateTimer = fireRateDelay;
+                    }
                 }
             }
             
         }
+    }
+
+    private bool acquireCountdown()
+    {
+
+        if(acquireTimer >= 0)
+        {
+            acquireTimer -= Time.deltaTime;
+        }
+
+        return acquireTimer < 0;
     }
 
     private void tryChangeTarget()
@@ -95,11 +110,11 @@ public class SamAI : MonoBehaviour
                 changeCycleCounter = changeCycleCounterMax;
 
                 CombatFlow targetFlow = findNearestTarget();
-                if (targetFlow != null && targetFlow != this.currentTarget)
+                if (targetFlow != this.currentTarget)
                 {
                     //turretNet.setTarget(targetFlow);
                     samNet.setTarget(targetFlow);
-
+                    acquireTimer = acquireTimeMax;
 
                     // only target's instance will deal damage. Rest will be cosmetic-only
                     //rootFlow.giveOwnership(targetFlow.photonView.ViewID);
@@ -121,24 +136,39 @@ public class SamAI : MonoBehaviour
         for (int i = 0; i < allUnits.Count; i++)
         {
             CombatFlow currentFlow = allUnits[i];
-
+            bool seeFlow = false;
             if (currentFlow != null)
             {
                 if (currentFlow.team != rootFlow.team && currentFlow.type == CombatFlow.Type.AIRCRAFT)
                 {
 
-                    float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
-
-                    if (currentDistance < shortestDist)
+                    if (radar.tryDetect(currentFlow))
                     {
-                        if (radar.tryDetect(currentFlow))
+                        // contribute to datalink network, even if not selecting this as closest target
+                        seeFlow = true;
+
+                        float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+                        if (currentDistance < shortestDist)
                         {
                             closestTarget = currentFlow;
                             shortestDist = currentDistance;
                         }
                     }
+
+                    if (seeFlow)
+                    {
+                        currentFlow.tryAddSeenBy(rootFlow.photonView.ViewID);
+                    }
+                    else
+                    {
+                        currentFlow.tryRemoveSeenBy(rootFlow.photonView.ViewID);
+                    }
+
+
                 }
             }
+
+            
         }
 
 

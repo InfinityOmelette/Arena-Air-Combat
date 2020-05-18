@@ -26,6 +26,8 @@ public class AI_TurretMG : MonoBehaviour
     private float changeCycleCounter;
 
     public float targetVelMultiplier;
+
+    //public float rotationSpeed;
     
     //private bool isJef = false;
 
@@ -94,6 +96,13 @@ public class AI_TurretMG : MonoBehaviour
                 CombatFlow targetFlow = findNearestTarget();
                 if (targetFlow != null && targetFlow.GetComponent<Rigidbody>() != targetRb)
                 {
+                    //Debug.LogWarning
+                    //Debug.LogWarning("new target name: " + targetFlow.name);
+                    if (targetRb != null && targetFlow != null)
+                    {
+                        Debug.LogWarning("AAA found new target. Old: " + targetRb.gameObject.name + ", new: " + targetFlow.gameObject.name);
+                    }
+
                     turretNet.setTarget(targetFlow);
 
                     // only target's instance will deal damage. Rest will be cosmetic-only
@@ -108,7 +117,14 @@ public class AI_TurretMG : MonoBehaviour
     {
         if (obj != null)
         {
-            targetRb = obj.GetComponent<Rigidbody>();
+            Rigidbody newRb = obj.GetComponent<Rigidbody>();
+            //targetRb = obj.GetComponent<Rigidbody>();
+            if (newRb != targetRb)
+            {
+                targetRb = newRb;
+                //Debug.LogWarning("Setting target: " + targetRb.gameObject.name);
+                //Debug.LogWarning("Setting acquire timer to " + acquireTimer);
+            }
         }
         else
         {
@@ -187,6 +203,8 @@ public class AI_TurretMG : MonoBehaviour
         float timeToImpact = distance / (booleetSpeed - closingVel);
 
         Vector3 targetPos = targetRb.transform.position + targetRb.velocity * timeToImpact * targetVelMultiplier;
+        transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
+
         transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
     }
 

@@ -41,6 +41,8 @@ public class TurretNetworking : MonoBehaviourPunCallbacks
     [PunRPC]
     public void rpcSetTurretTarget(int viewID)
     {
+        //Debug.LogWarning("rpcSetTurretTarget called");
+
         if (viewID != -1)
         {
             try

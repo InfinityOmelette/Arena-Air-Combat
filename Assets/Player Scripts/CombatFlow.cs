@@ -33,6 +33,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
 
     public float detectabilityCoeff;
+    public float detectabilityOffset;
 
     public string radarSymbol;
     

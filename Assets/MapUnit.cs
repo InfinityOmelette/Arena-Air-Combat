@@ -77,7 +77,7 @@ public class MapUnit : MonoBehaviour
                 updateColor();
                 if (linkedTgtIcon.targetedState == TgtHudIcon.TargetedState.TARGETED)
                 {
-                    if (mapManager.withinBounds(transform.localPosition) && linkedTgtIcon.isDetected)
+                    if (mapManager.withinBounds(transform.localPosition) && (linkedTgtIcon.isDetected || linkedTgtIcon.dataLink))
                     {
                         doBlink();
                     }
@@ -88,7 +88,7 @@ public class MapUnit : MonoBehaviour
                 }
                 else
                 {
-                    show(mapManager.withinBounds(transform.localPosition) && linkedTgtIcon.isDetected);
+                    show(mapManager.withinBounds(transform.localPosition) && (linkedTgtIcon.isDetected || linkedTgtIcon.dataLink));
                 }
                 // Debug.LogError("Showing: " + showing);
 

@@ -8,6 +8,7 @@ public class TgtHudIcon : MonoBehaviour
     private static float HIDE_DISTANCE = 3500f;
 
     public CombatFlow rootFlow;
+    private Rigidbody rootRB;
     public TgtIconManager tgtIconManager;
 
 
@@ -29,6 +30,7 @@ public class TgtHudIcon : MonoBehaviour
 
     public bool dataLink;
     public Text dataLinkText;
+    public Text txtKPH;
 
     public float currentDistance;
 
@@ -78,6 +80,7 @@ public class TgtHudIcon : MonoBehaviour
                 if (targetedState == TargetedState.LOCKED) // LOCKED
                 {
                     tgtTitleText.enabled = true;
+                    txtKPH.enabled = true;
                     //tgtDistText.enabled = true;
                     changeChildColors(tgtIconManager.lockedColor);
                     doBlink = false;
@@ -90,9 +93,11 @@ public class TgtHudIcon : MonoBehaviour
                         tgtTitleText.enabled = true;
                         //tgtDistText.enabled = true;
                         doBlink = true;
+                        txtKPH.enabled = true;
                     }
                     else // NONE -- NOT TARGETED AT ALL
                     {
+                        txtKPH.enabled = false;
                         doBlink = false;
 
                         if (isFriendly)     // IF UNTARGETED AND FRIENDLY
@@ -128,8 +133,17 @@ public class TgtHudIcon : MonoBehaviour
         }
         else // hide if rootflow is null
         {
-            transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen
+            transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if rootflow is null
         }
+    }
+
+    private Rigidbody getRB()
+    {
+        if(rootRB == null)
+        {
+            rootRB = rootFlow.GetComponent<Rigidbody>();
+        }
+        return rootRB;
     }
 
     void setDataLinkText()
@@ -165,6 +179,9 @@ public class TgtHudIcon : MonoBehaviour
         // Convert meters to kilometers, show 2 decimal places
         tgtDistText.text = (currentDistance / 1000f).ToString("F2") + "km";
 
+
+        float spd = getRB().velocity.magnitude * 3.6f; // 3.6 to convert m/s to kph
+        txtKPH.text = spd.ToString("F0") + "kph";
 
         // Move text to stay aligned with box
         tgtDistText.transform.localPosition = tgtImageCenter.transform.localScale.x * distTextOriginPos;
@@ -260,6 +277,7 @@ public class TgtHudIcon : MonoBehaviour
             tgtVisConditionsText.color = activeColor;
             tgtDistText.color = activeColor;
             dataLinkText.color = activeColor;
+            txtKPH.color = activeColor;
             
         }
 

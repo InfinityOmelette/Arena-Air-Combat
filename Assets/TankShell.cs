@@ -19,9 +19,9 @@ public class TankShell : MonoBehaviour
     public Light effectsLight;
     public TrailRenderer trail;
 
-    //private bool readyToEmit;
+    public float emitTime;
 
-    private float emitDelay;
+    //private bool readyToEmit;
 
     //private bool startTrailOn;
 
@@ -52,6 +52,19 @@ public class TankShell : MonoBehaviour
             effectsObj.transform.position = effectsCenter.transform.position;
 
             //trail.emitting = readyToEmit;
+
+            if (trail.emitting)
+            {
+                if (emitTime > 0)
+                {
+                    emitTime -= Time.deltaTime;
+                }
+                else
+                {
+                    trail.emitting = false;
+                    effectsLight.enabled = false;
+                }
+            }
 
         }
 

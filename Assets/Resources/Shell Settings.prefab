@@ -60,7 +60,7 @@ Transform:
   m_LocalRotation: {x: -0.000000029802315, y: -0.000000029802315, z: 0.000000007450579,
     w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 4.441}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9448571, y: 0.9448566, z: 0.94485706}
   m_Children:
   - {fileID: 5830648582638048169}
   - {fileID: 5975692829386158222}
@@ -129,6 +129,7 @@ MonoBehaviour:
   effectsObj: {fileID: 0}
   effectsLight: {fileID: 0}
   trail: {fileID: 0}
+  emitTime: 100
 --- !u!65 &7536621228142367262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -264,7 +265,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.81664944, b: 0, a: 1}
   m_Intensity: 1
-  m_Range: 5
+  m_Range: 7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -330,7 +331,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7eebf3c6061081840911950e593fc780, type: 2}
+  - {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -351,7 +352,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 0.05
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

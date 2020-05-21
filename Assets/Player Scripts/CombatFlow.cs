@@ -11,6 +11,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public static List<CombatFlow> combatUnits;
 
+    public string abbreviation = "DMY";
 
     public enum Team 
     { 
@@ -19,7 +20,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public enum Type
     {
-        AIRCRAFT, PROJECTILE , GROUND
+        AIRCRAFT, PROJECTILE , GROUND, ANTI_AIR, SAM
     }
     
     public float maxHP;
@@ -100,7 +101,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         CombatFlow.combatUnits.Add(this);
 
         seenBy = new List<int>();
-
+        gameObject.name = abbreviation;
     }
 
     

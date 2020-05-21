@@ -34,6 +34,12 @@ public class TgtIconManager : MonoBehaviour
     public Sprite groundHudImageLOS;
     public Sprite groundHudImageNoLOS;
 
+    public Sprite antiAirHudImageLOS;
+    public Sprite antiAirHudImageNoLOS;
+
+    public Sprite SamHudImageLOS;
+    public Sprite SamHudImageNoLOS;
+
     private void Awake()
     {
 
@@ -45,6 +51,12 @@ public class TgtIconManager : MonoBehaviour
 
         groundHudImageLOS = Resources.Load<Sprite>("HUD Images/GroundUnitLOS");
         groundHudImageNoLOS = Resources.Load<Sprite>("HUD Images/GroundUnitNoLOS");
+
+        antiAirHudImageLOS = Resources.Load<Sprite>("HUD Images/AntiAirUnitLOS");
+        antiAirHudImageNoLOS = Resources.Load<Sprite>("HUD Images/AntiAirUnitNoLOS");
+
+        SamHudImageLOS = Resources.Load<Sprite>("HUD Images/SamUnitLOS");
+        SamHudImageNoLOS = Resources.Load<Sprite>("HUD Images/SamUnitNoLOS");
 
         if (TgtIconManager.tgtIconManager == null)
             TgtIconManager.tgtIconManager = this;
@@ -82,6 +94,16 @@ public class TgtIconManager : MonoBehaviour
         {
             iconScript.tgtImageLOS.sprite = groundHudImageLOS;
             iconScript.tgtImageNoLOS.sprite = groundHudImageNoLOS;
+        }
+        else if(unitFlow.type == CombatFlow.Type.ANTI_AIR)
+        {
+            iconScript.tgtImageLOS.sprite = antiAirHudImageLOS;
+            iconScript.tgtImageNoLOS.sprite = antiAirHudImageNoLOS;
+        }
+        else if(unitFlow.type == CombatFlow.Type.SAM)
+        {
+            iconScript.tgtImageLOS.sprite = SamHudImageLOS;
+            iconScript.tgtImageNoLOS.sprite = SamHudImageNoLOS;
         }
        
         return iconObj;

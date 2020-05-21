@@ -412,6 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abbreviation: CNN
   maxHP: 120
   currentHP: 120
   isLocalPlayer: 0
@@ -894,6 +895,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.2245715
       objectReference: {fileID: 0}
+    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.23
+      objectReference: {fileID: 0}
     - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -909,20 +925,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 1.297
       objectReference: {fileID: 0}
-    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+    - target: {fileID: 4324118934304245558, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.23
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5992009473071565662, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
@@ -963,11 +969,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Time
       value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4324118934304245558, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0898e23cbab3aa1488ea96d726c08dc0, type: 3}

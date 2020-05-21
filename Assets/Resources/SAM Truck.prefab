@@ -66,18 +66,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abbreviation: SAM
   maxHP: 120
   currentHP: 120
   isLocalPlayer: 0
   localOwned: 0
   detectabilityCoeff: 6
   detectabilityOffset: 1
-  radarSymbol: "\u2726"
+  radarSymbol: ^
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
   team: 1
-  type: 2
+  type: 4
   isActive: 1
   doDebugDamage: 0
   explodeStats: {fileID: 0}
@@ -166,6 +167,7 @@ MonoBehaviour:
   radarOn: 1
   radarID: SAM
   rwrIcon: {fileID: 0}
+  myFlow: {fileID: 0}
   pingPlayer: 1
 --- !u!1001 &2000921893324971538
 PrefabInstance:

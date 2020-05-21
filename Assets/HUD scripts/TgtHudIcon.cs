@@ -34,6 +34,7 @@ public class TgtHudIcon : MonoBehaviour
 
     public float currentDistance;
 
+    public bool isFar;
 
     public enum TargetedState
     {
@@ -81,7 +82,7 @@ public class TgtHudIcon : MonoBehaviour
                 {
                     tgtTitleText.enabled = true;
                     txtKPH.enabled = true;
-                    //tgtDistText.enabled = true;
+                    tgtDistText.enabled = true;
                     changeChildColors(tgtIconManager.lockedColor);
                     doBlink = false;
                 }
@@ -91,7 +92,7 @@ public class TgtHudIcon : MonoBehaviour
                     if(targetedState == TargetedState.TARGETED)
                     {
                         tgtTitleText.enabled = true;
-                        //tgtDistText.enabled = true;
+                        tgtDistText.enabled = true;
                         doBlink = true;
                         txtKPH.enabled = true;
                     }
@@ -100,20 +101,33 @@ public class TgtHudIcon : MonoBehaviour
                         txtKPH.enabled = false;
                         doBlink = false;
 
-                        if (isFriendly)     // IF UNTARGETED AND FRIENDLY
+                        if((rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly) || rootFlow.type == CombatFlow.Type.PROJECTILE)
                         {
+                            // show name and dist
                             tgtTitleText.enabled = true;
-                            //tgtDistText.enabled = true;
+                            tgtDistText.enabled = true;
                         }
-                        else                // IF  UNTARGETED AND NOT FRIENDLY
+                        else
                         {
                             tgtTitleText.enabled = false;
-                            //tgtDistText.enabled = false;
+                            tgtDistText.enabled = false;
                         }
+
+
+                        //if (isFriendly)     // IF UNTARGETED AND FRIENDLY
+                        //{
+                        //    tgtTitleText.enabled = true;
+                        //    //tgtDistText.enabled = true;
+                        //}
+                        //else                // IF  UNTARGETED AND NOT FRIENDLY
+                        //{
+                        //    tgtTitleText.enabled = false;
+                        //    //tgtDistText.enabled = false;
+                        //}
                     }
                 }
-
-                if (currentDistance < HIDE_DISTANCE)
+                isFar = currentDistance > HIDE_DISTANCE;
+                if (!isFar)
                 {
 
                     setDataLinkText();

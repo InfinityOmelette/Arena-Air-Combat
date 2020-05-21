@@ -640,11 +640,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abbreviation: RKT
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0
   localOwned: 0
   detectabilityCoeff: 0
+  detectabilityOffset: 0
   radarSymbol: .
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
@@ -657,6 +659,8 @@ MonoBehaviour:
   networkDeath: 0
   networkDamage: 0
   networkReceivedCannonImpacts: 0
+  seenBy: 
+  isHostInstance: 0
 --- !u!114 &2852526732308735592
 MonoBehaviour:
   m_ObjectHideFlags: 0

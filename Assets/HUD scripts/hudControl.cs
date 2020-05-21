@@ -80,7 +80,7 @@ public class hudControl : MonoBehaviour
 
     public GameObject rwrIconPrefab;
 
-
+    public GunLeadReticle reticle;
 
     public void setHudVisible(bool makeVisible)
     {
@@ -252,6 +252,11 @@ public class hudControl : MonoBehaviour
 
             if (onScreen)
             {
+                if(item.transform.localPosition.x > Screen.width)
+                {
+                    lerpRate = 1.0f; // when returning onscreen, teleport instantly
+                }
+
                 // local position prevents ui stuttering
                 item.transform.localPosition = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
             }

@@ -203,9 +203,11 @@ public class AI_TurretMG : MonoBehaviour
         float timeToImpact = distance / (booleetSpeed - closingVel);
 
         Vector3 targetPos = targetRb.transform.position + targetRb.velocity * timeToImpact * targetVelMultiplier;
-        transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
+
 
         transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
+
+        //transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
     }
 
     private bool targetInParams()

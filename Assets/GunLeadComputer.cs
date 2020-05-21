@@ -18,11 +18,12 @@ public class GunLeadComputer : MonoBehaviour
 
     private Rigidbody myRb;
 
+    private CombatFlow myFlow;
 
     void Awake()
     {
         tgtComp = GetComponent<TgtComputer>();
-
+        myFlow = GetComponent<CombatFlow>();
 
         myRb = GetComponent<Rigidbody>();
         
@@ -39,28 +40,30 @@ public class GunLeadComputer : MonoBehaviour
     {
         //Vector3 targetPos = targetRb.transform.position + avgRelVel * timeToImpact;
 
-        if(tgtComp.currentTarget != null)
+        if (myFlow.isLocalPlayer)
         {
 
-            this.aimPoint = calculateAimPoint();
-
-            if(rangeTo(aimPoint) < maxRange)
+            if (tgtComp.currentTarget != null)
             {
-                reticle.showReticle(true);
-                reticle.placeReticle(aimPoint);
+
+                this.aimPoint = calculateAimPoint();
+
+                if (rangeTo(aimPoint) < maxRange)
+                {
+                    reticle.showReticle(true);
+                    reticle.placeReticle(aimPoint);
+                }
+                else
+                {
+                    reticle.showReticle(false);
+                }
+
             }
             else
             {
                 reticle.showReticle(false);
             }
-
         }
-        else
-        {
-            reticle.showReticle(false);
-        }
-
-
     }
 
     private float rangeTo(Vector3 to)

@@ -38,6 +38,7 @@ public class Radar : MonoBehaviourPun
 
     public bool pingPlayer = false;
 
+    public bool debug;
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -95,23 +96,38 @@ public class Radar : MonoBehaviourPun
     {
         if (localPlayerRWR == null)
         {
+            if (debug)
+            {
+                Debug.LogWarning("Local player rwr null, pinging set to false");
+            }
+
             rwrIcon.showPingResult(false, 0.0f, 0.0f);
 
             GameObject localPlayer = GameManager.getGM().localPlayer;
             if (localPlayer != null)
             {
+                
                 localPlayerRWR = GameManager.getGM().localPlayer.GetComponent<RWR>();
                 localPlayerFlow = localPlayerRWR.GetComponent<CombatFlow>();
+                if (debug)
+                {
+                    Debug.LogWarning("Found local player: " + localPlayerFlow.gameObject.name);
+                }
+                //
             }
         }
 
         // no friendly pings
         if (!myFlow.isLocalPlayer && localPlayerRWR != null && myFlow.team != localPlayerFlow.team)
         {
-            
+            if (debug)
+            {
+                Debug.LogWarning("Counting down timer");
+            }
 
             if (pingTimer())
             {
+                Debug.LogWarning("Trying to ping");
                 tryPing();
             }
         }
@@ -127,6 +143,7 @@ public class Radar : MonoBehaviourPun
 
         if ( localPlayerRWR != null && pingPlayer)
         {
+            Debug.LogWarning("Local player found, ping him");
             localPlayerRWR.tryPing(this);
         }
     }

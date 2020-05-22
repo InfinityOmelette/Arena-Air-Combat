@@ -22,11 +22,32 @@ public class TankTurret : MonoBehaviour
     public float shellSpreadHoriz;
     public float shellSpreadVert;
 
+
+
+
+    public float fireRateDelay;
+    private float fireRateTimer;
+
+    public float reloadDelay;
+    private float reloadTimer;
+
+    public int roundsPerMag;
+    private int roundsInCurrentMag;
+
+
+    private bool fireMission = false;
+
+
     //public float elev;
 
     // Start is called before the first frame update
     void Start()
     {
+        fireRateTimer = fireRateDelay;
+        reloadTimer = reloadDelay;
+        roundsInCurrentMag = roundsPerMag;
+
+
         rootFlow = transform.root.GetComponent<CombatFlow>();
 
 
@@ -44,9 +65,51 @@ public class TankTurret : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            setAim(target);
-            fire();
+            fireMission = !fireMission;
+ 
         }
+
+
+        fireMissionProcess();
+
+    }
+
+    private void fireMissionProcess()
+    {
+        if (roundsInCurrentMag > 0) // rounds in mag, try to fire
+        {
+
+            if (fireRateTimer > 0) // keep waiting until shot is loaded
+            {
+                fireRateTimer -= Time.deltaTime;
+            }
+            else if (fireMission)   // wait complete, firemission active, do a shot
+            {
+                fireRateTimer = fireRateDelay;
+                fireSequence();
+            }
+        }
+        else // no rounds in mag, try to reload
+        {
+            if (reloadTimer > 0) // wait for reload
+            {
+                reloadTimer -= Time.deltaTime;
+            }
+            else // wait complete, perform reload
+            {
+                reloadTimer = reloadDelay;
+                roundsInCurrentMag = roundsPerMag;
+
+            }
+        }
+    }
+
+
+    private void fireSequence()
+    {
+        roundsInCurrentMag--;
+        setAim(target);
+        fire();
     }
 
     private void setAim(GameObject target)

@@ -7,7 +7,6 @@ public class TankShell : MonoBehaviour
 
     public bool localOwned;
 
-    public float initSpeed;
 
     private Rigidbody rb;
     public GameObject effectsCenter;
@@ -19,7 +18,8 @@ public class TankShell : MonoBehaviour
     public Light effectsLight;
     public TrailRenderer trail;
 
-    public float emitTime;
+    public float smokeEmitTime;
+    public float lightEmitTime;
 
     //private bool readyToEmit;
 
@@ -40,8 +40,6 @@ public class TankShell : MonoBehaviour
         effectsObj.transform.position = effectsCenter.transform.position;
         GameObject.Destroy(effectsInit);
 
-        //trail.emitting = false;
-        rb.velocity = transform.forward * initSpeed;
     }
 
     // Update is called once per frame
@@ -55,16 +53,28 @@ public class TankShell : MonoBehaviour
 
             if (trail.emitting)
             {
-                if (emitTime > 0)
+                if (smokeEmitTime > 0)
                 {
-                    emitTime -= Time.deltaTime;
+                    smokeEmitTime -= Time.deltaTime;
                 }
                 else
                 {
                     trail.emitting = false;
+                }
+            }
+
+            if (effectsLight.enabled)
+            {
+                if (lightEmitTime > 0)
+                {
+                    lightEmitTime -= Time.deltaTime;
+                }
+                else
+                {
                     effectsLight.enabled = false;
                 }
             }
+
 
         }
 

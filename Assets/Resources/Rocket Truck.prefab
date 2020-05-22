@@ -651,7 +651,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8087407718861475496}
-  m_LocalRotation: {x: 0.03923503, y: -0.6822233, z: -0.03670909, w: -0.72916687}
+  m_LocalRotation: {x: 0.035151057, y: -0.7552179, z: -0.04063678, w: -0.6532679}
   m_LocalPosition: {x: -1.62, y: 2.26, z: -0.09}
   m_LocalScale: {x: 2.6569114, y: 2.6569114, z: 2.6569114}
   m_Children:
@@ -661,7 +661,7 @@ Transform:
   - {fileID: 3354855401636777271}
   m_Father: {fileID: 6023327147715971728}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -6.16, y: -273.81, z: 0}
+  m_LocalEulerAnglesHint: {x: -6.16, y: -261.72, z: 0}
 --- !u!114 &2913026620876829868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,6 +676,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpawn: {fileID: 7163420551337337669}
   shellSettings: {fileID: 8115420283573963341}
+  target: {fileID: 0}
+  shellSpeed: 200
+  highTraject: 0
+  shellSpreadHoriz: 0.5
+  shellSpreadVert: 0.5
 --- !u!1 &9082050215088843451
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,6 +755,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6069598922963377917, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 732566086064675207, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -813,7 +823,7 @@ PrefabInstance:
     - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.01
+      value: -1.051
       objectReference: {fileID: 0}
     - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
@@ -843,37 +853,67 @@ PrefabInstance:
     - target: {fileID: 5830648582638048169, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.4
+      value: 0.224
       objectReference: {fileID: 0}
     - target: {fileID: 5830648582638048169, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.01
+      value: -1.166
       objectReference: {fileID: 0}
     - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1740963382661997570, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336810467605405561, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: damage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8733813667504412014, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6852433965507408647, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: emitTime
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6852433965507408647, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: smokeEmitTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6852433965507408647, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: lightEmitTime
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4324118934304245558, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_Range
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4473409139228539606, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}

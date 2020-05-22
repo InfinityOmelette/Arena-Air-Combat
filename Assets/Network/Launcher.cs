@@ -84,6 +84,8 @@ namespace Omelette.TestGamePleaseIgnore
             {
                 //Debug.Log("************************************ CONNECT() SUCCESSFUL, JOINRANDOMROOM CALLED");
 
+                
+
                 // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
                 PhotonNetwork.JoinRandomRoom();
                 
@@ -104,7 +106,7 @@ namespace Omelette.TestGamePleaseIgnore
         #region MonoBehaviorPunCallbacks Callbacks
         public override void OnConnectedToMaster()
         {
-            Debug.Log("PUN Basics Tutorial/Launcher:  OnConnectedToMaster was called by PUN");
+            Debug.LogWarning("PUN Basics Tutorial/Launcher:  OnConnectedToMaster was called by PUN");
             
             
             // we don't want to do anything if we are not attempting to join a room.
@@ -128,7 +130,7 @@ namespace Omelette.TestGamePleaseIgnore
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one. \nCalling: PhotonNetwork.CreateRoom");
+            Debug.LogWarning("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one. \nCalling: PhotonNetwork.CreateRoom");
 
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
             PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxPlayersPerRoom });
@@ -138,7 +140,7 @@ namespace Omelette.TestGamePleaseIgnore
         {
             progressLabel.SetActive(false);
 
-            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room");
+            Debug.LogWarning("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room");
 
             // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)

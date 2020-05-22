@@ -13,6 +13,8 @@ public class GunLeadReticle : MonoBehaviour
 
     public GameObject image;
 
+    public float aimPointDist;
+
     void Awake()
     {
         image.SetActive(showSight);

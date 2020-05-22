@@ -81,6 +81,9 @@ public class hudControl : MonoBehaviour
     public GameObject rwrIconPrefab;
 
     public GunLeadReticle reticle;
+    public GunLeadReticle reticle2;
+
+    public CNN_UI cnnUI;
 
     public void setHudVisible(bool makeVisible)
     {
@@ -184,8 +187,16 @@ public class hudControl : MonoBehaviour
             processHealthBar();
 
 
-            // nose indicator
-            drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, 0.5f);
+            if (cnnUI.cnnOn)
+            {
+                // nose indicator
+                drawItemOnScreen(noseIndicatorRef, aircraftRootObj.transform.position + aircraftRootObj.transform.forward * reticle.aimPointDist, 0.5f);
+            }
+            else
+            {
+                drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, 0.5f);
+            }
+            
 
             // velocity vector
             if (aircraftRootObj.GetComponent<Rigidbody>().velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed

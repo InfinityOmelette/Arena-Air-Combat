@@ -127,7 +127,10 @@ public class Radar : MonoBehaviourPun
 
             if (pingTimer())
             {
-                Debug.LogWarning("Trying to ping");
+                if (debug)
+                {
+                    Debug.LogWarning("Trying to ping");
+                }
                 tryPing();
             }
         }
@@ -143,7 +146,10 @@ public class Radar : MonoBehaviourPun
 
         if ( localPlayerRWR != null && pingPlayer)
         {
-            Debug.LogWarning("Local player found, ping him");
+            if (debug)
+            {
+                Debug.LogWarning("Local player found, ping him");
+            }
             localPlayerRWR.tryPing(this);
         }
     }

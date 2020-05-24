@@ -57,7 +57,7 @@ public class TankTurret : MonoBehaviour
         maxDist = shellSpeed * shellSpeed * Mathf.Sin(Mathf.PI / 2) / Physics.gravity.magnitude;
         //maxDist = 3500f;
 
-        Debug.LogError(rootFlow.gameObject.name + "'s max dist: " + maxDist);
+        //Debug.LogError(rootFlow.gameObject.name + "'s max dist: " + maxDist);
     }
 
     // Update is called once per frame

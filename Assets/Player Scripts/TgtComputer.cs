@@ -205,7 +205,7 @@ public class TgtComputer : MonoBehaviour
 
                     // angle within max, angle smallest, and target is not on same team as localPlayer
                     if ((currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
-                        !currentFlow.myHudIconRef.isFar &&
+                        //!currentFlow.myHudIconRef.isFar &&
                         currentFlow.isActive &&
                         currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
                         currentAngle < changeTargetMaxAngle &&

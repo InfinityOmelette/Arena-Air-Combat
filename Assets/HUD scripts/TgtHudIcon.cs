@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class TgtHudIcon : MonoBehaviour
 {
-    private static float HIDE_DISTANCE = 3500f;
+    private static float HIDE_DISTANCE = 5500f;
+    public static string dotLOS = "✦";
+    public static string dotNoLOS = "✧";
 
     public CombatFlow rootFlow;
     private Rigidbody rootRB;
@@ -35,6 +37,9 @@ public class TgtHudIcon : MonoBehaviour
     public float currentDistance;
 
     public bool isFar;
+
+    public GameObject nearImages;
+    public Text farDotText;
 
     public enum TargetedState
     {
@@ -127,20 +132,18 @@ public class TgtHudIcon : MonoBehaviour
                     }
                 }
                 isFar = currentDistance > HIDE_DISTANCE;
+                setIsFar(isFar);
+                setImageLOS(hasLineOfSight);
                 if (!isFar)
                 {
-
                     setDataLinkText();
-                    blinkProcess(); // either show steady or blink depending on targeted state
                     updateTexts();
-                    resizeForDist(currentDistance);
-                    setImageLOS(hasLineOfSight);
-                    hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
                 }
-                else
-                {
-                    transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if far away
-                }
+                blinkProcess(); // either show steady or blink depending on targeted state
+                resizeForDist(currentDistance);
+                setImageLOS(hasLineOfSight);
+                hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
+
             }
             else
                 transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
@@ -150,6 +153,33 @@ public class TgtHudIcon : MonoBehaviour
             transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if rootflow is null
         }
     }
+
+    private void setIsFar(bool isFar)
+    {
+        if (isFar)
+        {
+            farDotText.enabled = true;
+
+
+            nearImages.SetActive(false);
+            dataLinkText.text = "";
+            txtKPH.enabled = false;
+            tgtDistText.enabled = false;
+            tgtTitleText.enabled = false;
+        }
+        else
+        {
+            farDotText.enabled = false;
+
+            nearImages.SetActive(true);
+            //txtKPH.enabled = true;
+            //tgtDistText.enabled = true;
+            //tgtTitleText.enabled = true;
+            //dataLinkText.enabled = true;
+        }
+        
+    }
+
 
     private Rigidbody getRB()
     {
@@ -179,12 +209,14 @@ public class TgtHudIcon : MonoBehaviour
             // Show only LOS image
             tgtImageLOS.enabled = true;
             tgtImageNoLOS.enabled = false;
+            farDotText.text = dotLOS;
         }
         else // no line of sight
         {
             // show only no LOS image
             tgtImageLOS.enabled = false;
             tgtImageNoLOS.enabled = true;
+            farDotText.text = dotNoLOS;
         }
     }
 
@@ -292,6 +324,7 @@ public class TgtHudIcon : MonoBehaviour
             tgtDistText.color = activeColor;
             dataLinkText.color = activeColor;
             txtKPH.color = activeColor;
+            farDotText.color = activeColor;
             
         }
 

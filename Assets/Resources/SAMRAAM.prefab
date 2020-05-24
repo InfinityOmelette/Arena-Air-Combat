@@ -930,15 +930,15 @@ MonoBehaviour:
   input_roll: 0
   input_yaw: 0
   rollTorque: 0
-  pitchTorque: 30
-  yawTorque: 30
+  pitchTorque: 20
+  yawTorque: 20
   pitchTrim: 0
   downPitchMultiplier: 1
-  wingLiftCoefficient: 0.035
-  wingDragCoefficient: 0.33
+  wingLiftCoefficient: 0.075
+  wingDragCoefficient: 0.3
   wingDragOffset: 0.001
-  bodySideLiftCoefficient: 0.035
-  bodySideDragCoefficient: 0.33
+  bodySideLiftCoefficient: 0.075
+  bodySideDragCoefficient: 0.3
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
   pitchStability: 0
@@ -968,7 +968,7 @@ MonoBehaviour:
   thrustForce: 300
   burnTime: 0.75
   cruiseThrust: 50
-  cruiseTime: 2
+  cruiseTime: 3
   doBurn: 0
 --- !u!114 &9149277709478247661
 MonoBehaviour:

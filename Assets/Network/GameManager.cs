@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject localPlayer;
 
+
+    public int targetFrameRate;
+
     public static GameManager getGM()
     {
         if(gm == null)
@@ -40,6 +43,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         return gm;
+    }
+
+
+
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = targetFrameRate;
     }
 
     void Start()

@@ -39,6 +39,9 @@ public class Radar : MonoBehaviourPun
     public bool pingPlayer = false;
 
     public bool debug;
+
+    private GameObject radOffIndicator;
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -48,7 +51,14 @@ public class Radar : MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        radOffIndicator = hudControl.mainHud.GetComponent<hudControl>().radOffIndicator;
+
+        if (myFlow.isLocalPlayer)
+        {
+            radOffIndicator.SetActive(!radarOn);
+        }
+
         pingWaitCurrent = RWR_PING_DELAY;
 
         spawnRwrIcon();
@@ -79,6 +89,11 @@ public class Radar : MonoBehaviourPun
     [PunRPC]
     public void rpcSetRadarActive(bool radarOn)
     {
+        if (myFlow.isLocalPlayer)
+        {
+            radOffIndicator.SetActive(!radarOn);
+        }
+
         //Debug.LogError("Setting radar of " + gameObject.name + " to " + radarOn);
         this.radarOn = radarOn;
     }

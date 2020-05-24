@@ -353,9 +353,9 @@ MonoBehaviour:
   input_freeLookVert: 0
   input_mouseSpeedX: 0
   input_mouseSpeedY: 0
-  mouse_yawRate: 180
-  mouse_pitchRate: 180
-  maxMouseTraverseSpeed: 50
+  mouse_yawRate: 120
+  mouse_pitchRate: 120
+  maxMouseTraverseSpeed: 30
   mouseLookEnabled: 0
   input_mouseLookToggleBtnDown: 0
 --- !u!114 &3469465798034293480
@@ -491,12 +491,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentBaseThrust: 0
   currentBaseThrustPercent: 0
-  MAX_THRUST_DELTA: 45
+  MAX_THRUST_DELTA: 4500
   THRUST_MIN: 100
   THRUST_MAX: 9500
   currentThrottlePercent: 0
-  MAX_THROTTLE_DELTA: 6
-  throttleAccel: 0.09
+  MAX_THROTTLE_DELTA: 450
+  throttleAccel: 450
   currentThrottleDelta: 0
   currentAirDensity: 0
   currentBurnMod: 0

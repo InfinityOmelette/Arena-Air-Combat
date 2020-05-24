@@ -138,7 +138,9 @@ public class EngineControl : MonoBehaviour
         float fuelBurnMod = calculateFuelBurnMod(transform.position.y, burnRateAltitudeResiliency); // calculate fuel burn mod
 
         // burn fuel according to burn rate and target thrust (moving toward zero to avoid bouncing fuel level at 0)
-        currentFuelMass = Mathf.MoveTowards(currentFuelMass, 0.0f, fuelBurnMod * seaLevelMaxBurnRate * (currentBaseThrustPercent / 100f)); 
+        currentFuelMass = Mathf.MoveTowards(currentFuelMass, 0.0f, 
+            fuelBurnMod * seaLevelMaxBurnRate * (currentBaseThrustPercent / 100f) * Time.fixedDeltaTime); 
+
         currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
         float currentTrueThrust = currentBaseThrust * fuelBurnMod; // create thrust according to burn rate
 
@@ -166,10 +168,10 @@ public class EngineControl : MonoBehaviour
 
         // Step currentThrottleDelta towards target delta
         currentThrottleDelta = Mathf.MoveTowards(currentThrottleDelta,
-            MAX_THROTTLE_DELTA * controllerInput, throttleAccel);
+            MAX_THROTTLE_DELTA * controllerInput, throttleAccel * Time.fixedDeltaTime);
 
         // step currentThrottlePercent by delta
-        return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + currentThrottleDelta, 0.0f, 100f);
+        return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + (currentThrottleDelta * Time.fixedDeltaTime), 0.0f, 100f);
     }
 
     private float stepBaseThrustToTarget(float targetThrottlePercent)
@@ -182,7 +184,7 @@ public class EngineControl : MonoBehaviour
             targetThrust = 0.0f;
 
         // step towards target thrust
-        return Mathf.MoveTowards(currentBaseThrust, targetThrust, MAX_THRUST_DELTA);
+        return Mathf.MoveTowards(currentBaseThrust, targetThrust, MAX_THRUST_DELTA * Time.fixedDeltaTime);
 
 
     }

@@ -45,7 +45,14 @@ public class TankShell : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(effectsObj != null)
+        
+    }
+
+
+    private void FixedUpdate()
+    {
+
+        if (effectsObj != null)
         {
             effectsObj.transform.position = effectsCenter.transform.position;
 
@@ -55,7 +62,7 @@ public class TankShell : MonoBehaviour
             {
                 if (smokeEmitTime > 0)
                 {
-                    smokeEmitTime -= Time.deltaTime;
+                    smokeEmitTime -= Time.fixedDeltaTime;
                 }
                 else
                 {
@@ -67,7 +74,7 @@ public class TankShell : MonoBehaviour
             {
                 if (lightEmitTime > 0)
                 {
-                    lightEmitTime -= Time.deltaTime;
+                    lightEmitTime -= Time.fixedDeltaTime;
                 }
                 else
                 {
@@ -79,7 +86,15 @@ public class TankShell : MonoBehaviour
         }
 
         transform.rotation = Quaternion.LookRotation(rb.velocity, transform.up);
+
+
+        if (transform.position.y < 0)
+        {
+            explodeStats.explode(transform.position);
+            GameObject.Destroy(gameObject);
+        }
     }
+
 
     public void readyEmit()
     {

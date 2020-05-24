@@ -85,6 +85,8 @@ public class hudControl : MonoBehaviour
 
     public CNN_UI cnnUI;
 
+    public GameObject radOffIndicator;
+
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);

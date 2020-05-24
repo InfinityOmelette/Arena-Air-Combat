@@ -87,6 +87,12 @@ public class hudControl : MonoBehaviour
 
     public GameObject radOffIndicator;
 
+    public float velVectLerpRate;
+    private Vector3 readVelocity;
+    public float readVelLerpRate;
+
+    //public GameObject velVectAlt;
+
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);
@@ -189,6 +195,26 @@ public class hudControl : MonoBehaviour
             processHealthBar();
 
 
+            readVelocity = Vector3.Lerp(readVelocity, root_rbRef.velocity, readVelLerpRate * Time.deltaTime);
+
+            // velocity vector
+            if (root_rbRef.velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
+            {
+                drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + readVelocity.normalized, velVectLerpRate * Time.deltaTime);
+
+                //drawItemOnScreen(velVectAlt, Camera.main.transform.position + root_rbRef.velocity, 0.5f);
+                //Debug.Log("Fast enough, onScreen:");
+            }
+            else
+            {   // place behind screen if too slow
+                //Debug.Log("too slow, offscreen");
+                drawItemOnScreen(velocityVectorRef,
+                    Camera.main.transform.position - Camera.main.transform.forward, velVectLerpRate * Time.deltaTime);
+
+                //drawItemOnScreen(velVectAlt,
+                 //   Camera.main.transform.position - Camera.main.transform.forward, velVectLerpRate * Time.deltaTime);
+            }
+
             if (cnnUI.cnnOn)
             {
                 // nose indicator
@@ -198,21 +224,19 @@ public class hudControl : MonoBehaviour
             {
                 drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, 0.5f);
             }
-            
 
-            // velocity vector
-            if (aircraftRootObj.GetComponent<Rigidbody>().velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
-            {
-                drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + root_rbRef.velocity.normalized, 0.5f);
-                //Debug.Log("Fast enough, onScreen:");
-            }
-            else
-            {   // place behind screen if too slow
-                //Debug.Log("too slow, offscreen");
-                drawItemOnScreen(velocityVectorRef, Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
-            }
+
+            
         }
 
+    }
+
+    private void FixedUpdate()
+    {
+        if (root_rbRef != null)
+        {
+            
+        }
     }
 
     // SCALE HEALTH FILL AND OFFSET TEXT

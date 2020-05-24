@@ -72,10 +72,14 @@ public class CamManipulation : MonoBehaviour
 
     private Quaternion previousRotationTarget;
 
+    private Vector3 camTargetLocalPos;
+    public float camTargetLocalPosLerpRate;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        camTargetLocalPos = camRef.transform.localPosition;
 
         defaultCamRotation = camRef.transform.localRotation;
 
@@ -85,6 +89,11 @@ public class CamManipulation : MonoBehaviour
 
     void Update()
     {
+
+        camRef.transform.localPosition = Vector3.Lerp(camRef.transform.localPosition, camTargetLocalPos, camTargetLocalPosLerpRate * Time.deltaTime);
+        
+
+
         if (input_camLookAtButtonDown)
             toggleLookAt();
 
@@ -121,20 +130,27 @@ public class CamManipulation : MonoBehaviour
         camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, activeRotateLerpRate * Time.deltaTime);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        
-
-
         //  ========================================     VELOCITY EFFECTS ON CAMERA POSITION
-        camRef.transform.localPosition = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
-        camRef.transform.localPosition -= camDistanceByVelocity();
-        camRef.transform.localPosition -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
+
+
+
+        camTargetLocalPos = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
+        camTargetLocalPos -= camDistanceByVelocity();
+        camTargetLocalPos -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
 
 
     }
 
+    
+    private void velocityOffsets()
+    {
+        //  ========================================     VELOCITY EFFECTS ON CAMERA POSITION
+        camRef.transform.localPosition = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
+        camRef.transform.localPosition -= camDistanceByVelocity();
+        camRef.transform.localPosition -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
+    }
 
     public void setLookAt(bool setLook)
     {

@@ -36,7 +36,7 @@ public class Rocket : Weapon
         armed = false;
         setColliders(false);
         effectsObj = Instantiate(rocketEffectsPrefab);
-        
+        effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
         effectsObj.transform.position = effectsCenter.position;
 
         rbRef = GetComponent<Rigidbody>();
@@ -83,6 +83,7 @@ public class Rocket : Weapon
 
         killIfBelowFloor();
         killIfLifetimeOver();
+        checkLinecastCollision();
 
     }
 
@@ -117,13 +118,18 @@ public class Rocket : Weapon
         if (myFlow != null)
         {
 
-            if (myFlow.localOwned)
+            CombatFlow otherFlow = other.transform.root.GetComponent<CombatFlow>();
+            if (otherFlow != null)
             {
-
-                if (explodeOnOther(other.gameObject))
+                if (myFlow.localOwned)
                 {
-                    //rpcContactProcess(transform.position, getVictimId(other.transform.root.gameObject));
-                    impactLocal(transform.position, other.transform.root.gameObject);
+
+                    if (explodeOnOther(other.gameObject))
+                    {
+                        Debug.Log("Rocket collider triggered... exploding");
+                        //rpcContactProcess(transform.position, getVictimId(other.transform.root.gameObject));
+                        impactLocal(transform.position, other.transform.root.gameObject);
+                    }
                 }
             }
         }

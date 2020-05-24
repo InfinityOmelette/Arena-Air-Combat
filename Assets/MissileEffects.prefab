@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1938676724783723672}
   - component: {fileID: 8360976141621314336}
   - component: {fileID: 2267750829577452625}
+  - component: {fileID: 6394539870900264016}
   m_Layer: 0
   m_Name: MissileEffects
   m_TagString: Untagged
@@ -215,3 +216,17 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &6394539870900264016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3548486328413409656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1323d6bca2b7547831bc63ad2f36e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathCountDown: 5
+  doCount: 0

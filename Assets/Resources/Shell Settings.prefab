@@ -123,13 +123,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   localOwned: 0
-  initSpeed: 250
   effectsCenter: {fileID: 1740963382661997570}
   effectsInit: {fileID: 8733813667504412014}
   effectsObj: {fileID: 0}
   effectsLight: {fileID: 0}
   trail: {fileID: 0}
-  emitTime: 100
+  smokeEmitTime: 0
+  lightEmitTime: 0
 --- !u!65 &7536621228142367262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 5975692829386158222}
   - component: {fileID: 4324118934304245558}
   - component: {fileID: 5992009473071565662}
+  - component: {fileID: 7227918660427110427}
   m_Layer: 0
   m_Name: MissileEffects
   m_TagString: Untagged
@@ -427,3 +428,17 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &7227918660427110427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8733813667504412014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1323d6bca2b7547831bc63ad2f36e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathCountDown: 3
+  doCount: 0

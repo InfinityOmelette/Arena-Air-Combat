@@ -38,18 +38,20 @@ public class BasicBomb : Weapon
     // Update is called once per frame
     void Update()
     {
+        checkLinecastCollision();
+    }
+
+
+    private void FixedUpdate()
+    {
         tryArm();
 
         if (armed)
         {
             transform.rotation = Quaternion.LookRotation(rbRef.velocity, transform.up);
         }
-    }
 
-
-    private void FixedUpdate()
-    {
-        checkLinecastCollision();
+        
     }
 
 

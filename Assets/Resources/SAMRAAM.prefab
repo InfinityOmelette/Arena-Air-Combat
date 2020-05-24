@@ -864,6 +864,9 @@ MonoBehaviour:
   iconImageSpriteFile: {fileID: 21300000, guid: 971140a1a66d82d49822b9c374cae88c,
     type: 3}
   networkImpact: 1
+  lineCastViaDistance: 1
+  linecastDistance: 15
+  effectsBehavior: {fileID: 0}
   ownerObj: {fileID: 0}
   proximityFuseRange: 15
   fuseLeadTime: 0.1
@@ -903,7 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanConeAngle: 30
+  scanConeAngle: 45
   maxDetectRange: 5000
   lockAngle: 0
   detectionThreshold: 1
@@ -930,8 +933,8 @@ MonoBehaviour:
   input_roll: 0
   input_yaw: 0
   rollTorque: 0
-  pitchTorque: 20
-  yawTorque: 20
+  pitchTorque: 30
+  yawTorque: 30
   pitchTrim: 0
   downPitchMultiplier: 1
   wingLiftCoefficient: 0.075
@@ -982,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abbreviation: 
+  abbreviation: SAM
   maxHP: 1
   currentHP: 1
   isLocalPlayer: 0

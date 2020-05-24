@@ -67,15 +67,19 @@ public class TankTurret : MonoBehaviour
         //Debug.LogError(rootFlow.gameObject.name + "'s max dist: " + maxDist);
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
             fireMission = !fireMission;
- 
-        }
 
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
 
         fireMissionProcess();
 
@@ -88,7 +92,7 @@ public class TankTurret : MonoBehaviour
 
             if (fireRateTimer > 0) // keep waiting until shot is loaded
             {
-                fireRateTimer -= Time.deltaTime;
+                fireRateTimer -= Time.fixedDeltaTime;
             }
             else if (fireMission)   // wait complete, firemission active, do a shot
             {
@@ -100,7 +104,7 @@ public class TankTurret : MonoBehaviour
         {
             if (reloadTimer > 0) // wait for reload
             {
-                reloadTimer -= Time.deltaTime;
+                reloadTimer -= Time.fixedDeltaTime;
             }
             else // wait complete, perform reload
             {

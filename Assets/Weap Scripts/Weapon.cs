@@ -44,21 +44,34 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public bool networkImpact = false;
 
+
+    public bool lineCastViaDistance;
+    public float linecastDistance;
+
+    public EffectsBehavior effectsBehavior;
+
     //protected PhotonView photonView;
 
     // call from fixedUpdate()
     // either countdown reposition timer
     public void checkLinecastCollision()
     {
-
-        if (linecastCurrentTimer > 0)
+        if (lineCastViaDistance)
         {
-            linecastCurrentTimer -= Time.deltaTime;
+            // project line toward rear
+            previousPos = transform.position - transform.forward * linecastDistance;
         }
         else
         {
-            previousPos = transform.position;
-            linecastCurrentTimer = lineCastBackTime;
+            if (linecastCurrentTimer > 0)
+            {
+                linecastCurrentTimer -= Time.deltaTime;
+            }
+            else
+            {
+                previousPos = transform.position;
+                linecastCurrentTimer = lineCastBackTime;
+            }
         }
 
         if (armed)
@@ -68,6 +81,11 @@ public class Weapon : MonoBehaviourPunCallbacks
             if (Physics.Linecast(previousPos, transform.position,
                 out hitInfo, terrainLayer))
             {
+                Debug.DrawLine(transform.position, hitInfo.point, Color.green, 1.0f);
+
+                // hitInfo.point is confirmed absolutely to be correct. transform isn't moving as it should.
+                //  - explosion triggering before able to move?
+
                 Debug.Log("*********************************************************************  linecast hit");
                 transform.position = hitInfo.point;
 
@@ -79,7 +97,7 @@ public class Weapon : MonoBehaviourPunCallbacks
                     id = otherRootObj.GetComponent<PhotonView>().ViewID;
                 }
 
-                if (explodeOnOther(otherRootObj))
+                //if (explodeOnOther(otherRootObj))
                 {
                     if (networkImpact)
                     {
@@ -90,7 +108,7 @@ public class Weapon : MonoBehaviourPunCallbacks
                     {
                         //Debug.LogError("MYERROR: linecast triggered");
                         //rpcContactProcess(transform.position, id);
-                        impactLocal(hitInfo.point, otherRootObj);
+                        impactLocal(transform.position, otherRootObj);
                     }
                     
                 }

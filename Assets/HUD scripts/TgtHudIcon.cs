@@ -106,7 +106,7 @@ public class TgtHudIcon : MonoBehaviour
                         txtKPH.enabled = false;
                         doBlink = false;
 
-                        if((rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly) || rootFlow.type == CombatFlow.Type.PROJECTILE)
+                        if(rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
                         {
                             // show name and dist
                             tgtTitleText.enabled = true;

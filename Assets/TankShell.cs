@@ -17,6 +17,7 @@ public class TankShell : MonoBehaviour
     public GameObject effectsObj;
     public Light effectsLight;
     public TrailRenderer trail;
+    private EffectsBehavior effectsBehavior;
 
     public float smokeEmitTime;
     public float lightEmitTime;
@@ -37,6 +38,7 @@ public class TankShell : MonoBehaviour
         effectsObj = GameObject.Instantiate(effectsInit);
         trail = effectsObj.GetComponent<TrailRenderer>();
         effectsLight = effectsObj.GetComponent<Light>();
+        effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
         effectsObj.transform.position = effectsCenter.transform.position;
         GameObject.Destroy(effectsInit);
 
@@ -90,8 +92,7 @@ public class TankShell : MonoBehaviour
 
         if (transform.position.y < 0)
         {
-            explodeStats.explode(transform.position);
-            GameObject.Destroy(gameObject);
+            ded();
         }
     }
 
@@ -103,9 +104,16 @@ public class TankShell : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(effectsLight != null)
+        ded();
+    }
+
+
+    private void ded()
+    {
+        if (effectsLight != null)
         {
             effectsLight.enabled = false;
+            effectsBehavior.doCount = true;
         }
 
         explodeStats.explode(transform.position);

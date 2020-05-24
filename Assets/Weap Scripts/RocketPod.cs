@@ -61,13 +61,13 @@ public class RocketPod : Weapon
             {
                 if (roundsRemain > 0)
                 {
-                    Debug.Log("doLaunch is " + doLaunch + ", fireRocket() called");
+                    //Debug.Log("doLaunch is " + doLaunch + ", fireRocket() called");
                     fireRocket();
                 }
                 else
                 {
                     myHardpoint.readyToFire = false;
-                    Debug.Log("No rockets remaining. Ignoring launch");
+                    //Debug.Log("No rockets remaining. Ignoring launch");
                 }
             }
         }

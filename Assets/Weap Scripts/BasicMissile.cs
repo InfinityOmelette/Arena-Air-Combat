@@ -90,13 +90,14 @@ public class BasicMissile : Weapon
     {
         tryArm();
         //effectsObj.transform.position = effectsCenter.position;
+        checkLinecastCollision();
     }
 
     
 
     private void FixedUpdate()
     {
-        checkLinecastCollision();
+        
 
         if ( launched )
         {
@@ -169,6 +170,7 @@ public class BasicMissile : Weapon
 
                 if (explodeOnOther(otherRoot))
                 {
+                    Debug.Log("Missile collider triggered");
                     //rpcContactProcess(transform.position, other.transform.root.gameObject.GetComponent<PhotonView>().ViewID);
                     photonView.RPC("rpcContactProcess", RpcTarget.All,
                         transform.position, otherId);
@@ -185,7 +187,7 @@ public class BasicMissile : Weapon
     override
     public void rpcContactProcess(Vector3 position, int otherId)
     {
-        Debug.LogWarning("rpcContactProcess locally called");
+        //Debug.LogWarning("rpcContactProcess locally called");
         GameObject otherRoot = null;
         CombatFlow otherFlow = null;
 
@@ -389,6 +391,8 @@ public class BasicMissile : Weapon
         //Destroy(effectsObj.gameObject);
 
         effectsObj.GetComponent<Light>().enabled = false;
+
+        effectsObj.GetComponent<EffectsBehavior>().doCount = true;
         //Debug.LogWarning("Destroy successful: " + effectsObj == null);
         
         

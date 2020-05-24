@@ -293,6 +293,8 @@ public class BasicMissile : Weapon
 
             //radar.radarOn = targetFlow.isLocalPlayer;
             radar.pingPlayer = targetFlow.isLocalPlayer;
+
+            radar.radarOn = radar.pingPlayer || myCombatFlow.localOwned;
         }
     }
 

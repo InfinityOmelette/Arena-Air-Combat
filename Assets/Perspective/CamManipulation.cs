@@ -33,6 +33,7 @@ public class CamManipulation : MonoBehaviour
    
 
     public float camRotateLerpRate;
+    public float lookAtLerpRate;
     public float mouseRotateLerpRate;
     private float activeRotateLerpRate;
 
@@ -81,29 +82,14 @@ public class CamManipulation : MonoBehaviour
         //camAxisXref.transform.rotation = new Quaternion(0.0f, 180f, 0f, 0f);
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        if(input_camLookAtButtonDown)
+        if (input_camLookAtButtonDown)
             toggleLookAt();
 
         if (input_mouseLookToggleBtnDown)
             mouseLookEnabled = !mouseLookEnabled;
-        
-    }
-
-    private void FixedUpdate()
-    {
-
-
-        
-
-        //  ========================================     VELOCITY EFFECTS ON CAMERA POSITION
-        camRef.transform.localPosition = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
-        camRef.transform.localPosition -= camDistanceByVelocity();
-        camRef.transform.localPosition -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
-
-        
 
         if (lookAtEnabled)
         {
@@ -111,10 +97,10 @@ public class CamManipulation : MonoBehaviour
             {  // slightly redundant null check
                 //camAxisRollRef.transform.LookAt(lookAtObj.transform.position, aircraftRootRB.transform.up);
                 targetLocalRotation = Quaternion.LookRotation(
-                    aircraftRootRB.transform.InverseTransformPoint( lookAtObj.transform.position),
+                    aircraftRootRB.transform.InverseTransformPoint(lookAtObj.transform.position),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
 
-                activeRotateLerpRate = camRotateLerpRate;
+                activeRotateLerpRate = lookAtLerpRate;
 
 
             }
@@ -123,7 +109,7 @@ public class CamManipulation : MonoBehaviour
         }
         else
         {
-            
+
 
             // right stick to look around aircraft
             processFreeLook();
@@ -132,9 +118,23 @@ public class CamManipulation : MonoBehaviour
         // Roll angular velocity on camera rotation
         camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
 
-        camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, activeRotateLerpRate);
+        camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, activeRotateLerpRate * Time.deltaTime);
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        
+
+
+        //  ========================================     VELOCITY EFFECTS ON CAMERA POSITION
+        camRef.transform.localPosition = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
+        camRef.transform.localPosition -= camDistanceByVelocity();
+        camRef.transform.localPosition -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
+
 
     }
+
 
     public void setLookAt(bool setLook)
     {
@@ -216,7 +216,7 @@ public class CamManipulation : MonoBehaviour
         if (mouseLookEnabled)
         {
 
-            activeRotateLerpRate = mouseRotateLerpRate;
+            activeRotateLerpRate = mouseRotateLerpRate * Time.deltaTime;
 
             // use mouse input to rotate camera
             targetLocalEuler = mouseFreeLookEuler(
@@ -227,7 +227,7 @@ public class CamManipulation : MonoBehaviour
         }
         else // THERE IS STICK INPUT, PRIORITIZE STICK
         {
-            activeRotateLerpRate = camRotateLerpRate;
+            activeRotateLerpRate = camRotateLerpRate * Time.deltaTime;
 
             float horizLookTarget = Mathf.Clamp(input_freeLookHoriz * horizTravelMod + camAxisTargetOffset_Horiz, -horizTravelMod, horizTravelMod);
             float vertLookTarget = Mathf.Clamp(input_freeLookVert * vertTravelMod + camAxisTargetOffset_Vert, -vertTravelMod, vertTravelMod);
@@ -301,7 +301,7 @@ public class CamManipulation : MonoBehaviour
                 rollRateOffsetTarget *= -1;
         }
 
-        rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate);
+        rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate * Time.deltaTime);
         
         returnQuat = new Quaternion(
             camAxisRollRef.transform.localRotation.x,

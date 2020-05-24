@@ -38,11 +38,18 @@ public class TankTurret : MonoBehaviour
     private bool fireMission = false;
 
 
+    public Transform explodePosition;
+    public bool explodeOnLaunch;
+
+    private ExplodeStats explode;
+
     //public float elev;
 
     // Start is called before the first frame update
     void Start()
     {
+        explode = GetComponent<ExplodeStats>();
+
         fireRateTimer = fireRateDelay;
         reloadTimer = reloadDelay;
         roundsInCurrentMag = roundsPerMag;
@@ -172,6 +179,12 @@ public class TankTurret : MonoBehaviour
         shell.GetComponent<Rigidbody>().velocity = shell.transform.forward * shellSpeed;
 
         //shell.GetComponent<TankShell>().readyEmit();
+
+        if (explodeOnLaunch)
+        {
+            explode.explode(explodePosition.position);
+        }
+
     }
 
 

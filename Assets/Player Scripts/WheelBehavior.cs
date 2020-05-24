@@ -26,7 +26,7 @@ public class WheelBehavior : MonoBehaviour
         setWheelLowered(wheelDown);
     }
 
-    void Update()
+    void FixedUpdate()
     { 
         // align mesh with collider
         alignExtension();

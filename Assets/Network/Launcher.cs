@@ -94,11 +94,26 @@ namespace Omelette.TestGamePleaseIgnore
             {
                 // #Critical, we must first and foremost connect to Photon Online Server.
                 // keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
-                isConnecting = PhotonNetwork.ConnectUsingSettings(); //PhotonNetwork.ConnectUsingSettings();
+                //isConnecting = PhotonNetwork.ConnectToRegion(); //PhotonNetwork.ConnectUsingSettings();
+                //connectToUSW();
+                //isConnecting = PhotonNetwork.ConnectToRegion("usw");
+                isConnecting = connectToUSW();
 
                 //isConnecting = PhotonNetwork.ConnectToRegion("usw");
                 PhotonNetwork.GameVersion = gameVersion;
             }
+        }
+
+        private bool connectToUSW()
+        {
+            // you could also set these values directly in the PhotonServerSettings from Unity Editor
+            PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "usw";
+            PhotonNetwork.PhotonServerSettings.AppSettings.UseNameServer = true;
+            //PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = "ChinaPUNAppId"; // TODO: replace with your own AppId
+            //PhotonNetwork.PhotonServerSettings.AppSettings.AppIdVoice = "ChinaVoiceAppId"; // TODO: replace with your own AppId
+            //PhotonNetwork.PhotonServerSettings.AppSettings.AppVersion = "ChinaAppVersion"; // optional
+            //PhotonNetwork.PhotonServerSettings.AppSettings.Server = "ns.photonengine.cn";
+            return PhotonNetwork.ConnectUsingSettings();
         }
 
         #endregion
@@ -107,6 +122,8 @@ namespace Omelette.TestGamePleaseIgnore
         public override void OnConnectedToMaster()
         {
             Debug.LogWarning("PUN Basics Tutorial/Launcher:  OnConnectedToMaster was called by PUN");
+            
+
             
             
             // we don't want to do anything if we are not attempting to join a room.

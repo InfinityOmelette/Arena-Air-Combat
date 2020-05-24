@@ -337,10 +337,11 @@ MonoBehaviour:
   estHighSpeed: 110
   estLowSpeed: 25
   fwdGlobalVelocityScale: 0
-  camRotateLerpRate: 0.135
-  mouseRotateLerpRate: 0.6
+  camRotateLerpRate: 700
+  lookAtLerpRate: 10
+  mouseRotateLerpRate: 1000
   rollRateMod: 0.145
-  rollRateOffsetLerpRate: 0.0348
+  rollRateOffsetLerpRate: 2.61
   horizTravelMod: 145
   vertTravelMod: 80
   lookAtObj: {fileID: 0}
@@ -433,7 +434,7 @@ Rigidbody:
   m_AngularDrag: 3.5
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &-8673316639226967037

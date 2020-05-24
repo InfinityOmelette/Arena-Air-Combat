@@ -80,7 +80,7 @@ public class DummyFlight : MonoBehaviourPunCallbacks
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         checkIfLocalOwns();
 

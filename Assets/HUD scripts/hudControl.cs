@@ -91,7 +91,7 @@ public class hudControl : MonoBehaviour
     private Vector3 readVelocity;
     public float readVelLerpRate;
 
-    //public GameObject velVectAlt;
+    public GameObject velVectAlt;
 
     public void setHudVisible(bool makeVisible)
     {
@@ -195,40 +195,45 @@ public class hudControl : MonoBehaviour
             processHealthBar();
 
 
-            readVelocity = Vector3.Lerp(readVelocity, root_rbRef.velocity, readVelLerpRate * Time.deltaTime);
 
-            // velocity vector
-            if (root_rbRef.velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
-            {
-                drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + readVelocity.normalized, velVectLerpRate * Time.deltaTime);
-
-                //drawItemOnScreen(velVectAlt, Camera.main.transform.position + root_rbRef.velocity, 0.5f);
-                //Debug.Log("Fast enough, onScreen:");
-            }
-            else
-            {   // place behind screen if too slow
-                //Debug.Log("too slow, offscreen");
-                drawItemOnScreen(velocityVectorRef,
-                    Camera.main.transform.position - Camera.main.transform.forward, velVectLerpRate * Time.deltaTime);
-
-                //drawItemOnScreen(velVectAlt,
-                 //   Camera.main.transform.position - Camera.main.transform.forward, velVectLerpRate * Time.deltaTime);
-            }
-
-            if (cnnUI.cnnOn)
-            {
-                // nose indicator
-                drawItemOnScreen(noseIndicatorRef, aircraftRootObj.transform.position + aircraftRootObj.transform.forward * reticle.aimPointDist, 0.5f);
-            }
-            else
-            {
-                drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, 0.5f);
-            }
+            noseAndVelIndicators();
 
 
-            
         }
 
+    }
+
+    private void noseAndVelIndicators()
+    {
+        readVelocity = Vector3.Lerp(readVelocity, root_rbRef.velocity, readVelLerpRate * Time.deltaTime);
+
+        // velocity vector
+        if (root_rbRef.velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
+        {
+            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + readVelocity.normalized, velVectLerpRate * Time.deltaTime);
+
+            drawItemOnScreen(velVectAlt, Camera.main.transform.position + root_rbRef.velocity, 0.5f);
+            //Debug.Log("Fast enough, onScreen:");
+        }
+        else
+        {   // place behind screen if too slow
+            //Debug.Log("too slow, offscreen");
+            drawItemOnScreen(velocityVectorRef,
+                Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
+
+            drawItemOnScreen(velVectAlt,
+                Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
+        }
+
+        if (cnnUI.cnnOn)
+        {
+            // nose indicator
+            drawItemOnScreen(noseIndicatorRef, aircraftRootObj.transform.position + aircraftRootObj.transform.forward * reticle.aimPointDist, velVectLerpRate * Time.deltaTime);
+        }
+        else
+        {
+            drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, velVectLerpRate * Time.deltaTime);
+        }
     }
 
     private void FixedUpdate()

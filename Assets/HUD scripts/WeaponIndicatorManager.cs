@@ -123,7 +123,7 @@ public class WeaponIndicatorManager : MonoBehaviour
 
     public GameObject spawnNewContainer(GameObject newPrefabType)
     {
-        Debug.Log("spawn container called");
+        //Debug.Log("spawn container called");
 
         if (dpadImagesSaved < dPadWeaponDirections.Length)
         {
@@ -140,7 +140,9 @@ public class WeaponIndicatorManager : MonoBehaviour
 
         indicatorTypeContainers.Add(newContainerObj);
 
-        weaponTypesText.text += (indicatorTypeContainers.Count).ToString() + " --- " + newPrefabType.name + "\n";
+        //string name = newPrefabType.name.ToUpper()
+
+        weaponTypesText.text += (indicatorTypeContainers.Count).ToString() + " --- " + newPrefabType.name.ToUpper() + "\n";
 
         return newContainerObj;
     }
@@ -148,7 +150,7 @@ public class WeaponIndicatorManager : MonoBehaviour
 
     public GameObject spawnNewIndicator(short indicatorType, short orderPosition, Hardpoint linkedHardpoint)
     {
-        Debug.Log("spawn indicator called");
+        //Debug.Log("spawn indicator called");
 
         // spawn indicator with proper container object as parent
         GameObject newIndicator = Instantiate(indicatorPrefab, indicatorTypeContainers[indicatorType].transform);

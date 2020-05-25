@@ -62,6 +62,15 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
         if (isReady && myFlow.isLocalPlayer)
         {
 
+            float throttle = Input.GetAxis("Throttle");
+
+            // ENGINE
+            engine.input_throttleAxis = throttle;
+            engine.input_scrollWheelAxis = Input.GetAxis("Scrollwheel");
+
+            // WHEEL BRAKES
+            wheels.input_brakeAxis = throttle;
+
             //cam.input_camLookAtButtonDown = Input.GetButtonDown("CamLookAt");
 
             tgtButtonProcess();
@@ -186,7 +195,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
         if (myFlow.isLocalPlayer)
         {
             float yaw = Input.GetAxis("Rudder");
-            float throttle = Input.GetAxis("Throttle");
+            
 
             float mouseX = Input.GetAxis("Mouse X");
             float mouseY = Input.GetAxis("Mouse Y");
@@ -199,13 +208,8 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
             flight.input_yaw = Mathf.Lerp(flight.input_yaw, yaw, rudderInputLerp);
             flight.input_roll = Mathf.Lerp(flight.input_roll, Input.GetAxis("Roll"), rollInputLerp);
 
-            // ENGINE
-            engine.input_throttleAxis = throttle;
-            engine.input_scrollWheelAxis = Input.GetAxis("Scrollwheel");
-
 
             // WHEELS
-            wheels.input_brakeAxis = throttle;
             wheels.input_gear_button = Input.GetAxis("Gear");
             wheels.input_rudderAxis = Mathf.Lerp(wheels.input_rudderAxis, yaw, rudderInputLerp);
 

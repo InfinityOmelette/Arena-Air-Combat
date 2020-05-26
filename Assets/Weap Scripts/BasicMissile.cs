@@ -36,6 +36,8 @@ public class BasicMissile : Weapon
 
     private int targetID;
 
+    public float PASS_OWNERSHIP_DISTANCE = 350f;
+
     void awake()
     {
         init();
@@ -45,13 +47,13 @@ public class BasicMissile : Weapon
     // Start is called before the first frame update
     void Start()
     {
-
+        //init();
         //Debug.LogWarning("Found radar of " + radar.gameObject.name);
 
 
         //photonView = PhotonView.Get(this);
-        
-        
+
+
 
 
 
@@ -60,14 +62,19 @@ public class BasicMissile : Weapon
 
     private void init()
     {
-        myCombatFlow = GetComponent<CombatFlow>();
-        radar = GetComponent<Radar>();
-        rbRef = GetComponent<Rigidbody>();
+        setRefs();
         setColliders(false);
 
         // RocketMotor instantiates effects obj
 
         myCombatFlow.isActive = false;
+    }
+
+    private void setRefs()
+    {
+        myCombatFlow = GetComponent<CombatFlow>();
+        radar = GetComponent<Radar>();
+        rbRef = GetComponent<Rigidbody>();
     }
 
     override
@@ -103,6 +110,15 @@ public class BasicMissile : Weapon
         {
             if (myCombatFlow.localOwned)
             {
+
+                if(myTarget != null && Vector3.Distance(myTarget.transform.position, 
+                    transform.position) < PASS_OWNERSHIP_DISTANCE)
+                {
+                    // target's instance will own this missile and show accurate position
+                    myCombatFlow.giveOwnership(targetID);
+                }
+
+
                 if(armed && rbRef.velocity.magnitude < selfDestructSpeed)
                 {
                     myCombatFlow.dealLocalDamage(myCombatFlow.getHP());
@@ -181,6 +197,7 @@ public class BasicMissile : Weapon
         }
     }
 
+    
     
 
     [PunRPC]
@@ -293,6 +310,15 @@ public class BasicMissile : Weapon
                 radar = GetComponent<Radar>();
             }
 
+            // all instances will have target set
+            //  - this allows us to pass around ownership, to give more accurate display of missile position
+            targetID = photonId;
+            myTarget = targetView.gameObject;
+            guidedLaunch = true;
+            setRefs();
+            //init();
+
+
             //radar.radarOn = targetFlow.isLocalPlayer;
             radar.pingPlayer = targetFlow.isLocalPlayer;
 
@@ -350,12 +376,12 @@ public class BasicMissile : Weapon
             // explode if targetPosition has not been set yet
             if (guidedLaunch)
             {
-
+                
 
                 float distance = Vector3.Distance(targetPosition, transform.position);
                 if (distance < proximityFuseRange)
                 {
-                    Debug.Log("Proximity fuse blew");
+                    //Debug.LogError("Proximity fuse blew");
                     fuseTriggered = true;
                 }
             }

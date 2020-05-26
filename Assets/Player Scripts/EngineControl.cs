@@ -72,6 +72,8 @@ public class EngineControl : MonoBehaviour
 
         currentThrottlePercent = inputThrottleFromMouse();
 
+        //  THRUST BASE
+        currentThrottlePercent = inputThrottleFromJoypad();       // set throttle
     }
 
 
@@ -129,7 +131,6 @@ public class EngineControl : MonoBehaviour
     void FixedUpdate()
     {
         //  THRUST BASE
-        currentThrottlePercent = inputThrottleFromJoypad();       // set throttle
 
         currentBaseThrust = stepBaseThrustToTarget(currentThrottlePercent); // step thrust value
         currentBaseThrustPercent = (currentBaseThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
@@ -168,10 +169,10 @@ public class EngineControl : MonoBehaviour
 
         // Step currentThrottleDelta towards target delta
         currentThrottleDelta = Mathf.MoveTowards(currentThrottleDelta,
-            MAX_THROTTLE_DELTA * controllerInput, throttleAccel * Time.fixedDeltaTime);
+            MAX_THROTTLE_DELTA * controllerInput, throttleAccel * Time.deltaTime);
 
         // step currentThrottlePercent by delta
-        return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + (currentThrottleDelta * Time.fixedDeltaTime), 0.0f, 100f);
+        return currentThrottlePercent = Mathf.Clamp(currentThrottlePercent + (currentThrottleDelta * Time.deltaTime), 0.0f, 100f);
     }
 
     private float stepBaseThrustToTarget(float targetThrottlePercent)
@@ -184,7 +185,7 @@ public class EngineControl : MonoBehaviour
             targetThrust = 0.0f;
 
         // step towards target thrust
-        return Mathf.MoveTowards(currentBaseThrust, targetThrust, MAX_THRUST_DELTA * Time.fixedDeltaTime);
+        return Mathf.MoveTowards(currentBaseThrust, targetThrust, MAX_THRUST_DELTA * Time.deltaTime);
 
 
     }

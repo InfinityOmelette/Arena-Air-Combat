@@ -40,7 +40,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 272699790366989052}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -696,11 +696,12 @@ MonoBehaviour:
   networkImpact: 0
   lineCastViaDistance: 1
   linecastDistance: 20
+  effectsBehavior: {fileID: 0}
   rocketEffectsPrefab: {fileID: 3795491082417072009, guid: 7ea534138d7c7e24fbd0b2d22acae9a3,
     type: 3}
   impactDamage: 90
-  motorBurnTime: 0.75
-  motorForce: 750
+  motorBurnTime: 0.125
+  motorForce: 5200
   burnActive: 1
   myCollider: {fileID: 0}
   tempTimerMax: 0.25

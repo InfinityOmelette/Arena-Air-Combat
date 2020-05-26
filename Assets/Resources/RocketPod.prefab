@@ -2333,6 +2333,9 @@ MonoBehaviour:
   armed: 0
   friendlyImpact: 0
   impactOnEffects: 0
+  useDropComputer: 1
+  dropInitSpeed: 125
+  dropComputerMaxRange: 2200
   myHardpoint: {fileID: 0}
   myTeam: 0
   projectileLifetime: 0
@@ -2357,9 +2360,9 @@ MonoBehaviour:
   rocketPrefab: {fileID: 8686298913641633874, guid: 58f6637fa252cc042a989ea6a53e10eb,
     type: 3}
   rocketArmingTime: 0.25
-  rocketForce: 250
+  rocketForce: 1000
   rocketFireRateDelay: 0.2
-  rocketMotorBurntime: 0.5
+  rocketMotorBurntime: 0.125
   reloadTimerMax: 20
   reloadTimerCurrent: 0
   rocketSpawnAheadDistance: 1

@@ -46,6 +46,8 @@ public class Rocket : Weapon
 
         tempTimerCurrent = tempTimerMax;
 
+        rbRef.velocity += transform.forward * motorBurnTime * motorForce;
+
     }
 
 
@@ -59,17 +61,15 @@ public class Rocket : Weapon
             if (motorBurnTime > 0f)
             {
                 burnActive = true;
-                motorBurnTime -= Time.deltaTime;
-                
+                motorBurnTime -= Time.fixedDeltaTime;
+
             }
             else
             {
                 burnActive = false;
-                if(effectsObj != null)
+                if (effectsObj != null)
                     effectsObj.GetComponent<Light>().enabled = false;
             }
-
-
 
         }
         else
@@ -78,8 +78,9 @@ public class Rocket : Weapon
             tryArm();// count down to arm
 
 
-
         }
+
+
 
         killIfBelowFloor();
         killIfLifetimeOver();
@@ -94,17 +95,21 @@ public class Rocket : Weapon
 
     void FixedUpdate()
     {
+        
+
+
 
         checkLinecastCollision();
 
 
         if (burnActive)
         {
-            rbRef.AddForce(transform.forward * motorForce);
+            //rbRef.AddForce(transform.forward * motorForce);
             effectsObj.transform.position = effectsCenter.transform.position;
         }
         else
         {
+            Debug.LogWarning("Rocket speed: " + rbRef.velocity.magnitude + " m/s");
             transform.rotation = Quaternion.LookRotation(rbRef.velocity);
         }
 
@@ -171,7 +176,10 @@ public class Rocket : Weapon
             {
                // myFlow.currentHP -= myFlow.currentHP;
                 myFlow.dealLocalDamage(myFlow.getHP());
-                effectsObj.GetComponent<Light>().enabled = false;
+                if (effectsObj != null)
+                {
+                    effectsObj.GetComponent<Light>().enabled = false;
+                }
                 //Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
             }
         }

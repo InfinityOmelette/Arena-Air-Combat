@@ -31,7 +31,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
     private CombatFlow rootFlow;
 
-    
+    private DropSightComputer dropSight;
 
     
     // Commands missiles to launch
@@ -41,7 +41,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
         weaponTypeHardpointLists = new List<List<Hardpoint>>();
         groupThisType_List = new List<bool>();
         rootFlow = transform.root.GetComponent<CombatFlow>();
-        
+        dropSight = rootFlow.GetComponent<DropSightComputer>();
     }
 
     // Start is called before the first frame update
@@ -366,6 +366,11 @@ public class HardpointController : MonoBehaviourPunCallbacks
         return activeHardpointIndexes[typeIndex];
     }
 
+    private void fetchDropComputerValues(short typeIndex)
+    {
+        Weapon weap = weaponTypeHardpointLists[typeIndex][0].weaponTypePrefab.GetComponent<Weapon>();
+        dropSight.setComputer(weap.useDropComputer, weap.dropInitSpeed, weap.dropComputerMaxRange);
+    }
 
     public void setWeaponType(short index)
     {
@@ -377,6 +382,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
             // indicator shows change -- this is only UI update
             weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
+
+            fetchDropComputerValues(activeTypeIndex);
         }
     }
 
@@ -400,6 +407,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
             // indicator shows change -- this is only UI update
             weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
+
+            fetchDropComputerValues(activeTypeIndex);
         }
     }
 }

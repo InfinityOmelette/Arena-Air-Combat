@@ -15,6 +15,11 @@ public class Weapon : MonoBehaviourPunCallbacks
     public bool friendlyImpact;
     public bool impactOnEffects;
 
+    // load these values on weapon select
+    public bool useDropComputer;
+    public float dropInitSpeed;
+    public float dropComputerMaxRange;
+
     public Hardpoint myHardpoint;
 
     public CombatFlow.Team myTeam;

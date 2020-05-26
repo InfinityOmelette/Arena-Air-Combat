@@ -83,6 +83,8 @@ public class hudControl : MonoBehaviour
     public GunLeadReticle reticle;
     public GunLeadReticle reticle2;
 
+    public DropSightReticle dropReticle;
+
     public CNN_UI cnnUI;
 
     public GameObject radOffIndicator;

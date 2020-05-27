@@ -50,7 +50,7 @@ public class GunLeadComputer : MonoBehaviour
         if (myFlow.isLocalPlayer)
         {
 
-            if (tgtComp.currentTarget != null)
+            if (tgtComp.currentTarget != null && tgtComp.currentTarget.type == CombatFlow.Type.AIRCRAFT)
             {
 
                 this.aimPoint = calculateAimPoint();

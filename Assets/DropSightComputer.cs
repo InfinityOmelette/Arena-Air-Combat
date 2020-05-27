@@ -19,6 +19,10 @@ public class DropSightComputer : MonoBehaviour
 
     private Vector3 dropDir;
 
+
+    private bool doShow;
+    private Vector3 dropPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,21 +37,37 @@ public class DropSightComputer : MonoBehaviour
     {
         if (myFlow.isLocalPlayer && reticle != null)
         {
-            //Vector3 dropPoint = calculateDropPoint();
-            float dropRange = calculateDropRange();
-            //Debug.Log("Drop range: " + dropRange);
-            //bool doShow = active && dropRange < maxRange;
-            bool doShow = active;
+            //bool doShow = active;
             if (doShow)
             {
-                Vector3 dropPoint = calculateDropPoint(dropRange);
-                
                 reticle.placeReticle(dropPoint);
                 
             }
             reticle.showReticle(doShow);
         }
     }
+
+    void FixedUpdate()
+    {
+        if(myFlow.isLocalPlayer && reticle != null)
+        {
+            if (active) // probably a million better ways to write this control structure. Too bad!
+            {
+                float dropRange = calculateDropRange();
+
+                doShow = active && dropRange < maxRange;
+
+                dropPoint = calculateDropPoint(dropRange);
+            }
+            else
+            {
+                doShow = false;
+            }
+
+        }
+    }
+
+
 
     public void setComputer(bool active, float initForwardVel, float maxRange)
     {

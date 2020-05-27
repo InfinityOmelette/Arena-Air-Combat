@@ -614,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1b2062f6077bb42b698c6c44aba2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 10
+  radius: 7
   damage: 150
   collisionsEnabled: 1
   dissipationTime: 8
@@ -680,9 +680,12 @@ MonoBehaviour:
   armed: 0
   friendlyImpact: 0
   impactOnEffects: 0
+  useDropComputer: 0
+  dropInitSpeed: 0
+  dropComputerMaxRange: 0
   myHardpoint: {fileID: 0}
   myTeam: 0
-  projectileLifetime: 10
+  projectileLifetime: 25
   effectsOriginalObj: {fileID: 0}
   effectsObj: {fileID: 0}
   effectsCenter: {fileID: 3878264266046290918}

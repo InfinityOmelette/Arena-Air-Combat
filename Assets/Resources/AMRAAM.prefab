@@ -2267,8 +2267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockType: 0
   scanConeAngle: 30
   maxDetectRange: 5000
+  maxLockRange: 3250
   lockAngle: 0
   detectionThreshold: 1
   radarOn: 0
@@ -2294,8 +2296,8 @@ MonoBehaviour:
   input_roll: 0
   input_yaw: 0
   rollTorque: 0
-  pitchTorque: 30
-  yawTorque: 30
+  pitchTorque: 100
+  yawTorque: 100
   pitchTrim: 0
   downPitchMultiplier: 1
   wingLiftCoefficient: 0.035
@@ -2380,7 +2382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 20
-  damage: 30
+  damage: 80
   collisionsEnabled: 1
   dissipationTime: 5
   emitLightEnabled: 1

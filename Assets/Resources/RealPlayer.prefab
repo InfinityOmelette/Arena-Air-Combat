@@ -602,8 +602,8 @@ MonoBehaviour:
   rollInputLerp: 0.225
   rudderInputLerp: 0.0249
   gearOffset: 5
-  rocketPodOffset: 5
-  bombOffset: 15
+  rocketPodOffset: 20
+  bombOffset: 32.5
   isReady: 0
 --- !u!114 &6801930850055786249
 MonoBehaviour:
@@ -638,8 +638,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockType: 0
   scanConeAngle: 45
   maxDetectRange: 5500
+  maxLockRange: 0
   lockAngle: 25
   detectionThreshold: 0.85
   radarOn: 1
@@ -897,12 +899,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -1048,12 +1050,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -1199,12 +1201,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -1855,12 +1857,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2006,12 +2008,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2147,17 +2149,17 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponTypePrefab
       value: 
-      objectReference: {fileID: 2935868276171530202, guid: 6c18a1436c8f05f4d9f22209681448c6,
+      objectReference: {fileID: 978785961014248694, guid: d7c3b0248a49d1e409f93b1e7e771ce6,
         type: 3}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2549,17 +2551,17 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponTypePrefab
       value: 
-      objectReference: {fileID: 2935868276171530202, guid: 6c18a1436c8f05f4d9f22209681448c6,
+      objectReference: {fileID: 978785961014248694, guid: d7c3b0248a49d1e409f93b1e7e771ce6,
         type: 3}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2705,12 +2707,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2851,12 +2853,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -3002,12 +3004,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -3148,12 +3150,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -3510,12 +3512,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -4118,12 +4120,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}

@@ -14,9 +14,20 @@ public class Radar : MonoBehaviourPun
 
     private static float RWR_PING_DELAY = .075f; // must be nonzero
 
+    public enum LockType
+    {
+        AIR_ONLY,
+        GROUND_ONLY,
+        AIR_OR_GROUND
+    }
+
+
+    public LockType lockType;
+
     // This radar's performance:
     public float scanConeAngle;
     public float maxDetectRange;
+    public float maxLockRange;
     
     public float lockAngle;
     public float detectionThreshold;
@@ -217,8 +228,23 @@ public class Radar : MonoBehaviourPun
   
     public bool tryLock(CombatFlow targetFlow)
     {
-        float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
-        return  radarOn && tryDetect(targetFlow) && angleOffNose < lockAngle;
+        if (lockableType(targetFlow))
+        {
+            float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
+            float dist = Vector3.Distance(targetFlow.transform.position, transform.position);
+            return radarOn && angleOffNose < lockAngle && dist < maxLockRange && tryDetect(targetFlow);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool lockableType(CombatFlow flow)
+    {
+        return flow.type != CombatFlow.Type.PROJECTILE && (lockType == LockType.AIR_OR_GROUND
+            || (lockType == LockType.AIR_ONLY && flow.type == CombatFlow.Type.AIRCRAFT)
+            || (lockType == LockType.GROUND_ONLY && flow.type != CombatFlow.Type.AIRCRAFT));
     }
 
     private float calculateDetectability(CombatFlow targetFlow)

@@ -263,6 +263,8 @@ public class TgtComputer : MonoBehaviour
             {
                 weaponScanZone = currentWeaponRadar.scanConeAngle;
                 myRadar.lockAngle = weaponScanZone;
+                myRadar.maxLockRange = currentWeaponRadar.maxLockRange;
+                myRadar.lockType = currentWeaponRadar.lockType;
                 radarLocked = myRadar.tryLock(currentFlow);
             }
             else

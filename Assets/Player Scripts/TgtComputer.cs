@@ -12,6 +12,9 @@ public class TgtComputer : MonoBehaviour
     public Radar myRadar;
 
     public CombatFlow currentTarget;
+    private CombatFlow prevTarget;
+
+
     public bool radarLocked;
 
     public CombatFlow localPlayerFlow;
@@ -24,6 +27,11 @@ public class TgtComputer : MonoBehaviour
     public float visibleRange;
 
     private HardpointController hardpointController;
+
+    //public bool canShowCurrentTarget;
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -153,10 +161,21 @@ public class TgtComputer : MonoBehaviour
                             //  Send visibility result
                             currentFlowHudIcon.isDetected = isVisible;
 
+                            if(isVisible && prevTarget != null && currentFlow == prevTarget && currentTarget == null)
+                            {
+                                currentTarget = currentFlow;
+                                TgtHudIcon newTargetHudIcon = currentTarget.myHudIconRef;
+                                newTargetHudIcon.targetedState = TgtHudIcon.TargetedState.TARGETED;
+                                hudControl.mainHud.GetComponent<hudControl>().mapManager.target = currentTarget.transform;
+                            }
+
+                            //canShowCurrentTarget = isVisible;
+
                             if (!isVisible && !currentFlowHudIcon.dataLink && currentTarget == currentFlow)
                             {
                                 currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
                                 currentTarget = null;
+                                //canShowCurrentTarget = false;
                                 hudControl.mainHud.GetComponent<hudControl>().mapManager.target = null;
                                 playerInput.cam.lookAtObj = null;
 
@@ -218,6 +237,7 @@ public class TgtComputer : MonoBehaviour
                         //Debug.Log("SMALLEST ANGLE: " + currentAngle + " degrees.");
                         smallestAngle = currentAngle;
                         newTarget = flowObjArray[i].GetComponent<CombatFlow>();
+                        prevTarget = newTarget;
                     }
                 }
             }

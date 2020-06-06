@@ -68,6 +68,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public bool isHostInstance = false;
 
+    private LaneManager ownerLane;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -271,6 +273,12 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     {
         Debug.LogWarning("Destroyself called");
         removeFromDatalink();
+
+
+        if(ownerLane != null)
+        {
+            ownerLane.unitDeath(this);
+        }
 
         if (isLocalPlayer)
         {

@@ -126,8 +126,8 @@ public class LaneManager : MonoBehaviourPunCallbacks
     }
 
     private bool waveComplete()
-    {
-        return AAACount == AAAPerWave && SAMCount == SAMPerWave && 
+    { // AAA not included, as a temporary bug fix
+        return SAMCount == SAMPerWave && 
             tankCount == tankPerWave && artilleryCount == artilleryPerWave && 
             rocketCount == rocketPerWave;
     }
@@ -289,6 +289,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
         if(selectedPrefab == SAMPrefab)
         {
             spawnPoint = randomSpawnPoint();
+            //Debug.LogError("SAM detected, spawning at random point");
         }
 
 
@@ -347,7 +348,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
         }
         else // NOT set to deploy sam
         {
-            if (squadRemaining != 1) // all but last in squad are normal type
+            if (squadRemaining != 1 ) // all but last in squad are normal type
             {
 
                 if (tankCount != tankPerWave)

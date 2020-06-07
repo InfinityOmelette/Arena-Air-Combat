@@ -383,8 +383,8 @@ MonoBehaviour:
   target: {fileID: 0}
   shellSpeed: 250
   highTraject: 1
-  shellSpreadHoriz: 3.5
-  shellSpreadVert: 4
+  shellSpreadHoriz: 0.1
+  shellSpreadVert: 0.1
   fireRateDelay: 1.5
   reloadDelay: 7
   roundsPerMag: 1
@@ -516,12 +516,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentLane: {fileID: 0}
   waypoints: []
-  movementSpeed: 25
+  movementSpeed: 35
   waypointRadius: 15
   effectiveRange: 2500
   doMove: 1
   lookWaypointDelay: 0.65
   leaderCheckDelay: 1
+  turret: {fileID: 1551006744349778256}
 --- !u!114 &1752008276759604336
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -80,10 +80,19 @@ public class TankTurret : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (target != null)
+        //if (target != null)
+        //{
+        //    fireMissionProcess();
+        //}
+
+        fireMission = target != null;
+
+        if(target != null)
         {
-            fireMissionProcess();
+            Debug.DrawLine(target.transform.position, transform.position, Color.green);
         }
+
+        fireMissionProcess();
 
     }
 
@@ -98,8 +107,11 @@ public class TankTurret : MonoBehaviour
             }
             else if (fireMission)   // wait complete, firemission active, do a shot
             {
-                fireRateTimer = fireRateDelay;
-                fireSequence();
+                if (target != null)
+                {
+                    fireRateTimer = fireRateDelay;
+                    fireSequence();
+                }
             }
         }
         else // no rounds in mag, try to reload

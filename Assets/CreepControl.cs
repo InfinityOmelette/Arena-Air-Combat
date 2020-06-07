@@ -32,16 +32,15 @@ public class CreepControl : MonoBehaviourPun
 
     private Vector3 movementDir;
 
-    private TurretNetworking turret;
-
     private CombatFlow currentTarget;
+
+    public TankTurret turret;
 
     void Awake()
     {
         waypoints = new List<Transform>();
         rb = GetComponent<Rigidbody>();
         myFlow = GetComponent<CombatFlow>();
-        turret = GetComponent<TurretNetworking>();
     }
 
     // Start is called before the first frame update
@@ -80,7 +79,7 @@ public class CreepControl : MonoBehaviourPun
     void FixedUpdate()
     {
 
-        //checkLeaderCounterProcess();
+        checkLeaderCounterProcess();
 
 
         if (doMove && waypoints != null && waypoints.Count > 0)
@@ -109,7 +108,7 @@ public class CreepControl : MonoBehaviourPun
         if(leaderCheckCounter < 0)
         {
             leaderCheckCounter = leaderCheckDelay;
-            doMove = enemyLeaderWithinRange();
+            doMove = !enemyLeaderWithinRange();
             if (!canShootCurrentTarget())
             {
                 findTarget();
@@ -127,7 +126,14 @@ public class CreepControl : MonoBehaviourPun
         CombatFlow enemyLeader = parentLane.opponentLM.getLeader();
 
         return enemyLeader != null && 
-            Vector3.Distance(enemyLeader.transform.position, transform.position) < effectiveRange;
+            differenceFromSpawn(enemyLeader) < effectiveRange;
+    }
+
+    private float differenceFromSpawn(CombatFlow other)
+    {
+        return Mathf.Abs(
+            Vector3.Distance(other.transform.position, parentLane.transform.position) -
+            Vector3.Distance(transform.position, parentLane.transform.position));
     }
 
     private void findTarget()
@@ -153,12 +159,27 @@ public class CreepControl : MonoBehaviourPun
                 }
             }
 
+            if (possibleTargets.Count > 0)
+            {
 
-            int randIndex = Random.Range(0, possibleTargets.Count - 1);
-            currentTarget = possibleTargets[randIndex];
-            turret.setTarget(currentTarget); // networked
+                int randIndex = Random.Range(0, possibleTargets.Count - 1);
+                currentTarget = possibleTargets[randIndex];
+                //turret.setTarget(currentTarget); // networked
+                photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, currentTarget.photonView.ViewID);
+            }
 
         }
+    }
+
+    [PunRPC]
+    private void rpcSetTankTurretTarget(int targetID)
+    {
+        PhotonView view = PhotonNetwork.GetPhotonView(targetID);
+        if(view != null && turret != null)
+        {
+            turret.target = view.gameObject;
+        }
+
     }
 
     private void checkWaypoint()

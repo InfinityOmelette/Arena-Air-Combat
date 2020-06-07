@@ -325,9 +325,9 @@ MonoBehaviour:
   shellSettings: {fileID: 104628400782572565}
   target: {fileID: 0}
   shellSpeed: 250
-  highTraject: 1
-  shellSpreadHoriz: 3.5
-  shellSpreadVert: 4
+  highTraject: 0
+  shellSpreadHoriz: 0.1
+  shellSpreadVert: 0.1
   fireRateDelay: 1.5
   reloadDelay: 7
   roundsPerMag: 1
@@ -675,12 +675,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentLane: {fileID: 0}
   waypoints: []
-  movementSpeed: 25
+  movementSpeed: 35
   waypointRadius: 15
   effectiveRange: 800
   doMove: 1
   lookWaypointDelay: 0.65
   leaderCheckDelay: 1
+  turret: {fileID: 1999051995933784996}
 --- !u!114 &1614581589446227588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1047,7 +1048,7 @@ PrefabInstance:
     - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: radius
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}

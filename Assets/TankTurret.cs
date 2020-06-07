@@ -70,18 +70,20 @@ public class TankTurret : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            fireMission = !fireMission;
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    fireMission = !fireMission;
 
-        }
+        //}
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        fireMissionProcess();
+        if (target != null)
+        {
+            fireMissionProcess();
+        }
 
     }
 

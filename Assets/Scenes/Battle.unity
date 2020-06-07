@@ -2874,7 +2874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 1
   opponentLM: {fileID: 671980919}
-  tankPrefab: {fileID: 5829744366641863615, guid: 6f9f7e1507b2f194da148488ed7e6b34,
+  tankPrefab: {fileID: 6836234184241627467, guid: 2a82d870613605d48a24c35d927359b2,
     type: 3}
   rocketPrefab: {fileID: 7857663905549471299, guid: 43c3158e45a25da4ab01057787fdc1f6,
     type: 3}
@@ -2885,31 +2885,34 @@ MonoBehaviour:
   SAMPrefab: {fileID: 4764596039173869594, guid: 92e1cacb1b283ba4a819586cbea42dc0,
     type: 3}
   waypoints: []
+  frontWave: []
   myLaneUnits: []
-  myLaneSAMs: []
   leaderUpdateDelay: 0.75
-  squadSizeMax: 4
-  squadSizeMin: 1
-  SAMSpacing: 700
-  artilleryPerWave: 0
-  rocketPerWave: 0
-  tankPerWave: 15
-  AAAPerWave: 0
-  SAMPerWave: 0
+  squadSizeMax: 5
+  squadSizeMin: 2
+  SAMSpacing: 500
+  artilleryPerWave: 5
+  rocketPerWave: 5
+  tankPerWave: 17
+  AAAPerWave: 10
+  SAMPerWave: 6
+  leaderRadius: 850
   artilleryCount: 0
   rocketCount: 0
   tankCount: 0
   AAACount: 0
   SAMCount: 0
-  laneWidth: 475
-  SAMDeployDelay: 10
-  rapidDeployDelay: 0.75
-  squadDeployDelay: 1
-  waveDeployDelay: 30
+  laneWidth: 500
+  SAMDeployDelay: 15
+  rapidDeployDelay: 1.15
+  squadDeployDelay: 2.5
+  waveDeployDelay: 120
+  samTimer: 0
   rapidTimer: 0
   squadTimer: 0
   waveTimer: 0
   squadRemaining: 0
+  rangeOffsetMax: 700
 --- !u!4 &310122044
 Transform:
   m_ObjectHideFlags: 0
@@ -7705,7 +7708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   opponentLM: {fileID: 310122043}
-  tankPrefab: {fileID: 5829744366641863615, guid: 6f9f7e1507b2f194da148488ed7e6b34,
+  tankPrefab: {fileID: 6836234184241627467, guid: 2a82d870613605d48a24c35d927359b2,
     type: 3}
   rocketPrefab: {fileID: 7857663905549471299, guid: 43c3158e45a25da4ab01057787fdc1f6,
     type: 3}
@@ -7716,31 +7719,34 @@ MonoBehaviour:
   SAMPrefab: {fileID: 4764596039173869594, guid: 92e1cacb1b283ba4a819586cbea42dc0,
     type: 3}
   waypoints: []
+  frontWave: []
   myLaneUnits: []
-  myLaneSAMs: []
   leaderUpdateDelay: 0.75
-  squadSizeMax: 4
-  squadSizeMin: 1
-  SAMSpacing: 700
-  artilleryPerWave: 0
-  rocketPerWave: 0
-  tankPerWave: 15
-  AAAPerWave: 0
-  SAMPerWave: 0
+  squadSizeMax: 5
+  squadSizeMin: 2
+  SAMSpacing: 500
+  artilleryPerWave: 5
+  rocketPerWave: 5
+  tankPerWave: 17
+  AAAPerWave: 10
+  SAMPerWave: 6
+  leaderRadius: 850
   artilleryCount: 0
   rocketCount: 0
   tankCount: 0
   AAACount: 0
   SAMCount: 0
-  laneWidth: 475
-  SAMDeployDelay: 10
-  rapidDeployDelay: 0.75
-  squadDeployDelay: 1
-  waveDeployDelay: 30
+  laneWidth: 500
+  SAMDeployDelay: 15
+  rapidDeployDelay: 1.15
+  squadDeployDelay: 2.5
+  waveDeployDelay: 120
+  samTimer: 0
   rapidTimer: 0
   squadTimer: 0
   waveTimer: 0
   squadRemaining: 0
+  rangeOffsetMax: 700
 --- !u!4 &671980920
 Transform:
   m_ObjectHideFlags: 0

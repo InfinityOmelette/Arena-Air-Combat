@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4662998394976126081}
   - component: {fileID: 5051314130571058155}
   - component: {fileID: 7425787568368016830}
+  - component: {fileID: -8323084260900981985}
   m_Layer: 0
   m_Name: AAA Truck
   m_TagString: Untagged
@@ -147,6 +148,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turret: {fileID: 6284297907299475184}
+--- !u!114 &-8323084260900981985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576821350544307022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8b0f8a6cd46ee4ba42dc859fd41c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentLane: {fileID: 0}
+  waypoints: []
+  movementSpeed: 25
+  waypointRadius: 15
+  effectiveRange: 1200
+  doMove: 1
+  lookWaypointDelay: 0.65
+  leaderCheckDelay: 1
 --- !u!1001 &4925052361784105263
 PrefabInstance:
   m_ObjectHideFlags: 0

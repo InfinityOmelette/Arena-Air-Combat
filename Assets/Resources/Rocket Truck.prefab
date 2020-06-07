@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 3692561680903558182}
   - component: {fileID: 2718780076939704716}
   - component: {fileID: 2527820348313560806}
+  - component: {fileID: -4500931354984578765}
   m_Layer: 0
   m_Name: Rocket Truck
   m_TagString: Untagged
@@ -564,6 +565,26 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-4500931354984578765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857663905549471299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8b0f8a6cd46ee4ba42dc859fd41c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentLane: {fileID: 0}
+  waypoints: []
+  movementSpeed: 25
+  waypointRadius: 15
+  effectiveRange: 2500
+  doMove: 1
+  lookWaypointDelay: 0.65
+  leaderCheckDelay: 1
 --- !u!1 &8014385634265338323
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +982,7 @@ PrefabInstance:
     - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: damage
-      value: 0
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}

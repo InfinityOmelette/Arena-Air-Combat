@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 1752008276759604336}
   - component: {fileID: 2233769039448077082}
   m_Layer: 0
-  m_Name: Cannon Truck
+  m_Name: Artillery Truck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52eee80777428514092f5f76ae911942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abbreviation: CNN
+  abbreviation: ART
   maxHP: 120
   currentHP: 120
   isLocalPlayer: 0
@@ -516,11 +516,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentLane: {fileID: 0}
   waypoints: []
-  movementSpeed: 60
-  waypointRadius: 350
-  effectiveRange: 0
+  movementSpeed: 25
+  waypointRadius: 15
+  effectiveRange: 2500
   doMove: 1
   lookWaypointDelay: 0.65
+  leaderCheckDelay: 1
 --- !u!114 &1752008276759604336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,7 +1042,7 @@ PrefabInstance:
     - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: damage
-      value: 0
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}

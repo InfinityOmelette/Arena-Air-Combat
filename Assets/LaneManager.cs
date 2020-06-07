@@ -17,9 +17,9 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public GameObject SAMPrefab;
 
     public List<Transform> waypoints;
-
+    public List<CombatFlow> frontWave;
     public List<CombatFlow> myLaneUnits;
-    public List<CombatFlow> myLaneSAMs;
+    //public List<CombatFlow> myLaneSAMs;
 
     public float leaderUpdateDelay;
     private float leaderUpdateTimer;
@@ -35,7 +35,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public int AAAPerWave; // grouped into squads
     public int SAMPerWave; // placed randomly
 
-
+    public float leaderRadius;
     
 
     private bool doSpawn = false;
@@ -55,6 +55,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public float waveDeployDelay;
 
 
+    public float samTimer;
     public float rapidTimer;
     public float squadTimer;
     public float waveTimer;
@@ -72,6 +73,13 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private bool isHostInstance = false;
 
 
+    private float currentRangeOffset;
+    public float rangeOffsetMax;
+
+
+    private bool deploySAM = false;
+
+
     void Awake()
     {
 
@@ -80,6 +88,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
         waveTimer = waveDeployDelay;
         squadTimer = squadDeployDelay;
+        samTimer = SAMDeployDelay;
         
         initLists();
         fillWaypointList();
@@ -90,12 +99,14 @@ public class LaneManager : MonoBehaviourPunCallbacks
     {
         waypoints = new List<Transform>();
         myLaneUnits = new List<CombatFlow>();
-        myLaneSAMs = new List<CombatFlow>();
+        frontWave = new List<CombatFlow>();
+        //myLaneSAMs = new List<CombatFlow>();
     }
 
     private void initSpawnAxis()
     {
         spawnAxisDir = Vector3.Cross(Vector3.up, waypoints[0].position - transform.position).normalized;
+        currentSpawnPoint = randomSpawnPoint();
     }
 
     private void fillWaypointList()
@@ -130,30 +141,73 @@ public class LaneManager : MonoBehaviourPunCallbacks
         rocketCount = 0;
     }
 
+
+    void Update()
+    {
+        if(isHostInstance && !doSpawn && (PhotonNetwork.PlayerList.Length > 1 || 
+            Input.GetKeyDown(KeyCode.J)))
+        {
+            doSpawn = true;
+        }
+    }
+
     void FixedUpdate()
     {
+        
+
         leaderUpdateCountdown();
 
-        if (isHostInstance)
+        if (doSpawn)
         {
 
-            if (squadRemaining == 0)
+            if (isHostInstance)
             {
-                if (!waveComplete())
+                bool isWaveComplete = waveComplete();
+
+                if (!isWaveComplete)
                 {
-                    countDownSquad();
+                    countDownSAM();
+                }
+
+
+
+                if (squadRemaining <= 0)
+                {
+                    if (isWaveComplete)
+                    {
+                        // count down wave timer
+                        countDownWave();
+                    }
+                    else
+                    {
+                        countDownSquad();
+                    }
                 }
                 else
                 {
-                    // count down wave timer
-                    countDownWave();
+
+                    countdownRapidDeploy();
                 }
             }
-            else
+        }
+    }
+
+    private void countDownSAM()
+    {
+        if(samTimer < 0)
+        {
+            if (SAMCount != SAMPerWave)
             {
 
-                countdownRapidDeploy();
+                // deploy sam
+                deploySAM = true;
+                deployUnit();
+                samTimer = SAMDeployDelay;
             }
+        }
+        else
+        {
+            samTimer -= Time.fixedDeltaTime;
         }
     }
 
@@ -221,22 +275,55 @@ public class LaneManager : MonoBehaviourPunCallbacks
         squadRemaining = Mathf.Min( Random.Range(squadSizeMin, squadSizeMax), unitsRemain());
 
         currentSpawnPoint = randomSpawnPoint();
+
     }
 
     private void deployUnit()
     {
-        tankCount++;
-        squadRemaining--;
+        //tankCount++;
+        //squadRemaining--;
 
-        CreepControl newCreep = PhotonNetwork.Instantiate(tankPrefab.name, currentSpawnPoint,
+        GameObject selectedPrefab = selectDeployPrefab();
+
+        Vector3 spawnPoint = currentSpawnPoint;
+        if(selectedPrefab == SAMPrefab)
+        {
+            spawnPoint = randomSpawnPoint();
+        }
+
+
+        CreepControl newCreep = PhotonNetwork.Instantiate(selectedPrefab.name, spawnPoint,
             Quaternion.LookRotation(waypoints[1].position - transform.position, Vector3.up)).GetComponent<CreepControl>();
 
-        float range = newCreep.effectiveRange;
-        Vector3 offset = currentSpawnPoint - transform.position;
+        float range;
+        
+
+
+
+        if (selectedPrefab == SAMPrefab)
+        {
+            range = SAMSpacing * SAMCount + SAMSpacing;
+        }
+        else if(selectedPrefab == AAAPrefab)
+        {
+            squadRemaining--;
+            range = currentSpawnRange - currentRangeOffset;
+        }
+        else
+        {
+            squadRemaining--;
+            range = newCreep.effectiveRange - currentRangeOffset;
+            currentSpawnRange = range;
+        }
+
+        Vector3 offset = spawnPoint - transform.position;
+
 
         int teamNum = CombatFlow.convertTeamToNum(team);
 
-        newCreep.photonView.RPC("rpcInit", RpcTarget.All, photonView.ViewID, offset, range, teamNum);
+        // This shouldn't be buffered. In final product, when player joins mid-match...
+        // ... should make each 
+        newCreep.photonView.RPC("rpcInit", RpcTarget.AllBuffered, photonView.ViewID, offset, range, teamNum);
 
 
         // instantiate
@@ -246,7 +333,52 @@ public class LaneManager : MonoBehaviourPunCallbacks
         
         // RANGE:
         //  if creep, use its own range
-        //  if AAA
+        //  if AAA at end of squad, use previously saved range
+        
+    }
+
+    private GameObject selectDeployPrefab()
+    {
+        if (deploySAM) // if set to deploy SAM
+        {
+            SAMCount++;
+            deploySAM = false;
+            return SAMPrefab;
+        }
+        else // NOT set to deploy sam
+        {
+            if (squadRemaining != 1) // all but last in squad are normal type
+            {
+
+                if (tankCount != tankPerWave)
+                {
+                    tankCount++;
+                    return tankPrefab;
+                }
+                else if (rocketCount != rocketPerWave)
+                {
+                    rocketCount++;
+                    return rocketPrefab;
+                }
+                else if (artilleryCount != artilleryPerWave)
+                {
+                    artilleryCount++;
+                    return artilleryPrefab;
+                }
+                else
+                {
+                    AAACount++;
+                    return AAAPrefab;
+                }
+            }
+            else // last in squad is always AAA
+            {
+                AAACount++;
+                return AAAPrefab;
+            }
+        }
+
+
     }
     
     private void leaderUpdateCountdown()
@@ -268,7 +400,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
         if(dyingFlow.type == CombatFlow.Type.SAM)
         {
-            myLaneSAMs.Remove(dyingFlow);
+            //myLaneSAMs.Remove(dyingFlow);
         }
 
         if (dyingFlow == myLeader)
@@ -300,7 +432,32 @@ public class LaneManager : MonoBehaviourPunCallbacks
         }
 
         myLeader = leader;
+        generateFrontWaveList();
+
         return leader;
+    }
+
+    private void generateFrontWaveList()
+    {
+        frontWave.Clear();
+        //frontWave.Add(myLeader);
+
+        for(int i = 0; i < myLaneUnits.Count; i++)
+        {
+            CombatFlow currentUnit = myLaneUnits[i];
+
+            if (currentUnit != null)
+            {
+                float distToLeader = Vector3.Distance(currentUnit.transform.position, myLeader.transform.position);
+
+                if (distToLeader < leaderRadius)
+                {
+                    frontWave.Add(currentUnit);
+                }
+            }
+            
+
+        }
     }
 
     public CombatFlow getLeader()
@@ -320,4 +477,8 @@ public class LaneManager : MonoBehaviourPunCallbacks
     {
         return transform.position + spawnAxisDir * Random.Range(-laneWidth, laneWidth);
     }
+
+
+    
+
 }

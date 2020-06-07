@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 866844369752537279}
   - component: {fileID: 1530192043676489071}
   - component: {fileID: 5706528795121487924}
+  - component: {fileID: 6644604298661458783}
   m_Layer: 0
   m_Name: SAM Truck
   m_TagString: Untagged
@@ -73,7 +74,7 @@ MonoBehaviour:
   localOwned: 0
   detectabilityCoeff: 6
   detectabilityOffset: 1
-  radarSymbol: ^
+  radarSymbol: '*'
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
   myHudIconRef: {fileID: 0}
@@ -172,6 +173,26 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   pingPlayer: 1
   debug: 0
+--- !u!114 &6644604298661458783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4764596039173869594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8b0f8a6cd46ee4ba42dc859fd41c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentLane: {fileID: 0}
+  waypoints: []
+  movementSpeed: 25
+  waypointRadius: 15
+  effectiveRange: 2500
+  doMove: 1
+  lookWaypointDelay: 0.65
+  leaderCheckDelay: 1
 --- !u!1001 &2000921893324971538
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class LaneManager : MonoBehaviour
+public class LaneManager : MonoBehaviourPunCallbacks
 {
 
-    LaneManager opponentLM;
+    public CombatFlow.Team team;
 
-    
+    public LaneManager opponentLM;
+
+    public GameObject tankPrefab;
+    public GameObject rocketPrefab;
+    public GameObject artilleryPrefab;
+    public GameObject AAAPrefab;
+    public GameObject SAMPrefab;
 
     public List<Transform> waypoints;
 
@@ -18,6 +25,7 @@ public class LaneManager : MonoBehaviour
     private float leaderUpdateTimer;
 
     public int squadSizeMax;
+    public int squadSizeMin;
 
     public float SAMSpacing;
 
@@ -33,11 +41,11 @@ public class LaneManager : MonoBehaviour
     private bool doSpawn = false;
 
     // only counts the current wave spawning duration
-    private int artilleryCount;
-    private int rocketCount;
-    private int tankCount;
-    private int AAACount;
-    private int SAMCount;
+    public int artilleryCount;
+    public int rocketCount;
+    public int tankCount;
+    public int AAACount;
+    public int SAMCount;
 
     public float laneWidth;
 
@@ -47,9 +55,9 @@ public class LaneManager : MonoBehaviour
     public float waveDeployDelay;
 
 
-    private float rapidTimer;
-    private float squadTimer;
-    private float waveTimer;
+    public float rapidTimer;
+    public float squadTimer;
+    public float waveTimer;
 
     private CombatFlow myLeader;
 
@@ -57,9 +65,21 @@ public class LaneManager : MonoBehaviour
     private Vector3 spawnAxisDir;
 
 
+    private Vector3 currentSpawnPoint;
+    private float currentSpawnRange;
+    public int squadRemaining;
+
+    private bool isHostInstance = false;
+
 
     void Awake()
     {
+
+        isHostInstance = PhotonNetwork.PlayerList.Length == 1;
+
+
+        waveTimer = waveDeployDelay;
+        squadTimer = squadDeployDelay;
         
         initLists();
         fillWaypointList();
@@ -94,12 +114,139 @@ public class LaneManager : MonoBehaviour
         
     }
 
+    private bool waveComplete()
+    {
+        return AAACount == AAAPerWave && SAMCount == SAMPerWave && 
+            tankCount == tankPerWave && artilleryCount == artilleryPerWave && 
+            rocketCount == rocketPerWave;
+    }
+
+    private void resetDeployCounts()
+    {
+        AAACount = 0;
+        SAMCount = 0;
+        tankCount = 0;
+        artilleryCount = 0;
+        rocketCount = 0;
+    }
 
     void FixedUpdate()
     {
         leaderUpdateCountdown();
 
+        if (isHostInstance)
+        {
 
+            if (squadRemaining == 0)
+            {
+                if (!waveComplete())
+                {
+                    countDownSquad();
+                }
+                else
+                {
+                    // count down wave timer
+                    countDownWave();
+                }
+            }
+            else
+            {
+
+                countdownRapidDeploy();
+            }
+        }
+    }
+
+    private void countDownWave()
+    {
+        if (waveTimer < 0)
+        {
+            // action
+            resetDeployCounts();
+            waveTimer = waveDeployDelay;
+        }
+        else
+        {
+            waveTimer -= Time.fixedDeltaTime;
+        }
+
+    }
+
+    private void countDownSquad()
+    {
+        if (squadTimer < 0)
+        {
+            // action
+            initiateSquadSpawn();
+            squadTimer = squadDeployDelay;
+        }
+        else
+        {
+            squadTimer -= Time.fixedDeltaTime;
+        }
+    }
+
+    private void countdownRapidDeploy()
+    {
+        if(rapidTimer < 0)
+        {
+            deployUnit();
+            rapidTimer = rapidDeployDelay;
+        }
+        else
+        {
+            rapidTimer -= Time.fixedDeltaTime;
+        }
+    }
+
+    // inefficient as fuck, but it isn't called very often, so I'll leave it
+    //  (would be better to keep a running tally, instead of summing every time)
+    private int unitsRemain()
+    {
+        int total = tankPerWave - tankCount;
+        total += AAAPerWave - AAACount;
+        
+        total += artilleryPerWave - artilleryCount;
+        total += rocketPerWave - rocketCount;
+
+        //total += SAMPerWave - SAMCount; -- SAM not included, because it spawns on its own independent cycle
+        //  sams are NOT "grouped" into squad spawns
+
+        return total;
+    }
+
+    private void initiateSquadSpawn()
+    {
+        // set squad size
+        squadRemaining = Mathf.Min( Random.Range(squadSizeMin, squadSizeMax), unitsRemain());
+
+        currentSpawnPoint = randomSpawnPoint();
+    }
+
+    private void deployUnit()
+    {
+        tankCount++;
+        squadRemaining--;
+
+        CreepControl newCreep = PhotonNetwork.Instantiate(tankPrefab.name, currentSpawnPoint,
+            Quaternion.LookRotation(waypoints[1].position - transform.position, Vector3.up)).GetComponent<CreepControl>();
+
+        float range = newCreep.effectiveRange;
+        Vector3 offset = currentSpawnPoint - transform.position;
+
+        int teamNum = CombatFlow.convertTeamToNum(team);
+
+        newCreep.photonView.RPC("rpcInit", RpcTarget.All, photonView.ViewID, offset, range, teamNum);
+
+
+        // instantiate
+        // place at offset
+        // fill waypoints
+        // set offset
+        
+        // RANGE:
+        //  if creep, use its own range
+        //  if AAA
     }
     
     private void leaderUpdateCountdown()
@@ -118,6 +265,11 @@ public class LaneManager : MonoBehaviour
     public void unitDeath(CombatFlow dyingFlow)
     {
         myLaneUnits.Remove(dyingFlow);
+
+        if(dyingFlow.type == CombatFlow.Type.SAM)
+        {
+            myLaneSAMs.Remove(dyingFlow);
+        }
 
         if (dyingFlow == myLeader)
         {

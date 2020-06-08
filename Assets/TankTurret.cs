@@ -43,7 +43,14 @@ public class TankTurret : MonoBehaviour
 
     private ExplodeStats explode;
 
+    private TankShell tankShell;
+
     //public float elev;
+
+        void Awake()
+    {
+        tankShell = shellSettings.GetComponent<TankShell>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -94,6 +101,12 @@ public class TankTurret : MonoBehaviour
 
         fireMissionProcess();
 
+    }
+
+    public void setShellTeam(CombatFlow.Team team)
+    {
+        //shellSettings
+        shellSettings.GetComponent<ExplodeStats>().team = team;
     }
 
     private void fireMissionProcess()

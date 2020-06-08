@@ -65,6 +65,11 @@ public class CreepControl : MonoBehaviourPun
         //parentLane.waypoints.CopyTo(waypoints);
         parentLane.myLaneUnits.Add(myFlow);
 
+        if(turret != null)
+        {
+            turret.setShellTeam(myFlow.team);
+        }
+
 
         // copy list from parent
         waypoints = new List<Transform>(parentLane.waypoints);

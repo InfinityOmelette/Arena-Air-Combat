@@ -348,7 +348,13 @@ public class LaneManager : MonoBehaviourPunCallbacks
         }
         else // NOT set to deploy sam
         {
-            if (squadRemaining != 1 ) // all but last in squad are normal type
+
+            if (squadRemaining == 1 && AAACount < AAAPerWave)
+            {
+                AAACount++;
+                return AAAPrefab;
+            }
+            else
             {
 
                 if (tankCount != tankPerWave)
@@ -371,11 +377,6 @@ public class LaneManager : MonoBehaviourPunCallbacks
                     AAACount++;
                     return AAAPrefab;
                 }
-            }
-            else // last in squad is always AAA
-            {
-                AAACount++;
-                return AAAPrefab;
             }
         }
 

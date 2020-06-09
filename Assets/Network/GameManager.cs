@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public int targetFrameRate;
 
+
+    public bool isHostInstance;
+
     public static GameManager getGM()
     {
         if(gm == null)
@@ -51,6 +54,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
+
+        isHostInstance = PhotonNetwork.PlayerList.Length == 1;
     }
 
     void Start()

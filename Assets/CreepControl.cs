@@ -36,6 +36,19 @@ public class CreepControl : MonoBehaviourPun
 
     public TankTurret turret;
 
+    public float bumperRerouteDistance;
+
+    public Collider bumper;
+
+    public GameObject raycastStart;
+    public GameObject linecastEnd;
+    public float raycastLength;
+    public float raycastDelay;
+    private float raycastTimer;
+
+    private bool bumperCorrecting = false;
+
+
     void Awake()
     {
         waypoints = new List<Transform>();
@@ -84,8 +97,10 @@ public class CreepControl : MonoBehaviourPun
     void FixedUpdate()
     {
 
-        checkLeaderCounterProcess();
+        //Debug.DrawRay(transform.position, -myOffset.normalized * bumperRerouteDistance, Color.white);
 
+        checkLeaderCounterProcess();
+        raycastCountdown();
 
         if (doMove && waypoints != null && waypoints.Count > 0)
         {
@@ -189,8 +204,16 @@ public class CreepControl : MonoBehaviourPun
 
     private void checkWaypoint()
     {
-        if(Vector3.Distance(waypoints[0].position + myOffset, transform.position) < waypointRadius)
+        Vector3 activeOffset = myOffset;
+        if (bumperCorrecting)
         {
+            activeOffset *= 0.0f;
+        }
+
+
+        if(Vector3.Distance(waypoints[0].position + activeOffset, transform.position) < waypointRadius)
+        {
+            bumperCorrecting = false;
             waypoints.RemoveAt(0);
             lookAtWaypoint();
         }
@@ -212,7 +235,13 @@ public class CreepControl : MonoBehaviourPun
 
     private void lookAtWaypoint()
     {
-        Vector3 targetPos = waypoints[0].position + myOffset;
+        Vector3 activeOffset = myOffset;
+        if (bumperCorrecting)
+        {
+            activeOffset *= 0.0f;
+        }
+
+        Vector3 targetPos = waypoints[0].position + activeOffset;
 
         // place target pos to be co-altitude with this creep
         targetPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
@@ -223,6 +252,67 @@ public class CreepControl : MonoBehaviourPun
 
        // Debug.DrawRay(transform.position, targetPos - transform.position, Color.green, 1f);
         //Debug.DrawRay(transform.position, transform.forward * 50f, Color.red, 1f);
+
+        
+    }
+
+
+    private void raycastCountdown()
+    {
+        Debug.DrawLine(raycastStart.transform.position, linecastEnd.transform.position, Color.blue);
+
+        if(raycastTimer < 0)
+        {
+            // do thing
+            RaycastHit hitInfo = new RaycastHit();
+            short unitLayer = 1 << 9; // only check collisions with units
+
+
+            if (Physics.Linecast(raycastStart.transform.position, linecastEnd.transform.position,
+                out hitInfo, unitLayer))
+            {
+                //Debug.LogError("Linecast triggered");
+                //Debug.DrawLine(raycastStart.transform.position, hitInfo.point, Color.cyan, 100);
+                bumperReroute(hitInfo);
+            }
+
+                raycastTimer = raycastDelay;
+        }
+        else
+        {
+            raycastTimer -= Time.fixedDeltaTime;
+        }
+    }
+
+    private void bumperReroute(RaycastHit hitInfo)
+    {
+        
+
+        Vector3 pos = hitInfo.point;
+        pos -= myOffset.normalized * (bumperRerouteDistance + waypointRadius);
+
+        GameObject newWpt = new GameObject();
+        newWpt.transform.position = pos;
+
+        
+
+        // if bumper triggered while already correcting a previous trigger
+        if (bumperCorrecting)
+        {
+            // don't create a new waypoint
+            waypoints[0].transform.position = pos;
+        }
+        else // starting new correction
+        {
+            waypoints.Insert(0, newWpt.transform);
+        }
+
+        bumperCorrecting = true;
+
+        lookAtWaypoint();
+        //Debug.DrawLine(transform.position, waypoints[0].transform.position, Color.yellow, 100);
+        //Debug.DrawLine(waypoints[0].transform.position, waypoints[1].transform.position, Color.red, 100);
+
 
         
     }

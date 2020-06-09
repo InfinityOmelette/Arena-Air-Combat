@@ -111,7 +111,8 @@ public class BasicMissile : Weapon
             if (myCombatFlow.localOwned)
             {
 
-                if(myTarget != null && Vector3.Distance(myTarget.transform.position, 
+                if(myTarget != null && myTarget.GetComponent<CreepControl>() == null
+                    && Vector3.Distance(myTarget.transform.position, 
                     transform.position) < PASS_OWNERSHIP_DISTANCE)
                 {
                     // target's instance will own this missile and show accurate position

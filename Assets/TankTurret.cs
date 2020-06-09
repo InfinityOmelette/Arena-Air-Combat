@@ -157,6 +157,9 @@ public class TankTurret : MonoBehaviour
         Vector3 myPos = new Vector3(rootFlow.transform.position.x, 0.0f, rootFlow.transform.position.z);
         Vector3 targetPos = new Vector3(target.transform.position.x, 0.0f, target.transform.position.z);
 
+        targetPos = leadTargetPos(targetPos, target.GetComponent<Rigidbody>().velocity);
+
+
         float distance = Vector3.Distance(myPos, targetPos);
 
         //Debug.LogError("Shooting artillery at " + distance + " meters");
@@ -189,6 +192,23 @@ public class TankTurret : MonoBehaviour
 
             transform.localEulerAngles = new Vector3(-elev, transform.localEulerAngles.y, 0.0f);
         }
+    }
+
+    private Vector3 leadTargetPos(Vector3 targetPos, Vector3 targetVel)
+    {
+        float distance = Vector3.Distance(transform.position, targetPos);
+        Vector3 targetBearingLine = targetPos - transform.position;
+        targetBearingLine = Vector3.Project(targetVel, targetBearingLine);
+
+        float closingVel = targetBearingLine.magnitude;
+        if (Vector3.Distance(transform.position, targetPos + targetBearingLine) < distance)
+        {
+            closingVel *= -1f;
+        }
+
+        float timeToTarget = distance / (shellSpeed - closingVel);
+
+        return targetPos + targetVel * timeToTarget;
     }
 
     private float calculateElev(float distance)

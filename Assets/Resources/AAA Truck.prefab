@@ -169,6 +169,12 @@ MonoBehaviour:
   lookWaypointDelay: 0.65
   leaderCheckDelay: 1
   turret: {fileID: 0}
+  bumperRerouteDistance: 15
+  bumper: {fileID: 3928924696698435525}
+  raycastStart: {fileID: 4031238310500375906}
+  linecastEnd: {fileID: 6082943768420216093}
+  raycastLength: 2
+  raycastDelay: 0.3
 --- !u!1001 &4925052361784105263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -388,6 +394,24 @@ PrefabInstance:
 --- !u!4 &3761852598032519213 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344812376828996971, guid: 950bc88c2a6782749b1a8582ae65c468,
+    type: 3}
+  m_PrefabInstance: {fileID: 5898249796515478854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &3928924696698435525 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 7447989243305724547, guid: 950bc88c2a6782749b1a8582ae65c468,
+    type: 3}
+  m_PrefabInstance: {fileID: 5898249796515478854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4031238310500375906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7362012178095874084, guid: 950bc88c2a6782749b1a8582ae65c468,
+    type: 3}
+  m_PrefabInstance: {fileID: 5898249796515478854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6082943768420216093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 409897730363609179, guid: 950bc88c2a6782749b1a8582ae65c468,
     type: 3}
   m_PrefabInstance: {fileID: 5898249796515478854}
   m_PrefabAsset: {fileID: 0}

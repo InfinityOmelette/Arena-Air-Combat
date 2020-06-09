@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4341858493509384173}
   - component: {fileID: 1846173814669954083}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Impact Properties
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 3349632855217599273}
   - component: {fileID: 6675344387347307985}
   - component: {fileID: 8183103182450274255}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5294727340211665778}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Explode Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 1754922737413377202}
   - component: {fileID: 2852316611826458865}
   - component: {fileID: 8494991040647342348}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TurretBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6944680832397639485}
   - component: {fileID: 7076880744430766313}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bounce Properties
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 4529429294983318342}
   - component: {fileID: 1551006744349778256}
   - component: {fileID: 6581382952840814037}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TankTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,8 +383,8 @@ MonoBehaviour:
   target: {fileID: 0}
   shellSpeed: 250
   highTraject: 0
-  shellSpreadHoriz: 0.1
-  shellSpreadVert: 0.1
+  shellSpreadHoriz: 1.5
+  shellSpreadVert: 1.5
   fireRateDelay: 1.5
   reloadDelay: 7
   roundsPerMag: 1
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 2467764221919642932}
   - component: {fileID: 1752008276759604336}
   - component: {fileID: 2233769039448077082}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Artillery Truck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -523,6 +523,12 @@ MonoBehaviour:
   lookWaypointDelay: 0.65
   leaderCheckDelay: 1
   turret: {fileID: 1551006744349778256}
+  bumperRerouteDistance: 15
+  bumper: {fileID: 7953487073354194740}
+  raycastStart: {fileID: 8005143432351331731}
+  linecastEnd: {fileID: 904338742550250988}
+  raycastLength: 2
+  raycastDelay: 0.3
 --- !u!114 &1752008276759604336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,7 +589,7 @@ GameObject:
   - component: {fileID: 2420911010708114638}
   - component: {fileID: 3706778224285620272}
   - component: {fileID: 6697242872265422486}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Muzzle Brake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8688797300011225400}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PrbMachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +714,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7370933177384642573}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Projectile Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -742,7 +748,7 @@ GameObject:
   - component: {fileID: 1032671298707085508}
   - component: {fileID: 207086212233165407}
   - component: {fileID: 5975306262060734224}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -840,6 +846,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7666388656732831303, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7344812376828996971, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -905,8 +916,96 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1.3000004
       objectReference: {fileID: 0}
+    - target: {fileID: 6869221961902714595, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Name
+      value: Bumper
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747572335252222811, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4747186251505422963, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794229601029874057, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8105515644831585458, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8073447459397200317, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8369961121047708738, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7422993074224911027, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590087270058185058, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417892992619573758, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1496137436878936478, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2041936879267969168, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 484328963082540965, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3066608386131561196, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 950bc88c2a6782749b1a8582ae65c468, type: 3}
+--- !u!1 &904338742550250988 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 409897730363609179, guid: 950bc88c2a6782749b1a8582ae65c468,
+    type: 3}
+  m_PrefabInstance: {fileID: 665658203188172215}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8005143432351331731 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7362012178095874084, guid: 950bc88c2a6782749b1a8582ae65c468,
+    type: 3}
+  m_PrefabInstance: {fileID: 665658203188172215}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &7953487073354194740 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 7447989243305724547, guid: 950bc88c2a6782749b1a8582ae65c468,
+    type: 3}
+  m_PrefabInstance: {fileID: 665658203188172215}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7841584347148974300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344812376828996971, guid: 950bc88c2a6782749b1a8582ae65c468,
@@ -929,11 +1028,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6069598922963377917, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 732566086064675207, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
@@ -1058,17 +1152,17 @@ PrefabInstance:
     - target: {fileID: 8733813667504412014, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7336810467605405561, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1740963382661997570, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5992009473071565662, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}

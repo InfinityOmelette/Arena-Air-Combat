@@ -112,11 +112,16 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     void Start()
     {
 
-        if(PhotonNetwork.PlayerList.Length == 1)
+        isHostInstance = GameManager.getGM().isHostInstance;
+
+
+
+        if(PhotonNetwork.PlayerList.Length == 1 || (isHostInstance && GetComponent<CreepControl>() != null))
         {
-            isHostInstance = true;
             localOwned = true;
         }
+
+        //localOwned = isHostInstance;
 
         explodeStats = GetComponent<ExplodeStats>();
 

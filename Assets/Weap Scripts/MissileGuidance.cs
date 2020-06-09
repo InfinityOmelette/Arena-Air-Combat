@@ -113,8 +113,6 @@ public class MissileGuidance : MonoBehaviour
                 //myRadar.tryDetect(targetFlow)
                 if (myRadar.tryDetect(targetFlow))
                 {
-                    //Debug.LogError("Weapon is targeting and has line of sight and successfully detects target");
-
                     guidanceProcess();
                 }
             }

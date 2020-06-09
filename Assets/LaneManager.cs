@@ -41,11 +41,11 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private bool doSpawn = false;
 
     // only counts the current wave spawning duration
-    public int artilleryCount;
-    public int rocketCount;
-    public int tankCount;
-    public int AAACount;
-    public int SAMCount;
+    private int artilleryCount;
+    private int rocketCount;
+    private int tankCount;
+    private int AAACount;
+    private int SAMCount;
 
     public float laneWidth;
 
@@ -55,10 +55,10 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public float waveDeployDelay;
 
 
-    public float samTimer;
-    public float rapidTimer;
-    public float squadTimer;
-    public float waveTimer;
+    private float samTimer;
+    private float rapidTimer;
+    private float squadTimer;
+    private float waveTimer;
 
     private CombatFlow myLeader;
 

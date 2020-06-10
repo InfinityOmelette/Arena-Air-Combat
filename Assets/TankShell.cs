@@ -31,6 +31,9 @@ public class TankShell : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         explodeStats = GetComponent<ExplodeStats>();
+
+        
+
     }
 
     void Start()
@@ -42,6 +45,10 @@ public class TankShell : MonoBehaviour
         effectsObj.transform.position = effectsCenter.transform.position;
         GameObject.Destroy(effectsInit);
 
+        if (!GameManager.getGM().isHostInstance)
+        {
+            explodeStats.damage = 0.0f;
+        }
     }
 
     // Update is called once per frame

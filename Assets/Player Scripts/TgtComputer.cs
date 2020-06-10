@@ -216,6 +216,24 @@ public class TgtComputer : MonoBehaviour
 
                     float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position 
                         - playerInput.cam.camRef.transform.position);
+
+                    // If maverick is equipped, bias target selection in favor of opponents with Radars
+                    
+
+                    if (hardpointController.getActiveHardpoint().weaponTypePrefab.name.Equals("Maverick"))
+                    {
+                        if (currentFlow.GetComponent<Radar>() != null)
+                        {
+                            currentAngle *= 0.35f; // halve the angle to make it more likely to be selected
+                        }
+                        else if(currentFlow.GetComponent<TurretNetworking>() != null)
+                        {
+                            currentAngle *= 0.6f;
+                        }
+                    }
+
+                    
+
                     //if (currentFlow.type == CombatFlow.Type.AIRCRAFT)
                     //{
                     //    Debug.LogWarning(currentFlow + "'s angle is: " + currentAngle + " off camera center");

@@ -99,20 +99,25 @@ public class CreepControl : MonoBehaviourPun
 
         //Debug.DrawRay(transform.position, -myOffset.normalized * bumperRerouteDistance, Color.white);
 
-        checkLeaderCounterProcess();
-        raycastCountdown();
-
-        if (doMove && waypoints != null && waypoints.Count > 0)
+        if (parentLane != null)
         {
-            //lookAtWaypoint();
-            checkWaypoint();
-            lookWaypointTimerProcess();
-            //rb.velocity = transform.forward * movementSpeed;
-            Vector3 newVel = transform.forward * movementSpeed;
-            rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
 
-            //rb.position += movementDir * movementSpeed * Time.fixedDeltaTime;
-            //Debug.DrawLine(transform.position, waypoints[0].position, Color.green);
+            checkLeaderCounterProcess();
+            raycastCountdown();
+
+            if (doMove && waypoints != null && waypoints.Count > 0)
+            {
+                //lookAtWaypoint();
+                checkWaypoint();
+                lookWaypointTimerProcess();
+                //rb.velocity = transform.forward * movementSpeed;
+                Vector3 newVel = transform.forward * movementSpeed;
+                rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
+
+                //rb.position += movementDir * movementSpeed * Time.fixedDeltaTime;
+                //Debug.DrawLine(transform.position, waypoints[0].position, Color.green);
+
+            }
 
         }
     }
@@ -210,8 +215,11 @@ public class CreepControl : MonoBehaviourPun
             activeOffset *= 0.0f;
         }
 
+        Vector3 waypoint = waypoints[0].position + activeOffset;
+        waypoint = new Vector3(waypoint.x, transform.position.y, waypoint.z);
 
-        if(Vector3.Distance(waypoints[0].position + activeOffset, transform.position) < waypointRadius)
+
+        if (Vector3.Distance(waypoint, transform.position) < waypointRadius)
         {
             bumperCorrecting = false;
             waypoints.RemoveAt(0);

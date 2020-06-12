@@ -111,7 +111,7 @@ public class BasicMissile : Weapon
             if (myCombatFlow.localOwned)
             {
 
-                if(myTarget != null && myTarget.GetComponent<CreepControl>() &&
+                if(myTarget != null && myTarget.GetComponent<CreepControl>() == null &&
                     Vector3.Distance(myTarget.transform.position, 
                     transform.position) < PASS_OWNERSHIP_DISTANCE)
                 {

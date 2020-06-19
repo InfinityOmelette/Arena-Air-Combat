@@ -16,7 +16,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public GameObject AAAPrefab;
     public GameObject SAMPrefab;
 
-    public List<Transform> waypoints;
+    public List<Vector3> waypoints;
     public List<CombatFlow> frontWave;
     public List<CombatFlow> myLaneUnits;
     //public List<CombatFlow> myLaneSAMs;
@@ -97,7 +97,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     private void initLists()
     {
-        waypoints = new List<Transform>();
+        waypoints = new List<Vector3>();
         myLaneUnits = new List<CombatFlow>();
         frontWave = new List<CombatFlow>();
         //myLaneSAMs = new List<CombatFlow>();
@@ -105,17 +105,17 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     private void initSpawnAxis()
     {
-        spawnAxisDir = Vector3.Cross(Vector3.up, waypoints[0].position - transform.position).normalized;
+        spawnAxisDir = Vector3.Cross(Vector3.up, waypoints[0] - transform.position).normalized;
         currentSpawnPoint = randomSpawnPoint();
     }
 
     private void fillWaypointList()
     {
-        waypoints = new List<Transform>();
+        waypoints = new List<Vector3>();
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            waypoints.Add(transform.GetChild(i));
+            waypoints.Add(transform.GetChild(i).position);
         }
     }
 
@@ -294,7 +294,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
 
         CreepControl newCreep = PhotonNetwork.Instantiate(selectedPrefab.name, spawnPoint,
-            Quaternion.LookRotation(waypoints[1].position - transform.position, Vector3.up)).GetComponent<CreepControl>();
+            Quaternion.LookRotation(waypoints[1] - transform.position, Vector3.up)).GetComponent<CreepControl>();
 
         float range;
         
@@ -322,8 +322,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
         int teamNum = CombatFlow.convertTeamToNum(team);
 
-        // This shouldn't be buffered. In final product, when player joins mid-match...
-        // ... should make each 
+        
         newCreep.photonView.RPC("rpcInit", RpcTarget.AllBuffered, photonView.ViewID, offset, range, teamNum);
 
 

@@ -7,9 +7,7 @@ public class CreepControl : MonoBehaviourPun
 {
 
     public LaneManager parentLane;
-    public List<Transform> waypoints;
-
-    
+    public List<Vector3> waypoints;
 
     public float movementSpeed;
     public float waypointRadius;
@@ -51,7 +49,7 @@ public class CreepControl : MonoBehaviourPun
 
     void Awake()
     {
-        waypoints = new List<Transform>();
+        waypoints = new List<Vector3>();
         rb = GetComponent<Rigidbody>();
         myFlow = GetComponent<CombatFlow>();
     }
@@ -85,7 +83,7 @@ public class CreepControl : MonoBehaviourPun
 
 
         // copy list from parent
-        waypoints = new List<Transform>(parentLane.waypoints);
+        waypoints = new List<Vector3>(parentLane.waypoints);
 
         lookAtWaypoint();
 
@@ -215,7 +213,7 @@ public class CreepControl : MonoBehaviourPun
             activeOffset *= 0.0f;
         }
 
-        Vector3 waypoint = waypoints[0].position + activeOffset;
+        Vector3 waypoint = waypoints[0] + activeOffset;
         waypoint = new Vector3(waypoint.x, transform.position.y, waypoint.z);
 
 
@@ -249,7 +247,7 @@ public class CreepControl : MonoBehaviourPun
             activeOffset *= 0.0f;
         }
 
-        Vector3 targetPos = waypoints[0].position + activeOffset;
+        Vector3 targetPos = waypoints[0] + activeOffset;
 
         // place target pos to be co-altitude with this creep
         targetPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
@@ -299,8 +297,8 @@ public class CreepControl : MonoBehaviourPun
         Vector3 pos = hitInfo.point;
         pos -= myOffset.normalized * (bumperRerouteDistance + waypointRadius);
 
-        GameObject newWpt = new GameObject();
-        newWpt.transform.position = pos;
+        //GameObject newWpt = new GameObject();
+        //newWpt.transform.position = pos;
 
         
 
@@ -308,11 +306,11 @@ public class CreepControl : MonoBehaviourPun
         if (bumperCorrecting)
         {
             // don't create a new waypoint
-            waypoints[0].transform.position = pos;
+            waypoints[0] = pos;
         }
         else // starting new correction
         {
-            waypoints.Insert(0, newWpt.transform);
+            waypoints.Insert(0, pos);
         }
 
         bumperCorrecting = true;

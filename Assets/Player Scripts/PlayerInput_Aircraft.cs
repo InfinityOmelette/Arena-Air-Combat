@@ -36,6 +36,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
 
 
     public float gearOffset;
+    public float maverickOffset;
     public float rocketPodOffset;
     public float bombOffset;
 
@@ -120,11 +121,15 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
                 RocketPod rocketPodScript = activeHardpointRef.weaponTypePrefab.GetComponent<RocketPod>();
 
 
+
                 if (rocketPodScript != null)
                     camOffsetVertTemp = rocketPodOffset;
 
                 if (bombScript != null)
                     camOffsetVertTemp = bombOffset;
+
+                if (activeHardpointRef.weaponTypePrefab.name.Equals("Maverick"))
+                    camOffsetVertTemp = maverickOffset;
 
             }
 

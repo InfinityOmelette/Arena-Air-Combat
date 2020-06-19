@@ -246,6 +246,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     [PunRPC]
     private void rpcDie()
     {
+        Debug.LogWarning("rpcDie commanded");
         deathCommanded = true;
         isActive = false;
         explode();

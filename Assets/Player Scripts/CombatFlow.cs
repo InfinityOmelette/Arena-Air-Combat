@@ -70,6 +70,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private LaneManager ownerLane;
 
+    private bool firstFramePassed = false;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -94,6 +96,10 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
     }
 
+    public void setHP(float hp)
+    {
+        currentHP = hp;
+    }
 
     private void Awake()
     {
@@ -150,6 +156,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     // Update is called once per frame
     private void Update()
     {
+        if (!firstFramePassed)
+        {
+            firstFramePassed = true;
+        }
+
         // Debug key to test damage player
         if (Input.GetKeyDown(KeyCode.C) && isLocalPlayer)
             currentHP -= 3;
@@ -249,7 +260,12 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         Debug.LogWarning("rpcDie commanded");
         deathCommanded = true;
         isActive = false;
-        explode();
+
+        if (firstFramePassed)
+        {
+            explode();
+        }
+
         destroySelf();
     }
 

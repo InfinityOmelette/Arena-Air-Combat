@@ -12,8 +12,6 @@ using Photon.Realtime;
 public class GameManager : MonoBehaviourPunCallbacks
 {
 
-
-    
     public GameObject playerPrefab;
 
     public GameObject hudObj;
@@ -47,8 +45,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         return gm;
     }
-
-
 
     void Awake()
     {
@@ -102,14 +98,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
 
-    #region Photon Callbacks
-
-
-
-
-    #endregion
-
-
     #region Public Methods
 
 
@@ -140,6 +128,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void LoadArena()
     {
+       
+
         //if (!PhotonNetwork.IsMasterClient)
         //{
         //    Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");

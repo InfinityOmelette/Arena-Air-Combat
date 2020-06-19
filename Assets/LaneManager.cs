@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+
 using Photon.Pun;
+using Photon.Realtime;
 
 public class LaneManager : MonoBehaviourPunCallbacks
 {
@@ -480,6 +483,65 @@ public class LaneManager : MonoBehaviourPunCallbacks
     }
 
 
-    
+    public override void OnPlayerEnteredRoom(Player other)
+    {
+        Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
+
+
+        if (isHostInstance && doSpawn && myLaneUnits.Count > 0)
+        {
+            beginUpdateAllCreeps();
+        }
+    }
+
+    private void beginUpdateAllCreeps()
+    {
+        List<int> idList = new List<int>();     // ID list
+        List<float> hpList = new List<float>();     // HP list
+        List<int> targetIdList = new List<int>(); // targetID list
+        List<Vector3> posList = new List<Vector3>();    // position list
+        List<Quaternion> rotList = new List<Quaternion>();  // rotation list
+        
+
+        for(int i = 0; i < myLaneUnits.Count; i++)
+        {
+            CombatFlow currentUnit = myLaneUnits[i];
+
+            if (currentUnit != null)
+            {
+
+                idList.Add(currentUnit.photonView.ViewID);
+                hpList.Add(currentUnit.getHP());
+                targetIdList.Add(currentUnit.GetComponent<CreepControl>().getTargetId());
+                posList.Add(currentUnit.transform.position);
+                rotList.Add(currentUnit.transform.rotation);
+            }
+
+        }
+
+        photonView.RPC("rpcUpdateAllCreeps", RpcTarget.Others, idList.ToArray(), hpList.ToArray(),
+            targetIdList.ToArray(), 
+            posList.ToArray(), rotList.ToArray());
+
+    }
+
+
+    [PunRPC]
+    public void rpcUpdateAllCreeps(int[] IDs, float[] HPs, int[] targetIDs, 
+        Vector3[] positions, Quaternion[] rotations)
+    {
+
+        for(int i = 0; i < IDs.Length; i++)
+        {
+            PhotonView creepView = PhotonNetwork.GetPhotonView(IDs[i]);
+
+            if(creepView != null)
+            {
+                CreepControl currentCreep = creepView.GetComponent<CreepControl>();
+                currentCreep.setFromLaneUpdate(HPs[i], targetIDs[i], positions[i], rotations[i]);
+            }
+        }
+
+    }
 
 }

@@ -5,6 +5,13 @@ using Photon.Pun;
 
 public class CreepControl : MonoBehaviourPun
 {
+    //public struct CreepData
+    //{
+    //    Vector3 position;
+    //    Vector3 rotation;
+        
+    //}
+
 
     public LaneManager parentLane;
     public List<Vector3> waypoints;
@@ -30,7 +37,7 @@ public class CreepControl : MonoBehaviourPun
 
     private Vector3 movementDir;
 
-    private CombatFlow currentTarget;
+    public CombatFlow currentTarget;
 
     public TankTurret turret;
 
@@ -197,10 +204,22 @@ public class CreepControl : MonoBehaviourPun
     [PunRPC]
     private void rpcSetTankTurretTarget(int targetID)
     {
-        PhotonView view = PhotonNetwork.GetPhotonView(targetID);
-        if(view != null && turret != null)
+        PhotonView view = null;
+        if (targetID != -1)
         {
-            turret.target = view.gameObject;
+            view = PhotonNetwork.GetPhotonView(targetID);
+        }
+
+        if(turret != null)
+        {
+            if (view != null)
+            {
+                turret.target = view.gameObject;
+            }
+            else
+            {
+                turret.target = null;
+            }
         }
 
     }
@@ -321,5 +340,72 @@ public class CreepControl : MonoBehaviourPun
 
 
         
+    }
+
+    // remove all waypoints that this creep is ahead of
+    // must be called after rpcInit()
+    private void checkInitWaypoints()
+    {
+        if(parentLane != null && waypoints != null && waypoints.Count > 0)
+        {
+            float myDist = Vector3.Distance(parentLane.transform.position, transform.position);
+
+            for(int i = 0; i < waypoints.Count; i++)
+            {
+                float ptDist = Vector3.Distance(parentLane.transform.position, waypoints[i]);
+
+                if(myDist > ptDist)
+                {
+                    waypoints.RemoveAt(i);
+                    i--; // check this same index again next iteration
+                }
+            }
+        }
+
+        if(waypoints.Count == 0)
+        {
+            Debug.LogError("CreepControl: No waypoints set!! unable to checkInitWaypoints()!!");
+        }
+    }
+
+    public void setFromLaneUpdate(float hp, int targetID,
+        Vector3 position, Quaternion rotation)
+    {
+        myFlow.setHP(hp);
+
+        setTargetFromId(targetID);
+
+        transform.position = position;
+        transform.rotation = rotation;
+
+        checkInitWaypoints();
+    }
+
+    public int getTargetId()
+    {
+        int id = -1;
+        if(currentTarget != null)
+        {
+            id = currentTarget.photonView.ViewID;
+        }
+        return id;
+    }
+
+    public void setTargetFromId(int targetId)
+    {
+        if(targetId != -1)
+        {
+            PhotonView targetView = PhotonNetwork.GetPhotonView(targetId);
+            if(targetView != null)
+            {
+                currentTarget = targetView.GetComponent<CombatFlow>();
+            }
+        }
+        else
+        {
+            currentTarget = null;
+        }
+
+        rpcSetTankTurretTarget(targetId); // execute locally, don't network
     }
 }

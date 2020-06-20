@@ -685,9 +685,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updatesPerSecond: 10
+  myFlow: {fileID: 0}
+  myRB: {fileID: 0}
+  photonView: {fileID: 0}
+  lifeTime: 0
   posLerp: 0.2
   active: 1
+  netPosHub: {fileID: 0}
 --- !u!114 &2574578892934523022
 MonoBehaviour:
   m_ObjectHideFlags: 0

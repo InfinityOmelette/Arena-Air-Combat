@@ -10,29 +10,35 @@ using Photon.Realtime;
 public class NetPosition : MonoBehaviour
 {
 
-    public short updatesPerSecond;
+    //public short updatesPerSecond;
 
-    private float waitTime = 0.0f;
+    //private float waitTime = 0.0f;
 
-    private float currentTimer;
+    //private float currentTimer;
 
-    private CombatFlow myFlow;
-    private Rigidbody myRB;
-    private PhotonView photonView;
+    public CombatFlow myFlow;
+    public Rigidbody myRB;
+    public PhotonView photonView;
 
-    private float lifeTime;
+    public float lifeTime;
     
     public float posLerp;
 
     public bool active;
 
+    private bool didReport = false;
+
+    public NetPositionHub netPosHub;
+
     void Awake()
     {
+
+        netPosHub = GameManager.getGM().GetComponent<NetPositionHub>();
         myRB = GetComponent<Rigidbody>();
         myFlow = GetComponent<CombatFlow>();
         photonView = PhotonView.Get(this);
-        waitTime = 1.0f / updatesPerSecond;
-        currentTimer = waitTime;
+        //waitTime = 1.0f / updatesPerSecond;
+        //currentTimer = waitTime;
 
         lifeTime = 0.0f;
         
@@ -52,17 +58,11 @@ public class NetPosition : MonoBehaviour
             if (myFlow.localOwned || myFlow.isLocalPlayer)
             {
                 lifeTime += Time.fixedDeltaTime;
-                currentTimer -= Time.fixedDeltaTime;
-                if (currentTimer < 0)
+
+                if (!didReport && active)
                 {
-                    currentTimer = waitTime; // reset counter
-
-                    Vector3 myPos = transform.position;
-                    Quaternion myRotation = transform.rotation;
-                    Vector3 myVel = myRB.velocity;
-
-                    photonView.RPC("updatePositionAndVelocity", RpcTarget.All, myPos, myRotation, myVel, lifeTime);
-
+                    netPosHub.allLocalOwned.Add(this);
+                    didReport = true;
                 }
 
             }
@@ -70,14 +70,17 @@ public class NetPosition : MonoBehaviour
     }
 
     
-    [PunRPC]
-    private void updatePositionAndVelocity(Vector3 targetPos, Quaternion targetRotation, Vector3 targetVel, float originLifeTime) 
+    
+    
+    public void updatePositionAndVelocity(Vector3 targetPos, Quaternion targetRotation, Vector3 targetVel, float originLifeTime) 
     {
         if (active)
         {
             // Ignore any out of order calls
-            if (originLifeTime > lifeTime || myFlow.isLocalPlayer || myFlow.localOwned)
+            if (originLifeTime > lifeTime)
             {
+                //Debug.LogWarning("Actively updating position with lifetime " + originLifeTime);
+
                 // project target position forward based on time to send
                 targetPos = targetPos + targetVel * (originLifeTime - lifeTime);
                 transform.position = Vector3.Lerp(transform.position, targetPos, posLerp);

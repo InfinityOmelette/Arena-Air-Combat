@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public bool isHostInstance;
 
+    public NetPositionHub netPosHub;
+
     public static GameManager getGM()
     {
         if(gm == null)
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        netPosHub = GetComponent<NetPositionHub>();
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
 

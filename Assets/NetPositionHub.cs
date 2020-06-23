@@ -27,10 +27,15 @@ public class NetPositionHub : MonoBehaviourPunCallbacks
         
     }
 
+    void Update()
+    {
+        
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(currentTimer < 0f)
+        if (currentTimer < 0f)
         {
             pulseAllPositions();
             currentTimer = waitTime;
@@ -57,7 +62,7 @@ public class NetPositionHub : MonoBehaviourPunCallbacks
             {
                 NetPosition currentNetPos = allLocalOwned[i];
 
-                if (currentNetPos != null && (currentNetPos.myFlow.localOwned || currentNetPos.myFlow.isLocalPlayer))
+                if (currentNetPos != null && currentNetPos.active && (currentNetPos.myFlow.localOwned || currentNetPos.myFlow.isLocalPlayer))
                 {
                     idList.Add(currentNetPos.photonView.ViewID);
                     targetPosList.Add(currentNetPos.transform.position);
@@ -83,7 +88,7 @@ public class NetPositionHub : MonoBehaviourPunCallbacks
     public void rpcPulsePositions(int[] IDs, Vector3[] targetPositions,
         Quaternion[] targetRots, Vector3[] targetVels, float[] originLifeTimes)
     {
-        //Debug.LogWarning("NetPosition pulse received! with size " + IDs.Length);
+        //Debug.LogError("NetPosition pulse received! with size " + IDs.Length);
 
         for(int i = 0; i < IDs.Length; i++)
         {

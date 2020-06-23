@@ -2382,14 +2382,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 20
-  damage: 80
+  damage: 0
   collisionsEnabled: 1
   dissipationTime: 5
   emitLightEnabled: 1
   glowColor: {r: 1, g: 0.6639284, b: 0, a: 1}
   smokeColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
   expandTime: 0.075
-  explosiveForce: 4000
+  explosiveForce: 0
   damageProjectiles: 0
   friendlyFire: 1
   team: 0
@@ -2526,11 +2526,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileEffects
       objectReference: {fileID: 0}
-    - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Parameters.widthMultiplier
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2599,6 +2594,11 @@ PrefabInstance:
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

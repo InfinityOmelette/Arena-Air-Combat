@@ -453,6 +453,24 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         {
             CombatFlow player = view.GetComponent<CombatFlow>();
             localOwned = player.localOwned || player.isLocalPlayer;
+
+
+            // This fixes bug where client launching against host-owned npc
+            if (localOwned)
+            {
+                RealFlightControl flightCont = GetComponent<RealFlightControl>();
+                if(flightCont != null)
+                {
+                    flightCont.enabled = true;
+                }
+
+                BasicMissile missile = GetComponent<BasicMissile>();
+                if(missile != null)
+                {
+                    missile.setHasPassed(true);
+                }
+            }
+            
         }
     }
 

@@ -79,8 +79,7 @@ public class NetPosition : MonoBehaviour
             // Ignore any out of order calls
             if (originLifeTime > lifeTime)
             {
-                //Debug.LogWarning("Actively updating position with lifetime " + originLifeTime);
-
+                
                 // project target position forward based on time to send
                 targetPos = targetPos + targetVel * (originLifeTime - lifeTime);
                 transform.position = Vector3.Lerp(transform.position, targetPos, posLerp);

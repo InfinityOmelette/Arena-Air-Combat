@@ -38,6 +38,10 @@ public class BasicMissile : Weapon
 
     public float PASS_OWNERSHIP_DISTANCE = 350f;
 
+
+    private bool hasPassed = false;
+    
+
     void awake()
     {
         init();
@@ -111,12 +115,13 @@ public class BasicMissile : Weapon
             if (myCombatFlow.localOwned)
             {
 
-                if(myTarget != null && myTarget.GetComponent<CreepControl>() == null &&
+                if(myTarget != null && !hasPassed && myTarget.GetComponent<CreepControl>() == null &&
                     Vector3.Distance(myTarget.transform.position, 
                     transform.position) < PASS_OWNERSHIP_DISTANCE)
                 {
                     // target's instance will own this missile and show accurate position
                     myCombatFlow.giveOwnership(targetID);
+                    Debug.LogWarning("Giving missile ownership");
                 }
 
 
@@ -146,6 +151,11 @@ public class BasicMissile : Weapon
                 }
             }
         }
+    }
+
+    public void setHasPassed(bool hasPassed)
+    {
+        this.hasPassed = hasPassed;
     }
 
     // ugh, this is so inefficient, but at least isn't scaled up enough to really matter
@@ -323,7 +333,10 @@ public class BasicMissile : Weapon
             //radar.radarOn = targetFlow.isLocalPlayer;
             radar.pingPlayer = targetFlow.isLocalPlayer;
 
-            radar.radarOn = radar.pingPlayer || myCombatFlow.localOwned;
+            radar.radarOn = radar.pingPlayer || myCombatFlow.localOwned || targetFlow.localOwned;
+
+
+            
         }
     }
 

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3503788892843838836}
   - component: {fileID: -5318638688207957474}
   - component: {fileID: 1667470172932805707}
+  - component: {fileID: -4138970122897617249}
   m_Layer: 0
   m_Name: Truck
   m_TagString: Untagged
@@ -147,6 +148,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turret: {fileID: 2819243042278381317}
+--- !u!114 &-4138970122897617249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658450439490222779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8b0f8a6cd46ee4ba42dc859fd41c38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentLane: {fileID: 0}
+  waypoints: []
+  movementSpeed: 0
+  waypointRadius: 0
+  effectiveRange: 0
+  doMove: 1
+  lookWaypointDelay: 0
+  leaderCheckDelay: 0
+  currentTarget: {fileID: 0}
+  turret: {fileID: 0}
+  bumperRerouteDistance: 0
+  bumper: {fileID: 0}
+  raycastStart: {fileID: 0}
+  linecastEnd: {fileID: 0}
+  raycastLength: 0
+  raycastDelay: 0
 --- !u!1001 &2446426334029509811
 PrefabInstance:
   m_ObjectHideFlags: 0

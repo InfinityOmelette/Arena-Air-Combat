@@ -83,6 +83,9 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private bool deploySAM = false;
 
 
+    public float creepTargetUpdateDelay;
+    private float creepTargetUpdateTimer;
+
     void Awake()
     {
 
@@ -156,7 +159,8 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        
+
+        countDownCreepUpdate();
 
         leaderUpdateCountdown();
 
@@ -191,6 +195,57 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
                     countdownRapidDeploy();
                 }
+            }
+        }
+    }
+
+    private void countDownCreepUpdate()
+    {
+        if (isHostInstance && myLaneUnits != null && myLaneUnits.Count > 0)
+        {
+            if (creepTargetUpdateTimer < 0)
+            {
+                prepCreepUpdatePulse();
+                creepTargetUpdateTimer = creepTargetUpdateDelay;
+            }
+            else
+            {
+                creepTargetUpdateTimer -= Time.fixedDeltaTime;
+            }
+        }
+    }
+
+    private void prepCreepUpdatePulse()
+    {
+        List<int> creepIdList = new List<int>();
+        List<int> targetIdList = new List<int>();
+
+        for(int i = 0; i < myLaneUnits.Count; i++)
+        {
+            CombatFlow currentFlow = myLaneUnits[i];
+
+            if(currentFlow != null)
+            {
+                CreepControl currentCreep = currentFlow.GetComponent<CreepControl>();
+                creepIdList.Add( currentCreep.photonView.ViewID );
+                targetIdList.Add(currentCreep.getTargetId());
+            }
+        }
+
+        photonView.RPC("rpcPulseCreepUpdates", RpcTarget.Others, creepIdList.ToArray(), targetIdList.ToArray());
+
+    }
+
+    [PunRPC]
+    private void rpcPulseCreepUpdates(int[] creepIds, int[] targetIds)
+    {
+        for(int i = 0; i < creepIds.Length; i++)
+        {
+            PhotonView view = PhotonNetwork.GetPhotonView(creepIds[i]);
+            if(view != null)
+            {
+                CreepControl currentCreep = view.GetComponent<CreepControl>();
+                currentCreep.rpcSetTankTurretTarget(targetIds[i]);
             }
         }
     }
@@ -296,7 +351,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
         }
 
 
-        CreepControl newCreep = PhotonNetwork.Instantiate(selectedPrefab.name, spawnPoint,
+        CreepControl newCreep = PhotonNetwork.InstantiateSceneObject(selectedPrefab.name, spawnPoint,
             Quaternion.LookRotation(waypoints[1] - transform.position, Vector3.up)).GetComponent<CreepControl>();
 
         float range;

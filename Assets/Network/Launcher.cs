@@ -149,8 +149,13 @@ namespace Omelette.TestGamePleaseIgnore
         {
             Debug.LogWarning("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one. \nCalling: PhotonNetwork.CreateRoom");
 
+            //RoomOptions.CleanupCacheOnLeave = false
+
+            RoomOptions room = new RoomOptions() { MaxPlayers = maxPlayersPerRoom };
+            //room.CleanupCacheOnLeave = false;
+
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-            PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxPlayersPerRoom });
+            PhotonNetwork.CreateRoom(null, room);
         }
 
         public override void OnJoinedRoom()

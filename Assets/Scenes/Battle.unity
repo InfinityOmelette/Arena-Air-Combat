@@ -2916,6 +2916,7 @@ MonoBehaviour:
   waveDeployDelay: 180
   squadRemaining: 0
   rangeOffsetMax: 700
+  creepTargetUpdateDelay: 0.3
 --- !u!4 &310122044
 Transform:
   m_ObjectHideFlags: 0
@@ -5014,6 +5015,7 @@ MonoBehaviour:
   targetFrameRate: 120
   isHostInstance: 0
   netPosHub: {fileID: 0}
+  userID: 
 --- !u!4 &412476888
 Transform:
   m_ObjectHideFlags: 0
@@ -5041,7 +5043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allLocalOwned: []
-  updatesPerSecond: 12
+  updatesPerSecond: 7
 --- !u!114 &412476890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5379,7 +5381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &483690120
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7834,6 +7836,7 @@ MonoBehaviour:
   waveDeployDelay: 180
   squadRemaining: 0
   rangeOffsetMax: 700
+  creepTargetUpdateDelay: 0.3
 --- !u!4 &671980920
 Transform:
   m_ObjectHideFlags: 0
@@ -14609,7 +14612,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265437872}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2511, y: 12, z: -6653}
+  m_LocalPosition: {x: 7363.3, y: 12, z: 7069.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 783387947}

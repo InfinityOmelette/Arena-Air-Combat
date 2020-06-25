@@ -35,14 +35,19 @@ public class NetPositionHub : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (currentTimer < 0f)
+        if (allLocalOwned != null && allLocalOwned.Count > 0)
         {
-            pulseAllPositions();
-            currentTimer = waitTime;
-        }
-        else
-        {
-            currentTimer -= Time.fixedDeltaTime;
+
+            if (currentTimer < 0f)
+            {
+                Debug.LogWarning("Pulsing positions");
+                pulseAllPositions();
+                currentTimer = waitTime;
+            }
+            else
+            {
+                currentTimer -= Time.fixedDeltaTime;
+            }
         }
     }
 

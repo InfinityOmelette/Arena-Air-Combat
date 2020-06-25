@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class CreepControl : MonoBehaviourPun
+public class CreepControl : MonoBehaviourPunCallbacks
 {
     //public struct CreepData
     //{
@@ -76,6 +77,9 @@ public class CreepControl : MonoBehaviourPun
     [PunRPC]
     public void rpcInit(int parentLaneID, Vector3 offset, float range, int teamNum)
     {
+
+        //Debug.LogError(" CREEP INIT RPC CALLED");
+
         parentLane = PhotonNetwork.GetPhotonView(parentLaneID).GetComponent<LaneManager>();
         this.myOffset = offset;
         effectiveRange = range;
@@ -135,11 +139,13 @@ public class CreepControl : MonoBehaviourPun
 
     private void checkLeaderCounterProcess()
     {
-        if(leaderCheckCounter < 0)
+        
+
+        if (leaderCheckCounter < 0)
         {
             leaderCheckCounter = leaderCheckDelay;
             doMove = !enemyLeaderWithinRange();
-            if (!canShootCurrentTarget())
+            if (myFlow.localOwned && !canShootCurrentTarget())
             {
                 findTarget();
             }
@@ -149,6 +155,7 @@ public class CreepControl : MonoBehaviourPun
         {
             leaderCheckCounter -= Time.fixedDeltaTime;
         }
+        
     }
 
     private bool enemyLeaderWithinRange()
@@ -194,30 +201,36 @@ public class CreepControl : MonoBehaviourPun
 
                 int randIndex = Random.Range(0, possibleTargets.Count - 1);
                 currentTarget = possibleTargets[randIndex];
-                //turret.setTarget(currentTarget); // networked
-                photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, currentTarget.photonView.ViewID);
+                //photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, currentTarget.photonView.ViewID);
+
+                // Only execute this locally.
+                //  Lane manager will pick this up, and call rpc to propogate to other clients
+                rpcSetTankTurretTarget(currentTarget.photonView.ViewID);
             }
 
         }
     }
 
     [PunRPC]
-    private void rpcSetTankTurretTarget(int targetID)
+    public void rpcSetTankTurretTarget(int targetID)
     {
         PhotonView view = null;
         if (targetID != -1)
         {
             view = PhotonNetwork.GetPhotonView(targetID);
+            
         }
-
+        
         if(turret != null)
         {
             if (view != null)
             {
+                currentTarget = view.GetComponent<CombatFlow>();
                 turret.target = view.gameObject;
             }
             else
             {
+                currentTarget = null;
                 turret.target = null;
             }
         }
@@ -408,4 +421,22 @@ public class CreepControl : MonoBehaviourPun
 
         rpcSetTankTurretTarget(targetId); // execute locally, don't network
     }
+
+    public override void OnPlayerLeftRoom(Player other)
+    {
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+        //    Debug.LogWarning("This instance is new master client. Taking ownership of creep");
+
+        //    myFlow.isHostInstance = true;
+        //    myFlow.localOwned = true;
+        //}
+
+        bool isMaster = PhotonNetwork.IsMasterClient;
+
+        myFlow.isHostInstance = isMaster;
+        myFlow.localOwned = isMaster;
+    }
+
+    
 }

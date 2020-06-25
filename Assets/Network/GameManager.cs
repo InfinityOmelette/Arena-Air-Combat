@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,6 +39,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public NetPositionHub netPosHub;
 
+    // this isn't used currently, but seems like a good thing to have  ¯\_(ツ)_/¯
+    public string userID;
+
+
+    
+
     public static GameManager getGM()
     {
         if(gm == null)
@@ -50,6 +57,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+
         netPosHub = GetComponent<NetPositionHub>();
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
@@ -61,7 +69,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         //spawnPlayer();
         pm = PerspectiveManager.getPManager();
-        
+
+        userID = PhotonNetwork.LocalPlayer.UserId;
+
+        //PhotonNetwork.play
     }
 
     public void spawnPlayer(int teamNum)
@@ -146,33 +157,20 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Photon Callbacks
 
-    public override void OnPlayerEnteredRoom(Player other)
+
+
+    public override void OnPlayerEnteredRoom(Player player)
     {
-        Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
-
-
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-
-
-        //    LoadArena();
-        //}
+        
     }
 
 
     public override void OnPlayerLeftRoom(Player other)
     {
-        Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
-
-
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-        //    Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-
-
-        //    LoadArena();
-        //}
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isHostInstance = true;
+        }
     }
 
     #endregion

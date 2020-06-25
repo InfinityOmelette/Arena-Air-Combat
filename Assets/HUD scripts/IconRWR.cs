@@ -38,6 +38,7 @@ public class IconRWR : MonoBehaviour
     // not worth creating a manager script for
     public Color missileColor;
 
+    private bool debugHide = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,15 @@ public class IconRWR : MonoBehaviour
     {
         if(linkedObj == null && hasSet)
         {
-            GameObject.Destroy(this.gameObject);
+            if (hasSet)
+            {
+                GameObject.Destroy(this.gameObject);
+            }
+            else if (!debugHide)
+            {
+                showPingResult(false, 0, 0);
+                debugHide = true;
+            }
         }
     }
 

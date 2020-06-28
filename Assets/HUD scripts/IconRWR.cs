@@ -9,6 +9,7 @@ public class IconRWR : MonoBehaviour
     public static float RANGE_EXTRA_LONG =  5250;   // no dashes
     public static float RANGE_LONG =        2800;   // one dash
     public static float RANGE_MEDIUM =      1200;   // two dashes
+    public static float RANGE_CLOSE = 850;
     // 0 - 1200 is close range
 
     public static float UI_POSITION_Y_MISSILE = 117f; //223 is prefab default

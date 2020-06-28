@@ -96,11 +96,7 @@ public class Rocket : Weapon
     void FixedUpdate()
     {
         
-
-
-
         checkLinecastCollision();
-
 
         if (burnActive)
         {

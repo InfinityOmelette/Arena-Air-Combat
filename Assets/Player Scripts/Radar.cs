@@ -232,9 +232,11 @@ public class Radar : MonoBehaviourPun
     {
         if (lockableType(targetFlow))
         {
+            float heightDiffAdvantage = (transform.position.y - targetFlow.transform.position.y) / 2; 
+
             float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
             float dist = Vector3.Distance(targetFlow.transform.position, transform.position);
-            return radarOn && angleOffNose < lockAngle && dist < maxLockRange && tryDetect(targetFlow);
+            return radarOn && angleOffNose < lockAngle && dist < (maxLockRange + heightDiffAdvantage) && tryDetect(targetFlow);
         }
         else
         {

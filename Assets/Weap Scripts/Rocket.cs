@@ -109,7 +109,7 @@ public class Rocket : Weapon
         }
         else
         {
-            Debug.LogWarning("Rocket speed: " + rbRef.velocity.magnitude + " m/s");
+           // Debug.LogWarning("Rocket speed: " + rbRef.velocity.magnitude + " m/s");
             transform.rotation = Quaternion.LookRotation(rbRef.velocity);
         }
 

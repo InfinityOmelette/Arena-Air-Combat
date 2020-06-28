@@ -4981,6 +4981,7 @@ GameObject:
   - component: {fileID: 412476887}
   - component: {fileID: 412476889}
   - component: {fileID: 412476890}
+  - component: {fileID: 412476892}
   - component: {fileID: 412476891}
   m_Layer: 0
   m_Name: GameManager
@@ -5090,6 +5091,19 @@ MonoBehaviour:
     width: 200
     height: 50
   WindowId: 100
+--- !u!114 &412476892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412476886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15dbeb985bf51cc40ab0b5555a3e6253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  garbageCollectDelay: 3
 --- !u!1 &442556478
 GameObject:
   m_ObjectHideFlags: 0
@@ -6881,7 +6895,7 @@ PrefabInstance:
     - target: {fileID: 4764596039173869594, guid: 92e1cacb1b283ba4a819586cbea42dc0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8972315369537377481, guid: 92e1cacb1b283ba4a819586cbea42dc0,
         type: 3}
@@ -16803,7 +16817,7 @@ PrefabInstance:
     - target: {fileID: 4764596039173869594, guid: 92e1cacb1b283ba4a819586cbea42dc0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8972315369537377481, guid: 92e1cacb1b283ba4a819586cbea42dc0,
         type: 3}
@@ -23274,7 +23288,7 @@ PrefabInstance:
     - target: {fileID: 4764596039173869594, guid: 92e1cacb1b283ba4a819586cbea42dc0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8972315369537377481, guid: 92e1cacb1b283ba4a819586cbea42dc0,
         type: 3}

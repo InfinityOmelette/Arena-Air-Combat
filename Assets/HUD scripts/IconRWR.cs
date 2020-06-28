@@ -11,7 +11,9 @@ public class IconRWR : MonoBehaviour
     public static float RANGE_MEDIUM =      1200;   // two dashes
     // 0 - 1200 is close range
 
-    public static float UI_POSITION_Y_MISSILE = 90f; //223 is prefab default
+    public static float UI_POSITION_Y_MISSILE = 117f; //223 is prefab default
+    public static float UI_POSITION_Y_MISSILE_CLOSE = 90f;
+    public static float UI_POSITION_Y_AIRCRAFT = 190f;
     
     public bool isPinging = false;
 
@@ -78,6 +80,11 @@ public class IconRWR : MonoBehaviour
             Debug.LogWarning("Linking projectile radar " + radar.gameObject.name);
             iconCenter.transform.localPosition = new Vector3(0, UI_POSITION_Y_MISSILE, 0);
             makeRed();
+        }
+
+        if(radarFlow.type == CombatFlow.Type.AIRCRAFT)
+        {
+            iconCenter.transform.localPosition = new Vector3(0, UI_POSITION_Y_AIRCRAFT, 0);
         }
 
     }

@@ -18,6 +18,7 @@ public class SamAI : MonoBehaviour
     private float changeCycleCounter;   
 
     public float maxTargetRange;
+    public float maxLaunchRange;
 
     public Transform launcherAxis;
 
@@ -29,6 +30,8 @@ public class SamAI : MonoBehaviour
 
     public float acquireTimeMax;
     private float acquireTimer;
+
+    private bool locked = false;
 
     // Start is called before the first frame update
     void Start()
@@ -74,14 +77,22 @@ public class SamAI : MonoBehaviour
                 // fire as soon as target acquired
                 if(currentTarget != null)
                 {
-                    if (acquireCountdown())
+                    if(locked)
                     {
-                        // do fire
-                        // reset timer
-                        samNet.launchMissile(currentTarget);
-                        //Debug.LogError("Firing SAM at " + currentTarget.name);
-                        fireRateTimer = fireRateDelay;
+                        if (Vector3.Distance(currentTarget.transform.position, transform.position) < maxLaunchRange)
+                        {
+                            // do fire
+                            // reset timer
+                            samNet.launchMissile(currentTarget);
+                            //Debug.LogError("Firing SAM at " + currentTarget.name);
+                            fireRateTimer = fireRateDelay;
+                        }
                     }
+                    else
+                    {
+                        acquireCountdown();
+                    }
+
                 }
             }
             
@@ -94,6 +105,10 @@ public class SamAI : MonoBehaviour
         if(acquireTimer >= 0)
         {
             acquireTimer -= Time.deltaTime;
+        }
+        else
+        {
+            locked = true;
         }
 
         return acquireTimer < 0;
@@ -115,6 +130,7 @@ public class SamAI : MonoBehaviour
                     //turretNet.setTarget(targetFlow);
                     samNet.setTarget(targetFlow);
                     acquireTimer = acquireTimeMax;
+                    locked = false;
 
                     // only target's instance will deal damage. Rest will be cosmetic-only
                     //rootFlow.giveOwnership(targetFlow.photonView.ViewID);

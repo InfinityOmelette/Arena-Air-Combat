@@ -143,6 +143,8 @@ public class Radar : MonoBehaviourPun
             }
         }
 
+        // don't ping yourself
+        // can find localPlayerRWR
         // no friendly pings
         if (!myFlow.isLocalPlayer && localPlayerRWR != null && myFlow.team != localPlayerFlow.team)
         {

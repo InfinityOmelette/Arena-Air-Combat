@@ -40,6 +40,7 @@ public class MissileGuidance : MonoBehaviour
 
     public Weapon weaponRef;
 
+    private BasicMissile missileRef;
 
     public float assumedGravityAccel;
     public float targetPosForwardProjectionTime; // give time for warhead to explode fully in front of target
@@ -64,6 +65,7 @@ public class MissileGuidance : MonoBehaviour
 
     private void Awake()
     {
+        missileRef = GetComponent<BasicMissile>();
         weaponRef = GetComponent<Weapon>();
         rocketMotor = GetComponent<RocketMotor>();
         myFlightControl = GetComponent<RealFlightControl>();
@@ -92,31 +94,42 @@ public class MissileGuidance : MonoBehaviour
         if(myTarget != null && targetRB == null)
             targetRB = weaponRef.myTarget.GetComponent<Rigidbody>();
 
-        
-        if (weaponRef.myTarget != null)
+        if (weaponRef.launched)
         {
-            //Debug.LogError("Weapon has target: " + weaponRef.myTarget.name);
 
-            // ======================== LINE OF SIGHT
-            bool lineOfSight = false;
-            int terrainLayer = 1 << 10; // line only collides with terrain layer
-            lineOfSight = !Physics.Linecast(transform.position, weaponRef.myTarget.transform.position, terrainLayer);
-
-            if (lineOfSight)
+            if (weaponRef.myTarget != null)
             {
-                
+                //Debug.LogError("Weapon has target: " + weaponRef.myTarget.name);
 
-                if(weaponRef.launched && targetFlow == null) // outer control layer already checkks that weaponRef.myTarget != null
+                // ======================== LINE OF SIGHT
+                bool lineOfSight = false;
+                int terrainLayer = 1 << 10; // line only collides with terrain layer
+                lineOfSight = !Physics.Linecast(transform.position, weaponRef.myTarget.transform.position, terrainLayer);
+
+                if (lineOfSight)
                 {
-                    targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
+
+
+                    if (weaponRef.launched && targetFlow == null) // outer control layer already checkks that weaponRef.myTarget != null
+                    {
+                        targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
+                    }
+                    //myRadar.tryDetect(targetFlow)
+                    if (myRadar.tryDetect(targetFlow))
+                    {
+                        guidanceProcess();
+                    }
                 }
-                //myRadar.tryDetect(targetFlow)
-                if (myRadar.tryDetect(targetFlow))
+
+            }
+            else // weaponRef.myTarget IS null
+            {
+                // if target is deleted after guided launch, turn off radar. Missile's trashed
+                if (missileRef != null && missileRef.guidedLaunch && myRadar.radarOn)
                 {
-                    guidanceProcess();
+                    myRadar.radarOn = false;
                 }
             }
-           
         }
     }
 

@@ -25,7 +25,7 @@ public class BasicMissile : Weapon
     public float speed;
 
     private Vector3 targetPosition;
-    private bool guidedLaunch;
+    public bool guidedLaunch;
     private GameObject impactVictimRoot;
 
     public float selfDestructSpeed;

@@ -298,7 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockType: 1
   scanConeAngle: 40
-  maxDetectRange: 2600
+  maxDetectRange: 3800
   maxLockRange: 2600
   lockAngle: 0
   detectionThreshold: 1
@@ -362,8 +362,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustForce: 300
   burnTime: 1.25
-  cruiseThrust: 50
-  cruiseTime: 3.3
+  cruiseThrust: 65
+  cruiseTime: 4.3
   doBurn: 0
 --- !u!114 &5442397668170603962
 MonoBehaviour:
@@ -2299,16 +2299,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8573574417276940607}
     m_Modifications:
-    - target: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Name
-      value: MissileEffects
-      objectReference: {fileID: 0}
-    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Range
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2379,10 +2369,20 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Name
+      value: MissileEffects
+      objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_Parameters.widthMultiplier
       value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Range
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6bd0690b0d1b734d9d11488553094e5, type: 3}

@@ -12,6 +12,8 @@ public class Radar : MonoBehaviourPun
     public static float distMod = 610;  // "a" value in desmos. Horizontal stretch
     public static float distCoeff = 2.5f; // "b" value in desmos. Vertical stretch. 2.5 average. effective distMod at 0 distance
 
+    private static float ALTITUDE_ADVANTAGE_FACTOR = 0.7f; //0.7f;
+    private static float CLOSING_SPEED_FACTOR = 2.5f;
     private static float RWR_PING_DELAY = .075f; // must be nonzero
 
     public enum LockType
@@ -53,10 +55,13 @@ public class Radar : MonoBehaviourPun
 
     private GameObject radOffIndicator;
 
+    private Rigidbody myRb;
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
         missile = GetComponent<BasicMissile>();
+        myRb = GetComponent<Rigidbody>();
     }
 
     // Start is called before the first frame update
@@ -232,11 +237,13 @@ public class Radar : MonoBehaviourPun
     {
         if (lockableType(targetFlow))
         {
-            float heightDiffAdvantage = (transform.position.y - targetFlow.transform.position.y) / 2; 
+            float heightDiffAdvantage = (transform.position.y - targetFlow.transform.position.y) * ALTITUDE_ADVANTAGE_FACTOR;
+            float closingSpeedAdv = calculateClosingSpeed(targetFlow.GetComponent<Rigidbody>()) * CLOSING_SPEED_FACTOR;
 
             float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
             float dist = Vector3.Distance(targetFlow.transform.position, transform.position);
-            return radarOn && angleOffNose < lockAngle && dist < (maxLockRange + heightDiffAdvantage) && tryDetect(targetFlow);
+
+            return radarOn && angleOffNose < lockAngle && dist < (maxLockRange + heightDiffAdvantage + closingSpeedAdv) && tryDetect(targetFlow);
         }
         else
         {
@@ -295,6 +302,28 @@ public class Radar : MonoBehaviourPun
 
 
         return depthMod;
+    }
+
+    private float calculateClosingSpeed(Rigidbody targetRB)
+    {
+        Vector3 relVel = targetRB.velocity - myRb.velocity;
+
+        // Vector pointing from my position to target position
+        Vector3 targetBearingLine = targetRB.transform.position - transform.position;
+
+        relVel = Vector3.Project(relVel, targetBearingLine);
+
+        float closingSpeed = relVel.magnitude;
+
+        
+
+        // If relative velocity is facing away from us
+        if( Vector3.Angle( relVel, targetBearingLine) < 10f)
+        {
+            closingSpeed *= -1f; // closing speed is negative, as target is moving away
+        }
+
+        return closingSpeed;
     }
 
     //public string get

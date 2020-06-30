@@ -41,6 +41,8 @@ public class TgtHudIcon : MonoBehaviour
     public GameObject nearImages;
     public Text farDotText;
 
+    public bool incomingMissile = false;
+
     public enum TargetedState
     {
         NONE,
@@ -93,8 +95,19 @@ public class TgtHudIcon : MonoBehaviour
                 }
                 else // NONE OR TARGETED
                 {
+
+                    //if (incomingMissile)
+                    //{
+                    //    //changeChildColors(tgtIconManager.lockedColor);
+                    //}
+                    //else
+                    //{
+                        
+                    //}
+
                     setTeamInfo(); // a bit inefficient. Checks team every frame
-                    if(targetedState == TargetedState.TARGETED)
+
+                    if (targetedState == TargetedState.TARGETED)
                     {
                         tgtTitleText.enabled = true;
                         tgtDistText.enabled = true;
@@ -313,8 +326,10 @@ public class TgtHudIcon : MonoBehaviour
     // go to all child references, change their colors
     public Color changeChildColors(Color color)
     {
+        //Debug.LogWarning("Entering changeChildColors()");
         if (activeColor != color)  // don't set anything if no change required
         {
+            //Debug.LogWarning("Changing color");
             activeColor = color;
 
             tgtImageLOS.color = activeColor;

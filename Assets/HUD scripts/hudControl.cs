@@ -95,6 +95,8 @@ public class hudControl : MonoBehaviour
 
     public GameObject velVectAlt;
 
+    public WarningComputer warningComputer;
+
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);

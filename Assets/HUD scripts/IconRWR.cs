@@ -13,7 +13,7 @@ public class IconRWR : MonoBehaviour
     // 0 - 1200 is close range
 
     public static float UI_POSITION_Y_MISSILE = 117f; //223 is prefab default
-    public static float UI_POSITION_Y_MISSILE_CLOSE = 90f;
+    public static float UI_POSITION_Y_MISSILE_CLOSE = 80f;
     public static float UI_POSITION_Y_AIRCRAFT = 190f;
     
     public bool isPinging = false;
@@ -26,7 +26,9 @@ public class IconRWR : MonoBehaviour
     private byte distanceDashesNum = 0; // 0 extra long, 1 long, 2 medium, 3 close
 
     public Radar radarSource;
+    public CombatFlow sourceFlow;
 
+    public bool isMissile = false;
 
 
     public GameObject iconCenter;
@@ -34,6 +36,8 @@ public class IconRWR : MonoBehaviour
     public Text textDashes;
 
     public GameObject linkedObj;
+
+    private WarningComputer warningComputer;
 
     bool hasSet = false;
 
@@ -43,10 +47,15 @@ public class IconRWR : MonoBehaviour
 
     private bool debugHide = false;
 
+    public bool hasPinged = false;
+
+    public float distance;
+
     // Start is called before the first frame update
     void Start()
     {
         showPingResult(false, 0, 0);
+        warningComputer = hudControl.mainHud.GetComponent<hudControl>().warningComputer;
     }
 
     void Update()
@@ -73,12 +82,15 @@ public class IconRWR : MonoBehaviour
         textID.text = radar.radarID;
 
         CombatFlow radarFlow = radar.GetComponent<CombatFlow>();
+        sourceFlow = radarFlow;
+
         radarSource = radar;
         linkedObj = radar.gameObject;
 
         if(radarFlow.type == CombatFlow.Type.PROJECTILE)
         {
             Debug.LogWarning("Linking projectile radar " + radar.gameObject.name);
+            isMissile = true;
             iconCenter.transform.localPosition = new Vector3(0, UI_POSITION_Y_MISSILE, 0);
             makeRed();
         }
@@ -104,6 +116,11 @@ public class IconRWR : MonoBehaviour
 
         //Debug.LogWarning("showPing result " + distance);
 
+        if (isPinging)
+        {
+            hasPinged = true;
+        }
+
         transform.localRotation = Quaternion.Euler(0f, 0f, relBearing);
         textID.transform.localRotation = Quaternion.Euler(0f, 0f, -relBearing);
     }
@@ -126,6 +143,8 @@ public class IconRWR : MonoBehaviour
     {
         //Debug.LogWarning("distance dash sees " + distance + " distance");
 
+        this.distance = distance;
+
         if(distance > RANGE_EXTRA_LONG)
         {
             // no dashes
@@ -143,6 +162,13 @@ public class IconRWR : MonoBehaviour
         }
         else
         {
+            if(distance < RANGE_CLOSE)
+            {
+                Vector3 locPos = iconCenter.transform.localPosition;
+                iconCenter.transform.localPosition = new Vector3(locPos.x, UI_POSITION_Y_MISSILE_CLOSE, locPos.z);
+            }
+
+
             // three dashes
             return 3;
         }
@@ -174,9 +200,35 @@ public class IconRWR : MonoBehaviour
             if (doShow)
             {
                 newScale = new Vector3(1.0f, 1.0f, 1.0f);
+                if (isMissile && warningComputer != null)
+                {
+                    warningComputer.addMissileIncoming(this);
+
+                    // make icon red
+                    sourceFlow.myHudIconRef.incomingMissile = true;
+                    //Debug.LogWarning("******************  SETTING MISSILE COLOR TO RED");
+                    //sourceFlow.myHudIconRef.changeChildColors(Color.red);
+                }
+
+            }
+            else if(isMissile && warningComputer != null) // if missile state changing to NOT pinging
+            {
+                //Debug.LogWarning("******************  SETTING MISSILE COLOR TO GREEN");
+                // sourceFlow.myHudIconRef.changeChildColors(sourceFlow.myHudIconRef.teamColor);
+
+                sourceFlow.myHudIconRef.incomingMissile = false;
+                warningComputer.removeMissileIncoming(this);
             }
 
             iconCenter.transform.localScale = newScale;
+        }
+    }
+
+    void OnDestroy()
+    {
+        if(isMissile && warningComputer != null)
+        {
+            warningComputer.removeMissileIncoming(this);
         }
     }
 }

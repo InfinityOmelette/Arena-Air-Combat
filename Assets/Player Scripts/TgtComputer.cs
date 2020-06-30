@@ -312,15 +312,40 @@ public class TgtComputer : MonoBehaviour
             
             if (radarLocked)
             {
+                // do a thing on the first frame that the target switches to locked
+                if(currentFlow.myHudIconRef.targetedState != TgtHudIcon.TargetedState.LOCKED)
+                {
+                    if(currentFlow.rwr != null)
+                    {
+                        currentFlow.rwr.netLockedBy(myRadar);
+                    }
+                }
+
                 currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.LOCKED;
             }
             else
             {
+                // do a thing on the first frame that the enemy switches away from being locked
+                if (currentFlow.myHudIconRef.targetedState == TgtHudIcon.TargetedState.LOCKED)
+                {
+                    if (currentFlow.rwr != null)
+                    {
+                        currentFlow.rwr.endNetLock(myRadar);
+                    }
+                }
                 currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.TARGETED;
             }
         }
         else // confirm no targeted state if this flow is NOT the current target
         {
+            // do a thing on the first frame that the enemy switches away from being locked
+            if (currentFlow.myHudIconRef.targetedState == TgtHudIcon.TargetedState.LOCKED)
+            {
+                if (currentFlow.rwr != null)
+                {
+                    currentFlow.rwr.endNetLock(myRadar);
+                }
+            }
             currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
         }
     }

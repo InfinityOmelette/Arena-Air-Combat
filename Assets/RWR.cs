@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class RWR : MonoBehaviour
+public class RWR : MonoBehaviourPunCallbacks
 {
     private CombatFlow myFlow;
 
@@ -59,5 +60,45 @@ public class RWR : MonoBehaviour
         //Debug.LogWarning("rwr bearing angle: " + bearing);
 
         return bearing;
+    }
+
+    public void netLockedBy(Radar radarSource)
+    {
+        photonView.RPC("rpcLockedBy", RpcTarget.Others, radarSource.photonView.ViewID);
+    }
+
+    public void endNetLock(Radar radarSource)
+    {
+        photonView.RPC("rpcEndLockedBy", RpcTarget.Others, radarSource.photonView.ViewID);
+    }
+
+    [PunRPC]
+    public void rpcLockedBy(int sourceID)
+    {
+        if (myFlow.isLocalPlayer)
+        {
+            Debug.Log("rpc locked by");
+            PhotonView view = PhotonNetwork.GetPhotonView(sourceID);
+            if(view != null)
+            {
+                Radar radarSource = view.GetComponent<Radar>();
+                radarSource.rwrIcon.beginLock();
+            }
+        }
+    }
+
+    [PunRPC]
+    public void rpcEndLockedBy(int sourceID)
+    {
+        if (myFlow.isLocalPlayer)
+        {
+            Debug.Log("rpc end locked by");
+            PhotonView view = PhotonNetwork.GetPhotonView(sourceID);
+            if (view != null)
+            {
+                Radar radarSource = view.GetComponent<Radar>();
+                radarSource.rwrIcon.endLock();
+            }
+        }
     }
 }

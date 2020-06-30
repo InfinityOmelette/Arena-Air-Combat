@@ -61,6 +61,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public List<int> seenBy; // photonID's of non-friendlies that can see this unit
 
+    public RWR rwr;
 
     private float seenCleanWaitMax = .75f;
     private float seenCleanWaitTimer = -1f;
@@ -103,6 +104,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        rwr = GetComponent<RWR>();
+
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();
         

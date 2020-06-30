@@ -14,6 +14,7 @@ public class IconRWR : MonoBehaviour
     public static float RANGE_CLOSE = 850;
     // 0 - 1200 is close range
 
+    public static float UI_POSITION_Y_SAM_FAR = 265f;
     public static float UI_POSITION_Y_MISSILE = 117f; //223 is prefab default
     public static float UI_POSITION_Y_MISSILE_CLOSE = 70f;
     public static float UI_POSITION_Y_AIRCRAFT = 190f;

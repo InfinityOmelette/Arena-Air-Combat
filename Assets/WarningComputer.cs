@@ -20,6 +20,14 @@ public class WarningComputer : MonoBehaviour
 
     public float missileRangeMultiplier = 1.0f;
 
+    public AudioSource newMissileThreatAudio;
+    public AudioSource missileWarnAudio;
+    public AudioSource missileCloseAudio;
+
+    public float closeMissileWarningRange;
+
+    private bool playingCloseRangeWarning = false;
+    
 
     void Awake()
     {
@@ -35,12 +43,55 @@ public class WarningComputer : MonoBehaviour
     
     void Update()
     {
+
+        bool doWarning = incomingMissiles.Count > 0;
+
+        if(doWarning != warningActive)
+        {
+            if (doWarning)
+            {
+                missileWarnAudio.loop = true;
+                missileWarnAudio.Play();
+            }
+            else
+            {
+                missileWarnAudio.loop = false;
+                missileWarnAudio.Stop();
+            }
+        }
         
         warningActive = incomingMissiles.Count > 0;
 
         missileRangeMultiplier = calculateMissileRangeMult();
 
+        processCloseMissileWarning();
+
         processMissileWarning(warningActive);
+    }
+
+    private void processCloseMissileWarning()
+    {
+        float range = missileRangeLong * missileRangeMultiplier;
+
+        bool playWarning = range < closeMissileWarningRange;
+
+        if(playWarning != playingCloseRangeWarning)
+        {
+            playingCloseRangeWarning = playWarning;
+
+            if (playWarning)
+            {
+                missileCloseAudio.loop = true;
+                missileCloseAudio.Play();
+            }
+            else
+            {
+                missileCloseAudio.loop = false;
+                missileCloseAudio.Stop();
+            }
+
+        }
+
     }
 
     private float calculateMissileRangeMult()
@@ -82,10 +133,11 @@ public class WarningComputer : MonoBehaviour
 
     public void addMissileIncoming(IconRWR mslIcon)
     {
-        //if (!mslIcon.hasPinged)
-        //{
+        if (!mslIcon.hasPinged)
+        {
+            newMissileThreatAudio.Play();
+        }
 
-        //}
         if (!incomingMissiles.Contains(mslIcon))
         {
             incomingMissiles.Add(mslIcon);

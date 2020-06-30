@@ -5,7 +5,7 @@ using UnityEngine;
 public class SamAI : MonoBehaviour
 {
 
-    CombatFlow currentTarget;
+    public CombatFlow currentTarget;
 
 
     public float fireRateDelay;

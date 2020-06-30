@@ -7,7 +7,11 @@ public class WarningComputer : MonoBehaviour
 
     public List<IconRWR> incomingMissiles;
 
+    public List<IconRWR> incomingLocks;
+
     public GameObject missileWarning;
+
+    public GameObject lockWarningDisplay;
 
     private bool warningActive = false;
 
@@ -23,15 +27,19 @@ public class WarningComputer : MonoBehaviour
     public AudioSource newMissileThreatAudio;
     public AudioSource missileWarnAudio;
     public AudioSource missileCloseAudio;
+    public AudioSource incomingLockAudio;
 
     public float closeMissileWarningRange;
 
     private bool playingCloseRangeWarning = false;
-    
+
+
+    private bool isLocked = false;
 
     void Awake()
     {
         incomingMissiles = new List<IconRWR>();
+        incomingLocks = new List<IconRWR>();
     }
 
     // Start is called before the first frame update
@@ -149,6 +157,39 @@ public class WarningComputer : MonoBehaviour
         if (incomingMissiles.Contains(mslIcon))
         {
             incomingMissiles.Remove(mslIcon);
+        }
+    }
+
+    public void beginLock(IconRWR lockSource)
+    {
+
+        if (!incomingLocks.Contains(lockSource))
+        {
+            incomingLocks.Add(lockSource);
+        }
+
+        if (incomingLocks.Count > 0 && !isLocked)
+        {
+            isLocked = true;
+            lockWarningDisplay.SetActive(true);
+            incomingLockAudio.loop = true;
+            incomingLockAudio.Play();
+        }
+    }
+
+    public void endLock(IconRWR lockSource)
+    {
+        if (incomingLocks.Contains(lockSource))
+        {
+            incomingLocks.Remove(lockSource);
+        }
+
+        if (incomingLocks.Count == 0 && isLocked)
+        {
+            isLocked = false;
+            lockWarningDisplay.SetActive(false);
+            incomingLockAudio.loop = false;
+            incomingLockAudio.Stop();
         }
     }
 }

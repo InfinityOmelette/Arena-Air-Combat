@@ -41,18 +41,33 @@ public class SamNetworking : MonoBehaviourPunCallbacks
     {
         if (viewID != -1)
         {
-            try
+            
+            PhotonView view = PhotonNetwork.GetPhotonView(viewID);
+
+            if (view != null)
             {
-                PhotonView view = PhotonNetwork.GetPhotonView(viewID);
-                sam.setTarget(view.GetComponent<CombatFlow>());
+                CombatFlow targetFlow = view.GetComponent<CombatFlow>();
+                sam.setTarget(targetFlow);
+
+                if(targetFlow.gameObject == GameManager.getGM().localPlayer)
+                {
+                    Radar myRadar = GetComponent<Radar>();
+                    myRadar.rwrIcon.beginLock();
+                }
+
             }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Sam failed to find view number " + viewID);
-            }
+
+
         }
         else
         {
+            
+            if(sam.currentTarget.gameObject == GameManager.getGM().localPlayer)
+            {
+                Radar myRadar = GetComponent<Radar>();
+                myRadar.rwrIcon.endLock();
+            }
+
             sam.setTarget(null);
         }
 

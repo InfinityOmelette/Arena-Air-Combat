@@ -6,6 +6,8 @@ public class RWR : MonoBehaviour
 {
     private CombatFlow myFlow;
 
+
+    //private WarningComputer warnComputer;
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -15,7 +17,7 @@ public class RWR : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //warnComputer = hudControl.mainHud.GetComponent<hudControl>().warningComputer;
     }
 
     // Update is called once per frame

@@ -47,11 +47,15 @@ public class IconRWR : MonoBehaviour
     // not worth creating a manager script for
     public Color missileColor;
 
+    public Color defaultColor;
+
     private bool debugHide = false;
 
     public bool hasPinged = false;
 
     public float distance;
+
+    public bool isLocking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -104,10 +108,15 @@ public class IconRWR : MonoBehaviour
 
     }
 
+    public void makeColor(Color color)
+    {
+        textID.color = color;
+        textDashes.color = color;
+    }
+
     public void makeRed()
     {
-        textID.color = missileColor;
-        textDashes.color = missileColor;
+        makeColor(missileColor);
     }
 
     public void showPingResult(bool isPinging, float distance, float relBearing)
@@ -228,11 +237,29 @@ public class IconRWR : MonoBehaviour
         }
     }
 
+    public void beginLock()
+    {
+        isLocking = true;
+        makeColor(missileColor);
+        warningComputer.beginLock(this);
+    }
+
+    public void endLock()
+    {
+        isLocking = false;
+        makeColor(defaultColor);
+        warningComputer.endLock(this);
+    }
+
     void OnDestroy()
     {
         if(isMissile && warningComputer != null)
         {
             warningComputer.removeMissileIncoming(this);
+        }
+        else if (isLocking)
+        {
+            endLock();
         }
     }
 }

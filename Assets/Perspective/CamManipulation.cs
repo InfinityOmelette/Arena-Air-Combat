@@ -128,6 +128,13 @@ public class CamManipulation : MonoBehaviour
         camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
 
         camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, activeRotateLerpRate * Time.deltaTime);
+
+
+        
+
+        IconRWR.cameraHorizOffset = camAxisHorizRef.transform.localEulerAngles.y;
+
+        Debug.Log("CamAxisHoriz Y euler: " + IconRWR.cameraHorizOffset);
     }
 
     void FixedUpdate()

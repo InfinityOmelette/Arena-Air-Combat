@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class IconRWR : MonoBehaviour
 {
+    public static float cameraHorizOffset = 0.0f;
+
     public static string DASH_STR = "v\n";
     public static float RANGE_EXTRA_LONG =  5250;   // no dashes
     public static float RANGE_LONG =        2800;   // one dash
@@ -120,6 +122,8 @@ public class IconRWR : MonoBehaviour
         {
             hasPinged = true;
         }
+
+        relBearing += cameraHorizOffset;
 
         transform.localRotation = Quaternion.Euler(0f, 0f, relBearing);
         textID.transform.localRotation = Quaternion.Euler(0f, 0f, -relBearing);

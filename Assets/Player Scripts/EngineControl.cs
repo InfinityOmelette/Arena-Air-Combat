@@ -41,7 +41,23 @@ public class EngineControl : MonoBehaviour
     public AirEnvironmentStats air;
     public Contrail contrailRef;
 
+
+    private CombatFlow myFlow;
+
     Rigidbody rbRef;
+
+    public AudioSource jetEngine;
+    public AudioSource afterburner;
+    public AudioSource engineFar;
+
+    private float initAfterburnVolume;
+
+    void Awake()
+    {
+        myFlow = GetComponent<CombatFlow>();
+
+        initAfterburnVolume = afterburner.volume;
+    }
 
     // ================================ START
     void Start()
@@ -49,6 +65,13 @@ public class EngineControl : MonoBehaviour
         checkAirStatsRefError();
         rbRef = GetComponent<Rigidbody>();
         currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
+
+
+        jetEngine.loop = true;
+        afterburner.loop = true;
+
+        jetEngine.Play();
+        afterburner.Play();
     }
 
     private void checkAirStatsRefError()
@@ -64,7 +87,30 @@ public class EngineControl : MonoBehaviour
         updateFuelMass(); // root rigidbody will change mass depending on fuel level
         processAfterburnerGraphic();
 
+        if (myFlow.isLocalPlayer)
+        {
+            afterBurnerVolume();
+        }
+
         contrailRef.engineOn = currentFuelMass > 0f;
+    }
+
+    private void afterBurnerVolume()
+    {
+        float minABThrust = minAB_thrust * THRUST_MAX / 100f;
+        float abPercent = Mathf.Max((currentBaseThrust - minABThrust)
+            / (THRUST_MAX - minABThrust), 0.0f);
+
+        float abOffset = 0f;
+
+        if (abPercent > 0.1)
+        {
+            abOffset = 0.21f;
+        }
+
+        afterburner.volume = initAfterburnVolume * abPercent + abOffset;
+
+        Debug.Log("Current thrust base: " + currentBaseThrust + "with " + abPercent + "abPercent");
     }
 
     private void Update()

@@ -217,6 +217,15 @@ public class TgtComputer : MonoBehaviour
         CombatFlow newTarget = null; // default point to currentTarget -- if changeTarget unsuccessful, this won't change
         List<CombatFlow> flowObjArray = CombatFlow.combatUnits;
 
+        if(currentTarget != null && radarLocked)
+        {
+            if (currentTarget.rwr != null)
+            {
+                currentTarget.rwr.endNetLock(myRadar);
+            }
+        }
+
+
         float smallestAngle = 180f; //180 is max angle Vector3.angleBetween gives
 
         // loop through every combatFlow object

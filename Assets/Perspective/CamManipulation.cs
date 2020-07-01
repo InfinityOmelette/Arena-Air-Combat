@@ -134,7 +134,7 @@ public class CamManipulation : MonoBehaviour
 
         IconRWR.cameraHorizOffset = camAxisHorizRef.transform.localEulerAngles.y;
 
-        Debug.Log("CamAxisHoriz Y euler: " + IconRWR.cameraHorizOffset);
+        //Debug.Log("CamAxisHoriz Y euler: " + IconRWR.cameraHorizOffset);
     }
 
     void FixedUpdate()

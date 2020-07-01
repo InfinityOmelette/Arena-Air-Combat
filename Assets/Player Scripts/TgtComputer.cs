@@ -31,7 +31,9 @@ public class TgtComputer : MonoBehaviour
     //public bool canShowCurrentTarget;
 
 
+    public AudioSource lockTone;
 
+    private bool playingLockTone;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +58,20 @@ public class TgtComputer : MonoBehaviour
         {
             
             Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green);
+
+            if (!radarLocked && playingLockTone)
+            {
+                lockTone.loop = false;
+                lockTone.Stop();
+                playingLockTone = false;
+            }
+
+        }
+        else if (playingLockTone)
+        {
+            lockTone.loop = false;
+            lockTone.Stop();
+            playingLockTone = false;
         }
     }
 
@@ -315,6 +331,10 @@ public class TgtComputer : MonoBehaviour
                 // do a thing on the first frame that the target switches to locked
                 if(currentFlow.myHudIconRef.targetedState != TgtHudIcon.TargetedState.LOCKED)
                 {
+                    lockTone.loop = true;
+                    lockTone.Play();
+                    playingLockTone = true;
+
                     if(currentFlow.rwr != null)
                     {
                         currentFlow.rwr.netLockedBy(myRadar);
@@ -328,6 +348,10 @@ public class TgtComputer : MonoBehaviour
                 // do a thing on the first frame that the enemy switches away from being locked
                 if (currentFlow.myHudIconRef.targetedState == TgtHudIcon.TargetedState.LOCKED)
                 {
+                    lockTone.loop = false;
+                    lockTone.Stop();
+                    playingLockTone = false;
+
                     if (currentFlow.rwr != null)
                     {
                         currentFlow.rwr.endNetLock(myRadar);
@@ -341,6 +365,10 @@ public class TgtComputer : MonoBehaviour
             // do a thing on the first frame that the enemy switches away from being locked
             if (currentFlow.myHudIconRef.targetedState == TgtHudIcon.TargetedState.LOCKED)
             {
+                lockTone.loop = false;
+                lockTone.Stop();
+                playingLockTone = false;
+
                 if (currentFlow.rwr != null)
                 {
                     currentFlow.rwr.endNetLock(myRadar);

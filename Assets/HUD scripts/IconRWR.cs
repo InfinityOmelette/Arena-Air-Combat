@@ -8,6 +8,9 @@ public class IconRWR : MonoBehaviour
     public static float cameraHorizOffset = 0.0f;
 
     public static string DASH_STR = "v\n";
+
+    public static float RANGE_MEGA_LONG = 6500;
+
     public static float RANGE_EXTRA_LONG =  5250;   // no dashes
     public static float RANGE_LONG =        2800;   // one dash
     public static float RANGE_MEDIUM =      1200;   // two dashes
@@ -18,7 +21,9 @@ public class IconRWR : MonoBehaviour
     public static float UI_POSITION_Y_MISSILE = 117f; //223 is prefab default
     public static float UI_POSITION_Y_MISSILE_CLOSE = 70f;
     public static float UI_POSITION_Y_AIRCRAFT = 190f;
-    
+
+    public bool isSam = false;
+
     public bool isPinging = false;
 
     private bool isPingingSet = true; // prevent repeated processing for unchanging isPinging state
@@ -47,7 +52,8 @@ public class IconRWR : MonoBehaviour
     // inefficient to have each icon save this. This does let it be edited in Editor easily, though
     // not worth creating a manager script for
     public Color missileColor;
-
+    public Color missileBlinkColor;
+    public Color lockColor;
     public Color defaultColor;
 
     private bool debugHide = false;
@@ -57,6 +63,11 @@ public class IconRWR : MonoBehaviour
     public float distance;
 
     public bool isLocking = false;
+
+    //public float lockBlinkDelay;
+    private float lockBlinkTimer;
+
+    public bool doBlink;
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +89,46 @@ public class IconRWR : MonoBehaviour
                 showPingResult(false, 0, 0);
                 debugHide = true;
             }
+        }
+
+        if (isMissile)
+        {
+            missileBlinkTimerProcess();
+        }
+        
+    }
+
+    private void missileBlinkTimerProcess()
+    {
+        if (doBlink)
+        {
+            if (lockBlinkTimer <= 0)
+            {
+                switchColor();
+                float newRangeMult = distance / warningComputer.missileRangeLong;
+                lockBlinkTimer = warningComputer.missileWarningBlinkDelayMax * newRangeMult +
+                    warningComputer.missileWarningBlinkOffset;
+            }
+            else
+            {
+                lockBlinkTimer -= Time.deltaTime;
+            }
+        }
+        else
+        {
+            makeColor(missileColor);
+        }
+    }
+
+    private void switchColor()
+    {
+        if(textID.color == missileBlinkColor)
+        {
+            makeColor(missileColor);
+        }
+        else
+        {
+            makeColor(missileBlinkColor);
         }
     }
 
@@ -107,6 +158,11 @@ public class IconRWR : MonoBehaviour
             iconCenter.transform.localPosition = new Vector3(0, UI_POSITION_Y_AIRCRAFT, 0);
         }
 
+        if(radarFlow.GetComponent<SamNetworking>() != null)
+        {
+            isSam = true;
+        }
+
     }
 
     public void makeColor(Color color)
@@ -131,6 +187,10 @@ public class IconRWR : MonoBehaviour
         if (isPinging)
         {
             hasPinged = true;
+        }
+        else if(isLocking)
+        {
+            endLock();
         }
 
         relBearing += cameraHorizOffset;
@@ -161,6 +221,12 @@ public class IconRWR : MonoBehaviour
 
         if(distance > RANGE_EXTRA_LONG)
         {
+            if (isSam)
+            {
+                Vector3 locPos = iconCenter.transform.localPosition;
+                iconCenter.transform.localPosition = new Vector3(locPos.x, UI_POSITION_Y_SAM_FAR, locPos.z);
+            }
+
             // no dashes
             return 0;
         }
@@ -241,7 +307,7 @@ public class IconRWR : MonoBehaviour
     public void beginLock()
     {
         isLocking = true;
-        makeColor(missileColor);
+        makeColor(lockColor);
         warningComputer.beginLock(this);
     }
 

@@ -918,7 +918,7 @@ MonoBehaviour:
   lockAngle: 0
   detectionThreshold: 1
   radarOn: 0
-  radarID: SAM
+  radarID: MSL
   rwrIcon: {fileID: 0}
   myFlow: {fileID: 0}
   pingPlayer: 1
@@ -1012,6 +1012,7 @@ MonoBehaviour:
   networkDamage: 0
   networkReceivedCannonImpacts: 0
   seenBy: 
+  rwr: {fileID: 0}
   isHostInstance: 0
 --- !u!114 &1167435022322946647
 MonoBehaviour:
@@ -2527,6 +2528,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileEffects
       objectReference: {fileID: 0}
+    - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2595,11 +2601,6 @@ PrefabInstance:
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_Parameters.widthMultiplier
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

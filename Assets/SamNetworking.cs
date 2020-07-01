@@ -47,12 +47,18 @@ public class SamNetworking : MonoBehaviourPunCallbacks
             if (view != null)
             {
                 CombatFlow targetFlow = view.GetComponent<CombatFlow>();
+
                 sam.setTarget(targetFlow);
 
-                if(targetFlow.gameObject == GameManager.getGM().localPlayer)
+                Radar myRadar = GetComponent<Radar>();
+
+                if (targetFlow.gameObject == GameManager.getGM().localPlayer)
                 {
-                    Radar myRadar = GetComponent<Radar>();
                     myRadar.rwrIcon.beginLock();
+                }
+                else
+                {
+                    myRadar.rwrIcon.endLock();
                 }
 
             }

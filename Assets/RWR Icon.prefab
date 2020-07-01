@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846d84ff8b34ac2498b37338d5687028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSam: 0
   isPinging: 0
   relativeBearing: 0
   radarSource: {fileID: 0}
@@ -173,9 +174,13 @@ MonoBehaviour:
   textDashes: {fileID: 4124840318295402748}
   linkedObj: {fileID: 0}
   missileColor: {r: 1, g: 0.20369916, b: 0.08962262, a: 1}
+  missileBlinkColor: {r: 1, g: 0.7676166, b: 0, a: 1}
+  lockColor: {r: 1, g: 0.7001362, b: 0, a: 1}
   defaultColor: {r: 0.072496295, g: 1, b: 0, a: 1}
   hasPinged: 0
   distance: 0
+  isLocking: 0
+  lockBlinkDelay: 0.2
 --- !u!1 &7182799889139130193
 GameObject:
   m_ObjectHideFlags: 0

@@ -102,16 +102,24 @@ public class WarningComputer : MonoBehaviour
 
     }
 
-    private float calculateMissileRangeMult()
+    public float calculateMissileRangeMult()
     {
         float shortestRange = missileRangeLong;
+        int shortIndex = -1;
         for(int i = 0; i < incomingMissiles.Count; i++)
         {
             float range = incomingMissiles[i].distance;
+            incomingMissiles[i].doBlink = false;
             if(range < shortestRange)
             {
+                shortIndex = i;
                 shortestRange = range;
             }
+        }
+
+        if(shortIndex != -1)
+        {
+            incomingMissiles[shortIndex].doBlink = true;
         }
 
         return shortestRange / missileRangeLong;
@@ -129,7 +137,7 @@ public class WarningComputer : MonoBehaviour
             }
             else
             {
-                missileWarningBlinkTimer -= Time.fixedDeltaTime;
+                missileWarningBlinkTimer -= Time.deltaTime;
             }
         }
         else

@@ -356,6 +356,7 @@ public class BasicMissile : Weapon
                 if (launchSound != null)
                 {
                     myHardpoint.launchSoundSource.clip = launchSound;
+                    myHardpoint.launchSoundSource.volume = launchSoundVolume;
                     myHardpoint.launchSoundSource.Play();
                 }
             }

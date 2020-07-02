@@ -70,6 +70,11 @@ public class BasicBomb : Weapon
         myHardpoint.readyToFire = false;
         myHardpoint.loadedWeaponObj = null; // no longer loaded -- remove reference
 
+
+        myHardpoint.launchSoundSource.clip = launchSound;
+        myHardpoint.launchSoundSource.volume = launchSoundVolume;
+        myHardpoint.launchSoundSource.Play();
+
         Destroy(GetComponent<FixedJoint>());
 
         rbRef.velocity = ownerObj.GetComponent<Rigidbody>().velocity;

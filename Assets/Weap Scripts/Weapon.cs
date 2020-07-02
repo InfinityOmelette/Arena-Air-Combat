@@ -59,6 +59,8 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public AudioSource flightSound;
 
+    public float launchSoundVolume;
+
     //protected PhotonView photonView;
 
     // call from fixedUpdate()

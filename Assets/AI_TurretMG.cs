@@ -27,6 +27,9 @@ public class AI_TurretMG : MonoBehaviour
 
     public float targetVelMultiplier;
 
+    public AudioSource gunfireSound;
+    public AudioSource gunfireSoundEnd;
+
     //public float rotationSpeed;
     
     //private bool isJef = false;
@@ -179,10 +182,18 @@ public class AI_TurretMG : MonoBehaviour
             gunsOn = gunSet;
             if (gunSet)
             {
+                gunfireSound.loop = true;
+                gunfireSound.Play();
+
                 gun.Play();
             }
             else
             {
+                gunfireSound.loop = false;
+                gunfireSound.Play();
+
+                gunfireSoundEnd.Play();
+
                 gun.Stop();
             }
         }

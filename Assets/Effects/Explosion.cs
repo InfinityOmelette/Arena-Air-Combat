@@ -160,7 +160,7 @@ public class Explosion : MonoBehaviour
         rend.material = mat;
 
         // temporary shitty way to disable explosions on rockets and cannon impact
-        if (radius > 15) // 15 is arbitrary number between rocket and amraam radius
+        //if (radius > 15) // 15 is arbitrary number between rocket and amraam radius
         {
             setExplodeSound();
             audioSource.Play();

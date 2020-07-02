@@ -79,6 +79,7 @@ public class BasicMissile : Weapon
         myCombatFlow = GetComponent<CombatFlow>();
         radar = GetComponent<Radar>();
         rbRef = GetComponent<Rigidbody>();
+        flightSound = GetComponent<AudioSource>();
     }
 
     override
@@ -359,7 +360,11 @@ public class BasicMissile : Weapon
                 }
             }
 
-            
+            if(flightSound != null)
+            {
+                flightSound.loop = true;
+                flightSound.Play();
+            }
 
             FixedJoint joint = GetComponent<FixedJoint>();
             if (joint != null)

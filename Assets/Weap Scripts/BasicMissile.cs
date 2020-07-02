@@ -351,6 +351,12 @@ public class BasicMissile : Weapon
             {
                 myHardpoint.readyToFire = false;
                 myHardpoint.loadedWeaponObj = null;
+
+                if (launchSound != null)
+                {
+                    myHardpoint.launchSoundSource.clip = launchSound;
+                    myHardpoint.launchSoundSource.Play();
+                }
             }
 
             

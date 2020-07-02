@@ -18,7 +18,11 @@ public class CannonControl : MonoBehaviourPunCallbacks
 
     private CombatFlow rootFlow;
 
+    public AudioSource mgSoundSource;
+    public AudioSource cannonSoundSource;
 
+    public AudioSource mgSoundEnd;
+    public AudioSource cannonSoundEnd;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +47,10 @@ public class CannonControl : MonoBehaviourPunCallbacks
             if (!gunsOn) // turn or keep guns on
             {
                 //photonView.RPC("rpcSetGunsOn", RpcTarget.All, true);
+
+
+                gunsSound(true);
+
                 gunsOn = true;
                 for (int i = 0; i < cannons.Length; i++)
                 {
@@ -55,6 +63,7 @@ public class CannonControl : MonoBehaviourPunCallbacks
         {
             if (gunsOn)
             {
+                gunsSound(false);
                 //photonView.RPC("rpcSetGunsOn", RpcTarget.All, false);
                 gunsOn = false;
                 for (int i = 0; i < cannons.Length; i++)
@@ -67,6 +76,28 @@ public class CannonControl : MonoBehaviourPunCallbacks
 
     }
 
+    private void gunsSound(bool active)
+    {
+        if (active)
+        {
+            mgSoundSource.loop = true;
+            cannonSoundSource.loop = true;
+
+            mgSoundSource.Play();
+            cannonSoundSource.Play();
+        }
+        else
+        {
+            mgSoundSource.loop = false;
+            cannonSoundSource.loop = false;
+
+            mgSoundSource.Stop();
+            cannonSoundSource.Stop();
+
+            mgSoundEnd.Play();
+            cannonSoundEnd.Play();
+        }
+    }
     public void setIgnoreLayer(int layerToIgnore)
     {
         for(int i = 0; i < cannons.Length; i++)

@@ -37,6 +37,14 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
     public CombatFlow rootFlow;
 
+    public AudioSource launchSoundSource;
+
+
+    void Awake()
+    {
+        launchSoundSource = GetComponent<AudioSource>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -55,6 +55,8 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public EffectsBehavior effectsBehavior;
 
+    public AudioClip launchSound;
+
     //protected PhotonView photonView;
 
     // call from fixedUpdate()

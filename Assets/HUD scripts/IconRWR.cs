@@ -308,6 +308,12 @@ public class IconRWR : MonoBehaviour
     {
         isLocking = true;
         makeColor(lockColor);
+        if (warningComputer == null)
+        {
+            warningComputer = hudControl.mainHud.GetComponent<hudControl>().warningComputer;
+        }
+
+        //Debug.Log("Beginning lock");
         warningComputer.beginLock(this);
     }
 
@@ -315,6 +321,10 @@ public class IconRWR : MonoBehaviour
     {
         isLocking = false;
         makeColor(defaultColor);
+        if (warningComputer == null)
+        {
+            warningComputer = hudControl.mainHud.GetComponent<hudControl>().warningComputer;
+        }
         warningComputer.endLock(this);
     }
 

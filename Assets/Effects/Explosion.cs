@@ -5,7 +5,10 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     // TERRIBLE FUNDAMENTAL INEFFICIENCY -- COMPLICATED OBJECT FOR EVERY EXPLOSION
-    
+
+
+    public static float MEDIUM_SIZE = 8f;
+    public static float LARGE_SIZE = 30f;
 
     public float radius;
     public float coreDamage; // damage falls off linearly from max at core to zero at radius
@@ -44,6 +47,13 @@ public class Explosion : MonoBehaviour
 
     public bool localOwned = false;
 
+
+    private AudioClip activeSound;
+    private AudioSource audioSource;
+
+    public AudioClip smallExplodeSound;
+    public AudioClip mediumExplodeSound;
+    public AudioClip largeExplodeSound;
 
     // *********************************************************************************
     // **************************   STATIC METHODS   ***********************************
@@ -102,6 +112,30 @@ public class Explosion : MonoBehaviour
         mat = new Material(mat);
         explosionVictimRootList = new List<GameObject>();
 
+
+        audioSource = GetComponent<AudioSource>();
+        
+
+        
+
+    }
+
+    private void setExplodeSound()
+    {
+        if(radius < MEDIUM_SIZE)
+        {
+            activeSound = smallExplodeSound;
+        }
+        else if(radius < LARGE_SIZE)
+        {
+            activeSound= mediumExplodeSound;
+        }
+        else
+        {
+            activeSound = largeExplodeSound;
+        }
+
+        audioSource.clip = activeSound;
     }
 
     // Start is called before the first frame update
@@ -124,11 +158,15 @@ public class Explosion : MonoBehaviour
         
         rend = GetComponent<MeshRenderer>();
         rend.material = mat;
-        
-        
-        
 
-        
+        // temporary shitty way to disable explosions on rockets and cannon impact
+        if (radius > 15) // 15 is arbitrary number between rocket and amraam radius
+        {
+            setExplodeSound();
+            audioSource.Play();
+
+        }
+
     }
 
     bool setEmissionEnabled(bool doEmit)

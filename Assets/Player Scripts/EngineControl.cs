@@ -51,12 +51,14 @@ public class EngineControl : MonoBehaviour
     public AudioSource engineFar;
 
     private float initAfterburnVolume;
+    private float initEngineVolume;
 
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
 
         initAfterburnVolume = afterburner.volume;
+        initEngineVolume = jetEngine.volume;
     }
 
     // ================================ START
@@ -72,6 +74,10 @@ public class EngineControl : MonoBehaviour
 
         jetEngine.Play();
         afterburner.Play();
+
+
+        jetEngine.volume = 0.0f;
+        afterburner.volume = 0.0f;
     }
 
     private void checkAirStatsRefError()
@@ -90,6 +96,7 @@ public class EngineControl : MonoBehaviour
         if (myFlow.isLocalPlayer)
         {
             afterBurnerVolume();
+            jetEngine.volume = initEngineVolume;
         }
 
         contrailRef.engineOn = currentFuelMass > 0f;
@@ -110,7 +117,7 @@ public class EngineControl : MonoBehaviour
 
         afterburner.volume = initAfterburnVolume * abPercent + abOffset;
 
-        Debug.Log("Current thrust base: " + currentBaseThrust + "with " + abPercent + "abPercent");
+        //Debug.Log("Current thrust base: " + currentBaseThrust + "with " + abPercent + "abPercent");
     }
 
     private void Update()

@@ -134,7 +134,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f1a576fc444fe4447ba3c5b5d7fb9635, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e212bf6774e5b9d4b8bf030a86f01fb5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1897,7 +1897,7 @@ GameObject:
   - component: {fileID: 2053113929137598411}
   - component: {fileID: 3677644454155684996}
   m_Layer: 0
-  m_Name: US_CLIPPED
+  m_Name: MSL_LAUNCH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1927,7 +1927,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b93e097b2ca90a549981250402dd054f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 40ebf2df8d413e14696578c9f49be5fa, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2584,7 +2584,7 @@ GameObject:
   - component: {fileID: 7332156454007624360}
   - component: {fileID: 60645300705249142}
   m_Layer: 0
-  m_Name: RUS_MSL_WARN
+  m_Name: MSL_WARN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2614,9 +2614,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f5b460b265b777c4bab6f13c36540e7a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 57f16ea080a698b43ac87e146774e3ca, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.201
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2784,7 +2784,7 @@ GameObject:
   - component: {fileID: 8830664320356838681}
   - component: {fileID: 5323593663993579205}
   m_Layer: 0
-  m_Name: LAUNCH_WARN_US
+  m_Name: MSL_WARN_CLOSE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2814,9 +2814,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: af29a6784c6e9994cae1595e9d7823c8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b3cb5d43999a3ae45a0d28e43a962681, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.232
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2927,8 +2927,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8030464403413561262}
-  - {fileID: 4092216688971333707}
+  - {fileID: 8299971752501300789}
+  - {fileID: 2635984446002586064}
   m_Father: {fileID: 8279770280686740558}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6059,7 +6059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3494763e47739c54cb392fa644734b40, type: 3}
---- !u!224 &4092216688971333707 stripped
+--- !u!224 &2635984446002586064 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2044243382686949799, guid: 3494763e47739c54cb392fa644734b40,
     type: 3}
@@ -6174,7 +6174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3494763e47739c54cb392fa644734b40, type: 3}
---- !u!224 &8030464403413561262 stripped
+--- !u!224 &8299971752501300789 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2044243382686949799, guid: 3494763e47739c54cb392fa644734b40,
     type: 3}

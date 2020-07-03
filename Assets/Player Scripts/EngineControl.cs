@@ -50,6 +50,8 @@ public class EngineControl : MonoBehaviour
     public AudioSource afterburner;
     public AudioSource engineFar;
 
+    public float abVolumeOffset;
+
     private float initAfterburnVolume;
     private float initEngineVolume;
 
@@ -112,7 +114,7 @@ public class EngineControl : MonoBehaviour
 
         if (abPercent > 0.1)
         {
-            abOffset = 0.21f;
+            abOffset = abVolumeOffset;
         }
 
         afterburner.volume = initAfterburnVolume * abPercent + abOffset;

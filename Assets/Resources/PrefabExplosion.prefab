@@ -126,7 +126,7 @@ MonoBehaviour:
   smokeColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   localOwned: 0
   smallExplodeSound: {fileID: 8300000, guid: edbcc01392ccd594d896f1ba2a955ead, type: 3}
-  mediumExplodeSound: {fileID: 8300000, guid: 305ea1e9074b4274ca92c7d1cb4f1412, type: 3}
+  mediumExplodeSound: {fileID: 8300000, guid: ad772d65e34173446bea5bc779d54f36, type: 3}
   largeExplodeSound: {fileID: 8300000, guid: 1c2b5f6745329a14d95fbad3e657cdc2, type: 3}
 --- !u!108 &7663392623036823821
 Light:
@@ -209,9 +209,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 1250
+  MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 2
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

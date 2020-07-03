@@ -31,9 +31,17 @@ public class Rocket : Weapon
 
     //PhotonView photonView;
 
+
+    void Awake()
+    {
+        flightSound = GetComponent<AudioSource>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        flightSound.Play();
+
         armed = false;
         setColliders(false);
         effectsObj = Instantiate(rocketEffectsPrefab);

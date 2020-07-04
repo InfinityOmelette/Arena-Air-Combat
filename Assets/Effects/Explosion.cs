@@ -10,6 +10,9 @@ public class Explosion : MonoBehaviour
     public static float MEDIUM_SIZE = 8f;
     public static float LARGE_SIZE = 30f;
 
+    public static float RANDOM_PITCH_MIN = 0.35f;
+    public static float RANDOM_PITCH_MAX = 1.65f;
+
     public float radius;
     public float coreDamage; // damage falls off linearly from max at core to zero at radius
 
@@ -172,9 +175,7 @@ public class Explosion : MonoBehaviour
 
     private float randomizePitch()
     {
-        float pitchMin = .35f;
-        float mitchMax = 1.65f;
-        return Random.Range(pitchMin, mitchMax);
+        return Random.Range(RANDOM_PITCH_MIN, RANDOM_PITCH_MAX);
     }
 
     bool setEmissionEnabled(bool doEmit)

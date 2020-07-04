@@ -338,7 +338,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b662b9c981698d34aa9754f36fede07a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.091
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1427,6 +1427,8 @@ MonoBehaviour:
   afterburner: {fileID: 3276202103031849017}
   engineFar: {fileID: 5306242371174759505}
   abVolumeOffset: 0.65
+  enginePitchMin: 0.55
+  engineVolumeMin: 0.075
 --- !u!114 &6897607545244989051
 MonoBehaviour:
   m_ObjectHideFlags: 0

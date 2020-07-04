@@ -55,6 +55,10 @@ public class EngineControl : MonoBehaviour
     private float initAfterburnVolume;
     private float initEngineVolume;
 
+    public float enginePitchMin;
+    public float engineVolumeMin;
+
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -112,10 +116,28 @@ public class EngineControl : MonoBehaviour
             {
                 afterBurnerVolume();
                 jetEngine.volume = initEngineVolume;
+
+                enginePitchAndVolume();
             }
 
             contrailRef.engineOn = currentFuelMass > 0f;
         }
+    }
+
+    private void enginePitchAndVolume()
+    {
+        float minABThrust = minAB_thrust * THRUST_MAX / 100f;
+
+        float thrustPercent = Mathf.Clamp((currentBaseThrust) / (minABThrust), 
+            0.0f, 1.0f);
+
+        float pitch = thrustPercent * (1.0f - enginePitchMin) + enginePitchMin;
+
+        jetEngine.pitch = pitch;
+
+
+        float volume = thrustPercent * (initEngineVolume - engineVolumeMin) + engineVolumeMin;
+        jetEngine.volume = volume;
     }
 
     private void afterBurnerVolume()

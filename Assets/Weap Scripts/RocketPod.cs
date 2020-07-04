@@ -104,7 +104,7 @@ public class RocketPod : Weapon
 
         roundsRemain--;
 
-        myHardpoint.launchSoundSource.PlayOneShot(launchSound);
+        myHardpoint.launchSoundSource.Play();
 
         // spawn, set references
         GameObject newObj = Instantiate(rocketPrefab);
@@ -219,6 +219,7 @@ public class RocketPod : Weapon
         myHardpoint.roundsMax = roundsMax;
         myHardpoint.roundsRemain = roundsRemain;
 
+        myHardpoint.launchSoundSource.volume = launchSoundVolume;
         myHardpoint.launchSoundSource.clip = launchSound;
 
         Debug.Log("Linking " + gameObject.name + " to owner: " + ownerObjArg.name);

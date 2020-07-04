@@ -40,7 +40,10 @@ public class Rocket : Weapon
     // Start is called before the first frame update
     void Start()
     {
-        flightSound.Play();
+        if (flightSound != null)
+        {
+            flightSound.Play();
+        }
 
         armed = false;
         setColliders(false);

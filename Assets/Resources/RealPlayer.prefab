@@ -932,7 +932,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9baea6d1596a1bf41ba42dbef2795bc8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bd646f8bf6d44a742bebb67007e9ef4a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -943,9 +943,9 @@ AudioSource:
   Priority: 2
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 250
+  MaxDistance: 850
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -953,23 +953,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.0032463074
+      value: 1.0091286
+      inSlope: -3.1301866
+      outSlope: -3.1301866
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.19398384
+    - serializedVersion: 3
+      time: 0.5388402
+      value: 0.19582224
+      inSlope: -0.659256
+      outSlope: -0.659256
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.293561
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.1841304
+      outSlope: -0.1841304
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.39426285
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -1061,7 +1070,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c1625e796464bd244bb1b7e1e4140497, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.306
+  m_Volume: 0.192
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1384,7 +1393,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7744941291827435728}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31f13b6323368044bbc85856dc64092f, type: 3}
   m_Name: 
@@ -1417,7 +1426,7 @@ MonoBehaviour:
   jetEngine: {fileID: 5814068139339608842}
   afterburner: {fileID: 3276202103031849017}
   engineFar: {fileID: 5306242371174759505}
-  abVolumeOffset: 0.4
+  abVolumeOffset: 0.65
 --- !u!114 &6897607545244989051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1452,6 +1461,7 @@ MonoBehaviour:
   seenBy: 
   rwr: {fileID: 0}
   isHostInstance: 0
+  collisionDamageFactor: 0.005
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0

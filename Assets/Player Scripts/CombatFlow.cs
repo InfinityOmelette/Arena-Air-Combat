@@ -73,6 +73,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private bool firstFramePassed = false;
 
+    public float collisionDamageFactor = 0.005f;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -478,8 +480,23 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     }
 
 
-    
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (localOwned || isLocalPlayer)
+        {
+            //GameObject otherRoot = collision.gameObject.transform.root.gameObject;
+            //int id = getVictimId(otherRoot);
+
+            //photonView.RPC("rpcContactProcess", RpcTarget.All, transform.position, id);
+            float damage = collision.impulse.magnitude * collisionDamageFactor;
+
+            if (damage > 1f)
+            {
+                dealDamage(damage);
+            }
+        }
+    }
 
 
 }

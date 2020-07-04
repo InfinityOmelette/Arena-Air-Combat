@@ -58,7 +58,7 @@ public class EngineControl : MonoBehaviour
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
-
+        rbRef = GetComponent<Rigidbody>();
         initAfterburnVolume = afterburner.volume;
         initEngineVolume = jetEngine.volume;
     }
@@ -66,9 +66,12 @@ public class EngineControl : MonoBehaviour
     // ================================ START
     void Start()
     {
-        checkAirStatsRefError();
-        rbRef = GetComponent<Rigidbody>();
-        currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
+        if (myFlow.isLocalPlayer)
+        {
+            checkAirStatsRefError();
+
+            currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
+        }
 
 
         jetEngine.loop = true;
@@ -80,6 +83,13 @@ public class EngineControl : MonoBehaviour
 
         jetEngine.volume = 0.0f;
         afterburner.volume = 0.0f;
+
+
+        if (!myFlow.isLocalPlayer)
+        {
+            engineFar.loop = true;
+            engineFar.Play();
+        }
     }
 
     private void checkAirStatsRefError()
@@ -92,16 +102,20 @@ public class EngineControl : MonoBehaviour
     // ================================ LATEUPDATE
     void LateUpdate()
     {
-        updateFuelMass(); // root rigidbody will change mass depending on fuel level
-        processAfterburnerGraphic();
-
         if (myFlow.isLocalPlayer)
         {
-            afterBurnerVolume();
-            jetEngine.volume = initEngineVolume;
-        }
 
-        contrailRef.engineOn = currentFuelMass > 0f;
+            updateFuelMass(); // root rigidbody will change mass depending on fuel level
+            processAfterburnerGraphic();
+
+            if (myFlow.isLocalPlayer)
+            {
+                afterBurnerVolume();
+                jetEngine.volume = initEngineVolume;
+            }
+
+            contrailRef.engineOn = currentFuelMass > 0f;
+        }
     }
 
     private void afterBurnerVolume()
@@ -124,11 +138,13 @@ public class EngineControl : MonoBehaviour
 
     private void Update()
     {
+        if (myFlow.isLocalPlayer)
+        {
+            currentThrottlePercent = inputThrottleFromMouse();
 
-        currentThrottlePercent = inputThrottleFromMouse();
-
-        //  THRUST BASE
-        currentThrottlePercent = inputThrottleFromJoypad();       // set throttle
+            //  THRUST BASE
+            currentThrottlePercent = inputThrottleFromJoypad();       // set throttle
+        }
     }
 
 
@@ -185,27 +201,29 @@ public class EngineControl : MonoBehaviour
     // =============================== FIXEDUPDATE
     void FixedUpdate()
     {
-        //  THRUST BASE
+        if (myFlow.isLocalPlayer)
+        {
 
-        currentBaseThrust = stepBaseThrustToTarget(currentThrottlePercent); // step thrust value
-        currentBaseThrustPercent = (currentBaseThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
+            //  THRUST BASE
 
-        //  BURN RATE MODIFICATION
-        float fuelBurnMod = calculateFuelBurnMod(transform.position.y, burnRateAltitudeResiliency); // calculate fuel burn mod
+            currentBaseThrust = stepBaseThrustToTarget(currentThrottlePercent); // step thrust value
+            currentBaseThrustPercent = (currentBaseThrust - THRUST_MIN) / (THRUST_MAX - THRUST_MIN) * 100f; // update current thrust
 
-        // burn fuel according to burn rate and target thrust (moving toward zero to avoid bouncing fuel level at 0)
-        currentFuelMass = Mathf.MoveTowards(currentFuelMass, 0.0f, 
-            fuelBurnMod * seaLevelMaxBurnRate * (currentBaseThrustPercent / 100f) * Time.fixedDeltaTime); 
+            //  BURN RATE MODIFICATION
+            float fuelBurnMod = calculateFuelBurnMod(transform.position.y, burnRateAltitudeResiliency); // calculate fuel burn mod
 
-        currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
-        float currentTrueThrust = currentBaseThrust * fuelBurnMod; // create thrust according to burn rate
+            // burn fuel according to burn rate and target thrust (moving toward zero to avoid bouncing fuel level at 0)
+            currentFuelMass = Mathf.MoveTowards(currentFuelMass, 0.0f,
+                fuelBurnMod * seaLevelMaxBurnRate * (currentBaseThrustPercent / 100f) * Time.fixedDeltaTime);
 
-
-        // ADD FORCE
-        rbRef.AddForce(transform.forward * currentTrueThrust);
-
+            currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
+            float currentTrueThrust = currentBaseThrust * fuelBurnMod; // create thrust according to burn rate
 
 
+            // ADD FORCE
+            rbRef.AddForce(transform.forward * currentTrueThrust);
+
+        }
         
     }
 

@@ -162,11 +162,19 @@ public class Explosion : MonoBehaviour
         // temporary shitty way to disable explosions on rockets and cannon impact
         //if (radius > 15) // 15 is arbitrary number between rocket and amraam radius
         {
+            audioSource.pitch = randomizePitch();
             setExplodeSound();
             audioSource.Play();
 
         }
 
+    }
+
+    private float randomizePitch()
+    {
+        float pitchMin = .35f;
+        float mitchMax = 1.65f;
+        return Random.Range(pitchMin, mitchMax);
     }
 
     bool setEmissionEnabled(bool doEmit)

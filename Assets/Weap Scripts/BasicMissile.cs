@@ -54,12 +54,7 @@ public class BasicMissile : Weapon
         //init();
         //Debug.LogWarning("Found radar of " + radar.gameObject.name);
 
-
         //photonView = PhotonView.Get(this);
-
-
-
-
 
 
     }

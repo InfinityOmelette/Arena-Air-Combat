@@ -344,6 +344,8 @@ public class BasicMissile : Weapon
     [PunRPC]
     private void rpcLaunch()
     {
+
+       
         if (!doDestroy)
         {
             GetComponent<NetPosition>().active = true;
@@ -361,11 +363,7 @@ public class BasicMissile : Weapon
                 }
             }
 
-            if(flightSound != null)
-            {
-                flightSound.loop = true;
-                flightSound.Play();
-            }
+            
 
             FixedJoint joint = GetComponent<FixedJoint>();
             if (joint != null)
@@ -390,6 +388,14 @@ public class BasicMissile : Weapon
                 myHardpoint.roundsRemain = 0;
             }
         }
+
+        if (flightSound == null)
+        {
+            setRefs();
+        }
+
+        flightSound.loop = true;
+        flightSound.Play();
     }
 
 

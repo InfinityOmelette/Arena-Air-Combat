@@ -85,8 +85,8 @@ public class EngineControl : MonoBehaviour
         afterburner.Play();
 
 
-        jetEngine.volume = 0.0f;
-        afterburner.volume = 0.0f;
+        //jetEngine.volume = 0.0f;
+        //afterburner.volume = 0.0f;
 
 
         if (!myFlow.isLocalPlayer)

@@ -12,8 +12,11 @@ public class Radar : MonoBehaviourPun
     public static float distMod = 610;  // "a" value in desmos. Horizontal stretch
     public static float distCoeff = 2.5f; // "b" value in desmos. Vertical stretch. 2.5 average. effective distMod at 0 distance
 
-    private static float ALTITUDE_ADVANTAGE_FACTOR = 0.7f; //0.7f;
-    private static float CLOSING_SPEED_FACTOR = 2.5f;
+    public float ALTITUDE_ADVANTAGE_FACTOR = 1.0f; //0.7f;
+    public float CLOSING_SPEED_FACTOR = 12f;
+    public float YOUR_SPEED_FACTOR = 6f;
+
+
     private static float RWR_PING_DELAY = .075f; // must be nonzero
 
     public enum LockType
@@ -57,6 +60,21 @@ public class Radar : MonoBehaviourPun
 
     private Rigidbody myRb;
 
+    
+    public float baseLongRange;
+    public float baseGoodRange;
+    public float baseKillRange;
+
+    public float effectiveLongRange;
+    public float effectiveGoodRange;
+    public float effectiveKillRange;
+
+
+    public RangeLadder rangeLadder;
+
+
+    hudControl mainHud;
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -68,11 +86,13 @@ public class Radar : MonoBehaviourPun
     void Start()
     {
 
-        radOffIndicator = hudControl.mainHud.GetComponent<hudControl>().radOffIndicator;
+        mainHud = hudControl.mainHud.GetComponent<hudControl>();
+        radOffIndicator = mainHud.radOffIndicator;
 
         if (myFlow.isLocalPlayer)
         {
             radOffIndicator.SetActive(!radarOn);
+            linkToRangeLadder();
         }
 
         pingWaitCurrent = RWR_PING_DELAY;
@@ -90,6 +110,28 @@ public class Radar : MonoBehaviourPun
         //setRadarActive(radarOn);
 
         
+    }
+
+
+    public void copyLockData(Radar radar)
+    {
+        if (radar != null)
+        {
+            maxLockRange = radar.maxLockRange;
+            baseLongRange = radar.baseLongRange;
+            baseGoodRange = radar.baseGoodRange;
+            baseKillRange = radar.baseKillRange;
+            lockAngle = radar.lockAngle;
+            lockType = radar.lockType;
+
+            
+        }
+    }
+
+    private void linkToRangeLadder()
+    {
+        rangeLadder = hudControl.mainHud.GetComponent<hudControl>().rangeLadder;
+        rangeLadder.linkedRadar = this;
     }
 
     public void toggleRadar()
@@ -168,10 +210,20 @@ public class Radar : MonoBehaviourPun
             }
         }
 
-        if (myFlow.isLocalPlayer && rwrIcon != null)
+        if (myFlow.isLocalPlayer)
         {
-            GameObject.Destroy(rwrIcon.gameObject);
+            
+
+
+            if(rwrIcon != null)
+            {
+                GameObject.Destroy(rwrIcon.gameObject);
+            }
+            
         }
+
+
+       
     }
 
     private void tryPing()
@@ -226,8 +278,8 @@ public class Radar : MonoBehaviourPun
         {
             isDetected = radarOn &&
                 withinScope(targetFlow.transform.position) &&
-                maxDetectRange > Vector3.Distance(targetFlow.transform.position, transform.position) && // max range
-                calculateDetectability(targetFlow) > detectionThreshold; // detection calculation
+                maxDetectRange > Vector3.Distance(targetFlow.transform.position, transform.position); //&& // max range
+                //calculateDetectability(targetFlow) > detectionThreshold; // detection calculation
         }
 
         return isDetected;
@@ -235,20 +287,46 @@ public class Radar : MonoBehaviourPun
   
     public bool tryLock(CombatFlow targetFlow)
     {
+
         if (lockableType(targetFlow))
         {
             float heightDiffAdvantage = (transform.position.y - targetFlow.transform.position.y) * ALTITUDE_ADVANTAGE_FACTOR;
             float closingSpeedAdv = calculateClosingSpeed(targetFlow.GetComponent<Rigidbody>()) * CLOSING_SPEED_FACTOR;
+            float yourSpeedAdv = myRb.velocity.magnitude * YOUR_SPEED_FACTOR;
+
+            setRangeAdvantages(heightDiffAdvantage, closingSpeedAdv, yourSpeedAdv);
 
             float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
             float dist = Vector3.Distance(targetFlow.transform.position, transform.position);
 
-            return radarOn && angleOffNose < lockAngle && dist < (maxLockRange + heightDiffAdvantage + closingSpeedAdv) && tryDetect(targetFlow);
+            if(rangeLadder != null)
+            {
+                rangeLadder.tgtRange = dist;
+            }
+
+            //return radarOn && angleOffNose < lockAngle && dist < (maxLockRange + heightDiffAdvantage + closingSpeedAdv) && tryDetect(targetFlow);
+            return radarOn && angleOffNose < lockAngle && dist < maxLockRange && tryDetect(targetFlow);
         }
         else
         {
+            setRangeAdvantages(0.0f, 0.0f, 0.0f);
             return false;
         }
+    }
+
+    private void setRangeAdvantages(float heightDiffAdvantage, float closingSpeedAdv, float yourSpeedAdv)
+    {
+        float totalAdvantage = heightDiffAdvantage + closingSpeedAdv + yourSpeedAdv;
+
+
+
+        effectiveLongRange = baseLongRange + totalAdvantage;
+
+        float advantageScale = effectiveLongRange / baseLongRange;
+        
+        effectiveGoodRange = baseGoodRange * advantageScale;
+        effectiveKillRange = baseKillRange * advantageScale;
+        
     }
 
     public bool lockableType(CombatFlow flow)

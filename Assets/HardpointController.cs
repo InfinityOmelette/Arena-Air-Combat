@@ -30,7 +30,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
     public bool launchActive;
 
     private CombatFlow rootFlow;
-
+    private Radar rootRadar;
     private DropSightComputer dropSight;
 
     
@@ -42,6 +42,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
         groupThisType_List = new List<bool>();
         rootFlow = transform.root.GetComponent<CombatFlow>();
         dropSight = rootFlow.GetComponent<DropSightComputer>();
+        rootRadar = rootFlow.GetComponent<Radar>();
     }
 
     // Start is called before the first frame update
@@ -55,6 +56,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
                 Debug.Log("HARDPOINT CONTROLLER UNABLE TO FIND WEAPON INDICATOR MANAGER");
 
             fillHardpointArray();
+            rootRadar.copyLockData(getActiveHardpoint().weaponTypePrefab.GetComponent<Radar>());
         }
     }
 
@@ -384,6 +386,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
             weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
 
             fetchDropComputerValues(activeTypeIndex);
+            rootRadar.copyLockData(getActiveHardpoint().weaponTypePrefab.GetComponent<Radar>());
         }
     }
 
@@ -409,6 +412,10 @@ public class HardpointController : MonoBehaviourPunCallbacks
             weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
 
             fetchDropComputerValues(activeTypeIndex);
+
+            rootRadar.copyLockData(getActiveHardpoint().weaponTypePrefab.GetComponent<Radar>());
         }
     }
+
+    
 }

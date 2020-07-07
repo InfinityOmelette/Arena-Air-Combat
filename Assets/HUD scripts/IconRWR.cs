@@ -242,7 +242,7 @@ public class IconRWR : MonoBehaviour
         }
         else
         {
-            if(distance < RANGE_CLOSE)
+            if(distance < RANGE_CLOSE && sourceFlow.type == CombatFlow.Type.PROJECTILE)
             {
                 Vector3 locPos = iconCenter.transform.localPosition;
                 iconCenter.transform.localPosition = new Vector3(locPos.x, UI_POSITION_Y_MISSILE_CLOSE, locPos.z);

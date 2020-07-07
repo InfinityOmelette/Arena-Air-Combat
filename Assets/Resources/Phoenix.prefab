@@ -812,11 +812,15 @@ MonoBehaviour:
   lineCastViaDistance: 1
   linecastDistance: 15
   effectsBehavior: {fileID: 0}
+  launchSound: {fileID: 0}
+  flightSound: {fileID: 0}
+  launchSoundVolume: 0
   ownerObj: {fileID: 0}
   proximityFuseRange: 15
   fuseLeadTime: 0.1
   impactDamage: 0
   speed: 0
+  guidedLaunch: 0
   selfDestructSpeed: 15
   radar: {fileID: 0}
   PASS_OWNERSHIP_DISTANCE: 1000
@@ -855,7 +859,7 @@ MonoBehaviour:
   lockType: 0
   scanConeAngle: 25
   maxDetectRange: 5000
-  maxLockRange: 2500
+  maxLockRange: 4500
   lockAngle: 0
   detectionThreshold: 1
   radarOn: 0
@@ -953,7 +957,9 @@ MonoBehaviour:
   networkDamage: 0
   networkReceivedCannonImpacts: 0
   seenBy: 
+  rwr: {fileID: 0}
   isHostInstance: 0
+  collisionDamageFactor: 0.005
 --- !u!114 &29026782760298540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1014,9 +1020,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb463eea1746d924aa3087ea4166a956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updatesPerSecond: 10
+  myFlow: {fileID: 0}
+  myRB: {fileID: 0}
+  photonView: {fileID: 0}
+  lifeTime: 0
   posLerp: 0.65
   active: 0
+  netPosHub: {fileID: 0}
 --- !u!1 &3046698194454117830
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,6 +35,8 @@ public class TgtComputer : MonoBehaviour
 
     private bool playingLockTone;
 
+    public RangeLadder rangeLadder;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,18 @@ public class TgtComputer : MonoBehaviour
         mainHud = hudControl.mainHud.GetComponent<hudControl>();
         localPlayerFlow = GetComponent<CombatFlow>();
         hardpointController = playerInput.hardpointController;
+
+        if (localPlayerFlow.isLocalPlayer)
+        {
+            linkToRangeLadder();
+        }
+    }
+
+
+    private void linkToRangeLadder()
+    {
+        rangeLadder = hudControl.mainHud.GetComponent<hudControl>().rangeLadder;
+        rangeLadder.linkedTgtComputer = this;
     }
 
     // Update is called once per frame
@@ -53,6 +67,8 @@ public class TgtComputer : MonoBehaviour
         {
             changeTarget();
         }
+
+        mainHud.showRangeLadder(myRadar.lockType == Radar.LockType.AIR_ONLY);
 
         if(currentTarget != null)
         {
@@ -351,6 +367,8 @@ public class TgtComputer : MonoBehaviour
                 }
 
                 currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.LOCKED;
+                //mainHud.showRangeLadder()
+
             }
             else
             {

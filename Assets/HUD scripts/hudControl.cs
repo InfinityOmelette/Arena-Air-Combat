@@ -97,6 +97,10 @@ public class hudControl : MonoBehaviour
 
     public WarningComputer warningComputer;
 
+
+    public RangeLadder rangeLadder;
+    public GameObject climbLadderObj;
+    
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);
@@ -374,5 +378,11 @@ public class hudControl : MonoBehaviour
         climbText.transform.localPosition = climbTextOriginPos + new Vector3(0.0f, climbScale * climbTextMaxOffset, 0.0f);
     }
 
+
+    public void showRangeLadder(bool doShow)
+    {
+        climbLadderObj.SetActive(!doShow);
+        rangeLadder.gameObject.SetActive(doShow);
+    }
 
 }

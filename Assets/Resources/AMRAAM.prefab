@@ -2232,7 +2232,7 @@ MonoBehaviour:
   flightSound: {fileID: 0}
   launchSoundVolume: 1
   ownerObj: {fileID: 0}
-  proximityFuseRange: 15
+  proximityFuseRange: 8
   fuseLeadTime: 0.1
   impactDamage: 0
   speed: 0
@@ -2272,10 +2272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ALTITUDE_ADVANTAGE_FACTOR: 1
+  CLOSING_SPEED_FACTOR: 14
+  YOUR_SPEED_FACTOR: 6
   lockType: 0
   scanConeAngle: 30
   maxDetectRange: 5000
-  maxLockRange: 2800
+  maxLockRange: 4500
   lockAngle: 0
   detectionThreshold: 1
   radarOn: 0
@@ -2284,6 +2287,13 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   pingPlayer: 1
   debug: 0
+  baseLongRange: 1200
+  baseGoodRange: 700
+  baseKillRange: 475
+  effectiveLongRange: 0
+  effectiveGoodRange: 0
+  effectiveKillRange: 0
+  rangeLadder: {fileID: 0}
 --- !u!114 &2231978451065688927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2389,7 +2399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 20
-  damage: 65
+  damage: 0
   collisionsEnabled: 1
   dissipationTime: 5
   emitLightEnabled: 1

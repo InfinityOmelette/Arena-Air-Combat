@@ -58,6 +58,7 @@ public class EngineControl : MonoBehaviour
     public float enginePitchMin;
     public float engineVolumeMin;
 
+    private float enginePitchMax;
 
     void Awake()
     {
@@ -65,6 +66,7 @@ public class EngineControl : MonoBehaviour
         rbRef = GetComponent<Rigidbody>();
         initAfterburnVolume = afterburner.volume;
         initEngineVolume = jetEngine.volume;
+        enginePitchMax = jetEngine.pitch;
     }
 
     // ================================ START
@@ -131,7 +133,7 @@ public class EngineControl : MonoBehaviour
         float thrustPercent = Mathf.Clamp((currentBaseThrust) / (minABThrust), 
             0.0f, 1.0f);
 
-        float pitch = thrustPercent * (1.0f - enginePitchMin) + enginePitchMin;
+        float pitch = thrustPercent * (enginePitchMax - enginePitchMin) + enginePitchMin;
 
         jetEngine.pitch = pitch;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 namespace Omelette.TestGamePleaseIgnore
 {
@@ -31,6 +32,9 @@ namespace Omelette.TestGamePleaseIgnore
         /// </summary>
         bool isConnecting;
 
+
+        public Toggle offlineToggle;
+        public bool defaultOffline = false;
         #endregion
 
 
@@ -41,6 +45,8 @@ namespace Omelette.TestGamePleaseIgnore
         /// </summary>
         string gameVersion = "1";
 
+
+
         #endregion
 
 
@@ -50,6 +56,8 @@ namespace Omelette.TestGamePleaseIgnore
         
         void Awake()
         {
+            offlineToggle.isOn = defaultOffline;
+
             // #Critical
             // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
             PhotonNetwork.AutomaticallySyncScene = true;
@@ -78,6 +86,11 @@ namespace Omelette.TestGamePleaseIgnore
 
             controlPanel.SetActive(false);
             progressLabel.SetActive(true);
+
+            if (offlineToggle.isOn)
+            {
+                PhotonNetwork.OfflineMode = true;
+            }
 
             // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
             if (PhotonNetwork.IsConnected)

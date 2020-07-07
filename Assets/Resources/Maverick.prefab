@@ -288,6 +288,8 @@ MonoBehaviour:
   weaponRef: {fileID: 0}
   assumedGravityAccel: 0
   targetPosForwardProjectionTime: 0.1
+  scanConeFactor: 1
+  timeRemainDragEstFactor: 8
 --- !u!114 &2458642289922689017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +305,8 @@ MonoBehaviour:
   ALTITUDE_ADVANTAGE_FACTOR: 1
   CLOSING_SPEED_FACTOR: 12
   YOUR_SPEED_FACTOR: 6
+  myPerpendicularDragFactor: 0
+  targetPerpendicularDragFactor: 0
   lockType: 1
   scanConeAngle: 40
   maxDetectRange: 3800
@@ -415,6 +419,7 @@ MonoBehaviour:
   rwr: {fileID: 0}
   isHostInstance: 0
   collisionDamageFactor: 0.005
+  myRb: {fileID: 0}
 --- !u!114 &2687535952377180928
 MonoBehaviour:
   m_ObjectHideFlags: 0

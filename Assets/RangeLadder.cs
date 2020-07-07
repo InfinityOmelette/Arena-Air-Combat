@@ -30,6 +30,8 @@ public class RangeLadder : MonoBehaviour
 
     public float tgtRange = 1.0f;
 
+    public float defaultRangeFactor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,11 +62,11 @@ public class RangeLadder : MonoBehaviour
             else
             {
                 targetText.enabled = false;
-                setObjectAtRange(longText.gameObject, linkedRadar.baseLongRange);
-                setObjectAtRange(goodText.gameObject, linkedRadar.baseGoodRange);
-                setObjectAtRange(killText.gameObject, linkedRadar.baseKillRange);
+                setObjectAtRange(longText.gameObject, linkedRadar.baseLongRange * defaultRangeFactor);
+                setObjectAtRange(goodText.gameObject, linkedRadar.baseGoodRange * defaultRangeFactor);
+                setObjectAtRange(killText.gameObject, linkedRadar.baseKillRange * defaultRangeFactor);
 
-                setGoodFillToRange(linkedRadar.baseGoodRange);
+                setGoodFillToRange(linkedRadar.baseGoodRange * defaultRangeFactor);
             }
             
         }

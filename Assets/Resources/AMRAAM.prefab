@@ -2260,6 +2260,8 @@ MonoBehaviour:
   weaponRef: {fileID: 0}
   assumedGravityAccel: 0
   targetPosForwardProjectionTime: 0.1
+  scanConeFactor: 0.9
+  timeRemainDragEstFactor: 6.5
 --- !u!114 &6223456275018982061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2273,8 +2275,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ALTITUDE_ADVANTAGE_FACTOR: 1
-  CLOSING_SPEED_FACTOR: 14
-  YOUR_SPEED_FACTOR: 6
+  CLOSING_SPEED_FACTOR: 6
+  YOUR_SPEED_FACTOR: 1.75
+  myPerpendicularDragFactor: 3
+  targetPerpendicularDragFactor: 17
   lockType: 0
   scanConeAngle: 30
   maxDetectRange: 5500
@@ -2287,9 +2291,9 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   pingPlayer: 1
   debug: 0
-  baseLongRange: 1200
-  baseGoodRange: 700
-  baseKillRange: 475
+  baseLongRange: 1800
+  baseGoodRange: 1200
+  baseKillRange: 800
   effectiveLongRange: 0
   effectiveGoodRange: 0
   effectiveKillRange: 0
@@ -2387,6 +2391,7 @@ MonoBehaviour:
   rwr: {fileID: 0}
   isHostInstance: 0
   collisionDamageFactor: 0.005
+  myRb: {fileID: 0}
 --- !u!114 &6194466470016553413
 MonoBehaviour:
   m_ObjectHideFlags: 0

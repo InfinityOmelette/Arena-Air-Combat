@@ -15,6 +15,9 @@ public class Radar : MonoBehaviourPun
     public float ALTITUDE_ADVANTAGE_FACTOR = 1.0f; //0.7f;
     public float CLOSING_SPEED_FACTOR = 12f;
     public float YOUR_SPEED_FACTOR = 6f;
+    public float myPerpendicularDragFactor;
+    public float targetPerpendicularDragFactor;
+
 
 
     private static float RWR_PING_DELAY = .075f; // must be nonzero
@@ -125,6 +128,9 @@ public class Radar : MonoBehaviourPun
             baseKillRange = radar.baseKillRange;
             lockAngle = radar.lockAngle;
             lockType = radar.lockType;
+
+            myPerpendicularDragFactor = radar.myPerpendicularDragFactor;
+            targetPerpendicularDragFactor = radar.targetPerpendicularDragFactor;
 
             
         }
@@ -296,11 +302,19 @@ public class Radar : MonoBehaviourPun
 
         if (lockableType(targetFlow))
         {
+            
+
             float heightDiffAdvantage = (transform.position.y - targetFlow.transform.position.y) * ALTITUDE_ADVANTAGE_FACTOR;
-            float closingSpeedAdv = calculateClosingSpeed(targetFlow.GetComponent<Rigidbody>()) * CLOSING_SPEED_FACTOR;
+            float closingSpeedAdv = calculateClosingSpeed(targetFlow.myRb) * CLOSING_SPEED_FACTOR;
             float yourSpeedAdv = myRb.velocity.magnitude * YOUR_SPEED_FACTOR;
 
-            setRangeAdvantages(heightDiffAdvantage, closingSpeedAdv, yourSpeedAdv);
+            Vector3 targetBearingLine = targetFlow.transform.position - transform.position;
+            float myPerpDragAdv = calculatePerpendicularVelocity(targetBearingLine, myRb.velocity) * myPerpendicularDragFactor;
+            float targetPerpDragAdv = calculatePerpendicularVelocity(targetBearingLine, targetFlow.myRb.velocity) * targetPerpendicularDragFactor;
+
+            //Debug.Log("My perpendicular Velocity = " + myPerpDragAdv);
+
+            setRangeAdvantages(heightDiffAdvantage, closingSpeedAdv, yourSpeedAdv, myPerpDragAdv, targetPerpDragAdv);
 
             float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
             float dist = Vector3.Distance(targetFlow.transform.position, transform.position);
@@ -315,14 +329,29 @@ public class Radar : MonoBehaviourPun
         }
         else
         {
-            setRangeAdvantages(0.0f, 0.0f, 0.0f);
+            setRangeAdvantages(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
             return false;
         }
     }
 
-    private void setRangeAdvantages(float heightDiffAdvantage, float closingSpeedAdv, float yourSpeedAdv)
+    private float calculatePerpendicularVelocity(Vector3 targetBearingLine, Vector3 velocity)
     {
-        float totalAdvantage = heightDiffAdvantage + closingSpeedAdv + yourSpeedAdv;
+        Vector3 perpCross = Vector3.Cross(targetBearingLine, velocity);
+
+        Vector3 perpVel = Vector3.Cross(perpCross, targetBearingLine);
+
+        perpVel = Vector3.Project(velocity, perpVel);
+
+
+
+        return perpVel.magnitude;
+    }
+
+    private void setRangeAdvantages(float heightDiffAdvantage, float closingSpeedAdv, float yourSpeedAdv,
+        float myPerpendicularDragAdv, float targetPerpendicularDragAdv)
+    {
+        float totalAdvantage = heightDiffAdvantage + closingSpeedAdv + yourSpeedAdv
+            - myPerpendicularDragAdv - targetPerpendicularDragAdv;
 
 
 

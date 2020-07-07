@@ -64,6 +64,12 @@ public class MissileGuidance : MonoBehaviour
 
     private Vector3 targetBearingLine;
 
+    public float scanConeFactor = 1f;
+
+    // (a / (t + a)) graph in desmos -- longer time remain is, 
+    // the lower the velocity average estimate will be
+    public float timeRemainDragEstFactor = 10f;
+
     //private Vector3 previousBearingLine;
 
     private void Awake()
@@ -200,6 +206,14 @@ public class MissileGuidance : MonoBehaviour
             // estimate time to intercept
             estimatedTimeToImpact = Vector3.Distance(targetPos_now, transform.position) / closingSpeed;
 
+
+
+            float burnTime = rocketMotor.burnTime + rocketMotor.cruiseTime;
+
+            float glideTime = Mathf.Max(0.0f, estimatedTimeToImpact - burnTime);
+
+            estimatedMissileVelocityAverage *= timeRemainDragEstFactor / (glideTime + timeRemainDragEstFactor);
+
             // estimate target average velocity
             //estimatedTargetVelocityAverage = targetRB.velocity + (targetAccel * estimatedTimeToImpact / 2);
             estimatedTargetVelocityAverage = targetVel_now;
@@ -230,6 +244,8 @@ public class MissileGuidance : MonoBehaviour
             // Lead angle -- direction vector
             //  - trig from velocity magnitude to get angle where tangential velocity matches target tangential velocity
             float leadAngleDegrees = Mathf.Rad2Deg * Mathf.Asin(targetTangentialVelocity.magnitude / estimatedMissileVelocityAverage.magnitude);
+
+            leadAngleDegrees = Mathf.Min(leadAngleDegrees, myRadar.scanConeAngle * scanConeFactor);
 
             //Debug.Log("leadAngleDegrees: " + leadAngleDegrees);
 

@@ -75,6 +75,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public float collisionDamageFactor = 0.005f;
 
+    public Rigidbody myRb;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -107,6 +109,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     private void Awake()
     {
         rwr = GetComponent<RWR>();
+
+        myRb = GetComponent<Rigidbody>();
 
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();

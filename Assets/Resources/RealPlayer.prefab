@@ -1464,6 +1464,7 @@ MonoBehaviour:
   rwr: {fileID: 0}
   isHostInstance: 0
   collisionDamageFactor: 0.005
+  myRb: {fileID: 0}
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1559,6 +1560,8 @@ MonoBehaviour:
   ALTITUDE_ADVANTAGE_FACTOR: 1
   CLOSING_SPEED_FACTOR: 12
   YOUR_SPEED_FACTOR: 6
+  myPerpendicularDragFactor: 0
+  targetPerpendicularDragFactor: 0
   lockType: 0
   scanConeAngle: 45
   maxDetectRange: 7000
@@ -2144,12 +2147,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2295,12 +2298,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -2951,12 +2954,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -3102,12 +3105,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -3801,12 +3804,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
@@ -4606,12 +4609,12 @@ PrefabInstance:
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: reloadTimeMax
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: currentReloadTimer
-      value: 50
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}

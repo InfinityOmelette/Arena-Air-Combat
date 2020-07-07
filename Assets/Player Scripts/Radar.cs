@@ -72,6 +72,7 @@ public class Radar : MonoBehaviourPun
 
     public RangeLadder rangeLadder;
 
+    public bool weaponLinked;
 
     hudControl mainHud;
 
@@ -117,6 +118,7 @@ public class Radar : MonoBehaviourPun
     {
         if (radar != null)
         {
+            weaponLinked = true;
             maxLockRange = radar.maxLockRange;
             baseLongRange = radar.baseLongRange;
             baseGoodRange = radar.baseGoodRange;
@@ -125,6 +127,10 @@ public class Radar : MonoBehaviourPun
             lockType = radar.lockType;
 
             
+        }
+        else
+        {
+            weaponLinked = false;
         }
     }
 

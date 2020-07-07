@@ -68,7 +68,7 @@ public class TgtComputer : MonoBehaviour
             changeTarget();
         }
 
-        mainHud.showRangeLadder(myRadar.lockType == Radar.LockType.AIR_ONLY);
+        mainHud.showRangeLadder(myRadar.weaponLinked && myRadar.lockType == Radar.LockType.AIR_ONLY);
 
         if(currentTarget != null)
         {

@@ -61,7 +61,10 @@ public class MissileGuidance : MonoBehaviour
     private Vector3 targetAccel;
 
     private CombatFlow targetFlow = null;
-    
+
+    private Vector3 targetBearingLine;
+
+    //private Vector3 previousBearingLine;
 
     private void Awake()
     {
@@ -117,8 +120,14 @@ public class MissileGuidance : MonoBehaviour
                     //myRadar.tryDetect(targetFlow)
                     if (myRadar.tryDetect(targetFlow))
                     {
-                        guidanceProcess();
+                        //guidanceProcess();
+                        updateTargetData();
                     }
+                }
+
+                if (targetRB != null)
+                {
+                    guidanceProcess();
                 }
 
             }
@@ -133,7 +142,7 @@ public class MissileGuidance : MonoBehaviour
         }
     }
 
-    private void guidanceProcess()
+    private void updateTargetData()
     {
         // UPDATE TARGET POSITION AND VELOCITY
         targetPos_now = targetRB.position + projectForwardByTime(targetPosForwardProjectionTime); // aim slightly ahead
@@ -144,7 +153,14 @@ public class MissileGuidance : MonoBehaviour
         // UPDATE TARGET ACCELERATION
         targetAccel = Vector3.up * assumedGravityAccel; // compensate for gravity acceleration -- keep velocity from sagging downwards
         if (targetVel_prev != null)
-            targetAccel += (targetVel_now - targetVel_prev) * Time.deltaTime; // target acceleration by looking at change in velocity
+            targetAccel += (targetVel_now - targetVel_prev) * Time.fixedDeltaTime; // target acceleration by looking at change in velocity
+
+        targetBearingLine = targetPos_now - transform.position;
+    }
+
+    private void guidanceProcess()
+    {
+        
 
 
         if (weaponRef.launched)
@@ -152,7 +168,6 @@ public class MissileGuidance : MonoBehaviour
             myFlightControl.enabled = true;
 
             // Target bearing line
-            Vector3 targetBearingLine = targetPos_now - transform.position;
 
 
             // ============================  ESTIMATIONS
@@ -170,7 +185,7 @@ public class MissileGuidance : MonoBehaviour
             estimatedMissileVelocityAverage = myRB.velocity +
                 transform.forward.normalized * deltaVBoost +
                 transform.forward.normalized * deltaVCruise -
-                 Vector3.up * (targetRB.position.y - transform.position.y) * assumedGravityAccel;
+                 Vector3.up * (targetPos_now.y - transform.position.y) * assumedGravityAccel;
             //estimatedMissileVelocityAverage = myRB.velocity;
 
             // estimate closing speed -- positive for closing, negative for separating
@@ -183,11 +198,11 @@ public class MissileGuidance : MonoBehaviour
                 closingSpeed *= -1;
 
             // estimate time to intercept
-            estimatedTimeToImpact = Vector3.Distance(targetRB.position, transform.position) / closingSpeed;
+            estimatedTimeToImpact = Vector3.Distance(targetPos_now, transform.position) / closingSpeed;
 
             // estimate target average velocity
             //estimatedTargetVelocityAverage = targetRB.velocity + (targetAccel * estimatedTimeToImpact / 2);
-            estimatedTargetVelocityAverage = targetRB.velocity;
+            estimatedTargetVelocityAverage = targetVel_now;
 
            // Debug.Log("Estimations ------------ estimated missile average velocity: " + estimatedMissileVelocityAverage.magnitude +
           //      " estimated TARGET average velocity: " + estimatedTargetVelocityAverage.magnitude + " estimated time to impact: " +

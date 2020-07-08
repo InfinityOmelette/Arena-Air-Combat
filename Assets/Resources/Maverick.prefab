@@ -289,7 +289,7 @@ MonoBehaviour:
   assumedGravityAccel: 0
   targetPosForwardProjectionTime: 0.1
   scanConeFactor: 1
-  timeRemainDragEstFactor: 8
+  timeRemainDragEstFactor: 31
 --- !u!114 &2458642289922689017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +307,7 @@ MonoBehaviour:
   YOUR_SPEED_FACTOR: 6
   myPerpendicularDragFactor: 0
   targetPerpendicularDragFactor: 0
+  airDensityFactor: 0
   lockType: 1
   scanConeAngle: 40
   maxDetectRange: 3800

@@ -2261,7 +2261,7 @@ MonoBehaviour:
   assumedGravityAccel: 0
   targetPosForwardProjectionTime: 0.1
   scanConeFactor: 0.9
-  timeRemainDragEstFactor: 6.5
+  timeRemainDragEstFactor: 15
 --- !u!114 &6223456275018982061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2275,10 +2275,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ALTITUDE_ADVANTAGE_FACTOR: 1
-  CLOSING_SPEED_FACTOR: 6
+  CLOSING_SPEED_FACTOR: 11
   YOUR_SPEED_FACTOR: 1.75
   myPerpendicularDragFactor: 3
-  targetPerpendicularDragFactor: 17
+  targetPerpendicularDragFactor: 15
+  airDensityFactor: 650
   lockType: 0
   scanConeAngle: 30
   maxDetectRange: 5500
@@ -2291,9 +2292,9 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   pingPlayer: 1
   debug: 0
-  baseLongRange: 1800
-  baseGoodRange: 1200
-  baseKillRange: 800
+  baseLongRange: 1600
+  baseGoodRange: 1000
+  baseKillRange: 700
   effectiveLongRange: 0
   effectiveGoodRange: 0
   effectiveKillRange: 0

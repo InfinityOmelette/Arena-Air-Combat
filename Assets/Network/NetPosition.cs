@@ -61,7 +61,7 @@ public class NetPosition : MonoBehaviour
 
                 if (!didReport && active)
                 {
-                    netPosHub.allLocalOwned.Add(this);
+                    netPosHub.reportAsOwned(this);
                     didReport = true;
                 }
 

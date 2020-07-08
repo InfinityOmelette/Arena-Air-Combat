@@ -17,8 +17,21 @@ public class Radar : MonoBehaviourPun
     public float YOUR_SPEED_FACTOR = 6f;
     public float myPerpendicularDragFactor;
     public float targetPerpendicularDragFactor;
+    public float airDensityFactor;
 
 
+
+    // ONLY USED FOR PLAYER LOCK-ON, determine effective missile range
+    private float heightDiffAdvantage;
+    private float closingSpeedAdv;
+    private float yourSpeedAdv;
+    private Vector3 targetBearingLine;
+    private float myPerpDragAdv;
+    private float targetPerpDragAdv;
+    private float avgAlt;
+    private float airDensityMod;
+    private float angleOffNose;
+    private float dist;
 
     private static float RWR_PING_DELAY = .075f; // must be nonzero
 
@@ -304,20 +317,21 @@ public class Radar : MonoBehaviourPun
         {
             
 
-            float heightDiffAdvantage = (transform.position.y - targetFlow.transform.position.y) * ALTITUDE_ADVANTAGE_FACTOR;
-            float closingSpeedAdv = calculateClosingSpeed(targetFlow.myRb) * CLOSING_SPEED_FACTOR;
-            float yourSpeedAdv = myRb.velocity.magnitude * YOUR_SPEED_FACTOR;
+            heightDiffAdvantage = (transform.position.y - targetFlow.transform.position.y) * ALTITUDE_ADVANTAGE_FACTOR;
+            closingSpeedAdv = calculateClosingSpeed(targetFlow.myRb) * CLOSING_SPEED_FACTOR;
+            yourSpeedAdv = myRb.velocity.magnitude * YOUR_SPEED_FACTOR;
 
-            Vector3 targetBearingLine = targetFlow.transform.position - transform.position;
-            float myPerpDragAdv = calculatePerpendicularVelocity(targetBearingLine, myRb.velocity) * myPerpendicularDragFactor;
-            float targetPerpDragAdv = calculatePerpendicularVelocity(targetBearingLine, targetFlow.myRb.velocity) * targetPerpendicularDragFactor;
+            targetBearingLine = targetFlow.transform.position - transform.position;
+            myPerpDragAdv = calculatePerpendicularVelocity(targetBearingLine, myRb.velocity) * myPerpendicularDragFactor;
+            targetPerpDragAdv = calculatePerpendicularVelocity(targetBearingLine, targetFlow.myRb.velocity) * targetPerpendicularDragFactor;
 
-            //Debug.Log("My perpendicular Velocity = " + myPerpDragAdv);
+            avgAlt = (targetFlow.transform.position.y - transform.position.y) / 2f;
+            airDensityMod = AirEnvironmentStats.getAir().getDensityAtAltitude(avgAlt) * airDensityFactor;
 
-            setRangeAdvantages(heightDiffAdvantage, closingSpeedAdv, yourSpeedAdv, myPerpDragAdv, targetPerpDragAdv);
+            setRangeAdvantages(heightDiffAdvantage, closingSpeedAdv, yourSpeedAdv, myPerpDragAdv, targetPerpDragAdv, airDensityMod);
 
-            float angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
-            float dist = Vector3.Distance(targetFlow.transform.position, transform.position);
+            angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
+            dist = Vector3.Distance(targetFlow.transform.position, transform.position);
 
             if(rangeLadder != null)
             {
@@ -329,7 +343,7 @@ public class Radar : MonoBehaviourPun
         }
         else
         {
-            setRangeAdvantages(0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+            setRangeAdvantages(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
             return false;
         }
     }
@@ -348,10 +362,10 @@ public class Radar : MonoBehaviourPun
     }
 
     private void setRangeAdvantages(float heightDiffAdvantage, float closingSpeedAdv, float yourSpeedAdv,
-        float myPerpendicularDragAdv, float targetPerpendicularDragAdv)
+        float myPerpendicularDragAdv, float targetPerpendicularDragAdv, float airDensityMod)
     {
         float totalAdvantage = heightDiffAdvantage + closingSpeedAdv + yourSpeedAdv
-            - myPerpendicularDragAdv - targetPerpendicularDragAdv;
+            - myPerpendicularDragAdv - targetPerpendicularDragAdv - airDensityMod;
 
 
 

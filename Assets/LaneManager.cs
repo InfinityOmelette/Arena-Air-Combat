@@ -86,6 +86,10 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public float creepTargetUpdateDelay;
     private float creepTargetUpdateTimer;
 
+    private int creepDataArraySize = 0;
+    private int[] creepIdArray;
+    private int[] creepTargetArray;
+
     void Awake()
     {
 
@@ -217,23 +221,62 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     private void prepCreepUpdatePulse()
     {
-        List<int> creepIdList = new List<int>();
-        List<int> targetIdList = new List<int>();
+        //List<int> creepIdList = new List<int>();
+        //List<int> targetIdList = new List<int>();
 
-        for(int i = 0; i < myLaneUnits.Count; i++)
+        refreshCreepArrays();
+
+        //for(int i = 0; i < myLaneUnits.Count; i++)
+        //{
+        //    CombatFlow currentFlow = myLaneUnits[i];
+
+        //    if(currentFlow != null)
+        //    {
+        //        CreepControl currentCreep = currentFlow.GetComponent<CreepControl>();
+        //        creepIdList.Add( currentCreep.photonView.ViewID );
+        //        targetIdList.Add(currentCreep.getTargetId());
+        //    }
+        //}
+
+        photonView.RPC("rpcPulseCreepUpdates", RpcTarget.Others, creepIdArray, creepTargetArray);
+
+    }
+
+    private void refreshCreepArrays()
+    {
+
+        if(myLaneUnits.Count > creepDataArraySize)
         {
-            CombatFlow currentFlow = myLaneUnits[i];
+            creepDataArraySize = myLaneUnits.Count;
 
-            if(currentFlow != null)
-            {
-                CreepControl currentCreep = currentFlow.GetComponent<CreepControl>();
-                creepIdList.Add( currentCreep.photonView.ViewID );
-                targetIdList.Add(currentCreep.getTargetId());
-            }
+            creepIdArray = new int[creepDataArraySize];
+            creepTargetArray = new int[creepDataArraySize];
         }
 
-        photonView.RPC("rpcPulseCreepUpdates", RpcTarget.Others, creepIdList.ToArray(), targetIdList.ToArray());
+        for(int i = 0; i < creepDataArraySize; i++)
+        {
+            if(i > (myLaneUnits.Count - 1))
+            {
+                creepIdArray[i] = -1;
+            }
+            else
+            {
 
+                CombatFlow currentFlow = myLaneUnits[i];
+                
+                if (currentFlow != null)
+                {
+                    CreepControl currentCreep = myLaneUnits[i].GetComponent<CreepControl>();
+                    creepIdArray[i] = currentCreep.photonView.ViewID;
+                    creepTargetArray[i] = currentCreep.getTargetId();
+                }
+                else
+                {
+                    creepIdArray[i] = -1;
+                }
+
+            }
+        }
     }
 
     [PunRPC]

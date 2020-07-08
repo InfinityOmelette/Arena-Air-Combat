@@ -43,16 +43,26 @@ public class TgtHudIcon : MonoBehaviour
 
     public bool incomingMissile = false;
 
+    private bool losSet;
+    private bool dlSet;
+    private bool isFarSet;
+
+    private bool losInit = false;
+    private bool dlInit = false;
+    private bool isFarInit = false;
+
     public enum TargetedState
     {
         NONE,
         TARGETED,
-        LOCKED
+        LOCKED,
+        NULL
     }
 
     public TargetedState targetedState;
 
-    
+    private TargetedState activeState = TargetedState.NULL;
+
 
     public Color teamColor;
     public Color activeColor;
@@ -69,6 +79,8 @@ public class TgtHudIcon : MonoBehaviour
         distTextOriginPos = tgtDistText.transform.localPosition;
         titleTextOriginPos = tgtTitleText.transform.localPosition;
         dataLinkTextOriginPos = dataLinkText.transform.localPosition;
+
+        //resizeForDist(currentDistance);
     }
 
     // Update is called once per frame
@@ -83,67 +95,58 @@ public class TgtHudIcon : MonoBehaviour
 
             if (isDetected || dataLink)
             {
+                
 
-                // SET COLOR BASED ON LOCK STATE
-                if (targetedState == TargetedState.LOCKED) // LOCKED
-                {
-                    tgtTitleText.enabled = true;
-                    txtKPH.enabled = true;
-                    tgtDistText.enabled = true;
-                    changeChildColors(tgtIconManager.lockedColor);
-                    doBlink = false;
-                }
-                else // NONE OR TARGETED
+                if (targetedState != activeState)
                 {
 
-                    //if (incomingMissile)
-                    //{
-                    //    //changeChildColors(tgtIconManager.lockedColor);
-                    //}
-                    //else
-                    //{
-                        
-                    //}
-
-                    setTeamInfo(); // a bit inefficient. Checks team every frame
-
-                    if (targetedState == TargetedState.TARGETED)
+                    // SET COLOR BASED ON LOCK STATE
+                    if (targetedState == TargetedState.LOCKED) // LOCKED
                     {
+                        //activeState = targetedState;
                         tgtTitleText.enabled = true;
-                        tgtDistText.enabled = true;
-                        doBlink = true;
                         txtKPH.enabled = true;
-                    }
-                    else // NONE -- NOT TARGETED AT ALL
-                    {
-                        txtKPH.enabled = false;
+                        tgtDistText.enabled = true;
+                        changeChildColors(tgtIconManager.lockedColor);
                         doBlink = false;
+                    }
+                    else // NONE OR TARGETED
+                    {
 
-                        if(rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
+                        setTeamInfo(); // a bit inefficient. Checks team every frame
+
+                        if (targetedState == TargetedState.TARGETED)
                         {
-                            // show name and dist
                             tgtTitleText.enabled = true;
                             tgtDistText.enabled = true;
+                            doBlink = true;
+                            txtKPH.enabled = true;
                         }
-                        else
+                        else // NONE -- NOT TARGETED AT ALL
                         {
-                            tgtTitleText.enabled = false;
-                            tgtDistText.enabled = false;
+                            txtKPH.enabled = false;
+                            doBlink = false;
+
+                            if (rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
+                            {
+                                // show name and dist
+                                tgtTitleText.enabled = true;
+                                tgtDistText.enabled = true;
+                            }
+                            else
+                            {
+                                tgtTitleText.enabled = false;
+                                tgtDistText.enabled = false;
+                            }
                         }
-
-
-                        //if (isFriendly)     // IF UNTARGETED AND FRIENDLY
-                        //{
-                        //    tgtTitleText.enabled = true;
-                        //    //tgtDistText.enabled = true;
-                        //}
-                        //else                // IF  UNTARGETED AND NOT FRIENDLY
-                        //{
-                        //    tgtTitleText.enabled = false;
-                        //    //tgtDistText.enabled = false;
-                        //}
                     }
+                    
                 }
+
+                activeState = targetedState;
+
+
+
                 isFar = currentDistance > HIDE_DISTANCE;
                 setIsFar(isFar);
                 setImageLOS(hasLineOfSight);
@@ -157,6 +160,7 @@ public class TgtHudIcon : MonoBehaviour
                 setImageLOS(hasLineOfSight);
                 hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
 
+
             }
             else
                 transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
@@ -167,28 +171,38 @@ public class TgtHudIcon : MonoBehaviour
         }
     }
 
+
+     
+
+
     private void setIsFar(bool isFar)
     {
-        if (isFar)
+        if (isFar != isFarSet || !isFarInit)
         {
-            farDotText.enabled = true;
+            isFarInit = true;
+            isFarSet = isFar;
+
+            if (isFar)
+            {
+                farDotText.enabled = true;
 
 
-            nearImages.SetActive(false);
-            dataLinkText.text = "";
-            txtKPH.enabled = false;
-            tgtDistText.enabled = false;
-            tgtTitleText.enabled = false;
-        }
-        else
-        {
-            farDotText.enabled = false;
+                nearImages.SetActive(false);
+                dataLinkText.text = "";
+                txtKPH.enabled = false;
+                tgtDistText.enabled = false;
+                tgtTitleText.enabled = false;
+            }
+            else
+            {
+                farDotText.enabled = false;
 
-            nearImages.SetActive(true);
-            //txtKPH.enabled = true;
-            //tgtDistText.enabled = true;
-            //tgtTitleText.enabled = true;
-            //dataLinkText.enabled = true;
+                nearImages.SetActive(true);
+                //txtKPH.enabled = true;
+                //tgtDistText.enabled = true;
+                //tgtTitleText.enabled = true;
+                //dataLinkText.enabled = true;
+            }
         }
         
     }
@@ -205,31 +219,44 @@ public class TgtHudIcon : MonoBehaviour
 
     void setDataLinkText()
     {
-         if (dataLink)
+        if (dataLink != dlSet || !dlInit)
         {
-            dataLinkText.text = "DL";
-        }
-        else
-        {
-            dataLinkText.text = "";
+            dlInit = true;
+            dlSet = dataLink;
+
+            if (dataLink)
+            {
+                dataLinkText.text = "DL";
+            }
+            else
+            {
+                dataLinkText.text = "";
+            }
         }
     }
 
     void setImageLOS(bool hasLOS)
     {
-        if (hasLOS)
+
+        if (hasLOS != losSet || !losInit)
         {
-            // Show only LOS image
-            tgtImageLOS.enabled = true;
-            tgtImageNoLOS.enabled = false;
-            farDotText.text = dotLOS;
-        }
-        else // no line of sight
-        {
-            // show only no LOS image
-            tgtImageLOS.enabled = false;
-            tgtImageNoLOS.enabled = true;
-            farDotText.text = dotNoLOS;
+            losInit = true;
+            losSet = hasLOS;
+
+            if (hasLOS)
+            {
+                // Show only LOS image
+                tgtImageLOS.enabled = true;
+                tgtImageNoLOS.enabled = false;
+                farDotText.text = dotLOS;
+            }
+            else // no line of sight
+            {
+                // show only no LOS image
+                tgtImageLOS.enabled = false;
+                tgtImageNoLOS.enabled = true;
+                farDotText.text = dotNoLOS;
+            }
         }
     }
 

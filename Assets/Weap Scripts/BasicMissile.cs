@@ -108,6 +108,8 @@ public class BasicMissile : Weapon
 
         if ( launched )
         {
+            
+
             if (myCombatFlow.localOwned)
             {
 

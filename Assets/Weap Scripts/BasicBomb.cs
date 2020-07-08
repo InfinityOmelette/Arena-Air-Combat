@@ -44,7 +44,9 @@ public class BasicBomb : Weapon
 
     private void FixedUpdate()
     {
+        
         tryArm();
+        
 
         if (armed)
         {

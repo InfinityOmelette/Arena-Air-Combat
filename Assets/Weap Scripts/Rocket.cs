@@ -66,6 +66,18 @@ public class Rocket : Weapon
     private void Update()
     {
         //Debug.Log("RocketArmed: " + armed + ", with " + armTimeRemaining + " time remaining");
+
+        checkLinecastCollision();
+    }
+
+
+    
+
+    
+
+    void FixedUpdate()
+    {
+
         if (armed)
         {
             //Debug.Log("armed");
@@ -96,19 +108,9 @@ public class Rocket : Weapon
 
         killIfBelowFloor();
         killIfLifetimeOver();
-        checkLinecastCollision();
-
-    }
 
 
-    
-
-    
-
-    void FixedUpdate()
-    {
         
-        checkLinecastCollision();
 
         if (burnActive)
         {

@@ -117,10 +117,14 @@ public class TgtHudIcon : MonoBehaviour
 
                         if (targetedState == TargetedState.TARGETED)
                         {
-                            tgtTitleText.enabled = true;
-                            tgtDistText.enabled = true;
+                            if (!isFar)
+                            {
+                                tgtTitleText.enabled = true;
+                                tgtDistText.enabled = true;
+                                txtKPH.enabled = true;
+                            }
                             doBlink = true;
-                            txtKPH.enabled = true;
+                            
                         }
                         else // NONE -- NOT TARGETED AT ALL
                         {
@@ -181,6 +185,7 @@ public class TgtHudIcon : MonoBehaviour
         {
             isFarInit = true;
             isFarSet = isFar;
+            activeState = TargetedState.NULL; // re-run targeting check next update
 
             if (isFar)
             {
@@ -237,7 +242,7 @@ public class TgtHudIcon : MonoBehaviour
 
     void setImageLOS(bool hasLOS)
     {
-
+        // if value is changing
         if (hasLOS != losSet || !losInit)
         {
             losInit = true;
@@ -339,13 +344,18 @@ public class TgtHudIcon : MonoBehaviour
         if (isFriendly)
         {
             returnColor = tgtIconManager.friendlyColor;
-            tgtTitleText.enabled = true;
         }
         else
         {
             returnColor = tgtIconManager.enemyColor;
+            
+        }
+
+        if (!isFar)
+        {
             tgtTitleText.enabled = true;
         }
+
         return changeChildColors(teamColor = returnColor);
     }
 

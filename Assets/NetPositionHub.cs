@@ -61,7 +61,7 @@ public class NetPositionHub : MonoBehaviourPunCallbacks
 
             if (currentTimer < 0f)
             {
-                Debug.LogWarning("Pulsing positions");
+                //Debug.LogWarning("Pulsing positions");
                 pulseAllPositions();
                 currentTimer = waitTime;
             }

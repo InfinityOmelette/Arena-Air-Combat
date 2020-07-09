@@ -2274,12 +2274,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d2207956ac3914bab94bc71f8f32cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ALTITUDE_ADVANTAGE_FACTOR: 1
-  CLOSING_SPEED_FACTOR: 11
-  YOUR_SPEED_FACTOR: 1.75
+  ALTITUDE_ADVANTAGE_FACTOR: 0.5
+  closingSpeedFactor: 17
+  YOUR_SPEED_FACTOR: 0
+  negativeSpeedFactor: 0.0175
+  tgtFaceAwayPerpFactor: 0.25
   myPerpendicularDragFactor: 3
-  targetPerpendicularDragFactor: 15
-  airDensityFactor: 650
+  targetPerpendicularDragFactor: 17
+  airDensityFactor: 1900
   lockType: 0
   scanConeAngle: 30
   maxDetectRange: 5500
@@ -2292,9 +2294,9 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   pingPlayer: 1
   debug: 0
-  baseLongRange: 1600
-  baseGoodRange: 1000
-  baseKillRange: 700
+  baseLongRange: 2500
+  baseGoodRange: 1250
+  baseKillRange: 850
   effectiveLongRange: 0
   effectiveGoodRange: 0
   effectiveKillRange: 0

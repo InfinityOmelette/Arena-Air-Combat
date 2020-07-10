@@ -346,6 +346,7 @@ public class Radar : MonoBehaviourPun
                 velBearing /= 90f; // 1.0 is 90 degrees past perpendicular (straight away), 0.0 is perpendicular
 
                 velBearing = Mathf.Lerp(1.0f, tgtFaceAwayPerpFactor, velBearing);
+                velBearing = Mathf.Clamp(velBearing, 0.0f, 1.0f); // allows for 0.0 to be applied across some arc, by using negative tgtFaceAway val
                 
                 // I want:
                 //  1.0 at 90 degrees

@@ -77,6 +77,10 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public Rigidbody myRb;
 
+
+    public float maxCoverageRadius = 0f;
+    public float killCoverageRadius = 0f;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)

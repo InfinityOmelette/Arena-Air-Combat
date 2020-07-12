@@ -107,7 +107,8 @@ public class PerspectiveManager : MonoBehaviour
 
       
         // Use that data to complete the perspective change
-        uiRef.SetActive(showUI);
+        uiRef.GetComponent<hudControl>().setHudVisible(showUI);
+
         //aircraftPlayerInputRef.enabled = aircraftInputActive;
         setMouseLock(mouseIsLocked);
 

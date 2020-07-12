@@ -918,8 +918,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ALTITUDE_ADVANTAGE_FACTOR: 1
-  CLOSING_SPEED_FACTOR: 12
+  closingSpeedFactor: 12
   YOUR_SPEED_FACTOR: 6
+  negativeSpeedFactor: 1
+  tgtFaceAwayPerpFactor: 1
   myPerpendicularDragFactor: 0
   targetPerpendicularDragFactor: 0
   airDensityFactor: 0
@@ -1036,6 +1038,8 @@ MonoBehaviour:
   isHostInstance: 0
   collisionDamageFactor: 0.005
   myRb: {fileID: 0}
+  maxCoverageRadius: 0
+  killCoverageRadius: 0
 --- !u!114 &1167435022322946647
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,9 @@ public class MapManager : MonoBehaviour
     public GameObject displayCenter;
 
     public GameObject mapIconPrefab;
+    public GameObject mapRadiusPrefab;
+
+    public GameObject backgroundContainer;
 
     public Transform target;
 
@@ -36,6 +39,14 @@ public class MapManager : MonoBehaviour
     public short[] RANGE_SETTINGS;
 
     private short currentStep = 1;
+
+    public Color friendlyKillZoneColor;
+    public Color enemyKillZoneColor;
+
+    // not including one for fill radius. That's already default prefab img
+    public Sprite outlineImage;
+
+    
 
     public static float getBearing(Transform transform)
     {

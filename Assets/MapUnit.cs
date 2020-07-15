@@ -118,23 +118,34 @@ public class MapUnit : MonoBehaviour
                 updatePosition();
                 updateRotation();
                 updateColor();
-                if (linkedTgtIcon.targetedState == TgtHudIcon.TargetedState.TARGETED)
+
+                //bool withinBounds = 
+
+                bool visible = linkedTgtIcon.isDetected || linkedTgtIcon.dataLink;
+
+                if ((linkedTgtIcon.targetedState == TgtHudIcon.TargetedState.TARGETED
+                    || linkedTgtIcon.targetedState == TgtHudIcon.TargetedState.LOCKED) && visible)
                 {
-                    if (mapManager.withinBounds(transform.localPosition) && (linkedTgtIcon.isDetected || linkedTgtIcon.dataLink))
-                    {
-                        doBlink();
-                    }
-                    else
-                    {
-                        showIcon(false);
-                    }
+                    doBlink();
+
+                    //if (mapManager.withinBounds(transform.localPosition) && (linkedTgtIcon.isDetected || linkedTgtIcon.dataLink))
+                    //{
+                        
+                    //}
+                    //else
+                    //{
+                    //    showIcon(false);
+                        
+                    //}
                 }
                 else
                 {
-                    showIcon(mapManager.withinBounds(transform.localPosition) && (linkedTgtIcon.isDetected || linkedTgtIcon.dataLink));
+                    //showIcon(mapManager.withinBounds(transform.localPosition) && (linkedTgtIcon.isDetected || linkedTgtIcon.dataLink));
+                    showIcon(visible);
+                    showRadius(visible);
                 }
 
-                showRadius(linkedTgtIcon.isDetected || linkedTgtIcon.dataLink);
+                
                 // Debug.LogError("Showing: " + showing);
 
             }
@@ -151,6 +162,7 @@ public class MapUnit : MonoBehaviour
         {
             blinkTimer = blinkTimeMax;
             text.enabled = !text.enabled;
+            showRadius(text.enabled);
         }
 
     }

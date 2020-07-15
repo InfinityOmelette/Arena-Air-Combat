@@ -124,7 +124,7 @@ public class MissileGuidance : MonoBehaviour
                         targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
                     }
                     //myRadar.tryDetect(targetFlow)
-                    if (myRadar.tryDetect(targetFlow))
+                    if (!targetFlow.jamming && myRadar.tryDetect(targetFlow))
                     {
                         //guidanceProcess();
                         updateTargetData();

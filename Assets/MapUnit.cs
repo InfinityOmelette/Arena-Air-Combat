@@ -32,7 +32,7 @@ public class MapUnit : MonoBehaviour
 
     void Awake()
     {
-        Debug.LogError("MapUnit instantiated. Finding mapManager");
+        //Debug.LogError("MapUnit instantiated. Finding mapManager");
         mapManager = transform.parent.GetComponent<MapManager>();
         text = GetComponent<Text>();
         rectTransform = GetComponent<RectTransform>();

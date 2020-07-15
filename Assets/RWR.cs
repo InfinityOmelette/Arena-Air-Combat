@@ -32,7 +32,7 @@ public class RWR : MonoBehaviourPunCallbacks
         if (myFlow.team != radarSource.myFlow.team)
         {
 
-            bool isPinging = radarSource.radarOn && radarSource.withinScope(transform.position);
+            bool isPinging = !myFlow.jamming && radarSource.radarOn && radarSource.withinScope(transform.position);
             float distance = Vector3.Distance(transform.position, radarSource.transform.position);
             float bearing = calculateBearing(radarSource.transform.position);
 

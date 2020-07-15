@@ -314,7 +314,7 @@ public class Radar : MonoBehaviourPun
 
         if (targetFlow != null)
         {
-            isDetected = radarOn &&
+            isDetected = !targetFlow.jamming && radarOn &&
                 withinScope(targetFlow.transform.position) &&
                 maxDetectRange > Vector3.Distance(targetFlow.transform.position, transform.position); //&& // max range
                 //calculateDetectability(targetFlow) > detectionThreshold; // detection calculation
@@ -326,7 +326,7 @@ public class Radar : MonoBehaviourPun
     public bool tryLock(CombatFlow targetFlow)
     {
 
-        if (lockableType(targetFlow))
+        if (lockableType(targetFlow) && !targetFlow.jamming)
         {
             
 

@@ -81,6 +81,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public float maxCoverageRadius = 0f;
     public float killCoverageRadius = 0f;
 
+    public bool jamming = false;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)

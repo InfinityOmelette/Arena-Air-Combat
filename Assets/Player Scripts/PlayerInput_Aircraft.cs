@@ -20,6 +20,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     public TgtComputer tgtComputer;
     public HardpointController hardpointController;
     public Radar myRadar;
+    public FlareEmitter myFlare;
 
     private CombatFlow myFlow;
 
@@ -47,6 +48,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
         tgtComputer = GetComponent<TgtComputer>();
         myFlow = GetComponent<CombatFlow>();
         myRadar = GetComponent<Radar>();
+        myFlare = GetComponent<FlareEmitter>();
     }
 
     // Start is called before the first frame update
@@ -62,6 +64,9 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     {
         if (isReady && myFlow.isLocalPlayer)
         {
+
+            myFlare.flareButtonDown = Input.GetButtonDown("FlarePop");
+
 
             float throttle = Input.GetAxis("Throttle");
 

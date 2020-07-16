@@ -100,7 +100,7 @@ public class hudControl : MonoBehaviour
 
     public RangeLadder rangeLadder;
     public GameObject climbLadderObj;
-    
+    public FlareIconManager flareIconManager;
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);

@@ -68,8 +68,14 @@ public class FlareEmitter : MonoBehaviourPun
     {
         flareIconManager = hudControl.mainHud.GetComponent<hudControl>().flareIconManager;
 
-        flareIconManager.createIcons(flareSlotReloads.Length);
+        if (myFlow.isLocalPlayer)
+        {
+            //Debug.LogError("Creating new icons");
+            flareIconManager.createIcons(flareSlotReloads.Length);
+        }
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -113,7 +119,10 @@ public class FlareEmitter : MonoBehaviourPun
                 flareSlotReloads[i] -= Time.deltaTime;
             }
 
-            flareIconManager.icons[i].setReloadStatus(ready, flareSlotReloads[i], flareReloadDelay);
+            if (myFlow.isLocalPlayer)
+            {
+                flareIconManager.icons[i].setReloadStatus(ready, flareSlotReloads[i], flareReloadDelay);
+            }
         }
     }
 

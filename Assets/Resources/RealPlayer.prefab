@@ -1751,12 +1751,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flarePrefab: {fileID: 5375195322387924776, guid: 23580408cee33184dbeeebc52dee8a38,
     type: 3}
-  flareReloadDelay: 40
+  flareReloadDelay: 50
   numFlareSlots: 4
-  flareSlotReloads: []
-  rapidDelay: 0.15
-  rapidCountMax: 5
-  deployCooldown: 2
+  rapidDelay: 0.1
+  rapidCountMax: 8
+  deployCooldown: 1.25
   vertLaunchSpeed: 15
   vertRandRange: 7
   horizLaunchSpeedMax: 10
@@ -1764,7 +1763,7 @@ MonoBehaviour:
   flarePopSound: {fileID: 4516672155843385592}
   flareLaunchL: {fileID: 4745797078621705162}
   flareLaunchR: {fileID: 6698832646241830736}
-  jammingTimeMax: 1
+  jammingTimeMax: 1.5
   flareButtonDown: 0
 --- !u!1 &7744941293352778913
 GameObject:

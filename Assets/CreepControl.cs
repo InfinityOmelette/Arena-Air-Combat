@@ -55,6 +55,7 @@ public class CreepControl : MonoBehaviourPunCallbacks
     private bool bumperCorrecting = false;
 
 
+
     void Awake()
     {
         waypoints = new List<Vector3>();
@@ -201,11 +202,11 @@ public class CreepControl : MonoBehaviourPunCallbacks
 
                 int randIndex = Random.Range(0, possibleTargets.Count - 1);
                 currentTarget = possibleTargets[randIndex];
-                //photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, currentTarget.photonView.ViewID);
+                photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, currentTarget.photonView.ViewID);
 
                 // Only execute this locally.
                 //  Lane manager will pick this up, and call rpc to propogate to other clients
-                rpcSetTankTurretTarget(currentTarget.photonView.ViewID);
+                //rpcSetTankTurretTarget(currentTarget.photonView.ViewID);
             }
 
         }
@@ -215,14 +216,18 @@ public class CreepControl : MonoBehaviourPunCallbacks
     public void rpcSetTankTurretTarget(int targetID)
     {
         PhotonView view = null;
+
+        parentLane.ifCount++;
         if (targetID != -1)
         {
             view = PhotonNetwork.GetPhotonView(targetID);
             
         }
-        
-        if(turret != null)
+
+        parentLane.ifCount++;
+        if (turret != null)
         {
+            parentLane.ifCount++;
             if (view != null)
             {
                 currentTarget = view.GetComponent<CombatFlow>();
@@ -438,5 +443,12 @@ public class CreepControl : MonoBehaviourPunCallbacks
         myFlow.localOwned = isMaster;
     }
 
-    
+    void OnDestroy()
+    {
+        if(parentLane != null)
+        {
+            parentLane.myLaneUnits.Remove(GetComponent<CombatFlow>());
+        }
+    }
+
 }

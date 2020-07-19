@@ -10,7 +10,7 @@ public class FlareEmitter : MonoBehaviourPun
     public float flareReloadDelay;
 
     public int numFlareSlots;
-    public float[] flareSlotReloads;
+    private float[] flareSlotReloads;
 
     public float rapidDelay;
     private float rapidTimer;

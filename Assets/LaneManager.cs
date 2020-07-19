@@ -58,10 +58,10 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public float waveDeployDelay;
 
 
-    private float samTimer;
-    private float rapidTimer;
-    private float squadTimer;
-    private float waveTimer;
+    public float samTimer;
+    public float rapidTimer;
+    public float squadTimer;
+    public float waveTimer;
 
     private CombatFlow myLeader;
 
@@ -90,6 +90,12 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private int[] creepIdArray;
     private int[] creepTargetArray;
 
+    public int ifCount;
+
+    public int maxCreepAmount;
+
+    public int creepsPerWave;
+
     void Awake()
     {
 
@@ -103,7 +109,15 @@ public class LaneManager : MonoBehaviourPunCallbacks
         initLists();
         fillWaypointList();
         initSpawnAxis();
+
+        creepsPerWave = getCreepsPerWaveCount();
     }
+
+    private int getCreepsPerWaveCount()
+    {
+        return AAAPerWave + SAMPerWave + tankPerWave + artilleryPerWave + rocketPerWave;
+    }
+
 
     private void initLists()
     {
@@ -163,8 +177,9 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-
-        countDownCreepUpdate();
+        // This causes stuttering due to usage of PhotonNetwork.GetView for invalid ID's
+        // Seems to be unnecessary, too. Message count seems unchanged whether this is used or not
+        //countDownCreepUpdate();
 
         leaderUpdateCountdown();
 
@@ -175,7 +190,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
             {
                 bool isWaveComplete = waveComplete();
 
-                if (!isWaveComplete)
+                if (!isWaveComplete && myLaneUnits.Count + unitsRemain() < maxCreepAmount)
                 {
                     countDownSAM();
                 }
@@ -189,7 +204,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
                         // count down wave timer
                         countDownWave();
                     }
-                    else
+                    else if(myLaneUnits.Count + unitsRemain() < maxCreepAmount)
                     {
                         countDownSquad();
                     }
@@ -245,6 +260,8 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private void refreshCreepArrays()
     {
 
+        
+
         if(myLaneUnits.Count > creepDataArraySize)
         {
             creepDataArraySize = myLaneUnits.Count;
@@ -277,20 +294,41 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
             }
         }
+
+        
     }
+
+    //public static int ifCount;
 
     [PunRPC]
     private void rpcPulseCreepUpdates(int[] creepIds, int[] targetIds)
     {
-        for(int i = 0; i < creepIds.Length; i++)
+        float initTime = Time.realtimeSinceStartup;
+
+        ifCount = 0;
+        int nullCount = 0;
+        for (int i = 0; i < creepIds.Length; i++)
         {
+            // this kills the unity
+            //PhotonView performanceWrecker = PhotonNetwork.GetPhotonView(-999);
+
             PhotonView view = PhotonNetwork.GetPhotonView(creepIds[i]);
+
+            ifCount++;
             if(view != null)
             {
                 CreepControl currentCreep = view.GetComponent<CreepControl>();
                 currentCreep.rpcSetTankTurretTarget(targetIds[i]);
             }
+            else
+            {
+                nullCount++;
+            }
         }
+
+        float executionTime = Time.realtimeSinceStartup - initTime;
+        //Debug.LogWarning("Creep targeting pulse rpc took " + executionTime * 1000 + " milliseconds, " + "array size: " + 
+         //   creepIds.Length + ", if's reached: " + ifCount + ", NullCount: " + nullCount);
     }
 
     private void countDownSAM()

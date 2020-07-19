@@ -12,11 +12,18 @@ public class Flare : MonoBehaviour
 
     public GameObject sphere;
 
+    private AudioSource audio;
 
+
+    void Awake()
+    {
+        audio = GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+
         burning = true;
     }
 
@@ -43,6 +50,7 @@ public class Flare : MonoBehaviour
 
             sphere.SetActive(false);
 
+            audio.Stop();
 
             GetComponent<ParticleSystem>().Stop();
         }

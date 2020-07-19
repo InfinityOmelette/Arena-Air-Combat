@@ -2926,10 +2926,17 @@ MonoBehaviour:
   SAMDeployDelay: 15
   rapidDeployDelay: 1
   squadDeployDelay: 1.5
-  waveDeployDelay: 180
+  waveDeployDelay: 60
+  samTimer: 0
+  rapidTimer: 0
+  squadTimer: 0
+  waveTimer: 0
   squadRemaining: 0
   rangeOffsetMax: 700
   creepTargetUpdateDelay: 0.3
+  ifCount: 0
+  maxCreepAmount: 95
+  creepsPerWave: 0
 --- !u!4 &310122044
 Transform:
   m_ObjectHideFlags: 0
@@ -5129,7 +5136,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412476886}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15dbeb985bf51cc40ab0b5555a3e6253, type: 3}
   m_Name: 
@@ -7902,10 +7909,17 @@ MonoBehaviour:
   SAMDeployDelay: 15
   rapidDeployDelay: 1
   squadDeployDelay: 1.5
-  waveDeployDelay: 180
+  waveDeployDelay: 60
+  samTimer: 0
+  rapidTimer: 0
+  squadTimer: 0
+  waveTimer: 0
   squadRemaining: 0
   rangeOffsetMax: 700
   creepTargetUpdateDelay: 0.3
+  ifCount: 0
+  maxCreepAmount: 90
+  creepsPerWave: 0
 --- !u!4 &671980920
 Transform:
   m_ObjectHideFlags: 0
@@ -14792,7 +14806,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265437872}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 508, y: 12, z: -6676}
+  m_LocalPosition: {x: 7358.1, y: 12, z: 7071.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 783387947}

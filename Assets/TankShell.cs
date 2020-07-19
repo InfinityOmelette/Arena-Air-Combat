@@ -32,7 +32,7 @@ public class TankShell : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         explodeStats = GetComponent<ExplodeStats>();
 
-        
+        //explodeStats.damage = 0f;
 
     }
 

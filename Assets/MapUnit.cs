@@ -49,7 +49,7 @@ public class MapUnit : MonoBehaviour
         text = GetComponent<Text>();
 
         linkedFlow = flow;
-        Debug.LogWarning(flow.name + " radar symbol " + flow.radarSymbol);
+        //Debug.LogWarning(flow.name + " radar symbol " + flow.radarSymbol);
         text.text = flow.radarSymbol;
         gameObject.name = flow.gameObject.name + " map icon";
         linkedTgtIcon = flow.myHudIconRef;

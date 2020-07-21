@@ -178,7 +178,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         // Debug key to test damage player
         if (Input.GetKeyDown(KeyCode.C) && isLocalPlayer)
-            currentHP -= 3;
+            currentHP -= 30;
 
         // Debug key to test damage all NPC's with this script
         if (Input.GetKeyDown(KeyCode.V) && !isLocalPlayer && doDebugDamage)
@@ -306,7 +306,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     }
 
-    void destroySelf()
+    void destroySelf(bool doDelete = true)
     {
         Debug.LogWarning("Destroyself called");
         removeFromDatalink();
@@ -347,20 +347,29 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         //Destroy(gameObject);
 
-        Weapon myWeapon = GetComponent<Weapon>();
-
-        bool missileFound = false;
-        if (networkDeath && myWeapon != null && (localOwned || isLocalPlayer))
+        if (doDelete)
         {
 
-            
-            myWeapon.destroyWeapon();
-        }
-        else
-        {
-            Destroy(gameObject);
+            Weapon myWeapon = GetComponent<Weapon>();
+
+            bool missileFound = false;
+            if (networkDeath && myWeapon != null && (localOwned || isLocalPlayer))
+            {
+
+
+                myWeapon.destroyWeapon();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
+    }
+
+    void OnDestroy()
+    {
+        destroySelf(false);
     }
 
     public bool checkSeen(int viewer)

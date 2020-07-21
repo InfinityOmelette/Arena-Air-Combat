@@ -2926,7 +2926,7 @@ MonoBehaviour:
   SAMDeployDelay: 15
   rapidDeployDelay: 1
   squadDeployDelay: 1.5
-  waveDeployDelay: 60
+  waveDeployDelay: 180
   samTimer: 0
   rapidTimer: 0
   squadTimer: 0
@@ -2935,7 +2935,7 @@ MonoBehaviour:
   rangeOffsetMax: 700
   creepTargetUpdateDelay: 0.3
   ifCount: 0
-  maxCreepAmount: 95
+  maxCreepAmount: 90
   creepsPerWave: 0
 --- !u!4 &310122044
 Transform:
@@ -5136,12 +5136,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412476886}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15dbeb985bf51cc40ab0b5555a3e6253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   garbageCollectDelay: 3
+  combatUnits: []
 --- !u!1 &442556478
 GameObject:
   m_ObjectHideFlags: 0
@@ -7909,7 +7910,7 @@ MonoBehaviour:
   SAMDeployDelay: 15
   rapidDeployDelay: 1
   squadDeployDelay: 1.5
-  waveDeployDelay: 60
+  waveDeployDelay: 180
   samTimer: 0
   rapidTimer: 0
   squadTimer: 0

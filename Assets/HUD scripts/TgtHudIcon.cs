@@ -90,93 +90,94 @@ public class TgtHudIcon : MonoBehaviour
         hudControl hudObj = hudControl.mainHud.GetComponent<hudControl>();
 
 
-        if (rootFlow != null)
-        {
+        //isDetected = false;
+        //dataLink = false;
 
-            if (isDetected || dataLink)
+        if (rootFlow != null && (isDetected || dataLink))
+        {
+            isFar = currentDistance > HIDE_DISTANCE;
+
+            setTargetedState();
+            
+            
+            setIsFar(isFar);
+            setImageLOS(hasLineOfSight);
+            if (!isFar)
             {
-                
-
-                if (targetedState != activeState)
-                {
-
-                    // SET COLOR BASED ON LOCK STATE
-                    if (targetedState == TargetedState.LOCKED) // LOCKED
-                    {
-                        //activeState = targetedState;
-                        tgtTitleText.enabled = true;
-                        txtKPH.enabled = true;
-                        tgtDistText.enabled = true;
-                        changeChildColors(tgtIconManager.lockedColor);
-                        doBlink = false;
-                    }
-                    else // NONE OR TARGETED
-                    {
-
-                        setTeamInfo(); // a bit inefficient. Checks team every frame
-
-                        if (targetedState == TargetedState.TARGETED)
-                        {
-                            if (!isFar)
-                            {
-                                tgtTitleText.enabled = true;
-                                tgtDistText.enabled = true;
-                                txtKPH.enabled = true;
-                            }
-                            doBlink = true;
-                            
-                        }
-                        else // NONE -- NOT TARGETED AT ALL
-                        {
-                            txtKPH.enabled = false;
-                            doBlink = false;
-
-                            if (rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
-                            {
-                                // show name and dist
-                                tgtTitleText.enabled = true;
-                                tgtDistText.enabled = true;
-                            }
-                            else
-                            {
-                                tgtTitleText.enabled = false;
-                                tgtDistText.enabled = false;
-                            }
-                        }
-                    }
-                    
-                }
-
-                activeState = targetedState;
-
-
-
-                isFar = currentDistance > HIDE_DISTANCE;
-                setIsFar(isFar);
-                setImageLOS(hasLineOfSight);
-                if (!isFar)
-                {
-                    setDataLinkText();
-                    updateTexts();
-                }
-                blinkProcess(); // either show steady or blink depending on targeted state
-                resizeForDist(currentDistance);
-                setImageLOS(hasLineOfSight);
-                hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
-
-
+                setDataLinkText();
+                updateTexts();
             }
-            else
-                transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
+            blinkProcess(); // either show steady or blink depending on targeted state
+            resizeForDist(currentDistance);
+            setImageLOS(hasLineOfSight);
+
+
+
+            hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
+
+
         }
-        else // hide if rootflow is null
-        {
-            transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if rootflow is null
-        }
+        else
+            transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
+        
     }
 
 
-     
+    private void setTargetedState()
+    {
+        if (targetedState != activeState)
+        {
+
+            // SET COLOR BASED ON LOCK STATE
+            if (targetedState == TargetedState.LOCKED) // LOCKED
+            {
+                //activeState = targetedState;
+
+                tgtTitleText.enabled = true;
+                txtKPH.enabled = true;
+                tgtDistText.enabled = true;
+                changeChildColors(tgtIconManager.lockedColor);
+                doBlink = false;
+            }
+            else // NONE OR TARGETED
+            {
+
+                setTeamInfo(); // a bit inefficient. Checks team every frame
+
+                if (targetedState == TargetedState.TARGETED)
+                {
+                    if (!isFar)
+                    {
+                        tgtTitleText.enabled = true;
+                        tgtDistText.enabled = true;
+                        txtKPH.enabled = true;
+                    }
+                    doBlink = true;
+
+                }
+                else // NONE -- NOT TARGETED AT ALL
+                {
+                    txtKPH.enabled = false;
+                    doBlink = false;
+
+                    if (rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
+                    {
+                        // show name and dist
+                        tgtTitleText.enabled = true;
+                        tgtDistText.enabled = true;
+                    }
+                    else
+                    {
+                        tgtTitleText.enabled = false;
+                        tgtDistText.enabled = false;
+                    }
+                }
+            }
+
+        }
+
+        activeState = targetedState;
+    }
 
 
     private void setIsFar(bool isFar)
@@ -185,7 +186,7 @@ public class TgtHudIcon : MonoBehaviour
         {
             isFarInit = true;
             isFarSet = isFar;
-            activeState = TargetedState.NULL; // re-run targeting check next update
+            
 
             if (isFar)
             {
@@ -200,6 +201,9 @@ public class TgtHudIcon : MonoBehaviour
             }
             else
             {
+                // show normal hudIcon data next time setState is run
+                activeState = TargetedState.NULL; // re-run targeting check next update
+
                 farDotText.enabled = false;
 
                 nearImages.SetActive(true);

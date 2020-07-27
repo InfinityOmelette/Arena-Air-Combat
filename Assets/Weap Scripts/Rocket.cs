@@ -27,10 +27,13 @@ public class Rocket : Weapon
 
     private bool tempArmed = false;
 
-    
+
+    private TrailRenderer effectTrail;
+
 
     //PhotonView photonView;
 
+        
 
     void Awake()
     {
@@ -49,6 +52,7 @@ public class Rocket : Weapon
         setColliders(false);
         effectsObj = Instantiate(rocketEffectsPrefab);
         effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
+        effectTrail = effectsObj.GetComponent<TrailRenderer>();
         effectsObj.transform.position = effectsCenter.position;
 
         rbRef = GetComponent<Rigidbody>();
@@ -78,6 +82,8 @@ public class Rocket : Weapon
     void FixedUpdate()
     {
 
+        effectsObj.transform.position = effectsCenter.transform.position;
+
         if (armed)
         {
             //Debug.Log("armed");
@@ -91,8 +97,10 @@ public class Rocket : Weapon
             else
             {
                 burnActive = false;
+
+
                 if (effectsObj != null)
-                    effectsObj.GetComponent<Light>().enabled = false;
+                    effectTrail.emitting = false;
             }
 
         }
@@ -112,16 +120,13 @@ public class Rocket : Weapon
 
         
 
-        if (burnActive)
+        if (!burnActive)
         {
-            //rbRef.AddForce(transform.forward * motorForce);
-            effectsObj.transform.position = effectsCenter.transform.position;
-        }
-        else
-        {
-           // Debug.LogWarning("Rocket speed: " + rbRef.velocity.magnitude + " m/s");
             transform.rotation = Quaternion.LookRotation(rbRef.velocity);
+            //rbRef.AddForce(transform.forward * motorForce);
+
         }
+        
 
     }
 
@@ -244,6 +249,8 @@ public class Rocket : Weapon
                 myFlow.dealLocalDamage(myFlow.getHP());
 
                 effectsObj.GetComponent<Light>().enabled = false;
+                effectsBehavior.doCount = true;
+
                 //Debug.Log("Rocket HP after impact: " + myFlow.getHP());
             }
         }

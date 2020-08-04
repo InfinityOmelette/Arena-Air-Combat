@@ -46,7 +46,7 @@ public class MapCompass : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         currentAngle = convertAngle(mapManager.transform.localEulerAngles.z);
         levelLetters(currentAngle);

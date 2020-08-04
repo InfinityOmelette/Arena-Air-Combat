@@ -215,22 +215,24 @@ public class hudControl : MonoBehaviour
     {
         readVelocity = Vector3.Lerp(readVelocity, root_rbRef.velocity, readVelLerpRate * Time.deltaTime);
 
+        Camera camRef = PerspectiveManager.getPManager().mainCam;
+
         // velocity vector
         if (root_rbRef.velocity.magnitude > velocityVectorMinSpeed) // only show onscreen if above minspeed
         {
-            drawItemOnScreen(velocityVectorRef, Camera.main.transform.position + readVelocity.normalized, velVectLerpRate * Time.deltaTime);
+            drawItemOnScreen(velocityVectorRef, camRef.transform.position + readVelocity.normalized, velVectLerpRate * Time.deltaTime);
 
-            drawItemOnScreen(velVectAlt, Camera.main.transform.position + root_rbRef.velocity, 0.5f);
+            drawItemOnScreen(velVectAlt, camRef.transform.position + root_rbRef.velocity, 0.5f);
             //Debug.Log("Fast enough, onScreen:");
         }
         else
         {   // place behind screen if too slow
             //Debug.Log("too slow, offscreen");
             drawItemOnScreen(velocityVectorRef,
-                Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
+                camRef.transform.position - camRef.transform.forward, 0.5f);
 
             drawItemOnScreen(velVectAlt,
-                Camera.main.transform.position - Camera.main.transform.forward, 0.5f);
+                camRef.transform.position - camRef.transform.forward, 0.5f);
         }
 
         if (cnnUI.cnnOn)
@@ -240,7 +242,7 @@ public class hudControl : MonoBehaviour
         }
         else
         {
-            drawItemOnScreen(noseIndicatorRef, Camera.main.transform.position + aircraftRootObj.transform.forward, velVectLerpRate * Time.deltaTime);
+            drawItemOnScreen(noseIndicatorRef, camRef.transform.position + aircraftRootObj.transform.forward, velVectLerpRate * Time.deltaTime);
         }
     }
 
@@ -288,8 +290,9 @@ public class hudControl : MonoBehaviour
     {
         if (aircraftRootObj != null)
         {
+            Camera camRef = PerspectiveManager.getPManager().mainCam;
 
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
+            Vector3 screenPos = camRef.WorldToScreenPoint(worldPosition);
             bool onScreen = true;
             if (screenPos.z < 0) // if screenpos behind camera
                 onScreen = false;

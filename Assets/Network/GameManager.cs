@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public string userID;
 
 
+
+    public UnityEvent playerSpawnEvent;
+
     
 
     public static GameManager getGM()
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        playerSpawnEvent = new UnityEvent();
 
         netPosHub = GetComponent<NetPositionHub>();
         QualitySettings.vSyncCount = 0;
@@ -98,8 +102,12 @@ public class GameManager : MonoBehaviourPunCallbacks
                 localPlayer = playerObj;
                 //playerObj.name = PhotonNetwork.NickName;
 
+                
+
             }
         }
+
+        playerSpawnEvent.Invoke();
     }
 
     public void showSpawnMenu()

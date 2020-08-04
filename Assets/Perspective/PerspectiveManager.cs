@@ -19,7 +19,8 @@ public class PerspectiveManager : MonoBehaviour
 
     public static PerspectiveManager globalPerspectiveManager;
 
-    
+
+    public Camera mainCam;
 
     // Start is called before the first frame update
     void Start()

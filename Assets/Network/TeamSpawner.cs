@@ -85,6 +85,8 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         inputRoot.cannons.gameObject.SetActive(true); // cannon
         inputRoot.hardpointController.gameObject.SetActive(true);   // hardpoints
 
+        // Save this player's camera
+        PerspectiveManager.getPManager().mainCam = inputRoot.cam.camRef.GetComponent<Camera>();
 
         // activate targeting computer and radar
         playerObj.GetComponent<Radar>().enabled = true;

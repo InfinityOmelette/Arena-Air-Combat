@@ -105,7 +105,8 @@ public class TgtIconManager : MonoBehaviour
             iconScript.tgtImageLOS.sprite = SamHudImageLOS;
             iconScript.tgtImageNoLOS.sprite = SamHudImageNoLOS;
         }
-       
+
+
         return iconObj;
     }
 

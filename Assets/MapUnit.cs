@@ -90,7 +90,7 @@ public class MapUnit : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (localPlayer == null)
         {
@@ -156,7 +156,7 @@ public class MapUnit : MonoBehaviour
 
     private void doBlink()
     {
-        blinkTimer -= Time.deltaTime;
+        blinkTimer -= Time.fixedDeltaTime;
 
         if(blinkTimer < 0f)
         {

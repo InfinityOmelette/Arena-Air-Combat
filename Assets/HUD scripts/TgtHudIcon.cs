@@ -51,6 +51,8 @@ public class TgtHudIcon : MonoBehaviour
     private bool dlInit = false;
     private bool isFarInit = false;
 
+    private hudControl hudObj;
+
     public enum TargetedState
     {
         NONE,
@@ -73,6 +75,13 @@ public class TgtHudIcon : MonoBehaviour
     private Vector3 titleTextOriginPos;
     private Vector3 dataLinkTextOriginPos;
 
+    private bool init = false;
+
+    void Awake()
+    {
+        transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,26 +89,52 @@ public class TgtHudIcon : MonoBehaviour
         titleTextOriginPos = tgtTitleText.transform.localPosition;
         dataLinkTextOriginPos = dataLinkText.transform.localPosition;
 
+        GameManager.getGM().playerSpawnEvent.AddListener(spawnCallback);
+        hudObj = hudControl.mainHud.GetComponent<hudControl>();
         //resizeForDist(currentDistance);
+
+        //FixedUpdate();
+    }
+
+    void spawnCallback()
+    {
+        Debug.LogWarning(rootFlow.name + " icon callback called");
+
+        isFriendly = rootFlow.team == GameManager.getGM().localTeam;
+        setTeamInfo();
+        setTargetedState();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if (rootFlow != null && (isDetected || dataLink))
+        //{
+        //    hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
+        //}
+        //else
+        //{
+        //    transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
+        //}
 
-        hudControl hudObj = hudControl.mainHud.GetComponent<hudControl>();
 
+    }
 
-        //isDetected = false;
-        //dataLink = false;
-
+    public void FixedUpdate()
+    {
         if (rootFlow != null && (isDetected || dataLink))
         {
+
+            if (!init)
+            {
+                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                init = true;
+            }
+
             isFar = currentDistance > HIDE_DISTANCE;
 
             setTargetedState();
-            
-            
+
             setIsFar(isFar);
             setImageLOS(hasLineOfSight);
             if (!isFar)
@@ -111,15 +146,13 @@ public class TgtHudIcon : MonoBehaviour
             resizeForDist(currentDistance);
             setImageLOS(hasLineOfSight);
 
-
-
             hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
-
-
         }
         else
+        {
             transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
-        
+        }
+            
     }
 
 
@@ -355,7 +388,7 @@ public class TgtHudIcon : MonoBehaviour
             
         }
 
-        if (!isFar)
+        if (!isFar && rootFlow.type == CombatFlow.Type.AIRCRAFT)
         {
             tgtTitleText.enabled = true;
         }
@@ -394,7 +427,7 @@ public class TgtHudIcon : MonoBehaviour
 
         if (doBlink)
         {
-            currentBlinkUpTime -= Time.deltaTime;
+            currentBlinkUpTime -= Time.fixedDeltaTime;
 
             if (currentBlinkUpTime < 0.0f)
             {
@@ -407,5 +440,10 @@ public class TgtHudIcon : MonoBehaviour
             tgtImageCenter.SetActive(true); // keep image enabled if doBlink is not enabled
         }
 
+    }
+
+    void OnDestroy()
+    {
+        GameManager.getGM().playerSpawnEvent.RemoveListener(spawnCallback);
     }
 }

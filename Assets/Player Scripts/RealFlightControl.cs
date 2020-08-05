@@ -12,6 +12,14 @@ public class RealFlightControl : MonoBehaviour
     public float input_roll;
     public float input_yaw;
 
+    public float pitchInputLerp = 1.0f;
+    public float rollInputLerp = 1.0f;
+    public float rudderInputLerp = 1.0f;
+
+    public float effective_pitch;
+    public float effective_roll;
+    public float effective_yaw;
+
     public float rollTorque;
     public float pitchTorque;
     public float yawTorque;
@@ -86,8 +94,18 @@ public class RealFlightControl : MonoBehaviour
 
     }
 
+    private void lerpInputs()
+    {
+        effective_pitch = Mathf.Lerp(effective_pitch, input_pitch, pitchInputLerp);
+        effective_roll = Mathf.Lerp(effective_roll, input_roll, rollInputLerp);
+        effective_yaw = Mathf.Lerp(effective_yaw, input_yaw, rudderInputLerp);
+    }
+
     private void FixedUpdate()
     {
+        lerpInputs();
+
+
         // =============================================  UPDATE CLASS-LEVEL PHYSICS VARIABLES
 
         // Angle of attack on pitch and yaw planes
@@ -120,8 +138,8 @@ public class RealFlightControl : MonoBehaviour
         
         // CONTROL TORQUE VECTORS
         Vector3 pitchTorqueVect = transform.right * pitchTorque * authMod * processPitchInput(pitchTrim) * calculateControlAxisAlphaMod(transform.right); 
-        Vector3 yawTorqueVect = transform.up * yawTorque * authMod * input_yaw * calculateControlAxisAlphaMod(transform.up);
-        Vector3 rollTorqueVect = -rbRef.velocity.normalized * rollTorque * authMod * input_roll; // roll around velocity axis
+        Vector3 yawTorqueVect = transform.up * yawTorque * authMod * effective_yaw * calculateControlAxisAlphaMod(transform.up);
+        Vector3 rollTorqueVect = -rbRef.velocity.normalized * rollTorque * authMod * effective_roll; // roll around velocity axis
 
         if (debug)
         {
@@ -166,7 +184,7 @@ public class RealFlightControl : MonoBehaviour
 
         float pitchPosRange = 1.0f * downPitchMultiplier - pitchTrim; // distance from trim to positive (pitch down) gimbal limit
         float pitchNegRange = Mathf.Abs(-1.0f - pitchTrim); // distance from trim to negative (pitch up) gimbal limit
-        float pitchInput = input_pitch;
+        float pitchInput = effective_pitch;
        // readRawPitch = pitchInput;
 
         if (pitchInput > 0) // if positive (pitch down)

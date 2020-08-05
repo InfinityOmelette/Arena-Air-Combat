@@ -214,9 +214,13 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
 
 
             // FLIGHT
-            flight.input_pitch = Mathf.Lerp(flight.input_pitch, Input.GetAxis("Pitch"), pitchInputLerp);
-            flight.input_yaw = Mathf.Lerp(flight.input_yaw, yaw, rudderInputLerp);
-            flight.input_roll = Mathf.Lerp(flight.input_roll, Input.GetAxis("Roll"), rollInputLerp);
+            //flight.effective_pitch = Mathf.Lerp(flight.effective_pitch, Input.GetAxis("Pitch"), pitchInputLerp);
+            //flight.effective_yaw = Mathf.Lerp(flight.effective_yaw, yaw, rudderInputLerp);
+            //flight.effective_roll = Mathf.Lerp(flight.effective_roll, Input.GetAxis("Roll"), rollInputLerp);
+
+            flight.input_pitch = Input.GetAxis("Pitch");
+            flight.input_yaw = yaw;
+            flight.input_roll = Input.GetAxis("Roll");
 
 
             // WHEELS

@@ -83,6 +83,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public bool jamming = false;
 
+    public bool showInWorldList = true;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -120,8 +122,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();
-        
-        CombatFlow.combatUnits.Add(this);
+
+        if (showInWorldList)
+        {
+            CombatFlow.combatUnits.Add(this);
+        }
 
         seenBy = new List<int>();
         gameObject.name = abbreviation;
@@ -309,10 +314,17 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     void destroySelf(bool doDelete = true)
     {
         Debug.LogWarning("Destroyself called");
-        removeFromDatalink();
+
+        
+
+        if (showInWorldList)
+        {
+            removeFromDatalink(); // if not present in world's list, is likely too simple to involve datalink
+            CombatFlow.combatUnits.Remove(this);
+        }
 
 
-        if(ownerLane != null)
+        if (ownerLane != null)
         {
             ownerLane.unitDeath(this);
         }
@@ -339,7 +351,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         //{
         //    Destroy(weaponRef.effectsObj);
         //}
-        CombatFlow.combatUnits.Remove(this);
+        
         if (myHudIconRef != null)
         {
             Destroy(myHudIconRef.gameObject);

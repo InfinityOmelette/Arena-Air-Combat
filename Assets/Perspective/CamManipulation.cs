@@ -75,6 +75,13 @@ public class CamManipulation : MonoBehaviour
     private Vector3 camTargetLocalPos;
     public float camTargetLocalPosLerpRate;
 
+    private Quaternion worldLockedLookRotation;
+    public Vector3 worldLockedLookDirection;
+
+    public bool warThunderCamEnabled = false;
+
+    public GameObject testObj;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,12 +90,24 @@ public class CamManipulation : MonoBehaviour
 
         defaultCamRotation = camRef.transform.localRotation;
 
+        
+
         //camAxisXref.transform.rotation = new Quaternion(0.0f, 180f, 0f, 0f);
     }
 
 
     void Update()
     {
+
+        
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            warThunderCamEnabled = !warThunderCamEnabled;
+            worldLockedLookRotation = aircraftRootRB.transform.rotation;
+            worldLockedLookDirection = aircraftRootRB.transform.right;
+        }
+
 
         camRef.transform.localPosition = Vector3.Lerp(camRef.transform.localPosition, camTargetLocalPos, camTargetLocalPosLerpRate * Time.deltaTime);
         
@@ -105,6 +124,7 @@ public class CamManipulation : MonoBehaviour
             if (lookAtObj != null)
             {  // slightly redundant null check
                 //camAxisRollRef.transform.LookAt(lookAtObj.transform.position, aircraftRootRB.transform.up);
+
                 targetLocalRotation = Quaternion.LookRotation(
                     aircraftRootRB.transform.InverseTransformPoint(lookAtObj.transform.position),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
@@ -229,41 +249,83 @@ public class CamManipulation : MonoBehaviour
         return returnVect;
     }
 
+    private Vector3 warThunderMouseAim(float mouseSpeedX, float mouseSpeedY)
+    {
+        Vector3 newAimWorldDir = worldLockedLookDirection;
+
+        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.fixedDeltaTime;
+        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.fixedDeltaTime;
+
+        // convert world look dir to local space
+        //newAimWorldDir = aircraftRootRB.transform.InverseTransformDirection(newAimWorldDir);
+
+        // calculate and perform euler rotation of look direction, in local space
+
+        Quaternion vertRot = Quaternion.AngleAxis(angleOffsetVert, camAxisHorizRef.transform.right);
+        Quaternion horizRot = Quaternion.AngleAxis(angleOffsetHoriz, aircraftRootRB.transform.up);
+
+        Quaternion rotateBy = vertRot * horizRot;
+        newAimWorldDir = rotateBy * newAimWorldDir;
+
+        // reconvert back to world space
+        //newAimWorldDir = aircraftRootRB.transform.TransformDirection(newAimWorldDir);
+
+        return newAimWorldDir;
+    }
+
     private void processFreeLook()
     {
-        // prioritize stick -- if no stick input, change by mouse
-        Vector3 targetLocalEuler;
-        //
-
-        // If there is no stick input..
-        if (mouseLookEnabled)
+        if (warThunderCamEnabled)
         {
-
             activeRotateLerpRate = mouseRotateLerpRate * Time.deltaTime;
 
-            // use mouse input to rotate camera
-            targetLocalEuler = mouseFreeLookEuler(
-                input_mouseSpeedX, 
-                input_mouseSpeedY);
+            worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
 
-            
+
+
+            targetLocalRotation = Quaternion.LookRotation(
+                    aircraftRootRB.transform.InverseTransformPoint(aircraftRootRB.transform.position + worldLockedLookDirection),
+                    Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
         }
-        else // THERE IS STICK INPUT, PRIORITIZE STICK
+        else
         {
-            activeRotateLerpRate = camRotateLerpRate * Time.deltaTime;
 
-            float horizLookTarget = Mathf.Clamp(input_freeLookHoriz * horizTravelMod + camAxisTargetOffset_Horiz, -horizTravelMod, horizTravelMod);
-            float vertLookTarget = Mathf.Clamp(input_freeLookVert * vertTravelMod + camAxisTargetOffset_Vert, -vertTravelMod, vertTravelMod);
+            // prioritize stick -- if no stick input, change by mouse
+            Vector3 targetLocalEuler;
+            //
 
-            targetLocalEuler = new Vector3(vertLookTarget, horizLookTarget, 0f);
+            // If there is no stick input..
+            if (mouseLookEnabled)
+            {
+
+                activeRotateLerpRate = mouseRotateLerpRate * Time.deltaTime;
+
+                // use mouse input to rotate camera
+                targetLocalEuler = mouseFreeLookEuler(
+                    input_mouseSpeedX,
+                    input_mouseSpeedY);
+
+
+            }
+            else // THERE IS STICK INPUT, PRIORITIZE STICK
+            {
+                activeRotateLerpRate = camRotateLerpRate * Time.deltaTime;
+
+                float horizLookTarget = Mathf.Clamp(input_freeLookHoriz * horizTravelMod + camAxisTargetOffset_Horiz, -horizTravelMod, horizTravelMod);
+                float vertLookTarget = Mathf.Clamp(input_freeLookVert * vertTravelMod + camAxisTargetOffset_Vert, -vertTravelMod, vertTravelMod);
+
+                targetLocalEuler = new Vector3(vertLookTarget, horizLookTarget, 0f);
+            }
+
+            // Convert targetLocal to local quaternion
+            targetLocalRotation = Quaternion.Euler(targetLocalEuler);
+
         }
-
-        // Convert targetLocal to local quaternion
-        targetLocalRotation = Quaternion.Euler(targetLocalEuler);
 
         previousRotationTarget = targetLocalRotation;
-
     }
+
+    
 
     // read mouse input, return a euler angle
     // call from fixedUpdate
@@ -274,13 +336,10 @@ public class CamManipulation : MonoBehaviour
         float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.fixedDeltaTime;
         float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.fixedDeltaTime;
 
-
-
-        // NEW TARGET
         Vector3 newRotationEuler = Mathf.Rad2Deg * Quaternion.ToEulerAngles(targetLocalRotation) +
-            new Vector3(angleOffsetVert, angleOffsetHoriz, 0.0f);
+                new Vector3(angleOffsetVert, angleOffsetHoriz, 0.0f);
 
-
+        // convert from (0 - 360) to (-180 - +180)
         newRotationEuler.x = unEulerize(newRotationEuler.x);
         newRotationEuler.y = unEulerize(newRotationEuler.y);
 
@@ -288,7 +347,7 @@ public class CamManipulation : MonoBehaviour
         newRotationEuler.x = Mathf.Clamp(newRotationEuler.x, -vertTravelMod, vertTravelMod);
 
         // CLAMP YAW
-        newRotationEuler.y = Mathf.Clamp(newRotationEuler.y, -horizTravelMod, horizTravelMod);
+        //newRotationEuler.y = Mathf.Clamp(newRotationEuler.y, -horizTravelMod, horizTravelMod);
 
         newRotationEuler.z = 0f;
 

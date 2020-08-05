@@ -667,6 +667,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &3172510116241956800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,46 +1147,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.2245715
       objectReference: {fileID: 0}
-    - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.297
-      objectReference: {fileID: 0}
-    - target: {fileID: 6852433965507408647, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: smokeEmitTime
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6852433965507408647, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: lightEmitTime
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.23
-      objectReference: {fileID: 0}
     - target: {fileID: 7509595798193212274, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}
       propertyPath: damage
@@ -1205,6 +1166,46 @@ PrefabInstance:
         type: 3}
       propertyPath: dissipationTime
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6852433965507408647, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: smokeEmitTime
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6852433965507408647, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: lightEmitTime
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975692829386158222, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.297
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608201657218877417, guid: 0898e23cbab3aa1488ea96d726c08dc0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.23
       objectReference: {fileID: 0}
     - target: {fileID: 8733813667504412014, guid: 0898e23cbab3aa1488ea96d726c08dc0,
         type: 3}

@@ -1721,6 +1721,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!54 &192255287
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2028,6 +2029,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &217180063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2945,7 +2947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310122042}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 6982, y: 10, z: 5494}
+  m_LocalPosition: {x: 6982, y: 20, z: 5494}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1858419511}
@@ -3848,6 +3850,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &358699571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4071,6 +4074,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &374479946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4730,6 +4734,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!54 &410869853
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5055,6 +5060,9 @@ MonoBehaviour:
   isHostInstance: 0
   netPosHub: {fileID: 0}
   userID: 
+  playerSpawnEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &412476888
 Transform:
   m_ObjectHideFlags: 0
@@ -5627,6 +5635,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &483690126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5850,6 +5859,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &495644562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6228,6 +6238,98 @@ PrefabInstance:
       objectReference: {fileID: 1892428524}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f9f7e1507b2f194da148488ed7e6b34, type: 3}
+--- !u!1 &524911094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 524911095}
+  - component: {fileID: 524911098}
+  - component: {fileID: 524911097}
+  - component: {fileID: 524911096}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &524911095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524911094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_Children: []
+  m_Father: {fileID: 816976228}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &524911096
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524911094}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &524911097
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524911094}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &524911098
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524911094}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &530808572
 GameObject:
   m_ObjectHideFlags: 0
@@ -6784,6 +6886,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &545467746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7506,6 +7609,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &618268921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8019,7 +8123,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671980918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4521, y: 10, z: -5535}
+  m_LocalPosition: {x: -4521, y: 20, z: -5535}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1667710822}
@@ -8611,6 +8715,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &747787069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8808,6 +8913,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!54 &761983325
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9508,6 +9614,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 810592669}
   m_CullTransparentMesh: 0
+--- !u!1 &816976227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 816976228}
+  m_Layer: 0
+  m_Name: DebugLookTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &816976228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816976227}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5295, y: 359, z: -6442}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 524911095}
+  m_Father: {fileID: 0}
+  m_RootOrder: 105
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &817912851
 GameObject:
   m_ObjectHideFlags: 0
@@ -10525,7 +10662,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928903283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5453, y: 10, z: -5216}
+  m_LocalPosition: {x: -5453, y: 20, z: -5216}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1924985610}
@@ -11127,6 +11264,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!54 &987743172
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11557,6 +11695,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1016180223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12846,6 +12985,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1094576334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13333,6 +13473,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1129356853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14215,6 +14356,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1193678964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15603,6 +15745,7 @@ MonoBehaviour:
   showUI: 0
   aircraftInputActive: 0
   mouseIsLocked: 0
+  mainCam: {fileID: 0}
 --- !u!4 &1334556735
 Transform:
   m_ObjectHideFlags: 0
@@ -16619,6 +16762,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1425568393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16926,6 +17070,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1443931299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18755,6 +18900,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1668784113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19044,6 +19190,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!54 &1701001030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19575,6 +19722,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!54 &1768982830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20000,6 +20148,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1789408629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20500,6 +20649,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1810604598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22206,6 +22356,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &1919763901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22679,7 +22830,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1964274535}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 5940, y: 10, z: 6172}
+  m_LocalPosition: {x: 5940, y: 20, z: 6172}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 850827780}
@@ -23724,6 +23875,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &2136455885
 MonoBehaviour:
   m_ObjectHideFlags: 0

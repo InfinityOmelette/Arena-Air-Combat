@@ -222,7 +222,7 @@ public class hudControl : MonoBehaviour
         {
             drawItemOnScreen(velocityVectorRef, camRef.transform.position + readVelocity.normalized, velVectLerpRate * Time.deltaTime);
 
-            drawItemOnScreen(velVectAlt, camRef.transform.position + root_rbRef.velocity, 0.5f);
+           // drawItemOnScreen(velVectAlt, camRef.transform.position + root_rbRef.velocity, 0.5f);
             //Debug.Log("Fast enough, onScreen:");
         }
         else
@@ -231,8 +231,8 @@ public class hudControl : MonoBehaviour
             drawItemOnScreen(velocityVectorRef,
                 camRef.transform.position - camRef.transform.forward, 0.5f);
 
-            drawItemOnScreen(velVectAlt,
-                camRef.transform.position - camRef.transform.forward, 0.5f);
+            //drawItemOnScreen(velVectAlt,
+             //   camRef.transform.position - camRef.transform.forward, 0.5f);
         }
 
         if (cnnUI.cnnOn)
@@ -282,7 +282,7 @@ public class hudControl : MonoBehaviour
     }
     
 
-
+    
 
 
     // Place item onto screen from world point
@@ -303,6 +303,8 @@ public class hudControl : MonoBehaviour
                                      screenPos.y - Screen.height / 2,   // y
                                      0.0f);                             // z
 
+            Vector3 newScreenPos;
+
             if (onScreen)
             {
                 if(item.transform.localPosition.x > Screen.width)
@@ -311,12 +313,15 @@ public class hudControl : MonoBehaviour
                 }
 
                 // local position prevents ui stuttering
-                item.transform.localPosition = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
+                newScreenPos = Vector3.Lerp(item.transform.localPosition, screenPos, lerpRate);
             }
             else
             {
-                item.transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2);
+                newScreenPos = new Vector3(Screen.width * 2, Screen.height * 2);
             }
+
+            item.transform.localPosition = newScreenPos;
+
         }
             
     }

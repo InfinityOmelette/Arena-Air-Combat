@@ -1325,6 +1325,9 @@ MonoBehaviour:
   mouseLookEnabled: 0
   input_mouseLookToggleBtnDown: 0
   camTargetLocalPosLerpRate: 25
+  worldLockedLookDirection: {x: 0, y: 0, z: 0}
+  warThunderCamEnabled: 0
+  testObj: {fileID: 0}
 --- !u!114 &3469465798034293480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1352,11 +1355,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7744941291827435740}
   - component: {fileID: 7744941291827435729}
+  - component: {fileID: 1785817150400101556}
+  - component: {fileID: 1243636948586757761}
   - component: {fileID: -8673316639226967037}
   - component: {fileID: 6943344650122781586}
   - component: {fileID: 6897607545244989051}
   - component: {fileID: 9024033700797437041}
-  - component: {fileID: 1785817150400101556}
   - component: {fileID: 6801930850055786249}
   - component: {fileID: 4119210450518891418}
   - component: {fileID: 4424309726456864805}
@@ -1409,6 +1413,50 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1785817150400101556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012959fdedd3adf4fa83ada5b8b022f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flight: {fileID: -8673316639226967037}
+  engine: {fileID: 6943344650122781586}
+  cam: {fileID: 5788782208438821183}
+  wheels: {fileID: 6801349663249705164}
+  cannons: {fileID: 8059042160316306020}
+  tgtComputer: {fileID: 0}
+  hardpointController: {fileID: 3718655085937672987}
+  myRadar: {fileID: 0}
+  myFlare: {fileID: 0}
+  testExplosionDistance: 0
+  tgtLookAtHoldTime: 0.4
+  currentTgtHoldTime: 0
+  pitchInputLerp: 0.0249
+  rollInputLerp: 0.225
+  rudderInputLerp: 0.0249
+  gearOffset: 5
+  maverickOffset: 12
+  rocketPodOffset: 20
+  bombOffset: 32.5
+  isReady: 0
+--- !u!114 &1243636948586757761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7931f4a717eeca34887b6f6b9be2eec4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-8673316639226967037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,6 +1473,12 @@ MonoBehaviour:
   input_pitch: 0
   input_roll: 0
   input_yaw: 0
+  pitchInputLerp: 0.0249
+  rollInputLerp: 0.225
+  rudderInputLerp: 0.0249
+  effective_pitch: 0
+  effective_roll: 0
+  effective_yaw: 0
   rollTorque: 3
   pitchTorque: 16
   yawTorque: 6
@@ -1531,6 +1585,7 @@ MonoBehaviour:
   maxCoverageRadius: 0
   killCoverageRadius: 0
   jamming: 0
+  showInWorldList: 1
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,38 +1612,6 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 1
---- !u!114 &1785817150400101556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7744941291827435728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 012959fdedd3adf4fa83ada5b8b022f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flight: {fileID: -8673316639226967037}
-  engine: {fileID: 6943344650122781586}
-  cam: {fileID: 5788782208438821183}
-  wheels: {fileID: 6801349663249705164}
-  cannons: {fileID: 8059042160316306020}
-  tgtComputer: {fileID: 0}
-  hardpointController: {fileID: 3718655085937672987}
-  myRadar: {fileID: 0}
-  myFlare: {fileID: 0}
-  testExplosionDistance: 0
-  tgtLookAtHoldTime: 0.4
-  currentTgtHoldTime: 0
-  pitchInputLerp: 0.0249
-  rollInputLerp: 0.225
-  rudderInputLerp: 0.0249
-  gearOffset: 5
-  maverickOffset: 12
-  rocketPodOffset: 20
-  bombOffset: 32.5
-  isReady: 0
 --- !u!114 &6801930850055786249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3057,18 +3080,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d012f33e89f9a4641b2f7c0bb55e0c73, type: 3}
---- !u!114 &3576832200315428976 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1169232104840561159, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-    type: 3}
-  m_PrefabInstance: {fileID: 2421396772111508087}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a507eb4716a911547be37c8a838c3f2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6524932584960729452 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8869751597250331419, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
@@ -3091,6 +3102,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e79112707e4d4ae4bb022cc0c7c55e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3576832200315428976 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1169232104840561159, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 2421396772111508087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a507eb4716a911547be37c8a838c3f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2589640109365144863
@@ -5344,15 +5367,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
---- !u!1 &1428595059716884278 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
-    type: 3}
-  m_PrefabInstance: {fileID: 8315261703503984245}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3819154873988694510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8315261703503984245}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1428595059716884278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
     type: 3}
   m_PrefabInstance: {fileID: 8315261703503984245}
   m_PrefabAsset: {fileID: 0}

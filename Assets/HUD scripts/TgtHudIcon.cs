@@ -77,6 +77,10 @@ public class TgtHudIcon : MonoBehaviour
 
     private bool init = false;
 
+    public Vector3 targetScreenPos;
+    public float initLerpRate;
+    public float activeLerpRate;
+
     void Awake()
     {
         transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
@@ -108,20 +112,6 @@ public class TgtHudIcon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (rootFlow != null && (isDetected || dataLink))
-        //{
-        //    hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
-        //}
-        //else
-        //{
-        //    transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
-        //}
-
-
-    }
-
-    public void FixedUpdate()
-    {
         if (rootFlow != null && (isDetected || dataLink))
         {
 
@@ -152,6 +142,11 @@ public class TgtHudIcon : MonoBehaviour
         {
             transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
         }
+    }
+
+    public void FixedUpdate()
+    {
+        
             
     }
 
@@ -427,7 +422,7 @@ public class TgtHudIcon : MonoBehaviour
 
         if (doBlink)
         {
-            currentBlinkUpTime -= Time.fixedDeltaTime;
+            currentBlinkUpTime -= Time.deltaTime;
 
             if (currentBlinkUpTime < 0.0f)
             {

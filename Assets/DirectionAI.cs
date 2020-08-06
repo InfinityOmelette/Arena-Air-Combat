@@ -98,6 +98,12 @@ public class DirectionAI : MonoBehaviour
         {
             applyCorrectionTorque(inputDir);
         }
+        else
+        {
+            flight.input_pitch = controllerPitch;
+            flight.input_yaw = controllerYaw;
+            flight.input_roll = controllerRoll;
+        }
 
     }
 

@@ -282,17 +282,23 @@ public class CamManipulation : MonoBehaviour
         
         float vertOvershoot = 0f;
 
-        // if trying to push camera outside the vert limit
+        // if camera outside vert limit
         if ((camEuler.x > warThunderVertMod) || (camEuler.x < -warThunderVertMod))
         {
+            // correct it by moving camera in opposite direction
             vertOvershoot = (Mathf.Abs(camEuler.x) - warThunderVertMod) * Mathf.Sign(camEuler.x);
             vertRot = Quaternion.AngleAxis(-vertOvershoot, camAxisHorizRef.transform.right);
+
+            float horizCorrectCoeff = 5.0f;
             
-            rotateBy = horizRot * vertRot; // remove vertical change
+            // rotate horizontally towards center
+            horizRot *= Quaternion.AngleAxis(horizCorrectCoeff * vertOvershoot * Mathf.Sign(camEuler.y), aircraftRootRB.transform.up);
+
+            rotateBy = horizRot * vertRot; // recombine rotations with new values
             
         }
 
-        //Debug.Log("camEuler: " + camEuler + ", vertOvershoot: " + vertOvershoot);
+        Debug.Log("camEuler: " + camEuler + ", vertOvershoot: " + vertOvershoot);
 
         newAimWorldDir = rotateBy * newAimWorldDir;
 

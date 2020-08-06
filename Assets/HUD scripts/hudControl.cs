@@ -101,6 +101,9 @@ public class hudControl : MonoBehaviour
     public RangeLadder rangeLadder;
     public GameObject climbLadderObj;
     public FlareIconManager flareIconManager;
+    public GameObject wtAimpointObj;
+    public GameObject screenCenterObj;
+
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);
@@ -211,6 +214,12 @@ public class hudControl : MonoBehaviour
 
     }
 
+    public void setWarThunderIndOn(bool isOn)
+    {
+        wtAimpointObj.SetActive(isOn);
+        screenCenterObj.SetActive(!isOn);
+    }
+
     private void noseAndVelIndicators()
     {
         readVelocity = Vector3.Lerp(readVelocity, root_rbRef.velocity, readVelLerpRate * Time.deltaTime);
@@ -283,7 +292,7 @@ public class hudControl : MonoBehaviour
     
 
     
-
+    
 
     // Place item onto screen from world point
     public void drawItemOnScreen(GameObject item, Vector3 worldPosition, float lerpRate)

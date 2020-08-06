@@ -182,7 +182,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
 
         // Debug key to test damage player
-        if (Input.GetKeyDown(KeyCode.C) && isLocalPlayer)
+        if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
             currentHP -= 30;
 
         // Debug key to test damage all NPC's with this script

@@ -103,15 +103,6 @@ public class CamManipulation : MonoBehaviour
     void Update()
     {
 
-        
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            warThunderCamEnabled = !warThunderCamEnabled;
-            worldLockedLookRotation = aircraftRootRB.transform.rotation;
-            worldLockedLookDirection = aircraftRootRB.transform.forward;
-        }
-
 
         camRef.transform.localPosition = Vector3.Lerp(camRef.transform.localPosition, camTargetLocalPos, camTargetLocalPosLerpRate * Time.deltaTime);
         
@@ -159,6 +150,13 @@ public class CamManipulation : MonoBehaviour
         IconRWR.cameraHorizOffset = camAxisHorizRef.transform.localEulerAngles.y;
 
         //Debug.Log("CamAxisHoriz Y euler: " + IconRWR.cameraHorizOffset);
+    }
+
+    public void toggleWarThunderCam()
+    {
+        warThunderCamEnabled = !warThunderCamEnabled;
+        worldLockedLookRotation = aircraftRootRB.transform.rotation;
+        worldLockedLookDirection = camRef.transform.forward;
     }
 
     void FixedUpdate()

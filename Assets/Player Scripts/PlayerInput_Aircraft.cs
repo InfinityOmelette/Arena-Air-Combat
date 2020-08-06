@@ -21,6 +21,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     public HardpointController hardpointController;
     public Radar myRadar;
     public FlareEmitter myFlare;
+    public DirectionAI dirAI;
 
     private CombatFlow myFlow;
 
@@ -49,6 +50,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
         myFlow = GetComponent<CombatFlow>();
         myRadar = GetComponent<Radar>();
         myFlare = GetComponent<FlareEmitter>();
+        dirAI = GetComponent<DirectionAI>();
     }
 
     // Start is called before the first frame update
@@ -218,9 +220,11 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
             //flight.effective_yaw = Mathf.Lerp(flight.effective_yaw, yaw, rudderInputLerp);
             //flight.effective_roll = Mathf.Lerp(flight.effective_roll, Input.GetAxis("Roll"), rollInputLerp);
 
-            flight.input_pitch = Input.GetAxis("Pitch");
-            flight.input_yaw = yaw;
-            flight.input_roll = Input.GetAxis("Roll");
+            
+
+            dirAI.controllerPitch = Input.GetAxis("Pitch");
+            dirAI.controllerYaw = yaw;
+            dirAI.controllerRoll = Input.GetAxis("Roll");
 
 
             // WHEELS

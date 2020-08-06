@@ -283,6 +283,7 @@ public class MissileGuidance : MonoBehaviour
             //  - magnitude -- angleBetween velocity and lead direction, ratio of angle vs maxAngle (max 1.0)
             //  - projected onto xy plane to nullify any roll requirement
             float currentVelocityErrorAngle = Vector3.Angle(estimatedMissileVelocityAverage, leadDirection); // degrees
+
             Vector3 correctiveTorqueVect =
                 Vector3.ProjectOnPlane(Vector3.Cross(myRB.velocity, leadDirection), transform.forward).normalized * // torque direction
                 (Mathf.Min(currentVelocityErrorAngle / maxCorrectionErrorAngle, 1.0f));  // torque magnitude

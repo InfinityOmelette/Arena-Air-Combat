@@ -298,8 +298,8 @@ public class MissileGuidance : MonoBehaviour
 
 
             // Convert to yaw/pitch inputs, -1.0 to 1.0
-            myFlightControl.effective_pitch = transform.InverseTransformDirection(correctiveTorqueVect).x;
-            myFlightControl.effective_yaw = transform.InverseTransformDirection(correctiveTorqueVect).y;
+            myFlightControl.input_pitch = transform.InverseTransformDirection(correctiveTorqueVect).x;
+            myFlightControl.input_yaw = transform.InverseTransformDirection(correctiveTorqueVect).y;
 
            // Debug.Log("Missile pitch input: " + myFlightControl.input_pitch);
 

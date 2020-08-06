@@ -31,8 +31,8 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     public float currentTgtHoldTime;
 
 
-    public float pitchInputLerp;
-    public float rollInputLerp;
+   // public float pitchInputLerp;
+    //public float rollInputLerp;
     public float rudderInputLerp;
 
 

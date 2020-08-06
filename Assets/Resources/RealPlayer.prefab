@@ -1305,7 +1305,7 @@ MonoBehaviour:
   fwdGlobalVelocityScale: 0
   camRotateLerpRate: 700
   lookAtLerpRate: 10
-  mouseRotateLerpRate: 1500
+  mouseRotateLerpRate: 10
   rollRateMod: 0.175
   rollRateOffsetLerpRate: 3.25
   horizTravelMod: 145
@@ -1327,6 +1327,8 @@ MonoBehaviour:
   camTargetLocalPosLerpRate: 25
   worldLockedLookDirection: {x: 0, y: 0, z: 0}
   warThunderCamEnabled: 0
+  warThunderLerpRate: 20
+  warThunderVertMod: 75
   testObj: {fileID: 0}
 --- !u!114 &3469465798034293480
 MonoBehaviour:
@@ -1437,8 +1439,6 @@ MonoBehaviour:
   testExplosionDistance: 0
   tgtLookAtHoldTime: 0.4
   currentTgtHoldTime: 0
-  pitchInputLerp: 0.0249
-  rollInputLerp: 0.225
   rudderInputLerp: 0.0249
   gearOffset: 5
   maverickOffset: 12
@@ -1457,6 +1457,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7931f4a717eeca34887b6f6b9be2eec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camRef: {fileID: 5788782208438821183}
+  flight: {fileID: 0}
+  myFlow: {fileID: 0}
+  inputDir: {x: 0, y: 0, z: 0}
+  currentBankAngle: 0
+  zAxizAngle: 0
 --- !u!114 &-8673316639226967037
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -46,6 +46,8 @@ public class CamManipulation : MonoBehaviour
     public float horizTravelMod = 120f;
     public float vertTravelMod = 80f;
 
+
+
     public GameObject lookAtObj;
     public bool lookAtEnabled = false;
 
@@ -79,6 +81,8 @@ public class CamManipulation : MonoBehaviour
     public Vector3 worldLockedLookDirection;
 
     public bool warThunderCamEnabled = false;
+    public float warThunderLerpRate;
+    public float warThunderVertMod;
 
     public GameObject testObj;
 
@@ -105,7 +109,7 @@ public class CamManipulation : MonoBehaviour
         {
             warThunderCamEnabled = !warThunderCamEnabled;
             worldLockedLookRotation = aircraftRootRB.transform.rotation;
-            worldLockedLookDirection = aircraftRootRB.transform.right;
+            worldLockedLookDirection = aircraftRootRB.transform.forward;
         }
 
 
@@ -256,6 +260,7 @@ public class CamManipulation : MonoBehaviour
         float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.fixedDeltaTime;
         float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.fixedDeltaTime;
 
+        
         // convert world look dir to local space
         //newAimWorldDir = aircraftRootRB.transform.InverseTransformDirection(newAimWorldDir);
 
@@ -265,6 +270,32 @@ public class CamManipulation : MonoBehaviour
         Quaternion horizRot = Quaternion.AngleAxis(angleOffsetHoriz, aircraftRootRB.transform.up);
 
         Quaternion rotateBy = vertRot * horizRot;
+
+
+        // clamp resulting vertical angle within bounds
+        //  there has....gotta be a better way to do this....
+        //  so much effort just to convert the direction to a local euler vector
+        Vector3 tempNewDir = rotateBy * newAimWorldDir;
+        tempNewDir = aircraftRootRB.transform.InverseTransformDirection(tempNewDir);
+        Quaternion localDirRotation = Quaternion.LookRotation(tempNewDir);
+        
+        Vector3 camEuler = Quaternion.ToEulerAngles(localDirRotation) * Mathf.Rad2Deg;
+
+        
+        float vertOvershoot = 0f;
+
+        // if trying to push camera outside the vert limit
+        if ((camEuler.x > warThunderVertMod) || (camEuler.x < -warThunderVertMod))
+        {
+            vertOvershoot = (Mathf.Abs(camEuler.x) - warThunderVertMod) * Mathf.Sign(camEuler.x);
+            vertRot = Quaternion.AngleAxis(-vertOvershoot, camAxisHorizRef.transform.right);
+            
+            rotateBy = horizRot * vertRot; // remove vertical change
+            
+        }
+
+        //Debug.Log("camEuler: " + camEuler + ", vertOvershoot: " + vertOvershoot);
+
         newAimWorldDir = rotateBy * newAimWorldDir;
 
         // reconvert back to world space
@@ -277,11 +308,9 @@ public class CamManipulation : MonoBehaviour
     {
         if (warThunderCamEnabled)
         {
-            activeRotateLerpRate = mouseRotateLerpRate * Time.deltaTime;
+            activeRotateLerpRate = warThunderLerpRate;
 
             worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
-
-
 
             targetLocalRotation = Quaternion.LookRotation(
                     aircraftRootRB.transform.InverseTransformPoint(aircraftRootRB.transform.position + worldLockedLookDirection),
@@ -298,7 +327,7 @@ public class CamManipulation : MonoBehaviour
             if (mouseLookEnabled)
             {
 
-                activeRotateLerpRate = mouseRotateLerpRate * Time.deltaTime;
+                activeRotateLerpRate = mouseRotateLerpRate;
 
                 // use mouse input to rotate camera
                 targetLocalEuler = mouseFreeLookEuler(
@@ -374,8 +403,8 @@ public class CamManipulation : MonoBehaviour
         float rollRateOffsetTarget = 0f; // will target 0 z rotation if lookAt is enabled
         float rollRateOffsetResult;
 
-        
-        if (!lookAtEnabled)
+        // only perform roll rate offset if NEITHER lookAt or warThunderCam are enabled
+        if (!(lookAtEnabled || warThunderCamEnabled))
         {
             Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
             rollRateOffsetTarget = rollRateVect.magnitude * rollRateMod; // Use magnitude to determine camera z offset strength

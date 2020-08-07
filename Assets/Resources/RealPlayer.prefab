@@ -1466,8 +1466,9 @@ MonoBehaviour:
   zAxizAngle: 0
   isApplied: 0
   maxErrorAngle: 10
-  angVelCorrectionScalar: 25
-  angVelErrorScalar: 3
+  angVelDerivativeGain: 75
+  angVelErrorScalar: 5
+  angVelCorrectionScalar: 125
   inputTransferMargin: 0.2
   controllerPitch: 0
   controllerYaw: 0

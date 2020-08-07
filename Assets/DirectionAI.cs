@@ -24,8 +24,10 @@ public class DirectionAI : MonoBehaviour
     public bool isApplied;
 
     public float maxErrorAngle;
-    public float angVelCorrectionScalar;
+    public float angVelDerivativeGain;
     public float angVelErrorScalar;
+    public float angVelCorrectionScalar;
+    
 
     public float inputTransferMargin;
 
@@ -37,6 +39,8 @@ public class DirectionAI : MonoBehaviour
     public bool freeLookOn;
 
     private Rigidbody myRb;
+
+    private Vector3 prevCorrectionTorque;
 
     void Awake()
     {
@@ -129,6 +133,16 @@ public class DirectionAI : MonoBehaviour
 
 
         Vector3 correctiveTorqueVect = (targetAngularVelocity - currentAngularVel_NoRoll) * angVelCorrectionScalar;
+
+
+        // DERIVATIVE GAIN
+        //  the RATE OF CHANGE of the correction torque
+        Vector3 errorRate = (correctiveTorqueVect - prevCorrectionTorque) * angVelDerivativeGain * Time.fixedDeltaTime;
+
+        prevCorrectionTorque = correctiveTorqueVect; // discluding derivative gain
+
+        correctiveTorqueVect += errorRate;
+        
 
         if(correctiveTorqueVect.magnitude > 1.0f)
         {

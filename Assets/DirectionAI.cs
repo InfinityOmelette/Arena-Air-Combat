@@ -24,6 +24,8 @@ public class DirectionAI : MonoBehaviour
     public bool isApplied;
 
     public float maxErrorAngle;
+    public float angVelCorrectionScalar;
+    public float angVelErrorScalar;
 
     public float inputTransferMargin;
 
@@ -34,10 +36,13 @@ public class DirectionAI : MonoBehaviour
 
     public bool freeLookOn;
 
+    private Rigidbody myRb;
+
     void Awake()
     {
         flight = GetComponent<RealFlightControl>();
         myFlow = GetComponent<CombatFlow>();
+        myRb = GetComponent<Rigidbody>();
     }
 
 
@@ -90,7 +95,10 @@ public class DirectionAI : MonoBehaviour
     
     void FixedUpdate()
     {
+
         
+
+        //Debug.Log("Current angular velocity: " + myRb.angularVelocity.magnitude * Mathf.Rad2Deg);
 
         currentBankAngle = Quaternion.ToEulerAngles(transform.rotation).z * Mathf.Rad2Deg;
 
@@ -109,20 +117,32 @@ public class DirectionAI : MonoBehaviour
 
     private void applyCorrectionTorque(Vector3 commandDir)
     {
-        float currentVelocityErrorAngle = Vector3.Angle(transform.forward, commandDir); // degrees
+        //float currentAngleError = Vector3.Angle(transform.forward, commandDir); // degrees
 
-        Vector3 correctiveTorqueVect =
-            Vector3.ProjectOnPlane(Vector3.Cross(transform.forward, commandDir), transform.forward).normalized * // torque direction
-            (Mathf.Min(currentVelocityErrorAngle / maxErrorAngle, 1.0f));  // torque magnitude
 
+        Vector3 targetAngularVelocity = Vector3.Cross(transform.forward, commandDir) * angVelErrorScalar; 
+
+
+        // do angular velocity setting here
+
+        Vector3 currentAngularVel_NoRoll = Vector3.ProjectOnPlane( myRb.angularVelocity, transform.forward); // remove roll component
+
+
+        Vector3 correctiveTorqueVect = (targetAngularVelocity - currentAngularVel_NoRoll) * angVelCorrectionScalar;
+
+        if(correctiveTorqueVect.magnitude > 1.0f)
+        {
+            correctiveTorqueVect = correctiveTorqueVect.normalized;
+        }
 
 
         // Convert to yaw/pitch inputs, -1.0 to 1.0
         correctiveTorqueVect = transform.InverseTransformDirection(correctiveTorqueVect);
 
+        //Debug.Log("Corrective torque vect: " + correctiveTorqueVect + ", magnitude: " + correctiveTorqueVect.magnitude);
 
         // PITCH
-        if(Mathf.Abs(controllerPitch) < inputTransferMargin)
+        if (Mathf.Abs(controllerPitch) < inputTransferMargin)
         {
             flight.input_pitch = correctiveTorqueVect.x;
         }
@@ -141,8 +161,12 @@ public class DirectionAI : MonoBehaviour
             flight.input_yaw = controllerYaw;
         }
 
+        // ============= ROLL
+        //Vector3 rawDir = transform.InverseTransformDirection(Vector3.ProjectOnPlane(commandDir, transform.forward)).normalized;
+
+
         // ROLL
-        if(Mathf.Abs(controllerRoll) < inputTransferMargin)
+        if (Mathf.Abs(controllerRoll) < inputTransferMargin)
         {
             flight.input_roll = correctiveTorqueVect.y;
         }

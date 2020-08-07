@@ -289,16 +289,19 @@ public class CamManipulation : MonoBehaviour
             vertOvershoot = (Mathf.Abs(camEuler.x) - warThunderVertMod) * Mathf.Sign(camEuler.x);
             vertRot = Quaternion.AngleAxis(-vertOvershoot, camAxisHorizRef.transform.right);
 
-            float horizCorrectCoeff = 5.0f;
-            
+            float horizCorrectCoeff = 10f;
+            float horizCorrectionDegrees = -Mathf.Min(Mathf.Abs( horizCorrectCoeff * vertOvershoot), Mathf.Abs(unEulerize(camAxisHorizRef.transform.localEulerAngles.y)));
+
+            //Debug.Log("read camY rot: " + Mathf.Abs(unEulerize(camAxisHorizRef.transform.localEulerAngles.y)) + " overShoot: " + vertOvershoot);
+
             // rotate horizontally towards center
-            horizRot *= Quaternion.AngleAxis(horizCorrectCoeff * vertOvershoot * Mathf.Sign(camEuler.y), aircraftRootRB.transform.up);
+            horizRot *= Quaternion.AngleAxis(horizCorrectionDegrees * Mathf.Sign(camEuler.y), aircraftRootRB.transform.up);
 
             rotateBy = horizRot * vertRot; // recombine rotations with new values
             
         }
-
-        Debug.Log("camEuler: " + camEuler + ", vertOvershoot: " + vertOvershoot);
+        
+        //Debug.Log("camEuler: " + camEuler + ", vertOvershoot: " + vertOvershoot);
 
         newAimWorldDir = rotateBy * newAimWorldDir;
 

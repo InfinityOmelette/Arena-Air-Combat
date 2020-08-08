@@ -35,6 +35,7 @@ public class DirectionAI : MonoBehaviour
     public float controllerYaw;
     public float controllerRoll;
 
+    public float rudderRollOverrideFactor;
 
     public bool freeLookOn;
 
@@ -126,14 +127,10 @@ public class DirectionAI : MonoBehaviour
 
         Vector3 targetAngularVelocity = Vector3.Cross(transform.forward, commandDir) * angVelErrorScalar; 
 
-
         // do angular velocity setting here
-
         Vector3 currentAngularVel_NoRoll = Vector3.ProjectOnPlane( myRb.angularVelocity, transform.forward); // remove roll component
 
-
         Vector3 correctiveTorqueVect = (targetAngularVelocity - currentAngularVel_NoRoll) * angVelCorrectionScalar;
-
 
         // DERIVATIVE GAIN
         //  the RATE OF CHANGE of the correction torque
@@ -155,42 +152,37 @@ public class DirectionAI : MonoBehaviour
 
         //Debug.Log("Corrective torque vect: " + correctiveTorqueVect + ", magnitude: " + correctiveTorqueVect.magnitude);
 
-        // PITCH
-        if (Mathf.Abs(controllerPitch) < inputTransferMargin)
-        {
-            flight.input_pitch = correctiveTorqueVect.x;
-        }
-        else
-        {
-            flight.input_pitch = controllerPitch;
-        }
+        float aiPitch = correctiveTorqueVect.x;
+        float aiYaw = correctiveTorqueVect.y;
+        float aiRoll = correctiveTorqueVect.y;
 
-        // YAW
-        if(Mathf.Abs(controllerYaw) < inputTransferMargin)
+        // PITCH - controller overrides pitch and roll
+        if (Mathf.Abs(controllerPitch) > inputTransferMargin)
         {
-            flight.input_yaw = correctiveTorqueVect.y;
+            aiPitch = controllerPitch;
+            aiRoll = controllerRoll;
         }
-        else
-        {
-            flight.input_yaw = controllerYaw;
-        }
+        
 
-        // ============= ROLL
-        //Vector3 rawDir = transform.InverseTransformDirection(Vector3.ProjectOnPlane(commandDir, transform.forward)).normalized;
-
-
-        // ROLL
-        if (Mathf.Abs(controllerRoll) < inputTransferMargin)
+        // YAW - controller overrides yaw and roll
+        if(Mathf.Abs(controllerYaw) > inputTransferMargin)
         {
-            flight.input_roll = correctiveTorqueVect.y;
+            aiYaw = controllerYaw;
+            aiRoll = aiRoll * rudderRollOverrideFactor;
         }
-        else
+        
+        // ROLL - controller overrides roll only
+        if (Mathf.Abs(controllerRoll) > inputTransferMargin)
         {
-            flight.input_roll = controllerRoll;
+            aiRoll = controllerRoll; // even if yaw created roll input, this will happen later, thereby overriding
         }
+        
         //flight.input_roll = Mathf.Clamp(Mathf.Sign(correctiveTorqueVect.y) * Vector3.Angle(transform.up, correctiveTorqueVect) / maxErrorAngle,
         //    0.0f, 1.0f);
 
+        flight.input_pitch = aiPitch;
+        flight.input_yaw = aiYaw;
+        flight.input_roll = aiRoll;
     }
 
     void OnDestroy()

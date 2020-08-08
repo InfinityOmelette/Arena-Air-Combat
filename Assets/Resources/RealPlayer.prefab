@@ -257,7 +257,7 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
-  m_FOVAxisMode: 1
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
   m_FocalLength: 50
@@ -1293,7 +1293,7 @@ MonoBehaviour:
   camAxisHorizRef: {fileID: 8247841263013583095}
   camAxisVertRef: {fileID: 7744941293352778913}
   camAxisRollRef: {fileID: 6537783614964785157}
-  camRef: {fileID: 544080348685911050}
+  camRef: {fileID: 6102165659019915357}
   aircraftRootRB: {fileID: 7744941291827435729}
   camDefaultHorizDist: 7
   camDefaultHeight: 1
@@ -1319,16 +1319,21 @@ MonoBehaviour:
   input_freeLookVert: 0
   input_mouseSpeedX: 0
   input_mouseSpeedY: 0
-  mouse_yawRate: 120
-  mouse_pitchRate: 120
-  maxMouseTraverseSpeed: 30
+  mouse_yawRate: 90
+  mouse_pitchRate: 90
+  mouse_yawRateSlow: 35
+  mouse_pitchRateSlow: 35
+  highZoom: 30
+  lowZoom: 64
+  zoomLerpRate: 10
+  maxMouseTraverseSpeed: 600
   mouseLookEnabled: 0
   input_mouseLookToggleBtnDown: 0
   camTargetLocalPosLerpRate: 25
   worldLockedLookDirection: {x: 0, y: 0, z: 0}
   warThunderCamEnabled: 0
   warThunderLerpRate: 10
-  warThunderVertMod: 75
+  warThunderVertMod: 85
   testObj: {fileID: 0}
 --- !u!114 &3469465798034293480
 MonoBehaviour:
@@ -1473,6 +1478,7 @@ MonoBehaviour:
   controllerPitch: 0
   controllerYaw: 0
   controllerRoll: 0
+  rudderRollOverrideFactor: 0.25
   freeLookOn: 0
 --- !u!114 &-8673316639226967037
 MonoBehaviour:

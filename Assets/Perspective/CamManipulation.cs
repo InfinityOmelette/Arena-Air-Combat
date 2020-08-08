@@ -8,7 +8,7 @@ public class CamManipulation : MonoBehaviour
     public GameObject camAxisHorizRef;
     public GameObject camAxisVertRef;
     public GameObject camAxisRollRef;
-    public GameObject camRef;
+    public Camera camRef;
 
     public Rigidbody aircraftRootRB;
 
@@ -66,6 +66,15 @@ public class CamManipulation : MonoBehaviour
     public float input_mouseSpeedY;
     public float mouse_yawRate;
     public float mouse_pitchRate;
+    public float mouse_yawRateSlow;
+    public float mouse_pitchRateSlow;
+
+    public float highZoom;
+    public float lowZoom;
+    public float zoomLerpRate;
+
+    private bool zoomKeyPressed = false;
+
 
     public float maxMouseTraverseSpeed;
 
@@ -103,6 +112,15 @@ public class CamManipulation : MonoBehaviour
     void Update()
     {
 
+        zoomKeyPressed = Input.GetKey(KeyCode.LeftAlt);
+        float zoomTarget = lowZoom;
+        if (zoomKeyPressed)
+        {
+            zoomTarget = highZoom;
+        }
+        camRef.fieldOfView = Mathf.Lerp(camRef.fieldOfView, zoomTarget, zoomLerpRate * Time.deltaTime);
+
+
 
         camRef.transform.localPosition = Vector3.Lerp(camRef.transform.localPosition, camTargetLocalPos, camTargetLocalPosLerpRate * Time.deltaTime);
         
@@ -126,6 +144,9 @@ public class CamManipulation : MonoBehaviour
 
                 activeRotateLerpRate = lookAtLerpRate;
 
+                // this will not move the camera. Only the aim point
+                worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
+
 
             }
             else // if look at is enabled but reference is null, re-toggle look at
@@ -133,8 +154,6 @@ public class CamManipulation : MonoBehaviour
         }
         else
         {
-
-
             // right stick to look around aircraft
             processFreeLook();
         }
@@ -255,10 +274,23 @@ public class CamManipulation : MonoBehaviour
     {
         Vector3 newAimWorldDir = worldLockedLookDirection;
 
-        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.fixedDeltaTime;
-        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.fixedDeltaTime;
+        float currentYawRate = mouse_yawRate;
+        float currentPitchRate = mouse_pitchRate;
 
-        
+        if (zoomKeyPressed)
+        {
+            currentYawRate = mouse_yawRateSlow;
+            currentPitchRate = mouse_pitchRateSlow;
+        }
+
+        float angleOffsetHoriz = currentYawRate * mouseSpeedX * Time.fixedDeltaTime;
+        float angleOffsetVert = -currentPitchRate * mouseSpeedY * Time.fixedDeltaTime;
+
+        float maxMouseStep = maxMouseTraverseSpeed * Time.fixedDeltaTime;
+
+        angleOffsetHoriz = Mathf.Clamp(angleOffsetHoriz, -maxMouseStep, maxMouseStep);
+        angleOffsetVert = Mathf.Clamp(angleOffsetVert, -maxMouseStep, maxMouseStep);
+
         // convert world look dir to local space
         //newAimWorldDir = aircraftRootRB.transform.InverseTransformDirection(newAimWorldDir);
 
@@ -289,8 +321,17 @@ public class CamManipulation : MonoBehaviour
             vertOvershoot = (Mathf.Abs(camEuler.x) - warThunderVertMod) * Mathf.Sign(camEuler.x);
             vertRot = Quaternion.AngleAxis(-vertOvershoot, camAxisHorizRef.transform.right);
 
+            //vertOvershoot = Mathf.Clamp(vertOvershoot, -(90f - warThunderVertMod), 90f - warThunderVertMod);
+
             float horizCorrectCoeff = 10f;
-            float horizCorrectionDegrees = -Mathf.Min(Mathf.Abs( horizCorrectCoeff * vertOvershoot), Mathf.Abs(unEulerize(camAxisHorizRef.transform.localEulerAngles.y)));
+
+            float horizMaxCorrection = unEulerize(camAxisHorizRef.transform.localEulerAngles.y);
+
+            float horizCorrectionDegrees = -Mathf.Min(Mathf.Abs( horizCorrectCoeff * vertOvershoot), Mathf.Abs(horizMaxCorrection));
+
+            Debug.Log("read camY rot: " + unEulerize(camAxisHorizRef.transform.localEulerAngles.y) + 
+                ", horizMaxCorrection: " + horizMaxCorrection + 
+                ", horizCorrectionDegrees: " + horizCorrectionDegrees); ;
 
             //Debug.Log("read camY rot: " + Mathf.Abs(unEulerize(camAxisHorizRef.transform.localEulerAngles.y)) + " overShoot: " + vertOvershoot);
 

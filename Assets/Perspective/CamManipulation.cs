@@ -283,14 +283,58 @@ public class CamManipulation : MonoBehaviour
             currentPitchRate = mouse_pitchRateSlow;
         }
 
-        float angleOffsetHoriz = currentYawRate * mouseSpeedX * Time.fixedDeltaTime;
-        float angleOffsetVert = -currentPitchRate * mouseSpeedY * Time.fixedDeltaTime;
+        float angleOffsetHoriz = currentYawRate * mouseSpeedX * Time.deltaTime;
+        float angleOffsetVert = -currentPitchRate * mouseSpeedY * Time.deltaTime;
 
-        float maxMouseStep = maxMouseTraverseSpeed * Time.fixedDeltaTime;
+        // DEBUG --- RULE OUT ANY HORIZONTAL MOUSE INPUT AS CAUSE OF ISSUE
+        //angleOffsetHoriz = 0f;
+
+        float maxMouseStep = maxMouseTraverseSpeed * Time.deltaTime;
+
+        Vector3 tempOldDir = worldLockedLookDirection;
+        Vector3 oldDirEuler = dir2Euler(tempOldDir);
+
+        float maxVertStep = (warThunderVertMod - Mathf.Abs(unEulerize(oldDirEuler.x)))*Mathf.Sign(oldDirEuler.x);
 
         angleOffsetHoriz = Mathf.Clamp(angleOffsetHoriz, -maxMouseStep, maxMouseStep);
         angleOffsetVert = Mathf.Clamp(angleOffsetVert, -maxMouseStep, maxMouseStep);
 
+        //Debug.Log(angleOffsetVert + ", " + Mathf.Sign(angleOffsetVert));
+
+        //Debug.Log("OldDirEuler: " + oldDirEuler);
+
+        // if maxVertStep and angleOffsetVert are in same direction
+        if (Mathf.Sign(angleOffsetVert).Equals(Mathf.Sign(maxVertStep)) &&
+            Mathf.Sign(angleOffsetVert).Equals(Mathf.Sign(oldDirEuler.x)))
+        {
+            // if moving mouse in positive direction, downwards
+            if(maxVertStep > 0)
+            {
+                if(maxVertStep < angleOffsetVert)
+                {
+                    angleOffsetVert  = 0f;
+                    //Debug.Log("======= Positive overshoot detected. maxVertStep: " + maxVertStep + ", angleOffsetVert: " + angleOffsetVert +
+                    //    ", oldDirEuler.x: " + oldDirEuler.x);
+                }
+
+                //angleOffsetVert = Mathf.Min(angleOffsetVert, maxVertStep);
+            }
+            else // if moving mouse in negative direction, upwards
+            {
+                if(maxVertStep > angleOffsetVert)
+                {
+                    angleOffsetVert = 0f;
+                    //Debug.Log("======= Negative overshoot detected. maxVertStep: " + maxVertStep + ", angleOffsetVert: " + angleOffsetVert +
+                    //    ", oldDirEuler.x: " + oldDirEuler.x);
+                }
+
+               // angleOffsetVert = Mathf.Max(angleOffsetVert, maxVertStep);
+            }
+            
+        }
+
+
+        //Debug.Log("maxVertStep: " + maxVertStep + ", oldDirEuler: " + oldDirEuler + ", angleOffsetVert: " + angleOffsetVert + ", maxMouseStep: " + maxMouseStep);
         // convert world look dir to local space
         //newAimWorldDir = aircraftRootRB.transform.InverseTransformDirection(newAimWorldDir);
 
@@ -302,17 +346,20 @@ public class CamManipulation : MonoBehaviour
         Quaternion rotateBy = vertRot * horizRot;
 
 
-        // clamp resulting vertical angle within bounds
-        //  there has....gotta be a better way to do this....
-        //  so much effort just to convert the direction to a local euler vector
-        Vector3 tempNewDir = rotateBy * newAimWorldDir;
-        tempNewDir = aircraftRootRB.transform.InverseTransformDirection(tempNewDir);
-        Quaternion localDirRotation = Quaternion.LookRotation(tempNewDir);
         
-        Vector3 camEuler = Quaternion.ToEulerAngles(localDirRotation) * Mathf.Rad2Deg;
 
-        
-        float vertOvershoot = 0f;
+        //Debug.Log("maxVertStep: " + maxVertStep + ", oldDirEuler: " + oldDirEuler);
+
+
+        //// clamp resulting vertical angle within bounds
+        ////  there has....gotta be a better way to do this....
+        ////  so much effort just to convert the direction to a local euler vector
+        Vector3 tempNewDir = rotateBy * newAimWorldDir;
+        Vector3 camEuler = dir2Euler(tempNewDir);
+
+        ////Debug.Log("camEuler: " + camEuler);
+
+        float vertOvershoot;
 
         // if camera outside vert limit
         if ((camEuler.x > warThunderVertMod) || (camEuler.x < -warThunderVertMod))
@@ -321,7 +368,7 @@ public class CamManipulation : MonoBehaviour
             vertOvershoot = (Mathf.Abs(camEuler.x) - warThunderVertMod) * Mathf.Sign(camEuler.x);
             vertRot = Quaternion.AngleAxis(-vertOvershoot, camAxisHorizRef.transform.right);
 
-            //vertOvershoot = Mathf.Clamp(vertOvershoot, -(90f - warThunderVertMod), 90f - warThunderVertMod);
+            vertOvershoot = Mathf.Clamp(vertOvershoot, -(90f - warThunderVertMod), 90f - warThunderVertMod);
 
             float horizCorrectCoeff = 10f;
 
@@ -329,14 +376,20 @@ public class CamManipulation : MonoBehaviour
 
             float horizCorrectionDegrees = -Mathf.Min(Mathf.Abs( horizCorrectCoeff * vertOvershoot), Mathf.Abs(horizMaxCorrection));
 
-            Debug.Log("read camY rot: " + unEulerize(camAxisHorizRef.transform.localEulerAngles.y) + 
-                ", horizMaxCorrection: " + horizMaxCorrection + 
-                ", horizCorrectionDegrees: " + horizCorrectionDegrees); ;
+            //Debug.Log("Mouse speedY: " + mouseSpeedY + ", vertOvershoot: " + vertOvershoot);
+
+            //Debug.Log("read camY rot: " + unEulerize(camAxisHorizRef.transform.localEulerAngles.y) + 
+            //    ", horizMaxCorrection: " + horizMaxCorrection + 
+            //    ", horizCorrectionDegrees: " + horizCorrectionDegrees);
 
             //Debug.Log("read camY rot: " + Mathf.Abs(unEulerize(camAxisHorizRef.transform.localEulerAngles.y)) + " overShoot: " + vertOvershoot);
 
-            // rotate horizontally towards center
-            horizRot *= Quaternion.AngleAxis(horizCorrectionDegrees * Mathf.Sign(camEuler.y), aircraftRootRB.transform.up);
+            // only center if there's no horizontal mouse input
+            if (angleOffsetHoriz.Equals(0.0f))
+            {
+                // rotate horizontally towards center
+                horizRot *= Quaternion.AngleAxis(horizCorrectionDegrees * Mathf.Sign(camEuler.y), aircraftRootRB.transform.up);
+            }
 
             rotateBy = horizRot * vertRot; // recombine rotations with new values
             
@@ -350,6 +403,13 @@ public class CamManipulation : MonoBehaviour
         //newAimWorldDir = aircraftRootRB.transform.TransformDirection(newAimWorldDir);
 
         return newAimWorldDir;
+    }
+
+    private Vector3 dir2Euler(Vector3 dir)
+    {
+        dir = aircraftRootRB.transform.InverseTransformDirection(dir);
+        Quaternion localOldDirRotation = Quaternion.LookRotation(dir);
+        return Quaternion.ToEulerAngles(localOldDirRotation) * Mathf.Rad2Deg;
     }
 
     private void processFreeLook()
@@ -410,8 +470,8 @@ public class CamManipulation : MonoBehaviour
     {
         // horribly inefficient. Surely this can be done in 5 lines or fewer
 
-        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.fixedDeltaTime;
-        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.fixedDeltaTime;
+        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.deltaTime;
+        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.deltaTime;
 
         Vector3 newRotationEuler = Mathf.Rad2Deg * Quaternion.ToEulerAngles(targetLocalRotation) +
                 new Vector3(angleOffsetVert, angleOffsetHoriz, 0.0f);

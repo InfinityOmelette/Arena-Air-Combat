@@ -104,6 +104,9 @@ public class hudControl : MonoBehaviour
     public GameObject wtAimpointObj;
     public GameObject screenCenterObj;
 
+    public GameObject upMarker;
+    public GameObject downMarker;
+
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);

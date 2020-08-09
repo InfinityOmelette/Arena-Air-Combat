@@ -20,6 +20,7 @@ public class DirectionAI : MonoBehaviour
 
     hudControl hudRef;
     GameObject aimpointIconRef;
+    public WheelsControl wheels;
 
     public bool isApplied;
 
@@ -156,21 +157,21 @@ public class DirectionAI : MonoBehaviour
         float aiYaw = correctiveTorqueVect.y;
         float aiRoll = correctiveTorqueVect.y;
 
-        // PITCH - controller overrides pitch and roll
-        if (Mathf.Abs(controllerPitch) > inputTransferMargin)
-        {
-            aiPitch = controllerPitch;
-            aiRoll = controllerRoll;
-        }
         
-
         // YAW - controller overrides yaw and roll
         if(Mathf.Abs(controllerYaw) > inputTransferMargin)
         {
             aiYaw = controllerYaw;
             aiRoll = aiRoll * rudderRollOverrideFactor;
         }
-        
+
+        // PITCH - controller overrides pitch and roll
+        if (Mathf.Abs(controllerPitch) > inputTransferMargin)
+        {
+            aiPitch = controllerPitch;
+            aiRoll = controllerRoll;
+        }
+
         // ROLL - controller overrides roll only
         if (Mathf.Abs(controllerRoll) > inputTransferMargin)
         {
@@ -183,6 +184,11 @@ public class DirectionAI : MonoBehaviour
         flight.input_pitch = aiPitch;
         flight.input_yaw = aiYaw;
         flight.input_roll = aiRoll;
+
+        if (wheels != null)
+        {
+            wheels.input_rudderAxis = aiYaw;
+        }
     }
 
     void OnDestroy()

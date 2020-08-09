@@ -44,6 +44,11 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
 
     public bool isReady = false;
 
+
+    private hudControl hud;
+    private GameObject upMarker;
+    private GameObject downMarker;
+
     private void Awake()
     {
         tgtComputer = GetComponent<TgtComputer>();
@@ -56,7 +61,9 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-
+        hud = hudControl.mainHud.GetComponent<hudControl>();
+        upMarker = hud.upMarker;
+        downMarker = hud.downMarker;
         
         
     }
@@ -66,6 +73,9 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     {
         if (isReady && myFlow.isLocalPlayer)
         {
+            hud.drawItemOnScreen(upMarker, cam.camRef.transform.position + transform.up, 1.0f);
+            hud.drawItemOnScreen(downMarker, cam.camRef.transform.position - transform.up, 1.0f);
+
 
             myFlare.flareButtonDown = Input.GetButtonDown("FlarePop");
 
@@ -229,7 +239,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
 
             // WHEELS
             wheels.input_gear_button = Input.GetAxis("Gear");
-            wheels.input_rudderAxis = Mathf.Lerp(wheels.input_rudderAxis, yaw, rudderInputLerp);
+            //wheels.input_rudderAxis = Mathf.Lerp(wheels.input_rudderAxis, yaw, rudderInputLerp);
 
             // CAMERA
             //cam.input_freeLookHoriz = Mathf.Lerp(cam.input_freeLookHoriz, Input.GetAxis("CamLookX"), cam.freeLookLerpRate);

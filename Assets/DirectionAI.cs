@@ -53,6 +53,10 @@ public class DirectionAI : MonoBehaviour
     //public float maxAutoLevelErrorAngle;
     //public float maxAutoLevelTorque;
 
+    public float pitchLerpOverride;
+    private float prevPitch;
+
+
     void Awake()
     {
         flight = GetComponent<RealFlightControl>();
@@ -196,17 +200,24 @@ public class DirectionAI : MonoBehaviour
             aiPitch = controllerPitch;
             aiRoll = controllerRoll;
         }
+        else // if using WarThunder aim
+        {
+            aiPitch = Mathf.Lerp(prevPitch, aiPitch, pitchLerpOverride);
+            prevPitch = aiPitch;
+
+            flight.effective_pitch = aiPitch;
+        }
 
         // ROLL - controller overrides roll only
         if (Mathf.Abs(controllerRoll) > inputTransferMargin)
         {
             aiRoll = controllerRoll; // even if yaw created roll input, this will happen later, thereby overriding
         }
-        
+
         //flight.input_roll = Mathf.Clamp(Mathf.Sign(correctiveTorqueVect.y) * Vector3.Angle(transform.up, correctiveTorqueVect) / maxErrorAngle,
         //    0.0f, 1.0f);
 
-
+        
 
 
         flight.input_pitch = aiPitch;
@@ -214,7 +225,7 @@ public class DirectionAI : MonoBehaviour
         flight.input_roll = aiRoll;
         
 
-        //flight.effective_pitch = aiPitch;
+        
         //flight.effective_yaw = aiYaw;
         //flight.effective_roll = aiRoll;
 

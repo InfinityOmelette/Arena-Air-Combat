@@ -28,7 +28,7 @@ public class DirectionAI : MonoBehaviour
     public float angVelDerivativeGain;
     public float angVelErrorScalar;
     public float angVelCorrectionScalar;
-    
+    public float aiRollDerivativeGain;
 
     public float inputTransferMargin;
 
@@ -43,6 +43,15 @@ public class DirectionAI : MonoBehaviour
     private Rigidbody myRb;
 
     private Vector3 prevCorrectionTorque;
+
+    public float maxRollAngularVel;
+    public float maxRollRateError;
+    public float rollRateGain;
+    //private float prevRollError;
+    private float prevRollRateError;
+
+    //public float maxAutoLevelErrorAngle;
+    //public float maxAutoLevelTorque;
 
     void Awake()
     {
@@ -102,11 +111,11 @@ public class DirectionAI : MonoBehaviour
     void FixedUpdate()
     {
 
-        
+        currentBankAngle = Quaternion.ToEulerAngles(transform.rotation).z * Mathf.Rad2Deg;
 
         //Debug.Log("Current angular velocity: " + myRb.angularVelocity.magnitude * Mathf.Rad2Deg);
 
-        currentBankAngle = Quaternion.ToEulerAngles(transform.rotation).z * Mathf.Rad2Deg;
+
 
         if (isApplied)
         {
@@ -125,7 +134,7 @@ public class DirectionAI : MonoBehaviour
     {
         //float currentAngleError = Vector3.Angle(transform.forward, commandDir); // degrees
 
-
+        // already discludes any roll component -- cross is perpendicular to forward
         Vector3 targetAngularVelocity = Vector3.Cross(transform.forward, commandDir) * angVelErrorScalar; 
 
         // do angular velocity setting here
@@ -140,26 +149,42 @@ public class DirectionAI : MonoBehaviour
         prevCorrectionTorque = correctiveTorqueVect; // discluding derivative gain
 
         correctiveTorqueVect += errorRate;
-        
 
         if(correctiveTorqueVect.magnitude > 1.0f)
         {
             correctiveTorqueVect = correctiveTorqueVect.normalized;
         }
 
-
         // Convert to yaw/pitch inputs, -1.0 to 1.0
         correctiveTorqueVect = transform.InverseTransformDirection(correctiveTorqueVect);
 
         //Debug.Log("Corrective torque vect: " + correctiveTorqueVect + ", magnitude: " + correctiveTorqueVect.magnitude);
 
-        float aiPitch = correctiveTorqueVect.x;
+        float aiPitch = correctiveTorqueVect.x; //  Mathf.Lerp(prevAiPitch, correctiveTorqueVect.x, aiPitchLerp * Time.fixedDeltaTime);
         float aiYaw = correctiveTorqueVect.y;
-        float aiRoll = correctiveTorqueVect.y;
 
         
+        //float autoLevelMod = Mathf.Clamp(currentBankAngle / maxAutoLevelErrorAngle, -1.0f, 1.0f) * maxAutoLevelTorque;
+
+
+        Vector3 rollRateVect = Vector3.Project(myRb.angularVelocity, transform.forward);
+        float currentRollRate = rollRateVect.magnitude * Mathf.Sign(rollRateVect.z);
+        float targetRollRate = correctiveTorqueVect.y * maxRollAngularVel;
+        float rollRateError = (targetRollRate - currentRollRate) / maxRollRateError;
+        float rollRateDeriv = (rollRateError - prevRollRateError) * rollRateGain * Time.fixedDeltaTime;
+        prevRollRateError = rollRateError;
+
+        
+        //Debug.Log("autoLevelTorque: " + autoLevelMod);
+
+        float aiRoll = Mathf.Clamp(rollRateError + rollRateDeriv, -1.0f, 1.0f);
+
+        //float rollGain = (aiRoll - prevRollError) * aiRollDerivativeGain * Time.fixedDeltaTime;
+        //aiRoll = Mathf.Clamp(aiRoll + rollGain, -1.0f, 1.0f);
+
+
         // YAW - controller overrides yaw and roll
-        if(Mathf.Abs(controllerYaw) > inputTransferMargin)
+        if (Mathf.Abs(controllerYaw) > inputTransferMargin)
         {
             aiYaw = controllerYaw;
             aiRoll = aiRoll * rudderRollOverrideFactor;
@@ -181,9 +206,17 @@ public class DirectionAI : MonoBehaviour
         //flight.input_roll = Mathf.Clamp(Mathf.Sign(correctiveTorqueVect.y) * Vector3.Angle(transform.up, correctiveTorqueVect) / maxErrorAngle,
         //    0.0f, 1.0f);
 
+
+
+
         flight.input_pitch = aiPitch;
         flight.input_yaw = aiYaw;
         flight.input_roll = aiRoll;
+        
+
+        //flight.effective_pitch = aiPitch;
+        //flight.effective_yaw = aiYaw;
+        //flight.effective_roll = aiRoll;
 
         if (wheels != null)
         {

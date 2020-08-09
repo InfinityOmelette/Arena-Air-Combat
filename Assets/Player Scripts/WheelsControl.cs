@@ -21,7 +21,12 @@ public class WheelsControl : MonoBehaviour
     public bool brakeCurrentlyApplied = false;
 
     public float input_brakeAxis;
+
+    public float rudderLerpRate;
     public float input_rudderAxis;
+    private float effectiveRudderAxis;
+    private float prevEffectiveRudder;
+    
     public float input_gear_button;
 
     
@@ -36,11 +41,16 @@ public class WheelsControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        lerpInputs();
         processAllWheels(); // inputs that are read every frame
         checkGearInput();   // inputs that are toggle
     }
 
-
+    private void lerpInputs()
+    {
+        effectiveRudderAxis = Mathf.Lerp(prevEffectiveRudder, input_rudderAxis, rudderLerpRate);
+        prevEffectiveRudder = effectiveRudderAxis;
+    }
 
     // steering and braking for all wheels
     private void processAllWheels()
@@ -77,7 +87,7 @@ public class WheelsControl : MonoBehaviour
         steerInput = Mathf.Clamp(steerInput, 0.0f, 1.0f);
 
         // factor in rudder input.
-        steerInput *= input_rudderAxis;
+        steerInput *= effectiveRudderAxis;
 
 
         // clamp and return steering input

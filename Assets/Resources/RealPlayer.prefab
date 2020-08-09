@@ -1472,15 +1472,19 @@ MonoBehaviour:
   wheels: {fileID: 6801349663249705164}
   isApplied: 0
   maxErrorAngle: 10
-  angVelDerivativeGain: 75
+  angVelDerivativeGain: 300
   angVelErrorScalar: 5
   angVelCorrectionScalar: 125
+  aiRollDerivativeGain: 0.75
   inputTransferMargin: 0.2
   controllerPitch: 0
   controllerYaw: 0
   controllerRoll: 0
-  rudderRollOverrideFactor: 0.25
+  rudderRollOverrideFactor: 0.125
   freeLookOn: 0
+  maxRollAngularVel: 30
+  maxRollRateError: 20
+  rollRateGain: 55
 --- !u!114 &-8673316639226967037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1497,8 +1501,8 @@ MonoBehaviour:
   input_pitch: 0
   input_roll: 0
   input_yaw: 0
-  pitchInputLerp: 0.0249
-  rollInputLerp: 0.225
+  pitchInputLerp: 0.025
+  rollInputLerp: 0.5
   rudderInputLerp: 0.065
   effective_pitch: 0
   effective_roll: 0

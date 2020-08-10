@@ -141,7 +141,7 @@ public class CamManipulation : MonoBehaviour
                 //camAxisRollRef.transform.LookAt(lookAtObj.transform.position, aircraftRootRB.transform.up);
 
                 targetLocalRotation = Quaternion.LookRotation(
-                    aircraftRootRB.transform.InverseTransformPoint(lookAtObj.transform.position),
+                    camAxisRollRef.transform.InverseTransformPoint(lookAtObj.transform.position),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
 
                 activeRotateLerpRate = lookAtLerpRate;
@@ -343,7 +343,7 @@ public class CamManipulation : MonoBehaviour
         // calculate and perform euler rotation of look direction, in local space
 
         Quaternion vertRot = Quaternion.AngleAxis(angleOffsetVert, camAxisHorizRef.transform.right);
-        Quaternion horizRot = Quaternion.AngleAxis(angleOffsetHoriz, aircraftRootRB.transform.up);
+        Quaternion horizRot = Quaternion.AngleAxis(angleOffsetHoriz, camAxisRollRef.transform.up);
 
         Quaternion rotateBy = vertRot * horizRot;
 
@@ -423,7 +423,7 @@ public class CamManipulation : MonoBehaviour
             worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
 
             targetLocalRotation = Quaternion.LookRotation(
-                    aircraftRootRB.transform.InverseTransformPoint(aircraftRootRB.transform.position + worldLockedLookDirection),
+                    camAxisRollRef.transform.InverseTransformPoint(aircraftRootRB.transform.position + worldLockedLookDirection),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
         }
         else
@@ -516,15 +516,15 @@ public class CamManipulation : MonoBehaviour
         float activeRollRateMod = rollRateMod;
 
         // only perform roll rate offset if NEITHER lookAt or warThunderCam are enabled
-        if (warThunderCamEnabled)
-        {
-            activeRollRateMod = rollRateMod * altRollRateMod;
-        }
+        //if (warThunderCamEnabled)
+        //{
+        //    activeRollRateMod = rollRateMod * altRollRateMod;
+        //}
 
-        if (lookAtEnabled)
-        {
-            activeRollRateMod = 0f;
-        }
+        //if (lookAtEnabled)
+        //{
+        //    activeRollRateMod = 0f;
+        //}
 
         Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
         rollRateOffsetTarget = rollRateVect.magnitude * activeRollRateMod; // Use magnitude to determine camera z offset strength
@@ -532,7 +532,12 @@ public class CamManipulation : MonoBehaviour
             rollRateOffsetTarget *= -1;
 
         rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate * Time.deltaTime);
-        
+
+        //if (Input.GetKey(KeyCode.B))
+        //{
+        //    rollRateOffsetResult = .1f;
+        //}
+
         returnQuat = new Quaternion(
             camAxisRollRef.transform.localRotation.x,
             camAxisRollRef.transform.localRotation.y,

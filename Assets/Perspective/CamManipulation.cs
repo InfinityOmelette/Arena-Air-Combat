@@ -95,6 +95,8 @@ public class CamManipulation : MonoBehaviour
 
     public GameObject testObj;
 
+    public float altRollRateMod;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -511,14 +513,23 @@ public class CamManipulation : MonoBehaviour
         float rollRateOffsetTarget = 0f; // will target 0 z rotation if lookAt is enabled
         float rollRateOffsetResult;
 
+        float activeRollRateMod = rollRateMod;
+
         // only perform roll rate offset if NEITHER lookAt or warThunderCam are enabled
-        if (!(lookAtEnabled || warThunderCamEnabled))
+        if (warThunderCamEnabled)
         {
-            Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
-            rollRateOffsetTarget = rollRateVect.magnitude * rollRateMod; // Use magnitude to determine camera z offset strength
-            if (rollRateVect.normalized == transform.forward)
-                rollRateOffsetTarget *= -1;
+            activeRollRateMod = rollRateMod * altRollRateMod;
         }
+
+        if (lookAtEnabled)
+        {
+            activeRollRateMod = 0f;
+        }
+
+        Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
+        rollRateOffsetTarget = rollRateVect.magnitude * activeRollRateMod; // Use magnitude to determine camera z offset strength
+        if (rollRateVect.normalized == transform.forward)
+            rollRateOffsetTarget *= -1;
 
         rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate * Time.deltaTime);
         

@@ -44,8 +44,8 @@ public class DirectionAI : MonoBehaviour
 
     private Vector3 prevCorrectionTorque;
 
-    public float aiYawBiasCoeff;
-    public float maxYawErrorForRoll;
+    //public float aiYawBiasCoeff;
+    //public float maxYawErrorForRoll;
     public float maxRollAngularVel;
     public float maxRollRateError;
     public float rollRateGain;
@@ -162,7 +162,11 @@ public class DirectionAI : MonoBehaviour
 
         correctiveTorqueVect += errorRate;
 
-        float rawY = Mathf.Clamp(correctiveTorqueVect.y, -1.0f, 1.0f);
+        // Convert to yaw/pitch inputs, -1.0 to 1.0
+        correctiveTorqueVect = transform.InverseTransformDirection(correctiveTorqueVect);
+
+
+        float rawPitch = Mathf.Clamp(correctiveTorqueVect.x, -1.0f, 1.0f);
 
         //correctiveTorqueVect.x = Mathf.Clamp(correctiveTorqueVect.x, -1.0f, 1.0f);
         //correctiveTorqueVect.y = Mathf.Clamp(correctiveTorqueVect.y, -1.0f, 1.0f);
@@ -173,10 +177,7 @@ public class DirectionAI : MonoBehaviour
             correctiveTorqueVect = correctiveTorqueVect.normalized;
         }
 
-        //correctiveTorqueVect.y = rawY;
-
-        // Convert to yaw/pitch inputs, -1.0 to 1.0
-        correctiveTorqueVect = transform.InverseTransformDirection(correctiveTorqueVect);
+        correctiveTorqueVect.x = rawPitch;
 
         //Debug.Log("Corrective torque vect: " + correctiveTorqueVect + ", magnitude: " + correctiveTorqueVect.magnitude);
 
@@ -186,9 +187,9 @@ public class DirectionAI : MonoBehaviour
 
         //float autoLevelMod = Mathf.Clamp(currentBankAngle / maxAutoLevelErrorAngle, -1.0f, 1.0f) * maxAutoLevelTorque;
 
-        Vector3 localDirLateral = Vector3.ProjectOnPlane(commandDir, transform.up);
-        float yawAngle = Vector3.Angle(localDirLateral, transform.forward ) * Mathf.Sign(correctiveTorqueVect.y);
-        float yawError = Mathf.Clamp(yawAngle / maxYawErrorForRoll, -1.0f, 1.0f);
+        //Vector3 localDirLateral = Vector3.ProjectOnPlane(commandDir, transform.up);
+        //float yawAngle = Vector3.Angle(localDirLateral, transform.forward ) * Mathf.Sign(correctiveTorqueVect.y);
+        //float yawError = Mathf.Clamp(yawAngle / maxYawErrorForRoll, -1.0f, 1.0f);
 
         Vector3 rollRateVect = Vector3.Project(myRb.angularVelocity, transform.forward);
         float currentRollRate = rollRateVect.magnitude * Mathf.Sign(rollRateVect.z);
@@ -197,20 +198,21 @@ public class DirectionAI : MonoBehaviour
         float rollRateDeriv = (rollRateError - prevRollRateError) * rollRateGain * Time.fixedDeltaTime;
         prevRollRateError = rollRateError;
 
-        float aiYawBias = aiYaw * aiYawBiasCoeff;
+        //float aiYawBias = aiYaw * aiYawBiasCoeff;
 
         
         //Debug.Log("autoLevelTorque: " + autoLevelMod);
 
-        float aiRoll = Mathf.Clamp(rollRateError + rollRateDeriv + aiYawBias, -1.0f, 1.0f);
+        float aiRoll = Mathf.Clamp(rollRateError + rollRateDeriv, -1.0f, 1.0f);
 
         Debug.Log("CurrentRollRate: " + currentRollRate + ", TargetRollRate: " + targetRollRate +
-            ", RollRateError: " + rollRateError + ", RollRateDeriv: " + rollRateDeriv + ", yawError: " + yawError +
+            ", RollRateError: " + rollRateError + ", RollRateDeriv: " + rollRateDeriv +
             "aiRoll: " + aiRoll);
 
         //float rollGain = (aiRoll - prevRollError) * aiRollDerivativeGain * Time.fixedDeltaTime;
         //aiRoll = Mathf.Clamp(aiRoll + rollGain, -1.0f, 1.0f);
 
+        
 
         // YAW - controller overrides yaw and roll
         if (Mathf.Abs(controllerYaw) > inputTransferMargin)

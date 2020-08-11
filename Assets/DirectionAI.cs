@@ -10,7 +10,9 @@ public class DirectionAI : MonoBehaviour
 
     public CombatFlow myFlow;
 
-    public Vector3 inputDir;
+    public Vector3 targetDir;
+    private Vector3 currentDir;
+    public float targetDirLerpRate;
 
     private float rollCommand;
     private float effectiveRollCommand;
@@ -65,6 +67,8 @@ public class DirectionAI : MonoBehaviour
     private float prevRoll;
 
 
+    
+
     void Awake()
     {
         flight = GetComponent<RealFlightControl>();
@@ -104,22 +108,25 @@ public class DirectionAI : MonoBehaviour
                 {
                     freeLookOn = false;
                     hudRef.screenCenterObj.SetActive(false);
-                    camRef.worldLockedLookDirection = inputDir;
+                    camRef.worldLockedLookDirection = targetDir;
                 }
             }
 
 
             if (myFlow.isLocalPlayer && camRef != null && !freeLookOn)
             {
-                inputDir = camRef.worldLockedLookDirection;
+                //inputDir = Vector3.Lerp( inputDir.normalized, camRef.worldLockedLookDirection.normalized, targetDirLerpRate * Time.deltaTime).normalized;
+                targetDir = camRef.worldLockedLookDirection;
             }
 
             if (camRef.warThunderCamEnabled)
             {
-                hudRef.drawItemOnScreen(aimpointIconRef, camRef.camRef.transform.position + inputDir, 1.0f);
+                hudRef.drawItemOnScreen(aimpointIconRef, camRef.camRef.transform.position + targetDir, 1.0f);
             }
 
         }
+
+        currentDir = Vector3.Lerp(currentDir.normalized, targetDir.normalized, targetDirLerpRate * Time.deltaTime).normalized;
     }
 
     
@@ -134,7 +141,7 @@ public class DirectionAI : MonoBehaviour
 
         if (isApplied)
         {
-            applyCorrectionTorque(inputDir);
+            applyCorrectionTorque(currentDir);
         }
         else
         {

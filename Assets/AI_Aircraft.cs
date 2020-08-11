@@ -67,7 +67,7 @@ public class AI_Aircraft : MonoBehaviour
         }
         else
         {
-            dirAI.inputDir = currWpt - transform.position;
+            dirAI.targetDir = currWpt - transform.position;
         }
     }
 

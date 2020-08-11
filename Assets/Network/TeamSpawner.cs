@@ -61,7 +61,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         Debug.Log("Setting player as AI");
 
         // layer 8 is localPlayer layer
-        MoveToLayer(aircraftObj.transform, 8);
+        //MoveToLayer(aircraftObj.transform, 8);
 
         PlayerInput_Aircraft inputRoot = aircraftObj.GetComponent<PlayerInput_Aircraft>();
         inputRoot.enabled = false;

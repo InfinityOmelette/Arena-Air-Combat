@@ -72,7 +72,7 @@ public class EngineControl : MonoBehaviour
     // ================================ START
     void Start()
     {
-        if (myFlow.isLocalPlayer)
+        if (myFlow.isLocalPlayer || myFlow.aiControlled)
         {
             checkAirStatsRefError();
 
@@ -108,7 +108,7 @@ public class EngineControl : MonoBehaviour
     // ================================ LATEUPDATE
     void LateUpdate()
     {
-        if (myFlow.isLocalPlayer)
+        if (myFlow.isLocalPlayer || myFlow.aiControlled)
         {
 
             updateFuelMass(); // root rigidbody will change mass depending on fuel level
@@ -169,6 +169,7 @@ public class EngineControl : MonoBehaviour
             //  THRUST BASE
             currentThrottlePercent = inputThrottleFromJoypad();       // set throttle
         }
+        
     }
 
 
@@ -225,7 +226,7 @@ public class EngineControl : MonoBehaviour
     // =============================== FIXEDUPDATE
     void FixedUpdate()
     {
-        if (myFlow.isLocalPlayer)
+        if (myFlow.isLocalPlayer || myFlow.aiControlled)
         {
 
             //  THRUST BASE
@@ -243,6 +244,11 @@ public class EngineControl : MonoBehaviour
             currentFuelMass = Mathf.Clamp(currentFuelMass, 0.0f, maxFuelMass);
             float currentTrueThrust = currentBaseThrust * fuelBurnMod; // create thrust according to burn rate
 
+
+            //if (myFlow.aiControlled)
+            //{
+            //    Debug.Log("AI applying thrust: " + currentTrueThrust);
+            //}
 
             // ADD FORCE
             rbRef.AddForce(transform.forward * currentTrueThrust);

@@ -1363,6 +1363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7744941291827435740}
   - component: {fileID: 7744941291827435729}
+  - component: {fileID: 6976126980177357271}
   - component: {fileID: 1785817150400101556}
   - component: {fileID: 1243636948586757761}
   - component: {fileID: -8673316639226967037}
@@ -1421,6 +1422,26 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6976126980177357271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40924d3134db160469d6a6a2b9cd1b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myFlow: {fileID: 0}
+  hardpoints: {fileID: 3718655085937672987}
+  cannon: {fileID: 8059042160316306020}
+  dirAI: {fileID: 0}
+  engine: {fileID: 0}
+  currWpt: {x: 0, y: 0, z: 0}
+  waypoints: []
+  waypointRadius: 100
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1616,6 +1637,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2406,11 +2428,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
-    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.178
-      objectReference: {fileID: 0}
     - target: {fileID: 7971503840083256575, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -2476,6 +2493,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.027999967
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.178
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
@@ -3110,12 +3132,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d012f33e89f9a4641b2f7c0bb55e0c73, type: 3}
---- !u!1 &6524932584960729452 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8869751597250331419, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
-    type: 3}
-  m_PrefabInstance: {fileID: 2421396772111508087}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6816141353901119962 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9155057156102011821, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
@@ -3146,6 +3162,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a507eb4716a911547be37c8a838c3f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6524932584960729452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8869751597250331419, guid: d012f33e89f9a4641b2f7c0bb55e0c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 2421396772111508087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2589640109365144863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3596,21 +3618,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Right Wing 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -3686,26 +3693,41 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.25
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: impactDamage
-      value: 15
+      propertyPath: m_Name
+      value: Gunpod Right Wing 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: bounceDamage
-      value: 5
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: dissipationTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: glowColor.g
+      value: 0.6538996
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
-    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
+      objectReference: {fileID: 2100000, guid: 45552cf03b18e5246a91c0543cf9ca5c, type: 2}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -3761,45 +3783,15 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 400
       objectReference: {fileID: 0}
-    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Layer
-      value: 9
+      propertyPath: impactDamage
+      value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4246865729466976302, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 9012739496869812708, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: radius
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: dissipationTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: glowColor.g
-      value: 0.6538996
-      objectReference: {fileID: 0}
-    - target: {fileID: 5815251015398722670, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
+      propertyPath: bounceDamage
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -3811,11 +3803,41 @@ PrefabInstance:
       propertyPath: radius
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246865729466976302, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 45552cf03b18e5246a91c0543cf9ca5c, type: 2}
+      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
+    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
+    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9012739496869812708, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815251015398722670, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -4592,16 +4614,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Right
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -4677,16 +4689,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.6
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: impactDamage
-      value: 30
+      propertyPath: m_Name
+      value: Gunpod Right
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: bounceDamage
-      value: 10
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d35a3a7b621c7a44fa048c362ecfe1cd, type: 2}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -4732,10 +4749,20 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 400
       objectReference: {fileID: 0}
-    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Layer
-      value: 9
+      propertyPath: impactDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: dissipationTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -4743,6 +4770,11 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4246865729466976302, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
       value: 9
@@ -4757,16 +4789,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: dissipationTime
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d35a3a7b621c7a44fa048c362ecfe1cd, type: 2}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -4868,11 +4890,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.178
-      objectReference: {fileID: 0}
     - target: {fileID: 7971503840083256575, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -4939,6 +4956,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.027999967
       objectReference: {fileID: 0}
+    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.178
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
 --- !u!4 &4588395658084048974 stripped
@@ -4954,21 +4976,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Left
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -5044,16 +5051,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.6
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: impactDamage
-      value: 30
+      propertyPath: m_Name
+      value: Gunpod Left
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: bounceDamage
-      value: 10
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d35a3a7b621c7a44fa048c362ecfe1cd, type: 2}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -5094,10 +5111,20 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 400
       objectReference: {fileID: 0}
-    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Layer
-      value: 9
+      propertyPath: impactDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: dissipationTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5105,6 +5132,11 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4246865729466976302, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
       value: 9
@@ -5119,16 +5151,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: dissipationTime
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d35a3a7b621c7a44fa048c362ecfe1cd, type: 2}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
@@ -5160,21 +5182,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Left Wing 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -5250,26 +5257,41 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 0.25
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: impactDamage
-      value: 15
+      propertyPath: m_Name
+      value: Gunpod Left Wing 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: bounceDamage
-      value: 5
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: dissipationTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: glowColor.g
+      value: 0.6538996
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
-    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
+      objectReference: {fileID: 2100000, guid: 45552cf03b18e5246a91c0543cf9ca5c, type: 2}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -5325,45 +5347,15 @@ PrefabInstance:
       propertyPath: InitialModule.startSpeed.scalar
       value: 400
       objectReference: {fileID: 0}
-    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Layer
-      value: 9
+      propertyPath: impactDamage
+      value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4246865729466976302, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 9012739496869812708, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: radius
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: dissipationTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: glowColor.g
-      value: 0.6538996
-      objectReference: {fileID: 0}
-    - target: {fileID: 5815251015398722670, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
+      propertyPath: bounceDamage
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5375,11 +5367,41 @@ PrefabInstance:
       propertyPath: radius
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7084929847792696178, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246865729466976302, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 45552cf03b18e5246a91c0543cf9ca5c, type: 2}
+      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
+    - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
+    - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 9012739496869812708, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815251015398722670, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4659581609248590362, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage

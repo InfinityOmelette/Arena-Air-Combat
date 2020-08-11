@@ -85,6 +85,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public bool showInWorldList = true;
 
+    public bool aiControlled = false;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)

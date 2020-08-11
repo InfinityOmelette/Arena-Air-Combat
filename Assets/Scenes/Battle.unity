@@ -1722,6 +1722,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!54 &192255287
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2030,6 +2031,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &217180063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2730,6 +2732,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 88078957}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &298585602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 298585603}
+  m_Layer: 0
+  m_Name: WP1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &298585603
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298585602}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 962, y: 377, z: 1195}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &304189845
 GameObject:
@@ -3510,6 +3542,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329751844}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &336356367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 336356368}
+  m_Layer: 0
+  m_Name: WP1 (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &336356368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336356367}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -498, y: 291, z: -1127}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &345131923
 GameObject:
   m_ObjectHideFlags: 0
@@ -3851,6 +3913,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &358699571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4075,6 +4138,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &374479946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4735,6 +4799,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!54 &410869853
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5636,6 +5701,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &483690126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5860,6 +5926,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &495644562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6887,6 +6954,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &545467746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7610,6 +7678,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &618268921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8716,6 +8785,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &747787069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8914,6 +8984,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!54 &761983325
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11265,6 +11336,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!54 &987743172
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11539,6 +11611,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1012984855}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1015353948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1015353949}
+  m_Layer: 0
+  m_Name: WP1 (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1015353949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015353948}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 87, y: 121, z: -253}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1016180216
 GameObject:
   m_ObjectHideFlags: 0
@@ -11696,6 +11798,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1016180223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12986,6 +13089,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1094576334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13474,6 +13578,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1129356853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13620,6 +13725,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136518415}
   m_CullTransparentMesh: 0
+--- !u!1 &1157505324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1157505325}
+  m_Layer: 0
+  m_Name: JeffWaypoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1157505325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157505324}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5722.0703, y: -9.233444, z: -6818.9116}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1420022257}
+  - {fileID: 298585603}
+  - {fileID: 2013892022}
+  - {fileID: 1236735394}
+  - {fileID: 1703384485}
+  - {fileID: 1853404003}
+  - {fileID: 336356368}
+  - {fileID: 1314145393}
+  - {fileID: 1223114164}
+  - {fileID: 1015353949}
+  m_Father: {fileID: 0}
+  m_RootOrder: 106
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1165910957
 GameObject:
   m_ObjectHideFlags: 0
@@ -14357,6 +14502,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1193678964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14935,6 +15081,66 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43c3158e45a25da4ab01057787fdc1f6, type: 3}
+--- !u!1 &1223114163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1223114164}
+  m_Layer: 0
+  m_Name: WP1 (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1223114164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223114163}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1310, y: 384, z: -1054}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1236735393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1236735394}
+  m_Layer: 0
+  m_Name: WP1 (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1236735394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236735393}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -19, y: 176, z: 1667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1240613179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15622,6 +15828,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1964274538}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1314145392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1314145393}
+  m_Layer: 0
+  m_Name: WP1 (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1314145393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314145392}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 613, y: 205, z: -2175}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1334211892
 PrefabInstance:
@@ -16514,6 +16750,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b3614cdc45efbf41a45fb9937953f9d, type: 3}
+--- !u!1 &1420022256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1420022257}
+  m_Layer: 0
+  m_Name: WP1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1420022257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420022256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 962, y: 175, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1422620315
 GameObject:
   m_ObjectHideFlags: 0
@@ -16763,6 +17029,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1425568393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17071,6 +17338,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1443931299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18901,6 +19169,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1668784113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19191,6 +19460,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!54 &1701001030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19284,6 +19554,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.43100002}
+--- !u!1 &1703384484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1703384485}
+  m_Layer: 0
+  m_Name: WP1 (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1703384485
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703384484}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -747, y: 291, z: 1667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1710296931
 GameObject:
   m_ObjectHideFlags: 0
@@ -19723,6 +20023,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!54 &1768982830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20149,6 +20450,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1789408629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20650,6 +20952,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1810604598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21434,6 +21737,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852174819}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1853404002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1853404003}
+  m_Layer: 0
+  m_Name: WP1 (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1853404003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853404002}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1210, y: 291, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1858419510
 GameObject:
   m_ObjectHideFlags: 0
@@ -22357,6 +22690,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &1919763901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23088,6 +23422,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2008263118}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2013892021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2013892022}
+  m_Layer: 0
+  m_Name: WP1 (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2013892022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013892021}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 496, y: 560, z: 486}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1157505325}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2031357645
 GameObject:
   m_ObjectHideFlags: 0
@@ -23876,6 +24240,7 @@ MonoBehaviour:
   killCoverageRadius: 0
   jamming: 0
   showInWorldList: 1
+  aiControlled: 0
 --- !u!114 &2136455885
 MonoBehaviour:
   m_ObjectHideFlags: 0

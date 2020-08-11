@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     
 
+    
+
     public static GameManager getGM()
     {
         if(gm == null)
@@ -79,7 +81,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.play
     }
 
+    void Update()
+    {
+        if (isHostInstance && Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("=========== SPAWNING AI");
+            spawnPlayer(CombatFlow.convertTeamToNum( localTeam), true);
+        }
+    }
+
+
     public void spawnPlayer(int teamNum)
+    {
+        spawnPlayer(teamNum, false);
+    }
+
+    public void spawnPlayer(int teamNum, bool isAI = false)
     {
         localTeam = CombatFlow.convertNumToTeam((short)teamNum);
         spawnUIPanel.SetActive(false);
@@ -95,16 +112,31 @@ public class GameManager : MonoBehaviourPunCallbacks
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
 
 
-            if (TeamSpawner.localPlayerInstance == null)
+            if (TeamSpawner.localPlayerInstance == null || isAI)
             {
+
+                
+
                 //PhotonNetwork.Instantiate(this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0);
                 TeamSpawner spawner = getSpawnerByTeam(localTeam);
                 GameObject playerObj = spawner.spawnPlayer(playerPrefab);
-                spawner.setPlayerAsControllable(playerObj);
-                localPlayer = playerObj;
-                //playerObj.name = PhotonNetwork.NickName;
 
+                if (isAI)
+                {
+                    Debug.Log("Spawning AI");
+                    spawner.setPlayerAsAI(playerObj);
+                    playerObj.name = "Jeff";
+                }
+                else
+                {
+                    spawner.setPlayerAsControllable(playerObj);
+                    localPlayer = playerObj;
+                    playerObj.name = PhotonNetwork.NickName;
+                }
                 
+
+                //spawner.setPlayerAsControllable(playerObj);
+                //localPlayer = playerObj;
 
             }
         }

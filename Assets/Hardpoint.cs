@@ -52,7 +52,7 @@ public class Hardpoint : MonoBehaviourPunCallbacks
         photonView = PhotonView.Get(this);
         readyToFire = false;
 
-        if (rootFlow.isLocalPlayer)
+        if (rootFlow.isLocalPlayer || rootFlow.aiControlled)
         {
             spawnWeapon();
         }
@@ -73,7 +73,7 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
     public void destroyWeapon()
     {
-        if (rootFlow.isLocalPlayer)
+        if (rootFlow.isLocalPlayer || rootFlow.aiControlled)
         {
             if (loadedWeaponObj != null)
             {
@@ -195,7 +195,7 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (rootFlow.isLocalPlayer)
+        if (rootFlow.isLocalPlayer || rootFlow.aiControlled)
         {
             if (readyToFire)
             {

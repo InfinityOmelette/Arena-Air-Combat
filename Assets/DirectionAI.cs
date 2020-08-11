@@ -82,41 +82,44 @@ public class DirectionAI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        if (myFlow.isLocalPlayer)
         {
-            camRef.toggleWarThunderCam();
-            hudRef.setWarThunderIndOn(camRef.warThunderCamEnabled);
-            isApplied = camRef.warThunderCamEnabled;
-        }
 
-        if (isApplied)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.O))
             {
-                freeLookOn = true;
-                hudRef.screenCenterObj.SetActive(true);
+                camRef.toggleWarThunderCam();
+                hudRef.setWarThunderIndOn(camRef.warThunderCamEnabled);
+                isApplied = camRef.warThunderCamEnabled;
             }
 
-            if (Input.GetKeyUp(KeyCode.LeftShift))
+            if (isApplied)
             {
-                freeLookOn = false;
-                hudRef.screenCenterObj.SetActive(false);
-                camRef.worldLockedLookDirection = inputDir;
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    freeLookOn = true;
+                    hudRef.screenCenterObj.SetActive(true);
+                }
+
+                if (Input.GetKeyUp(KeyCode.LeftShift))
+                {
+                    freeLookOn = false;
+                    hudRef.screenCenterObj.SetActive(false);
+                    camRef.worldLockedLookDirection = inputDir;
+                }
             }
-        }
-        
 
-        if (myFlow.isLocalPlayer && camRef != null && !freeLookOn)
-        {
-            inputDir = camRef.worldLockedLookDirection;
-        }
 
-        if (camRef.warThunderCamEnabled)
-        {
-            hudRef.drawItemOnScreen(aimpointIconRef, camRef.camRef.transform.position + inputDir, 1.0f);
-        }
+            if (myFlow.isLocalPlayer && camRef != null && !freeLookOn)
+            {
+                inputDir = camRef.worldLockedLookDirection;
+            }
 
-        
+            if (camRef.warThunderCamEnabled)
+            {
+                hudRef.drawItemOnScreen(aimpointIconRef, camRef.camRef.transform.position + inputDir, 1.0f);
+            }
+
+        }
     }
 
     
@@ -205,9 +208,9 @@ public class DirectionAI : MonoBehaviour
 
         float aiRoll = Mathf.Clamp(rollRateError + rollRateDeriv, -1.0f, 1.0f);
 
-        Debug.Log("CurrentRollRate: " + currentRollRate + ", TargetRollRate: " + targetRollRate +
-            ", RollRateError: " + rollRateError + ", RollRateDeriv: " + rollRateDeriv +
-            "aiRoll: " + aiRoll);
+        //Debug.Log("CurrentRollRate: " + currentRollRate + ", TargetRollRate: " + targetRollRate +
+        //    ", RollRateError: " + rollRateError + ", RollRateDeriv: " + rollRateDeriv +
+        //    "aiRoll: " + aiRoll);
 
         //float rollGain = (aiRoll - prevRollError) * aiRollDerivativeGain * Time.fixedDeltaTime;
         //aiRoll = Mathf.Clamp(aiRoll + rollGain, -1.0f, 1.0f);

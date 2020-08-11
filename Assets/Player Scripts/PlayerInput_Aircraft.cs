@@ -81,6 +81,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
 
 
             float throttle = Input.GetAxis("Throttle");
+            //Debug.Log("Throttle: " + throttle);
 
             // ENGINE
             engine.input_throttleAxis = throttle;

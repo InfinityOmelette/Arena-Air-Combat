@@ -56,6 +56,51 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
             MoveToLayer(child, layer);
     }
 
+    public void setPlayerAsAI(GameObject aircraftObj)
+    {
+        Debug.Log("Setting player as AI");
+
+        // layer 8 is localPlayer layer
+        MoveToLayer(aircraftObj.transform, 8);
+
+        PlayerInput_Aircraft inputRoot = aircraftObj.GetComponent<PlayerInput_Aircraft>();
+        inputRoot.enabled = false;
+
+        aircraftObj.GetComponent<AI_Aircraft>().enabled = true;
+
+        const int localPlayerLayer = 8;
+        inputRoot.cannons.setIgnoreLayer(localPlayerLayer);
+
+        CombatFlow playerFlow = aircraftObj.GetComponent<CombatFlow>();
+        playerFlow.team = team;
+        playerFlow.localOwned = true;
+        playerFlow.aiControlled = true;
+
+        // Enable flight and engine control
+        aircraftObj.GetComponent<RealFlightControl>().enabled = true;
+        aircraftObj.GetComponent<EngineControl>().enabled = true;
+
+        // Link hud to obj
+        hudControl hud = hudObj.GetComponent<hudControl>();
+        //hud.setHudVisible(true);
+        //hud.linkHudToAircraft(aircraftObj);
+
+        // Enable controllers
+        //inputRoot.cam.gameObject.SetActive(true);       // camera
+        inputRoot.cannons.gameObject.SetActive(true); // cannon
+        inputRoot.hardpointController.gameObject.SetActive(true);   // hardpoints
+
+        // Save this player's camera
+        //PerspectiveManager.getPManager().mainCam = inputRoot.cam.camRef.GetComponent<Camera>();
+
+        // activate targeting computer and radar
+        aircraftObj.GetComponent<Radar>().enabled = true;
+        //aircraftObj.GetComponent<TgtComputer>().enabled = true;
+
+
+        //inputRoot.isReady = true; // start receiving and processing input
+    }
+
     public void setPlayerAsControllable(GameObject playerObj)
     {
         // layer 8 is localPlayer layer

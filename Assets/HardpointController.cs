@@ -48,7 +48,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        if (rootFlow.isLocalPlayer)
+        if (rootFlow.isLocalPlayer || rootFlow.aiControlled)
         {
             // putting this in Start to guarantee that hudControl's awake() has run first so that static mainHud property is set
             weaponIndicatorManager = hudControl.mainHud.GetComponent<hudControl>().weaponIndicatorManager;
@@ -74,7 +74,10 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
     void fillHardpointArray()
     {
-        weaponIndicatorManager.deleteAll();
+        if (rootFlow.isLocalPlayer)
+        {
+            weaponIndicatorManager.deleteAll();
+        }
 
         // raw array of hardpoints themselves
         hardpoints = new Hardpoint[transform.childCount];
@@ -101,29 +104,38 @@ public class HardpointController : MonoBehaviourPunCallbacks
                 // Read from this prefab if this hardpoint type should be launched together. Add this bool to the list
                 groupThisType_List.Add(hardpoints[i].weaponTypePrefab.GetComponent<Weapon>().groupHardpointsTogether);
 
-                // tell weapon indicator manager to spawn new container
-                weaponIndicatorManager.spawnNewContainer(hardpoints[i].weaponTypePrefab);
+                if (rootFlow.isLocalPlayer)
+                {
+                    // tell weapon indicator manager to spawn new container
+                    weaponIndicatorManager.spawnNewContainer(hardpoints[i].weaponTypePrefab);
+                }
 
             }
             weaponTypeHardpointLists[typeIndex].Add(hardpoints[i]); // add item to existing list
 
             //Debug.Log("Size of hardpoint list: " + weaponTypeHardpointLists[typeIndex].Count);
 
-            // tell weapon indicator manager to spawn new indicator inside typeIndex container
-            weaponIndicatorManager.spawnNewIndicator(typeIndex, 
-                (short)(weaponTypeHardpointLists[typeIndex].Count - 1), // hardpoint order position will be size of type's list - 1
-                hardpoints[i]); // hardpoint that the new indicator will be linked to
+            if (rootFlow.isLocalPlayer)
+            {
+                // tell weapon indicator manager to spawn new indicator inside typeIndex container
+                weaponIndicatorManager.spawnNewIndicator(typeIndex,
+                    (short)(weaponTypeHardpointLists[typeIndex].Count - 1), // hardpoint order position will be size of type's list - 1
+                    hardpoints[i]); // hardpoint that the new indicator will be linked to
+            }
 
         }
 
         // all types are now known, have short designating active for each
         activeHardpointIndexes = new short[weaponTypeHardpointLists.Count];
 
+        if (rootFlow.isLocalPlayer)
+        {
 
-        weaponIndicatorManager.showActiveWeaponType(0); // hud will assume the first weapon type is selected
+            weaponIndicatorManager.showActiveWeaponType(0); // hud will assume the first weapon type is selected
 
-        weaponIndicatorManager.displayControllerHud(true);
-        //Debug.Log("Reached end of hardpoint function");
+            weaponIndicatorManager.displayControllerHud(true);
+            //Debug.Log("Reached end of hardpoint function");
+        }
 
     }
 

@@ -360,8 +360,18 @@ public class CamManipulation : MonoBehaviour
 
         // calculate and perform euler rotation of look direction, in local space
 
-        Quaternion vertRot = Quaternion.AngleAxis(angleOffsetVert, camAxisHorizRef.transform.right);
-        Quaternion horizRot = Quaternion.AngleAxis(angleOffsetHoriz, camAxisRollRef.transform.up);
+        Quaternion vertRot = Quaternion.AngleAxis(angleOffsetVert, camRef.transform.right);
+
+        Quaternion horizRot;
+
+        if (levelCamera)
+        {
+            horizRot = Quaternion.AngleAxis(angleOffsetHoriz, camAxisHorizRef.transform.up);
+        }
+        else
+        {
+            horizRot = Quaternion.AngleAxis(angleOffsetHoriz, camAxisRollRef.transform.up);
+        }
 
         Quaternion rotateBy = vertRot * horizRot;
 

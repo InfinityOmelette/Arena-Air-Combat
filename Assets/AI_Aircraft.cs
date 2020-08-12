@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class AI_Aircraft : MonoBehaviour
 {
+    public enum NAV_MODE
+    {
+        WAYPOINT_MISSION,
+        DOGFIGHT
+    }
+
+
     public CombatFlow myFlow;
     public HardpointController hardpoints;
     public CannonControl cannon;
@@ -19,6 +26,10 @@ public class AI_Aircraft : MonoBehaviour
 
     public float waypointRadius;
 
+    public CombatFlow targetFlow;
+    public bool dogfightMode;
+
+    public NAV_MODE navMode;
 
 
     void Awake()
@@ -60,6 +71,19 @@ public class AI_Aircraft : MonoBehaviour
     void Update()
     {
         //engine.input_throttleAxis = 1.0f;
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            if (navMode == NAV_MODE.DOGFIGHT)
+            {
+                navMode = NAV_MODE.WAYPOINT_MISSION;
+            }
+            else
+            {
+                navMode = NAV_MODE.DOGFIGHT;
+                targetFlow = GameManager.getGM().localPlayer.GetComponent<CombatFlow>();
+            }
+        }
+
     }
 
 
@@ -68,15 +92,31 @@ public class AI_Aircraft : MonoBehaviour
 
         wheels.setGearEnabled(transform.position.y < 10f);
 
+        if (navMode == NAV_MODE.DOGFIGHT)
+        {
+            if(targetFlow != null)
+            {
+                dirAI.targetDir = targetFlow.transform.position - transform.position;
+            }
+            else
+            {
+                navMode = NAV_MODE.WAYPOINT_MISSION;
+            }
+        }
 
-        if (Vector3.Distance(transform.position, currWpt) < waypointRadius)
+        if (navMode == NAV_MODE.WAYPOINT_MISSION)
         {
-            nextWaypoint();
+            if (Vector3.Distance(transform.position, currWpt) < waypointRadius)
+            {
+                nextWaypoint();
+            }
+            else
+            {
+                dirAI.targetDir = offsetForAoA(currWpt - transform.position);
+
+            }
         }
-        else
-        {
-            dirAI.targetDir = offsetForAoA( currWpt - transform.position);
-        }
+        
     }
 
     Vector3 offsetForAoA(Vector3 targetDir)

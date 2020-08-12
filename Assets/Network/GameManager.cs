@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (isHostInstance && Input.GetKeyDown(KeyCode.B))
         {
             Debug.Log("=========== SPAWNING AI");
-            spawnPlayer(CombatFlow.convertTeamToNum( localTeam), true);
+            spawnPlayer(CombatFlow.convertTeamToNum( 0), true);
         }
     }
 
@@ -141,6 +141,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     spawner.setPlayerAsControllable(playerObj);
                     localPlayer = playerObj;
                     playerObj.name = PhotonNetwork.NickName;
+                    playerSpawnEvent.Invoke();
                 }
                 
 
@@ -150,7 +151,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
 
-        playerSpawnEvent.Invoke();
+        
     }
 
     public void showSpawnMenu()

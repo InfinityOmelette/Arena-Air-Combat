@@ -99,7 +99,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void spawnPlayer(int teamNum, bool isAI = false)
     {
         localTeam = CombatFlow.convertNumToTeam((short)teamNum);
-        spawnUIPanel.SetActive(false);
+
+        if (!isAI)
+        {
+            spawnUIPanel.SetActive(false);
+        }
+
+        Debug.Log("Spawning player on team: " + teamNum + ", isAI: " + isAI);
 
         // call almost all of this at runtime after player selects team
         if (playerPrefab == null)
@@ -111,6 +117,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
             // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
 
+            Debug.Log("LocalPlayerInstance: " + TeamSpawner.localPlayerInstance);
 
             if (TeamSpawner.localPlayerInstance == null || isAI)
             {
@@ -119,16 +126,18 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                 //PhotonNetwork.Instantiate(this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0);
                 TeamSpawner spawner = getSpawnerByTeam(localTeam);
-                GameObject playerObj = spawner.spawnPlayer(playerPrefab);
+                GameObject playerObj;
 
                 if (isAI)
                 {
+                    playerObj = spawner.spawnPlayer(playerPrefab, "Jeff", false);
                     Debug.Log("Spawning AI");
                     spawner.setPlayerAsAI(playerObj);
-                    playerObj.name = "Jeff";
+                    //playerObj.name = "Jeff";
                 }
                 else
                 {
+                    playerObj = spawner.spawnPlayer(playerPrefab, PhotonNetwork.NickName);
                     spawner.setPlayerAsControllable(playerObj);
                     localPlayer = playerObj;
                     playerObj.name = PhotonNetwork.NickName;

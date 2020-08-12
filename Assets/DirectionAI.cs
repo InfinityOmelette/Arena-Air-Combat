@@ -138,6 +138,7 @@ public class DirectionAI : MonoBehaviour
         //Debug.Log("Current angular velocity: " + myRb.angularVelocity.magnitude * Mathf.Rad2Deg);
 
 
+        
 
         if (isApplied)
         {
@@ -290,7 +291,4 @@ public class DirectionAI : MonoBehaviour
             hudRef.setWarThunderIndOn(false);
         }
     }
-
-
-
 }

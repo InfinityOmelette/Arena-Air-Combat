@@ -131,9 +131,13 @@ public class WheelsControl : MonoBehaviour
     // command all wheels to raise or lower
     public bool setGearEnabled(bool enabled)
     {
-        for (int i = 0; i < wheels.Length; i++)
+        if (gearIsDown != enabled)
         {
-            wheels[i].setWheelLowered(enabled);
+
+            for (int i = 0; i < wheels.Length; i++)
+            {
+                wheels[i].setWheelLowered(enabled);
+            }
         }
         
 

@@ -240,4 +240,9 @@ public class Hardpoint : MonoBehaviourPunCallbacks
             weaponRef.reloadProcess();
         }
     }
+
+    void OnDestroy()
+    {
+        destroyWeapon();
+    }
 }

@@ -63,7 +63,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
     public void destroyWeapons()
     {
         CombatFlow rootFlow = transform.root.gameObject.GetComponent<CombatFlow>();
-        if (rootFlow.isLocalPlayer)
+        if (rootFlow.isLocalPlayer || rootFlow.aiControlled)
         {
             for(int i = 0; i < hardpoints.Length; i++)
             {

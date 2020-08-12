@@ -7,9 +7,10 @@ public class AI_Aircraft : MonoBehaviour
     public CombatFlow myFlow;
     public HardpointController hardpoints;
     public CannonControl cannon;
-
+    public WheelsControl wheels;
     public DirectionAI dirAI;
     public EngineControl engine;
+    public Rigidbody myRb;
 
     public Vector3 currWpt;
 
@@ -18,11 +19,14 @@ public class AI_Aircraft : MonoBehaviour
 
     public float waypointRadius;
 
+
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
         dirAI = GetComponent<DirectionAI>();
         engine = GetComponent<EngineControl>();
+        myRb = GetComponent<Rigidbody>();
     }
 
 
@@ -61,16 +65,34 @@ public class AI_Aircraft : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        wheels.setGearEnabled(transform.position.y < 10f);
+
+
         if (Vector3.Distance(transform.position, currWpt) < waypointRadius)
         {
             nextWaypoint();
         }
         else
         {
-            dirAI.targetDir = currWpt - transform.position;
+            dirAI.targetDir = offsetForAoA( currWpt - transform.position);
         }
     }
 
+    Vector3 offsetForAoA(Vector3 targetDir)
+    {
+        float myPitch = getPitch(transform.rotation);
+        float velPitch = getPitch(Quaternion.LookRotation(myRb.velocity));
+        float vertAoA = myPitch - velPitch;
+
+        //Debug.Log("MyPitch: " + myPitch + ", velPitch: " + velPitch + ", vertAoA: " + vertAoA);
+
+        Vector3 offsetAxis = -Vector3.Cross(targetDir, Vector3.up);
+        Quaternion rotBy = Quaternion.AngleAxis(vertAoA, offsetAxis);
+
+
+        return rotBy * targetDir;
+    }
 
     void nextWaypoint()
     {
@@ -92,6 +114,21 @@ public class AI_Aircraft : MonoBehaviour
         {
             Debug.Log("Unable to find waypoints");
         }
+    }
+
+    private float getPitch(Quaternion rot)
+    {
+        return unEulerize(Quaternion.ToEulerAngles(rot).x * Mathf.Rad2Deg);
+    }
+
+    private float unEulerize(float angle)
+    {
+        if(angle > 180)
+        {
+            angle -= 360f;
+        }
+
+        return angle;
     }
 
 

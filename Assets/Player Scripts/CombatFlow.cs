@@ -187,11 +187,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.H) && isLocalPlayer)
             currentHP -= 30;
 
-        // Debug key to test damage all NPC's with this script
-        if (Input.GetKeyDown(KeyCode.V) && !isLocalPlayer && doDebugDamage)
-        {
-            currentHP -= 30;
-        }
+        //// Debug key to test damage all NPC's with this script
+        //if (Input.GetKeyDown(KeyCode.V) && !isLocalPlayer && doDebugDamage)
+        //{
+        //    currentHP -= 30;
+        //}
 
         if(seenCleanWaitTimer > 0)
         {

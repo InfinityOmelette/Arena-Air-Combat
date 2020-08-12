@@ -31,18 +31,23 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     }
 
 
-    public GameObject spawnPlayer(GameObject playerPrefab)
+    public GameObject spawnPlayer(GameObject playerPrefab, string name,  bool isPlayer = true)
     {
         //playerPrefab.name = PhotonNetwork.NickName;
         GameObject emptySpawn = findEmptySpawnPoint();
 
         GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
-        localPlayerInstance = player;
+
+        if (isPlayer)
+        {
+            localPlayerInstance = player;
+        }
 
         player.transform.rotation = emptySpawn.transform.rotation;
 
         CombatFlow playerFlow = player.GetComponent<CombatFlow>();
-        playerFlow.setNetName(PhotonNetwork.NickName);
+
+        playerFlow.setNetName(name);
         playerFlow.setNetTeam(CombatFlow.convertTeamToNum(team));
 
         return player;

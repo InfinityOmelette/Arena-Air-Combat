@@ -98,6 +98,7 @@ public class DirectionAI : MonoBehaviour
 
             if (isApplied)
             {
+
                 if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
                     freeLookOn = true;
@@ -111,7 +112,6 @@ public class DirectionAI : MonoBehaviour
                     camRef.worldLockedLookDirection = targetDir;
                 }
             }
-
 
             if (myFlow.isLocalPlayer && camRef != null && !freeLookOn)
             {
@@ -136,10 +136,7 @@ public class DirectionAI : MonoBehaviour
         currentBankAngle = Quaternion.ToEulerAngles(transform.rotation).z * Mathf.Rad2Deg;
 
         //Debug.Log("Current angular velocity: " + myRb.angularVelocity.magnitude * Mathf.Rad2Deg);
-
-
         
-
         if (isApplied)
         {
             applyCorrectionTorque(currentDir);

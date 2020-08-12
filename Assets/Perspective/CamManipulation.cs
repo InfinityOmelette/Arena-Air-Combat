@@ -97,6 +97,9 @@ public class CamManipulation : MonoBehaviour
 
     public float altRollRateMod;
 
+
+    public bool levelCamera;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -113,6 +116,10 @@ public class CamManipulation : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            levelCamera = !levelCamera;
+        }
 
         zoomKeyPressed = Input.GetKey(KeyCode.LeftAlt);
         float zoomTarget = lowZoom;
@@ -160,8 +167,20 @@ public class CamManipulation : MonoBehaviour
             processFreeLook();
         }
 
-        // Roll angular velocity on camera rotation
-        camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
+        if (levelCamera)
+        {
+            float bank = unEulerize(aircraftRootRB.transform.eulerAngles.z);
+            Vector3 locEul = camAxisRollRef.transform.localEulerAngles;
+            camAxisRollRef.transform.localEulerAngles = new Vector3(locEul.x, locEul.y, -bank);
+        }
+        else
+        {
+            // Roll angular velocity on camera rotation
+            camAxisRollRef.transform.localRotation = processAngularVelocityRotation();
+        }
+
+        
+
 
         camAxisHorizRef.transform.localRotation = Quaternion.Lerp(camAxisHorizRef.transform.localRotation, targetLocalRotation, activeRotateLerpRate * Time.deltaTime);
 
@@ -335,7 +354,6 @@ public class CamManipulation : MonoBehaviour
             
         }
 
-
         //Debug.Log("maxVertStep: " + maxVertStep + ", oldDirEuler: " + oldDirEuler + ", angleOffsetVert: " + angleOffsetVert + ", maxMouseStep: " + maxMouseStep);
         // convert world look dir to local space
         //newAimWorldDir = aircraftRootRB.transform.InverseTransformDirection(newAimWorldDir);
@@ -347,11 +365,7 @@ public class CamManipulation : MonoBehaviour
 
         Quaternion rotateBy = vertRot * horizRot;
 
-
-        
-
         //Debug.Log("maxVertStep: " + maxVertStep + ", oldDirEuler: " + oldDirEuler);
-
 
         //// clamp resulting vertical angle within bounds
         ////  there has....gotta be a better way to do this....
@@ -364,8 +378,10 @@ public class CamManipulation : MonoBehaviour
         float vertOvershoot;
 
         // if camera outside vert limit
-        if ((camEuler.x > warThunderVertMod) || (camEuler.x < -warThunderVertMod))
+        if (!levelCamera && ( (camEuler.x > warThunderVertMod) || (camEuler.x < -warThunderVertMod) ))
         {
+            //Debug.Log("Checking vert limit, levelCamera is " + levelCamera);
+
             // correct it by moving camera in opposite direction
             vertOvershoot = (Mathf.Abs(camEuler.x) - warThunderVertMod) * Mathf.Sign(camEuler.x);
             vertRot = Quaternion.AngleAxis(-vertOvershoot, camAxisHorizRef.transform.right);
@@ -376,7 +392,7 @@ public class CamManipulation : MonoBehaviour
 
             float horizMaxCorrection = unEulerize(camAxisHorizRef.transform.localEulerAngles.y);
 
-            float horizCorrectionDegrees = -Mathf.Min(Mathf.Abs( horizCorrectCoeff * vertOvershoot), Mathf.Abs(horizMaxCorrection));
+            float horizCorrectionDegrees = -Mathf.Min(Mathf.Abs(horizCorrectCoeff * vertOvershoot), Mathf.Abs(horizMaxCorrection));
 
             //Debug.Log("Mouse speedY: " + mouseSpeedY + ", vertOvershoot: " + vertOvershoot);
 
@@ -387,14 +403,14 @@ public class CamManipulation : MonoBehaviour
             //Debug.Log("read camY rot: " + Mathf.Abs(unEulerize(camAxisHorizRef.transform.localEulerAngles.y)) + " overShoot: " + vertOvershoot);
 
             // only center if there's no horizontal mouse input
-            if (angleOffsetHoriz.Equals(0.0f))
+            if (angleOffsetHoriz.Equals(0.0f) && angleOffsetVert.Equals(0.0f))
             {
                 // rotate horizontally towards center
-                horizRot *= Quaternion.AngleAxis(horizCorrectionDegrees * Mathf.Sign(camEuler.y), aircraftRootRB.transform.up);
+                horizRot *= Quaternion.AngleAxis(horizCorrectionDegrees * Mathf.Sign(camEuler.y), camAxisRollRef.transform.up);
             }
 
             rotateBy = horizRot * vertRot; // recombine rotations with new values
-            
+
         }
         
         //Debug.Log("camEuler: " + camEuler + ", vertOvershoot: " + vertOvershoot);
@@ -525,11 +541,13 @@ public class CamManipulation : MonoBehaviour
         //{
         //    activeRollRateMod = 0f;
         //}
-
+        
         Vector3 rollRateVect = Vector3.Project(aircraftRootRB.angularVelocity, transform.forward);    // Get roll component of total angular velocity vector
         rollRateOffsetTarget = rollRateVect.magnitude * activeRollRateMod; // Use magnitude to determine camera z offset strength
         if (rollRateVect.normalized == transform.forward)
             rollRateOffsetTarget *= -1;
+        
+        
 
         rollRateOffsetResult = Mathf.Lerp(camAxisRollRef.transform.localRotation.z, rollRateOffsetTarget, rollRateOffsetLerpRate * Time.deltaTime);
 
@@ -543,6 +561,10 @@ public class CamManipulation : MonoBehaviour
             camAxisRollRef.transform.localRotation.y,
             rollRateOffsetResult,
             camAxisRollRef.transform.localRotation.w);
+
+
+
+        //returnEuler = new Vector3(0.0f, 0.0f, rollRateOffsetResult);
 
         return returnQuat;
     }

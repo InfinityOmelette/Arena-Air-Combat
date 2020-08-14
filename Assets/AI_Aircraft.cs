@@ -25,6 +25,8 @@ public class AI_Aircraft : MonoBehaviour
     private int waypointIndex;
 
     public float waypointRadius;
+    public float timeToCrashOverride;
+    //public float crashPitchOverride;
 
     public CombatFlow targetFlow;
     public bool dogfightMode;
@@ -92,11 +94,13 @@ public class AI_Aircraft : MonoBehaviour
 
         wheels.setGearEnabled(transform.position.y < 10f);
 
+        Vector3 dir = transform.forward;
+
         if (navMode == NAV_MODE.DOGFIGHT)
         {
             if(targetFlow != null)
             {
-                dirAI.targetDir = targetFlow.transform.position - transform.position;
+                dir = offsetForAoA( targetFlow.transform.position - transform.position);
             }
             else
             {
@@ -112,11 +116,37 @@ public class AI_Aircraft : MonoBehaviour
             }
             else
             {
-                dirAI.targetDir = offsetForAoA(currWpt - transform.position);
-
+                dir = offsetForAoA(currWpt - transform.position);
             }
         }
+
+        dirAI.targetDir = groundAvoid(dir);
         
+    }
+
+    public Vector3 groundAvoid(Vector3 dir)
+    {
+        if (myRb.velocity.y < 0f)
+        {
+            float estimatedCrashTime = Mathf.Abs(transform.position.y / myRb.velocity.y);
+
+
+            float overrideMod = Mathf.Clamp((timeToCrashOverride - estimatedCrashTime) / timeToCrashOverride,0.0f,  1.0f);
+
+            Vector3 overrideDir = (myRb.velocity - new Vector3(0.0f, myRb.velocity.y, 0.0f)).normalized; // remove y component from vel vector
+            overrideDir = offsetForAoA(overrideDir);
+            dir = Vector3.Lerp(dir.normalized, overrideDir, overrideMod);
+
+            //Debug.Log("EstimatedCrashTime: " + estimatedCrashTime + ", overrideMod: " + overrideMod);
+        }
+        return dir;
+    }
+
+    Vector3 pitchOffset(Vector3 dir, float pitchBy)
+    {
+        Vector3 offsetAxis = Vector3.Cross(dir, Vector3.up);
+        Quaternion rotBy = Quaternion.AngleAxis(pitchBy, offsetAxis);
+        return rotBy * dir;
     }
 
     Vector3 offsetForAoA(Vector3 targetDir)
@@ -125,13 +155,13 @@ public class AI_Aircraft : MonoBehaviour
         float velPitch = getPitch(Quaternion.LookRotation(myRb.velocity));
         float vertAoA = myPitch - velPitch;
 
-        //Debug.Log("MyPitch: " + myPitch + ", velPitch: " + velPitch + ", vertAoA: " + vertAoA);
+        ////Debug.Log("MyPitch: " + myPitch + ", velPitch: " + velPitch + ", vertAoA: " + vertAoA);
 
-        Vector3 offsetAxis = -Vector3.Cross(targetDir, Vector3.up);
-        Quaternion rotBy = Quaternion.AngleAxis(vertAoA, offsetAxis);
+        //Vector3 offsetAxis = -Vector3.Cross(targetDir, Vector3.up);
+        //Quaternion rotBy = Quaternion.AngleAxis(vertAoA, offsetAxis);
 
 
-        return rotBy * targetDir;
+        return pitchOffset(targetDir, -vertAoA);
     }
 
     void nextWaypoint()

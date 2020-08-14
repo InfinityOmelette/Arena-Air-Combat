@@ -67,13 +67,14 @@ public class DirectionAI : MonoBehaviour
     private float prevRoll;
 
 
-    
+    private AI_Aircraft ai;
 
     void Awake()
     {
         flight = GetComponent<RealFlightControl>();
         myFlow = GetComponent<CombatFlow>();
         myRb = GetComponent<Rigidbody>();
+        ai = GetComponent<AI_Aircraft>();
     }
 
 
@@ -127,6 +128,7 @@ public class DirectionAI : MonoBehaviour
         }
 
         currentDir = Vector3.Lerp(currentDir.normalized, targetDir.normalized, targetDirLerpRate * Time.deltaTime).normalized;
+        
     }
 
     
@@ -152,6 +154,9 @@ public class DirectionAI : MonoBehaviour
 
     private void applyCorrectionTorque(Vector3 commandDir)
     {
+        //commandDir = ai.groundAvoid(commandDir);
+
+        
         //float currentAngleError = Vector3.Angle(transform.forward, commandDir); // degrees
 
         // already discludes any roll component -- cross is perpendicular to forward

@@ -1442,8 +1442,9 @@ MonoBehaviour:
   dirAI: {fileID: 0}
   engine: {fileID: 0}
   myRb: {fileID: 0}
-  currWpt: {x: 0, y: 0, z: 0}
+  targetPos: {x: 0, y: 0, z: 0}
   waypoints: []
+  waypointIndex: 0
   waypointRadius: 100
   timeToCrashOverride: 10
   maxClimbOffset: 1
@@ -1452,6 +1453,7 @@ MonoBehaviour:
   climbSpeedCoeff: 0.44
   VERTICAL_ANGLE: 80
   maxHorizOffset: 90
+  canZoomSpeedCoeff: 0.65
   targetFlow: {fileID: 0}
   dogfightMode: 0
   navMode: 0

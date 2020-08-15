@@ -19,10 +19,10 @@ public class AI_Aircraft : MonoBehaviour
     public EngineControl engine;
     public Rigidbody myRb;
 
-    public Vector3 currWpt;
+    public Vector3 targetPos;
 
     public List<Vector3> waypoints;
-    private int waypointIndex;
+    public int waypointIndex;
 
     public float waypointRadius;
     public float timeToCrashOverride;
@@ -36,12 +36,16 @@ public class AI_Aircraft : MonoBehaviour
     public float VERTICAL_ANGLE;
     public float maxHorizOffset;
 
+    public float canZoomSpeedCoeff;
+
     //public float crashPitchOverride;
 
     public CombatFlow targetFlow;
     public bool dogfightMode;
 
     public NAV_MODE navMode;
+
+    float MS_2_KPH = 3.6f;
 
 
     void Awake()
@@ -63,7 +67,7 @@ public class AI_Aircraft : MonoBehaviour
 
         fillWaypointList(wptContainer);
 
-        currWpt = waypoints[waypointIndex];
+        targetPos = waypoints[waypointIndex];
 
         //Debug.LogWarning("====================================== Curr wpt: " + currWpt);
 
@@ -102,6 +106,8 @@ public class AI_Aircraft : MonoBehaviour
     void FixedUpdate()
     {
 
+        
+
         wheels.setGearEnabled(transform.position.y < 10f);
 
         Vector3 dir = transform.forward;
@@ -110,7 +116,7 @@ public class AI_Aircraft : MonoBehaviour
         {
             if(targetFlow != null)
             {
-                dir = offsetForAoA( targetFlow.transform.position - transform.position);
+                targetPos = targetFlow.transform.position;
             }
             else
             {
@@ -120,15 +126,18 @@ public class AI_Aircraft : MonoBehaviour
 
         if (navMode == NAV_MODE.WAYPOINT_MISSION)
         {
-            if (Vector3.Distance(transform.position, currWpt) < waypointRadius)
+            if (Vector3.Distance(transform.position, targetPos) < waypointRadius)
             {
                 nextWaypoint();
+                targetPos = waypoints[waypointIndex];
             }
             else
             {
-                dir = offsetForAoA(currWpt - transform.position);
+                targetPos = waypoints[waypointIndex];
             }
         }
+
+        dir = offsetForAoA(targetPos - transform.position);
 
         //Debug.DrawRay(transform.position, dir * 10f, Color.green);
 
@@ -142,7 +151,7 @@ public class AI_Aircraft : MonoBehaviour
 
         bool climbApplied = false;
 
-        if (dir.y > 0f && !wheels.gearIsDown) // don't mess with takeoff
+        if (dir.y > 0f && !wheels.gearIsDown && !canZoomClimb(targetPos)) // don't mess with takeoff
         {
             dir = climbProcess(dir);
             //Debug.DrawRay(transform.position, dir * 10f, Color.green);
@@ -153,7 +162,10 @@ public class AI_Aircraft : MonoBehaviour
 
 
         dirAI.targetDir = groundAvoid(dir);
-        
+
+        Debug.DrawRay(transform.position, dir * 5f, Color.cyan);
+        Debug.DrawLine(transform.position, targetPos, Color.white);
+
     }
 
     public Vector3 climbProcess(Vector3 dir)
@@ -192,7 +204,10 @@ public class AI_Aircraft : MonoBehaviour
                     ", maxClimbOffset: " + angleToVertical + ", maxClimb: " + maxClimb);
 
 
+
+                
                 dir = setClimbOffsets(dir, horizOffsetResult, climbAngle);
+                
                 //Debug.DrawRay(transform.position, dir * 50, Color.blue);
 
                 dir = offsetForAoA(dir);
@@ -206,6 +221,18 @@ public class AI_Aircraft : MonoBehaviour
         return dir;
     }
 
+    private bool canZoomClimb(Vector3 targetPos)
+    {
+        float vertDistance = (targetPos - transform.position).y;
+        float speed = myRb.velocity.magnitude * MS_2_KPH;
+        float speedMod = speed * canZoomSpeedCoeff;
+
+        bool canZoom = vertDistance < speedMod;
+
+        Debug.Log("CanZoom: " + canZoom + ", vertDistance: " + vertDistance + ", speed: " + speed + ", speedMod: " + speedMod);
+
+        return canZoom;
+    }
     
 
     private float calculateOffsetDirection(Vector3 dir)
@@ -245,8 +272,8 @@ public class AI_Aircraft : MonoBehaviour
 
     private float calculateClimbAngle(float spd)
     {
-        float CONVERT_MS_TO_KPH = 3.6f;
-        spd *= CONVERT_MS_TO_KPH;
+        
+        spd *= MS_2_KPH;
 
         float val = spd * climbSpeedCoeff + climbAngleOffset;
         val = Mathf.Clamp(val, baseClimbAngle, 85f); // staying away from direct vertical just because weird things happen with azimuth
@@ -304,7 +331,7 @@ public class AI_Aircraft : MonoBehaviour
                 waypointIndex = 0;
             }
 
-            currWpt = waypoints[waypointIndex];
+            //currWpt = waypoints[waypointIndex];
         }
         else
         {

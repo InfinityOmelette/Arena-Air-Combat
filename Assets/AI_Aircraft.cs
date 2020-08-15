@@ -26,6 +26,7 @@ public class AI_Aircraft : MonoBehaviour
 
     public float waypointRadius;
 
+    public float fwdCheckTimeMultiplier;
     public float timeToCrashOverride;
     public float groundCheckRayPitchOffset;
     public float groundAvoidPitchOffset;
@@ -286,19 +287,36 @@ public class AI_Aircraft : MonoBehaviour
     public Vector3 groundAvoid(Vector3 dir)
     {
         int terrainLayer = 1 << 10; // line only collides with terrain layer
-        RaycastHit hit;
+        
+        // check both forward and low raycast. Prioritize low
 
-        Vector3 groundCheckRay = myRb.velocity * timeToCrashOverride;
-        groundCheckRay = pitchOffset(groundCheckRay, groundCheckRayPitchOffset);
 
-        bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out hit, 
+        Vector3 fwdCheckRay = myRb.velocity * timeToCrashOverride;
+        RaycastHit fwdHit;
+        bool fwdIntersect = Physics.Raycast(transform.position, fwdCheckRay * fwdCheckTimeMultiplier, out fwdHit,
+            myRb.velocity.magnitude * timeToCrashOverride, terrainLayer);
+
+
+        Vector3 groundCheckRay = pitchOffset(fwdCheckRay, groundCheckRayPitchOffset);
+        RaycastHit lowHit;
+        bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out lowHit, 
             myRb.velocity.magnitude*timeToCrashOverride,  terrainLayer);
-        //Physics.Raycast()
 
 
-        if (groundIntersect)
+
+        if (groundIntersect || fwdIntersect)
         {
-            Vector3 intersectPos = hit.point;
+            // prioritize the low raycast
+            Vector3 intersectPos;
+            if (groundIntersect)
+            {
+                intersectPos = lowHit.point;
+            }
+            else
+            {
+                intersectPos = fwdHit.point;
+            }
+
 
             float estimatedCrashTime = Vector3.Distance(transform.position, intersectPos) / myRb.velocity.magnitude;
             float overrideMod = Mathf.Clamp((timeToCrashOverride - estimatedCrashTime) / timeToCrashOverride,0.0f,  1.0f);
@@ -315,7 +333,7 @@ public class AI_Aircraft : MonoBehaviour
             overrideDir = offsetForAoA(overrideDir);
 
             Debug.Log("========= GROUND INTERSECTED , estimatedCrashTime: " + estimatedCrashTime + ", overrideMod: " + overrideMod);
-            Debug.DrawLine(transform.position, hit.point, Color.red);
+            Debug.DrawLine(transform.position, lowHit.point, Color.red);
             Debug.DrawRay(transform.position, overrideDir, Color.yellow);
 
             dir = Vector3.Lerp(dir.normalized, overrideDir, overrideMod);

@@ -26,8 +26,8 @@ public class AI_Aircraft : MonoBehaviour
 
     public float waypointRadius;
 
-    public float fwdCheckTimeMultiplier;
-    public float timeToCrashOverride;
+    public float fwdCheckTimeToCrash;
+    public float lowCheckTimeToCrash;
     public float groundCheckRayPitchOffset;
     public float groundAvoidPitchOffset;
 
@@ -291,16 +291,17 @@ public class AI_Aircraft : MonoBehaviour
         // check both forward and low raycast. Prioritize low
 
 
-        Vector3 fwdCheckRay = myRb.velocity * timeToCrashOverride;
+        Vector3 fwdCheckRay = myRb.velocity * fwdCheckTimeToCrash;
         RaycastHit fwdHit;
-        bool fwdIntersect = Physics.Raycast(transform.position, fwdCheckRay * fwdCheckTimeMultiplier, out fwdHit,
-            myRb.velocity.magnitude * timeToCrashOverride, terrainLayer);
+        bool fwdIntersect = Physics.Raycast(transform.position, fwdCheckRay, out fwdHit,
+            fwdCheckRay.magnitude, terrainLayer);
 
-
-        Vector3 groundCheckRay = pitchOffset(fwdCheckRay, groundCheckRayPitchOffset);
+        float angleDownToFwdCheck = Vector3.Angle(-Vector3.up, fwdCheckRay);
+        Vector3 groundCheckRay = myRb.velocity * lowCheckTimeToCrash;
+        groundCheckRay = pitchOffset(groundCheckRay, Mathf.Max( groundCheckRayPitchOffset, -angleDownToFwdCheck));
         RaycastHit lowHit;
-        bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out lowHit, 
-            myRb.velocity.magnitude*timeToCrashOverride,  terrainLayer);
+        bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out lowHit,
+            groundCheckRay.magnitude,  terrainLayer);
 
 
 
@@ -319,7 +320,7 @@ public class AI_Aircraft : MonoBehaviour
 
 
             float estimatedCrashTime = Vector3.Distance(transform.position, intersectPos) / myRb.velocity.magnitude;
-            float overrideMod = Mathf.Clamp((timeToCrashOverride - estimatedCrashTime) / timeToCrashOverride,0.0f,  1.0f);
+            float overrideMod = Mathf.Clamp((lowCheckTimeToCrash - estimatedCrashTime) / lowCheckTimeToCrash,0.0f,  1.0f);
 
             Vector3 overrideDir = intersectPos - transform.position;
 

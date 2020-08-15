@@ -25,7 +25,10 @@ public class AI_Aircraft : MonoBehaviour
     public int waypointIndex;
 
     public float waypointRadius;
+
     public float timeToCrashOverride;
+    public float groundCheckRayPitchOffset;
+    public float groundAvoidPitchOffset;
 
     public float maxClimbOffset;
 
@@ -199,9 +202,9 @@ public class AI_Aircraft : MonoBehaviour
 
                 float horizOffsetResult = offsetDirection * offsetScale * maxHorizOffset;
 
-                Debug.Log("dirPitch: " + dirPitch + ", climbAngle: " + climbAngle +
-                    ", offsetScale: " + offsetScale + ", horizOffsetResult: " + horizOffsetResult +
-                    ", maxClimbOffset: " + angleToVertical + ", maxClimb: " + maxClimb);
+                //Debug.Log("dirPitch: " + dirPitch + ", climbAngle: " + climbAngle +
+                //    ", offsetScale: " + offsetScale + ", horizOffsetResult: " + horizOffsetResult +
+                //    ", maxClimbOffset: " + angleToVertical + ", maxClimb: " + maxClimb);
 
 
 
@@ -229,7 +232,7 @@ public class AI_Aircraft : MonoBehaviour
 
         bool canZoom = vertDistance < speedMod;
 
-        Debug.Log("CanZoom: " + canZoom + ", vertDistance: " + vertDistance + ", speed: " + speed + ", speedMod: " + speedMod);
+        //Debug.Log("CanZoom: " + canZoom + ", vertDistance: " + vertDistance + ", speed: " + speed + ", speedMod: " + speedMod);
 
         return canZoom;
     }
@@ -282,13 +285,38 @@ public class AI_Aircraft : MonoBehaviour
 
     public Vector3 groundAvoid(Vector3 dir)
     {
-        if (myRb.velocity.y < 0f)
+        int terrainLayer = 1 << 10; // line only collides with terrain layer
+        RaycastHit hit;
+
+        Vector3 groundCheckRay = myRb.velocity * timeToCrashOverride;
+        groundCheckRay = pitchOffset(groundCheckRay, groundCheckRayPitchOffset);
+
+        bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out hit, 
+            myRb.velocity.magnitude*timeToCrashOverride,  terrainLayer);
+        //Physics.Raycast()
+
+
+        if (groundIntersect)
         {
-            float estimatedCrashTime = Mathf.Abs(transform.position.y / myRb.velocity.y);
+            Vector3 intersectPos = hit.point;
+
+            float estimatedCrashTime = Vector3.Distance(transform.position, intersectPos) / myRb.velocity.magnitude;
             float overrideMod = Mathf.Clamp((timeToCrashOverride - estimatedCrashTime) / timeToCrashOverride,0.0f,  1.0f);
 
-            Vector3 overrideDir = (myRb.velocity - new Vector3(0.0f, myRb.velocity.y, 0.0f)).normalized; // remove y component from vel vector
+            Vector3 overrideDir = intersectPos - transform.position;
+
+            if (overrideDir.y < 0f)
+            {
+                overrideDir -= new Vector3(0.0f, overrideDir.y, 0.0f); // remove y component. Horizontal direction
+            }
+
+            overrideDir = pitchOffset(overrideDir, groundAvoidPitchOffset);
+
             overrideDir = offsetForAoA(overrideDir);
+
+            Debug.Log("========= GROUND INTERSECTED , estimatedCrashTime: " + estimatedCrashTime + ", overrideMod: " + overrideMod);
+            Debug.DrawLine(transform.position, hit.point, Color.red);
+            Debug.DrawRay(transform.position, overrideDir, Color.yellow);
 
             dir = Vector3.Lerp(dir.normalized, overrideDir, overrideMod);
         }

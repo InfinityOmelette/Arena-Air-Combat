@@ -26,6 +26,16 @@ public class AI_Aircraft : MonoBehaviour
 
     public float waypointRadius;
     public float timeToCrashOverride;
+
+    public float maxClimbOffset;
+
+    public float baseClimbAngle;
+    public float climbAngleOffset;
+    public float climbSpeedCoeff;
+
+    public float VERTICAL_ANGLE;
+    public float maxHorizOffset;
+
     //public float crashPitchOverride;
 
     public CombatFlow targetFlow;
@@ -120,8 +130,127 @@ public class AI_Aircraft : MonoBehaviour
             }
         }
 
+        //Debug.DrawRay(transform.position, dir * 10f, Color.green);
+
+        //Debug.DrawRay(transform.position, dir * 10f, Color.yellow);
+
+        //Vector3 debugOffset = setClimbOffsets(dir, 90f, 45f);
+        //Debug.DrawRay(transform.position, debugOffset * 15f, Color.cyan);
+
+
+        //Debug.Log("GearIsDown: " + wheels.gearIsDown);
+
+        bool climbApplied = false;
+
+        if (dir.y > 0f && !wheels.gearIsDown) // don't mess with takeoff
+        {
+            dir = climbProcess(dir);
+            //Debug.DrawRay(transform.position, dir * 10f, Color.green);
+            climbApplied = true;
+        }
+
+        //Debug.Log("Climb applied: " + climbApplied);
+
+
         dirAI.targetDir = groundAvoid(dir);
         
+    }
+
+    public Vector3 climbProcess(Vector3 dir)
+    {
+        //Debug.Log("Climb process called");
+        
+
+        if (dir.y > 0f)
+        {
+            float dirPitch = -getPitch(dir);
+
+            // calculate climb angle
+            float climbAngle = calculateClimbAngle(myRb.velocity.magnitude);
+
+            
+
+            if (dirPitch > climbAngle)
+            {
+                Debug.DrawRay(transform.position, dir * 10f, Color.white);
+
+                float angleToVertical = VERTICAL_ANGLE - climbAngle; // don't pitch past vertical
+                float maxClimb = climbAngle + Mathf.Min(angleToVertical, maxClimbOffset); // mathf.min here to prevent pitching above VERTICAL_ANGLE
+
+
+                // based on how high dir is above climb angle, set horiz offset
+                // 0.0f -> direct, 1.0f -> fully perpendicular
+                float offsetScale = Mathf.Clamp(Mathf.InverseLerp(climbAngle, maxClimb, dirPitch), 0.0f, 1.0f);
+
+                // -1 or 1. Keep nose on same side of dir
+                float offsetDirection = calculateOffsetDirection(dir);
+
+                float horizOffsetResult = offsetDirection * offsetScale * maxHorizOffset;
+
+                Debug.Log("dirPitch: " + dirPitch + ", climbAngle: " + climbAngle +
+                    ", offsetScale: " + offsetScale + ", horizOffsetResult: " + horizOffsetResult +
+                    ", maxClimbOffset: " + angleToVertical + ", maxClimb: " + maxClimb);
+
+
+                dir = setClimbOffsets(dir, horizOffsetResult, climbAngle);
+                //Debug.DrawRay(transform.position, dir * 50, Color.blue);
+
+                dir = offsetForAoA(dir);
+
+                Debug.DrawRay(transform.position, dir * 10f, Color.green);
+
+            }
+        }
+
+
+        return dir;
+    }
+
+    
+
+    private float calculateOffsetDirection(Vector3 dir)
+    {
+        // project forward and targetDirection vectors onto horizontal plane
+
+        Vector3 fwd = transform.forward;
+        fwd -= new Vector3(0.0f, fwd.y, 0.0f);
+
+        dir -= new Vector3(0.0f, dir.y, 0.0f);
+
+        Vector3 torqueDir = Vector3.Cross(fwd, dir);
+
+        return -Mathf.Sign(torqueDir.y);
+
+    }
+
+    private Vector3 setClimbOffsets(Vector3 dir, float horizOffset, float pitchOffset)
+    {
+        dir -= new Vector3(0.0f, dir.y, 0.0f);// remove y component
+
+        //Quaternion rotBy = Quaternion.Euler(45f, 0.0f, 0.0f);
+        Quaternion horizRot = Quaternion.AngleAxis(horizOffset, Vector3.up);
+        Quaternion vertRot = Quaternion.AngleAxis(pitchOffset, -Vector3.Cross(Vector3.up, dir));
+        Quaternion rotBy = horizRot * vertRot;
+
+        //Debug.Log("HorizOffset: " + horizOffset + ", pitchOffset: " + pitchOffset);
+
+        //Debug.DrawRay(transform.position, dir * 50f, Color.red);
+        dir = rotBy * dir;
+        //Debug.DrawRay(transform.position, dir * 10f, Color.white);
+
+        return dir;
+    }
+
+    //private float 
+
+    private float calculateClimbAngle(float spd)
+    {
+        float CONVERT_MS_TO_KPH = 3.6f;
+        spd *= CONVERT_MS_TO_KPH;
+
+        float val = spd * climbSpeedCoeff + climbAngleOffset;
+        val = Mathf.Clamp(val, baseClimbAngle, 85f); // staying away from direct vertical just because weird things happen with azimuth
+        return val;
     }
 
     public Vector3 groundAvoid(Vector3 dir)
@@ -129,15 +258,12 @@ public class AI_Aircraft : MonoBehaviour
         if (myRb.velocity.y < 0f)
         {
             float estimatedCrashTime = Mathf.Abs(transform.position.y / myRb.velocity.y);
-
-
             float overrideMod = Mathf.Clamp((timeToCrashOverride - estimatedCrashTime) / timeToCrashOverride,0.0f,  1.0f);
 
             Vector3 overrideDir = (myRb.velocity - new Vector3(0.0f, myRb.velocity.y, 0.0f)).normalized; // remove y component from vel vector
             overrideDir = offsetForAoA(overrideDir);
-            dir = Vector3.Lerp(dir.normalized, overrideDir, overrideMod);
 
-            //Debug.Log("EstimatedCrashTime: " + estimatedCrashTime + ", overrideMod: " + overrideMod);
+            dir = Vector3.Lerp(dir.normalized, overrideDir, overrideMod);
         }
         return dir;
     }
@@ -186,6 +312,11 @@ public class AI_Aircraft : MonoBehaviour
         }
     }
 
+    private float getPitch(Vector3 dir)
+    {
+        return getPitch(Quaternion.LookRotation(dir, Vector3.up));
+    }
+
     private float getPitch(Quaternion rot)
     {
         return unEulerize(Quaternion.ToEulerAngles(rot).x * Mathf.Rad2Deg);
@@ -199,6 +330,12 @@ public class AI_Aircraft : MonoBehaviour
         }
 
         return angle;
+    }
+
+    private Vector3 dir2Euler(Vector3 dir)
+    {
+        Quaternion localOldDirRotation = Quaternion.LookRotation(dir);
+        return Quaternion.ToEulerAngles(localOldDirRotation) * Mathf.Rad2Deg;
     }
 
 

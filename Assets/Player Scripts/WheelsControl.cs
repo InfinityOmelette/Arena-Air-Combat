@@ -138,6 +138,8 @@ public class WheelsControl : MonoBehaviour
             {
                 wheels[i].setWheelLowered(enabled);
             }
+
+            gearIsDown = enabled;
         }
         
 

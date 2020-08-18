@@ -193,7 +193,7 @@ public class IconRWR : MonoBehaviour
             endLock();
         }
 
-        relBearing += cameraHorizOffset;
+        //relBearing += cameraHorizOffset;
 
         transform.localRotation = Quaternion.Euler(0f, 0f, relBearing);
         textID.transform.localRotation = Quaternion.Euler(0f, 0f, -relBearing);

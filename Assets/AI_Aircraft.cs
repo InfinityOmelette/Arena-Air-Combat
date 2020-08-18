@@ -26,10 +26,18 @@ public class AI_Aircraft : MonoBehaviour
 
     public float waypointRadius;
 
+    public float lowLoopSpeed;
+    public float highLoopSpeed;
+
+    public float groundAvoidSensitivity;
+
     public float fwdCheckTimeToCrash;
     public float lowCheckTimeToCrash;
     public float groundCheckRayPitchOffset;
     public float groundAvoidPitchOffset;
+
+    public float sideCheckTimeToCrash;
+    public float sideCheckRayYawOffset;
 
     public float maxClimbOffset;
 
@@ -155,7 +163,7 @@ public class AI_Aircraft : MonoBehaviour
 
         bool climbApplied = false;
 
-        if (dir.y > 0f && !wheels.gearIsDown && !canZoomClimb(targetPos)) // don't mess with takeoff
+        if ( dir.y > 0f && !wheels.gearIsDown && !canZoomClimb(targetPos)) // don't mess with takeoff
         {
             dir = climbProcess(dir);
             //Debug.DrawRay(transform.position, dir * 10f, Color.green);
@@ -165,11 +173,55 @@ public class AI_Aircraft : MonoBehaviour
         //Debug.Log("Climb applied: " + climbApplied);
 
 
-        dirAI.targetDir = groundAvoid(dir);
+        //Debug.Log("Speed: " + MS_2_KPH * myRb.velocity.magnitude);
 
-        Debug.DrawRay(transform.position, dir * 5f, Color.cyan);
-        Debug.DrawLine(transform.position, targetPos, Color.white);
+        if (Vector3.Angle(transform.forward, dir) > 90f)
+        {
+            dir = preventLoop(dir);
+        }
 
+
+        if(navMode == NAV_MODE.WAYPOINT_MISSION && waypointIndex == 0)
+        {
+            dirAI.targetDir = dir;
+        }
+        else
+        {
+            dirAI.targetDir = terrainAvoid(dir);
+        }
+        
+
+        //dirAI.targetDir = terrainAvoid(dir);
+
+        Debug.DrawRay(transform.position, dir * 5f, Color.cyan, 5);
+        Debug.DrawLine(transform.position, targetPos, Color.white, 5);
+
+    }
+
+    Vector3 preventLoop(Vector3 dir)
+    {
+        Quaternion fwdRot = Quaternion.LookRotation(transform.forward, Vector3.up);
+        Quaternion dirRot = Quaternion.LookRotation(dir, Vector3.up);
+
+        Quaternion lerpRot = Quaternion.Lerp(fwdRot, dirRot, 0.5f);
+
+        dir = lerpRot * Vector3.forward;
+
+        if(dir.y > 0f)
+        {
+            dir.y *= calculateLoopability();
+        }
+
+        return dir;
+    }
+
+
+    private float calculateLoopability()
+    {
+        float currSpd = myRb.velocity.magnitude * MS_2_KPH;
+        float ratio = Mathf.InverseLerp(lowLoopSpeed, highLoopSpeed, currSpd);
+
+        return Mathf.Clamp(ratio, 0.0f, 1.0f);
     }
 
     public Vector3 climbProcess(Vector3 dir)
@@ -203,12 +255,6 @@ public class AI_Aircraft : MonoBehaviour
 
                 float horizOffsetResult = offsetDirection * offsetScale * maxHorizOffset;
 
-                //Debug.Log("dirPitch: " + dirPitch + ", climbAngle: " + climbAngle +
-                //    ", offsetScale: " + offsetScale + ", horizOffsetResult: " + horizOffsetResult +
-                //    ", maxClimbOffset: " + angleToVertical + ", maxClimb: " + maxClimb);
-
-
-
                 
                 dir = setClimbOffsets(dir, horizOffsetResult, climbAngle);
                 
@@ -223,6 +269,11 @@ public class AI_Aircraft : MonoBehaviour
 
 
         return dir;
+    }
+
+    private bool canLoop()
+    {
+        return (myRb.velocity.magnitude * MS_2_KPH) > highLoopSpeed;
     }
 
     private bool canZoomClimb(Vector3 targetPos)
@@ -284,7 +335,7 @@ public class AI_Aircraft : MonoBehaviour
         return val;
     }
 
-    public Vector3 groundAvoid(Vector3 dir)
+    public Vector3 terrainAvoid(Vector3 dir)
     {
         int terrainLayer = 1 << 10; // line only collides with terrain layer
         
@@ -303,43 +354,104 @@ public class AI_Aircraft : MonoBehaviour
         bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out lowHit,
             groundCheckRay.magnitude,  terrainLayer);
 
+        //Debug.DrawRay(transform.position, )
 
-
+        // ground avoid
         if (groundIntersect || fwdIntersect)
         {
             // prioritize the low raycast
             Vector3 intersectPos;
+            RaycastHit hit;
             if (groundIntersect)
             {
                 intersectPos = lowHit.point;
+                hit = lowHit;
             }
             else
             {
                 intersectPos = fwdHit.point;
+                hit = fwdHit;
             }
 
 
             float estimatedCrashTime = Vector3.Distance(transform.position, intersectPos) / myRb.velocity.magnitude;
-            float overrideMod = Mathf.Clamp((lowCheckTimeToCrash - estimatedCrashTime) / lowCheckTimeToCrash,0.0f,  1.0f);
+            float overrideMod = Mathf.Clamp(((lowCheckTimeToCrash - estimatedCrashTime) / lowCheckTimeToCrash) * groundAvoidSensitivity ,0.0f,  1.0f);
 
-            Vector3 overrideDir = intersectPos - transform.position;
+            Vector3 overrideDir = hit.normal;
 
-            if (overrideDir.y < 0f)
-            {
-                overrideDir -= new Vector3(0.0f, overrideDir.y, 0.0f); // remove y component. Horizontal direction
-            }
-
-            overrideDir = pitchOffset(overrideDir, groundAvoidPitchOffset);
-
-            overrideDir = offsetForAoA(overrideDir);
-
-            Debug.Log("========= GROUND INTERSECTED , estimatedCrashTime: " + estimatedCrashTime + ", overrideMod: " + overrideMod);
-            Debug.DrawLine(transform.position, lowHit.point, Color.red);
-            Debug.DrawRay(transform.position, overrideDir, Color.yellow);
+            //Debug.Log("========= GROUND INTERSECTED , estimatedCrashTime: " + estimatedCrashTime + ", overrideMod: " + overrideMod);
+            Debug.DrawLine(transform.position, lowHit.point, Color.red, 5);
+            Debug.DrawRay(transform.position, overrideDir, Color.yellow, 5);
 
             dir = Vector3.Lerp(dir.normalized, overrideDir, overrideMod);
         }
+
+
+        // wall avoid
+        //if (fwdIntersect)
+        //{
+        //    dir = wallAvoid(dir);
+        //}
+
+
         return dir;
+    }
+
+    Vector3 wallAvoid(Vector3 dir)
+    {
+        
+        Vector3 fwd = myRb.velocity * sideCheckTimeToCrash;
+
+        Vector3 leftCheckRay = yawOffset(fwd, -sideCheckRayYawOffset);
+        Vector3 rightCheckRay = yawOffset(fwd, sideCheckRayYawOffset);
+
+        Debug.DrawRay(transform.position, leftCheckRay, Color.red, 5);
+        Debug.DrawRay(transform.position, rightCheckRay, Color.yellow, 5);
+
+        float leftHitDist = getRaycheckDist(leftCheckRay);
+        float rightHitDist = getRaycheckDist(rightCheckRay);
+
+        // only activate avoidance if one of the rays hit
+        if(leftHitDist > 0f || rightHitDist > 0f)
+        {
+            Debug.Log("*********** WALL AVOID TRIGGERED");            
+            
+            // default positive value --> turn to the right
+            float yawOffsetVal = sideCheckRayYawOffset;
+
+            // if right wall is closer than left --> turn to the left
+            if(rightHitDist < leftHitDist)
+            {
+                yawOffsetVal *= -1f;
+            }
+
+            dir = yawOffset(dir, yawOffsetVal);
+        }
+
+        return dir;
+    }
+
+    float getRaycheckDist(Vector3 ray)
+    {
+        int terrainLayer = 1 << 10; // line only collides with terrain layer
+        float dist = -1f;
+
+        RaycastHit hit;
+        bool intersect = Physics.Raycast(transform.position, ray, out hit,
+            ray.magnitude, terrainLayer);
+
+        if (intersect)
+        {
+            dist = Vector3.Distance(transform.position, hit.point);
+        }
+
+        return dist;
+    }
+
+    Vector3 yawOffset(Vector3 dir, float yawBy)
+    {
+        Quaternion rotBy = Quaternion.AngleAxis(yawBy, Vector3.up);
+        return rotBy * dir;
     }
 
     Vector3 pitchOffset(Vector3 dir, float pitchBy)

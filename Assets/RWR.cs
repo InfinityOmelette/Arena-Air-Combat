@@ -7,6 +7,7 @@ public class RWR : MonoBehaviourPunCallbacks
 {
     private CombatFlow myFlow;
 
+    public Transform rwrBearingAxis;
 
     //private WarningComputer warnComputer;
     void Awake()
@@ -46,7 +47,7 @@ public class RWR : MonoBehaviourPunCallbacks
     {
      
 
-        position = transform.GetChild(0).InverseTransformPoint(position);
+        position = rwrBearingAxis.InverseTransformPoint(position);
         position = new Vector3(position.x, 0f, position.z); // put onto xz plane
 
         

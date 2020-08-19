@@ -69,6 +69,10 @@ public class DirectionAI : MonoBehaviour
 
     private AI_Aircraft ai;
 
+    public bool useAi;
+
+    private Vector3 mouseDir;
+
     void Awake()
     {
         flight = GetComponent<RealFlightControl>();
@@ -83,12 +87,19 @@ public class DirectionAI : MonoBehaviour
     {
         hudRef = hudControl.mainHud.GetComponent<hudControl>();
         aimpointIconRef = hudRef.wtAimpointObj;
+
+        
     }
 
     void Update()
     {
         if (myFlow.isLocalPlayer)
         {
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                toggleAi();
+            }
+
 
             if (Input.GetKeyDown(KeyCode.O))
             {
@@ -117,21 +128,51 @@ public class DirectionAI : MonoBehaviour
             if (myFlow.isLocalPlayer && camRef != null && !freeLookOn)
             {
                 //inputDir = Vector3.Lerp( inputDir.normalized, camRef.worldLockedLookDirection.normalized, targetDirLerpRate * Time.deltaTime).normalized;
-                targetDir = camRef.worldLockedLookDirection;
+                mouseDir = camRef.worldLockedLookDirection;
             }
 
             if (camRef.warThunderCamEnabled)
             {
-                hudRef.drawItemOnScreen(aimpointIconRef, camRef.camRef.transform.position + targetDir, 1.0f);
+                hudRef.drawItemOnScreen(aimpointIconRef, camRef.camRef.transform.position + mouseDir, 1.0f);
             }
 
         }
 
-        currentDir = Vector3.Lerp(currentDir.normalized, targetDir.normalized, targetDirLerpRate * Time.deltaTime).normalized;
+
+
+        if (myFlow.isLocalPlayer)
+        {
+            if (useAi)
+            {
+                ai.targetDir = mouseDir;
+            }
+            else
+            {
+                targetDir = mouseDir;
+            }
+        }
+
         
+
+        currentDir = Vector3.Lerp(currentDir.normalized, targetDir.normalized, targetDirLerpRate * Time.deltaTime).normalized;
+
     }
 
     
+    private void toggleAi()
+    {
+        useAi = !useAi;
+
+        ai.enabled = useAi;
+
+        Debug.Log("Ai Enabled: " + useAi);
+
+        //if (useAi)
+        //{
+        //    ai.enabled = true;
+        //}
+    }
+
     void FixedUpdate()
     {
 

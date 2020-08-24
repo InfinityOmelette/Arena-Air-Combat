@@ -1448,13 +1448,15 @@ MonoBehaviour:
   waypointRadius: 100
   lowLoopSpeed: 150
   highLoopSpeed: 350
-  groundAvoidSensitivity: 5
+  groundAvoidSensitivity: 0.5
+  fwdCheckPitchOffset: -7
   fwdCheckTimeToCrash: 12
-  lowCheckTimeToCrash: 5
-  groundCheckRayPitchOffset: -12
+  fwdCheckSensitivity: 0.1
+  lowCheckTimeToCrash: 6
+  groundCheckRayPitchOffset: -45
   groundAvoidPitchOffset: 25
   sideCheckTimeToCrash: 4
-  sideCheckRayYawOffset: 12
+  sideCheckRayYawOffset: 45
   wallAvoidRollOffset: 0
   maxClimbOffset: 1
   baseClimbAngle: 8
@@ -1463,7 +1465,13 @@ MonoBehaviour:
   VERTICAL_ANGLE: 80
   maxHorizOffset: 90
   canZoomSpeedCoeff: 0.65
-  maxDirAngle: 0
+  maxDirAngle: 10
+  maxCorrectionAngle: 45
+  groundAvoidHighPitchOffset: -70
+  groundAvoidPitchCoeff: 0.43
+  groundAvoidHardMaxPitchOffset: 25
+  verticalBuffer: 15
+  minPitchAboveDown: 20
   targetFlow: {fileID: 0}
   dogfightMode: 0
   navMode: 0

@@ -31,7 +31,9 @@ public class AI_Aircraft : MonoBehaviour
 
     public float groundAvoidSensitivity;
 
+    public float fwdCheckPitchOffset;
     public float fwdCheckTimeToCrash;
+    public float fwdCheckSensitivity;
     public float lowCheckTimeToCrash;
     public float groundCheckRayPitchOffset;
     public float groundAvoidPitchOffset;
@@ -52,6 +54,18 @@ public class AI_Aircraft : MonoBehaviour
     public float canZoomSpeedCoeff;
 
     public float maxDirAngle;
+    public float maxCorrectionAngle;
+
+    //float pitchOffset = -40f;
+    //float pitchCoeff = 0.2f;
+    //float hardMaxPitchOffset = 20f;
+
+    public float groundAvoidHighPitchOffset;
+    public float groundAvoidPitchCoeff;
+    public float groundAvoidHardMaxPitchOffset;
+
+    public float verticalBuffer;
+    public float minPitchAboveDown;
 
     //public float crashPitchOverride;
 
@@ -221,9 +235,9 @@ public class AI_Aircraft : MonoBehaviour
 
         //dirAI.targetDir = terrainAvoid(dir);
 
-        Debug.DrawRay(transform.position, targetDir, Color.cyan, 5);
-        Debug.DrawRay(transform.position, currentDir, Color.green, 5);
-        Debug.DrawLine(transform.position, targetPos, Color.white, 5);
+       // Debug.DrawRay(transform.position, targetDir, Color.cyan, 5);
+        //Debug.DrawRay(transform.position, currentDir, Color.green, 5);
+        //Debug.DrawLine(transform.position, targetPos, Color.white, 5);
 
     }
 
@@ -264,7 +278,7 @@ public class AI_Aircraft : MonoBehaviour
 
         if (dir.y > 0f)
         {
-            float dirPitch = -getPitch(dir);
+            float dirPitch = getPitch(dir);
 
             // calculate climb angle
             float climbAngle = calculateClimbAngle(myRb.velocity.magnitude);
@@ -295,7 +309,7 @@ public class AI_Aircraft : MonoBehaviour
 
                 dir = offsetForAoA(dir);
 
-                Debug.DrawRay(transform.position, dir * 10f, Color.green);
+                //Debug.DrawRay(transform.position, dir * 10f, Color.green);
 
             }
         }
@@ -358,6 +372,20 @@ public class AI_Aircraft : MonoBehaviour
 
     //private float 
 
+    // look at desmos for equation
+    // roughly, horizontal starts at 0 degrees at 200kph, 20 degrees at 300 kph
+    private float calculateMaxPitch()
+    {
+        // always at least zero
+        return Mathf.Max( myRb.velocity.magnitude * MS_2_KPH * groundAvoidPitchCoeff + groundAvoidHighPitchOffset,
+            0.0f);
+    }
+
+    private float calculatePitchOvershootMod(float newPitch, float highPitch, float maxPitch)
+    {
+        return Mathf.Clamp(Mathf.InverseLerp(highPitch, maxPitch, newPitch), 0.0f, 1.0f);
+    }
+
     private float calculateClimbAngle(float spd)
     {
         
@@ -368,68 +396,176 @@ public class AI_Aircraft : MonoBehaviour
         return val;
     }
 
+    private float pitchAboveDown(Vector3 dir)
+    {
+        float angle = Vector3.Angle(-Vector3.up, dir) - verticalBuffer;
+        return angle;
+    }
+
     public Vector3 terrainAvoid(Vector3 dir)
     {
-
+        // constrain desired direction within cone
         dir = rotateDirFromTo(transform.forward, dir, maxDirAngle);
 
+        float dirPitchAboveDown = pitchAboveDown(dir);
+        float underPitchOvershoot = minPitchAboveDown - dirPitchAboveDown;
+        underPitchOvershoot = Mathf.Max(underPitchOvershoot, 0.0f);
+
+
+        Debug.DrawRay(transform.position, dir, Color.red);
+
+        dir = pitchOffset(dir, underPitchOvershoot);
+        Debug.DrawRay(transform.position, dir, Color.red);
+
         int terrainLayer = 1 << 10; // line only collides with terrain layer
-        
+
         // check both forward and low raycast. Prioritize low
 
+        float angleDownToFwdCheck = pitchAboveDown(myRb.velocity);
 
+        
+
+        // FORWARD CHECK RAY -- JUST A FEW DEGREES BELOW VELOCITY
         Vector3 fwdCheckRay = myRb.velocity * fwdCheckTimeToCrash;
+        fwdCheckRay = pitchOffset(fwdCheckRay, Mathf.Max(fwdCheckPitchOffset, -angleDownToFwdCheck));
         RaycastHit fwdHit;
         bool fwdIntersect = Physics.Raycast(transform.position, fwdCheckRay, out fwdHit,
             fwdCheckRay.magnitude, terrainLayer);
 
-        float angleDownToFwdCheck = Vector3.Angle(-Vector3.up, fwdCheckRay);
+        // GROUND CHECK RAY -- EXTREME DOWN ANGLE
         Vector3 groundCheckRay = myRb.velocity * lowCheckTimeToCrash;
-        groundCheckRay = pitchOffset(groundCheckRay, Mathf.Max( groundCheckRayPitchOffset, -angleDownToFwdCheck));
+        groundCheckRay = pitchOffset(groundCheckRay, Mathf.Max(groundCheckRayPitchOffset, -angleDownToFwdCheck));
         RaycastHit lowHit;
         bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out lowHit,
             groundCheckRay.magnitude,  terrainLayer);
 
+        Debug.DrawRay(transform.position, myRb.velocity, Color.yellow);
+        Debug.DrawRay(transform.position, transform.forward, Color.white);
+        Debug.DrawRay(transform.position, fwdCheckRay, Color.blue);
+        Debug.DrawRay(transform.position, groundCheckRay, Color.green);
+
         //Debug.DrawRay(transform.position, )
 
         // ground avoid
-        if (groundIntersect || fwdIntersect)
+        if (groundIntersect)
         {
+
+            float fwdCheckMod = 0.0f;
+            if (fwdIntersect)
+            {
+                fwdCheckMod = fwdCheckSensitivity;
+            }
+
             // prioritize the low raycast
             Vector3 intersectPos;
             RaycastHit hit;
-            if (groundIntersect)
-            {
-                intersectPos = lowHit.point;
-                hit = lowHit;
-            }
-            else
-            {
-                intersectPos = fwdHit.point;
-                hit = fwdHit;
-            }
+
+            intersectPos = lowHit.point;
+            hit = lowHit;
+
+            
+            
 
 
             float estimatedCrashTime = Vector3.Distance(transform.position, intersectPos) / myRb.velocity.magnitude;
-            float overrideMod = Mathf.Clamp(((lowCheckTimeToCrash - estimatedCrashTime) / lowCheckTimeToCrash) * groundAvoidSensitivity ,0.0f,  1.0f);
+            float overrideMod = Mathf.Clamp(
+                ((lowCheckTimeToCrash - estimatedCrashTime) / lowCheckTimeToCrash) * groundAvoidSensitivity + fwdCheckMod
+                ,0.0f,  1.0f);
 
-            Vector3 overrideDir = hit.normal;
-            overrideDir = wallAvoid(groundCheckRay, overrideDir);
+
+
+
+            Vector3 overrideDir = dir;
+
+            
+            // this whole pitch block is super ugly
+            float currentDirPitch = getPitch(dir);
+
+
+            float pitchCorrectionRaw = overrideMod * maxCorrectionAngle;
+
+            float newPitch = currentDirPitch + pitchCorrectionRaw;
+
+            float highPitch = calculateMaxPitch();
+            float hardMaxPitch = highPitch + groundAvoidHardMaxPitchOffset;
+
+            float pitchOvershootMod = calculatePitchOvershootMod(newPitch, highPitch, hardMaxPitch);
+
+            newPitch = Mathf.Min(newPitch, hardMaxPitch);
+
+            float maxPitchOffset = hardMaxPitch - currentDirPitch;
+            float pitchCorrection = Mathf.Min(pitchCorrectionRaw, maxPitchOffset);
+
+            overrideDir = rotateDirFromTo(overrideDir, Vector3.up, pitchCorrection);
+
+
+            Debug.Log("currentDirPitch: " + currentDirPitch + ", newPitch: " + newPitch + ", highPitch: " + highPitch + 
+                ", hardMaxPitch: " + hardMaxPitch + ", pitchOvershootMod: " + pitchOvershootMod);
+
+            //Debug.Log("CurrentDirPitch: " + currentDirPitch + ", newPitch: " +)
+
+            float horizDirection = wallAvoidDirection(hit.normal);
+
+            
+
+            overrideDir = yawOffset(overrideDir, horizDirection * pitchOvershootMod * maxCorrectionAngle);
+
+            //Debug.DrawRay(transform.position, hit.normal, Color.red);
+
+            //overrideDir = pitchOffset(dir, overrideMod * maxCorrectionAngle);
+
+            dir = overrideDir;
+
+            //if (horizDirection > 0.0f)
+            //{
+            //    Debug.Log("========= TURNING RIGHT, " + pitchOvershootMod + " horizontal ");
+            //}
+            //else
+            //{
+            //    Debug.Log("========= TURNING LEFT, " + pitchOvershootMod + " horizontal");
+            //}
+
+            //overrideDir = wallAvoid(groundCheckRay, overrideDir);
 
 
 
             //Debug.Log("========= GROUND INTERSECTED , estimatedCrashTime: " + estimatedCrashTime + ", overrideMod: " + overrideMod);
-            Debug.DrawRay(transform.position, groundCheckRay, Color.blue, 5);
-            Debug.DrawLine(transform.position, lowHit.point, Color.red, 5);
-            Debug.DrawRay(transform.position, overrideDir, Color.yellow, 5);
+            //Debug.DrawRay(transform.position, groundCheckRay, Color.blue, 5);
+            //Debug.DrawLine(transform.position, lowHit.point, Color.red, 5);
+            //Debug.DrawRay(transform.position, overrideDir, Color.yellow, 5);
 
-            dir = lerpRotateVect(dir.normalized, overrideDir, overrideMod);
+            //dir = lerpRotateVect(dir.normalized, overrideDir, overrideMod);
         }
 
+        Debug.DrawRay(transform.position, dir * 10f, Color.cyan);
 
         return dir;
     }
 
+    //private float calculateGroundAvoidPitch(float timeToCrash)
+    //{
+
+    //}
+
+    private float wallAvoidDirection(Vector3 hitNormal)
+    {
+        Vector3 myRight = Vector3.Cross(Vector3.up, transform.forward).normalized;
+        Vector3 turnDir = Vector3.Project(hitNormal, myRight).normalized;
+
+        // 10 degrees arbitrarily chosen
+        //  If both vectors pointing in the same direction, angle will be small
+        //  both in same direction means turn right (positive)
+        //  opposite directions means turn left (negative)
+        if(Vector3.Angle(myRight, turnDir) < 10f)
+        {
+            // small angle, vectors pointing same direction, turn right, positive
+            return 1f;
+        }
+        else
+        {
+            return -1f;
+        }
+    }
     
     Vector3 wallAvoid(Vector3 fwdAxis, Vector3 dir)
     {
@@ -499,9 +635,16 @@ public class AI_Aircraft : MonoBehaviour
 
     Vector3 pitchOffset(Vector3 dir, float pitchBy)
     {
-        Vector3 offsetAxis = Vector3.Cross(dir, Vector3.up);
-        Quaternion rotBy = Quaternion.AngleAxis(pitchBy, offsetAxis);
-        return rotBy * dir;
+        if (!pitchBy.Equals(0.0f))
+        {
+            Vector3 offsetAxis = Vector3.Cross(dir, Vector3.up);
+            Quaternion rotBy = Quaternion.AngleAxis(pitchBy, offsetAxis);
+            return rotBy * dir;
+        }
+        else
+        {
+            return dir;
+        }
     }
 
     Vector3 offsetForAoA(Vector3 targetDir)
@@ -516,7 +659,7 @@ public class AI_Aircraft : MonoBehaviour
         //Quaternion rotBy = Quaternion.AngleAxis(vertAoA, offsetAxis);
 
 
-        return pitchOffset(targetDir, -vertAoA);
+        return pitchOffset(targetDir, vertAoA);
     }
 
     void nextWaypoint()
@@ -548,7 +691,7 @@ public class AI_Aircraft : MonoBehaviour
 
     private float getPitch(Quaternion rot)
     {
-        return unEulerize(Quaternion.ToEulerAngles(rot).x * Mathf.Rad2Deg);
+        return -unEulerize(Quaternion.ToEulerAngles(rot).x * Mathf.Rad2Deg);
     }
 
     private float unEulerize(float angle)
@@ -570,6 +713,11 @@ public class AI_Aircraft : MonoBehaviour
 
     private Vector3 rotateDirFromTo(Vector3 from, Vector3 to, float angle)
     {
+        // don't overshoot
+        float angleBetween = Vector3.Angle(from, to);
+        angle = Mathf.Clamp(angle, -angleBetween, angleBetween);
+
+
         Vector3 axis = Vector3.Cross(from, to);
         Quaternion rot = Quaternion.AngleAxis(angle, axis);
         return rot * from;

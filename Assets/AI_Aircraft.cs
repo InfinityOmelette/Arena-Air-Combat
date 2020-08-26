@@ -87,6 +87,9 @@ public class AI_Aircraft : MonoBehaviour
     public float dirLerpRate;
 
     public float minTurnCircleTime;
+
+
+    private AI_MissileEvade mslAvoid;
     
 
     void Awake()
@@ -113,6 +116,10 @@ public class AI_Aircraft : MonoBehaviour
         fillWaypointList(wptContainer);
 
         targetPos = waypoints[waypointIndex];
+
+        mslAvoid = GetComponent<AI_MissileEvade>();
+
+        mslAvoid.enabled = true;
 
         //Debug.LogWarning("====================================== Curr wpt: " + currWpt);
 
@@ -186,6 +193,8 @@ public class AI_Aircraft : MonoBehaviour
 
             targetDir = targetPos - transform.position;
         }
+
+        
         targetDir = offsetForAoA(targetDir);
 
         //Debug.DrawRay(transform.position, dir * 10f, Color.green);
@@ -208,6 +217,8 @@ public class AI_Aircraft : MonoBehaviour
             //Debug.DrawRay(transform.position, dir * 10f, Color.green);
             climbApplied = true;
         }
+
+        targetDir = mslAvoid.tryMissileEvade(targetDir);
 
         //Debug.Log("Climb applied: " + climbApplied);
 
@@ -258,7 +269,7 @@ public class AI_Aircraft : MonoBehaviour
         return dir;
     }
 
-    Vector3 lerpRotateVect(Vector3 from, Vector3 to, float lerp)
+    public Vector3 lerpRotateVect(Vector3 from, Vector3 to, float lerp)
     {
         Quaternion fromRot = Quaternion.LookRotation(from, Vector3.up);
         Quaternion toRot = Quaternion.LookRotation(to, Vector3.up);
@@ -421,7 +432,7 @@ public class AI_Aircraft : MonoBehaviour
         return val;
     }
 
-    private float pitchAboveDown(Vector3 dir)
+    public float pitchAboveDown(Vector3 dir)
     {
         float angle = Vector3.Angle(-Vector3.up, dir) - verticalBuffer;
         return angle;
@@ -636,13 +647,13 @@ public class AI_Aircraft : MonoBehaviour
         return dist;
     }
 
-    Vector3 yawOffset(Vector3 dir, float yawBy)
+    public Vector3 yawOffset(Vector3 dir, float yawBy)
     {
         Quaternion rotBy = Quaternion.AngleAxis(yawBy, Vector3.up);
         return rotBy * dir;
     }
 
-    Vector3 pitchOffset(Vector3 dir, float pitchBy)
+    public Vector3 pitchOffset(Vector3 dir, float pitchBy)
     {
         if (!pitchBy.Equals(0.0f))
         {
@@ -656,7 +667,7 @@ public class AI_Aircraft : MonoBehaviour
         }
     }
 
-    Vector3 offsetForAoA(Vector3 targetDir)
+    public Vector3 offsetForAoA(Vector3 targetDir)
     {
         float myPitch = getPitch(transform.rotation);
         float velPitch = getPitch(Quaternion.LookRotation(myRb.velocity));
@@ -693,17 +704,17 @@ public class AI_Aircraft : MonoBehaviour
         }
     }
 
-    private float getPitch(Vector3 dir)
+    public float getPitch(Vector3 dir)
     {
         return getPitch(Quaternion.LookRotation(dir, Vector3.up));
     }
 
-    private float getPitch(Quaternion rot)
+    public float getPitch(Quaternion rot)
     {
         return -unEulerize(Quaternion.ToEulerAngles(rot).x * Mathf.Rad2Deg);
     }
 
-    private float unEulerize(float angle)
+    public float unEulerize(float angle)
     {
         if(angle > 180)
         {
@@ -713,14 +724,14 @@ public class AI_Aircraft : MonoBehaviour
         return angle;
     }
 
-    private Vector3 dir2Euler(Vector3 dir)
+    public Vector3 dir2Euler(Vector3 dir)
     {
         Quaternion localOldDirRotation = Quaternion.LookRotation(dir);
         return Quaternion.ToEulerAngles(localOldDirRotation) * Mathf.Rad2Deg;
     }
 
 
-    private Vector3 rotateDirFromTo(Vector3 from, Vector3 to, float angle)
+    public Vector3 rotateDirFromTo(Vector3 from, Vector3 to, float angle)
     {
         // don't overshoot
         float angleBetween = Vector3.Angle(from, to);

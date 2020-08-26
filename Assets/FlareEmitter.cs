@@ -148,7 +148,7 @@ public class FlareEmitter : MonoBehaviourPun
     {
         if (cooldownTimer < 0f)
         {
-            if (myFlow.isLocalPlayer && flareButtonDown)
+            if ((myFlow.isLocalPlayer || myFlow.aiControlled) && flareButtonDown)
             {
 
                 int flareSlot = getAvailableFlareIndex();

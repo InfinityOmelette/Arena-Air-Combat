@@ -12,6 +12,17 @@ public class RWR : MonoBehaviourPunCallbacks
     public List<CombatFlow> lockedBy;
     public List<CombatFlow> incomingMissiles;
 
+
+    public CombatFlow closestMissile;
+
+
+
+    public float closestMissileDelay = 1f;
+    private float closestMissileTimer;
+
+    public float cleanListsDelay = 3f;
+    private float cleanListsTimer;
+
     //private WarningComputer warnComputer;
     void Awake()
     {
@@ -30,8 +41,92 @@ public class RWR : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
+        countDownCleanListTimer();
+        countDownClosestMissileTimer();
     }
+
+    private void countDownClosestMissileTimer()
+    {
+        if(closestMissileTimer < 0f)
+        {
+            findClosestMissile();
+            closestMissileTimer = closestMissileDelay;
+        }
+        else
+        {
+            closestMissileTimer -= Time.deltaTime;
+        }
+
+
+    }
+
+    private void findClosestMissile()
+    {
+        closestMissile = null;
+
+        float nearestDist = -1f;
+        int nearestDistIndex = -1;
+
+        for(int i = 0; i < incomingMissiles.Count; i++)
+        {
+            CombatFlow currMissile = incomingMissiles[i];
+
+            if(currMissile != null)
+            {
+                float currDist = Vector3.Distance(currMissile.transform.position, transform.position);
+
+                if(currDist < nearestDist || nearestDist < 0f)
+                {
+                    nearestDist = currDist;
+                    nearestDistIndex = i;
+                }
+
+
+            }
+        }
+
+        if(nearestDistIndex != -1)
+        {
+            closestMissile = incomingMissiles[nearestDistIndex];
+        }
+
+    }
+
+    private void countDownCleanListTimer()
+    {
+        if (cleanListsTimer < 0f)
+        {
+            cleanLists();
+            cleanListsTimer = cleanListsDelay;
+        }
+        else
+        {
+            cleanListsTimer -= Time.deltaTime;
+        }
+    }
+
+    private void cleanLists()
+    {
+        cleanFlowList(incomingMissiles);
+        cleanFlowList(lockedBy);
+    }
+
+    private void cleanFlowList(List<CombatFlow> flowList)
+    {
+        if(flowList != null)
+        {
+            for(int i = 0; i < flowList.Count; i++)
+            {
+                if(flowList[i] == null)
+                {
+                    flowList.RemoveAt(i);
+                    i--; // next iteration, re-check this same index
+                }
+            }
+        }
+    }
+    
+
 
     public void tryPing(Radar radarSource)
     {
@@ -70,12 +165,14 @@ public class RWR : MonoBehaviourPunCallbacks
 
     public void netLockedBy(Radar radarSource)
     {
-        photonView.RPC("rpcLockedBy", RpcTarget.Others, radarSource.photonView.ViewID);
+        Debug.Log("============= NETLOCKEDBY CALL");
+        photonView.RPC("rpcLockedBy", RpcTarget.All, radarSource.photonView.ViewID);
     }
 
     public void endNetLock(Radar radarSource)
     {
-        photonView.RPC("rpcEndLockedBy", RpcTarget.Others, radarSource.photonView.ViewID);
+        Debug.Log("============  ENDNETLOCKEDBY CALL");
+        photonView.RPC("rpcEndLockedBy", RpcTarget.All, radarSource.photonView.ViewID);
     }
 
     [PunRPC]
@@ -126,6 +223,13 @@ public class RWR : MonoBehaviourPunCallbacks
                 if (sourceFlow.type == CombatFlow.Type.PROJECTILE)
                 {
                     incomingMissiles.Remove(sourceFlow);
+
+                    if(sourceFlow == closestMissile)
+                    {
+                        closestMissile = null;
+                    }
+
+
                 }
                 else
                 {

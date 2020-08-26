@@ -60,6 +60,8 @@ public class AI_Aircraft : MonoBehaviour
     //float pitchCoeff = 0.2f;
     //float hardMaxPitchOffset = 20f;
 
+    public float minWallAvoidAlt;
+
     public float groundAvoidHighPitchOffset;
     public float groundAvoidPitchCoeff;
     public float groundAvoidHardMaxPitchOffset;
@@ -83,6 +85,8 @@ public class AI_Aircraft : MonoBehaviour
 
     private Vector3 currentDir;
     public float dirLerpRate;
+
+    public float minTurnCircleTime;
     
 
     void Awake()
@@ -381,9 +385,30 @@ public class AI_Aircraft : MonoBehaviour
             0.0f);
     }
 
-    private float calculatePitchOvershootMod(float newPitch, float highPitch, float maxPitch)
+    private float calculatePitchOvershootMod(float newPitch, float highPitch, float maxPitch, Vector3 dir)
     {
-        return Mathf.Clamp(Mathf.InverseLerp(highPitch, maxPitch, newPitch), 0.0f, 1.0f);
+        //dir = dir.normalized * myRb.velocity.magnitude;
+        //RaycastHit dirHit;
+        //bool dirIntersect = Physics.Raycast(transform.position, dir, out dirHit,
+        //    dir.magnitude, terrainLayer);
+
+        //float timeToHit = 1000f; // arbitrarily large number signaling no intersect
+
+        //// avoid turning into a wall if there's no room
+        //if (dirIntersect)
+        //{
+        //    timeToHit = Vector3.Distance(transform.position, dirHit.point) / myRb.velocity.magnitude;
+
+        //}
+
+        //if (timeToHit < minTurnCircleTime)
+        //{
+        //    return 1.0f;
+        //}
+        //else
+        {
+            return Mathf.Clamp(Mathf.InverseLerp(highPitch, maxPitch, newPitch), 0.0f, 1.0f);
+        }
     }
 
     private float calculateClimbAngle(float spd)
@@ -451,9 +476,11 @@ public class AI_Aircraft : MonoBehaviour
         {
 
             float fwdCheckMod = 0.0f;
+            
             if (fwdIntersect)
             {
                 fwdCheckMod = fwdCheckSensitivity;
+                
             }
 
             // prioritize the low raycast
@@ -489,7 +516,7 @@ public class AI_Aircraft : MonoBehaviour
             float highPitch = calculateMaxPitch();
             float hardMaxPitch = highPitch + groundAvoidHardMaxPitchOffset;
 
-            float pitchOvershootMod = calculatePitchOvershootMod(newPitch, highPitch, hardMaxPitch);
+            float pitchOvershootMod = calculatePitchOvershootMod(newPitch, highPitch, hardMaxPitch, dir);
 
             newPitch = Mathf.Min(newPitch, hardMaxPitch);
 
@@ -499,17 +526,22 @@ public class AI_Aircraft : MonoBehaviour
             overrideDir = rotateDirFromTo(overrideDir, Vector3.up, pitchCorrection);
 
 
-            Debug.Log("currentDirPitch: " + currentDirPitch + ", newPitch: " + newPitch + ", highPitch: " + highPitch + 
-                ", hardMaxPitch: " + hardMaxPitch + ", pitchOvershootMod: " + pitchOvershootMod);
+            
 
             //Debug.Log("CurrentDirPitch: " + currentDirPitch + ", newPitch: " +)
 
             float horizDirection = wallAvoidDirection(hit.normal);
 
-            
+            bool canWallAvoid = transform.position.y > minWallAvoidAlt && (wallAvoidIntersect(fwdCheckRay) || fwdIntersect);
 
-            overrideDir = yawOffset(overrideDir, horizDirection * pitchOvershootMod * maxCorrectionAngle);
+            if (canWallAvoid)
+            {
+                overrideDir = yawOffset(overrideDir, horizDirection * pitchOvershootMod * maxCorrectionAngle);
+            }
 
+            Debug.Log("currentDirPitch: " + currentDirPitch + ", newPitch: " + newPitch + ", highPitch: " + highPitch +
+                ", hardMaxPitch: " + hardMaxPitch + ", pitchOvershootMod: " + pitchOvershootMod + ", fwdIntersect: " + fwdIntersect +
+                ", canWallAvoid: " + canWallAvoid);
             //Debug.DrawRay(transform.position, hit.normal, Color.red);
 
             //overrideDir = pitchOffset(dir, overrideMod * maxCorrectionAngle);
@@ -567,7 +599,7 @@ public class AI_Aircraft : MonoBehaviour
         }
     }
     
-    Vector3 wallAvoid(Vector3 fwdAxis, Vector3 dir)
+    bool wallAvoidIntersect(Vector3 fwdAxis)
     {
         
         Vector3 fwd = fwdAxis.normalized * myRb.velocity.magnitude * sideCheckTimeToCrash;
@@ -582,32 +614,9 @@ public class AI_Aircraft : MonoBehaviour
         float rightHitDist = getRaycheckDist(rightCheckRay);
 
         // only activate avoidance if one of the rays hit
-        if(leftHitDist > 0f || rightHitDist > 0f)
-        {
-            Debug.Log("*********** WALL AVOID TRIGGERED");
+        return leftHitDist > 0f || rightHitDist > 0f;
 
-            // Default point horizontally right (assumes left wall closer)
-            Vector3 evadeDir = Vector3.Cross(Vector3.up, transform.forward);
-
-
-
-            // if right wall is closer than left --> roll to the left
-            if ((leftHitDist < 0f || rightHitDist < leftHitDist) && rightHitDist > 0f)
-            {
-                Debug.Log("--------- WALL AVOID --> TURNING LEFT");
-                evadeDir *= -1f;
-            }
-            else
-            {
-                Debug.Log("--------- WALL AVOID --> TURNING RIGHT");
-            }
-
-            Debug.DrawRay(transform.position, evadeDir, Color.blue, 5f);
-
-            dir = lerpRotateVect(dir, evadeDir, 0.5f);
-        }
-
-        return dir;
+        
     }
 
     float getRaycheckDist(Vector3 ray)

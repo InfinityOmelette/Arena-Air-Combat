@@ -72,6 +72,11 @@ public class MissileGuidance : MonoBehaviour
 
     //private Vector3 previousBearingLine;
 
+    public bool isLocked;
+
+    
+
+
     private void Awake()
     {
         missileRef = GetComponent<BasicMissile>();
@@ -80,6 +85,7 @@ public class MissileGuidance : MonoBehaviour
         myFlightControl = GetComponent<RealFlightControl>();
         myRB = GetComponent<Rigidbody>();
         myRadar = GetComponent<Radar>();
+        
     }
 
     // Start is called before the first frame update
@@ -123,8 +129,26 @@ public class MissileGuidance : MonoBehaviour
                     {
                         targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
                     }
+
+
+                    bool tryLock = !targetFlow.jamming && myRadar.tryDetect(targetFlow);
+
+                    if(tryLock != isLocked && targetFlow.rwr != null)
+                    {
+                        if (tryLock) // begin lock
+                        {
+                            targetFlow.rwr.netLockedBy(myRadar);
+                        }
+                        else // end lock
+                        {
+                            targetFlow.rwr.endNetLock(myRadar);
+                        }
+                    }
+
+                    isLocked = tryLock;
+
                     //myRadar.tryDetect(targetFlow)
-                    if (!targetFlow.jamming && myRadar.tryDetect(targetFlow))
+                    if (tryLock)
                     {
                         //guidanceProcess();
                         updateTargetData();
@@ -315,6 +339,15 @@ public class MissileGuidance : MonoBehaviour
     private Vector3 projectForwardByTime(float projectionTime)
     {
         return targetRB.velocity * projectionTime;
+    }
+
+
+    void OnDestroy()
+    {
+        if(targetFlow != null && isLocked)
+        {
+            targetFlow.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
+        }
     }
 
 }

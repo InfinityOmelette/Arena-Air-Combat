@@ -201,7 +201,7 @@ public class AI_Aircraft : MonoBehaviour
         bool climbApplied = false;
 
         
-
+        // climbProcess is applied for all navigation modes
         if (!dirAI.useAi && targetDir.y > 0f && !wheels.gearIsDown && !canZoomClimb(targetPos)) // don't mess with takeoff
         {
             targetDir = climbProcess(targetDir);

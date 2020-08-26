@@ -40,6 +40,8 @@ public class BasicMissile : Weapon
 
 
     private bool hasPassed = false;
+
+    
     
 
     void awake()
@@ -301,6 +303,19 @@ public class BasicMissile : Weapon
             photonView.RPC("rpcPingPlayer", RpcTarget.All, targetID);
 
             //Debug.LogError("Guided launch against " + PhotonNetwork.GetPhotonView(targetID).name);
+
+            //PhotonView targetView = PhotonNetwork.GetPhotonView(targetID);
+
+            //if (targetView != null)
+            //{
+            //    RWR targetRWR = targetView.GetComponent<RWR>();
+
+            //    if(targetRWR != null)
+            //    {
+            //        targetRWR.netLockedBy(radar);
+            //    }
+            //}
+
         }
 
         radar.radarOn = true;

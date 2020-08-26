@@ -9,10 +9,15 @@ public class RWR : MonoBehaviourPunCallbacks
 
     public Transform rwrBearingAxis;
 
+    public List<CombatFlow> lockedBy;
+    public List<CombatFlow> incomingMissiles;
+
     //private WarningComputer warnComputer;
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
+        lockedBy = new List<CombatFlow>();
+        incomingMissiles = new List<CombatFlow>();
     }
 
 
@@ -76,14 +81,31 @@ public class RWR : MonoBehaviourPunCallbacks
     [PunRPC]
     public void rpcLockedBy(int sourceID)
     {
-        if (myFlow.isLocalPlayer)
+        //lockedByIDs.Add(sourceID);
+
+        if (myFlow.isLocalPlayer || myFlow.localOwned)
         {
             Debug.Log("rpc locked by");
             PhotonView view = PhotonNetwork.GetPhotonView(sourceID);
             if(view != null)
             {
-                Radar radarSource = view.GetComponent<Radar>();
-                radarSource.rwrIcon.beginLock();
+                CombatFlow sourceFlow = view.GetComponent<CombatFlow>();
+
+                if(sourceFlow.type == CombatFlow.Type.PROJECTILE)
+                {
+                    incomingMissiles.Add(sourceFlow);
+                }
+                else
+                {
+                    lockedBy.Add(sourceFlow);
+                }
+
+
+                if (myFlow.isLocalPlayer)
+                {
+                    Radar radarSource = view.GetComponent<Radar>();
+                    radarSource.rwrIcon.beginLock();
+                }
             }
         }
     }
@@ -91,14 +113,30 @@ public class RWR : MonoBehaviourPunCallbacks
     [PunRPC]
     public void rpcEndLockedBy(int sourceID)
     {
-        if (myFlow.isLocalPlayer)
+        
+
+        if (myFlow.isLocalPlayer || myFlow.localOwned)
         {
             Debug.Log("rpc end locked by");
             PhotonView view = PhotonNetwork.GetPhotonView(sourceID);
             if (view != null)
             {
-                Radar radarSource = view.GetComponent<Radar>();
-                radarSource.rwrIcon.endLock();
+                CombatFlow sourceFlow = view.GetComponent<CombatFlow>();
+
+                if (sourceFlow.type == CombatFlow.Type.PROJECTILE)
+                {
+                    incomingMissiles.Remove(sourceFlow);
+                }
+                else
+                {
+                    lockedBy.Remove(sourceFlow);
+                }
+
+                if (myFlow.isLocalPlayer)
+                {
+                    Radar radarSource = view.GetComponent<Radar>();
+                    radarSource.rwrIcon.endLock();
+                }
             }
         }
     }

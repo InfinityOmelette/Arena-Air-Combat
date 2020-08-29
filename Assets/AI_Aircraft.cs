@@ -76,7 +76,7 @@ public class AI_Aircraft : MonoBehaviour
 
     public NAV_MODE navMode;
 
-    float MS_2_KPH = 3.6f;
+    public float MS_2_KPH = 3.6f;
 
     private int terrainLayer = 1 << 10; // line only collides with terrain layer
 
@@ -550,9 +550,9 @@ public class AI_Aircraft : MonoBehaviour
                 overrideDir = yawOffset(overrideDir, horizDirection * pitchOvershootMod * maxCorrectionAngle);
             }
 
-            Debug.Log("currentDirPitch: " + currentDirPitch + ", newPitch: " + newPitch + ", highPitch: " + highPitch +
-                ", hardMaxPitch: " + hardMaxPitch + ", pitchOvershootMod: " + pitchOvershootMod + ", fwdIntersect: " + fwdIntersect +
-                ", canWallAvoid: " + canWallAvoid);
+            //Debug.Log("currentDirPitch: " + currentDirPitch + ", newPitch: " + newPitch + ", highPitch: " + highPitch +
+            //    ", hardMaxPitch: " + hardMaxPitch + ", pitchOvershootMod: " + pitchOvershootMod + ", fwdIntersect: " + fwdIntersect +
+            //    ", canWallAvoid: " + canWallAvoid);
             //Debug.DrawRay(transform.position, hit.normal, Color.red);
 
             //overrideDir = pitchOffset(dir, overrideMod * maxCorrectionAngle);

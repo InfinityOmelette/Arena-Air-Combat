@@ -25,6 +25,8 @@ public class AI_MissileEvade : MonoBehaviour
 
     public float highPullTime;
 
+    public bool offensive = true;
+
     void Awake()
     {
         myRWR = GetComponent<RWR>();
@@ -69,14 +71,32 @@ public class AI_MissileEvade : MonoBehaviour
             float speedKPH = myRb.velocity.magnitude * airAI.MS_2_KPH;
 
             //if (impactTime < spiralTurnTime && speedKPH > minSpiralSpeed)
-            if(false)
+            //if(false)
+            //{
+            //    currentDir = spiralTurn(msl, currentDir);
+            //    //currentDir = Vector3.Cross(myRb.velocity, -currentDir); // negative so that vector faces enemy msl
+            //}
+            //else 
+            if (impactTime < highPullTime)
             {
-                currentDir = spiralTurn(msl, currentDir);
-                //currentDir = Vector3.Cross(myRb.velocity, -currentDir); // negative so that vector faces enemy msl
-            }
-            else if (impactTime < highPullTime)
-            {
-                currentDir = Vector3.up;
+                // I should make this pull in other directions
+
+                // if I have the energy to go up
+                //currentDir = Vector3.up;
+
+                // if not, change planar drag direction
+                //  --> need to read missile's heading direction
+                //   if missile pointing to the right of airplane, turn to the left
+                //   if missile pointing to the left of airplane, turn to the right
+
+                // try to pull down as well?
+                // Vector pointing from my position to incoming missile's
+                Vector3 targetBearingLine = msl.transform.position - transform.position;
+                Vector3 missileSagDir = Vector3.ProjectOnPlane(mslRelVel, targetBearingLine);
+
+
+                currentDir = -missileSagDir;
+
             }
             else
             {
@@ -97,7 +117,12 @@ public class AI_MissileEvade : MonoBehaviour
 
         float dragAngle = 45f;
 
-        Vector3 dragDir = -targetBearingLine; // negative, so from enemy, pointing towards me
+        Vector3 dragDir = targetBearingLine; // negative, so from enemy, pointing towards me
+
+        if (!offensive)
+        {
+            dragDir *= -1;
+        }
 
         // CRITICAL FLAW I NEED TO ADDRESS. IF TURN DIRECTION IS TOWARDS AN UNCLIMBABLE WALL, PLANE WILL GO STRAIGHT
         //  I NEED TO MAKE PLANE GIVE UP ON THAT DIRECTION, AND TURN THE OTHER WAY

@@ -90,6 +90,8 @@ public class AI_Aircraft : MonoBehaviour
 
 
     private AI_MissileEvade mslAvoid;
+
+    private RWR rwr;
     
 
     void Awake()
@@ -102,6 +104,7 @@ public class AI_Aircraft : MonoBehaviour
         dirAI = GetComponent<DirectionAI>();
         engine = GetComponent<EngineControl>();
         myRb = GetComponent<Rigidbody>();
+        rwr = GetComponent<RWR>();
     }
 
 
@@ -233,7 +236,7 @@ public class AI_Aircraft : MonoBehaviour
 
         targetDir = targetDir.normalized;
 
-        if(navMode == NAV_MODE.WAYPOINT_MISSION && waypointIndex == 0 && !dirAI.useAi)
+        if(navMode == NAV_MODE.WAYPOINT_MISSION && waypointIndex == 0 && !dirAI.useAi && rwr.highestThreatMissile == null)
         {
             //dirAI.targetDir = targetDir;
             currentDir = targetDir;

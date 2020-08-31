@@ -1500,6 +1500,7 @@ MonoBehaviour:
   dragDirSign: 1
   dragSignSwitchAngle: 10
   highPullTime: 1.75
+  minHighPullSpeed: 250
   offensive: 1
 --- !u!114 &1785817150400101556
 MonoBehaviour:
@@ -1844,9 +1845,10 @@ MonoBehaviour:
   rwrBearingAxis: {fileID: 182237617984877370}
   lockedBy: []
   incomingMissiles: []
-  closestMissile: {fileID: 0}
+  highestThreatMissile: {fileID: 0}
   closestMissileDelay: 1
   cleanListsDelay: 3
+  minImpactTime: 6.5
 --- !u!114 &2320197551087535654
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,8 +24,11 @@ public class AI_MissileEvade : MonoBehaviour
     public float dragSignSwitchAngle;
 
     public float highPullTime;
+    public float minHighPullSpeed;
 
     public bool offensive = true;
+
+    
 
     void Awake()
     {
@@ -51,7 +54,7 @@ public class AI_MissileEvade : MonoBehaviour
 
     public Vector3 tryMissileEvade(Vector3 currentDir)
     {
-        CombatFlow msl = myRWR.closestMissile;
+        CombatFlow msl = myRWR.highestThreatMissile;
 
         flare.flareButtonDown = false;
 
@@ -82,20 +85,31 @@ public class AI_MissileEvade : MonoBehaviour
                 // I should make this pull in other directions
 
                 // if I have the energy to go up
-                //currentDir = Vector3.up;
+                if (myRb.velocity.magnitude * airAI.MS_2_KPH > minHighPullSpeed)
+                {
+                    currentDir = Vector3.up;
+                    Debug.Log("AVOIDING UP");
 
-                // if not, change planar drag direction
-                //  --> need to read missile's heading direction
-                //   if missile pointing to the right of airplane, turn to the left
-                //   if missile pointing to the left of airplane, turn to the right
+                }
+                else
+                {
+                    Debug.Log("AVOIDING BY SAG");
+                    // if not, change planar drag direction
+                    //  --> need to read missile's heading direction
+                    //   if missile pointing to the right of airplane, turn to the left
+                    //   if missile pointing to the left of airplane, turn to the right
 
-                // try to pull down as well?
-                // Vector pointing from my position to incoming missile's
-                Vector3 targetBearingLine = msl.transform.position - transform.position;
-                Vector3 missileSagDir = Vector3.ProjectOnPlane(mslRelVel, targetBearingLine);
+                    // try to pull down as well?
+
+                    // Vector pointing from my position to incoming missile's
+                    Vector3 targetBearingLine = msl.transform.position - transform.position;
+                    Vector3 missileSagDir = Vector3.ProjectOnPlane(mslRelVel, targetBearingLine);
+
+                    Vector3 correctionDir = Vector3.ProjectOnPlane(-missileSagDir, transform.forward);
 
 
-                currentDir = -missileSagDir;
+                    currentDir = correctionDir;
+                }
 
             }
             else
@@ -110,18 +124,20 @@ public class AI_MissileEvade : MonoBehaviour
         return currentDir;
     }
 
+    
+
     private Vector3 planarDrag(CombatFlow msl, Vector3 dir)
     {
-        // point from me to enemy
-        Vector3 targetBearingLine = msl.transform.position - transform.position;
+        // point from me to enemy missile
+        Vector3 mslBearingLine = msl.transform.position - transform.position;
 
         float dragAngle = 45f;
 
-        Vector3 dragDir = targetBearingLine; // negative, so from enemy, pointing towards me
+        Vector3 dragDir = -dir; // try to just head in desired directions. Offsets will be based on this
 
         if (!offensive)
         {
-            dragDir *= -1;
+            dragDir = -mslBearingLine; // negative, so from enemy, pointing towards me
         }
 
         // CRITICAL FLAW I NEED TO ADDRESS. IF TURN DIRECTION IS TOWARDS AN UNCLIMBABLE WALL, PLANE WILL GO STRAIGHT

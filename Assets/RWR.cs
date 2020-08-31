@@ -13,7 +13,8 @@ public class RWR : MonoBehaviourPunCallbacks
     public List<CombatFlow> incomingMissiles;
 
 
-    public CombatFlow closestMissile;
+    public CombatFlow highestThreatMissile;
+    private Rigidbody myRb;
 
 
 
@@ -23,10 +24,13 @@ public class RWR : MonoBehaviourPunCallbacks
     public float cleanListsDelay = 3f;
     private float cleanListsTimer;
 
+    public float minImpactTime; // ignore missile if greater than this time away
+
     //private WarningComputer warnComputer;
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
+        myRb = GetComponent<Rigidbody>();
         lockedBy = new List<CombatFlow>();
         incomingMissiles = new List<CombatFlow>();
     }
@@ -41,15 +45,18 @@ public class RWR : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        countDownCleanListTimer();
-        countDownClosestMissileTimer();
+        if (myFlow.aiControlled)
+        {
+            countDownCleanListTimer();
+            countDownClosestMissileTimer();
+        }
     }
 
     private void countDownClosestMissileTimer()
     {
         if(closestMissileTimer < 0f)
         {
-            findClosestMissile();
+            findHighestThreatMissile();
             closestMissileTimer = closestMissileDelay;
         }
         else
@@ -60,12 +67,13 @@ public class RWR : MonoBehaviourPunCallbacks
 
     }
 
-    private void findClosestMissile()
+    private void findHighestThreatMissile()
     {
-        closestMissile = null;
+        highestThreatMissile = null;
 
-        float nearestDist = -1f;
-        int nearestDistIndex = -1;
+        float lowestImpactTime = minImpactTime;
+        int threatMissileIndex = -1;
+
 
         for(int i = 0; i < incomingMissiles.Count; i++)
         {
@@ -75,19 +83,26 @@ public class RWR : MonoBehaviourPunCallbacks
             {
                 float currDist = Vector3.Distance(currMissile.transform.position, transform.position);
 
-                if(currDist < nearestDist || nearestDist < 0f)
+                float closingSpeed = calculateClosingSpeed(currMissile); // positive indicates closure, negative --> separation
+
+                Debug.Log("Closing Speed:" + closingSpeed);
+
+                float currImpactTime = currDist / closingSpeed;
+
+
+                if(currImpactTime < lowestImpactTime && currImpactTime > 0f)
                 {
-                    nearestDist = currDist;
-                    nearestDistIndex = i;
+                    lowestImpactTime = currImpactTime;
+                    threatMissileIndex = i;
                 }
 
 
             }
         }
 
-        if(nearestDistIndex != -1)
+        if(threatMissileIndex != -1)
         {
-            closestMissile = incomingMissiles[nearestDistIndex];
+            highestThreatMissile = incomingMissiles[threatMissileIndex];
         }
 
     }
@@ -141,6 +156,30 @@ public class RWR : MonoBehaviourPunCallbacks
 
             rwrIcon.showPingResult(isPinging, distance, bearing);
         }
+    }
+
+    private float calculateClosingSpeed(CombatFlow msl)
+    {
+        Vector3 mslRelVel = msl.myRb.velocity - myRb.velocity;
+
+        // direction, from player to missile
+        Vector3 targetBearingLine = msl.transform.position - transform.position;
+
+        Vector3 goodVel = Vector3.Project(mslRelVel, targetBearingLine);
+
+        // positive if CLOSING --> goodVel facing towards player
+
+        // negative if SEPARATING --> goodvel facing away from player
+
+        float sign = 1.0f;
+
+        // 90 degrees arbitrarily selected --> vectors are facing away from each other
+        if (Vector3.Angle(targetBearingLine, goodVel) < 90f)
+        {
+            sign *= -1.0f;
+        }
+
+        return goodVel.magnitude * sign;
     }
 
     private float calculateBearing(Vector3 position)
@@ -224,9 +263,9 @@ public class RWR : MonoBehaviourPunCallbacks
                 {
                     incomingMissiles.Remove(sourceFlow);
 
-                    if(sourceFlow == closestMissile)
+                    if(sourceFlow == highestThreatMissile)
                     {
-                        closestMissile = null;
+                        highestThreatMissile = null;
                     }
 
 

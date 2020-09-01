@@ -94,20 +94,13 @@ public class AI_MissileEvade : MonoBehaviour
                 else
                 {
                     Debug.Log("AVOIDING BY SAG");
-                    // if not, change planar drag direction
-                    //  --> need to read missile's heading direction
-                    //   if missile pointing to the right of airplane, turn to the left
-                    //   if missile pointing to the left of airplane, turn to the right
-
-                    // try to pull down as well?
+                   
 
                     // Vector pointing from my position to incoming missile's
                     Vector3 targetBearingLine = msl.transform.position - transform.position;
-                    Vector3 missileSagDir = Vector3.ProjectOnPlane(mslRelVel, targetBearingLine);
-
-                    Vector3 correctionDir = Vector3.ProjectOnPlane(-missileSagDir, transform.forward);
-
-
+                    Vector3 missileSagDir = Vector3.ProjectOnPlane(mslRelVel, targetBearingLine);       // remove any closing relative velocity
+                    Vector3 correctionDir = Vector3.ProjectOnPlane(-missileSagDir, transform.forward);  // remove any forward/backward component. We want a turn 
+                    
                     currentDir = correctionDir;
                 }
 
@@ -135,17 +128,23 @@ public class AI_MissileEvade : MonoBehaviour
 
         Vector3 dragDir = -dir; // try to just head in desired directions. Offsets will be based on this
 
+        // Offensive --> try to fly towards target direction. Defensive, maneuver away from missile
         if (!offensive)
         {
             dragDir = -mslBearingLine; // negative, so from enemy, pointing towards me
         }
 
-        // CRITICAL FLAW I NEED TO ADDRESS. IF TURN DIRECTION IS TOWARDS AN UNCLIMBABLE WALL, PLANE WILL GO STRAIGHT
-        //  I NEED TO MAKE PLANE GIVE UP ON THAT DIRECTION, AND TURN THE OTHER WAY
-        
-       
+
+
+        //if (airAI.leftIntersect || airAI.rightIntersect)
+        //{
+        //    dragDirSign = airAI.wallAvoidDirectionNum;
+        //}
+
+
         dragDir = airAI.yawOffset(dragDir, dragAngle * dragDirSign);
 
+        
         float angle = Vector3.Angle(myRb.velocity, dragDir);
 
         if(angle < dragSignSwitchAngle)

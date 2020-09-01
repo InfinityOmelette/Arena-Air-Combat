@@ -92,6 +92,13 @@ public class AI_Aircraft : MonoBehaviour
     private AI_MissileEvade mslAvoid;
 
     private RWR rwr;
+
+
+    // This info is to be used by other scripts
+    //  still seems like info central enough to this script to warrant putting in here, though
+    public bool rightIntersect = false;
+    public bool leftIntersect = false;
+    public int wallAvoidDirectionNum = 1;
     
 
     void Awake()
@@ -627,8 +634,23 @@ public class AI_Aircraft : MonoBehaviour
         float leftHitDist = getRaycheckDist(leftCheckRay);
         float rightHitDist = getRaycheckDist(rightCheckRay);
 
+
+        // left/right intersect, and wallAvoidDirectionNum, only used in Ai_MissileEvade script.
+        leftIntersect = leftHitDist > 0f;
+        rightIntersect = rightHitDist > 0f;
+
+        // left wall closer than right --> turn right --> positive torque
+        if(leftIntersect && leftHitDist < rightHitDist)
+        {
+            wallAvoidDirectionNum = 1; // positive, go right
+        }
+        else if(rightIntersect && rightHitDist < leftHitDist)
+        {
+            wallAvoidDirectionNum = -1; // negative, go left
+        }
+
         // only activate avoidance if one of the rays hit
-        return leftHitDist > 0f || rightHitDist > 0f;
+        return leftIntersect || rightIntersect;
 
         
     }

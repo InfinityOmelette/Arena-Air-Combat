@@ -313,18 +313,28 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     // CALL FROM FIXEDUPDATE -- determine precise physics update when button pressed
     void launchManagement()
     {
-        // button pressed, but no launch active
-        if (Input.GetButton("Weapon Launch") && !hardpointController.launchActive)
+        if(Input.GetButton("Weapon Launch"))
         {
-            // launchprocess
-            hardpointController.launchProcess();
+            hardpointController.launchButtonDown();
+        }
+        else
+        {
+            hardpointController.launchButtonUp();
         }
 
-        // button NOT pressed, but launch IS active
-        if(!Input.GetButton("Weapon Launch") && hardpointController.launchActive)
-        {
-            // end the launch
-            hardpointController.launchEndProcess();
-        }
+
+        //// button pressed, but no launch active
+        //    if (Input.GetButton("Weapon Launch") && !hardpointController.launchActive)
+        //{
+        //    // launchprocess
+        //    hardpointController.launchProcess();
+        //}
+
+        //// button NOT pressed, but launch IS active
+        //if(!Input.GetButton("Weapon Launch") && hardpointController.launchActive)
+        //{
+        //    // end the launch
+        //    hardpointController.launchEndProcess();
+        //}
     }
 }

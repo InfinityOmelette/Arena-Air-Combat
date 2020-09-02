@@ -20,6 +20,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
     public WeaponIndicatorManager weaponIndicatorManager;
 
     public TgtComputer tgtComputer;
+    public AI_TgtComputer ai_tgtComputer;
 
     public float input_scrollWheel;
     public float input_changeWeaponAxis;
@@ -43,6 +44,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
         rootFlow = transform.root.GetComponent<CombatFlow>();
         dropSight = rootFlow.GetComponent<DropSightComputer>();
         rootRadar = rootFlow.GetComponent<Radar>();
+        ai_tgtComputer = rootFlow.GetComponent<AI_TgtComputer>();
     }
 
     // Start is called before the first frame update
@@ -218,6 +220,22 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void launchButtonDown()
+    {
+        if (!launchActive)
+        {
+            launchProcess();
+        }
+    }
+
+    public void launchButtonUp()
+    {
+        if (launchActive)
+        {
+            launchEndProcess();
+        }
+    }
+
     public void launchProcess()
     {
 
@@ -274,6 +292,38 @@ public class HardpointController : MonoBehaviourPunCallbacks
         
     }
 
+    public bool selectByLockType(Radar.LockType lockType)
+    {
+
+        int goodType = -1;
+
+        // don't bother changing if Air_or_Ground
+        //  this function is only useful for selecting AMRAAM's or Mavericks
+        //   in other cases, I should directly set specific weapon instead of just by lock type
+        if (lockType != Radar.LockType.AIR_OR_GROUND)
+        {
+            
+            for(int i = 0; i < weaponTypeHardpointLists.Count && goodType == -1; i++)
+            {
+                Radar weapRadar = weaponTypeHardpointLists[i][0].weaponTypePrefab.GetComponent<Radar>();
+
+                if(weapRadar != null && weapRadar.lockType == lockType)
+                {
+                    goodType = i;
+                }
+
+            }
+
+        }
+
+        if(goodType != -1)
+        {
+            setWeaponType((short)goodType);   
+        }
+
+        return goodType != -1; // whether we were able to find weapon of desired radar locktype
+
+    }
 
     // 0 default
     // of the hardpoints readyToFire, select one with most roundsRemaining
@@ -307,14 +357,33 @@ public class HardpointController : MonoBehaviourPunCallbacks
     // try to launch with lock
     void launchHardpoint(Hardpoint hardpoint)
     {
-        if (tgtComputer.currentTarget == null || !tgtComputer.radarLocked) // if no target is locked
+
+        if (rootFlow.aiControlled)
         {
-            hardpoint.launchStart();
+            if (ai_tgtComputer.target != null)
+            {
+                hardpoint.launchWithLock(ai_tgtComputer.target.gameObject);
+            }
         }
-        else // if target is locked
+        else if(rootFlow.isLocalPlayer)
         {
-            hardpoint.launchWithLock(tgtComputer.currentTarget.gameObject);
+
+            if (tgtComputer.currentTarget == null || !tgtComputer.radarLocked) // if no target is locked
+            {
+                hardpoint.launchStart();
+            }
+            else // if target is locked
+            {
+                hardpoint.launchWithLock(tgtComputer.currentTarget.gameObject);
+            }
         }
+    }
+
+    public bool isReadyToFire()
+    {
+        nextAvailableHardpointIndex(activeTypeIndex);
+
+        return weaponTypeHardpointLists[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]].readyToFire;
     }
 
     short nextAvailableHardpointIndex(short typeIndex)
@@ -394,8 +463,11 @@ public class HardpointController : MonoBehaviourPunCallbacks
             launchEndProcess();         // end currently selected weapon
             activeTypeIndex = index;    // change type
 
-            // indicator shows change -- this is only UI update
-            weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
+            if (rootFlow.isLocalPlayer)
+            {
+                // indicator shows change -- this is only UI update
+                weaponIndicatorManager.showActiveWeaponType(activeTypeIndex);
+            }
 
             fetchDropComputerValues(activeTypeIndex);
             rootRadar.copyLockData(getActiveHardpoint().weaponTypePrefab.GetComponent<Radar>());

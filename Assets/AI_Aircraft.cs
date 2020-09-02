@@ -71,7 +71,7 @@ public class AI_Aircraft : MonoBehaviour
 
     //public float crashPitchOverride;
 
-    public CombatFlow targetFlow;
+    //public CombatFlow targetFlow;
     public bool dogfightMode;
 
     public NAV_MODE navMode;
@@ -90,6 +90,8 @@ public class AI_Aircraft : MonoBehaviour
 
 
     private AI_MissileEvade mslAvoid;
+
+    private AI_TgtComputer aiTgtComputer;
 
     private RWR rwr;
 
@@ -112,6 +114,8 @@ public class AI_Aircraft : MonoBehaviour
         engine = GetComponent<EngineControl>();
         myRb = GetComponent<Rigidbody>();
         rwr = GetComponent<RWR>();
+        aiTgtComputer = GetComponent<AI_TgtComputer>();
+        mslAvoid = GetComponent<AI_MissileEvade>();
     }
 
 
@@ -127,9 +131,12 @@ public class AI_Aircraft : MonoBehaviour
 
         targetPos = waypoints[waypointIndex];
 
-        mslAvoid = GetComponent<AI_MissileEvade>();
+        
 
         mslAvoid.enabled = true;
+
+        aiTgtComputer.enabled = true;
+
 
         //Debug.LogWarning("====================================== Curr wpt: " + currWpt);
 
@@ -158,7 +165,7 @@ public class AI_Aircraft : MonoBehaviour
             else
             {
                 navMode = NAV_MODE.DOGFIGHT;
-                targetFlow = GameManager.getGM().localPlayer.GetComponent<CombatFlow>();
+                aiTgtComputer.findTarget();
             }
         }
 
@@ -178,9 +185,11 @@ public class AI_Aircraft : MonoBehaviour
 
             if (navMode == NAV_MODE.DOGFIGHT)
             {
-                if (targetFlow != null)
+                if (aiTgtComputer.target != null)
                 {
-                    targetPos = targetFlow.transform.position;
+                    targetPos = aiTgtComputer.target.transform.position;
+
+                    aiTgtComputer.attack(aiTgtComputer.target);
                 }
                 else
                 {

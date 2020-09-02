@@ -484,6 +484,7 @@ MonoBehaviour:
   groupThisType_List: 
   weaponIndicatorManager: {fileID: 0}
   tgtComputer: {fileID: 6801930850055786249}
+  ai_tgtComputer: {fileID: 0}
   input_scrollWheel: 0
   input_changeWeaponAxis: 0
   input_mouseLookToggleBtnDown: 0
@@ -1365,6 +1366,7 @@ GameObject:
   - component: {fileID: 7744941291827435740}
   - component: {fileID: 7744941291827435729}
   - component: {fileID: 6976126980177357271}
+  - component: {fileID: 1043727250034176688}
   - component: {fileID: 8795936018139191573}
   - component: {fileID: 1785817150400101556}
   - component: {fileID: 1243636948586757761}
@@ -1474,7 +1476,6 @@ MonoBehaviour:
   groundAvoidHardMaxPitchOffset: 25
   verticalBuffer: 15
   minPitchAboveDown: 20
-  targetFlow: {fileID: 0}
   dogfightMode: 0
   navMode: 0
   MS_2_KPH: 3.6
@@ -1484,6 +1485,22 @@ MonoBehaviour:
   rightIntersect: 0
   leftIntersect: 0
   wallAvoidDirectionNum: 1
+--- !u!114 &1043727250034176688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7744941291827435728}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54bd00f32e11894b848cad78217b0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rippleFireMaxCount: 3
+  rippleFireDelay: 4
+  rippleFireCounter: 0
+  target: {fileID: 0}
 --- !u!114 &8795936018139191573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,7 +1521,7 @@ MonoBehaviour:
   dragSignSwitchAngle: 10
   highPullTime: 1.75
   minHighPullSpeed: 250
-  offensive: 1
+  offensive: 0
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1849,9 +1866,9 @@ MonoBehaviour:
   lockedBy: []
   incomingMissiles: []
   highestThreatMissile: {fileID: 0}
-  closestMissileDelay: 1
+  closestMissileDelay: 0.5
   cleanListsDelay: 3
-  minImpactTime: 6.5
+  minImpactTime: 7
 --- !u!114 &2320197551087535654
 MonoBehaviour:
   m_ObjectHideFlags: 0

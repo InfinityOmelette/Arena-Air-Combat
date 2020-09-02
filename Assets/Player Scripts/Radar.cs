@@ -323,7 +323,7 @@ public class Radar : MonoBehaviourPun
         return isDetected;
     }
   
-    public bool tryLock(CombatFlow targetFlow)
+    public bool tryLock(CombatFlow targetFlow, bool debug = false)
     {
 
         if (lockableType(targetFlow) && !targetFlow.jamming)
@@ -353,7 +353,7 @@ public class Radar : MonoBehaviourPun
                 //  tgtFaceAwayPerpFactor at 180
 
                 targetPerpDragAdv *= velBearing;
-                Debug.LogWarning("====================  Target facing away. Cancelling perp factor down to: "+ targetPerpDragAdv + ", multiplier of: " + velBearing);
+                //Debug.LogWarning("====================  Target facing away. Cancelling perp factor down to: "+ targetPerpDragAdv + ", multiplier of: " + velBearing);
             }
 
             // average of three values, target alt twice to give more weight to the slow portion of flight
@@ -366,9 +366,17 @@ public class Radar : MonoBehaviourPun
             angleOffNose = Vector3.Angle(targetFlow.transform.position - transform.position, transform.forward);
             dist = Vector3.Distance(targetFlow.transform.position, transform.position);
 
-            if(rangeLadder != null)
+            if(rangeLadder != null && myFlow.isLocalPlayer)
             {
                 rangeLadder.tgtRange = dist;
+            }
+
+            if (debug)
+            {
+                //Debug.Log("radarOn: " + radarOn + ", good lock angle: " + 
+               //     (angleOffNose < lockAngle) + ", goodDist: " + (dist < maxLockRange));
+
+                //Debug.Log("angleOffNose: " + angleOffNose + ", lockAngle: " + lockAngle);
             }
 
             //return radarOn && angleOffNose < lockAngle && dist < (maxLockRange + heightDiffAdvantage + closingSpeedAdv) && tryDetect(targetFlow);
@@ -376,6 +384,11 @@ public class Radar : MonoBehaviourPun
         }
         else
         {
+            if (debug)
+            {
+                Debug.Log("BadLockType, target is " + targetFlow.type + ", myRadar is : " + lockType);
+            }
+
             setRangeAdvantages(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
             return false;
         }
@@ -408,7 +421,7 @@ public class Radar : MonoBehaviourPun
         float totalAdvantage = heightDiffAdvantage + closingSpeedAdv + yourSpeedAdv
             - myPerpendicularDragAdv - targetPerpendicularDragAdv - airDensityMod;
 
-        Debug.LogWarning("============  airDensityMod: " + airDensityMod);
+        //Debug.LogWarning("============  airDensityMod: " + airDensityMod);
 
         effectiveLongRange = baseLongRange + totalAdvantage;
 

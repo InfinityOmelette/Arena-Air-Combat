@@ -7,18 +7,22 @@ public class AI_TgtComputer : MonoBehaviour
     public int rippleFireMaxCount;
 
     public float rippleFireDelay;
-    public float rippleFireCounter;
+    private float rippleFireCounter;
 
     private HardpointController hardpoints;
     private Radar myRadar;
+    private AI_MissileEvade aiEvade;
 
     public CombatFlow target;
+
+    
 
     
     void Awake()
     {
         hardpoints = GetComponent<PlayerInput_Aircraft>().hardpointController;
         myRadar = GetComponent<Radar>();
+        aiEvade = GetComponent<AI_MissileEvade>();
     }
 
     void Start()
@@ -53,7 +57,9 @@ public class AI_TgtComputer : MonoBehaviour
 
     public void attack(CombatFlow target)
     {
-        
+
+        amOffensive();
+
         if (readyToFireAt(target) && tryLockTarget(target) && hardpoints.isReadyToFire())
         {
             Debug.Log("AI ready to fire");
@@ -70,6 +76,11 @@ public class AI_TgtComputer : MonoBehaviour
         
 
 
+    }
+
+    private void amOffensive()
+    {
+        aiEvade.offensive = target != null && target.rwr.incomingMissiles.Count < rippleFireMaxCount;
     }
 
 
@@ -117,7 +128,7 @@ public class AI_TgtComputer : MonoBehaviour
     private int countMissilesAgainstTarget(CombatFlow target)
     {
         // use target's rwr to find missiles launched by this aircraft
-        return 0;
+        return target.rwr.incomingMissiles.Count;
     }
 
     private bool tryLockTarget(CombatFlow target)

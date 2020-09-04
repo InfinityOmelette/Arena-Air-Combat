@@ -46,7 +46,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public UnityEvent playerSpawnEvent;
 
-    
+
+    public List<CombatFlow> debugGroundTgtList;
+    public GameObject debugLeader;
 
     
 

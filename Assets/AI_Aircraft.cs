@@ -7,7 +7,8 @@ public class AI_Aircraft : MonoBehaviour
     public enum NAV_MODE
     {
         WAYPOINT_MISSION,
-        DOGFIGHT
+        ATTACK,
+        
     }
 
 
@@ -93,6 +94,8 @@ public class AI_Aircraft : MonoBehaviour
 
     private AI_TgtComputer aiTgtComputer;
 
+    private AI_GroundAttack aiGroundAttack;
+
     private RWR rwr;
 
 
@@ -116,6 +119,7 @@ public class AI_Aircraft : MonoBehaviour
         rwr = GetComponent<RWR>();
         aiTgtComputer = GetComponent<AI_TgtComputer>();
         mslAvoid = GetComponent<AI_MissileEvade>();
+        aiGroundAttack = GetComponent<AI_GroundAttack>();
     }
 
 
@@ -137,6 +141,8 @@ public class AI_Aircraft : MonoBehaviour
 
         aiTgtComputer.enabled = true;
 
+        aiGroundAttack.enabled = true;
+
 
         //Debug.LogWarning("====================================== Curr wpt: " + currWpt);
 
@@ -156,18 +162,18 @@ public class AI_Aircraft : MonoBehaviour
     void Update()
     {
         //engine.input_throttleAxis = 1.0f;
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            if (navMode == NAV_MODE.DOGFIGHT)
-            {
-                navMode = NAV_MODE.WAYPOINT_MISSION;
-            }
-            else
-            {
-                navMode = NAV_MODE.DOGFIGHT;
-                aiTgtComputer.findTarget();
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    if (navMode == NAV_MODE.ATTACK)
+        //    {
+        //        navMode = NAV_MODE.WAYPOINT_MISSION;
+        //    }
+        //    else
+        //    {
+        //        navMode = NAV_MODE.ATTACK;
+        //        aiTgtComputer.findTarget();
+        //    }
+        //}
 
     }
 
@@ -181,15 +187,24 @@ public class AI_Aircraft : MonoBehaviour
 
             wheels.setGearEnabled(transform.position.y < 10f);
 
-            
 
-            if (navMode == NAV_MODE.DOGFIGHT)
+            if (aiTgtComputer.inCombat)
             {
-                if (aiTgtComputer.target != null)
-                {
-                    targetPos = aiTgtComputer.target.transform.position;
+                navMode = NAV_MODE.ATTACK;
+            }
+            else
+            {
+                navMode = NAV_MODE.WAYPOINT_MISSION;
+            }
 
-                    aiTgtComputer.attack(aiTgtComputer.target);
+
+            if (navMode == NAV_MODE.ATTACK)
+            {
+                if (aiTgtComputer.activeTarget != null)
+                {
+                    targetPos = aiTgtComputer.getAttackPos();
+
+                    aiTgtComputer.attack(aiTgtComputer.activeTarget);
                 }
                 else
                 {

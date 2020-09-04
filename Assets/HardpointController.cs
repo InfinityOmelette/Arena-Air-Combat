@@ -360,9 +360,9 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
         if (rootFlow.aiControlled)
         {
-            if (ai_tgtComputer.target != null)
+            if (ai_tgtComputer.activeTarget != null)
             {
-                hardpoint.launchWithLock(ai_tgtComputer.target.gameObject);
+                hardpoint.launchWithLock(ai_tgtComputer.activeTarget.gameObject);
             }
         }
         else if(rootFlow.isLocalPlayer)

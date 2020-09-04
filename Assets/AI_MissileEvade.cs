@@ -123,6 +123,7 @@ public class AI_MissileEvade : MonoBehaviour
     {
         // point from me to enemy missile
         Vector3 mslBearingLine = msl.transform.position - transform.position;
+        //mslBearingLine.y = 0f;
 
         float dragAngle = 45f;
 

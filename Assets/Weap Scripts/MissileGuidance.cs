@@ -344,7 +344,7 @@ public class MissileGuidance : MonoBehaviour
 
     void OnDestroy()
     {
-        if(targetFlow != null && isLocked)
+        if(targetFlow != null && isLocked && targetFlow.rwr != null)
         {
             targetFlow.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
         }

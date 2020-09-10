@@ -305,7 +305,7 @@ Transform:
   - {fileID: 7526245003483951865}
   - {fileID: 8551359615971216332}
   - {fileID: 2353783484449048893}
-  - {fileID: 6145226520091469351}
+  - {fileID: 6873234167773969263}
   m_Father: {fileID: 6936670791885276568}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -32.25, y: -273.81, z: 0}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpawn: {fileID: 5817169110748130381}
-  shellSettings: {fileID: 6145226520091468246}
+  shellSettings: {fileID: 104628400782572565}
   target: {fileID: 0}
   shellSpeed: 250
   highTraject: 0
@@ -589,6 +589,7 @@ GameObject:
   - component: {fileID: 3172510116241956800}
   - component: {fileID: 1614581589446227588}
   - component: {fileID: 1209135425102178798}
+  - component: {fileID: -3876195801349410570}
   m_Layer: 9
   m_Name: Tank Truck
   m_TagString: Untagged
@@ -745,6 +746,25 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-3876195801349410570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6836234184241627467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rwrBearingAxis: {fileID: 0}
+  lockedBy: []
+  incomingMissiles: []
+  highestThreatMissile: {fileID: 0}
+  closestMissileDelay: 1
+  cleanListsDelay: 3
+  minImpactTime: 0
 --- !u!1 &6952010633450106937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,13 +1340,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0898e23cbab3aa1488ea96d726c08dc0, type: 3}
---- !u!1 &6145226520091468246 stripped
+--- !u!1 &104628400782572565 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6069598922963377917, guid: 0898e23cbab3aa1488ea96d726c08dc0,
     type: 3}
   m_PrefabInstance: {fileID: 6145226520091468520}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &6145226520091469351 stripped
+--- !u!4 &6873234167773969263 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 732566086064675207, guid: 0898e23cbab3aa1488ea96d726c08dc0,
     type: 3}

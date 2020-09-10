@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AI_Aircraft))]
 public class AI_TgtComputer : MonoBehaviour
 {
-    public int rippleFireMaxCount;
+    public int maxMissilesPerGroundUnit = 1;
+    public int maxMissilesPerAircraft;
 
     public float rippleFireDelay;
     private float rippleFireCounter;
@@ -25,16 +27,26 @@ public class AI_TgtComputer : MonoBehaviour
     private float targetSelectCounter;
 
 
-    public float gndCombatRadius = 4500f;
+    //public float gndCombatRadius = 4500f;
     public float airCombatRadius = 6500f;
 
-    public GameObject debugLeaderRef;
+    
+
 
     public bool inCombat = false;
 
 
+    public List<BasicMissile> outgoingMissiles;
+
+
+    public List<CombatFlow> nearbyAircraft;
+
+
+
     void Awake()
     {
+        nearbyAircraft = new List<CombatFlow>();
+        outgoingMissiles = new List<BasicMissile>();
         hardpoints = GetComponent<PlayerInput_Aircraft>().hardpointController;
         myRadar = GetComponent<Radar>();
         aiEvade = GetComponent<AI_MissileEvade>();
@@ -44,7 +56,7 @@ public class AI_TgtComputer : MonoBehaviour
     void Start()
     {
         hardpoints.setWeaponType(0); // select the first weapon type -- by default should be AMRAAM's
-        debugLeaderRef = GameManager.getGM().debugLeader;
+        
     }
 
     // Update is called once per frame
@@ -60,7 +72,7 @@ public class AI_TgtComputer : MonoBehaviour
     {
         // distance to enemy leader
         // call corresponding LaneManager's getLeader() function
-        bool groundCheck = Vector3.Distance(transform.position, debugLeaderRef.transform.position) < gndCombatRadius;
+        bool groundCheck = aiGrndAttack.checkGroundCombat();
 
 
         // distance to enemy player aircraft
@@ -91,10 +103,25 @@ public class AI_TgtComputer : MonoBehaviour
             {
                 findTarget();
             }
+
+            cleanWeaponList();
         }
         else
         {
             targetSelectCounter -= Time.deltaTime;
+        }
+    }
+
+    private void cleanWeaponList()
+    {
+        for(int i = 0; i < outgoingMissiles.Count; i++)
+        {
+            
+            if(outgoingMissiles[i] == null)
+            {
+                outgoingMissiles.RemoveAt(i);
+                i--; // repeat this index next iteration
+            }
         }
     }
     
@@ -102,12 +129,12 @@ public class AI_TgtComputer : MonoBehaviour
     {
         CombatFlow prevTarget = activeTarget;
 
-        if (airTarget == null || resetTargets)
+        if (airTarget == null || maxMissilesOnTarget(airTarget) || resetTargets)
         {
             airTarget = findAirTarget();
         }
 
-        if (gndTarget == null || resetTargets)
+        if (gndTarget == null || maxMissilesOnTarget(gndTarget) || resetTargets)
         {
             gndTarget = findGroundTarget();
         }
@@ -115,9 +142,11 @@ public class AI_TgtComputer : MonoBehaviour
 
         activeTarget = decideAirOrGroundTarget(airTarget, gndTarget);
 
+        Debug.Log("ActiveTarget: " + activeTarget + ", airTarget: " + airTarget + ", gndTarget: " + gndTarget);
+
         if(prevTarget != activeTarget)
         {
-            rippleFireCounter = 0f; // don't bother waiting for ripple if selecting new target
+            rippleFireCounter = -1f; // don't bother waiting for ripple if selecting new target
             equipProperWeapon(activeTarget);
         }
 
@@ -127,13 +156,63 @@ public class AI_TgtComputer : MonoBehaviour
     // placeholder, right now it just grabs ground target
     public CombatFlow decideAirOrGroundTarget(CombatFlow airTgt, CombatFlow gndTarget)
     {
-        // allows for "multitasking", between fighting aircraft and attacking ground
-
-        // Attack aircraft initially
-        //  if aircraft has incoming attack, and ground target none, attack ground target
-        //  if both aircraft and ground target have incoming attacks, attack aircraft
         
-        return gndTarget;
+
+        CombatFlow resultTarget = null;
+
+        // null check --> target whichever is NOT null
+        if (airTgt == null && gndTarget != null)
+        {
+            resultTarget = gndTarget;
+        }
+        else if (gndTarget == null && airTgt != null)
+        {
+            resultTarget = airTgt;
+        }
+
+        // if null check wasn't able to decide target, decide by isAttacked check
+        if (resultTarget == null)
+        {
+            bool airAttacked = airTgt.rwr.incomingMissiles.Count > 0;
+            bool gndAttacked = gndTarget.rwr.incomingMissiles.Count > 0;
+
+            // Attacked check
+            // if air IS attacked, and ground is NOT attacked, go for ground
+            //  in all other cases, attack aircraft
+            if (airAttacked && !gndAttacked)
+            {
+                resultTarget = gndTarget;
+            }
+            else
+            {
+                resultTarget = airTarget;
+            }
+
+            //Debug.Log("Attacking: " + resultTarget + ", airAttacked: " + airAttacked + ", gndAttacked: " + gndAttacked);
+        }
+
+        
+
+        return resultTarget;
+
+    }
+
+    public bool maxMissilesOnTarget(CombatFlow target)
+    {
+        int maxMissiles = maxMissilesPerAircraft;
+
+        if (target != null)
+        {
+            
+
+            if (target.type != CombatFlow.Type.AIRCRAFT)
+            {
+                maxMissiles = maxMissilesPerGroundUnit;
+            }
+        }
+
+        
+        return target != null && target.rwr.incomingMissiles.Count >= maxMissiles;
 
     }
 
@@ -161,12 +240,21 @@ public class AI_TgtComputer : MonoBehaviour
 
         amOffensive();
 
-        if (readyToFireAt(target) && tryLockTarget(target) && hardpoints.isReadyToFire())
+        bool readyToFire = readyToFireAt(target);
+        bool tryLock = tryLockTarget(target);
+        bool hardpointReady = hardpoints.isReadyToFire();
+
+        //Debug.Log("ReadyToFire: " + readyToFire + ", tryLock: " + tryLock + ", hardpointReady: " + hardpointReady);
+
+
+        if (readyToFire && tryLock && hardpointReady)
         {
             Debug.Log("AI ready to fire");
             // do attack here
             rippleFireCounter = rippleFireDelay;
-            hardpoints.launchButtonDown();
+            GameObject launchedWeap = hardpoints.launchButtonDown();
+            tryAddOutgoingWeap(launchedWeap);
+            
         }
         else
         {
@@ -174,16 +262,50 @@ public class AI_TgtComputer : MonoBehaviour
             hardpoints.launchButtonUp();
         }
 
-        
+    }
 
+    private void tryAddOutgoingWeap(GameObject weap)
+    {
+        if (weap != null)
+        {
 
+            BasicMissile msl = weap.GetComponent<BasicMissile>();
+            if (msl != null)
+            {
+                outgoingMissiles.Add(msl);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("AI Aircraft tried to fire null weapon");
+        }
     }
 
     private void amOffensive()
     {
+
         aiEvade.offensive = false;
 
+
+        // offensive if there is an aircraft nearby that doesn't have incoming missiles
+        // or, if there is ONLY ONE aircraft nearby, and it has max missile amount inbound
+        //  , otherwise, go defensive
+
+        // defensive if retreating (overrides previous)
+
+
         //aiEvade.offensive = activeTarget != null && activeTarget.rwr.incomingMissiles.Count < rippleFireMaxCount;
+
+
+
+
+        if (aiGrndAttack.retreating)
+        {
+            aiEvade.offensive = false;
+        }
+
+
+
     }
 
 
@@ -219,7 +341,19 @@ public class AI_TgtComputer : MonoBehaviour
     
     private bool readyToFireAt(CombatFlow target)
     {
-        bool readyToFire = rippleFireCounter < 0f && countMissilesAgainstTarget(target) < rippleFireMaxCount;
+        int tempMaxMissiles = maxMissilesPerAircraft;
+
+        if(target.type != CombatFlow.Type.AIRCRAFT)
+        {
+            tempMaxMissiles = maxMissilesPerGroundUnit;
+        }
+
+        int missilesAgainstTarget = countMissilesAgainstTarget(target);
+
+        //Debug.Log("maxMissiles: " + tempMaxMissiles + ", currentMissiles: " + missilesAgainstTarget);
+
+
+        bool readyToFire = rippleFireCounter < 0f && missilesAgainstTarget < tempMaxMissiles;
 
         //Debug.Log("ReadydToFire: " + readyToFire);
 
@@ -264,6 +398,28 @@ public class AI_TgtComputer : MonoBehaviour
         Debug.Log("Goodlock: " + goodLock);
 
         return goodLock;
+    }
+
+    public bool hasMissilesAgainst(CombatFlow target)
+    {
+        return numMissilesAgainst(target) != 0;
+    }
+
+    public int numMissilesAgainst(CombatFlow target)
+    {
+        int missilesCount = 0;
+        
+        
+
+        for(int i = 0; i < outgoingMissiles.Count; i++)
+        {
+            if(target.gameObject == outgoingMissiles[i].myTarget)
+            {
+                missilesCount++;
+            }
+        }
+
+        return missilesCount;
     }
 
     public Vector3 getAttackPos()

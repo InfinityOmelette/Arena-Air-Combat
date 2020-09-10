@@ -220,12 +220,16 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void launchButtonDown()
+    public GameObject launchButtonDown()
     {
+        GameObject returnWeap = null;
+
         if (!launchActive)
         {
-            launchProcess();
+            returnWeap = launchProcess();
         }
+
+        return returnWeap;
     }
 
     public void launchButtonUp()
@@ -236,8 +240,10 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void launchProcess()
+    public GameObject launchProcess()
     {
+
+        GameObject returnWeap = null;
 
         launchActive = true;
 
@@ -272,6 +278,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
                 launchHardpoint(weaponTypeHardpointLists[activeTypeIndex][index]);
 
+                returnWeap = weaponTypeHardpointLists[activeTypeIndex][index].loadedWeaponObj;
+
 
                 if(++index > (weaponTypeHardpointLists[activeTypeIndex].Count - 1)) // if past end of array
                 {
@@ -289,6 +297,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
             launchHardpoint(currentActiveHardpoint);
             
         }
+
+        return returnWeap;
         
     }
 

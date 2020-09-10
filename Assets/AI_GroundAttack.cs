@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AI_Aircraft))]
 public class AI_GroundAttack : MonoBehaviour
 {
 
@@ -11,10 +12,26 @@ public class AI_GroundAttack : MonoBehaviour
 
     List<CombatFlow> groundUnitsContainer;
 
+    public GameObject debugLeaderRef;
+    public GameObject debugRetreatLeader;
+
+    public float groundCombatRadius = 4500f;
+
+    public AI_TgtComputer aiTgtComp;
+
+    public bool retreating = false;
+
+    void Awake()
+    {
+        aiTgtComp = GetComponent<AI_TgtComputer>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         groundUnitsContainer = GameManager.getGM().debugGroundTgtList;
+        debugLeaderRef = GameManager.getGM().debugLeader;
+        debugRetreatLeader = GameManager.getGM().debugRetreatLeader;
     }
 
     // Update is called once per frame
@@ -66,7 +83,7 @@ public class AI_GroundAttack : MonoBehaviour
         {
             CombatFlow currUnit = groundUnitsContainer[i];
 
-            if (currUnit != null && currUnit.type == type)
+            if (currUnit != null && currUnit.type == type && !aiTgtComp.maxMissilesOnTarget(currUnit))
             {
                 float currDist = Vector3.Distance(transform.position, currUnit.transform.position);
                 float currAngle = Vector3.Angle(transform.forward, currUnit.transform.position - transform.position);
@@ -81,7 +98,6 @@ public class AI_GroundAttack : MonoBehaviour
 
                     firstSet = true;
                 }
-
 
                 if (currDist < shortestDist)
                 {
@@ -111,7 +127,6 @@ public class AI_GroundAttack : MonoBehaviour
             }
         }
 
-
         Debug.Log("Attacking ground unit: " + groundUnit + ", useNoseAngle: " + useNoseAngle);
 
         return groundUnit;
@@ -125,5 +140,10 @@ public class AI_GroundAttack : MonoBehaviour
         // Handle running in and separating
 
         return groundTarget.transform.position;
+    }
+
+    public bool checkGroundCombat()
+    {
+        return debugLeaderRef != null && Vector3.Distance(transform.position, debugLeaderRef.transform.position) < groundCombatRadius;
     }
 }

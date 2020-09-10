@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AI_Aircraft))]
 public class AI_MissileEvade : MonoBehaviour
 {
 

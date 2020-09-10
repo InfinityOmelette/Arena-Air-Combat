@@ -45,11 +45,11 @@ public class RWR : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (myFlow.aiControlled)
+        if (myFlow.aiControlled || myFlow.isLocalPlayer || myFlow.localOwned)
         {
-            countDownCleanListTimer();
             countDownClosestMissileTimer();
         }
+        countDownCleanListTimer();
     }
 
     private void countDownClosestMissileTimer()
@@ -145,7 +145,7 @@ public class RWR : MonoBehaviourPunCallbacks
 
     public void tryPing(Radar radarSource)
     {
-        if (myFlow.team != radarSource.myFlow.team)
+        if (myFlow.isLocalPlayer && myFlow.team != radarSource.myFlow.team)
         {
 
             bool isPinging = !myFlow.jamming && radarSource.radarOn && radarSource.withinScope(transform.position);
@@ -219,7 +219,7 @@ public class RWR : MonoBehaviourPunCallbacks
     {
         //lockedByIDs.Add(sourceID);
 
-        if (myFlow.isLocalPlayer || myFlow.localOwned)
+        if (myFlow.isLocalPlayer || myFlow.localOwned || myFlow.aiControlled)
         {
             Debug.Log("rpc locked by");
             PhotonView view = PhotonNetwork.GetPhotonView(sourceID);
@@ -251,7 +251,7 @@ public class RWR : MonoBehaviourPunCallbacks
     {
         
 
-        if (myFlow.isLocalPlayer || myFlow.localOwned)
+        if (myFlow.isLocalPlayer || myFlow.localOwned || myFlow.aiControlled)
         {
             Debug.Log("rpc end locked by");
             PhotonView view = PhotonNetwork.GetPhotonView(sourceID);

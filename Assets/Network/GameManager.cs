@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public List<CombatFlow> debugGroundTgtList;
     public GameObject debugLeader;
+    public GameObject debugRetreatLeader;
 
     
 

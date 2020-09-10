@@ -430,6 +430,7 @@ GameObject:
   - component: {fileID: 2467764221919642932}
   - component: {fileID: 1752008276759604336}
   - component: {fileID: 2233769039448077082}
+  - component: {fileID: 3527752972946649828}
   m_Layer: 9
   m_Name: Artillery Truck
   m_TagString: Untagged
@@ -586,6 +587,25 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &3527752972946649828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5829744366641863615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rwrBearingAxis: {fileID: 0}
+  lockedBy: []
+  incomingMissiles: []
+  highestThreatMissile: {fileID: 0}
+  closestMissileDelay: 1
+  cleanListsDelay: 3
+  minImpactTime: 0
 --- !u!1 &5968324385412187183
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,11 +945,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1.3000004
       objectReference: {fileID: 0}
-    - target: {fileID: 5747572335252222811, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 484328963082540965, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}
       propertyPath: m_Layer
@@ -1049,6 +1064,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747572335252222811, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6869221961902714595, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}

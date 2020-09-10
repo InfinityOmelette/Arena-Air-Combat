@@ -445,6 +445,7 @@ GameObject:
   - component: {fileID: 2718780076939704716}
   - component: {fileID: 2527820348313560806}
   - component: {fileID: -4500931354984578765}
+  - component: {fileID: 9134723077619243357}
   m_Layer: 9
   m_Name: Rocket Truck
   m_TagString: Untagged
@@ -601,6 +602,25 @@ MonoBehaviour:
   linecastEnd: {fileID: 3560013480251510800}
   raycastLength: 2
   raycastDelay: 0.3
+--- !u!114 &9134723077619243357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857663905549471299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rwrBearingAxis: {fileID: 0}
+  lockedBy: []
+  incomingMissiles: []
+  highestThreatMissile: {fileID: 0}
+  closestMissileDelay: 1
+  cleanListsDelay: 3
+  minImpactTime: 0
 --- !u!1 &8014385634265338323
 GameObject:
   m_ObjectHideFlags: 0

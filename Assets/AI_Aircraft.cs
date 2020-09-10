@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AI_MissileEvade))]
+[RequireComponent(typeof(AI_TgtComputer))]
+[RequireComponent(typeof(AI_GroundAttack))]
 public class AI_Aircraft : MonoBehaviour
 {
     public enum NAV_MODE

@@ -101,6 +101,9 @@ public class AI_Aircraft : MonoBehaviour
 
     private RWR rwr;
 
+    public bool lowQualityActive = false;
+    public float lowQualityTimeFactor = 0.4f;
+
 
     // This info is to be used by other scripts
     //  still seems like info central enough to this script to warrant putting in here, though
@@ -496,17 +499,22 @@ public class AI_Aircraft : MonoBehaviour
 
         float angleDownToFwdCheck = pitchAboveDown(myRb.velocity);
 
+        float qualityMod = 1.0f;
+        if (lowQualityActive)
+        {
+            qualityMod = lowQualityTimeFactor;
+        }
         
 
         // FORWARD CHECK RAY -- JUST A FEW DEGREES BELOW VELOCITY
-        Vector3 fwdCheckRay = myRb.velocity * fwdCheckTimeToCrash;
+        Vector3 fwdCheckRay = myRb.velocity * fwdCheckTimeToCrash * qualityMod;
         fwdCheckRay = pitchOffset(fwdCheckRay, Mathf.Max(fwdCheckPitchOffset, -angleDownToFwdCheck));
         RaycastHit fwdHit;
         bool fwdIntersect = Physics.Raycast(transform.position, fwdCheckRay, out fwdHit,
             fwdCheckRay.magnitude, terrainLayer);
 
         // GROUND CHECK RAY -- EXTREME DOWN ANGLE
-        Vector3 groundCheckRay = myRb.velocity * lowCheckTimeToCrash;
+        Vector3 groundCheckRay = myRb.velocity * lowCheckTimeToCrash * qualityMod;
         groundCheckRay = pitchOffset(groundCheckRay, Mathf.Max(groundCheckRayPitchOffset, -angleDownToFwdCheck));
         RaycastHit lowHit;
         bool groundIntersect = Physics.Raycast(transform.position, groundCheckRay, out lowHit,

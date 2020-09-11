@@ -87,6 +87,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public bool aiControlled = false;
 
+    public CreepControl creepAI;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -111,6 +113,24 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
     }
 
+    public static Team getEnemyTeam(Team team)
+    {
+        if(team == Team.TEAM1)
+        {
+            return Team.TEAM2;
+        }
+        else
+        {
+            return Team.TEAM1;
+        }
+    }
+
+
+    public Team getEnemyTeam()
+    {
+        return getEnemyTeam(team);
+    }
+
     public void setHP(float hp)
     {
         currentHP = hp;
@@ -119,7 +139,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     private void Awake()
     {
         rwr = GetComponent<RWR>();
-
+        creepAI = GetComponent<CreepControl>();
         myRb = GetComponent<Rigidbody>();
 
         if (CombatFlow.combatUnits == null)
@@ -160,6 +180,13 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         {
             spawnRadarIcon();
         }
+
+
+        if (type == Type.AIRCRAFT)
+        {
+            GameManager.getGM().getTeamAircraftList(team).Add(this);
+        }
+
     }
 
     private void spawnRadarIcon()
@@ -317,7 +344,12 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     {
         Debug.LogWarning("Destroyself called");
 
-        
+
+        if (type == Type.AIRCRAFT)
+        {
+            GameManager.getGM().getTeamAircraftList(team).Remove(this);
+        }
+
 
         if (showInWorldList)
         {

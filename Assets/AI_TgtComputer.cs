@@ -15,6 +15,8 @@ public class AI_TgtComputer : MonoBehaviour
     private Radar myRadar;
     private AI_MissileEvade aiEvade;
     private AI_GroundAttack aiGrndAttack;
+    private AI_Aircraft aiAir;
+    private CombatFlow myFlow;
 
     public CombatFlow activeTarget;
 
@@ -30,7 +32,9 @@ public class AI_TgtComputer : MonoBehaviour
     //public float gndCombatRadius = 4500f;
     public float airCombatRadius = 6500f;
 
-    
+
+    // prioritize ground unit if its distance is less than this factor of aircraft's distance
+    public float aircraftSelectDistanceFactor = .5f;
 
 
     public bool inCombat = false;
@@ -39,13 +43,21 @@ public class AI_TgtComputer : MonoBehaviour
     public List<BasicMissile> outgoingMissiles;
 
 
-    public List<CombatFlow> nearbyAircraft;
+    //public List<CombatFlow> nearbyAircraft;
 
+    public LaneManager enemyLane;
+    public LaneManager myLane;
 
+    public List<CombatFlow> enemyAircraft;
+
+    public List<CombatFlow> friendlyAircraft;
+
+    public float attackRunRadius = 3100f;
 
     void Awake()
     {
-        nearbyAircraft = new List<CombatFlow>();
+        aiAir = GetComponent<AI_Aircraft>();
+        myFlow = GetComponent<CombatFlow>();
         outgoingMissiles = new List<BasicMissile>();
         hardpoints = GetComponent<PlayerInput_Aircraft>().hardpointController;
         myRadar = GetComponent<Radar>();
@@ -56,6 +68,9 @@ public class AI_TgtComputer : MonoBehaviour
     void Start()
     {
         hardpoints.setWeaponType(0); // select the first weapon type -- by default should be AMRAAM's
+
+        enemyAircraft = GameManager.getGM().getTeamAircraftList(myFlow.getEnemyTeam());
+        friendlyAircraft = GameManager.getGM().getTeamAircraftList(myFlow.team);
         
     }
 
@@ -80,16 +95,53 @@ public class AI_TgtComputer : MonoBehaviour
 
         return groundCheck || airCheck;
     }
+    
+    public bool hasLineOfSight(CombatFlow target)
+    {
+        int terrainLayer = 1 << 10; // line only collides with terrain layer
+        bool lineOfSight = !Physics.Linecast(transform.position, target.transform.position, terrainLayer);
+        return lineOfSight;
+    }
 
     public bool airCombatCheck(GameObject aircraft)
     {
-        // DEBUG: this will always be false. I'm just checking air-to-ground capabilities
-        return aircraft != null && Vector3.Distance(aircraft.transform.position, transform.position) < airCombatRadius && false;
+        return aircraft != null && Vector3.Distance(aircraft.transform.position, transform.position) < airCombatRadius;
     }
 
     public GameObject findClosestEnemyAircraft()
     {
-        return GameManager.getGM().localPlayer;
+        int nearestIndex = -1;
+        float nearestDist = 0f;
+
+        bool firstSet = false;
+
+        GameObject closestAircraft = null;
+
+        for(int i = 0; i < enemyAircraft.Count; i++)
+        {
+            CombatFlow currAircraft = enemyAircraft[i];
+
+            if(currAircraft != null && hasLineOfSight(currAircraft))
+            {
+                float currDist = Vector3.Distance(transform.position, currAircraft.transform.position);
+
+                if(!firstSet || currDist < nearestDist)
+                {
+                    firstSet = false;
+                    nearestIndex = i;
+                    nearestDist = currDist;
+                }
+            }
+
+        }
+
+        if(nearestIndex != -1)
+        {
+            closestAircraft = enemyAircraft[nearestIndex].gameObject;
+        }
+
+
+        return closestAircraft;
     }
 
     public void countDownTargetSelect()
@@ -176,10 +228,16 @@ public class AI_TgtComputer : MonoBehaviour
             bool airAttacked = airTgt.rwr.incomingMissiles.Count > 0;
             bool gndAttacked = gndTarget.rwr.incomingMissiles.Count > 0;
 
+            float airDistance = Vector3.Distance(airTgt.transform.position, transform.position);
+            float gndDistance = Vector3.Distance(gndTarget.transform.position, transform.position);
+
+            bool gndClose = gndDistance < airDistance * aircraftSelectDistanceFactor;
+
             // Attacked check
             // if air IS attacked, and ground is NOT attacked, go for ground
+            // or, if ground unit is much closer than the air target, go for ground
             //  in all other cases, attack aircraft
-            if (airAttacked && !gndAttacked)
+            if ((airAttacked && !gndAttacked) || gndClose)
             {
                 resultTarget = gndTarget;
             }
@@ -216,10 +274,10 @@ public class AI_TgtComputer : MonoBehaviour
 
     }
 
-    // placeholder, right now it just grabs local player
+    
     public CombatFlow findAirTarget()
     {
-        GameObject target = GameManager.getGM().localPlayer;
+        GameObject target = findClosestEnemyAircraft();
         CombatFlow targetFlow = null;
 
         if(target != null)
@@ -281,30 +339,89 @@ public class AI_TgtComputer : MonoBehaviour
         }
     }
 
+    public int nearbyAircraftCount()
+    {
+        int count = 0;
+
+        for(int i = 0; i < enemyAircraft.Count; i++)
+        {
+            CombatFlow currAircraft = enemyAircraft[i];
+
+            if(currAircraft != null && hasLineOfSight(currAircraft))
+            {
+                float dist = Vector3.Distance(transform.position, currAircraft.transform.position);
+
+                if (dist < airCombatRadius)
+                {
+                    count++;
+                }
+
+            }
+
+        }
+
+        return count;
+    }
+
+    public bool allNearbyAircraftAttacked()
+    {
+        bool allAttacked = true;
+
+        for(int i = 0; i < enemyAircraft.Count && allAttacked; i++)
+        {
+            CombatFlow currAircraft = enemyAircraft[i];
+
+            if(currAircraft != null)
+            {
+                allAttacked = currAircraft.rwr.incomingMissiles.Count > 0;
+            }
+
+        }
+
+        return allAttacked;
+    }
+
     private void amOffensive()
     {
+        bool setOffensive = true;
 
-        aiEvade.offensive = false;
-
+        //aiEvade.offensive = false;
 
         // offensive if there is an aircraft nearby that doesn't have incoming missiles
         // or, if there is ONLY ONE aircraft nearby, and it has max missile amount inbound
         //  , otherwise, go defensive
-
-        // defensive if retreating (overrides previous)
-
-
-        //aiEvade.offensive = activeTarget != null && activeTarget.rwr.incomingMissiles.Count < rippleFireMaxCount;
-
-
-
-
-        if (aiGrndAttack.retreating)
+        if (activeTarget == airTarget)
         {
-            aiEvade.offensive = false;
+
+            int nearbyAircraft = nearbyAircraftCount();
+
+            if (nearbyAircraft == 1)
+            {
+                setOffensive = maxMissilesOnTarget(activeTarget);
+            }
+            else if (nearbyAircraft > 1)
+            {
+                setOffensive = allNearbyAircraftAttacked();
+            }
+            else
+            {
+                setOffensive = false;
+            }
+        }
+        else // current target is ground unit
+        {
+            // defensive if ground target has incoming missile
+            setOffensive = activeTarget.rwr.incomingMissiles.Count == 0;
         }
 
+        
+        // defensive if retreating (overrides previous)
+        if (aiGrndAttack.retreating)
+        {
+            setOffensive = false;
+        }
 
+        aiEvade.offensive = setOffensive;
 
     }
 
@@ -387,7 +504,7 @@ public class AI_TgtComputer : MonoBehaviour
     {
         bool goodLock = myRadar.tryLock(target, true);
 
-        if (goodLock)
+        if (goodLock && myRadar.lockType == Radar.LockType.AIR_ONLY)
         {
             float dist = Vector3.Distance(target.transform.position, transform.position);
             goodLock = dist < myRadar.effectiveLongRange;
@@ -424,16 +541,45 @@ public class AI_TgtComputer : MonoBehaviour
 
     public Vector3 getAttackPos()
     {
+        //bool inEnemyKillZone = aiGrndAttack.inEnemyKillZone( gndTarget );
+
+        bool isRetreating = aiGrndAttack.checkIsRetreating( gndTarget );
+
+
         
-        if(activeTarget.type == CombatFlow.Type.AIRCRAFT)
+
+        Vector3 targetPosLevel = activeTarget.transform.position;
+        targetPosLevel.y = transform.position.y;
+
+        bool doAttackRun = false;
+
+        Vector3 targetPos;
+
+        if (isRetreating)
         {
-            return activeTarget.transform.position;
+            targetPos = aiGrndAttack.debugRetreatLeader.transform.position;
+            targetPos.y = transform.position.y;
         }
         else
         {
-            return aiGrndAttack.calculateAttackPos(activeTarget);
+            float dist = Vector3.Distance(transform.position, activeTarget.transform.position);
+
+            if (dist < attackRunRadius)
+            {
+
+                doAttackRun = activeTarget == gndTarget;
+
+                targetPos = activeTarget.transform.position;
+            }
+            else
+            {
+                targetPos = targetPosLevel;
+            }
         }
-        
+
+        aiAir.lowQualityActive = doAttackRun;
+
+        return targetPos;
     }
 
 }

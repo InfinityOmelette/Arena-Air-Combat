@@ -52,6 +52,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject debugRetreatLeader;
 
     
+    public List<List<CombatFlow>> teamAircraftLists;
+
+
+    public List<CombatFlow> debugViewTeam1Aircraft;
+    public List<CombatFlow> debugViewTeam2Aircraft;
+
 
     public static GameManager getGM()
     {
@@ -65,6 +71,15 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        teamAircraftLists = new List<List<CombatFlow>>();
+
+        teamAircraftLists.Add(new List<CombatFlow>());
+        teamAircraftLists.Add(new List<CombatFlow>());
+
+        debugViewTeam1Aircraft = teamAircraftLists[0];
+        debugViewTeam2Aircraft = teamAircraftLists[1];
+
+
         playerSpawnEvent = new UnityEvent();
 
         netPosHub = GetComponent<NetPositionHub>();
@@ -72,6 +87,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         Application.targetFrameRate = targetFrameRate;
 
         isHostInstance = PhotonNetwork.PlayerList.Length == 1;
+    }
+
+
+    public List<CombatFlow> getTeamAircraftList(CombatFlow.Team team)
+    {
+        return getTeamAircraftList(CombatFlow.convertTeamToNum(team));
+    }
+
+    public List<CombatFlow> getTeamAircraftList(int teamNum)
+    {
+        return teamAircraftLists[teamNum];
     }
 
     void Start()

@@ -29,6 +29,7 @@ public class AI_MissileEvade : MonoBehaviour
 
     public bool offensive = true;
 
+    public float dragOffsetAngle = 45f;
     
 
     void Awake()
@@ -126,7 +127,7 @@ public class AI_MissileEvade : MonoBehaviour
         Vector3 mslBearingLine = msl.transform.position - transform.position;
         //mslBearingLine.y = 0f;
 
-        float dragAngle = 45f;
+        float dragAngle = dragOffsetAngle;
 
         Vector3 dragDir = -dir; // try to just head in desired directions. Offsets will be based on this
 

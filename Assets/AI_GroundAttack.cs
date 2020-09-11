@@ -21,6 +21,10 @@ public class AI_GroundAttack : MonoBehaviour
 
     public bool retreating = false;
 
+    public float minRetreatDist = 500f;
+
+    public float retreatDistScalar = 1.5f;
+
     void Awake()
     {
         aiTgtComp = GetComponent<AI_TgtComputer>();
@@ -42,6 +46,7 @@ public class AI_GroundAttack : MonoBehaviour
 
     public CombatFlow findGroundTarget()
     {
+
         CombatFlow target = findGroundTargetByType(CombatFlow.Type.SAM);
 
         if(target == null)
@@ -57,8 +62,25 @@ public class AI_GroundAttack : MonoBehaviour
         return target;
     }
 
-
+    // try not to target an already attacked enemy
+    // if all enemies are attacked, target nearest attacked enemy
+    // if there are no enemies at all, return null
     public CombatFlow findGroundTargetByType(CombatFlow.Type type)
+    {
+        CombatFlow maybeAttackedEnemy = findGroundTargetByType(type, true);
+        CombatFlow uniqueEnemy = findGroundTargetByType(type, false);
+
+        if(uniqueEnemy == null)
+        {
+            return maybeAttackedEnemy;
+        }
+        else
+        {
+            return uniqueEnemy;
+        }
+    }
+
+    public CombatFlow findGroundTargetByType(CombatFlow.Type type, bool includeAttackedEnemies)
     {
         // start by just finding closest ground target
         //  if any units are within closeRange, use nose angle
@@ -83,7 +105,7 @@ public class AI_GroundAttack : MonoBehaviour
         {
             CombatFlow currUnit = groundUnitsContainer[i];
 
-            if (currUnit != null && currUnit.type == type && !aiTgtComp.maxMissilesOnTarget(currUnit))
+            if (currUnit != null && currUnit.type == type && (includeAttackedEnemies || !aiTgtComp.maxMissilesOnTarget(currUnit)))
             {
                 float currDist = Vector3.Distance(transform.position, currUnit.transform.position);
                 float currAngle = Vector3.Angle(transform.forward, currUnit.transform.position - transform.position);
@@ -145,5 +167,32 @@ public class AI_GroundAttack : MonoBehaviour
     public bool checkGroundCombat()
     {
         return debugLeaderRef != null && Vector3.Distance(transform.position, debugLeaderRef.transform.position) < groundCombatRadius;
+    }
+
+    public bool checkIsRetreating(CombatFlow target)
+    {
+        if (retreating)
+        {
+            // check if we can reset retreating to false
+            retreating = inEnemyCoverageZone(target, target.maxCoverageRadius);
+        }
+        else // we are not retreating
+        {
+            // check if retreating needs to be set to true
+            retreating = inEnemyCoverageZone(target, target.killCoverageRadius);
+        }
+
+        return retreating;
+    }
+
+    public bool inEnemyCoverageZone(CombatFlow target, float radius)
+    {
+        float distance = Vector3.Distance(transform.position, target.transform.position);
+
+        radius *= retreatDistScalar;
+
+        Debug.Log("InEnemyCoverageZone against: " + target + ", distance: " + distance + ", radius: " + radius);
+
+        return  distance < radius || distance < minRetreatDist;
     }
 }

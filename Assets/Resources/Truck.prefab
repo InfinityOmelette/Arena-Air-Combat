@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5318638688207957474}
   - component: {fileID: 1667470172932805707}
   - component: {fileID: -4138970122897617249}
+  - component: {fileID: 5711269694437307303}
   m_Layer: 0
   m_Name: Truck
   m_TagString: Untagged
@@ -86,7 +87,16 @@ MonoBehaviour:
   networkDamage: 1
   networkReceivedCannonImpacts: 0
   seenBy: 
+  rwr: {fileID: 0}
   isHostInstance: 0
+  collisionDamageFactor: 0.005
+  myRb: {fileID: 0}
+  maxCoverageRadius: 0
+  killCoverageRadius: 0
+  jamming: 0
+  showInWorldList: 1
+  aiControlled: 0
+  creepAI: {fileID: 0}
 --- !u!114 &3503788892843838836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +186,25 @@ MonoBehaviour:
   linecastEnd: {fileID: 0}
   raycastLength: 0
   raycastDelay: 0
+--- !u!114 &5711269694437307303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658450439490222779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rwrBearingAxis: {fileID: 0}
+  lockedBy: []
+  incomingMissiles: []
+  highestThreatMissile: {fileID: 0}
+  closestMissileDelay: 1
+  cleanListsDelay: 3
+  minImpactTime: 0
 --- !u!1001 &2446426334029509811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -273,11 +302,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5094645800246394472}
     m_Modifications:
-    - target: {fileID: 5865994835303344778, guid: ee0d07f86442c6d449544d32c92431b9,
-        type: 3}
-      propertyPath: m_Name
-      value: TurretMG
-      objectReference: {fileID: 0}
     - target: {fileID: 2478282296061704856, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -347,6 +371,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.86473966
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865994835303344778, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: m_Name
+      value: TurretMG
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}

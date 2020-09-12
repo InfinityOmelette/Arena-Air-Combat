@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public const int BOT_LANE_INDEX = 1;
 
 
+    
+
     public static GameManager getGM()
     {
         if(gm == null)

@@ -73,8 +73,11 @@ public class DirectionAI : MonoBehaviour
 
     private Vector3 mouseDir;
 
+    PerspectiveManager pm;
+
     void Awake()
     {
+        pm = PerspectiveManager.getPManager();
         flight = GetComponent<RealFlightControl>();
         myFlow = GetComponent<CombatFlow>();
         myRb = GetComponent<Rigidbody>();
@@ -88,7 +91,15 @@ public class DirectionAI : MonoBehaviour
         hudRef = hudControl.mainHud.GetComponent<hudControl>();
         aimpointIconRef = hudRef.wtAimpointObj;
 
-        
+        initWarthunderCamEnabled();
+    }
+
+    private void initWarthunderCamEnabled()
+    {
+        if (pm.warThunderCamEnabled)
+        {
+            toggleWarThunderCam();
+        }
     }
 
     void Update()
@@ -103,9 +114,7 @@ public class DirectionAI : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.O))
             {
-                camRef.toggleWarThunderCam();
-                hudRef.setWarThunderIndOn(camRef.warThunderCamEnabled);
-                isApplied = camRef.warThunderCamEnabled;
+                toggleWarThunderCam();
             }
 
             if (isApplied)
@@ -156,6 +165,13 @@ public class DirectionAI : MonoBehaviour
 
         currentDir = Vector3.Lerp(currentDir.normalized, targetDir.normalized, targetDirLerpRate * Time.deltaTime).normalized;
 
+    }
+
+    private void toggleWarThunderCam()
+    {
+        camRef.toggleWarThunderCam();
+        hudRef.setWarThunderIndOn(camRef.warThunderCamEnabled);
+        isApplied = camRef.warThunderCamEnabled;
     }
 
     

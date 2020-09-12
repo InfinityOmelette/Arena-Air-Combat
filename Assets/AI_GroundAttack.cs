@@ -86,9 +86,6 @@ public class AI_GroundAttack : MonoBehaviour
             Debug.Log("GND search: " + target);
         }
 
-        
-        
-
         return target;
     }
 

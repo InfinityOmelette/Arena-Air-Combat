@@ -22,6 +22,10 @@ public class PerspectiveManager : MonoBehaviour
 
     public Camera mainCam;
 
+    public bool mouseLookEnabled;
+    public bool warThunderCamEnabled = false;
+    public bool levelCamera;
+
     // Start is called before the first frame update
     void Start()
     {

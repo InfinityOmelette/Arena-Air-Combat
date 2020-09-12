@@ -97,7 +97,7 @@ public class AI_MissileEvade : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("AVOIDING BY SAG");
+                    Debug.Log("AVOIDING BY CROSS");
                    
 
                     // Vector pointing from my position to incoming missile's

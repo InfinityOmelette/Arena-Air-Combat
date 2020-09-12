@@ -100,9 +100,19 @@ public class CamManipulation : MonoBehaviour
 
     public bool levelCamera;
 
+    public PerspectiveManager pManager;
+
+
+    void Awake()
+    {
+        pManager = PerspectiveManager.getPManager();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+
+        retrievePManagerSettings();
 
         camTargetLocalPos = camRef.transform.localPosition;
 
@@ -113,12 +123,22 @@ public class CamManipulation : MonoBehaviour
         //camAxisXref.transform.rotation = new Quaternion(0.0f, 180f, 0f, 0f);
     }
 
+    private void retrievePManagerSettings()
+    {
+        
+        mouseLookEnabled = pManager.mouseLookEnabled;
+        levelCamera = pManager.levelCamera;
+
+        
+
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
             levelCamera = !levelCamera;
+            pManager.levelCamera = levelCamera;
         }
 
         zoomKeyPressed = Input.GetKey(KeyCode.LeftAlt);
@@ -139,7 +159,10 @@ public class CamManipulation : MonoBehaviour
             toggleLookAt();
 
         if (input_mouseLookToggleBtnDown)
+        {
             mouseLookEnabled = !mouseLookEnabled;
+            pManager.mouseLookEnabled = mouseLookEnabled;
+        }
 
         if (lookAtEnabled)
         {
@@ -197,6 +220,10 @@ public class CamManipulation : MonoBehaviour
         warThunderCamEnabled = !warThunderCamEnabled;
         worldLockedLookRotation = aircraftRootRB.transform.rotation;
         worldLockedLookDirection = camRef.transform.forward;
+
+        // for initial set when reading from PManager, it should not matter
+        //  that pManager's value is being set here. The value shouldn't change in that case
+        pManager.warThunderCamEnabled = warThunderCamEnabled;
     }
 
     void FixedUpdate()

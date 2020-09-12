@@ -18,10 +18,17 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
     public GameObject hudObj;
 
+    public GameObject debugLocationObj;
+
+    public bool useDebugLocation;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(useDebugLocation && debugLocationObj != null)
+        {
+            transform.position = debugLocationObj.transform.position;
+        }
     }
 
     // Update is called once per frame

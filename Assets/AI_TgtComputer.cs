@@ -54,6 +54,7 @@ public class AI_TgtComputer : MonoBehaviour
     public List<CombatFlow> friendlyAircraft;
 
     public float attackRunRadius = 3100f;
+    public float longRangeFactor = 1.75f;
 
     void Awake()
     {
@@ -184,7 +185,7 @@ public class AI_TgtComputer : MonoBehaviour
     {
         CombatFlow prevTarget = activeTarget;
 
-        if (airTarget == null || maxMissilesOnTarget(airTarget) || resetTargets)
+        if (airTarget == null || maxMissilesOnTarget(airTarget) || !hasLineOfSight(airTarget) || resetTargets)
         {
             airTarget = findAirTarget();
         }
@@ -229,7 +230,7 @@ public class AI_TgtComputer : MonoBehaviour
         if (resultTarget == null)
         {
             bool airAttacked = airTgt != null && airTgt.rwr.incomingMissiles.Count > 0;
-            bool gndAttacked = gndTarget != null && gndTarget.rwr.incomingMissiles.Count > 0;
+            bool gndAttacked = tooManyGroundMissiles();
 
             float airDistance = Vector3.Distance(airTgt.transform.position, transform.position);
             float gndDistance = Vector3.Distance(gndTarget.transform.position, transform.position);
@@ -240,7 +241,7 @@ public class AI_TgtComputer : MonoBehaviour
             // if air IS attacked, and ground is NOT attacked, go for ground
             // or, if ground unit is much closer than the air target, go for ground
             //  in all other cases, attack aircraft
-            if ((airAttacked && !gndAttacked) || gndClose)
+            if (((airAttacked && !gndAttacked) || gndClose) && gndDistance < attackRunRadius * longRangeFactor)
             {
                 resultTarget = gndTarget;
             }
@@ -389,7 +390,10 @@ public class AI_TgtComputer : MonoBehaviour
     private void amOffensive()
     {
 
-        bool setOffensive = !aiGrndAttack.retreating && hardpoints.isReadyToFire() && !tooManyGroundMissiles();
+
+
+
+        bool setOffensive = !aiGrndAttack.retreating && hardpoints.isReadyToFire() && !(tooManyGroundMissiles() && activeTarget == gndTarget);
 
         //aiEvade.offensive = false;
 
@@ -604,7 +608,7 @@ public class AI_TgtComputer : MonoBehaviour
 
     public bool tooManyGroundMissiles()
     {
-        return countNumGroundMissiles() >= outgoingMissilesDefensive && activeTarget == gndTarget;
+        return countNumGroundMissiles() >= outgoingMissilesDefensive;
     }
 
     int countNumGroundMissiles()

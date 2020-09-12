@@ -71,6 +71,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private LaneManager ownerLane;
 
+    public HardpointController hardpoints;
+
     private bool firstFramePassed = false;
 
     public float collisionDamageFactor = 0.005f;

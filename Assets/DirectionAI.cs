@@ -91,7 +91,11 @@ public class DirectionAI : MonoBehaviour
         hudRef = hudControl.mainHud.GetComponent<hudControl>();
         aimpointIconRef = hudRef.wtAimpointObj;
 
-        initWarthunderCamEnabled();
+        if (myFlow.isLocalPlayer)
+        {
+
+            initWarthunderCamEnabled();
+        }
     }
 
     private void initWarthunderCamEnabled()

@@ -102,21 +102,27 @@ public class CamManipulation : MonoBehaviour
 
     public PerspectiveManager pManager;
 
+    private CombatFlow rootFlow;
+
 
     void Awake()
     {
+        rootFlow = aircraftRootRB.GetComponent<CombatFlow>();
         pManager = PerspectiveManager.getPManager();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        if (rootFlow.isLocalPlayer)
+        {
 
-        retrievePManagerSettings();
+            retrievePManagerSettings();
 
-        camTargetLocalPos = camRef.transform.localPosition;
+            camTargetLocalPos = camRef.transform.localPosition;
 
-        defaultCamRotation = camRef.transform.localRotation;
+            defaultCamRotation = camRef.transform.localRotation;
+        }
 
         
 
@@ -129,7 +135,12 @@ public class CamManipulation : MonoBehaviour
         mouseLookEnabled = pManager.mouseLookEnabled;
         levelCamera = pManager.levelCamera;
 
-        
+        if (mouseLookEnabled)
+        {
+            rootFlow.hardpoints.weaponIndicatorManager.toggleControllerHud();
+        }
+
+
 
     }
 

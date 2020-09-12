@@ -600,6 +600,19 @@ public class LaneManager : MonoBehaviourPunCallbacks
         }
     }
 
+
+    public Vector3 getLeaderPos()
+    {
+        if(myLeader != null)
+        {
+            return myLeader.transform.position;
+        }
+        else
+        {
+            return transform.position;
+        }
+    }
+
     public CombatFlow getLeader()
     {
         if(myLeader != null)

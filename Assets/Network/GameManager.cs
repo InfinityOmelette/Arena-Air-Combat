@@ -47,9 +47,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public UnityEvent playerSpawnEvent;
 
 
-    public List<CombatFlow> debugGroundTgtList;
-    public GameObject debugLeader;
-    public GameObject debugRetreatLeader;
+    //public List<CombatFlow> debugGroundTgtList;
+   // public GameObject debugLeader;
+    //public GameObject debugRetreatLeader;
 
     
     public List<List<CombatFlow>> teamAircraftLists;
@@ -57,6 +57,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public List<CombatFlow> debugViewTeam1Aircraft;
     public List<CombatFlow> debugViewTeam2Aircraft;
+
+
+    public List<LaneManager> team1Lanes;
+    public List<LaneManager> team2Lanes;
+
+
+    public const int TOP_LANE_INDEX = 0;
+    public const int BOT_LANE_INDEX = 1;
 
 
     public static GameManager getGM()
@@ -100,6 +108,24 @@ public class GameManager : MonoBehaviourPunCallbacks
         return teamAircraftLists[teamNum];
     }
 
+    public List<LaneManager> getTeamLanes(CombatFlow.Team team)
+    {
+        if(team == CombatFlow.Team.TEAM1)
+        {
+            return team1Lanes;
+        }
+        else
+        {
+            return team2Lanes;
+        }
+
+    }
+
+    public List<LaneManager> getTeamLanes(int teamNum)
+    {
+        return getTeamLanes(CombatFlow.convertNumToTeam((short)teamNum));
+    }
+
     void Start()
     {
         //spawnPlayer();
@@ -118,6 +144,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             spawnPlayer(CombatFlow.convertTeamToNum( 0), true);
         }
     }
+
 
 
     public void spawnPlayer(int teamNum)

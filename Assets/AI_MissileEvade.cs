@@ -30,6 +30,8 @@ public class AI_MissileEvade : MonoBehaviour
     public bool offensive = true;
 
     public float dragOffsetAngle = 45f;
+
+    public float flareMissileVelocityMin;
     
 
     void Awake()
@@ -112,7 +114,7 @@ public class AI_MissileEvade : MonoBehaviour
                 currentDir = planarDrag(msl, currentDir);
             }
 
-            flare.flareButtonDown = impactTime < flareDropTime;
+            flare.flareButtonDown = impactTime < flareDropTime && msl.myRb.velocity.magnitude > flareMissileVelocityMin;
         }
 
 

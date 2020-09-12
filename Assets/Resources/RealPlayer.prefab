@@ -1488,6 +1488,9 @@ MonoBehaviour:
   rightIntersect: 0
   leftIntersect: 0
   wallAvoidDirectionNum: 1
+  takeOffComplete: 0
+  takeOffAngle: 12
+  takeOffAlt: 85
 --- !u!114 &1043727250034176688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1503,16 +1506,21 @@ MonoBehaviour:
   maxMissilesPerGroundUnit: 1
   maxMissilesPerAircraft: 3
   rippleFireDelay: 6
+  hardpoints: {fileID: 0}
+  myRadar: {fileID: 0}
+  aiEvade: {fileID: 0}
+  aiGrndAttack: {fileID: 0}
+  aiAir: {fileID: 0}
+  myFlow: {fileID: 0}
   activeTarget: {fileID: 0}
   airTarget: {fileID: 0}
   gndTarget: {fileID: 0}
   targetSelectDelay: 0.5
   airCombatRadius: 6500
-  aircraftSelectDistanceFactor: 0.5
+  aircraftSelectDistanceFactor: 0.925
   inCombat: 0
   outgoingMissiles: []
-  enemyLane: {fileID: 0}
-  myLane: {fileID: 0}
+  outgoingMissilesDefensive: 2
   enemyAircraft: []
   friendlyAircraft: []
   attackRunRadius: 3100
@@ -1537,7 +1545,8 @@ MonoBehaviour:
   highPullTime: 1.75
   minHighPullSpeed: 230
   offensive: 0
-  dragOffsetAngle: 30
+  dragOffsetAngle: 45
+  flareMissileVelocityMin: 100
 --- !u!114 &4566679589459580546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,13 +1561,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxGroundTargetDist: 0
   closeRange: 1200
-  debugLeaderRef: {fileID: 0}
-  debugRetreatLeader: {fileID: 0}
   groundCombatRadius: 4500
   aiTgtComp: {fileID: 0}
   retreating: 0
   minRetreatDist: 500
-  retreatDistScalar: 1.075
+  retreatDistScalar: 1.15
+  laneIndex: 0
+  enemyLane: {fileID: 0}
+  myLane: {fileID: 0}
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2555,11 +2565,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
-    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.178
-      objectReference: {fileID: 0}
     - target: {fileID: 7971503840083256575, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -2625,6 +2630,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.027999967
+      objectReference: {fileID: 0}
+    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.178
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
@@ -3745,21 +3755,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Right Wing 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -3834,6 +3829,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Name
+      value: Gunpod Right Wing 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -4741,16 +4751,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Right
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -4825,6 +4825,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Name
+      value: Gunpod Right
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5017,11 +5027,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.178
-      objectReference: {fileID: 0}
     - target: {fileID: 7971503840083256575, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -5088,6 +5093,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.027999967
       objectReference: {fileID: 0}
+    - target: {fileID: 7454611196334543948, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.178
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
 --- !u!4 &4588395658084048974 stripped
@@ -5103,21 +5113,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Left
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -5192,6 +5187,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Name
+      value: Gunpod Left
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5309,21 +5319,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Name
-      value: Gunpod Left Wing 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -5398,6 +5393,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Name
+      value: Gunpod Left Wing 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}

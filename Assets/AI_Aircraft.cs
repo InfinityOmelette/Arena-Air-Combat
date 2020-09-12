@@ -9,7 +9,7 @@ public class AI_Aircraft : MonoBehaviour
 {
     public enum NAV_MODE
     {
-        WAYPOINT_MISSION,
+        ADVANCE,
         ATTACK,
         
     }
@@ -110,7 +110,11 @@ public class AI_Aircraft : MonoBehaviour
     public bool rightIntersect = false;
     public bool leftIntersect = false;
     public int wallAvoidDirectionNum = 1;
-    
+
+
+    public bool takeOffComplete = false;
+    public float takeOffAngle = 12f;
+    public float takeOffAlt;
 
     void Awake()
     {
@@ -200,7 +204,7 @@ public class AI_Aircraft : MonoBehaviour
             }
             else
             {
-                navMode = NAV_MODE.WAYPOINT_MISSION;
+                navMode = NAV_MODE.ADVANCE;
             }
 
 
@@ -214,21 +218,38 @@ public class AI_Aircraft : MonoBehaviour
                 }
                 else
                 {
-                    navMode = NAV_MODE.WAYPOINT_MISSION;
+                    navMode = NAV_MODE.ADVANCE;
                 }
             }
 
-            if (navMode == NAV_MODE.WAYPOINT_MISSION)
+            if (navMode == NAV_MODE.ADVANCE)
             {
-                if (Vector3.Distance(transform.position, targetPos) < waypointRadius)
+
+                //if (Vector3.Distance(transform.position, targetPos) < waypointRadius)
+                //{
+                //    nextWaypoint();
+                //    targetPos = waypoints[waypointIndex];
+                //}
+                //else
+                //{
+                //    targetPos = waypoints[waypointIndex];
+                //}
+
+                if (takeOffComplete)
                 {
-                    nextWaypoint();
-                    targetPos = waypoints[waypointIndex];
+                    targetPos = aiTgtComputer.aiGrndAttack.myLane.getLeaderPos();
+                    targetPos.y = transform.position.y;
                 }
                 else
                 {
-                    targetPos = waypoints[waypointIndex];
+                    // the addition here is super stupid. It converts dir to position, then back to dir later on
+                    //  although I don't think it causes enough problems to worry about
+                    targetPos = setTakeOffDir() + transform.position; 
+                    takeOffComplete = transform.position.y > takeOffAlt;
                 }
+
+
+                
             }
 
             targetDir = targetPos - transform.position;
@@ -273,7 +294,7 @@ public class AI_Aircraft : MonoBehaviour
 
         targetDir = targetDir.normalized;
 
-        if(navMode == NAV_MODE.WAYPOINT_MISSION && waypointIndex == 0 && !dirAI.useAi && rwr.highestThreatMissile == null)
+        if(navMode == NAV_MODE.ADVANCE && !takeOffComplete && !dirAI.useAi && rwr.highestThreatMissile == null)
         {
             //dirAI.targetDir = targetDir;
             currentDir = targetDir;
@@ -294,6 +315,16 @@ public class AI_Aircraft : MonoBehaviour
         //Debug.DrawRay(transform.position, currentDir, Color.green, 5);
         //Debug.DrawLine(transform.position, targetPos, Color.white, 5);
 
+    }
+
+    private Vector3 setTakeOffDir()
+    {
+        Vector3 dir = transform.forward;
+        dir.y = 0;
+
+        dir = pitchOffset(dir, takeOffAngle);
+
+        return dir;
     }
 
     Vector3 preventLoop(Vector3 dir)

@@ -10,14 +10,16 @@ public class AI_GroundAttack : MonoBehaviour
 
     public float closeRange; // within this dist, use nose angle
 
-    List<CombatFlow> groundUnitsContainer;
+    List<CombatFlow> enemyGroundUnitsContainer;
 
-    public GameObject debugLeaderRef;
-    public GameObject debugRetreatLeader;
+    //public GameObject debugLeaderRef;
+    //public GameObject debugRetreatLeader;
 
     public float groundCombatRadius = 4500f;
 
     public AI_TgtComputer aiTgtComp;
+
+    private CombatFlow myFlow;
 
     public bool retreating = false;
 
@@ -25,17 +27,24 @@ public class AI_GroundAttack : MonoBehaviour
 
     public float retreatDistScalar = 1.5f;
 
+    public int laneIndex = 0;
+
+    public LaneManager enemyLane;
+    public LaneManager myLane;
+
     void Awake()
     {
         aiTgtComp = GetComponent<AI_TgtComputer>();
+        myFlow = GetComponent<CombatFlow>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        groundUnitsContainer = GameManager.getGM().debugGroundTgtList;
-        debugLeaderRef = GameManager.getGM().debugLeader;
-        debugRetreatLeader = GameManager.getGM().debugRetreatLeader;
+        assignToLane(laneIndex);
+        //enemyGroundUnitsContainer = GameManager.getGM().debugGroundTgtList;
+        //debugLeaderRef = GameManager.getGM().debugLeader;
+        //debugRetreatLeader = GameManager.getGM().debugRetreatLeader;
     }
 
     // Update is called once per frame
@@ -101,9 +110,9 @@ public class AI_GroundAttack : MonoBehaviour
         int shortestDistIndex = -1;
 
         
-        for(int i = 0; i < groundUnitsContainer.Count; i++)
+        for(int i = 0; i < enemyGroundUnitsContainer.Count; i++)
         {
-            CombatFlow currUnit = groundUnitsContainer[i];
+            CombatFlow currUnit = enemyGroundUnitsContainer[i];
 
             if (currUnit != null && currUnit.type == type && (includeAttackedEnemies || !aiTgtComp.maxMissilesOnTarget(currUnit)))
             {
@@ -141,11 +150,11 @@ public class AI_GroundAttack : MonoBehaviour
         {
             if (useNoseAngle)
             {
-                groundUnit = groundUnitsContainer[smallestAngleIndex];
+                groundUnit = enemyGroundUnitsContainer[smallestAngleIndex];
             }
             else
             {
-                groundUnit = groundUnitsContainer[shortestDistIndex];
+                groundUnit = enemyGroundUnitsContainer[shortestDistIndex];
             }
         }
 
@@ -166,20 +175,30 @@ public class AI_GroundAttack : MonoBehaviour
 
     public bool checkGroundCombat()
     {
-        return debugLeaderRef != null && Vector3.Distance(transform.position, debugLeaderRef.transform.position) < groundCombatRadius;
+        return enemyLane.getLeader() != null && Vector3.Distance(transform.position, enemyLane.getLeader().transform.position) < groundCombatRadius;
     }
 
     public bool checkIsRetreating(CombatFlow target)
     {
-        if (retreating)
+
+        //retreating =  !aiTgtComp.hardpoints.isReadyToFire();
+
+        if (target != null)
         {
-            // check if we can reset retreating to false
-            retreating = inEnemyCoverageZone(target, target.maxCoverageRadius);
-        }
-        else // we are not retreating
-        {
-            // check if retreating needs to be set to true
-            retreating = inEnemyCoverageZone(target, target.killCoverageRadius);
+
+            if (retreating)
+            {
+                // check if we can reset retreating to false
+                retreating = inEnemyCoverageZone(target, target.maxCoverageRadius) || !aiTgtComp.hardpoints.isReadyToFire();
+            }
+            else // we are not retreating
+            {
+                // check if retreating needs to be set to true
+                //  retreat if heardpoint is not ready to fire
+                //  retreat if we're inside kill radius
+                retreating = !aiTgtComp.hardpoints.isReadyToFire() ||
+                    inEnemyCoverageZone(target, target.killCoverageRadius);
+            }
         }
 
         return retreating;
@@ -191,8 +210,22 @@ public class AI_GroundAttack : MonoBehaviour
 
         radius *= retreatDistScalar;
 
-        Debug.Log("InEnemyCoverageZone against: " + target + ", distance: " + distance + ", radius: " + radius);
+        //Debug.Log("InEnemyCoverageZone against: " + target + ", distance: " + distance + ", radius: " + radius);
 
         return  distance < radius || distance < minRetreatDist;
+    }
+
+    // 0 always top lane
+    // 1 always bottom lane
+    public void assignToLane(int laneID)
+    {
+        GameManager gm = GameManager.getGM();
+
+        myLane = gm.getTeamLanes(myFlow.team)[laneID];
+        enemyLane = gm.getTeamLanes(myFlow.getEnemyTeam())[laneID];
+
+        enemyGroundUnitsContainer = enemyLane.myLaneUnits;
+
+        //GameManager.getGM()
     }
 }

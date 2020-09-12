@@ -227,8 +227,10 @@ public class HardpointController : MonoBehaviourPunCallbacks
         if (!launchActive)
         {
             returnWeap = launchProcess();
-        }
+            Debug.Log("********************** returnWeap: " + returnWeap);
 
+        }
+        
         return returnWeap;
     }
 
@@ -268,7 +270,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
             //  i is used just to step forward correct number of times. Actual active index is 'index' variable
             for (short i = 0; i < weaponTypeHardpointLists[activeTypeIndex].Count; i++)
             {
-                Debug.Log("========= FIRING WEAPON IN GROUP: " + weaponTypeHardpointLists[activeTypeIndex][index].loadedWeaponObj.name);
+                Debug.Log("========= FIRING WEAPON IN GROUP: " + weaponTypeHardpointLists[activeTypeIndex][index].loadedWeaponObj);
 
 
                 // set delay based on number of times i has stepped forward * launchDelayPerSequencePos
@@ -276,9 +278,13 @@ public class HardpointController : MonoBehaviourPunCallbacks
                 weaponTypeHardpointLists[activeTypeIndex][index].effectiveLaunchDelayMax =
                     launchDelayPerSequencePos * i;
 
+                returnWeap = weaponTypeHardpointLists[activeTypeIndex][index].loadedWeaponObj;
+
+                
+
                 launchHardpoint(weaponTypeHardpointLists[activeTypeIndex][index]);
 
-                returnWeap = weaponTypeHardpointLists[activeTypeIndex][index].loadedWeaponObj;
+                
 
 
                 if(++index > (weaponTypeHardpointLists[activeTypeIndex].Count - 1)) // if past end of array
@@ -294,6 +300,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
             nextAvailableHardpointIndex(activeTypeIndex);
             Hardpoint currentActiveHardpoint = weaponTypeHardpointLists[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]];
+            returnWeap = currentActiveHardpoint.loadedWeaponObj;
             launchHardpoint(currentActiveHardpoint);
             
         }
@@ -400,7 +407,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
     {
         float smallestReloadTime = 0;
 
-        Debug.Log("NextavailableHardpointIndex called");
+        //Debug.Log("NextavailableHardpointIndex called");
 
         // check if current is null -- no need to search if this index is already good
         if (!weaponTypeHardpointLists[typeIndex][activeHardpointIndexes[typeIndex]].readyToFire)

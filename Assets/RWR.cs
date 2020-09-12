@@ -85,7 +85,7 @@ public class RWR : MonoBehaviourPunCallbacks
 
                 float closingSpeed = calculateClosingSpeed(currMissile); // positive indicates closure, negative --> separation
 
-                Debug.Log("Closing Speed:" + closingSpeed);
+                //  Debug.Log("Closing Speed:" + closingSpeed);
 
                 float currImpactTime = currDist / closingSpeed;
 

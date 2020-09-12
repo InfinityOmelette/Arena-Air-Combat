@@ -79,7 +79,7 @@ public class AI_TgtComputer : MonoBehaviour
     void Update()
     {
 
-        Debug.Log("Current target: " + activeTarget);
+        //Debug.Log("Current target: " + activeTarget);
         
         countDownTargetSelect();
         
@@ -568,7 +568,16 @@ public class AI_TgtComputer : MonoBehaviour
 
         if (isRetreating)
         {
-            targetPos = aiGrndAttack.myLane.getLeaderPos();
+            if (aiGrndAttack.attackDebugGroup)
+            {
+                targetPos = aiGrndAttack.debugRetreatLeader.transform.position;
+            }
+            else
+            {
+                targetPos = aiGrndAttack.myLane.getLeaderPos();
+            }
+
+
             targetPos.y = transform.position.y;
         }
         else

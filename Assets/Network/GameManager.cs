@@ -47,9 +47,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public UnityEvent playerSpawnEvent;
 
 
-    //public List<CombatFlow> debugGroundTgtList;
-   // public GameObject debugLeader;
-    //public GameObject debugRetreatLeader;
+    public List<CombatFlow> debugGroundTgtList;
+    public GameObject debugLeader;
+    public GameObject debugRetreatLeader;
 
     
     public List<List<CombatFlow>> teamAircraftLists;

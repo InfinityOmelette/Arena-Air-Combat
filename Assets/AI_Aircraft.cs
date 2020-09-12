@@ -115,6 +115,7 @@ public class AI_Aircraft : MonoBehaviour
     public bool takeOffComplete = false;
     public float takeOffAngle = 12f;
     public float takeOffAlt;
+    private Vector3 takeOffAxis;
 
     void Awake()
     {
@@ -130,12 +131,16 @@ public class AI_Aircraft : MonoBehaviour
         aiTgtComputer = GetComponent<AI_TgtComputer>();
         mslAvoid = GetComponent<AI_MissileEvade>();
         aiGroundAttack = GetComponent<AI_GroundAttack>();
+
+        
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
+        takeOffAxis = transform.forward;
+
         dirAI.isApplied = true;
         engine.currentThrottlePercent = 100f;
 
@@ -237,7 +242,7 @@ public class AI_Aircraft : MonoBehaviour
 
                 if (takeOffComplete)
                 {
-                    targetPos = aiTgtComputer.aiGrndAttack.myLane.getLeaderPos();
+                    targetPos = aiTgtComputer.aiGrndAttack.getAdvancePos();
                     targetPos.y = transform.position.y;
                 }
                 else
@@ -319,7 +324,7 @@ public class AI_Aircraft : MonoBehaviour
 
     private Vector3 setTakeOffDir()
     {
-        Vector3 dir = transform.forward;
+        Vector3 dir = takeOffAxis;
         dir.y = 0;
 
         dir = pitchOffset(dir, takeOffAngle);

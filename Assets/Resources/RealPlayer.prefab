@@ -1561,6 +1561,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxGroundTargetDist: 0
   closeRange: 1200
+  debugLeaderRef: {fileID: 0}
+  debugRetreatLeader: {fileID: 0}
   groundCombatRadius: 4500
   aiTgtComp: {fileID: 0}
   retreating: 0
@@ -1569,6 +1571,8 @@ MonoBehaviour:
   laneIndex: 0
   enemyLane: {fileID: 0}
   myLane: {fileID: 0}
+  retreatTetherLength: 1250
+  attackDebugGroup: 1
 --- !u!114 &1785817150400101556
 MonoBehaviour:
   m_ObjectHideFlags: 0

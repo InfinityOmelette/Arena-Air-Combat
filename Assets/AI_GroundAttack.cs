@@ -12,8 +12,8 @@ public class AI_GroundAttack : MonoBehaviour
 
     List<CombatFlow> enemyGroundUnitsContainer;
 
-    //public GameObject debugLeaderRef;
-    //public GameObject debugRetreatLeader;
+    public GameObject debugLeaderRef;
+    public GameObject debugRetreatLeader;
 
     public float groundCombatRadius = 4500f;
 
@@ -32,6 +32,11 @@ public class AI_GroundAttack : MonoBehaviour
     public LaneManager enemyLane;
     public LaneManager myLane;
 
+    public float retreatTetherLength = 3000f;
+
+    public bool attackDebugGroup;
+
+
     void Awake()
     {
         aiTgtComp = GetComponent<AI_TgtComputer>();
@@ -41,10 +46,17 @@ public class AI_GroundAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        assignToLane(laneIndex);
-        //enemyGroundUnitsContainer = GameManager.getGM().debugGroundTgtList;
-        //debugLeaderRef = GameManager.getGM().debugLeader;
-        //debugRetreatLeader = GameManager.getGM().debugRetreatLeader;
+        if (attackDebugGroup)
+        {
+            enemyGroundUnitsContainer = GameManager.getGM().debugGroundTgtList;
+            debugLeaderRef = GameManager.getGM().debugLeader;
+            debugRetreatLeader = GameManager.getGM().debugRetreatLeader;
+        }
+        else
+        {
+            assignToLane(laneIndex);
+        }
+
     }
 
     // Update is called once per frame
@@ -56,17 +68,26 @@ public class AI_GroundAttack : MonoBehaviour
     public CombatFlow findGroundTarget()
     {
 
-        CombatFlow target = findGroundTargetByType(CombatFlow.Type.SAM);
+        CombatFlow target = null;
 
-        if(target == null)
+        target = findGroundTargetByType(CombatFlow.Type.SAM);
+
+        Debug.Log("Sam search: " + target);
+
+        if (target == null)
         {
             target = findGroundTargetByType(CombatFlow.Type.ANTI_AIR);
-
-            if(target == null)
-            {
-                findGroundTargetByType(CombatFlow.Type.GROUND);
-            }
+            Debug.Log("AAA search: " + target);
         }
+
+        if (target == null)
+        {
+            target = findGroundTargetByType(CombatFlow.Type.GROUND);
+            Debug.Log("GND search: " + target);
+        }
+
+        
+        
 
         return target;
     }
@@ -175,7 +196,8 @@ public class AI_GroundAttack : MonoBehaviour
 
     public bool checkGroundCombat()
     {
-        return enemyLane.getLeader() != null && Vector3.Distance(transform.position, enemyLane.getLeader().transform.position) < groundCombatRadius;
+       
+        return Vector3.Distance(transform.position, getEnemyLeaderPos()) < groundCombatRadius;
     }
 
     public bool checkIsRetreating(CombatFlow target)
@@ -189,7 +211,8 @@ public class AI_GroundAttack : MonoBehaviour
             if (retreating)
             {
                 // check if we can reset retreating to false
-                retreating = inEnemyCoverageZone(target, target.maxCoverageRadius) || !aiTgtComp.hardpoints.isReadyToFire();
+                retreating = inEnemyCoverageZone(target, target.maxCoverageRadius) || 
+                    !aiTgtComp.hardpoints.isReadyToFire() || checkRetreatTether();
             }
             else // we are not retreating
             {
@@ -197,11 +220,23 @@ public class AI_GroundAttack : MonoBehaviour
                 //  retreat if heardpoint is not ready to fire
                 //  retreat if we're inside kill radius
                 retreating = !aiTgtComp.hardpoints.isReadyToFire() ||
-                    inEnemyCoverageZone(target, target.killCoverageRadius);
+                    inEnemyCoverageZone(target, target.killCoverageRadius) || checkRetreatTether();
             }
         }
 
         return retreating;
+    }
+
+    private bool checkRetreatTether()
+    {
+        float dist = Vector3.Distance(transform.position, getFriendlyLeaderPos());
+
+        if (attackDebugGroup)
+        {
+            dist = 0; // never activate tether in debug mode
+        }
+
+        return dist > retreatTetherLength;
     }
 
     public bool inEnemyCoverageZone(CombatFlow target, float radius)
@@ -224,8 +259,49 @@ public class AI_GroundAttack : MonoBehaviour
         myLane = gm.getTeamLanes(myFlow.team)[laneID];
         enemyLane = gm.getTeamLanes(myFlow.getEnemyTeam())[laneID];
 
-        enemyGroundUnitsContainer = enemyLane.myLaneUnits;
+        enemyGroundUnitsContainer = enemyLane.frontWave;
 
         //GameManager.getGM()
     }
+
+    public Vector3 getFriendlyLeaderPos()
+    {
+        if (attackDebugGroup)
+        {
+            return debugRetreatLeader.transform.position;
+        }
+        else
+        {
+            return myLane.getLeaderPos();
+        }
+    }
+
+    public Vector3 getEnemyLeaderPos()
+    {
+        if (attackDebugGroup)
+        {
+            return debugLeaderRef.transform.position;
+        }
+        else
+        {
+            return enemyLane.getLeaderPos();
+        }
+    }
+
+
+    public Vector3 getAdvancePos()
+    {
+        // in debug mode, we advance towards enemy location
+        // normally, we aim to stick with our creeps
+        if (attackDebugGroup)
+        {
+            return getEnemyLeaderPos();
+        }
+        else
+        {
+            return getFriendlyLeaderPos();
+        }
+    }
+
+
 }

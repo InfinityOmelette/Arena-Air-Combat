@@ -34,6 +34,8 @@ public class AI_MissileEvade : MonoBehaviour
     public float flareMissileVelocityMin;
 
     public AI_GroundAttack aiGrnd;
+
+    public float minNoseAngleForQuickPull = 20f;
     
 
     void Awake()
@@ -80,6 +82,8 @@ public class AI_MissileEvade : MonoBehaviour
 
             float speedKPH = myRb.velocity.magnitude * airAI.MS_2_KPH;
 
+            
+
             //if (impactTime < spiralTurnTime && speedKPH > minSpiralSpeed)
             //if(false)
             //{
@@ -87,27 +91,24 @@ public class AI_MissileEvade : MonoBehaviour
             //    //currentDir = Vector3.Cross(myRb.velocity, -currentDir); // negative so that vector faces enemy msl
             //}
             //else 
-            if (impactTime < highPullTime)
+            if (impactTime < highPullTime && checkEscapeAngle(msl))
             {
                 // I should make this pull in other directions
 
-                // if I have the energy to go up
                 if (myRb.velocity.magnitude * airAI.MS_2_KPH > minHighPullSpeed)
                 {
-                    currentDir = Vector3.up;
-                    Debug.Log("AVOIDING UP");
-
+                    Debug.Log("AVOIDING BY CROSS");
+                    currentDir = getUpCross(msl);
                 }
                 else
                 {
-                    Debug.Log("AVOIDING BY CROSS");
-                   
+                    Debug.Log("AVOIDING BY SAG");
 
                     // Vector pointing from my position to incoming missile's
                     Vector3 targetBearingLine = msl.transform.position - transform.position;
                     Vector3 missileSagDir = Vector3.ProjectOnPlane(mslRelVel, targetBearingLine);       // remove any closing relative velocity
                     Vector3 correctionDir = Vector3.ProjectOnPlane(-missileSagDir, transform.forward);  // remove any forward/backward component. We want a turn 
-                    
+
                     currentDir = correctionDir;
                 }
 
@@ -124,7 +125,32 @@ public class AI_MissileEvade : MonoBehaviour
         return currentDir;
     }
 
-    
+    private bool checkEscapeAngle(CombatFlow msl)
+    {
+        Vector3 frontDir = transform.forward;
+
+        Vector3 backDir = -transform.forward;
+
+        Vector3 targetBearingLine = msl.transform.position - transform.position;
+
+        float mslAngleOffNose = Vector3.Angle(targetBearingLine, frontDir);
+        float mslAngleOffTail = Vector3.Angle(targetBearingLine, backDir);
+
+        return mslAngleOffNose > minNoseAngleForQuickPull && mslAngleOffTail > minNoseAngleForQuickPull;
+    }
+
+    // get cross angle, guaranteed to go upwards
+    private Vector3 getUpCross(CombatFlow msl)
+    {
+        Vector3 targetBearingLine = msl.transform.position - transform.position;
+        Vector3 crossDir = Vector3.Cross(targetBearingLine, transform.forward);
+        if (crossDir.y < 0)
+        {
+            crossDir.y *= -1;
+        }
+
+        return crossDir;
+    }
 
     private Vector3 planarDrag(CombatFlow msl, Vector3 dir)
     {

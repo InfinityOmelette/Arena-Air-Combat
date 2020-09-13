@@ -141,13 +141,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        
 
-        //if (isHostInstance && Input.GetKeyDown(KeyCode.B))
-        //{
-        //    Debug.Log("=========== SPAWNING AI");
-        //    spawnPlayer(CombatFlow.convertTeamToNum( 0), true);
-        //}
+
+        if (isHostInstance && Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("=========== SPAWNING AI");
+            spawnPlayer(CombatFlow.convertTeamToNum(0), true);
+        }
     }
 
     

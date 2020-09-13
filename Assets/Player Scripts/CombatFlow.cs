@@ -91,6 +91,9 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public CreepControl creepAI;
 
+
+    public Radar myRadar;
+
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -140,6 +143,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        myRadar = GetComponent<Radar>();
         rwr = GetComponent<RWR>();
         creepAI = GetComponent<CreepControl>();
         myRb = GetComponent<Rigidbody>();

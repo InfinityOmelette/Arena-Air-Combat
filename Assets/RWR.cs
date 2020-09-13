@@ -26,6 +26,8 @@ public class RWR : MonoBehaviourPunCallbacks
 
     public float minImpactTime; // ignore missile if greater than this time away
 
+    public bool amraamsIncoming = false;
+
     //private WarningComputer warnComputer;
     void Awake()
     {
@@ -111,6 +113,7 @@ public class RWR : MonoBehaviourPunCallbacks
     {
         if (cleanListsTimer < 0f)
         {
+            amraamsIncoming = checkAmraamsIncoming();
             cleanLists();
             cleanListsTimer = cleanListsDelay;
         }
@@ -124,6 +127,21 @@ public class RWR : MonoBehaviourPunCallbacks
     {
         cleanFlowList(incomingMissiles);
         cleanFlowList(lockedBy);
+    }
+
+    private bool checkAmraamsIncoming()
+    {
+        bool amraamsIncoming = false;
+
+        for(int i = 0; i < incomingMissiles.Count && !amraamsIncoming; i++)
+        {
+            if(incomingMissiles[i] != null)
+            {
+                amraamsIncoming = !incomingMissiles[i].myRadar.isSam;
+            }
+        }
+
+        return amraamsIncoming;
     }
 
     private void cleanFlowList(List<CombatFlow> flowList)

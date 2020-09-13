@@ -132,7 +132,7 @@ public class AI_TgtComputer : MonoBehaviour
             CombatFlow currAircraft = enemyAircraft[i];
 
             if(currAircraft != null && hasLineOfSight(currAircraft) && 
-                (!currAircraft.rwr.isAttacked() || (nearAircraftCount == 1 && !maxMissilesOnTarget(currAircraft))  || allNearbyAttacked))
+                (!currAircraft.rwr.amraamsIncoming || (nearAircraftCount == 1 && !maxMissilesOnTarget(currAircraft))  || allNearbyAttacked))
             {
                 float currDist = Vector3.Distance(transform.position, currAircraft.transform.position);
 
@@ -388,7 +388,7 @@ public class AI_TgtComputer : MonoBehaviour
 
             if(currAircraft != null)
             {
-                allAttacked = currAircraft.rwr.incomingMissiles.Count > 0;
+                allAttacked = currAircraft.rwr.amraamsIncoming;
             }
 
         }

@@ -40,6 +40,8 @@ public class Radar : MonoBehaviourPun
 
     private static float RWR_PING_DELAY = .075f; // must be nonzero
 
+    public bool isSam = false;
+
     public enum LockType
     {
         AIR_ONLY,

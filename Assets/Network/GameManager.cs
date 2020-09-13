@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public const int BOT_LANE_INDEX = 1;
 
 
+    public GameObject aiSpawnControlObj;
     
 
     public static GameManager getGM()
@@ -140,6 +141,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        
+
         //if (isHostInstance && Input.GetKeyDown(KeyCode.B))
         //{
         //    Debug.Log("=========== SPAWNING AI");

@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AI_Spawner : MonoBehaviour
+using Photon.Pun;
+
+public class AI_Spawner : MonoBehaviourPun
 {
 
     public InputField txtNumAI;
+
+    public Toggle chkLockToBot;
 
     private GameManager gm;
 
@@ -23,9 +27,14 @@ public class AI_Spawner : MonoBehaviour
 
     int totalSpawnCount = 0;
 
+    public bool lockToBot = false;
+
+    public PhotonView ph;
 
     void Awake()
     {
+        ph = GetComponent<PhotonView>();
+
         spawner = GetComponent<TeamSpawner>();
         myAI = new List<AI_GroundAttack>();
     }
@@ -34,14 +43,18 @@ public class AI_Spawner : MonoBehaviour
     void Start()
     {
         gm = GameManager.getGM();
+
+
+        txtNumAI.readOnly = !gm.isHostInstance;
+        chkLockToBot.interactable = gm.isHostInstance;
+
+        chkLockToBot.isOn = lockToBot;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        
-
 
         if (gm.isHostInstance) 
         {
@@ -71,17 +84,14 @@ public class AI_Spawner : MonoBehaviour
     {
         bool didSpawn = false;
 
-
         for(int i = 0; i < listAI.Count && !didSpawn; i++)
         {
             if(listAI[i] == null)
             {
                 didSpawn = true;
                 listAI[i] = doSpawn();
-                
             }
         }
-
 
         return didSpawn;
     }
@@ -100,42 +110,46 @@ public class AI_Spawner : MonoBehaviour
         return newAirGndAtk;
     }
 
-
     public void onTextChange()
     {
 
-        float numRaw;
-
-        bool noErrorNum = float.TryParse(txtNumAI.text, out numRaw);
-
-        int numSet;
-
-        
-
-        if (noErrorNum)
+        if (gm.isHostInstance)
         {
-            numSet = Mathf.RoundToInt(numRaw);
+
+            float numRaw;
+
+            bool noErrorNum = float.TryParse(txtNumAI.text, out numRaw);
+
+            int numSet;
 
 
-            if(numSet > maxAI)
+
+            if (noErrorNum)
             {
-                numSet = maxAI;
+                numSet = Mathf.RoundToInt(numRaw);
+
+
+                if (numSet > maxAI)
+                {
+                    numSet = maxAI;
+                }
+                else if (numSet < 0)
+                {
+                    numSet = 0;
+                }
+
+
+                changeContainerSize(myAI, numSet);
             }
-            else if (numSet < 0)
+            else
             {
-                numSet = 0;
+                numSet = myAI.Count;
             }
-            
 
-            changeContainerSize(myAI, numSet);
+
+            //txtNumAI.text = numSet.ToString();
+            ph.RPC("rpcShowCountAI", RpcTarget.AllBuffered, numSet);
         }
-        else
-        {
-            numSet = myAI.Count;
-        }
-
-
-        txtNumAI.text = numSet.ToString();
     }
 
 
@@ -174,12 +188,19 @@ public class AI_Spawner : MonoBehaviour
     {
         int lane = 0; // default top
 
-        int numBotLanes = countBotLanes(listAI);
-
-        // if there are fewer bot lane AI in the air than top lane AI in the air
-        if(numBotLanes < (listAI.Count - numBotLanes))
+        if (lockToBot)
         {
-            lane = 1; // spawn a bot lane ai
+            lane = 1;
+        }
+        else {
+
+            int numBotLanes = countBotLanes(listAI);
+
+            // if there are fewer bot lane AI in the air than top lane AI in the air
+            if (numBotLanes < (listAI.Count - numBotLanes))
+            {
+                lane = 1; // spawn a bot lane ai
+            }
         }
 
         return lane;
@@ -198,6 +219,33 @@ public class AI_Spawner : MonoBehaviour
         }
 
         return count;
+    }
+
+
+    public void onLockToBotCheck()
+    {
+        Debug.Log("LockToBot: " + lockToBot + ", checkValue: " + chkLockToBot.isOn);
+
+        if (gm.isHostInstance && lockToBot != chkLockToBot.isOn)
+        {
+            lockToBot = chkLockToBot.isOn;
+
+            ph.RPC("rpcShowLockToBot", RpcTarget.AllBuffered, lockToBot);
+        }
+    }
+
+
+    [PunRPC]
+    public void rpcShowCountAI(int count)
+    {
+        txtNumAI.text = count.ToString();
+    }
+
+
+    [PunRPC]
+    public void rpcShowLockToBot(bool lockToBot)
+    {
+        chkLockToBot.isOn = lockToBot;
     }
 
 }

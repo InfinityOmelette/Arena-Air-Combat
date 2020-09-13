@@ -35,7 +35,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3761852598032519213}
-  - {fileID: 4925052361784106090}
+  - {fileID: 7367305808070222775}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,6 +89,7 @@ MonoBehaviour:
   seenBy: 
   rwr: {fileID: 0}
   isHostInstance: 0
+  hardpoints: {fileID: 0}
   collisionDamageFactor: 0.005
   myRb: {fileID: 0}
   maxCoverageRadius: 1000
@@ -157,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9321d2e299a64314e9abe67aeb7bfc5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turret: {fileID: 4925052361784104205}
+  turret: {fileID: 6284297907299475184}
 --- !u!114 &-8323084260900981985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,11 +213,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3934572013119698845}
     m_Modifications:
-    - target: {fileID: 5865994835303344778, guid: ee0d07f86442c6d449544d32c92431b9,
-        type: 3}
-      propertyPath: m_Name
-      value: TurretMG
-      objectReference: {fileID: 0}
     - target: {fileID: 2478282296061704856, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -287,6 +283,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.6555293
       objectReference: {fileID: 0}
+    - target: {fileID: 5865994835303344778, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: m_Name
+      value: TurretMG
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 3615675473608335895, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -301,11 +307,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.67697
-      objectReference: {fileID: 0}
-    - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
-        type: 3}
-      propertyPath: InitialModule.startSize.scalar
-      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5423420510096850684, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -339,13 +340,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee0d07f86442c6d449544d32c92431b9, type: 3}
---- !u!4 &4925052361784106090 stripped
+--- !u!4 &7367305808070222775 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2478282296061704856, guid: ee0d07f86442c6d449544d32c92431b9,
     type: 3}
   m_PrefabInstance: {fileID: 4925052361784105263}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4925052361784104205 stripped
+--- !u!114 &6284297907299475184 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
     type: 3}

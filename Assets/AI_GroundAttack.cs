@@ -19,7 +19,7 @@ public class AI_GroundAttack : MonoBehaviour
 
     public AI_TgtComputer aiTgtComp;
 
-    private CombatFlow myFlow;
+    public CombatFlow myFlow;
 
     public bool retreating = false;
 
@@ -27,7 +27,7 @@ public class AI_GroundAttack : MonoBehaviour
 
     public float retreatDistScalar = 1.5f;
 
-    public int laneIndex = 0;
+    public int laneIndex = 0; // 0 is always top lane, 1 is always bottom lane
 
     public LaneManager enemyLane;
     public LaneManager myLane;
@@ -35,6 +35,8 @@ public class AI_GroundAttack : MonoBehaviour
     public float retreatTetherLength = 3000f;
 
     public bool attackDebugGroup;
+
+    public bool initLaneSet = false;
 
 
     void Awake()
@@ -251,12 +253,18 @@ public class AI_GroundAttack : MonoBehaviour
     // 1 always bottom lane
     public void assignToLane(int laneID)
     {
-        GameManager gm = GameManager.getGM();
+        if (laneID != laneIndex || !initLaneSet)
+        {
 
-        myLane = gm.getTeamLanes(myFlow.team)[laneID];
-        enemyLane = gm.getTeamLanes(myFlow.getEnemyTeam())[laneID];
+            laneIndex = laneID;
 
-        enemyGroundUnitsContainer = enemyLane.frontWave;
+            GameManager gm = GameManager.getGM();
+
+            myLane = gm.getTeamLanes(myFlow.team)[laneID];
+            enemyLane = gm.getTeamLanes(myFlow.getEnemyTeam())[laneID];
+
+            enemyGroundUnitsContainer = enemyLane.frontWave;
+        }
 
         //GameManager.getGM()
     }

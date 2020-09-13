@@ -140,26 +140,33 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (isHostInstance && Input.GetKeyDown(KeyCode.B))
-        {
-            Debug.Log("=========== SPAWNING AI");
-            spawnPlayer(CombatFlow.convertTeamToNum( 0), true);
-        }
+        //if (isHostInstance && Input.GetKeyDown(KeyCode.B))
+        //{
+        //    Debug.Log("=========== SPAWNING AI");
+        //    spawnPlayer(CombatFlow.convertTeamToNum( 0), true);
+        //}
     }
 
-
-
-    public void spawnPlayer(int teamNum)
+    
+    public void spawnPlayerNoReturn(int teamNum)
     {
         spawnPlayer(teamNum, false);
     }
 
-    public void spawnPlayer(int teamNum, bool isAI = false)
+
+    public CombatFlow spawnPlayer(int teamNum)
     {
-        localTeam = CombatFlow.convertNumToTeam((short)teamNum);
+        return spawnPlayer(teamNum, false);
+    }
+
+    public CombatFlow spawnPlayer(int teamNum, bool isAI = false)
+    {
+
+        CombatFlow newSpawn = null;
 
         if (!isAI)
         {
+            localTeam = CombatFlow.convertNumToTeam((short)teamNum);
             spawnUIPanel.SetActive(false);
         }
 
@@ -201,15 +208,15 @@ public class GameManager : MonoBehaviourPunCallbacks
                     playerObj.name = PhotonNetwork.NickName;
                     playerSpawnEvent.Invoke();
                 }
-                
 
+                newSpawn = playerObj.GetComponent<CombatFlow>();
                 //spawner.setPlayerAsControllable(playerObj);
                 //localPlayer = playerObj;
 
             }
         }
 
-        
+        return newSpawn;
     }
 
     public void showSpawnMenu()

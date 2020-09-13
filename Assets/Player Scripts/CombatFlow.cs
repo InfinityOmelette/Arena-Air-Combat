@@ -342,7 +342,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     }
 
-    void destroySelf(bool doDelete = true)
+    public void destroySelf(bool doDelete = true)
     {
         Debug.LogWarning("Destroyself called");
 

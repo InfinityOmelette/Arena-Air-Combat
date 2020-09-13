@@ -141,7 +141,10 @@ public class RWR : MonoBehaviourPunCallbacks
         }
     }
     
-
+    public bool isAttacked()
+    {
+        return incomingMissiles.Count > 0;
+    }
 
     public void tryPing(Radar radarSource)
     {

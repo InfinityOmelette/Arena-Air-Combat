@@ -32,10 +32,13 @@ public class AI_MissileEvade : MonoBehaviour
     public float dragOffsetAngle = 45f;
 
     public float flareMissileVelocityMin;
+
+    public AI_GroundAttack aiGrnd;
     
 
     void Awake()
     {
+        aiGrnd = GetComponent<AI_GroundAttack>();
         myRWR = GetComponent<RWR>();
         myRb = GetComponent<Rigidbody>();
         airAI = GetComponent<AI_Aircraft>();
@@ -137,6 +140,7 @@ public class AI_MissileEvade : MonoBehaviour
         if (!offensive)
         {
             dragDir = -mslBearingLine; // negative, so from enemy, pointing towards me
+            dragDir = aiGrnd.getRetreatLine(dragDir);
         }
 
 

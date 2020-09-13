@@ -119,13 +119,20 @@ public class AI_TgtComputer : MonoBehaviour
 
         bool firstSet = false;
 
+        //int nearAircraftCount = nearAircraftCount();
+
+        int nearAircraftCount = nearbyAircraftCount();
+
+        bool allNearbyAttacked = allNearbyAircraftAttacked();
+
         GameObject closestAircraft = null;
 
         for(int i = 0; i < enemyAircraft.Count; i++)
         {
             CombatFlow currAircraft = enemyAircraft[i];
 
-            if(currAircraft != null && hasLineOfSight(currAircraft))
+            if(currAircraft != null && hasLineOfSight(currAircraft) && 
+                (!currAircraft.rwr.isAttacked() || (nearAircraftCount == 1 && !maxMissilesOnTarget(currAircraft))  || allNearbyAttacked))
             {
                 float currDist = Vector3.Distance(transform.position, currAircraft.transform.position);
 
@@ -185,10 +192,12 @@ public class AI_TgtComputer : MonoBehaviour
     {
         CombatFlow prevTarget = activeTarget;
 
-        if (airTarget == null || maxMissilesOnTarget(airTarget) || !hasLineOfSight(airTarget) || resetTargets)
-        {
-            airTarget = findAirTarget();
-        }
+        //if (airTarget == null || maxMissilesOnTarget(airTarget) || !hasLineOfSight(airTarget) || resetTargets)
+        //{
+            
+        //}
+
+        airTarget = findAirTarget();
 
         if (gndTarget == null || maxMissilesOnTarget(gndTarget) || resetTargets)
         {

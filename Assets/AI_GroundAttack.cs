@@ -309,4 +309,16 @@ public class AI_GroundAttack : MonoBehaviour
     }
 
 
+    public Vector3 getRetreatLine(Vector3 originalDir)
+    {
+        if (retreating)
+        {
+            return myLane.getLeaderPos() - transform.position;
+        }
+        else
+        {
+            return originalDir;
+        }
+    }
+
 }

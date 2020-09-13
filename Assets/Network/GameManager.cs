@@ -187,10 +187,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (TeamSpawner.localPlayerInstance == null || isAI)
             {
 
-                
+
 
                 //PhotonNetwork.Instantiate(this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0);
-                TeamSpawner spawner = getSpawnerByTeam(localTeam);
+                TeamSpawner spawner = getSpawnerByNum(teamNum);
                 GameObject playerObj;
 
                 if (isAI)
@@ -254,6 +254,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
         return returnObj;
+    }
+
+    private TeamSpawner getSpawnerByNum(int teamNum)
+    {
+        return getSpawnerByTeam(CombatFlow.convertNumToTeam((short)teamNum));
     }
 
 

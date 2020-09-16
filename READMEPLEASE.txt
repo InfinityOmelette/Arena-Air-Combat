@@ -2,15 +2,6 @@
           CONTROLS
 ============================
 
--------- Camera Toggle Controls -----------
-
-"O" to toggle mouse autopilot mode
-"L" to toggle camera-leveling. (When deactivated, camera rolls with aircraft, instead of staying level to horizon)
-"P" to toggle controller camera aim
-  - when inactive, lower right will show text boxes for weapon names, instead of graphical images
-  - mouse autopilot mode overrides this, because mouse moves camera anyways
-  - active, right stick on controller will move camera. (mouse autopilot must be off)
-
 -------- Mouse control -------
 
 Flight:
@@ -63,6 +54,16 @@ B to fire secondary weapon
 A to fire machine gun
 Click left stick to drop flares
 Click right stick to select target
+
+
+-------- Camera/Input Toggle Controls -----------
+
+"O" to toggle mouse autopilot mode
+"L" to toggle camera-leveling. (When deactivated, camera rolls with aircraft, instead of staying level to horizon)
+"P" to toggle controller camera aim
+  - when inactive, lower right will show text boxes for weapon names, instead of graphical images
+  - mouse autopilot mode overrides this, because mouse moves camera anyways
+  - active, right stick on controller will move camera. (mouse autopilot must be off)
 
 
 ================================

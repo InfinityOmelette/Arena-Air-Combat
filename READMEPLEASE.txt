@@ -97,6 +97,84 @@ However, if you are too close to the missile at the time of launch, you simply w
 
 Respect the range of enemy missile launchers, and keep your distance until you have an opportunity to safely close
 
+====================================
+     RADAR AND DETECTION MECHANICS
+====================================
+This game uses very simple "radar" mechanics.
+
+You will detect an enemy if they are:
+ 1. Within your scan zone, AND
+ 2. There is unbroken line of sight, AND
+ 3. Within detection range
+
+SAM's have a spherical scan zone. You just have to be within range, and unbroken line of sight
+
+Fighters (you) have a conical scan zone in front
+ - 60 degree cone in front of you
+ - Detection range: ~6km
+
+Your player can still visually detect enemies within 1.5km. Beyond that, you need to use your radar
+
+
+
+====================================
+    RADAR WARNING RECEIVER (RWR)
+====================================
+
+Your aircraft can detect when an enemy or missile has you within its radar scan zone
+
+Indicators placed along a ring-shaped zone around central HUD show the bearing of enemy radars that have you in their radar scan zone with an unbroken line of sight
+
+Ex: You see a SAM indicator above the central HUD:
+  - enemy SAM is in the direction the camera is pointed
+  - There is an unbroken line of sight between you and this SAM
+  - This does NOT necessarily mean the radar detects you. You are in its scan zone, but you may need to be closer for it to actually see you. (IRL, radar energy goes out basically forever, but the radar reflection only goes a relatively short distance)
+
+The number of "v" marks indicate how close the threat is. The more marks, the closer the threat
+
+Ex: this symbol at the above of the central HUD.
+  SAM
+   v
+   v
+   v
+
+ this indicates a VERY close SAM threat, in front of you
+
+"FTR" is an enemy Fighter contact.
+
+--------------  Missile Warnings  -----------
+
+RWR indicators in the center of the screen are red, and are enemy missiles that are tracking you
+ - The indicator that is flashing yellow and red is the closest enemy missile tracking you
+ - The indicator flashes yellow faster and faster as the missile gets closer -- the "INCOMING MISSILE" red label flashes on and off faster as well
+
+"MSL" is a surface-to-air missile launched by a SAM vehicle. Relatively shorter ranged missile
+
+"AMR" is an AMRAAM air-to-air missile launched by an enemy Fighter
+
+
+===================================
+      DATALINK
+===================================
+
+This is literally just spotting enemies so your teammates can see them, even if they don't have line of sight
+
+This happens automatically. Any enemy that you detect, your teammates can see them as well
+
+If you see a "DL" next to an enemy icon, this means a friendly unit also detects that enemy
+
+SAM's can contribute to datalink, as well as friendly Fighter Jets
+
+
+
+
+
+
+
+
+
+
+
 
 
 

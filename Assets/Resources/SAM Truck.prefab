@@ -99,6 +99,7 @@ MonoBehaviour:
   showInWorldList: 1
   aiControlled: 0
   creepAI: {fileID: 0}
+  myRadar: {fileID: 0}
 --- !u!114 &767922532286736341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,6 +181,7 @@ MonoBehaviour:
   myPerpendicularDragFactor: 0
   targetPerpendicularDragFactor: 0
   airDensityFactor: 0
+  isSam: 0
   lockType: 0
   scanConeAngle: 180
   maxDetectRange: 3800
@@ -247,6 +249,7 @@ MonoBehaviour:
   closestMissileDelay: 1
   cleanListsDelay: 3
   minImpactTime: 0
+  amraamsIncoming: 0
 --- !u!1001 &2000921893324971538
 PrefabInstance:
   m_ObjectHideFlags: 0

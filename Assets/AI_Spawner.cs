@@ -194,10 +194,11 @@ public class AI_Spawner : MonoBehaviourPun
         }
         else {
 
-            int numBotLanes = countBotLanes(listAI);
+            int numInTopLane = countNumInLane(listAI, 0); // 0 is top lane
+            int numInBotLane = countNumInLane(listAI, 1); // 1 is bot lane
 
             // if there are fewer bot lane AI in the air than top lane AI in the air
-            if (numBotLanes < (listAI.Count - numBotLanes))
+            if (numInBotLane < numInTopLane)
             {
                 lane = 1; // spawn a bot lane ai
             }
@@ -206,15 +207,15 @@ public class AI_Spawner : MonoBehaviourPun
         return lane;
     }
 
-    private int countBotLanes(List<AI_GroundAttack> listAI)
+    private int countNumInLane(List<AI_GroundAttack> listAI, int laneId)
     {
         int count = 0;
 
-        for(int i = 0; i < listAI.Count; i++)
+        for (int i = 0; i < listAI.Count; i++)
         {
-            if(listAI[i] != null)
+            if (listAI[i] != null && listAI[i].laneIndex == laneId)
             {
-                count += listAI[i].laneIndex; // laneIndex is 0 if top lane, 1 if bot
+                count++; // laneIndex is 0 if top lane, 1 if bot
             }
         }
 
@@ -231,6 +232,59 @@ public class AI_Spawner : MonoBehaviourPun
             lockToBot = chkLockToBot.isOn;
 
             ph.RPC("rpcShowLockToBot", RpcTarget.AllBuffered, lockToBot);
+
+
+
+
+            pulseLockBot(lockToBot);
+        }
+    }
+
+    public void pulseLockBot(bool lockBot)
+    {
+        if (lockBot)
+        {
+            updateAllToLane(1);
+        }
+        else
+        {
+            reassignLanes();
+        }
+
+    }
+
+
+    public void reassignLanes()
+    {
+        Debug.Log("Reassigning lanes");
+
+        for(int i = 0; i < myAI.Count; i++)
+        {
+            if(myAI[i] != null)
+            {
+                myAI[i].laneIndex = -1; // reset all to bad value so we can reassign fresh values
+            }
+        }
+
+
+        for(int i = 0; i < myAI.Count; i++)
+        {
+            if(myAI[i] != null)
+            {
+                myAI[i].assignToLane(decideLane(myAI));
+            }
+        }
+    }
+
+    public void updateAllToLane(int laneId)
+    {
+        for(int i = 0; i < myAI.Count; i++)
+        {
+            if(myAI[i] != null)
+            {
+                myAI[i].assignToLane(laneId);
+            }
+
         }
     }
 

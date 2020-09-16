@@ -66,7 +66,6 @@ public class RWR : MonoBehaviourPunCallbacks
             closestMissileTimer -= Time.deltaTime;
         }
 
-
     }
 
     private void findHighestThreatMissile()
@@ -206,19 +205,14 @@ public class RWR : MonoBehaviourPunCallbacks
     private float calculateBearing(Vector3 position)
     {
      
-
         position = rwrBearingAxis.InverseTransformPoint(position);
         position = new Vector3(position.x, 0f, position.z); // put onto xz plane
-
-        
 
         float bearing = Vector3.Angle(Vector3.forward, position);
         if (position.x > 0)
         {
             bearing *= -1;
         }
-
-        //Debug.LogWarning("rwr bearing angle: " + bearing);
 
         return bearing;
     }
@@ -257,7 +251,6 @@ public class RWR : MonoBehaviourPunCallbacks
                     lockedBy.Add(sourceFlow);
                 }
 
-
                 if (myFlow.isLocalPlayer)
                 {
                     Radar radarSource = view.GetComponent<Radar>();
@@ -271,7 +264,6 @@ public class RWR : MonoBehaviourPunCallbacks
     public void rpcEndLockedBy(int sourceID)
     {
         
-
         if (myFlow.isLocalPlayer || myFlow.localOwned || myFlow.aiControlled)
         {
             Debug.Log("rpc end locked by");
@@ -288,7 +280,6 @@ public class RWR : MonoBehaviourPunCallbacks
                     {
                         highestThreatMissile = null;
                     }
-
 
                 }
                 else

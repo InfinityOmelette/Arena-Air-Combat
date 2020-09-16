@@ -76,9 +76,9 @@ Half-circle: SAM (Surface-to-air missile vehicle)
 Hexagon: Ground unit (Tanks, artillery, rocket trucks)
 
 
-====================================
-       Missile Flight Mechanics
-====================================
+=============================================
+       Missile Flight Mechanics, Evasion
+=============================================
 
 Missiles use the same aerodynamics script that player does.
 
@@ -91,7 +91,7 @@ To evade a missile, get the missile to slow down enough that you are more maneuv
 Evasive maneuvers in any direction will make the missile perform course 
 corrections, bleeding its speed.
 
-When missile is a few seconds away, it's usually good to make sure you're turning in ANY other direction than directly towards, or directly away from the missile. Barrel-roll spiral maneuvers are pretty effective in these cases.
+When missile is a few seconds away, it's usually good to make sure you're turning in ANY other direction than directly towards, or directly away from the missile. Imagine a line extending forward infinitely through the missile's line of travel. You need to get as far away from this line as possible.
 
 However, if you are too close to the missile at the time of launch, you simply will not have the time to evade enough to bleed the missile's speed enough. Only a well-timed flare will save you in this case. 
 

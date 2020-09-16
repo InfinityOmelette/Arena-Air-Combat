@@ -114,24 +114,26 @@ public class AI_TgtComputer : MonoBehaviour
 
     public GameObject findClosestEnemyAircraft()
     {
-        int nearestIndex = -1;
-        float nearestDist = 0f;
-
-        bool firstSet = false;
-
+        
         //int nearAircraftCount = nearAircraftCount();
 
-        int nearAircraftCount = nearbyAircraftCount();
+        List<CombatFlow> nearbyAircraft = getNearbyEnemyAircraftList();
 
-        bool allNearbyAttacked = allNearbyAircraftAttacked();
+        int nearAircraftCount = nearbyAircraft.Count;
+
+        bool allNearbyAttacked = allAircraftInListAttacked(nearbyAircraft);
 
         GameObject closestAircraft = null;
 
-        for(int i = 0; i < enemyAircraft.Count; i++)
-        {
-            CombatFlow currAircraft = enemyAircraft[i];
+        int nearestIndex = -1;
+        float nearestDist = 0f;
+        bool firstSet = false;
 
-            if(currAircraft != null && hasLineOfSight(currAircraft) && 
+        for (int i = 0; i < nearbyAircraft.Count; i++)
+        {
+            CombatFlow currAircraft = nearbyAircraft[i];
+
+            if(currAircraft != null &&
                 (!currAircraft.rwr.amraamsIncoming || (nearAircraftCount == 1 && !maxMissilesOnTarget(currAircraft))  || allNearbyAttacked))
             {
                 float currDist = Vector3.Distance(transform.position, currAircraft.transform.position);
@@ -148,11 +150,33 @@ public class AI_TgtComputer : MonoBehaviour
 
         if(nearestIndex != -1)
         {
-            closestAircraft = enemyAircraft[nearestIndex].gameObject;
+            closestAircraft = nearbyAircraft[nearestIndex].gameObject;
         }
 
 
         return closestAircraft;
+    }
+
+    private List<CombatFlow> getNearbyEnemyAircraftList()
+    {
+        List<CombatFlow> nearAircraft = new List<CombatFlow>();
+
+        for(int i = 0; i < enemyAircraft.Count; i++)
+        {
+            CombatFlow aircraft = enemyAircraft[i];
+
+            if(aircraft != null)
+            {
+                float dist = Vector3.Distance(aircraft.transform.position, transform.position);
+
+                if (dist < airCombatRadius && hasLineOfSight(aircraft))
+                {
+                    nearAircraft.Add(aircraft);
+                }
+            }
+        }
+
+        return nearAircraft;
     }
 
     public void countDownTargetSelect()
@@ -238,7 +262,7 @@ public class AI_TgtComputer : MonoBehaviour
         // if null check wasn't able to decide target, decide by isAttacked check
         if (resultTarget == null)
         {
-            bool airAttacked = airTgt != null && airTgt.rwr.incomingMissiles.Count > 0;
+            bool airAttacked = airTgt != null && airTgt.rwr.amraamsIncoming;
             bool gndAttacked = tooManyGroundMissiles();
 
             float airDistance = Vector3.Distance(airTgt.transform.position, transform.position);
@@ -378,11 +402,11 @@ public class AI_TgtComputer : MonoBehaviour
         return count;
     }
 
-    public bool allNearbyAircraftAttacked()
+    public bool allAircraftInListAttacked(List<CombatFlow> aircraftList)
     {
         bool allAttacked = true;
 
-        for(int i = 0; i < enemyAircraft.Count && allAttacked; i++)
+        for(int i = 0; i < aircraftList.Count && allAttacked; i++)
         {
             CombatFlow currAircraft = enemyAircraft[i];
 
@@ -426,7 +450,7 @@ public class AI_TgtComputer : MonoBehaviour
                 }
                 else if (nearbyAircraft > 1)
                 {
-                    setOffensive = allNearbyAircraftAttacked();
+                    setOffensive = allAircraftInListAttacked(getNearbyEnemyAircraftList() );
                     Debug.Log("Detecting multiple aircraft. AllNearbyAircraftAttacked: " + setOffensive);
                 }
                 else

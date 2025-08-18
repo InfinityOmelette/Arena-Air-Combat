@@ -93,9 +93,15 @@ public class BasicBomb : Weapon
         if (myCombatFlow.localOwned)
         {
             GameObject otherRoot = other.gameObject.transform.root.gameObject;
-            int id = getVictimId(otherRoot);
 
-            photonView.RPC("rpcContactProcess", RpcTarget.All, transform.position, id);
+
+            // I should probably use the collision matrix layers for this hhhh
+            if(otherRoot.GetComponent<Explosion>() == null) // Bomb is impervious to other explosions
+            {
+                int id = getVictimId(otherRoot);
+                photonView.RPC("rpcContactProcess", RpcTarget.All, transform.position, id);
+            }
+            
         }
     }
 
@@ -104,9 +110,18 @@ public class BasicBomb : Weapon
         if (myCombatFlow.localOwned)
         {
             GameObject otherRoot = collision.gameObject.transform.root.gameObject;
-            int id = getVictimId(otherRoot);
 
-            photonView.RPC("rpcContactProcess", RpcTarget.All, transform.position, id);
+            Explosion otherExplode = otherRoot.GetComponent<Explosion>();
+
+            // I should probably use the collision matrix layers for this hhhh
+            if (otherExplode == null) // Bomb is impervious to other explosions
+            {
+                int id = getVictimId(otherRoot);
+
+                //Debug.Log("Bomb collided with: " + otherRoot.name);
+
+                photonView.RPC("rpcContactProcess", RpcTarget.All, transform.position, id);
+            }
         }
     }
 

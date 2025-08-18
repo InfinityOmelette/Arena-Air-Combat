@@ -73,6 +73,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     {
         if (isReady && myFlow.isLocalPlayer)
         {
+            // what the fudge does this have to do with player inputs??? why is this here??
             hud.drawItemOnScreen(upMarker, cam.camRef.transform.position + transform.up, 1.0f);
             hud.drawItemOnScreen(downMarker, cam.camRef.transform.position - transform.up, 1.0f);
 
@@ -110,6 +111,12 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
             {
                 Debug.LogWarning("Toggling radar");
                 myRadar.toggleRadar();
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Debug.LogWarning("AutoTargetGround enabled");
+                tgtComputer.autoTargetGround();
             }
 
         }

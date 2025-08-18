@@ -7,13 +7,19 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public GameObject[] aircraftPrefabs;
 
-    public GameObject playerPrefab;
+    public GameObject selectedPlayerPrefab;
+    public GameObject selectedAIPrefab;
+
+    public GameObject aircraftSelect_dropDown;
+    public GameObject AI_aircraftSelect_dropDown;
 
     public GameObject hudObj;
     public hudControl hudControl;
@@ -82,6 +88,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        // default selected aircraft to fighter (default)
+        selectedPlayerPrefab = aircraftPrefabs[0];
+
         teamAircraftLists = new List<List<CombatFlow>>();
 
         teamAircraftLists.Add(new List<CombatFlow>());
@@ -150,7 +159,41 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    
+
+    public void setSelectedAircraft()
+    {
+        // retrieve selected index from dropdown because unity is retarded sometimes
+        // Why can the dropdown call a function and pass a value but not pass its selected index???
+        Dropdown dropDown = aircraftSelect_dropDown.GetComponent<Dropdown>();
+        setSelectedAircraft(dropDown.value);
+
+    }
+
+    public void setSelectedAircraft(int dropDownIndex)
+    {
+
+        selectedPlayerPrefab = aircraftPrefabs[dropDownIndex];
+
+    }
+
+    // Really shitty that this is nearly identical to non-ai selection. oh well. sue me
+    public void setAISelectedAircraft()
+    {
+        // retrieve selected index from dropdown because unity is retarded sometimes
+        // Why can the dropdown call a function and pass a value but not pass its selected index???
+        Dropdown dropDown = AI_aircraftSelect_dropDown.GetComponent<Dropdown>();
+        setAISelectedAircraft(dropDown.value);
+
+    }
+
+    // Really shitty that this is nearly identical to non-ai selection. oh well. sue me
+    public void setAISelectedAircraft(int dropDownIndex)
+    {
+        selectedAIPrefab = aircraftPrefabs[dropDownIndex];
+
+    }
+
+
     public void spawnPlayerNoReturn(int teamNum)
     {
         spawnPlayer(teamNum, false);
@@ -176,7 +219,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("Spawning player on team: " + teamNum + ", isAI: " + isAI);
 
         // call almost all of this at runtime after player selects team
-        if (playerPrefab == null)
+        // Need to use a loop now
+        if (selectedAIPrefab == null || selectedPlayerPrefab == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
         }
@@ -198,15 +242,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                 if (isAI)
                 {
-                    playerObj = spawner.spawnPlayer(playerPrefab, "Jeff", false);
+                    playerObj = spawner.spawnPlayer(selectedAIPrefab, "Jeff", false);
                     Debug.Log("Spawning AI");
-                    spawner.setPlayerAsAI(playerObj);
+                    playerObj.GetComponent<CombatFlow>().setAsAI();
+                    //spawner.setPlayerAsAI(playerObj);
                     //playerObj.name = "Jeff";
                 }
                 else
                 {
-                    playerObj = spawner.spawnPlayer(playerPrefab, PhotonNetwork.NickName);
-                    spawner.setPlayerAsControllable(playerObj);
+                    playerObj = spawner.spawnPlayer(selectedPlayerPrefab, PhotonNetwork.NickName);
+                    playerObj.GetComponent<CombatFlow>().setAsControllable();
+                    //spawner.setPlayerAsControllable(playerObj);
                     localPlayer = playerObj;
                     playerObj.name = PhotonNetwork.NickName;
                     playerSpawnEvent.Invoke();

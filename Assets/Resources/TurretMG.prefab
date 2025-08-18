@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -409,10 +410,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2478282296061704856}
     m_Modifications:
-    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: m_Name
-      value: PrbMachineGun
+      propertyPath: dissipationTime
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: damage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -484,14 +490,19 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.3565
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 5719875610098272620, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: impactDamage
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
-      propertyPath: bounceDamage
+      propertyPath: dissipationTime
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: damage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059522, guid: 1f6621483e39ab946bc87a3b8543702f,
@@ -517,7 +528,7 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 350
+      value: 750
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -557,7 +568,7 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -567,7 +578,7 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: ShapeModule.angle
-      value: 0.35
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -584,37 +595,27 @@ PrefabInstance:
       propertyPath: ShapeModule.arc.value
       value: 360
       objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: dissipationTime
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: damage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: dissipationTime
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: damage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7790560028620566963, guid: 1f6621483e39ab946bc87a3b8543702f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7061730640170881077, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5719875610098272620, guid: 1f6621483e39ab946bc87a3b8543702f,
+    - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_Name
+      value: PrbMachineGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: impactDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: bounceDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790560028620566963, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Enabled
       value: 0

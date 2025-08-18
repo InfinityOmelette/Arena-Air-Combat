@@ -99,6 +99,7 @@ MonoBehaviour:
   aiControlled: 0
   creepAI: {fileID: 0}
   myRadar: {fileID: 0}
+  myRWR: {fileID: 0}
 --- !u!114 &4662998394976126081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,10 +216,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3934572013119698845}
     m_Modifications:
-    - target: {fileID: 5865994835303344778, guid: ee0d07f86442c6d449544d32c92431b9,
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
-      propertyPath: m_Name
-      value: TurretMG
+      propertyPath: myRb
+      value: 
+      objectReference: {fileID: 8184574061074758831}
+    - target: {fileID: 2188983323111902081, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2478282296061704856, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -290,6 +296,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.6555293
       objectReference: {fileID: 0}
+    - target: {fileID: 3444827430054636014, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3615675473608335895, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -305,10 +316,25 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.67697
       objectReference: {fileID: 0}
+    - target: {fileID: 4263243862874755375, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619836931501779983, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: InheritVelocityModule.enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5423420510096850684, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -320,25 +346,10 @@ PrefabInstance:
       propertyPath: bounceDamage
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4263243862874755375, guid: ee0d07f86442c6d449544d32c92431b9,
+    - target: {fileID: 5865994835303344778, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4619836931501779983, guid: ee0d07f86442c6d449544d32c92431b9,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444827430054636014, guid: ee0d07f86442c6d449544d32c92431b9,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2188983323111902081, guid: ee0d07f86442c6d449544d32c92431b9,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: m_Name
+      value: TurretMG
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee0d07f86442c6d449544d32c92431b9, type: 3}
@@ -367,14 +378,49 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3934572013119698845}
     m_Modifications:
-    - target: {fileID: 7666388656732831303, guid: 950bc88c2a6782749b1a8582ae65c468,
+    - target: {fileID: 501527869017532906, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}
-      propertyPath: m_Name
-      value: Truck Model
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7666388656732831303, guid: 950bc88c2a6782749b1a8582ae65c468,
+    - target: {fileID: 2658274245845675059, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2689647182660733084, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4087019019576403045, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5085089670531476957, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5093894141068504864, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5216779328678048928, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5765083712048371189, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6929151582240955880, guid: 950bc88c2a6782749b1a8582ae65c468,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7344812376828996971, guid: 950bc88c2a6782749b1a8582ae65c468,
@@ -442,24 +488,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 1.3000004
       objectReference: {fileID: 0}
-    - target: {fileID: 5765083712048371189, guid: 950bc88c2a6782749b1a8582ae65c468,
+    - target: {fileID: 7666388656732831303, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: m_Name
+      value: Truck Model
       objectReference: {fileID: 0}
-    - target: {fileID: 5085089670531476957, guid: 950bc88c2a6782749b1a8582ae65c468,
+    - target: {fileID: 7666388656732831303, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5093894141068504864, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5216779328678048928, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_Enabled
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8665510545776431098, guid: 950bc88c2a6782749b1a8582ae65c468,
@@ -473,31 +509,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9071171081609699950, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6929151582240955880, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 501527869017532906, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4087019019576403045, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2689647182660733084, guid: 950bc88c2a6782749b1a8582ae65c468,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2658274245845675059, guid: 950bc88c2a6782749b1a8582ae65c468,
         type: 3}
       propertyPath: m_Enabled
       value: 1

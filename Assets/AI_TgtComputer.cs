@@ -476,7 +476,9 @@ public class AI_TgtComputer : MonoBehaviour
     }
 
 
-    // Air to air use amraams
+    // Air to air:
+    //   - Use Phoenix if available
+    //   - Use AMRAAM if available
     // ground: use mavericks if available
     //   - if not, use rockets if available
     //   - if not, use bombs if available

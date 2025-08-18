@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 using Photon.Pun;
 
-public class AI_Spawner : MonoBehaviourPun
+public class AI_Spawner : MonoBehaviourPunCallbacks
 {
 
     public InputField txtNumAI;
@@ -102,6 +102,8 @@ public class AI_Spawner : MonoBehaviourPun
 
         CombatFlow newAircraft = gm.spawnPlayer(CombatFlow.convertTeamToNum(spawner.team), true);
         AI_GroundAttack newAirGndAtk = newAircraft.GetComponent<AI_GroundAttack>();
+
+
 
         newAirGndAtk.assignToLane(decideLane(myAI));
 
@@ -301,5 +303,8 @@ public class AI_Spawner : MonoBehaviourPun
     {
         chkLockToBot.isOn = lockToBot;
     }
+
+
+
 
 }

@@ -94,11 +94,16 @@ public class RealFlightControl : MonoBehaviour
 
     }
 
+    // why the everloving FUCK did I put this here and not the fucking input script???
+    // I guess this is simulating control surface movement??????
     private void lerpInputs()
     {
         effective_pitch = Mathf.Lerp(effective_pitch, input_pitch, pitchInputLerp);
+        // effective_pitch = Mathf.Lerp(effective_pitch, input_pitch, pitchInputLerp);
         effective_roll = Mathf.Lerp(effective_roll, input_roll, rollInputLerp);
         effective_yaw = Mathf.Lerp(effective_yaw, input_yaw, rudderInputLerp);
+
+        //Debug.Log("Effective pitch: " + effective_pitch + ", inputPitch: " + input_pitch);
     }
 
     private void FixedUpdate()
@@ -174,7 +179,7 @@ public class RealFlightControl : MonoBehaviour
 
     }
 
-    //  PITCH INPUT
+    //  PITCH INPUT -- reduce possible negative G's
     private float processPitchInput(float pitchTrim)
     {
         //  remember, negative Pitch axis is positive pitch
@@ -197,6 +202,8 @@ public class RealFlightControl : MonoBehaviour
         pitchInput += pitchTrim;
 
         //readResultPitchInput = pitchInput;
+
+        //Debug.Log("FlightControl pitchInput = " + pitchInput);
 
         return pitchInput;    // trim will never change maximum input
 

@@ -312,7 +312,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
     public bool selectByLockType(Radar.LockType lockType)
     {
 
-        int goodType = -1;
+        short goodType = -1;
 
         // don't bother changing if Air_or_Ground
         //  this function is only useful for selecting AMRAAM's or Mavericks
@@ -320,11 +320,11 @@ public class HardpointController : MonoBehaviourPunCallbacks
         if (lockType != Radar.LockType.AIR_OR_GROUND)
         {
             
-            for(int i = 0; i < weaponTypeHardpointLists.Count && goodType == -1; i++)
+            for(short i = 0; i < weaponTypeHardpointLists.Count && goodType == -1; i++)
             {
                 Radar weapRadar = weaponTypeHardpointLists[i][0].weaponTypePrefab.GetComponent<Radar>();
 
-                if(weapRadar != null && weapRadar.lockType == lockType)
+                if(weapRadar != null && weapRadar.lockType == lockType && isReadyToFire(i))
                 {
                     goodType = i;
                 }
@@ -396,11 +396,15 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
-    public bool isReadyToFire()
+    public bool isReadyToFire(short typeIndex = -1)
     {
-        nextAvailableHardpointIndex(activeTypeIndex);
+        if(typeIndex == -1)
+        {
+            typeIndex = activeTypeIndex;
+        }
+        nextAvailableHardpointIndex(typeIndex);
 
-        return weaponTypeHardpointLists[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]].readyToFire;
+        return weaponTypeHardpointLists[typeIndex][activeHardpointIndexes[typeIndex]].readyToFire;
     }
 
     short nextAvailableHardpointIndex(short typeIndex)

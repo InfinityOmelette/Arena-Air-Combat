@@ -30,6 +30,8 @@ public class AI_TurretMG : MonoBehaviour
     public AudioSource gunfireSound;
     public AudioSource gunfireSoundEnd;
 
+    public Rigidbody myRb;
+
     //public float rotationSpeed;
     
     //private bool isJef = false;
@@ -66,7 +68,7 @@ public class AI_TurretMG : MonoBehaviour
             
             if (canShoot)
             {
-                setLead();
+                transform.rotation = AI_TurretMG.calculateBulletLeadRot(myRb, targetRb, booleetSpeed, targetVelMultiplier);
             }
             else
             {
@@ -199,26 +201,28 @@ public class AI_TurretMG : MonoBehaviour
         }
     }
 
-    private void setLead()
+    public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier = 1.0f)
     {
-        float distance = Vector3.Distance(transform.position, targetRb.transform.position);
-        Vector3 targetBearingLine = targetRb.transform.position - transform.position;
-        targetBearingLine = Vector3.Project(targetRb.velocity, targetBearingLine);
+        float distance = Vector3.Distance(origBody.transform.position, targetBody.transform.position);
+        Vector3 targetBearingLine = targetBody.transform.position - origBody.transform.position;
+
+        // Velocity of target with origBody as the moving reference frame
+        Vector3 relativeVelocity = targetBody.velocity - origBody.velocity;
+
+        targetBearingLine = Vector3.Project(relativeVelocity, targetBearingLine);
 
         float closingVel = targetBearingLine.magnitude;
-        if (Vector3.Distance(transform.position, targetRb.transform.position + targetBearingLine) < distance)
+        if (Vector3.Distance(origBody.transform.position, targetBody.transform.position + targetBearingLine) < distance)
         {
             closingVel *= -1f;
         }
 
-        float timeToImpact = distance / (booleetSpeed - closingVel);
+        float timeToImpact = distance / (bulletSpeed - closingVel);
 
-        Vector3 targetPos = targetRb.transform.position + targetRb.velocity * timeToImpact * targetVelMultiplier;
+        Vector3 targetPos = targetBody.transform.position + relativeVelocity * timeToImpact * targVelMultiplier;
 
+        return Quaternion.LookRotation(targetPos - origBody.transform.position, Vector3.up);
 
-        transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
-
-        //transform.rotation = Quaternion.LookRotation(targetPos - rootFlow.transform.position, Vector3.up);
     }
 
     private bool targetInParams()

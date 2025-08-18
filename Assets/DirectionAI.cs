@@ -32,7 +32,7 @@ public class DirectionAI : MonoBehaviour
     public float angVelCorrectionScalar;
     //public float aiRollDerivativeGain;
 
-    public float inputTransferMargin;
+    public float inputTransferMargin; // literally just to check if user is moving the control stick/axis
 
     public float controllerPitch;
     public float controllerYaw;
@@ -110,6 +110,9 @@ public class DirectionAI : MonoBehaviour
     {
         if (myFlow.isLocalPlayer)
         {
+
+            
+
             if (Input.GetKeyDown(KeyCode.Y))
             {
                 toggleAi();

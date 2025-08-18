@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 [RequireComponent(typeof(AI_Aircraft))]
-public class AI_GroundAttack : MonoBehaviour
+public class AI_GroundAttack : MonoBehaviourPun
 {
 
     public float maxGroundTargetDist;
@@ -255,18 +256,24 @@ public class AI_GroundAttack : MonoBehaviour
     {
         if (laneID != laneIndex || !initLaneSet)
         {
-
-            laneIndex = laneID;
-
-            GameManager gm = GameManager.getGM();
-
-            myLane = gm.getTeamLanes(myFlow.team)[laneID];
-            enemyLane = gm.getTeamLanes(myFlow.getEnemyTeam())[laneID];
-
-            enemyGroundUnitsContainer = enemyLane.frontWave;
+            photonView.RPC("rpcAssignToLane", RpcTarget.AllBuffered, laneID);
+            
         }
 
         //GameManager.getGM()
+    }
+
+    [PunRPC]
+    public void rpcAssignToLane(int laneID)
+    {
+        laneIndex = laneID;
+
+        GameManager gm = GameManager.getGM();
+
+        myLane = gm.getTeamLanes(myFlow.team)[laneID];
+        enemyLane = gm.getTeamLanes(myFlow.getEnemyTeam())[laneID];
+
+        enemyGroundUnitsContainer = enemyLane.frontWave;
     }
 
     public Vector3 getFriendlyLeaderPos()

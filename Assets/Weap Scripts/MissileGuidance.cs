@@ -74,7 +74,10 @@ public class MissileGuidance : MonoBehaviour
 
     public bool isLocked;
 
-    
+    public float maxLoftDegreesKM = 18f;
+    public float loftChangeSlope = 6.7f; // degrees per kilometer past minRange
+    public float loftMinRangeKM = 3.3f; // kilometers
+
 
 
     private void Awake()
@@ -121,10 +124,10 @@ public class MissileGuidance : MonoBehaviour
                 int terrainLayer = 1 << 10; // line only collides with terrain layer
                 lineOfSight = !Physics.Linecast(transform.position, weaponRef.myTarget.transform.position, terrainLayer);
 
+
+                // If target successfully tracked by missile, notify target and update target position data
                 if (lineOfSight)
                 {
-
-
                     if (weaponRef.launched && targetFlow == null) // outer control layer already checkks that weaponRef.myTarget != null
                     {
                         targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
@@ -155,6 +158,7 @@ public class MissileGuidance : MonoBehaviour
                     }
                 }
 
+                // If missile loses track of target, continue intercepting previous known course
                 if (targetRB != null)
                 {
                     guidanceProcess();
@@ -278,6 +282,10 @@ public class MissileGuidance : MonoBehaviour
             // Lead direction
             Vector3 leadDirection = Quaternion.AngleAxis(leadAngleDegrees, leadRotationAxis) * targetBearingLine.normalized;
 
+
+            // Loft formula based entirely off of distance
+            leadDirection = loftAdjustment(leadDirection, targetBearingLine);
+
             // Show lead direction
             //Debug.DrawRay(transform.position, leadDirection * Vector3.Distance(targetRB.position, transform.position), Color.green);
 
@@ -335,6 +343,32 @@ public class MissileGuidance : MonoBehaviour
         targetPos_prev = targetPos_now;
         targetVel_prev = targetVel_now;
     }
+
+
+    // See desmos chart "Missile loft angle vs distance"
+    private Vector3 loftAdjustment(Vector3 interceptLine, Vector3 targetBearingLine)
+    {
+
+        float distance = targetBearingLine.magnitude / 1000f; // kilometers
+        
+
+        if(distance < loftMinRangeKM)
+        {
+            return interceptLine; // no adjustment, because target within minimum loft range
+        }
+        else
+        {
+            float loftUpAngle = Mathf.Min(loftChangeSlope * (distance - loftMinRangeKM), maxLoftDegreesKM);
+
+            Vector3 angleUpAxis = Vector3.Cross(interceptLine, Vector3.up).normalized;
+            return (Quaternion.AngleAxis(loftUpAngle, angleUpAxis) * interceptLine).normalized;
+        }
+
+        
+
+    }
+    
+
 
     private Vector3 projectForwardByTime(float projectionTime)
     {

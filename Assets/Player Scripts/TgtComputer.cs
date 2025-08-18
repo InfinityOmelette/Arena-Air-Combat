@@ -226,12 +226,35 @@ public class TgtComputer : MonoBehaviour
 
 
 
-    // change target to unit closet to zero angle off of camera direction
-    public CombatFlow changeTarget()
+    public CombatFlow autoTargetGround(bool targetByClosest = true, bool hogMode = true)
+    {
+        CombatFlow newTarget = null;
+
+        // First try to target a vulnerable SAM
+        newTarget = changeTarget(CombatFlow.Type.SAM, targetByClosest, hogMode); // target by closest
+
+        if(newTarget == null)
+        {
+            // If no SAM's found, try to target AAA gun
+            newTarget = changeTarget(CombatFlow.Type.ANTI_AIR, targetByClosest, hogMode);
+
+            if(newTarget == null)
+            {
+                // if no AAA guns found, try to target ground unit
+                newTarget = changeTarget(CombatFlow.Type.GROUND, targetByClosest, hogMode);
+            }
+        }
+        
+
+        return newTarget;
+    }
+
+    public CombatFlow changeTarget(CombatFlow.Type desiredTargetType = (CombatFlow.Type)(-1), bool targetByClosest = false, bool hog = false)
     {
         //Debug.Log("================== Searching for targets...");
         CombatFlow newTarget = null; // default point to currentTarget -- if changeTarget unsuccessful, this won't change
-        List<CombatFlow> flowObjArray = CombatFlow.combatUnits;
+        
+
 
         if(currentTarget != null && radarLocked)
         {
@@ -241,45 +264,60 @@ public class TgtComputer : MonoBehaviour
             }
         }
 
+        
 
+        if (targetByClosest)
+        {
+            newTarget = selectByDistance(desiredTargetType, hog);
+        }
+        else
+        {
+            newTarget = selectByLookAngle(desiredTargetType, hog);
+        }
+
+        
+
+        linkUItoNewTarget(newTarget);
+
+        
+
+        return currentTarget = newTarget;
+    }
+
+    // change target to unit closet to zero angle off of camera direction
+    public CombatFlow selectByLookAngle(CombatFlow.Type desiredTargetType = (CombatFlow.Type)(-1), bool hog = false)
+    {
         float smallestAngle = 180f; //180 is max angle Vector3.angleBetween gives
 
+        CombatFlow newTarget = null;
+
+        List<CombatFlow> flowObjArray = CombatFlow.combatUnits;
         // loop through every combatFlow object
-        for(short i = 0; i < flowObjArray.Count; i++)
+        for (short i = 0; i < flowObjArray.Count; i++)
         {
             if (flowObjArray[i] != null)
             {
 
                 CombatFlow currentFlow = flowObjArray[i];
 
-                if (currentFlow != null)
+                if (currentFlow != null && ((int)desiredTargetType == -1 || currentFlow.type == desiredTargetType))
                 {
 
-                    float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position 
+                    float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position
                         - playerInput.cam.camRef.transform.position);
 
-                    // If maverick is equipped, bias target selection in favor of opponents with Radars
-                    
-
+                    // If maverick is equipped, bias target selection in favor of SAM's
                     if (hardpointController.getActiveHardpoint().weaponTypePrefab.name.Equals("Maverick"))
                     {
-                        if (currentFlow.GetComponent<Radar>() != null)
+                        if (currentFlow.type == CombatFlow.Type.SAM)
                         {
-                            currentAngle *= 0.35f; // halve the angle to make it more likely to be selected
+                            currentAngle *= 0.35f; // decrease the angle to make it more likely to be selected
                         }
-                        else if(currentFlow.GetComponent<TurretNetworking>() != null)
+                        else if (currentFlow.type == CombatFlow.Type.ANTI_AIR)
                         {
                             currentAngle *= 0.6f;
                         }
                     }
-
-                    
-
-                    //if (currentFlow.type == CombatFlow.Type.AIRCRAFT)
-                    //{
-                    //    Debug.LogWarning(currentFlow + "'s angle is: " + currentAngle + " off camera center");
-                    //}
-                    //Debug.Log("Current target is: " + currentFlow.gameObject + ", at " + currentAngle + " degrees, smallest angle is: " + smallestAngle + " degrees.");
 
                     // angle within max, angle smallest, and target is not on same team as localPlayer
                     if ((currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
@@ -290,7 +328,7 @@ public class TgtComputer : MonoBehaviour
                         currentAngle < smallestAngle &&
                         !currentFlow.isLocalPlayer &&
                         currentFlow.team != localPlayerFlow.team
-                        
+
                         )
                     {
                         //Debug.Log("SMALLEST ANGLE: " + currentAngle + " degrees.");
@@ -300,11 +338,72 @@ public class TgtComputer : MonoBehaviour
                     }
                 }
             }
-
-
         }
 
-        if(newTarget != null)
+        return newTarget;
+    }
+
+    public CombatFlow selectByDistance(CombatFlow.Type desiredTargetType = (CombatFlow.Type)(-1), bool hogMode = false)
+    {
+        List<CombatFlow> flowObjArray = CombatFlow.combatUnits;
+        CombatFlow newTarget = null;
+
+        float changeTargetMaxDistance = 6000f;  // MAKE THIS A PUBLIC VARIABLE VARIABLE. Or read max range from equipped weapon?
+        changeTargetMaxDistance = myRadar.maxLockRange;
+        float smallestDistance = changeTargetMaxDistance;
+        
+
+        // loop through every CombatFlow object
+        for(short i = 0; i < flowObjArray.Count; i++)
+        {
+            CombatFlow currentFlow = flowObjArray[i];
+
+            // if target is of valid type
+            if (currentFlow != null && currentFlow != null && ((int)desiredTargetType == -1 || currentFlow.type == desiredTargetType))
+            {
+
+                float currentDistance = (currentFlow.transform.position - transform.position).magnitude;
+
+                if ((currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
+                        //!currentFlow.myHudIconRef.isFar &&
+                        currentFlow.isActive &&
+                        currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
+                        currentDistance < changeTargetMaxDistance &&
+                        currentDistance < smallestDistance &&
+                        !currentFlow.isLocalPlayer &&
+                        currentFlow.team != localPlayerFlow.team
+
+                        )
+                {
+
+                    // target only valid if:
+                    // Hog mode is NOT enabled
+                    // Or, if hog mode IS enabled, target must not have any incoming missiles
+                    if (!hogMode || 
+                        (currentFlow.rwr != null &&     // target has RWR
+                        currentFlow.rwr.incomingMissiles.Count == 0) // target has no incoming missiles
+                        && Vector3.Angle(transform.forward, currentFlow.transform.position
+                        - transform.position) < myRadar.lockAngle) // angle off nose is within max lock angle
+                    {
+                        // Valid target within parameters, continue checking if closer target exists
+                        smallestDistance = currentDistance;
+                        newTarget = flowObjArray[i].GetComponent<CombatFlow>();
+                        prevTarget = newTarget;
+                    }
+
+                    
+                }
+            }
+        }
+
+        return newTarget;
+    }
+
+    
+
+    void linkUItoNewTarget(CombatFlow newTarget)
+    {
+        if (newTarget != null)
         {
             TgtHudIcon newTargetHudIcon = newTarget.myHudIconRef;
             newTargetHudIcon.targetedState = TgtHudIcon.TargetedState.TARGETED;
@@ -314,11 +413,11 @@ public class TgtComputer : MonoBehaviour
         {
             hudControl.mainHud.GetComponent<hudControl>().mapManager.target = null;
         }
-        
 
-       // Debug.Log("New Target is: " + newTarget.gameObject + ", at " + smallestAngle + "degrees off nose");
 
-        if(newTarget != currentTarget) // changing to new target
+        // Debug.Log("New Target is: " + newTarget.gameObject + ", at " + smallestAngle + "degrees off nose");
+
+        if (newTarget != currentTarget) // changing to new target
         {
             if (currentTarget != null)
             {
@@ -326,9 +425,9 @@ public class TgtComputer : MonoBehaviour
                 currentTarget.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
             }
         }
-
-        return currentTarget = newTarget;
     }
+
+
 
     void tryLockTarget(CombatFlow currentFlow)
     {

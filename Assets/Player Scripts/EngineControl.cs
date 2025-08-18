@@ -35,6 +35,7 @@ public class EngineControl : MonoBehaviour
     public float minAB_thrust;
     public float minAB_Scale;
     public float maxAB_Scale;
+    public bool hasAfterBurner = true;
 
     public GameObject afterburnerGraphic;
 
@@ -49,6 +50,7 @@ public class EngineControl : MonoBehaviour
     public AudioSource jetEngine;
     public AudioSource afterburner;
     public AudioSource engineFar;
+    public bool alwaysPlayEngineFar = false;
 
     public float abVolumeOffset;
 
@@ -58,15 +60,31 @@ public class EngineControl : MonoBehaviour
     public float enginePitchMin;
     public float engineVolumeMin;
 
-    private float enginePitchMax;
+    public float enginePitchMax = -1;
+
+    public bool vertThrustAxis = false;
+
+    private RealFlightControl flightControl;
+    private DirectionAI dirAI;
+
+    public float pitchThrustVectoringCoefficient = 0.0f;
+    public float yawThrustVectoringCoefficient = 0.0f;
+    public float rollThrustVectoringCoefficient = 0.0f;
 
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
         rbRef = GetComponent<Rigidbody>();
+        flightControl = GetComponent<RealFlightControl>();
+        dirAI = GetComponent<DirectionAI>();
         initAfterburnVolume = afterburner.volume;
         initEngineVolume = jetEngine.volume;
-        enginePitchMax = jetEngine.pitch;
+
+        // idfk why this works. but leave it as before if a desired maxpitch value is not entered
+        if(enginePitchMax == -1)
+        {
+            enginePitchMax = jetEngine.pitch; // ?????
+        }
     }
 
     // ================================ START
@@ -84,14 +102,21 @@ public class EngineControl : MonoBehaviour
         afterburner.loop = true;
 
         jetEngine.Play();
-        afterburner.Play();
+        if (hasAfterBurner)
+        {
+            afterburner.Play();
+        }
+        else
+        {
+
+        }
 
 
         //jetEngine.volume = 0.0f;
         //afterburner.volume = 0.0f;
 
 
-        if (!myFlow.isLocalPlayer)
+        if (!myFlow.isLocalPlayer || alwaysPlayEngineFar)
         {
             engineFar.loop = true;
             engineFar.Play();
@@ -130,7 +155,7 @@ public class EngineControl : MonoBehaviour
     {
         float minABThrust = minAB_thrust * THRUST_MAX / 100f;
 
-        float thrustPercent = Mathf.Clamp((currentBaseThrust) / (minABThrust), 
+        float thrustPercent = Mathf.Clamp((currentBaseThrust) / (THRUST_MAX), 
             0.0f, 1.0f);
 
         float pitch = thrustPercent * (enginePitchMax - enginePitchMin) + enginePitchMin;
@@ -144,19 +169,23 @@ public class EngineControl : MonoBehaviour
 
     private void afterBurnerVolume()
     {
-        float minABThrust = minAB_thrust * THRUST_MAX / 100f;
-        float abPercent = Mathf.Max((currentBaseThrust - minABThrust)
-            / (THRUST_MAX - minABThrust), 0.0f);
-
-        float abOffset = 0f;
-
-        if (abPercent > 0.1)
+        // Yeah it's inefficient to check this twice. Sue me
+        if (hasAfterBurner)
         {
-            abOffset = abVolumeOffset;
+            float minABThrust = minAB_thrust * THRUST_MAX / 100f;
+            float abPercent = Mathf.Max((currentBaseThrust - minABThrust)
+                / (THRUST_MAX - minABThrust), 0.0f);
+
+            float abOffset = 0f;
+
+            if (abPercent > 0.1)
+            {
+                abOffset = abVolumeOffset;
+            }
+
+            afterburner.volume = initAfterburnVolume * abPercent + abOffset;
+
         }
-
-        afterburner.volume = initAfterburnVolume * abPercent + abOffset;
-
         //Debug.Log("Current thrust base: " + currentBaseThrust + "with " + abPercent + "abPercent");
     }
 
@@ -185,8 +214,7 @@ public class EngineControl : MonoBehaviour
     private void processAfterburnerGraphic()
     {
         // min 3 max 10 scale
-
-        if(currentBaseThrustPercent > minAB_thrust)
+        if (hasAfterBurner && currentBaseThrustPercent > minAB_thrust)
         {
             //afterburnerGraphic.GetComponent<Renderer>().enabled = true;
             afterburnerGraphic.SetActive(true);
@@ -200,14 +228,14 @@ public class EngineControl : MonoBehaviour
 
             Vector3 originalLocalScale = afterburnerGraphic.transform.localScale;
 
-            afterburnerGraphic.transform.localScale = 
+            afterburnerGraphic.transform.localScale =
                 new Vector3(originalLocalScale.x, originalLocalScale.y, newScaleZ);
         }
         else
         {
             //afterburnerGraphic.GetComponent<Renderer>().enabled = false;
             afterburnerGraphic.SetActive(false);
-        }
+        } 
     }
 
     private void updateFuelMass()
@@ -251,10 +279,34 @@ public class EngineControl : MonoBehaviour
             //}
 
             // ADD FORCE
-            rbRef.AddForce(transform.forward * currentTrueThrust);
+            if(vertThrustAxis == true) // I hate adding this "if" here. Any way good way to do without?
+            {
+                rbRef.AddForce(transform.up * currentTrueThrust);
+                rbRef.AddTorque(calculateControlTorques(fuelBurnMod));
+
+            }
+            else
+            {
+                rbRef.AddForce(transform.forward * currentTrueThrust);
+            }
+            
 
         }
         
+    }
+
+    private Vector3 calculateControlTorques(float fuelBurnMod)
+    {
+        float pitchTorque = flightControl.effective_pitch * fuelBurnMod * pitchThrustVectoringCoefficient;
+        float yawTorque = flightControl.effective_yaw * fuelBurnMod * yawThrustVectoringCoefficient;
+        float rollTorque = dirAI.controllerRoll * fuelBurnMod * rollThrustVectoringCoefficient;
+
+
+        Vector3 pitchTorqueVect = transform.right * pitchTorque;
+        Vector3 yawTorqueVect = transform.up * yawTorque;
+        Vector3 rollTorqueVect = -transform.forward * rollTorque;
+
+        return pitchTorqueVect + yawTorqueVect + rollTorqueVect;
     }
 
 

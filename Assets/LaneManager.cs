@@ -124,7 +124,6 @@ public class LaneManager : MonoBehaviourPunCallbacks
         waypoints = new List<Vector3>();
         myLaneUnits = new List<CombatFlow>();
         frontWave = new List<CombatFlow>();
-        //myLaneSAMs = new List<CombatFlow>();
     }
 
     private void initSpawnAxis()
@@ -194,8 +193,6 @@ public class LaneManager : MonoBehaviourPunCallbacks
                 {
                     countDownSAM();
                 }
-
-
 
                 if (squadRemaining <= 0)
                 {

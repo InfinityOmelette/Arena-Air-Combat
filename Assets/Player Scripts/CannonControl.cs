@@ -24,6 +24,13 @@ public class CannonControl : MonoBehaviourPunCallbacks
     public AudioSource mgSoundEnd;
     public AudioSource cannonSoundEnd;
 
+    public Rigidbody myRb;
+    public bool autoTrackTarget = false;
+    public TgtComputer targetingComputer;
+    public float bulletSpeed = 0.0f;
+
+    public Transform camTransform;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +42,28 @@ public class CannonControl : MonoBehaviourPunCallbacks
             cannons[i].GetComponent<ParticleSystem>().Stop();
 
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (autoTrackTarget)
+        {
+            // Cannons look forward by default
+            //  --> is it crusty to set this each fixedupdate?
+            Quaternion fireSolutionRot = Quaternion.LookRotation(camTransform.forward, transform.up);
+
+            if (targetingComputer.currentTarget != null)
+            {
+                fireSolutionRot = AI_TurretMG.calculateBulletLeadRot(myRb, targetingComputer.currentTarget.myRb, bulletSpeed);
+            }
+
+            for (int i = 0; i < cannons.Length; i++)
+            {
+                cannons[i].transform.rotation = fireSolutionRot;
+            }
+
+        }
+
     }
 
     // Update is called once per frame

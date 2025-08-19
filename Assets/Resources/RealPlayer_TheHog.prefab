@@ -67,6 +67,11 @@ MonoBehaviour:
   cannonSoundSource: {fileID: 1528412818001917658}
   mgSoundEnd: {fileID: 3753373809703553939}
   cannonSoundEnd: {fileID: 3104300389715631463}
+  myRb: {fileID: 0}
+  autoTrackTarget: 0
+  targetingComputer: {fileID: 0}
+  bulletSpeed: 0
+  camTransform: {fileID: 0}
 --- !u!114 &1197997076420285884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1837,7 +1842,7 @@ MonoBehaviour:
   input_pitch: 0
   input_roll: 0
   input_yaw: 0
-  pitchInputLerp: 0.025
+  pitchInputLerp: 0.95
   rollInputLerp: 0.5
   rudderInputLerp: 0.065
   effective_pitch: 0
@@ -1913,6 +1918,10 @@ MonoBehaviour:
   enginePitchMin: 1.55
   engineVolumeMin: 0.05625
   enginePitchMax: 4
+  vertThrustAxis: 0
+  pitchThrustVectoringCoefficient: 0
+  yawThrustVectoringCoefficient: 0
+  rollThrustVectoringCoefficient: 0
 --- !u!114 &6897607545244989051
 MonoBehaviour:
   m_ObjectHideFlags: 0

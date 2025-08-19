@@ -73,13 +73,10 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
     public void destroyWeapon()
     {
-        if (rootFlow.isLocalPlayer || rootFlow.aiControlled)
+        if (rootFlow != null && (rootFlow.isLocalPlayer || rootFlow.aiControlled) && loadedWeaponObj != null)
         {
-            if (loadedWeaponObj != null)
-            {
-                loadedWeaponObj.GetComponent<Weapon>().destroyWeapon();
-                //PhotonNetwork.Destroy(loadedWeaponObj);
-            }
+            loadedWeaponObj.GetComponent<Weapon>().destroyWeapon();
+            //PhotonNetwork.Destroy(loadedWeaponObj);
         }
     }
 

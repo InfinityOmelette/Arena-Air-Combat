@@ -56,14 +56,37 @@ public class CannonControl : MonoBehaviourPunCallbacks
             {
                 fireSolutionRot = AI_TurretMG.calculateBulletLeadRot(myRb, targetingComputer.currentTarget.myRb, bulletSpeed);
             }
+            else
+            {
+                fireSolutionRot = aimGroundPoint(fireSolutionRot);
+            }
 
             for (int i = 0; i < cannons.Length; i++)
             {
-                cannons[i].transform.rotation = fireSolutionRot;
+                // aim turret at fire solution
+                //  - parent of MG emitter is entire MG object
+                cannons[i].transform.parent.transform.rotation = fireSolutionRot;
+                //cannons[i].transform.rotation = fireSolutionRot;
             }
 
         }
 
+    }
+
+    // If camera is looking at a ground, calculate bullet lead to strike that point on ground
+    private Quaternion aimGroundPoint(Quaternion defaultAimRot)
+    {
+        Quaternion aimRot = defaultAimRot;
+        RaycastHit hit;
+        int terrainLayer = 1 << 10; // line only collides with terrain layer
+
+        if (Physics.Raycast(myRb.transform.position, camTransform.forward, out hit, terrainLayer))
+        {
+            aimRot = AI_TurretMG.calculateBulletLeadRot(myRb.transform.position, hit.point, -myRb.velocity, bulletSpeed);
+        }
+
+
+        return aimRot;
     }
 
     // Update is called once per frame

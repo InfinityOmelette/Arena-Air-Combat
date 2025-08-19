@@ -201,27 +201,35 @@ public class AI_TurretMG : MonoBehaviour
         }
     }
 
-    public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier = 1.0f)
+    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Vector3 targetPosition, Vector3 relativeVelocity, float bulletSpeed, float targetVelMultiplier = 1.0f)
     {
-        float distance = Vector3.Distance(origBody.transform.position, targetBody.transform.position);
-        Vector3 targetBearingLine = targetBody.transform.position - origBody.transform.position;
+        float distance = Vector3.Distance(myPos, targetPosition);
+        Vector3 targetBearingLine = targetPosition - myPos;
 
-        // Velocity of target with origBody as the moving reference frame
-        Vector3 relativeVelocity = targetBody.velocity - origBody.velocity;
 
         targetBearingLine = Vector3.Project(relativeVelocity, targetBearingLine);
 
         float closingVel = targetBearingLine.magnitude;
-        if (Vector3.Distance(origBody.transform.position, targetBody.transform.position + targetBearingLine) < distance)
+        if (Vector3.Distance(myPos, targetPosition + targetBearingLine) < distance)
         {
             closingVel *= -1f;
         }
 
         float timeToImpact = distance / (bulletSpeed - closingVel);
 
-        Vector3 targetPos = targetBody.transform.position + relativeVelocity * timeToImpact * targVelMultiplier;
+        Vector3 targetPos = targetPosition + relativeVelocity * timeToImpact * targetVelMultiplier;
 
-        return Quaternion.LookRotation(targetPos - origBody.transform.position, Vector3.up);
+        return Quaternion.LookRotation(targetPos - myPos, Vector3.up);
+    }
+
+    public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier = 1.0f)
+    {
+
+        // Velocity of target with origBody as the moving reference frame
+        Vector3 relativeVelocity = targetBody.velocity - origBody.velocity;
+
+
+        return calculateBulletLeadRot(origBody.transform.position, targetBody.transform.position, relativeVelocity, bulletSpeed, targVelMultiplier);
 
     }
 

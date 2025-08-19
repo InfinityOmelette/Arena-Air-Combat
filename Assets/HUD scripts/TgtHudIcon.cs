@@ -110,7 +110,7 @@ public class TgtHudIcon : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (rootFlow != null && (isDetected || dataLink))
         {

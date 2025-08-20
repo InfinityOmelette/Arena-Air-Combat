@@ -86,11 +86,6 @@ public class ParticleBehavior : MonoBehaviour
     private void OnParticleCollision(GameObject other) // other is target hit by emitter
     {
 
-        
-
-        
-        
-
         int collCount = pSystem.GetSafeCollisionEventSize();
 
         if (collisionEvents == null)

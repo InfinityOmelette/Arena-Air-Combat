@@ -554,7 +554,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     }
 
 
-
+    // just to handle player aircraft crashing into obstacles
     private void OnCollisionEnter(Collision collision)
     {
         if (localOwned || isLocalPlayer)

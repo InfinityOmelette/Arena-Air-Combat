@@ -128,16 +128,22 @@ public class CreepControl : MonoBehaviourPunCallbacks
                 //Debug.DrawLine(transform.position, waypoints[0].position, Color.green);
 
             }
+            else
+            {
+                rb.velocity = Vector3.zero;
+            }
+            
 
         }
     }
 
-    private bool canShootCurrentTarget()
+    private bool canShootTarget(CombatFlow target)
     {
-        return myFlow.localOwned && currentTarget != null &&
-            Vector3.Distance(currentTarget.transform.position, transform.position) < effectiveRange;
+        return myFlow.localOwned && target != null &&
+            Vector3.Distance(target.transform.position, transform.position) < effectiveRange;
     }
 
+    // Creep checks distance only to the leader instead of checking distance to all creeps
     private void checkLeaderCounterProcess()
     {
         
@@ -145,12 +151,54 @@ public class CreepControl : MonoBehaviourPunCallbacks
         if (leaderCheckCounter < 0)
         {
             leaderCheckCounter = leaderCheckDelay;
-            doMove = !enemyLeaderWithinRange();
-            if (myFlow.localOwned && !canShootCurrentTarget())
+
+            // If enemy leader is within range, shoot creeps
+            // Otherwise, if enemy strategic target is within range, shoot that.
+
+            CombatFlow enemyLeader = parentLane.opponentLM.getLeader();
+
+
+            CombatFlow tryTarget = null;
+
+            // Detect proximity of oncoming enemy creep wave by examining just their leader
+            if (myFlow.localOwned)
             {
-                findTarget();
+                tryCapture();
+
+                if (targetWithinRange(enemyLeader))
+                {
+                    tryTarget = findCreepTarget(); // targets a random creep among enemy lead wave
+                }
+                else // enemy leader NOT within range, try to find a valid strategic target
+                {
+                    tryTarget = findStrategicTarget();
+                }
+                
             }
 
+            // Enemy leader may be in range, but target might not be. Keep moving till target is in range
+            
+            currentTarget = tryTarget;
+
+            bool stop = targetWithinRange(enemyLeader) || targetWithinRange(currentTarget);
+            doMove = !stop; // this is a really silly way to do boolean logic. Surely
+
+            
+
+            //bool stop = currentTarget != null && targetWithinRange(currentTarget);
+            //doMove = !stop;
+
+            //doMove = currentTarget == null;
+
+
+            if (currentTarget != null)
+            {
+                photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, currentTarget.photonView.ViewID);
+            }
+            else
+            {
+                photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, -1);
+            }
         }
         else
         {
@@ -159,24 +207,85 @@ public class CreepControl : MonoBehaviourPunCallbacks
         
     }
 
-    private bool enemyLeaderWithinRange()
+    // If creep has proceeded past an enemy structure that is suppressed, the structure will be captured
+    //  - Compare this creep's distance from its spawner vs the strategic structures' distance from THIS creep's spawner
+    //  - If this creep's distance from spawner is greater than the structure's, it has proceeded past the structure.
+    private void tryCapture()
     {
-        CombatFlow enemyLeader = parentLane.opponentLM.getLeader();
+        List<StrategicTarget> stratTargets = StrategicTarget.AllStrategicTargets;
 
-        return enemyLeader != null && 
-            differenceFromSpawn(enemyLeader) < effectiveRange;
+        float myDistFromHome = Vector3.Distance(transform.position, parentLane.transform.position);
+
+        // Loop through all strategic targets in battle
+        for (int i = 0; i < stratTargets.Count; i++)
+        {
+            StrategicTarget currentStrat = stratTargets[i];
+
+            // If strategic target is on enemy team and is on the same lane as this creep
+            if(currentStrat.myFlow.team != myFlow.team && currentStrat.lane == parentLane.lane)
+            {
+                float stratDistFromMyHome = Vector3.Distance(currentStrat.transform.position, parentLane.transform.position);
+
+
+                if(myDistFromHome > stratDistFromMyHome)
+                {
+                    currentStrat.capture(myFlow.team);
+                }
+
+            }
+
+            
+            
+        }
     }
 
+
+    private CombatFlow findStrategicTarget()
+    {
+        List<StrategicTarget> stratTargets = StrategicTarget.AllStrategicTargets;
+
+        CombatFlow goodTarget = null;
+
+        for(int i = 0; i < stratTargets.Count && goodTarget == null; i++)
+        {
+            StrategicTarget currentTarget = stratTargets[i];
+
+            // only shoot if strategic target is within range AND is NOT suppressed
+            if(currentTarget != null && currentTarget.myFlow.team != myFlow.team &&
+                targetWithinRange(currentTarget.myFlow) && !currentTarget.isSuppressed)
+            {
+                goodTarget = currentTarget.myFlow;
+            }
+        }
+
+        return goodTarget;
+    }
+
+    private bool targetWithinRange(CombatFlow target)
+    {
+
+        return target != null &&
+            //differenceFromSpawn(enemyLeader) < effectiveRange;
+            Vector3.Distance(target.transform.position, transform.position) < effectiveRange;
+    }
+
+    // ...somehow this is better than just checking range to target???
     private float differenceFromSpawn(CombatFlow other)
     {
+        // Distance of other from its base
+        // subtracted from distance of this one to its base
+
         return Mathf.Abs(
             Vector3.Distance(other.transform.position, parentLane.transform.position) -
             Vector3.Distance(transform.position, parentLane.transform.position));
     }
 
-    private void findTarget()
+
+    // Builds a list of possible creep targets and then selects one at random
+    private CombatFlow findCreepTarget()
     {
-        
+
+        CombatFlow newTarget = null;
 
         if(turret != null)
         {
@@ -199,10 +308,10 @@ public class CreepControl : MonoBehaviourPunCallbacks
 
             if (possibleTargets.Count > 0)
             {
+                Debug.Log("Possible targets found: " + possibleTargets.Count);
 
                 int randIndex = Random.Range(0, possibleTargets.Count - 1);
-                currentTarget = possibleTargets[randIndex];
-                photonView.RPC("rpcSetTankTurretTarget", RpcTarget.All, currentTarget.photonView.ViewID);
+                newTarget = possibleTargets[randIndex];
 
                 // Only execute this locally.
                 //  Lane manager will pick this up, and call rpc to propogate to other clients
@@ -210,6 +319,8 @@ public class CreepControl : MonoBehaviourPunCallbacks
             }
 
         }
+
+        return newTarget;
     }
 
     [PunRPC]

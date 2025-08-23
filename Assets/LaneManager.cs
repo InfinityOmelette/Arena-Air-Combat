@@ -96,6 +96,8 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     public int creepsPerWave;
 
+    public StrategicTarget.Lane lane;
+
     void Awake()
     {
 

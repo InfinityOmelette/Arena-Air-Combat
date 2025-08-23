@@ -20,7 +20,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public enum Type
     {
-        AIRCRAFT, PROJECTILE , GROUND, ANTI_AIR, SAM
+        AIRCRAFT, PROJECTILE , GROUND, ANTI_AIR, SAM, STRATEGIC
     }
     
     public float maxHP;
@@ -96,6 +96,10 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public RWR myRWR;
 
+    public bool canTakeDamage = true;
+    private StrategicTarget myStrat;
+
+    // ??????????
     public static Team convertNumToTeam(short num)
     {
         if (num == 0)
@@ -108,6 +112,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
     }
 
+
+    // what the fck is this I could literally just cast the enum????
     public static short convertTeamToNum(Team team)
     {
         if (team == Team.TEAM1)
@@ -150,6 +156,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         creepAI = GetComponent<CreepControl>();
         myRb = GetComponent<Rigidbody>();
         myRWR = GetComponent<RWR>();
+        myStrat = GetComponent<StrategicTarget>();
 
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();
@@ -272,13 +279,21 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     // any client can call this
     public void dealDamage(float damage)
     {
-        if (networkDamage)
+        if (canTakeDamage)
         {
-            photonView.RPC("rpcDealDamage", RpcTarget.All, damage);
+            if (networkDamage)
+            {
+                photonView.RPC("rpcDealDamage", RpcTarget.All, damage);
+            }
+            else
+            {
+                dealLocalDamage(damage);
+            }
         }
-        else
+        else if(type == Type.STRATEGIC)
         {
-            dealLocalDamage(damage);
+            // apply damage as suppression to Strategic Target data
+            myStrat.dealSuppression(damage);
         }
     }
 

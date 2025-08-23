@@ -40,8 +40,13 @@ public class TgtIconManager : MonoBehaviour
     public Sprite SamHudImageLOS;
     public Sprite SamHudImageNoLOS;
 
+    public Sprite StrategicImageLOS;
+    public Sprite StrategicImageNoLOS;
+
     private void Awake()
     {
+
+        // This is damn silly. Why am I setting here and not drag/drop in the prefab????
 
         aircraftHudImageLOS = Resources.Load<Sprite>("HUD Images/HudSquare");
         aircraftHudImageNoLOS = Resources.Load<Sprite>("HUD Images/HudSquareNoLOS");
@@ -57,6 +62,9 @@ public class TgtIconManager : MonoBehaviour
 
         SamHudImageLOS = Resources.Load<Sprite>("HUD Images/SamUnitLOS");
         SamHudImageNoLOS = Resources.Load<Sprite>("HUD Images/SamUnitNoLOS");
+
+        StrategicImageLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetLOS");
+        StrategicImageNoLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetNoLOS");
 
         if (TgtIconManager.tgtIconManager == null)
             TgtIconManager.tgtIconManager = this;
@@ -104,6 +112,11 @@ public class TgtIconManager : MonoBehaviour
         {
             iconScript.tgtImageLOS.sprite = SamHudImageLOS;
             iconScript.tgtImageNoLOS.sprite = SamHudImageNoLOS;
+        }
+        else if(unitFlow.type == CombatFlow.Type.STRATEGIC)
+        {
+            iconScript.tgtImageLOS.sprite = StrategicImageLOS;
+            iconScript.tgtImageNoLOS.sprite = StrategicImageNoLOS;
         }
 
 

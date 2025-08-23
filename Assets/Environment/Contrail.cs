@@ -33,7 +33,14 @@ public class Contrail : MonoBehaviour
     {
         trail.emitting = transform.position.y > air.contrailAltitude && engineOn;
 
-        float zOffset = afterburnerCenter.transform.localScale.z;
+        float zOffset = 0.0f;
+
+        if (afterburnerCenter != null)
+        {
+            zOffset = afterburnerCenter.transform.localScale.z;
+        }
+        
+
         transform.localPosition = originLocalPos - new Vector3(0.0f, 0.0f, zOffset);
     }
 }

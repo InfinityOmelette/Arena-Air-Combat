@@ -408,7 +408,7 @@ MonoBehaviour:
   roundsMax: 1
   roundsRemain: 1
   lineCastBackTime: 0.45
-  iconImageSpriteFile: {fileID: 21300000, guid: 638cc192b31b99c4fbd90cce26420188,
+  iconImageSpriteFile: {fileID: 21300000, guid: 4bbad14a1afbd4740a3cfee7c5b5abfe,
     type: 3}
   networkImpact: 1
   lineCastViaDistance: 1
@@ -474,7 +474,7 @@ MonoBehaviour:
   airDensityFactor: 0
   isSam: 0
   lockType: 1
-  scanConeAngle: 65
+  scanConeAngle: 80
   maxDetectRange: 5500
   maxLockRange: 2750
   lockAngle: 65
@@ -601,6 +601,7 @@ MonoBehaviour:
   creepAI: {fileID: 0}
   myRadar: {fileID: 0}
   myRWR: {fileID: 0}
+  canTakeDamage: 1
 --- !u!114 &2687535952377180928
 MonoBehaviour:
   m_ObjectHideFlags: 0

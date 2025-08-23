@@ -197,7 +197,7 @@ public class Weapon : MonoBehaviourPunCallbacks
     // consider making this recursive to go into all of the children's children as well?
     public bool setColliders(bool enableColl)
     {
-        //Debug.Log("SET COLLIDERS BEGINS");
+        //Debug.Log("SET COLLIDERS TO " + enableColl + " for " + gameObject.name);
         return setChildColliders(gameObject, enableColl);
     }
 

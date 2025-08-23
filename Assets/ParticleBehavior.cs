@@ -98,7 +98,7 @@ public class ParticleBehavior : MonoBehaviour
         int eventCount = pSystem.GetCollisionEvents(other, collisionEvents);
 
 
-
+        //Debug.Log("Particle collision event with: " + other.name);
 
         // whenever a collision event is triggered, this loops through and processes every one
         for (int i = 0; i < eventCount; i++)

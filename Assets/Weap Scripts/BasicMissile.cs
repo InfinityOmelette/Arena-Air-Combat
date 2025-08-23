@@ -44,7 +44,7 @@ public class BasicMissile : Weapon
     
     
 
-    void awake()
+    void Awake()
     {
         init();
         
@@ -63,6 +63,7 @@ public class BasicMissile : Weapon
 
     private void init()
     {
+        //Debug.Log("Missile init called");
         setRefs();
         setColliders(false);
 

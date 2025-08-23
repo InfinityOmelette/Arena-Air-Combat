@@ -234,7 +234,11 @@ public class EngineControl : MonoBehaviour
         else
         {
             //afterburnerGraphic.GetComponent<Renderer>().enabled = false;
-            afterburnerGraphic.SetActive(false);
+            if(afterburnerGraphic != null)
+            {
+                afterburnerGraphic.SetActive(false);
+            }
+            
         } 
     }
 

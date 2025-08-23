@@ -224,7 +224,7 @@ public class AI_TurretMG : MonoBehaviour
 
     public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier = 1.0f)
     {
-
+        //Debug.Log("Calculatebullet lead for " + origBody.gameObject.name);
         // Velocity of target with origBody as the moving reference frame
         Vector3 relativeVelocity = targetBody.velocity - origBody.velocity;
 

@@ -17,7 +17,7 @@ public class TgtComputer : MonoBehaviour
 
     public bool radarLocked;
 
-    public CombatFlow localPlayerFlow;
+    public CombatFlow myFlow;
 
 
     public float changeTargetMaxAngle;
@@ -44,10 +44,10 @@ public class TgtComputer : MonoBehaviour
         myRadar = GetComponent<Radar>();
         playerInput = GetComponent<PlayerInput_Aircraft>();
         mainHud = hudControl.mainHud.GetComponent<hudControl>();
-        localPlayerFlow = GetComponent<CombatFlow>();
+        myFlow = GetComponent<CombatFlow>();
         hardpointController = playerInput.hardpointController;
 
-        if (localPlayerFlow.isLocalPlayer)
+        if (myFlow.isLocalPlayer)
         {
             linkToRangeLadder();
         }
@@ -75,6 +75,12 @@ public class TgtComputer : MonoBehaviour
             
             Debug.DrawLine(transform.position, currentTarget.transform.position, Color.green);
 
+            if(currentTarget.team == myFlow.team)
+            {
+                Debug.Log("Deselecting target because it is on same team");
+                deselectFriendly(); // should deselect if friendly targeted
+            }
+
             if (!radarLocked && playingLockTone)
             {
                 lockTone.loop = false;
@@ -96,7 +102,7 @@ public class TgtComputer : MonoBehaviour
     private void LateUpdate()
     {
 
-        if (localPlayerFlow.isLocalPlayer)
+        if (myFlow.isLocalPlayer)
         {
 
             List<CombatFlow> flowArray = CombatFlow.combatUnits;
@@ -120,10 +126,14 @@ public class TgtComputer : MonoBehaviour
                         if (currentFlowHudIcon != null)
                         {
 
+                            // ....oh this is crusty architecture. The hud controller should be handling hud display specifics
+                            // oh boy
+
                             //  =====================  DISTANCE
 
                             // Distance between this gameobject and target
                             currentFlowHudIcon.currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
+
 
                             // ======================== LINE OF SIGHT
                             int terrainLayer = 1 << 10; // line only collides with terrain layer
@@ -131,7 +141,7 @@ public class TgtComputer : MonoBehaviour
 
 
                             // ========================  IFF
-                            currentFlowHudIcon.isFriendly = localPlayerFlow.team == currentFlow.team;
+                            currentFlowHudIcon.isFriendly = myFlow.team == currentFlow.team;
 
                             //{ // debug block
 
@@ -158,7 +168,7 @@ public class TgtComputer : MonoBehaviour
 
 
 
-                                if (currentFlow.team == localPlayerFlow.team)
+                                if (currentFlow.team == myFlow.team)
                                 {
                                     isVisible = true;
                                 }
@@ -175,19 +185,19 @@ public class TgtComputer : MonoBehaviour
                             }
 
                             // if nonfriendly
-                            if (currentFlow.team != localPlayerFlow.team && currentFlow.type != CombatFlow.Type.PROJECTILE)
+                            if (currentFlow.team != myFlow.team && currentFlow.type != CombatFlow.Type.PROJECTILE)
                             {
                                 
                                 if (isVisible)
                                 {
-                                    currentFlow.tryAddSeenBy(localPlayerFlow.photonView.ViewID);
+                                    currentFlow.tryAddSeenBy(myFlow.photonView.ViewID);
                                 }
                                 else
                                 {
-                                    currentFlow.tryRemoveSeenBy(localPlayerFlow.photonView.ViewID);
+                                    currentFlow.tryRemoveSeenBy(myFlow.photonView.ViewID);
                                 }
 
-                                currentFlowHudIcon.dataLink = currentFlow.checkSeen(localPlayerFlow.photonView.ViewID);
+                                currentFlowHudIcon.dataLink = currentFlow.checkSeen(myFlow.photonView.ViewID);
                             }
 
                             //  Send visibility result
@@ -249,19 +259,33 @@ public class TgtComputer : MonoBehaviour
         return newTarget;
     }
 
+    public void deselectFriendly()
+    {
+        if(currentTarget != null && (currentTarget.team == myFlow.team))
+        {
+            // end lock on friendly
+            if (radarLocked && currentTarget.rwr != null)
+            {
+                currentTarget.rwr.endNetLock(myRadar);
+            }
+
+            // deselect friendly
+            currentTarget = null;
+            prevTarget = null; // prevent auto-reselection of friendly
+        }
+    }
+
     public CombatFlow changeTarget(CombatFlow.Type desiredTargetType = (CombatFlow.Type)(-1), bool targetByClosest = false, bool hog = false)
     {
         //Debug.Log("================== Searching for targets...");
         CombatFlow newTarget = null; // default point to currentTarget -- if changeTarget unsuccessful, this won't change
         
+        
 
-
-        if(currentTarget != null && radarLocked)
+        // end lock on current target regardless of who is new target
+        if(currentTarget != null && radarLocked && currentTarget.rwr != null)
         {
-            if (currentTarget.rwr != null)
-            {
-                currentTarget.rwr.endNetLock(myRadar);
-            }
+            currentTarget.rwr.endNetLock(myRadar);
         }
 
         
@@ -327,7 +351,7 @@ public class TgtComputer : MonoBehaviour
                         currentAngle < changeTargetMaxAngle &&
                         currentAngle < smallestAngle &&
                         !currentFlow.isLocalPlayer &&
-                        currentFlow.team != localPlayerFlow.team
+                        currentFlow.team != myFlow.team
 
                         )
                     {
@@ -371,7 +395,7 @@ public class TgtComputer : MonoBehaviour
                         currentDistance < changeTargetMaxDistance &&
                         currentDistance < smallestDistance &&
                         !currentFlow.isLocalPlayer &&
-                        currentFlow.team != localPlayerFlow.team
+                        currentFlow.team != myFlow.team
 
                         )
                 {

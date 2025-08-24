@@ -81,6 +81,13 @@ public class StrategicTarget : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // update hud data (just hp for now)
+        myFlow.myHudIconRef.hpDisplayDecimal = suppressionHealthCurrent / suppressionHealthMax;
+        myFlow.myHudIconRef.isSuppressed = isSuppressed;
+    }
+
     public void capture(CombatFlow.Team capturingTeam)
     {
         myFlow.setNetTeam(0);
@@ -111,6 +118,9 @@ public class StrategicTarget : MonoBehaviour
         
         suppressionHealthCurrent = 0f;
         isSuppressed = true;
+
+        // temp for testing
+        //capture(CombatFlow.Team.TEAM2);
         
     }
 

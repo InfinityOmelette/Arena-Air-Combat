@@ -191,6 +191,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         // spawn icon, set reference here to the TgtHudIconScript of icon spawned
         myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this).GetComponent<TgtHudIcon>();// add my icon to hud
+        myHudIconRef.isStrategic = type == Type.STRATEGIC;
 
         if (!isLocalPlayer)
         {

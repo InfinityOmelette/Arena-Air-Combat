@@ -51,6 +51,15 @@ public class TgtHudIcon : MonoBehaviour
     private bool dlInit = false;
     private bool isFarInit = false;
 
+    public bool isStrategic = false;
+    public float maxStrategicDist = 800f;
+
+    public GameObject hpBarCenter;
+    public Image hpBarImage;
+    public float hpDisplayDecimal;
+    public bool isSuppressed = false;
+    public Text suppressedText;
+
     private hudControl hudObj;
 
     public enum TargetedState
@@ -97,6 +106,9 @@ public class TgtHudIcon : MonoBehaviour
         hudObj = hudControl.mainHud.GetComponent<hudControl>();
         //resizeForDist(currentDistance);
 
+        // only show health bar if is strategic
+        hpBarCenter.SetActive(isStrategic);
+
         //FixedUpdate();
     }
 
@@ -125,9 +137,9 @@ public class TgtHudIcon : MonoBehaviour
 
             setTargetedState();
 
-            setIsFar(isFar);
+            setIsFar(isFar && !isStrategic);
             setImageLOS(hasLineOfSight);
-            if (!isFar)
+            if (!(isFar && !isStrategic))
             {
                 setDataLinkText();
                 updateTexts();
@@ -136,12 +148,20 @@ public class TgtHudIcon : MonoBehaviour
             resizeForDist(currentDistance);
             setImageLOS(hasLineOfSight);
 
+            setHP_Display(hpDisplayDecimal);
+            suppressedText.gameObject.SetActive(isSuppressed);
+
             hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
         }
         else
         {
             transform.localPosition = new Vector3(Screen.width * 2, Screen.height * 2); // place offscreen if not detected
         }
+    }
+
+    private void setHP_Display(float hpDecimal)
+    {
+        hpBarCenter.transform.localScale = new Vector3(1.0f, hpDecimal, 1.0f);
     }
 
     public void FixedUpdate()
@@ -174,7 +194,7 @@ public class TgtHudIcon : MonoBehaviour
 
                 if (targetedState == TargetedState.TARGETED)
                 {
-                    if (!isFar)
+                    if (!(isFar && !isStrategic))
                     {
                         tgtTitleText.enabled = true;
                         tgtDistText.enabled = true;
@@ -193,6 +213,11 @@ public class TgtHudIcon : MonoBehaviour
                         // show name and dist
                         tgtTitleText.enabled = true;
                         tgtDistText.enabled = true;
+                    }
+                    else if(rootFlow.type == CombatFlow.Type.STRATEGIC && isFriendly)
+                    {
+                        tgtTitleText.enabled = true;
+                        tgtDistText.enabled = false;
                     }
                     else
                     {
@@ -322,8 +347,16 @@ public class TgtHudIcon : MonoBehaviour
 
         float currentScale;
 
+        
+
         // at or below close distance will be seen as zero
         dist = Mathf.Max(dist - tgtIconManager.estimatedCloseDistance, 0.0f);
+
+
+        if (isStrategic)
+        {
+            dist = Mathf.Min(dist, maxStrategicDist);
+        }
 
         // =========================  EXPONENTIAL
 
@@ -409,6 +442,8 @@ public class TgtHudIcon : MonoBehaviour
             dataLinkText.color = activeColor;
             txtKPH.color = activeColor;
             farDotText.color = activeColor;
+            hpBarImage.color = activeColor;
+            suppressedText.color = activeColor;
             
         }
 

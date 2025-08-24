@@ -14,6 +14,10 @@ public class StrategicTarget : MonoBehaviour
 
     public Lane lane;
 
+    public LaneManager myLane;
+    public LaneManager enemyLane;
+
+    public List<AI_TurretMG> myAAATurrets;
     public enum Lane
     {
         TOP,
@@ -68,6 +72,15 @@ public class StrategicTarget : MonoBehaviour
         myFlow = GetComponent<CombatFlow>();
         myFlow.isActive = true;
         suppressionHealthCurrent = suppressionHealthMax;
+
+
+        updateLaneRefs();
+    }
+
+    void updateLaneRefs()
+    {
+        myLane = LaneManager.getLaneManager(lane, myFlow.team);
+        enemyLane = LaneManager.getLaneManager(lane, CombatFlow.getEnemyTeam(myFlow.team));
     }
 
     // Update is called once per frame
@@ -90,7 +103,9 @@ public class StrategicTarget : MonoBehaviour
 
     public void capture(CombatFlow.Team capturingTeam)
     {
-        myFlow.setNetTeam(0);
+        myFlow.setNetTeam((short)capturingTeam);
+
+        updateLaneRefs(); // swap enemy and friendly lane refs
     }
 
     public void dealSuppression(float damage)
@@ -119,6 +134,7 @@ public class StrategicTarget : MonoBehaviour
         suppressionHealthCurrent = 0f;
         isSuppressed = true;
 
+        setAAAState(false);
         // temp for testing
         //capture(CombatFlow.Team.TEAM2);
         
@@ -127,5 +143,14 @@ public class StrategicTarget : MonoBehaviour
     private void deactivateSuppressedState()
     {
         isSuppressed = false;
+        setAAAState(true);
+    }
+
+    private void setAAAState(bool newState)
+    {
+        for (int i = 0; i < myAAATurrets.Count; i++)
+        {
+            myAAATurrets[i].active = newState;
+        }
     }
 }

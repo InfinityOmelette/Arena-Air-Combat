@@ -5,17 +5,24 @@ using System;
 using Photon.Pun;
 
 [RequireComponent(typeof(PhotonView))]
-[RequireComponent(typeof(CombatFlow))]
 public class TurretNetworking : MonoBehaviourPunCallbacks
 {
 
     public AI_TurretMG turret;
 
 
+    public List<AI_TurretMG> myTurrets;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(myTurrets != null)
+        {
+            for(int i = 0; i < myTurrets.Count; i++)
+            {
+                myTurrets[i].setIndex(i);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -24,31 +31,39 @@ public class TurretNetworking : MonoBehaviourPunCallbacks
         
     }
 
-    public void setTarget(CombatFlow target)
+    public void setTarget(CombatFlow target, int turretIndex = 0)
     {
         
 
         int id = -1;
         if(target!= null)
         {
-            //Debug.LogWarning("Setting Target: " + target.gameObject.name);
+            Debug.LogWarning("Setting Target: " + target.gameObject.name);
             id = target.photonView.ViewID;
         }
 
-        photonView.RPC("rpcSetTurretTarget", RpcTarget.All, id);
+        photonView.RPC("rpcSetTurretTarget", RpcTarget.All, id, turretIndex);
     }
 
+    
     [PunRPC]
-    public void rpcSetTurretTarget(int viewID)
+    public void rpcSetTurretTarget(int viewID, int turretIndex = 0)
     {
         //Debug.LogWarning("rpcSetTurretTarget called");
+
+        AI_TurretMG turretRef = turret;
+        if(turretIndex != -1)
+        {
+            turretRef = myTurrets[turretIndex];
+        }
+
 
         if (viewID != -1)
         {
             try
             {
                 PhotonView view = PhotonNetwork.GetPhotonView(viewID);
-                turret.setTarget(view.gameObject);
+                turretRef.setTarget(view.gameObject);
             }
             catch(Exception e)
             {
@@ -57,7 +72,7 @@ public class TurretNetworking : MonoBehaviourPunCallbacks
         }
         else
         {
-            turret.setTarget(null);
+            myTurrets[turretIndex].setTarget(null);
         }
 
        

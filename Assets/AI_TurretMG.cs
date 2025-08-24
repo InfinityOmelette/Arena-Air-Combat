@@ -6,7 +6,7 @@ using Photon.Pun;
 public class AI_TurretMG : MonoBehaviour
 {
 
-    Rigidbody targetRb;
+    public Rigidbody targetRb;
     private float leadAngle = 0;
 
 
@@ -20,6 +20,7 @@ public class AI_TurretMG : MonoBehaviour
 
     private float booleetSpeed;
 
+
     private TurretNetworking turretNet;
 
     public float changeCycleCounterMax;
@@ -32,16 +33,38 @@ public class AI_TurretMG : MonoBehaviour
 
     public Rigidbody myRb;
 
+    public bool active = true;
+
+    public bool debug = false;
+
+    public bool isStatic = false;
+    public bool onlyTargetAbove = true;
+
+    private int turretIndex = -1;
+
     //public float rotationSpeed;
-    
+
     //private bool isJef = false;
+
+    public List<CombatFlow.Type> targetTypes;
+
+    public void setIndex(int index)
+    {
+        turretIndex = index;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         changeCycleCounter = changeCycleCounterMax;
 
-        turretNet = transform.root.GetComponent<TurretNetworking>();
+        turretNet = GetComponent<TurretNetworking>();
+
+        if(turretNet == null)
+        {
+            turretNet = transform.root.GetComponent<TurretNetworking>();
+        }
+        
 
         rootFlow = transform.root.GetComponent<CombatFlow>();
         booleetSpeed = gun.startSpeed;
@@ -62,13 +85,20 @@ public class AI_TurretMG : MonoBehaviour
 
         tryChangeTarget();
         bool canShoot = false;
-        if (targetRb != null)
+        if (targetRb != null && active)
         {
             canShoot = targetInParams();
             
             if (canShoot)
             {
-                transform.rotation = AI_TurretMG.calculateBulletLeadRot(myRb, targetRb, booleetSpeed, targetVelMultiplier);
+                if (isStatic)
+                {
+                    transform.rotation = AI_TurretMG.calculateBulletLeadRot(transform.position, targetRb, booleetSpeed, targetVelMultiplier);
+                }
+                else
+                {
+                    transform.rotation = AI_TurretMG.calculateBulletLeadRot(myRb, targetRb, booleetSpeed, targetVelMultiplier);
+                }
             }
             else
             {
@@ -83,13 +113,16 @@ public class AI_TurretMG : MonoBehaviour
 
         setGunState(canShoot);
 
+    }
 
-
-
+    private bool targetIsAbove(Rigidbody targetRb)
+    {
+        return targetRb != null && targetRb.transform.position.y > transform.position.y;
     }
 
     private void tryChangeTarget()
     {
+
         if (rootFlow.isHostInstance)
         {
 
@@ -99,16 +132,20 @@ public class AI_TurretMG : MonoBehaviour
                 changeCycleCounter = changeCycleCounterMax;
 
                 CombatFlow targetFlow = findNearestTarget();
-                if (targetFlow != null && targetFlow.GetComponent<Rigidbody>() != targetRb)
+
+                if (targetFlow != null && targetFlow.GetComponent<Rigidbody>() != targetRb 
+                    && (targetIsAbove(targetFlow.myRb) || !onlyTargetAbove))
                 {
+
+
                     //Debug.LogWarning
                     //Debug.LogWarning("new target name: " + targetFlow.name);
                     if (targetRb != null && targetFlow != null)
                     {
-                        Debug.LogWarning("AAA found new target. Old: " + targetRb.gameObject.name + ", new: " + targetFlow.gameObject.name);
+                        //Debug.Log("AAA found new target. Old: " + targetRb.gameObject.name + ", new: " + targetFlow.gameObject.name);
                     }
 
-                    turretNet.setTarget(targetFlow);
+                    turretNet.setTarget(targetFlow, turretIndex);
 
                     // only target's instance will deal damage. Rest will be cosmetic-only
                     rootFlow.giveOwnership(targetFlow.photonView.ViewID);
@@ -146,14 +183,23 @@ public class AI_TurretMG : MonoBehaviour
 
         List<CombatFlow> allUnits = CombatFlow.combatUnits;
 
+        if (debug)
+            Debug.Log("FindNearestTarget called");
+
         for(int i = 0; i < allUnits.Count; i++)
         {
             CombatFlow currentFlow = allUnits[i];
 
+            if (currentFlow.isLocalPlayer)
+            {
+                //Debug.Log("Found local player");
+            }
+
             if (currentFlow != null)
             {
-                if (currentFlow.team != rootFlow.team && currentFlow.type == CombatFlow.Type.AIRCRAFT)
+                if (currentFlow.team != rootFlow.team && targetTypes.Contains(currentFlow.type))
                 {
+
                     
                     float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
 
@@ -171,7 +217,10 @@ public class AI_TurretMG : MonoBehaviour
             }
         }
 
-
+        if (debug && closestTarget != null && closestTarget.isLocalPlayer)
+        {
+            Debug.Log("Found local player");
+        }
 
         return closestTarget;
     }
@@ -222,6 +271,13 @@ public class AI_TurretMG : MonoBehaviour
         return Quaternion.LookRotation(targetPos - myPos, Vector3.up);
     }
 
+    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier)
+    {
+        Vector3 relativeVelocity = targetBody.velocity;
+
+        return calculateBulletLeadRot(myPos, targetBody.transform.position, relativeVelocity, bulletSpeed, targVelMultiplier);
+    }
+
     public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier = 1.0f)
     {
         //Debug.Log("Calculatebullet lead for " + origBody.gameObject.name);
@@ -239,7 +295,7 @@ public class AI_TurretMG : MonoBehaviour
         float distance = Vector3.Distance(transform.position, targetRb.transform.position);
         int terrainLayer = 1 << 10; // line only collides with terrain layer
         bool hasLineOfSight = !Physics.Linecast(transform.position, targetRb.transform.position, terrainLayer);
-        return distance < schutDistance && hasLineOfSight;
+        return distance < schutDistance && hasLineOfSight && (targetIsAbove(targetRb) || !onlyTargetAbove) ;
     }
 
     //private void setLeadAngle()

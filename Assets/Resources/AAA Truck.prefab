@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turret: {fileID: 6284297907299475184}
+  myTurrets:
+  - {fileID: 6284297907299475184}
 --- !u!114 &-8323084260900981985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +219,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3934572013119698845}
     m_Modifications:
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: targetTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: myRb

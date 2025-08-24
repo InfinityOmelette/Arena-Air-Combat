@@ -98,6 +98,8 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     public StrategicTarget.Lane lane;
 
+    public static List<LaneManager> allLaneManagers;
+
     void Awake()
     {
 
@@ -113,6 +115,29 @@ public class LaneManager : MonoBehaviourPunCallbacks
         initSpawnAxis();
 
         creepsPerWave = getCreepsPerWaveCount();
+
+        if(LaneManager.allLaneManagers == null)
+        {
+            LaneManager.allLaneManagers = new List<LaneManager>();
+        }
+        allLaneManagers.Add(this);
+    }
+
+    public static LaneManager getLaneManager(StrategicTarget.Lane desiredLane, CombatFlow.Team desiredTeam)
+    {
+        LaneManager foundLane = null;
+
+
+        for(int i = 0; i < allLaneManagers.Count; i++)
+        {
+            LaneManager currentLane = allLaneManagers[i];
+            if(currentLane.lane == desiredLane && currentLane.team == desiredTeam)
+            {
+                foundLane = currentLane;
+            }
+        }
+
+        return foundLane;
     }
 
     private int getCreepsPerWaveCount()

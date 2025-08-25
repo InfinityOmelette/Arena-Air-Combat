@@ -17,7 +17,7 @@ public class StrategicTarget : MonoBehaviour
     public LaneManager myLane;
     public LaneManager enemyLane;
 
-    public List<AI_TurretMG> myAAATurrets;
+    public List<GameObject> myActiveObjects;
     public enum Lane
     {
         TOP,
@@ -101,11 +101,14 @@ public class StrategicTarget : MonoBehaviour
         myFlow.myHudIconRef.isSuppressed = isSuppressed;
     }
 
-    public void capture(CombatFlow.Team capturingTeam)
+    public void tryCapture(CombatFlow.Team capturingTeam)
     {
-        myFlow.setNetTeam((short)capturingTeam);
+        if (isSuppressed)
+        {
+            myFlow.setNetTeam((short)capturingTeam);
 
-        updateLaneRefs(); // swap enemy and friendly lane refs
+            updateLaneRefs(); // swap enemy and friendly lane refs
+        }
     }
 
     public void dealSuppression(float damage)
@@ -148,9 +151,9 @@ public class StrategicTarget : MonoBehaviour
 
     private void setAAAState(bool newState)
     {
-        for (int i = 0; i < myAAATurrets.Count; i++)
+        for (int i = 0; i < myActiveObjects.Count; i++)
         {
-            myAAATurrets[i].active = newState;
+            myActiveObjects[i].active = newState;
         }
     }
 }

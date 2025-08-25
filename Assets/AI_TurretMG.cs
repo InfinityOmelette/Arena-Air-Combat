@@ -150,6 +150,12 @@ public class AI_TurretMG : MonoBehaviour
                     // only target's instance will deal damage. Rest will be cosmetic-only
                     rootFlow.giveOwnership(targetFlow.photonView.ViewID);
                 }
+
+                // really dumb to check this twice but hey I don't see any cops around
+                if(targetFlow == null)
+                {
+                    turretNet.setTarget(null, turretIndex);
+                }
                 
             }
         }

@@ -229,7 +229,7 @@ public class CreepControl : MonoBehaviourPunCallbacks
 
                 if(myDistFromHome > stratDistFromMyHome)
                 {
-                    currentStrat.capture(myFlow.team);
+                    currentStrat.tryCapture(myFlow.team);
                 }
 
             }
@@ -364,8 +364,9 @@ public class CreepControl : MonoBehaviourPunCallbacks
         Vector3 waypoint = waypoints[0] + activeOffset;
         waypoint = new Vector3(waypoint.x, transform.position.y, waypoint.z);
 
-
-        if (Vector3.Distance(waypoint, transform.position) < waypointRadius)
+        // If we are close to OR past the waypoint, remove the waypoint from our container
+        if (Vector3.Distance(waypoint, transform.position) < waypointRadius || 
+            Vector3.Distance(transform.position, parentLane.transform.position) > Vector3.Distance(waypoint, parentLane.transform.position))
         {
             bumperCorrecting = false;
             waypoints.RemoveAt(0);

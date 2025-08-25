@@ -69,7 +69,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private Vector3 spawnAxisDir;
 
 
-    private Vector3 currentSpawnPoint;
+    private Vector3 currentSpawnOffset;
     private float currentSpawnRange;
     public int squadRemaining;
 
@@ -100,8 +100,11 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     public static List<LaneManager> allLaneManagers;
 
+    public List<CreepSpawnPoint> spawnFactories;
+
     void Awake()
     {
+        spawnFactories = new List<CreepSpawnPoint>();
 
         isHostInstance = PhotonNetwork.PlayerList.Length == 1;
 
@@ -156,7 +159,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private void initSpawnAxis()
     {
         spawnAxisDir = Vector3.Cross(Vector3.up, waypoints[0] - transform.position).normalized;
-        currentSpawnPoint = randomSpawnPoint();
+        currentSpawnOffset = randomSpawnOffset();
     }
 
     private void fillWaypointList()
@@ -437,8 +440,23 @@ public class LaneManager : MonoBehaviourPunCallbacks
         // set squad size
         squadRemaining = Mathf.Min( Random.Range(squadSizeMin, squadSizeMax), unitsRemain());
 
-        currentSpawnPoint = randomSpawnPoint();
+        currentSpawnOffset = randomSpawnOffset();
 
+    }
+
+    private Vector3 randomSpawnOffset()
+    {
+        return spawnAxisDir * Random.Range(-laneWidth, laneWidth);
+    }
+
+    private Vector3 randomSpawnPoint()
+    {
+        return randomSpawnPoint(transform.position);
+    }
+
+    private Vector3 randomSpawnPoint(Vector3 spawnCenter)
+    {
+        return spawnCenter + spawnAxisDir * Random.Range(-laneWidth, laneWidth);
     }
 
     private void deployUnit()
@@ -448,56 +466,71 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
         GameObject selectedPrefab = selectDeployPrefab();
 
-        Vector3 spawnPoint = currentSpawnPoint;
+        Vector3 spawnOffset = currentSpawnOffset;
         if(selectedPrefab == SAMPrefab)
         {
-            spawnPoint = randomSpawnPoint();
+            spawnOffset = randomSpawnOffset();
             //Debug.LogError("SAM detected, spawning at random point");
         }
 
 
-        CreepControl newCreep = PhotonNetwork.InstantiateSceneObject(selectedPrefab.name, spawnPoint,
-            Quaternion.LookRotation(waypoints[1] - transform.position, Vector3.up)).GetComponent<CreepControl>();
+        // perform squad spawning at each available factory in this lane
+        // Squad counter is unaffected by how many factories are available
+        //  --> less factories available, less creeps spawn in the lane
+        for(int i = 0; i < spawnFactories.Count; i++)
+        {
+            if (spawnFactories[i] != null && !spawnFactories[i].myStrat.isSuppressed)
+            {
+                Vector3 spawnPos = spawnFactories[i].transform.position + spawnOffset;
 
-        float range;
+
+                CreepControl newCreep = PhotonNetwork.InstantiateSceneObject(selectedPrefab.name, spawnPos,
+                Quaternion.LookRotation(waypoints[1] - spawnPos, Vector3.up)).GetComponent<CreepControl>();
+
+                float range;
+
+                // remember, "effective range" just determines when creep stops moving when approached by enemy creep leader
+                if (selectedPrefab == SAMPrefab)
+                {
+                    range = SAMSpacing * SAMCount + SAMSpacing;
+                }
+                else if (selectedPrefab == AAAPrefab)
+                {
+                    //squadRemaining--;
+                    range = currentSpawnRange - currentRangeOffset;
+                }
+                else
+                {
+                    //squadRemaining--;
+                    range = newCreep.effectiveRange - currentRangeOffset;
+                    currentSpawnRange = range;
+                }
+
+                int teamNum = CombatFlow.convertTeamToNum(team);
+
+                newCreep.photonView.RPC("rpcInit", RpcTarget.AllBuffered, photonView.ViewID, spawnOffset, range, teamNum);
+            }
+        }
+        
+        if(selectedPrefab != SAMPrefab)
+        {
+            squadRemaining--;
+        }
         
 
 
 
-        if (selectedPrefab == SAMPrefab)
-        {
-            range = SAMSpacing * SAMCount + SAMSpacing;
-        }
-        else if(selectedPrefab == AAAPrefab)
-        {
-            squadRemaining--;
-            range = currentSpawnRange - currentRangeOffset;
-        }
-        else
-        {
-            squadRemaining--;
-            range = newCreep.effectiveRange - currentRangeOffset;
-            currentSpawnRange = range;
-        }
-
-        Vector3 offset = spawnPoint - transform.position;
-
-
-        int teamNum = CombatFlow.convertTeamToNum(team);
-
         
-        newCreep.photonView.RPC("rpcInit", RpcTarget.AllBuffered, photonView.ViewID, offset, range, teamNum);
-
 
         // instantiate
         // place at offset
         // fill waypoints
         // set offset
-        
+
         // RANGE:
         //  if creep, use its own range
         //  if AAA at end of squad, use previously saved range
-        
+
     }
 
     private GameObject selectDeployPrefab()
@@ -648,11 +681,6 @@ public class LaneManager : MonoBehaviourPunCallbacks
             return assignNewLeader();
         }
         
-    }
-
-    private Vector3 randomSpawnPoint()
-    {
-        return transform.position + spawnAxisDir * Random.Range(-laneWidth, laneWidth);
     }
 
 

@@ -11,16 +11,35 @@ public class SamNetworking : MonoBehaviourPunCallbacks
 
     private CombatFlow myFlow;
 
+    private Radar myRadar;
+
+    private StrategicTarget myStrat;
+
     // Start is called before the first frame update
     void Start()
     {
         myFlow = GetComponent<CombatFlow>();
+        myRadar = GetComponent<Radar>();
+        myStrat = GetComponent<StrategicTarget>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        if(myStrat != null && myStrat.isSuppressed)
+        {
+            //Debug.Log("Sam's disabled, ending lock");
+            myRadar.rwrIcon.endLock();
+            myRadar.rwrIcon.isPinging = false;
+            myRadar.rwrIcon.showPingResult(false, 0, 0);
+        }
+
+        if(myStrat != null)
+        {
+            sam.active = !myStrat.isSuppressed;
+        }
+
     }
 
     public void setTarget(CombatFlow target)

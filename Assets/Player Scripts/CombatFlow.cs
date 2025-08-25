@@ -63,7 +63,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public RWR rwr;
 
-    private float seenCleanWaitMax = .75f;
+    private float seenCleanWaitMax = 1.5f;
     private float seenCleanWaitTimer = -1f;
     //private PhotonView photonView;
 
@@ -236,14 +236,15 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         //{
         //    currentHP -= 30;
         //}
-
         if(seenCleanWaitTimer > 0)
         {
             seenCleanWaitTimer -= Time.deltaTime;
-            if(seenCleanWaitTimer <= 0)
-            {
-                cleanSeenBy();
-            }
+            
+        }
+        else
+        {
+            seenCleanWaitTimer = seenCleanWaitMax;
+            cleanSeenBy();
         }
     }
     
@@ -269,7 +270,9 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     [PunRPC]
     public void rpcSetTeam(short teamNum)
     {
-        team = convertNumToTeam(teamNum);
+        CombatFlow.Team newTeam = convertNumToTeam(teamNum);
+        team = newTeam;
+        
     }
 
     public float getHP()
@@ -508,13 +511,22 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private void cleanSeenBy()
     {
+        Debug.Log("Cleaning list started");
+
         for(int i = 0; i < seenBy.Count; i++)
         {
-            if(PhotonNetwork.GetPhotonView(seenBy[i]) == null)
+
+            PhotonView seenByView = PhotonNetwork.GetPhotonView(seenBy[i]);
+
+            if (seenByView == null)
             {
-                //Debug.LogError("Removing ID from seenBy for " + gameObject.name);
+                Debug.LogWarning("Removing ID from seenBy for " + gameObject.name);
                 seenBy.RemoveAt(i);
                 i--; // next loop iteration should examine same index after removal
+            }
+            else if(seenByView.GetComponent<CombatFlow>().team == this.team)
+            {
+                tryRemoveSeenBy(seenBy[i]);
             }
 
 

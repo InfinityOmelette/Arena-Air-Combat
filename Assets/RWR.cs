@@ -124,8 +124,17 @@ public class RWR : MonoBehaviourPunCallbacks
 
     private void cleanLists()
     {
+        //cleanLockedList();
         cleanFlowList(incomingMissiles);
         cleanFlowList(lockedBy);
+    }
+
+    private void cleanLockedList()
+    {
+        for(int i = 0; i < lockedBy.Count; i++)
+        {
+
+        }
     }
 
     private bool checkAmraamsIncoming()
@@ -149,8 +158,12 @@ public class RWR : MonoBehaviourPunCallbacks
         {
             for(int i = 0; i < flowList.Count; i++)
             {
-                if(flowList[i] == null)
+                if(flowList[i] == null || flowList[i].team == myFlow.team)
                 {
+                    if(flowList[i].myRadar != null)
+                    {
+                        flowList[i].myRadar.rwrIcon.endLock();
+                    }
                     flowList.RemoveAt(i);
                     i--; // next iteration, re-check this same index
                 }
@@ -168,14 +181,23 @@ public class RWR : MonoBehaviourPunCallbacks
         if (myFlow.isLocalPlayer && myFlow.team != radarSource.myFlow.team)
         {
 
-            bool isPinging = !myFlow.jamming && radarSource.radarOn && radarSource.withinScope(transform.position);
-            float distance = Vector3.Distance(transform.position, radarSource.transform.position);
-            float bearing = calculateBearing(radarSource.transform.position);
+            bool isPinging = false;
+            float distance = 0.0f;
+            float bearing = 0.0f;
+
+            if (myFlow.team != radarSource.myFlow.team)
+            {
+                isPinging = !myFlow.jamming && radarSource.radarOn && radarSource.withinScope(transform.position);
+                distance = Vector3.Distance(transform.position, radarSource.transform.position);
+                bearing = calculateBearing(radarSource.transform.position);
+            }
+            
 
             IconRWR rwrIcon = radarSource.rwrIcon;
 
             rwrIcon.showPingResult(isPinging, distance, bearing);
         }
+        
     }
 
     private float calculateClosingSpeed(CombatFlow msl)

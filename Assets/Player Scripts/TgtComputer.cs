@@ -141,7 +141,13 @@ public class TgtComputer : MonoBehaviour
 
 
                             // ========================  IFF
-                            currentFlowHudIcon.isFriendly = myFlow.team == currentFlow.team;
+                            // update icon's IFF info only if team comparison does not match isFriendly status at hudicon ref
+                            if(currentFlowHudIcon.isFriendly != (myFlow.team == currentFlow.team))
+                            {
+                                currentFlowHudIcon.isFriendly = myFlow.team == currentFlow.team;
+                                currentFlowHudIcon.setTeamInfo();
+                            }
+                            
 
                             //{ // debug block
 

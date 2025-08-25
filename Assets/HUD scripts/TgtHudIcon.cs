@@ -136,7 +136,7 @@ public class TgtHudIcon : MonoBehaviour
             isFar = currentDistance > HIDE_DISTANCE;
 
             setTargetedState();
-
+            
             setIsFar(isFar && !isStrategic);
             setImageLOS(hasLineOfSight);
             if (!(isFar && !isStrategic))

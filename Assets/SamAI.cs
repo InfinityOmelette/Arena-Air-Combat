@@ -33,6 +33,8 @@ public class SamAI : MonoBehaviour
 
     private bool locked = false;
 
+    public bool active = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,19 +47,23 @@ public class SamAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        // try to change to new target
-        tryChangeTarget();
-
-        // try to perform launch
-        tryLaunch();
-
-
-        if (currentTarget != null)
+        if (active)
         {
-            
-            launcherAxis.LookAt(currentTarget.transform.position, rootFlow.transform.up);
+            // try to change to new target
+            tryChangeTarget();
+
+            // try to perform launch
+            tryLaunch();
+
+
+            if (currentTarget != null)
+            {
+
+                launcherAxis.LookAt(currentTarget.transform.position, rootFlow.transform.up);
+            }
         }
+
+        
 
     }
 

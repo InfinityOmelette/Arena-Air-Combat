@@ -18,6 +18,8 @@ public class StrategicTarget : MonoBehaviour
     public LaneManager enemyLane;
 
     public List<GameObject> myActiveObjects;
+
+    public Radar myRadar;
     public enum Lane
     {
         TOP,
@@ -64,6 +66,8 @@ public class StrategicTarget : MonoBehaviour
         }
 
         StrategicTarget.AllStrategicTargets.Add(this);
+
+        myRadar = GetComponent<Radar>();
     }
 
     // Start is called before the first frame update
@@ -108,6 +112,7 @@ public class StrategicTarget : MonoBehaviour
             myFlow.setNetTeam((short)capturingTeam);
 
             updateLaneRefs(); // swap enemy and friendly lane refs
+            myFlow.myHudIconRef.setTeamInfo();
         }
     }
 
@@ -138,6 +143,14 @@ public class StrategicTarget : MonoBehaviour
         isSuppressed = true;
 
         setAAAState(false);
+
+        if(myRadar != null)
+        {
+            myRadar.setRadarActive(false);
+        }
+        
+
+        //tryCapture(CombatFlow.Team.TEAM1);
         // temp for testing
         //capture(CombatFlow.Team.TEAM2);
         
@@ -147,6 +160,11 @@ public class StrategicTarget : MonoBehaviour
     {
         isSuppressed = false;
         setAAAState(true);
+
+        if (myRadar != null)
+        {
+            myRadar.setRadarActive(true);
+        }
     }
 
     private void setAAAState(bool newState)

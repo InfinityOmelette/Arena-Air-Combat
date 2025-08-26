@@ -20,6 +20,8 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
 
 
     public List<AI_GroundAttack> myAI;
+    public List<float> aiRespawnTimers;
+
 
     private TeamSpawner spawner;
 
@@ -34,9 +36,9 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
     void Awake()
     {
         ph = GetComponent<PhotonView>();
-
         spawner = GetComponent<TeamSpawner>();
         myAI = new List<AI_GroundAttack>();
+        aiRespawnTimers = new List<float>();
     }
 
     // Start is called before the first frame update
@@ -71,10 +73,30 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
                     spawnCounter = spawnDelay;
                 }
             }
+
+            tryIncrementAiSpawnTimers(Time.deltaTime);
         }
         else
         {
             txtNumAI.enabled = false;
+        }
+
+
+    }
+
+    public bool canSpawnIndex(int index)
+    {
+        return aiRespawnTimers[index] > spawner.respawnTimeEffective;
+    }
+
+    public void tryIncrementAiSpawnTimers(float deltaTime)
+    {
+        for(int i = 0; i < myAI.Count; i++)
+        {
+            if(myAI[i] == null)
+            {
+                aiRespawnTimers[i] += deltaTime;
+            }
         }
     }
 
@@ -86,10 +108,11 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
 
         for(int i = 0; i < listAI.Count && !didSpawn; i++)
         {
-            if(listAI[i] == null)
+            if(listAI[i] == null && canSpawnIndex(i))
             {
                 didSpawn = true;
                 listAI[i] = doSpawn();
+                aiRespawnTimers[i] = 0.0f;
             }
         }
 
@@ -167,7 +190,8 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
                 {
                     // add a slot -- note that this is NOT spawning the aircraft here
                     //  spawning done one at a time via timer in update
-                    listAI.Add(null); 
+                    listAI.Add(null);
+                    aiRespawnTimers.Add(spawner.respawnTimeEffective);
                 }
                 else if (listAI.Count > newSize)
                 {
@@ -178,6 +202,7 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
                         listAI[lastIndex].myFlow.die(); // networked
                     }
                     listAI.RemoveAt(lastIndex);
+                    aiRespawnTimers.RemoveAt(lastIndex);
 
                 }
 

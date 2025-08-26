@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 using Photon.Pun;
@@ -11,6 +12,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 {
 
     public static GameObject localPlayerInstance;
+    public static float timeSincePlayerDeath = 0.0f;
 
     public CombatFlow.Team team;
 
@@ -22,6 +24,18 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
     public bool useDebugLocation;
 
+    public float respawnTimeDefault;
+    public float respawnTimeEffective;
+
+    public Text respawnTimerText;
+
+
+    private void Awake()
+    {
+        // upon initial loading, player will be able to spawn right away
+        timeSincePlayerDeath = respawnTimeEffective;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,12 +45,28 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         }
     }
 
+    public bool playerCanRespawn()
+    {
+        return TeamSpawner.timeSincePlayerDeath > respawnTimeEffective;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        tryIncrementPlayerRespawnTimer(Time.deltaTime);
     }
 
+    private void tryIncrementPlayerRespawnTimer(float deltaTime)
+    {
+        if(localPlayerInstance == null)
+        {
+            // dividing by 2 because both fucking spawners will be incrementing timer
+            //  ..and i can't be arsed to find a better way to do this
+            timeSincePlayerDeath += deltaTime / 2;
+
+            respawnTimerText.text = (Mathf.Max(Mathf.RoundToInt(respawnTimeEffective - timeSincePlayerDeath), 0)).ToString();
+        }
+    }
 
     public GameObject spawnPlayer(GameObject playerPrefab, string name,  bool isPlayer = true)
     {
@@ -49,8 +79,10 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         // AI must be scene object, so that it persists when host leaves
         if (isPlayer)
         {
+
             player = PhotonNetwork.Instantiate(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
             localPlayerInstance = player;
+
         }
         else
         {

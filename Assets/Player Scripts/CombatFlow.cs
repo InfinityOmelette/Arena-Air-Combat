@@ -511,7 +511,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private void cleanSeenBy()
     {
-        Debug.Log("Cleaning list started");
+        //Debug.Log("Cleaning list started");
 
         for(int i = 0; i < seenBy.Count; i++)
         {

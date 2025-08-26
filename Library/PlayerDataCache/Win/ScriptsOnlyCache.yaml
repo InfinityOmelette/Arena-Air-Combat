@@ -35,6 +35,7 @@ ScriptsOnlyBuild:
     - GayAssColliderScript
     - GunLeadComputer
     - GunLeadReticle
+    - Hangar
     - Hardpoint
     - HardpointController
     - HostMigration
@@ -344,6 +345,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 13736}
     - Class: 114
       Script: {instanceID: 13754}
+    - Class: 114
+      Script: {instanceID: 62134}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -577,6 +580,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 13718}
     - Class: 114
       Script: {instanceID: 13736}
+    - Class: 114
+      Script: {instanceID: 62134}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1824,7 +1829,7 @@ ScriptsOnlyBuild:
     className: FriendItem
   - hash:
       serializedVersion: 2
-      Hash: 9175c7f22de520b77acf0b14b219bd48
+      Hash: ac8dd4783911f70010dbfe98ce9470f4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: StrategicTarget
@@ -2404,6 +2409,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: IconRWR
+  - hash:
+      serializedVersion: 2
+      Hash: 77d1aaa3a5c2de137f797df75845a779
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Hangar
   platform: 5
   scenePathNames:
   - Assets/Scenes/Launcher.unity

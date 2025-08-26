@@ -20,6 +20,9 @@ public class StrategicTarget : MonoBehaviour
     public List<GameObject> myActiveObjects;
 
     public Radar myRadar;
+    public Hangar myHangar;
+
+
     public enum Lane
     {
         TOP,
@@ -68,6 +71,7 @@ public class StrategicTarget : MonoBehaviour
         StrategicTarget.AllStrategicTargets.Add(this);
 
         myRadar = GetComponent<Radar>();
+        myHangar = GetComponent<Hangar>();
     }
 
     // Start is called before the first frame update
@@ -148,12 +152,10 @@ public class StrategicTarget : MonoBehaviour
         {
             myRadar.setRadarActive(false);
         }
-        
-
         //tryCapture(CombatFlow.Team.TEAM1);
         // temp for testing
         //capture(CombatFlow.Team.TEAM2);
-        
+
     }
 
     private void deactivateSuppressedState()

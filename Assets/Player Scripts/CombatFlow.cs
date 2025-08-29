@@ -370,7 +370,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public void destroySelf(bool doDelete = true)
     {
-        Debug.LogWarning("Destroyself called");
+        //Debug.LogWarning("Destroyself called");
 
 
         if (type == Type.AIRCRAFT)

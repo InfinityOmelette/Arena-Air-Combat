@@ -94,8 +94,8 @@ public class CreepControl : MonoBehaviourPunCallbacks
         }
 
 
-        // copy list from parent
-        waypoints = new List<Vector3>(parentLane.waypoints);
+        // copy list by value from parent -- each creep has its own independent waypoint list
+        waypoints = new List<Vector3>(parentLane.waypoints); // copies waypoint position vectors by VALUE
 
         lookAtWaypoint();
 
@@ -221,8 +221,9 @@ public class CreepControl : MonoBehaviourPunCallbacks
         {
             StrategicTarget currentStrat = stratTargets[i];
 
-            // If strategic target is on enemy team and is on the same lane as this creep
-            if(currentStrat.myFlow.team != myFlow.team && currentStrat.lane == parentLane.lane)
+            // If strategic target is on enemy team and is a capturable lane (same lane as this creep OR base)
+            if(currentStrat.myFlow.team != myFlow.team && 
+                (currentStrat.lane == parentLane.lane || currentStrat.lane == StrategicTarget.Lane.BASE))
             {
                 float stratDistFromMyHome = Vector3.Distance(currentStrat.transform.position, parentLane.transform.position);
 
@@ -308,7 +309,7 @@ public class CreepControl : MonoBehaviourPunCallbacks
 
             if (possibleTargets.Count > 0)
             {
-                Debug.Log("Possible targets found: " + possibleTargets.Count);
+                //Debug.Log("Possible targets found: " + possibleTargets.Count);
 
                 int randIndex = Random.Range(0, possibleTargets.Count - 1);
                 newTarget = possibleTargets[randIndex];
@@ -390,23 +391,28 @@ public class CreepControl : MonoBehaviourPunCallbacks
 
     private void lookAtWaypoint()
     {
-        Vector3 activeOffset = myOffset;
-        if (bumperCorrecting)
+        if (waypoints.Count > 0)
         {
-            activeOffset *= 0.0f;
+
+
+            Vector3 activeOffset = myOffset;
+            if (bumperCorrecting)
+            {
+                activeOffset *= 0.0f;
+            }
+
+            Vector3 targetPos = waypoints[0] + activeOffset;
+
+            // place target pos to be co-altitude with this creep
+            targetPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
+
+            transform.rotation = Quaternion.LookRotation(targetPos - transform.position, Vector3.up);
+
+            movementDir = (targetPos - transform.position).normalized;
+
+            // Debug.DrawRay(transform.position, targetPos - transform.position, Color.green, 1f);
+            //Debug.DrawRay(transform.position, transform.forward * 50f, Color.red, 1f);
         }
-
-        Vector3 targetPos = waypoints[0] + activeOffset;
-
-        // place target pos to be co-altitude with this creep
-        targetPos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
-
-        transform.rotation = Quaternion.LookRotation(targetPos - transform.position, Vector3.up);
-
-        movementDir = (targetPos - transform.position).normalized;
-
-       // Debug.DrawRay(transform.position, targetPos - transform.position, Color.green, 1f);
-        //Debug.DrawRay(transform.position, transform.forward * 50f, Color.red, 1f);
 
         
     }

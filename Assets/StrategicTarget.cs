@@ -22,12 +22,26 @@ public class StrategicTarget : MonoBehaviour
     public Radar myRadar;
     public Hangar myHangar;
 
+    public bool canBeCaptured = true;
+
+    public List<StrategicType> propogateSuppressionTargetTypes;
+
+    public StrategicType strategicType;
+
 
     public enum Lane
     {
         TOP,
         BOTTOM,
         BASE
+    }
+
+    public enum StrategicType
+    {
+        GUNTOWER,
+        FACTORY,
+        HANGAR,
+        COMMANDCENTER
     }
 
     // Aircraft suppress, ground forces capture
@@ -111,7 +125,7 @@ public class StrategicTarget : MonoBehaviour
 
     public void tryCapture(CombatFlow.Team capturingTeam)
     {
-        if (isSuppressed)
+        if (isSuppressed && canBeCaptured)
         {
             myFlow.setNetTeam((short)capturingTeam);
 
@@ -124,7 +138,7 @@ public class StrategicTarget : MonoBehaviour
     {
         
         suppressionHealthCurrent -= damage;
-        Debug.Log("Applying " + damage + " suppression damage to " + gameObject.name + ", remaining SuppHP: " + suppressionHealthCurrent);
+        //Debug.Log("Applying " + damage + " suppression damage to " + gameObject.name + ", remaining SuppHP: " + suppressionHealthCurrent);
     }
 
     private void repairSuppression(float time)
@@ -152,10 +166,32 @@ public class StrategicTarget : MonoBehaviour
         {
             myRadar.setRadarActive(false);
         }
+
+        if(propogateSuppressionTargetTypes != null)
+        {
+            doSuppressionPropogation();
+        }
+
         //tryCapture(CombatFlow.Team.TEAM1);
         // temp for testing
         //capture(CombatFlow.Team.TEAM2);
 
+    }
+
+    private void doSuppressionPropogation()
+    {
+        Debug.Log("Beginning Suppression Propagation");
+
+        for(int i = 0; i < AllStrategicTargets.Count; i++)
+        {
+            StrategicTarget currStrat = AllStrategicTargets[i];
+
+            if (currStrat.myFlow.team == myFlow.team && propogateSuppressionTargetTypes.Contains(currStrat.strategicType))
+            {
+                Debug.Log("Applying propogated suppression to : " + currStrat.gameObject.name);
+                currStrat.dealSuppression(50000f);
+            }
+        }
     }
 
     private void deactivateSuppressedState()

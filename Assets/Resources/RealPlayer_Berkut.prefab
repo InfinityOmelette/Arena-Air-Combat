@@ -2339,7 +2339,7 @@ MonoBehaviour:
   myRadar: {fileID: 0}
   currentTarget: {fileID: 0}
   radarLocked: 0
-  localPlayerFlow: {fileID: 0}
+  myFlow: {fileID: 0}
   changeTargetMaxAngle: 25
   tgtButtonUp: 0
   visibleRange: 1500
@@ -4460,6 +4460,21 @@ PrefabInstance:
       propertyPath: bounceDamage
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.29704624
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75053346
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.29692003
+      objectReference: {fileID: 0}
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4468,12 +4483,12 @@ PrefabInstance:
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.024
+      value: -0.119
       objectReference: {fileID: 0}
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.883
+      value: 4.29
       objectReference: {fileID: 0}
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}

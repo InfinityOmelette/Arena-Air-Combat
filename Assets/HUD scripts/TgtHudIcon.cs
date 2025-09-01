@@ -51,7 +51,7 @@ public class TgtHudIcon : MonoBehaviour
     private bool dlInit = false;
     private bool isFarInit = false;
 
-    public bool isStrategic = false;
+    public bool neverFar = false;
     public float maxStrategicDist = 800f;
 
     public GameObject hpBarCenter;
@@ -107,7 +107,7 @@ public class TgtHudIcon : MonoBehaviour
         //resizeForDist(currentDistance);
 
         // only show health bar if is strategic
-        hpBarCenter.SetActive(isStrategic);
+        hpBarCenter.SetActive(neverFar);
 
         //FixedUpdate();
     }
@@ -137,9 +137,9 @@ public class TgtHudIcon : MonoBehaviour
 
             setTargetedState();
             
-            setIsFar(isFar && !isStrategic);
+            setIsFar(isFar && !neverFar);
             setImageLOS(hasLineOfSight);
-            if (!(isFar && !isStrategic))
+            if (!(isFar && !neverFar))
             {
                 setDataLinkText();
                 updateTexts();
@@ -194,7 +194,7 @@ public class TgtHudIcon : MonoBehaviour
 
                 if (targetedState == TargetedState.TARGETED)
                 {
-                    if (!(isFar && !isStrategic))
+                    if (!(isFar && !neverFar))
                     {
                         tgtTitleText.enabled = true;
                         tgtDistText.enabled = true;
@@ -353,7 +353,7 @@ public class TgtHudIcon : MonoBehaviour
         dist = Mathf.Max(dist - tgtIconManager.estimatedCloseDistance, 0.0f);
 
 
-        if (isStrategic)
+        if (neverFar)
         {
             dist = Mathf.Min(dist, maxStrategicDist);
         }

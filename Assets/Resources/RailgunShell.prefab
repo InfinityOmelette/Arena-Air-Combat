@@ -623,10 +623,10 @@ MonoBehaviour:
   radius: 150
   damage: 50000
   collisionsEnabled: 1
-  dissipationTime: 15
+  dissipationTime: 3
   emitLightEnabled: 1
-  glowColor: {r: 1, g: 0.53494525, b: 0, a: 1}
-  smokeColor: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  glowColor: {r: 0, g: 0.6957073, b: 1, a: 1}
+  smokeColor: {r: 0.740566, g: 1, b: 0.99748576, a: 1}
   expandTime: 0.15
   explosiveForce: 50
   damageProjectiles: 0
@@ -722,7 +722,7 @@ MonoBehaviour:
   launchSound: {fileID: 0}
   flightSound: {fileID: 0}
   launchSoundVolume: 0
-  rocketEffectsPrefab: {fileID: 3795491082417072009, guid: 7ea534138d7c7e24fbd0b2d22acae9a3,
+  rocketEffectsPrefab: {fileID: 3795491082417072009, guid: 90dd05cbad62d3940b58f64eaedd4a97,
     type: 3}
   impactDamage: 90
   motorBurnTime: 0.125
@@ -731,6 +731,7 @@ MonoBehaviour:
   myCollider: {fileID: 0}
   tempTimerMax: 0.25
   tempTimerCurrent: 0.25
+  doSmokeForWholeFlight: 1
 --- !u!114 &-143509994507629933
 MonoBehaviour:
   m_ObjectHideFlags: 0

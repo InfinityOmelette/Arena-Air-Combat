@@ -29,7 +29,7 @@ public class Rocket : Weapon
 
 
     private TrailRenderer effectTrail;
-
+    public bool doSmokeForWholeFlight = false;
 
     //PhotonView photonView;
 
@@ -100,7 +100,7 @@ public class Rocket : Weapon
 
 
                 if (effectsObj != null)
-                    effectTrail.emitting = false;
+                    effectTrail.emitting = doSmokeForWholeFlight;
             }
 
         }

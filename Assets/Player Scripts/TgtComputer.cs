@@ -171,9 +171,6 @@ public class TgtComputer : MonoBehaviour
                             // Show unit if this is NOT the local player
                             if (!currentFlow.isLocalPlayer && currentFlow.isActive)
                             {
-
-
-
                                 if (currentFlow.team == myFlow.team)
                                 {
                                     isVisible = true;

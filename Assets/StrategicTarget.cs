@@ -127,10 +127,10 @@ public class StrategicTarget : MonoBehaviour
     {
         if (isSuppressed && canBeCaptured)
         {
-            myFlow.setNetTeam((short)capturingTeam);
+            myFlow.setNetTeam(capturingTeam);
 
             updateLaneRefs(); // swap enemy and friendly lane refs
-            myFlow.myHudIconRef.setTeamInfo();
+            //myFlow.myHudIconRef.setTeamInfo();
         }
     }
 

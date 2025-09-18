@@ -20,7 +20,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public enum Type
     {
-        AIRCRAFT, PROJECTILE , GROUND, ANTI_AIR, SAM, STRATEGIC
+        AIRCRAFT, PROJECTILE , GROUND, ANTI_AIR, SAM, STRATEGIC, TECH
     }
     
     public float maxHP;
@@ -191,7 +191,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         // spawn icon, set reference here to the TgtHudIconScript of icon spawned
         myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this).GetComponent<TgtHudIcon>();// add my icon to hud
-        myHudIconRef.neverFar = type == Type.STRATEGIC || type == Type.AIRCRAFT;
+        myHudIconRef.neverFar = type == Type.STRATEGIC || type == Type.AIRCRAFT || type == Type.TECH;
 
         if (!isLocalPlayer)
         {
@@ -261,6 +261,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         gameObject.name = name;
     }
 
+    public void setNetTeam(CombatFlow.Team team)
+    {
+        setNetTeam((short)team);
+    }
+
     public void setNetTeam(short teamNum)
     {
         PhotonView photonView = PhotonView.Get(this);
@@ -272,7 +277,13 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     {
         CombatFlow.Team newTeam = convertNumToTeam(teamNum);
         team = newTeam;
+        if(myHudIconRef != null)
+        {
+            myHudIconRef.isNeutral = newTeam == Team.NEUTRAL;
+            myHudIconRef.setTeamInfo();
+        }
         
+
     }
 
     public float getHP()

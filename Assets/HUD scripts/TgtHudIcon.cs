@@ -78,6 +78,7 @@ public class TgtHudIcon : MonoBehaviour
     public Color teamColor;
     public Color activeColor;
     public bool isFriendly;
+    public bool isNeutral = false;
 
 
     private Vector3 distTextOriginPos;
@@ -117,6 +118,7 @@ public class TgtHudIcon : MonoBehaviour
         Debug.LogWarning(rootFlow.name + " icon callback called");
 
         isFriendly = rootFlow.team == GameManager.getGM().localTeam;
+        isNeutral = rootFlow.team == CombatFlow.Team.NEUTRAL;
         setTeamInfo();
         setTargetedState();
     }
@@ -406,14 +408,22 @@ public class TgtHudIcon : MonoBehaviour
     public Color setTeamInfo()
     {
         Color returnColor;
-        if (isFriendly)
+
+        if (isNeutral)
         {
-            returnColor = tgtIconManager.friendlyColor;
+            returnColor = tgtIconManager.neutralColor;
         }
         else
         {
-            returnColor = tgtIconManager.enemyColor;
-            
+            if (isFriendly)
+            {
+                returnColor = tgtIconManager.friendlyColor;
+            }
+            else
+            {
+                returnColor = tgtIconManager.enemyColor;
+
+            }
         }
 
         if (!isFar && rootFlow.type == CombatFlow.Type.AIRCRAFT)

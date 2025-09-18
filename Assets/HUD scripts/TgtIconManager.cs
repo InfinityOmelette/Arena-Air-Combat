@@ -22,6 +22,7 @@ public class TgtIconManager : MonoBehaviour
     public Color friendlyColor;
     public Color enemyColor;
     public Color lockedColor;
+    public Color neutralColor;
 
     public float targetedBlinkTime;
 
@@ -42,6 +43,9 @@ public class TgtIconManager : MonoBehaviour
 
     public Sprite StrategicImageLOS;
     public Sprite StrategicImageNoLOS;
+
+    public Sprite TechSiteLOS;
+    public Sprite TechSiteNoLOS;
 
     private void Awake()
     {
@@ -66,6 +70,9 @@ public class TgtIconManager : MonoBehaviour
         StrategicImageLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetLOS");
         StrategicImageNoLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetNoLOS");
 
+        TechSiteLOS = Resources.Load<Sprite>("HUD Images/TechSiteLOS");
+        TechSiteNoLOS = Resources.Load<Sprite>("HUD Images/TechSiteNoLOS");
+
         if (TgtIconManager.tgtIconManager == null)
             TgtIconManager.tgtIconManager = this;
     }
@@ -88,6 +95,8 @@ public class TgtIconManager : MonoBehaviour
         iconScript.tgtTitleText.text = unitFlow.gameObject.name;
 
         // IMAGE SETTING
+        //  ........ Why the fuck in god's name do I do this here and not setting refs in each prefab????
+        //  why in the fuck
         if(unitFlow.type == CombatFlow.Type.AIRCRAFT)
         {
             iconScript.tgtImageLOS.sprite = aircraftHudImageLOS;
@@ -117,6 +126,11 @@ public class TgtIconManager : MonoBehaviour
         {
             iconScript.tgtImageLOS.sprite = StrategicImageLOS;
             iconScript.tgtImageNoLOS.sprite = StrategicImageNoLOS;
+        }
+        else if(unitFlow.type == CombatFlow.Type.TECH)
+        {
+            iconScript.tgtImageLOS.sprite = TechSiteLOS;
+            iconScript.tgtImageNoLOS.sprite = TechSiteNoLOS;
         }
 
 

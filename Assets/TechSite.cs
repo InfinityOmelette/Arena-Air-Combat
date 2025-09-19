@@ -10,18 +10,24 @@ public class TechSite : MonoBehaviour
 
     public float captureTime;
 
-    private CombatFlow.Team capturingTeam;
+    public CombatFlow.Team capturingTeam;
 
     public List<float> captureTimers;
 
     public float cleanListInterval = 1f;
     private float cleanListTimer;
 
+    public TechObject techObj; // prefab reference. make sure to instantiate before inserting into tech inventories
+
+
+
     private void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
         aircraftInZone = new List<CombatFlow>();
         cleanListTimer = cleanListInterval;
+
+
     }
 
 
@@ -54,11 +60,19 @@ public class TechSite : MonoBehaviour
         
     }
 
+    // probably make this an RPC for networking?
     public void doCapture()
     {
-        // Add tech object to winning team's tech inventory
-        // Destroy this object
         Debug.Log("Tech object captured for: " + capturingTeam);
+
+        // instantiate tech object from prefab ref
+        GameObject newObj = GameObject.Instantiate(techObj.gameObject);
+        TechObject newTech = newObj.GetComponent<TechObject>();
+
+        // add tech to winning team's tech inventory
+        TechInventory.teamTechInventories[(int)capturingTeam].addTech(newTech);
+
+        // destroy this object
         myFlow.destroySelf();
     }
 

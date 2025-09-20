@@ -16,6 +16,11 @@ public class TechInventory : MonoBehaviour
     public Dropdown abilitySelectDropdown;
     public AbilityParent selectedAbility;
 
+    public Text techDisplayText;
+
+    public float textRefreshDelay;
+
+    private float textRefreshTimer;
 
     private void Awake()
     {
@@ -50,7 +55,33 @@ public class TechInventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(textRefreshTimer < 0)
+        {
+            // refresh text
+            refreshText();
+            // reset timer
+            textRefreshTimer = textRefreshDelay;
+        }
+        else
+        {
+            textRefreshTimer -= Time.deltaTime;
+        }
+
+
+    }
+
+    private void refreshText()
+    {
+        string text = "";
+        //text += "none";
+
+
+        for(int i = 0; i < techInventory.Count; i++)
+        {
+            text += techInventory[i].reportStatusString() + "\n";
+        }
+
+        techDisplayText.text = text;
     }
 
     public void addTech(TechObject newTech)

@@ -126,9 +126,6 @@ public class TgtComputer : MonoBehaviour
                         if (currentFlowHudIcon != null)
                         {
 
-                            // ....oh this is crusty architecture. The hud controller should be handling hud display specifics
-                            // oh boy
-
                             //  =====================  DISTANCE
 
                             // Distance between this gameobject and target
@@ -168,20 +165,21 @@ public class TgtComputer : MonoBehaviour
 
 
 
-                            // Show unit if this is NOT the local player
+                            // Attempt to show unit if this is NOT the local player
                             if (!currentFlow.isLocalPlayer && currentFlow.isActive)
                             {
                                 if (currentFlow.team == myFlow.team)
                                 {
-                                    isVisible = true;
+                                    isVisible = true; // always see friendlies
                                 }
-                                else
+                                else // If enemy, attempt to detect either visually or with radar
                                 {
+                                    // Visual detection
                                     isVisible = Vector3.Distance(currentFlow.transform.position, transform.position) < visibleRange
                                         && currentFlow.myHudIconRef.hasLineOfSight;
-                                    if (!isVisible)
+                                    if (!isVisible) // if visual detection fails
                                     {
-                                        isVisible = myRadar.tryDetect(currentFlow);
+                                        isVisible = myRadar.tryDetect(currentFlow); // if non-friendly, attempt to detect with radar
 
                                     }
                                 }
@@ -203,7 +201,7 @@ public class TgtComputer : MonoBehaviour
                                 currentFlowHudIcon.dataLink = currentFlow.checkSeen(myFlow.photonView.ViewID);
                             }
 
-                            //  Send visibility result
+                            //  Send visibility result to hudicon
                             currentFlowHudIcon.isDetected = isVisible;
 
                             if(isVisible && prevTarget != null && currentFlow == prevTarget && currentTarget == null)

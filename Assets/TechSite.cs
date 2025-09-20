@@ -20,6 +20,7 @@ public class TechSite : MonoBehaviour
     public TechObject techObj; // prefab reference. make sure to instantiate before inserting into tech inventories
 
 
+    
 
     private void Awake()
     {
@@ -27,7 +28,11 @@ public class TechSite : MonoBehaviour
         aircraftInZone = new List<CombatFlow>();
         cleanListTimer = cleanListInterval;
 
-
+        if(techObj != null)
+        {
+            gameObject.name = "Tech - " + techObj.techName;
+        }
+        
     }
 
 
@@ -65,12 +70,15 @@ public class TechSite : MonoBehaviour
     {
         Debug.Log("Tech object captured for: " + capturingTeam);
 
+        TechInventory winnerInventory = TechInventory.teamTechInventories[(int)capturingTeam];
+
         // instantiate tech object from prefab ref
-        GameObject newObj = GameObject.Instantiate(techObj.gameObject);
+        GameObject newObj = GameObject.Instantiate(techObj.gameObject, winnerInventory.transform);
         TechObject newTech = newObj.GetComponent<TechObject>();
+        newObj.name = techObj.techName;
 
         // add tech to winning team's tech inventory
-        TechInventory.teamTechInventories[(int)capturingTeam].addTech(newTech);
+        winnerInventory.addTech(newTech);
 
         // destroy this object
         myFlow.destroySelf();
@@ -159,6 +167,20 @@ public class TechSite : MonoBehaviour
                 i--; //re-check same index next iteration
             }
         }
+    }
+
+    public string reportStatusString()
+    {
+        string report = "";
+
+        if(capturingTeam != CombatFlow.Team.NEUTRAL)
+        {
+            float activeTimeRemain = captureTime - captureTimers[(int)capturingTeam];
+            report += "Retrieving in " + Mathf.RoundToInt(activeTimeRemain) + "s";
+        }
+        // ohhh this is probably killllling performance to call this every frame
+        // fuck it we ball
+        return report;
     }
 
     private void OnTriggerStay(Collider other)

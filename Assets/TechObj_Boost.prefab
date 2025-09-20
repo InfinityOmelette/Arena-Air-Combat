@@ -47,6 +47,7 @@ MonoBehaviour:
   researchTime: 10
   teamInventory: {fileID: 0}
   ability: {fileID: 0}
+  techName: Boost
 --- !u!114 &-4867533752885894248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,13 +55,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4920783918980756915}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54408153a44a0694d9b4b030b5e78647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reloadTimerMax: 5
-  abilityName: Boost_Test
+  reloadTimerMax: 10
+  abilityName: Boost
   abilityIconPrefab: {fileID: 1838215427191712930, guid: b53805a1ba5bf5747bb44e591fd536fd,
     type: 3}
   myFlow: {fileID: 0}

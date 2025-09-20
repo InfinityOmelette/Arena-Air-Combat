@@ -40,7 +40,13 @@ public class WarpAbility : AbilityParent
     {
         base.activate();
 
-        myRb.position += transform.forward * warpDistance;
+        Vector3 initVelocity = myRb.velocity;
+        Vector3 initAngularVel = myRb.angularVelocity;
+
+        transform.position += transform.forward * warpDistance;
+
+        myRb.velocity = initVelocity;
+        myRb.angularVelocity = initAngularVel;
         // also need to check if we hit the fuckin ground lol
 
         // activate any effects

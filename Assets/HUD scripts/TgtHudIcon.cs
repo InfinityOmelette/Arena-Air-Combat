@@ -60,6 +60,8 @@ public class TgtHudIcon : MonoBehaviour
     public bool isSuppressed = false;
     public Text suppressedText;
 
+    public Text retrievingText;
+
     private hudControl hudObj;
 
     public enum TargetedState
@@ -153,6 +155,18 @@ public class TgtHudIcon : MonoBehaviour
             setHP_Display(hpDisplayDecimal);
             suppressedText.gameObject.SetActive(isSuppressed);
 
+
+            bool retrieving = rootFlow.type == CombatFlow.Type.TECH &&
+                rootFlow.myTechSite.capturingTeam != CombatFlow.Team.NEUTRAL;
+            if (retrieving)
+            {
+                retrievingText.text = rootFlow.myTechSite.reportStatusString();
+            }
+            retrievingText.gameObject.SetActive(retrieving);
+            
+
+
+
             hudObj.drawItemOnScreen(gameObject, rootFlow.transform.position, 1.0f); // 1.0 lerp rate
         }
         else
@@ -217,6 +231,11 @@ public class TgtHudIcon : MonoBehaviour
                         tgtDistText.enabled = true;
                     }
                     else if(rootFlow.type == CombatFlow.Type.STRATEGIC && isFriendly)
+                    {
+                        tgtTitleText.enabled = true;
+                        tgtDistText.enabled = false;
+                    }
+                    else if(rootFlow.type == CombatFlow.Type.TECH)
                     {
                         tgtTitleText.enabled = true;
                         tgtDistText.enabled = false;
@@ -454,6 +473,7 @@ public class TgtHudIcon : MonoBehaviour
             farDotText.color = activeColor;
             hpBarImage.color = activeColor;
             suppressedText.color = activeColor;
+            retrievingText.color = activeColor;
             
         }
 
@@ -484,6 +504,7 @@ public class TgtHudIcon : MonoBehaviour
 
     void OnDestroy()
     {
+        //Debug.LogWarning("Icon destroy callback called for " + rootFlow.name);
         GameManager.getGM().playerSpawnEvent.RemoveListener(spawnCallback);
     }
 }

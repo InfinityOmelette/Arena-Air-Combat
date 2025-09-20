@@ -99,6 +99,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public bool canTakeDamage = true;
     private StrategicTarget myStrat;
 
+    public TechSite myTechSite;
+
     // ??????????
     public static Team convertNumToTeam(short num)
     {
@@ -157,6 +159,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         myRb = GetComponent<Rigidbody>();
         myRWR = GetComponent<RWR>();
         myStrat = GetComponent<StrategicTarget>();
+        myTechSite = GetComponent<TechSite>();
 
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();

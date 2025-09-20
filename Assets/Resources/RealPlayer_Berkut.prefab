@@ -1889,7 +1889,6 @@ GameObject:
   - component: {fileID: 2320197551087535654}
   - component: {fileID: 2224204426752407437}
   - component: {fileID: 5187546682584904764}
-  - component: {fileID: 5176220199074395610}
   m_Layer: 9
   m_Name: RealPlayer_Berkut
   m_TagString: Untagged
@@ -2297,6 +2296,7 @@ MonoBehaviour:
   myRadar: {fileID: 0}
   myRWR: {fileID: 0}
   canTakeDamage: 1
+  myTechSite: {fileID: 0}
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2508,18 +2508,6 @@ MonoBehaviour:
   flareLaunchR: {fileID: 6698832646241830736}
   jammingTimeMax: 1.5
   flareButtonDown: 0
---- !u!114 &5176220199074395610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7744941291827435728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54408153a44a0694d9b4b030b5e78647, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -4665,15 +4653,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
---- !u!4 &3301379967937392512 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7761172204820125723}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &793729928460659032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7761172204820125723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3301379967937392512 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
     type: 3}
   m_PrefabInstance: {fileID: 7761172204820125723}
   m_PrefabAsset: {fileID: 0}

@@ -23,7 +23,11 @@ public class AbilityParent : MonoBehaviour
 
         myFlow = GetComponent<CombatFlow>();
 
-        
+        // if CombatFlow is null, this is likely attached to a tech object
+        if(myFlow == null)
+        {
+            this.enabled = false; // disable if NOT attached to combatflow
+        }
 
 
     }

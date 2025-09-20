@@ -14,6 +14,8 @@ public class TechObject : MonoBehaviour
 
     public AbilityParent ability;
 
+    public string techName = "";
+
     private void Awake()
     {
         ability = GetComponent<AbilityParent>();
@@ -52,5 +54,20 @@ public class TechObject : MonoBehaviour
 
     }
 
-   
+    public string reportStatusString()
+    {
+        string report = techName;
+        if(researchTime > 0)
+        {
+            report += " " + Mathf.RoundToInt(researchTime) + "s";
+        }
+        else
+        {
+            report += " complete!";
+        }
+
+        return report;
+    }
+
+
 }

@@ -140,7 +140,7 @@ public class hudControl : MonoBehaviour
         //  MOVE HP BAR TO TOP MIDDLE
         hpBarParentRef.transform.localPosition = new Vector3(0.0f, Screen.height / 2f, 0.0f);
 
-        // MOVE MAP DISPLAY TO LOWER RIGHT
+        // MOVE MAP DISPLAY TO LOWER LEFT
         GameObject mapCent = mapManager.GetComponent<MapManager>().displayCenter;
         mapCent.transform.localPosition = new Vector2(mapCent.transform.localPosition.x - Screen.width / 2f,
             mapCent.transform.localPosition.y - Screen.height / 2f);

@@ -71,9 +71,14 @@ public class TechInventory : MonoBehaviour
         // add index to dropdown list
         // Are ability's editor values preserved?
 
+        // update spawn panel UI
         abilitySelectDropdown.options.Add(new Dropdown.OptionData(newAbility.abilityName));
-        abilitySelectDropdown.value = 0; // refresh display
+        abilitySelectDropdown.value = abilitySelectDropdown.value; // refresh display? idfk if this does anything but i don't see any cops around
+        abilitySelectDropdown.RefreshShownValue();
+
+
         selectAbility();
+        //abilitySelectDropdown.itemText = new Text("test");
         // aside note: when spawning, access inventory's selected ability and equip it onto aircraft
     }
 

@@ -9,10 +9,32 @@ public class AbilityParent : MonoBehaviour
 
     public string abilityName = "";
 
+    public GameObject abilityIconPrefab;
+
+
+    public CombatFlow myFlow;
+
+    
+
     public void init()
     {
         Debug.Log("Ability parent init() called");
         reloadTimer = reloadTimerMax;
+
+        myFlow = GetComponent<CombatFlow>();
+
+        
+
+
+    }
+
+    public void startProcess()
+    {
+        Debug.Log("AbilityParent startProcess called, isLocalPlayer: " + myFlow.isLocalPlayer);
+        if (myFlow.isLocalPlayer)
+        {
+            AbilityIconManager.iconManager.linkToAircraft(this);
+        }
     }
 
     private void Awake()
@@ -74,7 +96,19 @@ public class AbilityParent : MonoBehaviour
         reloadTimerMax = other.reloadTimerMax;
         reloadTimer = other.reloadTimer;
         abilityName = other.abilityName;
+        abilityIconPrefab = other.abilityIconPrefab;
 
     }
 
+    public float readTimer()
+    {
+        return reloadTimer;
+    }
+
+
+    private void OnDestroy()
+    {
+        // trigger hud cleanup
+        AbilityIconManager.iconManager.cleanup();
+    }
 }

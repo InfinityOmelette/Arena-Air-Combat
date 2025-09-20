@@ -25,7 +25,7 @@ public class WarpAbility : AbilityParent
     // Start is called before the first frame update
     void Start()
     {
-        
+        base.startProcess();
     }
 
     // Update is called once per frame
@@ -66,7 +66,7 @@ public class WarpAbility : AbilityParent
         // and then copy values from the tech object onto the aircraft
 
         WarpAbility equippedWarp = aircraftObj.AddComponent<WarpAbility>(); // adds raw script instance
-        equippedWarp.copyOther(this); // this should pass editor-set values onto equipped warp script
+        equippedWarp.copyOther(this); // this should pass editor-set values from tech obj prefab onto equipped warp script
     }
 
 }

@@ -27,7 +27,7 @@ public class BoostAbility : AbilityParent
     // Start is called before the first frame update
     void Start()
     {
-        
+        base.startProcess();
     }
 
     private void Update()

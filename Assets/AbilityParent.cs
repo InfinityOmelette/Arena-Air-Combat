@@ -19,7 +19,7 @@ public class AbilityParent : MonoBehaviour
     public void init()
     {
         Debug.Log("Ability parent init() called");
-        reloadTimer = reloadTimerMax;
+        //reloadTimer = reloadTimerMax;
 
         myFlow = GetComponent<CombatFlow>();
 

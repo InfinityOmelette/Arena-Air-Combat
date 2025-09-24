@@ -12,12 +12,25 @@ public class WarpAbility : AbilityParent
 
     // UI reference
 
+    Quaternion storeRot;
+    //Vector3 storeAngVel;
+
+    //bool lockRotation = false;
+
+    private int lockTickCounter = 0;
+
+    public int lockRotTicks = 2;
+
+    //public float warpCollisionCancelScale = .95f;
+
+    //public float warpCollisionCancelTime = 1f;
+    public float warpCollisionCancelMinDist = 150f;
+
     private void Awake()
     {
         base.init();
         //base.abilityName = "Warp";
         myRb = GetComponent<Rigidbody>();
-
         // spawn and activate UI element
         //  - load picture onto UI element
     }
@@ -35,21 +48,87 @@ public class WarpAbility : AbilityParent
 
     }
 
+    private void FixedUpdate()
+    {
+        if (lockTickCounter > 0)
+        {
+            //if(lockTimer > 0)
+            //{
+            //    Debug.Log("********* LOCKING ROTATION ");
+            //    myRb.rotation = storeRot;
+            //    lockTimer -= Time.fixedDeltaTime;
+            //}
+            //else
+            //{
+            //    lockRot = false;
+            //    lockTimer = lockDelayMax;
+            //    //myRb.isKinematic = false;
+            //}
+
+            myRb.rotation = storeRot;
+            //lockRotation = false;
+            lockTickCounter--;
+        }
+    }
+
     override
     public void activate()
     {
         base.activate();
 
+        //myRb.isKinematic = true;
+
         Vector3 initVelocity = myRb.velocity;
         Vector3 initAngularVel = myRb.angularVelocity;
+        Quaternion initRot = myRb.rotation;
 
-        transform.position += transform.forward * warpDistance;
+        storeRot = initRot; // unity physics rotation freak out from updating position instantly over long distances
+        lockTickCounter = lockRotTicks; // so we store prior rotation and lock the rotation for 2 ticks
 
+        Vector3 warpVect = transform.forward * warpDistance;
+
+        RaycastHit hitInfo = new RaycastHit();
+        short terrainLayer = 1 << 10; // only check collisions with terrain
+        if (Physics.Linecast(transform.position, transform.position + warpVect,
+            out hitInfo, terrainLayer))
+        {
+            Vector3 hitVect = hitInfo.point - transform.position;
+            //hitVect *= warpCollisionCancelScale;
+
+
+            // *** alternate idea -- time-based offset
+            //  - Calculate player velocity IN warp direction
+            //  - Retract warppoint by specified seconds
+            //   > minimum offset required
+            //   > do not change warpvector direction
+
+            // EHHH....I'll just set a hard offset instead
+            float hitVectMagnitude = hitVect.magnitude;
+
+            // if cancelMinDist is greater than min offset, don't warp forward
+            float effectiveCancelOffsetDist = Mathf.Min(hitVectMagnitude, warpCollisionCancelMinDist);
+
+            Vector3 warpCancelOffsetVect = hitVect.normalized * effectiveCancelOffsetDist;
+
+            hitVect -= warpCancelOffsetVect;
+
+            warpVect = hitVect;
+
+        }
+
+        Vector3 newPos = myRb.position + warpVect;
+        //myRb.position += transform.forward * warpDistance;
+
+        myRb.transform.position = newPos;
+        
+
+        myRb.rotation = initRot;
         myRb.velocity = initVelocity;
         myRb.angularVelocity = initAngularVel;
-        // also need to check if we hit the fuckin ground lol
+
 
         // activate any effects
+
 
     }
 

@@ -9,6 +9,8 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
     public GameObject weaponTypePrefab;
 
+    public GameObject testReloadWeaponTypePrefab;
+
     public Transform spawnCenter;
 
     public GameObject loadedWeaponObj;
@@ -38,6 +40,8 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     public CombatFlow rootFlow;
 
     public AudioSource launchSoundSource;
+
+
 
 
     void Awake()
@@ -102,6 +106,7 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
             // locks weapon to hardpoint using fixedjoint
             weapon.linkToOwner(transform.root.gameObject);
+            reloadTimeMax = weapon.reloadTimeDefault; // this really should go in linkToOwner() but I'm too lazy to repeat this in each implementation
 
             weapon.myTeam = transform.root.GetComponent<CombatFlow>().team;
             weaponFlow.team = weapon.myTeam;
@@ -194,6 +199,16 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     {
         if (rootFlow.isLocalPlayer || rootFlow.aiControlled)
         {
+
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                // Attempt reload with test weapon
+                destroyWeapon();
+                weaponTypePrefab = testReloadWeaponTypePrefab;
+                spawnWeapon();
+            }
+
+
             if (readyToFire)
             {
                 if (launchCommanded)

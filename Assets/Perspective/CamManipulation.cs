@@ -137,7 +137,7 @@ public class CamManipulation : MonoBehaviour
 
         if (mouseLookEnabled)
         {
-            rootFlow.hardpoints.weaponIndicatorManager.toggleControllerHud();
+            rootFlow.hardpoints.weaponIndicatorManager.displayControllerHud(false);
         }
 
 

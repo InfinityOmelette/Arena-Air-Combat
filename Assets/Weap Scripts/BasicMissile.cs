@@ -41,9 +41,6 @@ public class BasicMissile : Weapon
 
     private bool hasPassed = false;
 
-    
-    
-
     void Awake()
     {
         init();
@@ -88,6 +85,7 @@ public class BasicMissile : Weapon
 
         myHardpoint.roundsMax = 1;
         myHardpoint.roundsRemain = 1;
+        //myHardpoint.reloadTimeMax = 
     }
     
 

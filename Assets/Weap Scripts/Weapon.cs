@@ -61,6 +61,7 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public float launchSoundVolume;
 
+    public float reloadTimeDefault = 10f;
     //protected PhotonView photonView;
 
     // call from fixedUpdate()

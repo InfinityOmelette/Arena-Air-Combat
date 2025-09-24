@@ -24,7 +24,7 @@ public class WeaponIndicatorManager : MonoBehaviour
     public float changeNotificationTimerMax;
     public float currentChangeNotificationTimer;
 
-    private bool showControllerHud = false;
+    public bool showControllerHud = false;
 
 
     private Vector3 initWeapSelectBoxLocalPos;
@@ -123,7 +123,7 @@ public class WeaponIndicatorManager : MonoBehaviour
 
     public GameObject spawnNewContainer(GameObject newPrefabType)
     {
-        //Debug.Log("spawn container called");
+        Debug.Log("spawn container called");
 
         if (dpadImagesSaved < dPadWeaponDirections.Length)
         {
@@ -152,6 +152,8 @@ public class WeaponIndicatorManager : MonoBehaviour
     {
         //Debug.Log("spawn indicator called");
 
+        Debug.Log("SpawnIndicator called, indicatorType: " + indicatorType + ", orderPosition: " + orderPosition);
+
         // spawn indicator with proper container object as parent
         GameObject newIndicator = Instantiate(indicatorPrefab, indicatorTypeContainers[indicatorType].transform);
 
@@ -171,6 +173,7 @@ public class WeaponIndicatorManager : MonoBehaviour
 
     public void deleteAll()
     {
+        Debug.Log("Deleting all weapon icons");
         weaponTypesText.text = "";
 
         // delete all children of corner objects
@@ -183,20 +186,24 @@ public class WeaponIndicatorManager : MonoBehaviour
 
     }
 
-    public void displayControllerHud(bool showContHud)
-    {
-        if(showContHud != this.showControllerHud)
-        {
-            toggleControllerHud();
-        }
-    }
-
     public void toggleControllerHud()
     {
+        Debug.Log("Toggling controller hud");
+
         showControllerHud = !showControllerHud;
 
-        Debug.LogWarning("Toggling controller hud");
+        displayControllerHud(showControllerHud);
 
+        
+    }
+
+    public void displayControllerHud(bool setControllerEnabled)
+    {
+        showControllerHud = setControllerEnabled;
+
+        
+
+        Debug.Log("Displaying Controller Hud set to " + setControllerEnabled + " while this.showControllerHud is " + this.showControllerHud);
         // mouse hud objects:
         //  - weaponTypesText
         //  - selectedTypeBox

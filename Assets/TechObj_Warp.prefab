@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9896f718119c41542b40786dc77f5cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  researchTime: 10
+  researchTime: 1
   teamInventory: {fileID: 0}
   ability: {fileID: 0}
   techName: Warp
@@ -66,3 +66,5 @@ MonoBehaviour:
     type: 3}
   myFlow: {fileID: 0}
   warpDistance: 2500
+  lockRotTicks: 2
+  warpCollisionCancelMinDist: 150

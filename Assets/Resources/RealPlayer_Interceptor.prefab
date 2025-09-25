@@ -647,7 +647,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b4b7f2105d0fa0469ccd3e2e0b9c63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hardpoints: []
+  hardpoints:
+  - {fileID: 3866430123661295013}
+  - {fileID: 4572131021265210423}
+  - {fileID: 5514273550888118634}
+  - {fileID: 820712079476580203}
+  - {fileID: 8024281827104737698}
+  - {fileID: 3788819843356283948}
+  - {fileID: 1886119814965594612}
   activeTypeIndex: 0
   groupThisType_List: 
   weaponIndicatorManager: {fileID: 0}
@@ -2985,6 +2992,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
+      propertyPath: acceptableWeightAtt.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
       propertyPath: weaponTypePrefab
       value: 
       objectReference: {fileID: 9020280692747740723, guid: 3cbac014ad967d845a5743ea79fd4eb0,
@@ -3014,6 +3036,26 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
 --- !u!4 &5980758672947863453 stripped
@@ -3022,6 +3064,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 12777080893197783}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8024281827104737698 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+    type: 3}
+  m_PrefabInstance: {fileID: 12777080893197783}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484e03f995d5e242981b6d053056a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &853897320240468773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3392,6 +3446,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
+      propertyPath: acceptableWeightAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
       propertyPath: weaponTypePrefab
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
@@ -3411,6 +3480,21 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
 --- !u!4 &8152279528355610453 stripped
@@ -3419,6 +3503,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2589640109365144863}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5514273550888118634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2589640109365144863}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484e03f995d5e242981b6d053056a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3818469578369961945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3658,15 +3754,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f6621483e39ab946bc87a3b8543702f, type: 3}
---- !u!1 &6074001352180022938 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3818469578369961945}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8257366068577663042 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3818469578369961945}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6074001352180022938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6969001383883059523, guid: 1f6621483e39ab946bc87a3b8543702f,
     type: 3}
   m_PrefabInstance: {fileID: 3818469578369961945}
   m_PrefabAsset: {fileID: 0}
@@ -3901,6 +3997,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
+      propertyPath: acceptableWeightAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
       propertyPath: weaponTypePrefab
       value: 
       objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
@@ -3920,8 +4031,40 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
+--- !u!114 &4572131021265210423 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5766267312354756674}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484e03f995d5e242981b6d053056a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &204752625056946696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5967983075009958474, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
@@ -4052,6 +4195,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
+      propertyPath: acceptableWeightAtt.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
       propertyPath: weaponTypePrefab
       value: 
       objectReference: {fileID: 9020280692747740723, guid: 3cbac014ad967d845a5743ea79fd4eb0,
@@ -4071,8 +4229,40 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
+--- !u!114 &3866430123661295013 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6547896132174346704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484e03f995d5e242981b6d053056a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &579913406247922586 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5967983075009958474, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
@@ -4198,6 +4388,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
+      propertyPath: acceptableWeightAtt.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
       propertyPath: weaponTypePrefab
       value: 
       objectReference: {fileID: 9020280692747740723, guid: 3cbac014ad967d845a5743ea79fd4eb0,
@@ -4227,8 +4432,40 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
+--- !u!114 &3788819843356283948 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6620866443345350745}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484e03f995d5e242981b6d053056a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &662172146820465171 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5967983075009958474, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
@@ -4354,6 +4591,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
+      propertyPath: acceptableWeightAtt.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
       propertyPath: weaponTypePrefab
       value: 
       objectReference: {fileID: 9020280692747740723, guid: 3cbac014ad967d845a5743ea79fd4eb0,
@@ -4373,6 +4625,26 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
 --- !u!4 &3947357606724847956 stripped
@@ -4381,6 +4653,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7211771709027146526}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &820712079476580203 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7211771709027146526}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484e03f995d5e242981b6d053056a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8015213129939564077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4751,6 +5035,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
         type: 3}
+      propertyPath: acceptableWeightAtt.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
       propertyPath: weaponTypePrefab
       value: 
       objectReference: {fileID: 6282535372062044719, guid: b59ff52cc0994ee4c8b290f7fc2b1162,
@@ -4770,6 +5069,26 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableWeightAtt.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableGuidanceAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+        type: 3}
+      propertyPath: acceptableDomainAtt.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 495c6b82c11ac9345b1aa0bf79cf989e, type: 3}
 --- !u!4 &2848740513837621195 stripped
@@ -4778,3 +5097,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8456153283596979585}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1886119814965594612 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8031780026973455477, guid: 495c6b82c11ac9345b1aa0bf79cf989e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8456153283596979585}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f484e03f995d5e242981b6d053056a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

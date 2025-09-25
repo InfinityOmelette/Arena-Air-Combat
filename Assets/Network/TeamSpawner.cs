@@ -82,7 +82,11 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
             player = PhotonNetwork.Instantiate(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
             localPlayerInstance = player;
-            TechInventory.teamTechInventories[(int)team].equipSelectedAbilityToAircraft(player);
+
+            TechInventory techInventory = TechInventory.teamTechInventories[(int)team];
+
+            techInventory.equipSelectedAbilityToAircraft(player);
+            techInventory.weaponLoader.equipLoadoutOntoSpawnedAircraft(player);
 
         }
         else

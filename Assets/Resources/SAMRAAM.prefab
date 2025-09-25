@@ -882,6 +882,10 @@ MonoBehaviour:
   launchSound: {fileID: 0}
   flightSound: {fileID: 0}
   launchSoundVolume: 0
+  reloadTimeDefault: 10
+  att_weight: 0
+  att_guidance: 0
+  att_domain: 0
   ownerObj: {fileID: 0}
   proximityFuseRange: 10
   fuseLeadTime: 0.1
@@ -1067,6 +1071,7 @@ MonoBehaviour:
   myRadar: {fileID: 0}
   myRWR: {fileID: 0}
   canTakeDamage: 1
+  myTechSite: {fileID: 0}
 --- !u!114 &1167435022322946647
 MonoBehaviour:
   m_ObjectHideFlags: 0

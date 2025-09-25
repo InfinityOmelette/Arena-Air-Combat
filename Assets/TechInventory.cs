@@ -22,6 +22,10 @@ public class TechInventory : MonoBehaviour
 
     private float textRefreshTimer;
 
+    public List<Weapon> teamWeaponInventory;
+
+    public WeaponLoader weaponLoader;
+
     private void Awake()
     {
         
@@ -42,6 +46,7 @@ public class TechInventory : MonoBehaviour
             teamTechInventories[(int)myTeam] = this;
         }
 
+        weaponLoader = GetComponent<WeaponLoader>();
         techInventory = new List<TechObject>();
         unlockedAbilityScripts = new List<AbilityParent>();
     }

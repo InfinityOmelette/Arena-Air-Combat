@@ -174,6 +174,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         selectedPlayerPrefab = aircraftPrefabs[dropDownIndex];
 
+
+        //TechInventory.teamTechInventories[(int)localTeam].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
+        TechInventory.teamTechInventories[(int)CombatFlow.Team.TEAM1].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
+        TechInventory.teamTechInventories[(int)CombatFlow.Team.TEAM2].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
+
+        // normally the player would join a team and then select loadout. But right now, we have to refresh
+        // both team loadouts because unknown which team player will spawn in
+        //  but two lists needed because teams have separate inventories
     }
 
     // Really shitty that this is nearly identical to non-ai selection. oh well. sue me

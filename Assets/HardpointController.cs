@@ -56,13 +56,15 @@ public class HardpointController : MonoBehaviourPunCallbacks
             weaponIndicatorManager = hudControl.mainHud.GetComponent<hudControl>().weaponIndicatorManager;
             if (weaponIndicatorManager == null)
                 Debug.Log("HARDPOINT CONTROLLER UNABLE TO FIND WEAPON INDICATOR MANAGER");
-            reload();
+            initializeEquippedLoadout();
 
             
         }
     }
 
-    public void reload()
+
+    // call this after changing aircraft loadout at runtime
+    public void initializeEquippedLoadout()
     {
         resetLists();
         fillHardpointArray();
@@ -71,14 +73,20 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
     public void resetLists()
     {
-
+        // ai OR player aircraft would need these cleared
         for(int i = 0; i < weaponTypeHardpointLists.Count; i++)
         {
             weaponTypeHardpointLists[i].Clear();
         }
         weaponTypeHardpointLists.Clear();
-
         
+        // an AI aircraft doesn't need these cleared
+        if (rootFlow.isLocalPlayer)
+        {
+            weaponIndicatorManager.deleteAll();
+            groupThisType_List.Clear();
+        }
+
     }
 
     public void destroyWeapons()
@@ -93,13 +101,28 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
+    public Hardpoint[] getHardpoints()
+    {
+        Debug.Log("Entering getHardpoints()");
+
+        if(hardpoints == null || hardpoints.Length == 0)
+        {
+            Debug.Log("Building new hardpoint list");
+            hardpoints = new Hardpoint[transform.childCount];
+
+            for(int i = 0; i < hardpoints.Length; i++)
+            {
+                Debug.Log("Adding new hardpoint to list");
+                hardpoints[i] = transform.GetChild(i).GetComponent<Hardpoint>();
+            }
+        }
+        Debug.Log("Returning hardpoints[] with length " + hardpoints.Length);
+        return hardpoints;
+    }
+
     void fillHardpointArray()
     {
-        if (rootFlow.isLocalPlayer)
-        {
-            weaponIndicatorManager.deleteAll();
-            groupThisType_List.Clear();
-        }
+        
 
         // raw array of hardpoints themselves
         hardpoints = new Hardpoint[transform.childCount];
@@ -200,7 +223,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
             if (Input.GetKeyDown(KeyCode.N))
             {
-                reload();
+                initializeEquippedLoadout();
             }
 
             if ((Mathf.Abs(input_changeWeaponAxis) > .3f)) // if definitely pressed, either direction

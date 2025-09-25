@@ -66,6 +66,32 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     // call from fixedUpdate()
     // either countdown reposition timer
+
+    public Weight att_weight;
+    public Guidance att_guidance;
+    public Domain att_domain;
+
+    public enum Weight
+    {
+        LIGHT,
+        MEDIUM,
+        HEAVY
+    }
+
+    public enum Guidance
+    {
+        UNGUIDED,
+        GUIDED
+    }
+
+    public enum Domain
+    {
+        AIRTOAIR,
+        AIRTOGROUND,
+        MULTIROLE,
+        FUTURE
+    }
+
     public void checkLinecastCollision()
     {
         if (lineCastViaDistance)

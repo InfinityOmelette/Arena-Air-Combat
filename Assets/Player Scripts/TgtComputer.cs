@@ -528,4 +528,18 @@ public class TgtComputer : MonoBehaviour
             currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.NONE;
         }
     }
+
+    public HardpointController getHardpointController()
+    {
+
+        if(this.hardpointController != null)
+        {
+            return this.hardpointController;
+        }
+        else
+        {
+            return GetComponent<PlayerInput_Aircraft>().hardpointController; // set from prefab so should be valid regardless of Awake()'s
+        }
+        
+    }
 }

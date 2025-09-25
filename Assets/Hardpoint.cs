@@ -9,7 +9,7 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
     public GameObject weaponTypePrefab;
 
-    public GameObject testReloadWeaponTypePrefab;
+    //public GameObject testReloadWeaponTypePrefab;
 
     public Transform spawnCenter;
 
@@ -41,8 +41,11 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
     public AudioSource launchSoundSource;
 
+    public List<Weapon.Weight> acceptableWeightAtt;
+    public List<Weapon.Guidance> acceptableGuidanceAtt;
+    public List<Weapon.Domain> acceptableDomainAtt;
 
-
+    private bool initialized = false;
 
     void Awake()
     {
@@ -60,6 +63,8 @@ public class Hardpoint : MonoBehaviourPunCallbacks
         {
             spawnWeapon();
         }
+
+        initialized = true;
     }
 
     void spawnWeapon()
@@ -202,10 +207,10 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
             if (Input.GetKeyDown(KeyCode.V))
             {
-                // Attempt reload with test weapon
-                destroyWeapon();
-                weaponTypePrefab = testReloadWeaponTypePrefab;
-                spawnWeapon();
+                //// Attempt reload with test weapon
+                //destroyWeapon();
+                //weaponTypePrefab = testReloadWeaponTypePrefab;
+                //spawnWeapon();
             }
 
 
@@ -256,5 +261,46 @@ public class Hardpoint : MonoBehaviourPunCallbacks
     void OnDestroy()
     {
         destroyWeapon();
+    }
+
+
+    public bool validateWeapon(Weapon weapPrefab)
+    {
+        // weapon weight and guidance and domain must be valid
+        // OR any future weapon will be considered valid
+
+        return (validateWeaponWeight(weapPrefab) &&
+            validateWeaponGuidance(weapPrefab) &&
+            validateWeaponDomain(weapPrefab)) 
+            || weapPrefab.att_domain == Weapon.Domain.FUTURE;
+    }
+
+
+    public void equipNewWeapon(Weapon newWeapon)
+    {
+        destroyWeapon();
+        weaponTypePrefab = newWeapon.gameObject;
+
+        if (initialized)
+        {
+            spawnWeapon();
+        }
+        
+    }
+
+    // maybe unnecessary to make these functions, but i'll leave room for future implementation changes
+    public bool validateWeaponWeight(Weapon weapPrefab)
+    {
+        return acceptableWeightAtt.Contains(weapPrefab.att_weight);
+    }
+
+    public bool validateWeaponGuidance(Weapon weapPrefab)
+    {
+        return acceptableGuidanceAtt.Contains(weapPrefab.att_guidance);
+    }
+
+    public bool validateWeaponDomain(Weapon weapPrefab)
+    {
+        return acceptableDomainAtt.Contains(weapPrefab.att_domain) || weapPrefab.att_domain == Weapon.Domain.MULTIROLE;
     }
 }

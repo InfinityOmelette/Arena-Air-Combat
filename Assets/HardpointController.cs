@@ -34,8 +34,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
     private Radar rootRadar;
     private DropSightComputer dropSight;
 
-    
-    // Commands missiles to launch
+
+    public LoadoutStorage loadoutStorage;
 
     private void Awake()
     {
@@ -45,6 +45,17 @@ public class HardpointController : MonoBehaviourPunCallbacks
         dropSight = rootFlow.GetComponent<DropSightComputer>();
         rootRadar = rootFlow.GetComponent<Radar>();
         ai_tgtComputer = rootFlow.GetComponent<AI_TgtComputer>();
+
+        
+    }
+
+    public LoadoutStorage getStorage()
+    {
+        if(loadoutStorage == null)
+        {
+            loadoutStorage = GetComponent<LoadoutStorage>();
+        }
+        return loadoutStorage;
     }
 
     // Start is called before the first frame update
@@ -578,5 +589,16 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void equipLoadoutPreset(LoadoutStorage.LoadoutPreset loadout)
+    {
+        List<Weapon> loadoutWeapons = loadout.loadout;
+
+        for(int i = 0; i < getHardpoints().Length; i++)
+        {
+            hardpoints[i].equipNewWeapon(loadoutWeapons[i]);
+        }
+
+        initializeEquippedLoadout();
+    }
     
 }

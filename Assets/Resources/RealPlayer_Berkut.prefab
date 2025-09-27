@@ -516,6 +516,7 @@ GameObject:
   - component: {fileID: 690796679822223153}
   - component: {fileID: 3718655085937672987}
   - component: {fileID: 6628018224278952362}
+  - component: {fileID: 2449735383827668189}
   m_Layer: 9
   m_Name: Hardpoint Controller
   m_TagString: Untagged
@@ -577,6 +578,7 @@ MonoBehaviour:
   input_changeWeaponAxis: 0
   input_mouseLookToggleBtnDown: 0
   launchActive: 0
+  loadoutStorage: {fileID: 2449735383827668189}
 --- !u!114 &6628018224278952362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +601,27 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &2449735383827668189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929267504107972494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd3a0e99f5139846b877300e917d874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hardpointController: {fileID: 3718655085937672987}
+  standardLoadouts:
+  - name: Default
+    loadout: []
+  customLoadouts:
+  - name: Custom1
+    loadout: []
+  - name: Custom2
+    loadout: []
 --- !u!1 &2304895413824202424
 GameObject:
   m_ObjectHideFlags: 0

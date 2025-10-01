@@ -36,12 +36,25 @@ public class WeaponLoader : MonoBehaviour
 
     int ignoreModifyCallbacks = 0;
 
+    private static List<LoadoutStorage> refreshedStorages;
+
    // private bool ignoreReselection = false;
 
     private void Awake()
     {
         validWeaponsMasterList = new List<List<Weapon>>();
         myTeamTechInventory = GetComponent<TechInventory>();
+    }
+
+    // because loadoutstorage in prefab data persists on disk
+    // ...we must refresh the storages whenever accessed for the first time
+    public static List<LoadoutStorage> getRefreshedStorages()
+    {
+        if(refreshedStorages == null)
+        {
+            refreshedStorages = new List<LoadoutStorage>();
+        }
+        return refreshedStorages;
     }
 
     // Start is called before the first frame update
@@ -69,6 +82,27 @@ public class WeaponLoader : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F7))
         {
             modifyLoadoutFromDropdowns();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            debugRefreshDropdowns();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            //buildWeaponSelectorDropdowns();
+            readLoadoutOntoDropdowns();
+        }
+    }
+
+    public void debugRefreshDropdowns()
+    {
+        Debug.Log("Debug refreshing weapon dropdowns");
+        for(int i = 0; i < prefabHardpoints.Length; i++)
+        {
+            GameObject dropdown = weaponDropdownOrigin.transform.GetChild(i).gameObject;
+            dropdown.GetComponent<Dropdown>().RefreshShownValue();
         }
     }
 
@@ -119,12 +153,14 @@ public class WeaponLoader : MonoBehaviour
         // at this point, weapon availability lists should be valid. Now we just send it to UI dropdowns
         Debug.Log(reportAvailableWeaponsList());
 
-
-
         // update UI dropdowns with available weapon data
         buildWeaponSelectorDropdowns();
 
         refreshLoadoutPresetDropdown();
+
+        
+
+        
 
     }
 
@@ -150,7 +186,7 @@ public class WeaponLoader : MonoBehaviour
             // offset dropdown position
             newDropDown.transform.localPosition = new Vector3(0f, -dropdownOffset * i, 0f);
             newDropDown.options.Clear();
-
+            
             // set dropdown elements
             for (int j = 0; j < validWeaponsMasterList[i].Count; j++)
             {
@@ -158,8 +194,11 @@ public class WeaponLoader : MonoBehaviour
                 newDropDown.options.Add(new Dropdown.OptionData(validWeapon.gameObject.name));
             }
 
+            int weaponIndex = validWeaponsMasterList[i].IndexOf(prefabHardpoints[i].weaponTypePrefab.GetComponent<Weapon>());
+            Debug.Log("Building hardpoint " + i + ", loading weapon " + weaponIndex);
+
             // find currently equipped weapon (to prefab aircraft)
-            newDropDown.value = validWeaponsMasterList[i].IndexOf(prefabHardpoints[i].weaponTypePrefab.GetComponent<Weapon>());
+            newDropDown.value = weaponIndex;
 
             newDropDown.onValueChanged.AddListener(delegate
             {
@@ -169,6 +208,7 @@ public class WeaponLoader : MonoBehaviour
             newDropDown.RefreshShownValue();
         }
 
+        //readLoadoutOntoDropdowns();
         
     }
 
@@ -190,6 +230,13 @@ public class WeaponLoader : MonoBehaviour
         loadoutPresetDropdown.value = 0; // 0 is default loadout
 
         loadoutPresetDropdown.RefreshShownValue();
+
+
+        // re-building to fix intermittent bug affecting display values
+        // ...when switching from a high-g custom to multirole default
+        // Kind of hacky fix. Sometimes builds multiple times. 
+        Debug.Log("************ debug build called");
+        buildWeaponSelectorDropdowns();
 
     }
 
@@ -268,6 +315,9 @@ public class WeaponLoader : MonoBehaviour
         // because we do NOT want this to change loadout data, only display current preset
         //ignoreModifyCallbacks = validWeaponsMasterList.Count;
 
+        Debug.Log(reportAvailableWeaponsList());
+        Debug.Log(reportPrefabHardpointWeapons());
+
         for (int i = 0; i < validWeaponsMasterList.Count; i++)
         {
             Dropdown weapDropdown = getWeaponDropdown(i);
@@ -275,6 +325,8 @@ public class WeaponLoader : MonoBehaviour
             Weapon newWeapon = currentLoadoutRef.loadout[i];
 
             int newIndex = validWeaponsMasterList[i].IndexOf(newWeapon);
+
+            Debug.Log("Reading dropdown " + i + ", loading weapon " + newWeapon.gameObject.name + " at index: " + newIndex);
 
             // we don't want to trigger loadout writes, only display the selected preset at the dropdowns
             if(newIndex != weapDropdown.value)

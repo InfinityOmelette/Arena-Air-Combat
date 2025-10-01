@@ -21,8 +21,6 @@ public class LoadoutStorage : MonoBehaviour
         public List<Weapon> loadout;
     }
 
-    public bool refreshed = false;
-
     //LoadoutPreset testLoadoutPleaseIgnore;
 
     // Start is called before the first frame update
@@ -114,15 +112,20 @@ public class LoadoutStorage : MonoBehaviour
     // clear any values that got saved to disk
     public void refreshIfNotFresh()
     {
-        if (!refreshed)
+        //Debug.LogError("Attempting loadout refresh");
+
+        // weapon loader statically tracks which loadoutstorages have been refreshed
+        //  - if this loadoutstorage is not on the list, refresh it
+        if (!WeaponLoader.getRefreshedStorages().Contains(this))
         {
+            WeaponLoader.getRefreshedStorages().Add(this);
             clearAllPresetLoadouts();
-            refreshed = true;
         }
     }
 
     public void clearAllPresetLoadouts()
     {
+        //Debug.LogError("Refreshing loadouts");
         for(int i = 0; i < standardLoadouts.Length; i++)
         {
             standardLoadouts[i].loadout.Clear();

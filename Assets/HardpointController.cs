@@ -55,6 +55,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
         {
             loadoutStorage = GetComponent<LoadoutStorage>();
         }
+        loadoutStorage.refreshIfNotFresh();
         return loadoutStorage;
     }
 

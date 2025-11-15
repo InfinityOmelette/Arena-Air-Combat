@@ -121,7 +121,7 @@ public class WeaponLoader : MonoBehaviour
     // trigger this when selected aircraft for this team changes
     public void refreshAvailableWeapons(GameObject aircraftPrefab)
     {
-        Debug.Log("Refreshing available weapons");
+        Debug.Log("Refreshing available weapons for " + aircraftPrefab.gameObject.name);
 
         activeAircraftPrefab = aircraftPrefab;
         selectedAircraftPrefabHardpointController = aircraftPrefab.GetComponent<TgtComputer>().getHardpointController();

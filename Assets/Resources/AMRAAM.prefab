@@ -2256,12 +2256,12 @@ MonoBehaviour:
   launchSound: {fileID: 8300000, guid: 1e9c71f9a11b0944daac0fec3df97c06, type: 3}
   flightSound: {fileID: 0}
   launchSoundVolume: 1
-  reloadTimeDefault: 25
-  att_weight: 1
-  att_guidance: 1
+  reloadTimeDefault: 10
+  att_weight: 0
+  att_guidance: 0
   att_domain: 0
   ownerObj: {fileID: 0}
-  proximityFuseRange: 7
+  proximityFuseRange: 8
   fuseLeadTime: 0.1
   impactDamage: 0
   speed: 0
@@ -2308,8 +2308,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ALTITUDE_ADVANTAGE_FACTOR: 0.5
-  closingSpeedFactor: 17
-  YOUR_SPEED_FACTOR: 6
+  closingSpeedFactor: 23
+  YOUR_SPEED_FACTOR: 0
   negativeSpeedFactor: 0
   tgtFaceAwayPerpFactor: -0.3
   myPerpendicularDragFactor: 3
@@ -2317,10 +2317,10 @@ MonoBehaviour:
   airDensityFactor: 1900
   isSam: 0
   lockType: 0
-  scanConeAngle: 35
-  maxDetectRange: 15000
-  maxLockRange: 8000
-  lockAngle: 35
+  scanConeAngle: 30
+  maxDetectRange: 5500
+  maxLockRange: 5000
+  lockAngle: 30
   detectionThreshold: 1
   radarOn: 0
   radarID: AMR
@@ -2328,9 +2328,9 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   pingPlayer: 1
   debug: 0
-  baseLongRange: 6500
-  baseGoodRange: 2600
-  baseKillRange: 1500
+  baseLongRange: 2250
+  baseGoodRange: 1250
+  baseKillRange: 850
   effectiveLongRange: 0
   effectiveGoodRange: 0
   effectiveKillRange: 0
@@ -2364,10 +2364,10 @@ MonoBehaviour:
   pitchTrim: 0
   downPitchMultiplier: 1
   wingLiftCoefficient: 0.035
-  wingDragCoefficient: 0.3
+  wingDragCoefficient: 0.33
   wingDragOffset: 0.001
   bodySideLiftCoefficient: 0.035
-  bodySideDragCoefficient: 0.3
+  bodySideDragCoefficient: 0.33
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
   pitchStability: 0
@@ -2394,8 +2394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 520
-  burnTime: 1.25
+  thrustForce: 300
+  burnTime: 0.75
   cruiseThrust: 50
   cruiseTime: 2
   doBurn: 0
@@ -2534,7 +2534,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0.46
   MinDistance: 1
-  MaxDistance: 1400
+  MaxDistance: 550
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0

@@ -14,6 +14,8 @@ public class TechObject : MonoBehaviour
 
     public AbilityParent ability;
 
+    public Weapon weapon;
+
     public string techName = "";
 
     private void Awake()
@@ -48,8 +50,13 @@ public class TechObject : MonoBehaviour
         // award ability/weapon/whatever to team
         if(ability != null)
         {
-            // team inventory will continue to reference script instance from this object
-            teamInventory.addAbility(ability);
+            // team inventory will continue to reference script instance from this object as a "blueprint"
+            teamInventory.addAbility(ability); // but when an aircraft spawns, a new instance of the script will be used per aircraft
+        }
+
+        if(weapon != null)
+        {
+            teamInventory.addWeapon(weapon);
         }
 
     }

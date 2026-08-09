@@ -487,7 +487,7 @@ public class CamManipulation : MonoBehaviour
             worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
 
             targetLocalRotation = Quaternion.LookRotation(
-                    camAxisRollRef.transform.InverseTransformPoint(aircraftRootRB.transform.position + worldLockedLookDirection),
+                    camAxisRollRef.transform.InverseTransformPoint(camAxisHorizRef.transform.position + worldLockedLookDirection),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
         }
         else

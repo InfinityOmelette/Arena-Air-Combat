@@ -118,6 +118,11 @@ public class WeaponLoader : MonoBehaviour
         return report;
     }
 
+    public void refreshAvailableWeapons()
+    {
+        refreshAvailableWeapons(GameManager.getGM().selectedPlayerPrefab);
+    }
+
     // trigger this when selected aircraft for this team changes
     public void refreshAvailableWeapons(GameObject aircraftPrefab)
     {

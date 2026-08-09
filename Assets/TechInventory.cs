@@ -118,6 +118,19 @@ public class TechInventory : MonoBehaviour
         // aside note: when spawning, access inventory's selected ability and equip it onto aircraft
     }
 
+    public void addWeapon(Weapon newWeaponPrefab)
+    {
+        Debug.Log("Adding Weapon " + newWeaponPrefab.name + " to techInventory of " + myTeam);
+
+        // Add weapon prefab reference to team's weapon list
+        teamWeaponInventory.Add(newWeaponPrefab);
+
+        // Update the dropdown lists
+        weaponLoader.refreshAvailableWeapons();
+
+        
+    }
+
     public void selectAbility()
     {
         // read index from dropdown

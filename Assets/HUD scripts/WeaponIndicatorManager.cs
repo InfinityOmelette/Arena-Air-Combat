@@ -40,6 +40,8 @@ public class WeaponIndicatorManager : MonoBehaviour
     // these are the parent empty GameObjects that indicator icons of same type will be placed
     public List<GameObject> indicatorTypeContainers;  // assume initial active type is zero
 
+    public List<string> weaponTypeNames;
+
     public Image[] dPadWeaponDirections;
     private byte dpadImagesSaved = 0;
 
@@ -47,6 +49,7 @@ public class WeaponIndicatorManager : MonoBehaviour
     {
         initWeapSelectBoxLocalPos = weaponSelectBox.transform.localPosition;
         indicatorTypeContainers = new List<GameObject>();
+        weaponTypeNames = new List<string>();
     }
 
     // Start is called before the first frame update
@@ -142,11 +145,22 @@ public class WeaponIndicatorManager : MonoBehaviour
 
         //string name = newPrefabType.name.ToUpper()
 
+        weaponTypeNames.Add(newPrefabType.name);
+
         weaponTypesText.text += (indicatorTypeContainers.Count).ToString() + " --- " + newPrefabType.name.ToUpper() + "\n";
 
         return newContainerObj;
     }
 
+    public void refreshStockCounts(List<int> stockCount)
+    {
+        weaponTypesText.text = "";
+
+        for(int i = 0; i < weaponTypeNames.Count; i++)
+        {
+            weaponTypesText.text += (i + 1).ToString() + " --- " + weaponTypeNames[i].ToUpper() + " " + stockCount[i] + "\n";
+        }
+    }
 
     public GameObject spawnNewIndicator(short indicatorType, short orderPosition, Hardpoint linkedHardpoint)
     {
@@ -183,6 +197,7 @@ public class WeaponIndicatorManager : MonoBehaviour
         }
 
         indicatorTypeContainers.Clear();
+        weaponTypeNames.Clear();
 
     }
 

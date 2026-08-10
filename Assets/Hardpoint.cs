@@ -268,10 +268,11 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
         // This goes to hardpoint controller, indexes stock counter for this hardpoint's weapon type
 
-        if(!stockClaimed &&  myController.reloadStock[stockIndex] > 0)
+        if(!stockClaimed &&  myController.checkStock(stockIndex))
         {
             stockClaimed = true;
-            myController.reloadStock[stockIndex]--;
+            myController.claimStock(stockIndex);
+
         }
 
         return stockClaimed;

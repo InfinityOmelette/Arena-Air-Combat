@@ -84,6 +84,11 @@ public class HardpointController : MonoBehaviourPunCallbacks
         resetLists();
         fillHardpointArray();
         rootRadar.copyLockData(getActiveHardpoint().weaponTypePrefab.GetComponent<Radar>());
+
+        if (rootFlow.isLocalPlayer)
+        {
+            weaponIndicatorManager.refreshStockCounts(reloadStock);
+        }
     }
 
     public void resetLists()
@@ -620,6 +625,22 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
 
         initializeEquippedLoadout();
+    }
+
+
+    public bool checkStock(int stockIndex)
+    {
+        return reloadStock[stockIndex] > 0;
+    }
+
+    public void claimStock(int stockIndex)
+    {
+        reloadStock[stockIndex]--;
+        if (rootFlow.isLocalPlayer)
+        {
+            // update UI
+            weaponIndicatorManager.refreshStockCounts(reloadStock);
+        }
     }
     
 }

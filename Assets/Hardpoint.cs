@@ -47,9 +47,20 @@ public class Hardpoint : MonoBehaviourPunCallbacks
 
     private bool initialized = false;
 
+    private bool stockClaimed = false;
+
+    public HardpointController myController;
+    public int stockIndex = 0;
+
     void Awake()
     {
         launchSoundSource = GetComponent<AudioSource>();
+    }
+
+    public void linkToController(HardpointController controller, int stockIndex)
+    {
+        this.myController = controller;
+        this.stockIndex = stockIndex;
     }
 
     // Start is called before the first frame update
@@ -226,36 +237,70 @@ public class Hardpoint : MonoBehaviourPunCallbacks
                 }
 
             }
-            else // not ready to fire -- count down reload
+            else // not ready to fire -- try to reload, only count down reload if stock claimed
             {
-                if (currentReloadTimer > 0)
-                {
-                    currentReloadTimer -= Time.deltaTime;
-                }
-                else // reload timer runs out, reload
+
+                // only do this block if stock successfully claimed
+                if(tryClaimStock())
                 {
 
-                    reloadProcess(); // may be called repeatedly until reload complete
+                    if (currentReloadTimer > 0)
+                    {
+                        currentReloadTimer -= Time.deltaTime;
+                    }
+                    else // reload timer runs out, reload
+                    {
 
+                        reloadProcess(); // if pod type, may be called repeatedly until reload complete
+
+                    }
                 }
 
             }
         }
     }
 
+    // if a weapon from stock is claimed, return true
+    // Otherwise, attempt to claim a weapon from stock
+    private bool tryClaimStock()
+    {
+        //bool stockClaimed = this.stockClaimed;
 
-    // called repeatedly from update until reload is complete
+        // This goes to hardpoint controller, indexes stock counter for this hardpoint's weapon type
+
+        if(!stockClaimed &&  myController.reloadStock[stockIndex] > 0)
+        {
+            stockClaimed = true;
+            myController.reloadStock[stockIndex]--;
+        }
+
+        return stockClaimed;
+    }
+
+
+    // Dropped munitions -- called once to spawn weapon onto hardpoint
+    // Pod munitions -- called repeatedly to countdown weapon's own reload timer
     void reloadProcess()
     {
         if(loadedWeaponObj == null)
         {
+            // the claimed stock is loaded onto aircraft, unclaim to prepare for next reload
+            // called once to spawn reload
+            stockClaimed = false;
             spawnWeapon();
         }
-        else // weapon still present -- call its reload process
+        else // weapon still present -- this must mean pod type, so call its reload process repeatedly until complete
         {
             Weapon weaponRef = loadedWeaponObj.GetComponent<Weapon>();
             weaponRef.reloadProcess();
+            // upon reload complete, weapon talks back to this hardpoint to unclaim stock
+            // ...not very good structure. Cumbersome, requires remembering to add such stock unclaim call per new pod type weapon
         }
+    }
+
+    public void claimStock(bool stockClaimed)
+    {
+        this.stockClaimed = stockClaimed;
     }
 
     void OnDestroy()

@@ -71,6 +71,10 @@ public class Weapon : MonoBehaviourPunCallbacks
     public Guidance att_guidance;
     public Domain att_domain;
 
+    // TEMPORARY -- currently, stock count per type multiplied per hardpoint
+    // Expected final version will have dynamic stock bias set via spawn UI
+    public int stockWeightPerHardpoint = 3;
+
     public enum Weight
     {
         LIGHT,

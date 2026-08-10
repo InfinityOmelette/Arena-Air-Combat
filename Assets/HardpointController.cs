@@ -13,6 +13,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
     public List<List<Hardpoint>> weaponTypeHardpointLists; // two dimensional list -- hardpoint array for each weapon type
     short[] activeHardpointIndexes;   // use weaponTypeArrays[activeTypeIndex][activeHardpointIndexes[activeTypeIndex]]
 
+    public List<int> reloadStock;
+
     public short activeTypeIndex;
     public List<bool> groupThisType_List;
 
@@ -41,6 +43,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
     {
         weaponTypeHardpointLists = new List<List<Hardpoint>>();
         groupThisType_List = new List<bool>();
+        reloadStock = new List<int>();
         rootFlow = transform.root.GetComponent<CombatFlow>();
         dropSight = rootFlow.GetComponent<DropSightComputer>();
         rootRadar = rootFlow.GetComponent<Radar>();
@@ -99,6 +102,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
             groupThisType_List.Clear();
         }
 
+        reloadStock.Clear();
+
     }
 
     public void destroyWeapons()
@@ -149,13 +154,18 @@ public class HardpointController : MonoBehaviourPunCallbacks
             Debug.Log("Accessing hardpoint index " + i);
 
             hardpoints[i] = transform.GetChild(i).gameObject.GetComponent<Hardpoint>();
+            
 
             // if type cannot be found, start a new first level list
             // if type is found, add to existing list
 
-
+            // this is TEMPORARY -- final version will have stock bias set from respawn UI
+            //  this version multiplies stock of each type by # of hardpoints with that type
+            int weaponStockWeight = hardpoints[i].weaponTypePrefab.GetComponent<Weapon>().stockWeightPerHardpoint;
 
             short typeIndex = findTypeIndex(hardpoints[i].weaponTypePrefab);
+
+            
 
             // if new type found
             if (typeIndex < 0)
@@ -174,7 +184,17 @@ public class HardpointController : MonoBehaviourPunCallbacks
                     weaponIndicatorManager.spawnNewContainer(hardpoints[i].weaponTypePrefab);
                 }
 
+                
+
+                // update stock -- add new type index to stock, then add weight of stock
+                reloadStock.Add(weaponStockWeight);
             }
+            else // if NOT a new type, add weight of stock to index
+            {
+                reloadStock[typeIndex] += weaponStockWeight;
+            }
+
+            hardpoints[i].linkToController(this, typeIndex);
             weaponTypeHardpointLists[typeIndex].Add(hardpoints[i]); // add item to existing list
 
             //Debug.Log("Size of hardpoint list: " + weaponTypeHardpointLists[typeIndex].Count);

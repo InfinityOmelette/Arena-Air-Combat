@@ -205,6 +205,7 @@ public class RocketPod : Weapon
     private void rpcReload()
     {
         myHardpoint.readyToFire = true; // prevent this from being called again until next reload cycle
+        myHardpoint.claimStock(false);  // this is stinky. All pod types will need to unclaim this stock
         roundsRemain = roundsMax;
     }
 

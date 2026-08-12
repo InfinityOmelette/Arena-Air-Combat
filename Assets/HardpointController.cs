@@ -39,6 +39,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
     public LoadoutStorage loadoutStorage;
 
+    public int maxWeight = 35;
+
     private void Awake()
     {
         weaponTypeHardpointLists = new List<List<Hardpoint>>();
@@ -50,6 +52,47 @@ public class HardpointController : MonoBehaviourPunCallbacks
         ai_tgtComputer = rootFlow.GetComponent<AI_TgtComputer>();
 
         
+    }
+
+    // instantiates stock list according to DEFAULT weapons set at prefab level
+    //  -- this is useless for custom loadout stock levels
+    public void tryInstantiateStock()
+    {
+        //bool mustBeHostAI = !rootFlow.isLocalPlayer && rootFlow.localOwned;
+
+        //if (mustBeHostAI)
+        //{
+        //    if (reloadStock == null)
+        //    {
+        //        reloadStock = new List<int>();
+
+        //        Hardpoint[] myhardpoints = getHardpoints();
+
+        //        List<Weapon> weaponTypes = new List<Weapon>();
+
+        //        // loop through all hardpoints
+        //        for (int i = 0; i < myhardpoints.Length; i++)
+        //        {
+        //            Weapon weap = myhardpoints[i].weaponTypePrefab.GetComponent<Weapon>();
+
+        //            // if encountering new type of weapon, add an index to 
+        //            if (!weaponTypes.Contains(weap))
+        //            {
+        //                reloadStock.Add(0);
+        //                weaponTypes.Add(weap);
+        //            }
+        //        }
+        //    }
+        //}
+        
+    }
+
+    public List<int> getStock()
+    {
+
+        tryInstantiateStock();
+
+        return reloadStock;
     }
 
     public LoadoutStorage getStorage()
@@ -107,7 +150,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
             groupThisType_List.Clear();
         }
 
-        reloadStock.Clear();
+        //reloadStock.Clear();
 
     }
 
@@ -192,11 +235,11 @@ public class HardpointController : MonoBehaviourPunCallbacks
                 
 
                 // update stock -- add new type index to stock, then add weight of stock
-                reloadStock.Add(weaponStockWeight);
+                //reloadStock.Add(weaponStockWeight);
             }
             else // if NOT a new type, add weight of stock to index
             {
-                reloadStock[typeIndex] += weaponStockWeight;
+                //reloadStock[typeIndex] += weaponStockWeight;
             }
 
             hardpoints[i].linkToController(this, typeIndex);
@@ -615,7 +658,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void equipLoadoutPreset(LoadoutStorage.LoadoutPreset loadout)
+    public void equipLoadoutPreset(ref LoadoutStorage.LoadoutPreset loadout)
     {
         List<Weapon> loadoutWeapons = loadout.loadout;
 
@@ -624,7 +667,32 @@ public class HardpointController : MonoBehaviourPunCallbacks
             hardpoints[i].equipNewWeapon(loadoutWeapons[i]);
         }
 
+        //for(int i = 0; i < loadout.weaponTypes.Count; i++)
+        //{
+        //    this.reloadStock[i] = loadout.stock[i];
+        //}
+        copyStock(ref loadout);
+
+        // set this aircraft's stock according to  loadout's stock values
+        // if AI, generate default stock values
+        // otherwise, load stock values from selection onto aircraft
+
+
         initializeEquippedLoadout();
+    }
+
+    public void copyStock(ref LoadoutStorage.LoadoutPreset loadout)
+    {
+        reloadStock.Clear();
+
+        //Debug.LogError("Copying stock: " + loadout.stock.Count + " items");
+
+        for(int i = 0; i < loadout.stock.Count; i++)
+        {
+            reloadStock.Add(loadout.stock[i]);
+        }
+
+        //Debug.LogError("Copy stock complete, current reload stock has " + reloadStock.Count + " items");
     }
 
 

@@ -988,6 +988,7 @@ MonoBehaviour:
   hardpoints:
   - {fileID: 4572131021265210423}
   - {fileID: 594074616306897035}
+  reloadStock: 
   activeTypeIndex: 0
   groupThisType_List: 
   weaponIndicatorManager: {fileID: 0}
@@ -998,6 +999,7 @@ MonoBehaviour:
   input_mouseLookToggleBtnDown: 0
   launchActive: 0
   loadoutStorage: {fileID: 6165153293600480947}
+  maxWeight: 35
 --- !u!114 &6628018224278952362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1038,11 +1040,24 @@ MonoBehaviour:
     loadout:
     - {fileID: 1928006486093276839, guid: b59ff52cc0994ee4c8b290f7fc2b1162, type: 3}
     - {fileID: 1928006486093276839, guid: b59ff52cc0994ee4c8b290f7fc2b1162, type: 3}
+    stock: 0f000000
+    generateDefaultStock: 0
+    weaponTypes:
+    - {fileID: 1928006486093276839, guid: b59ff52cc0994ee4c8b290f7fc2b1162, type: 3}
   customLoadouts:
   - name: Custom1
-    loadout: []
+    loadout:
+    - {fileID: 1928006486093276839, guid: b59ff52cc0994ee4c8b290f7fc2b1162, type: 3}
+    - {fileID: 1928006486093276839, guid: b59ff52cc0994ee4c8b290f7fc2b1162, type: 3}
+    stock: 00000000
+    generateDefaultStock: 0
+    weaponTypes:
+    - {fileID: 1928006486093276839, guid: b59ff52cc0994ee4c8b290f7fc2b1162, type: 3}
   - name: Custom2
     loadout: []
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
 --- !u!1 &1933779246838293675
 GameObject:
   m_ObjectHideFlags: 0

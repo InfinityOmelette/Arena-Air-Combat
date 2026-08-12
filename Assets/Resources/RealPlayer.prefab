@@ -493,6 +493,7 @@ MonoBehaviour:
   - {fileID: 5220786102618332319}
   - {fileID: 8024281827104737698}
   - {fileID: 3788819843356283948}
+  reloadStock: 
   activeTypeIndex: 0
   groupThisType_List: 
   weaponIndicatorManager: {fileID: 0}
@@ -503,6 +504,7 @@ MonoBehaviour:
   input_mouseLookToggleBtnDown: 0
   launchActive: 0
   loadoutStorage: {fileID: 5977576526463842624}
+  maxWeight: 35
 --- !u!114 &6628018224278952362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,12 +542,38 @@ MonoBehaviour:
   hardpointController: {fileID: 3718655085937672987}
   standardLoadouts:
   - name: Default
-    loadout: []
+    loadout:
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    stock: 0a0000000400000002000000
+    generateDefaultStock: 0
+    weaponTypes:
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
   customLoadouts:
   - name: Custom1
     loadout: []
+    stock: 06000000050000000500000003000000
+    generateDefaultStock: 0
+    weaponTypes:
+    - {fileID: 4638551824527901223, guid: e7c3b8c77ebe1e54a987fcfe43ca4312, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
   - name: Custom2
     loadout: []
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
 --- !u!1 &2304895413824202424
 GameObject:
   m_ObjectHideFlags: 0

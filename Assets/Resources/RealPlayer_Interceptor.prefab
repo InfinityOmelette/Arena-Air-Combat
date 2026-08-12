@@ -667,6 +667,7 @@ MonoBehaviour:
   input_mouseLookToggleBtnDown: 0
   launchActive: 0
   loadoutStorage: {fileID: 1216323488522236402}
+  maxWeight: 35
 --- !u!114 &6628018224278952362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,11 +713,24 @@ MonoBehaviour:
     - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
     - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
     - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
+    stock: 0c00000008000000
+    generateDefaultStock: 0
+    weaponTypes:
+    - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
   customLoadouts:
   - name: Custom1
     loadout: []
+    stock: 0000000000000000
+    generateDefaultStock: 0
+    weaponTypes:
+    - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
   - name: Custom2
     loadout: []
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
 --- !u!1 &2304895413824202424
 GameObject:
   m_ObjectHideFlags: 0

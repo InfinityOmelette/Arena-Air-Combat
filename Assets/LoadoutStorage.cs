@@ -19,6 +19,29 @@ public class LoadoutStorage : MonoBehaviour
     {
         public string name;
         public List<Weapon> loadout;
+
+        // a stock list for each loadout preset. UI sets stock levels. Then, upon spawn, 
+        // these stock list values are copied onto the instantiated aircraft
+        // Three main layers, INSTANTIATION, MODIFICATION and APPLICATION;
+        //  - instantiation: reads weapons in loadout, sets initial list size for stock
+        //    -> Instantiation should remember previous weapon values for custom weapon changes
+        //    -> Stock values per weapon should ONLY auto-set when default-generate is selected
+        //    -> Otherwise, previous values carry over, even if overweight. User will modify weight accordingly
+        //      >>>> weapon loadout changes can change corresponding weapon indexes
+        //      >>>> therefore, loadout must remember weapon types per index
+        //  - Modification:  auto generation or UI modifies stock values for each weapon type
+        //    -> UI object: Text label, and text input box per weapon stock type
+        //    -> Generate a set of these, at designated origin, with designated spacing
+        //      --> generation occurs whenever a weapon loadout change occurs. Previous values may carryover
+        //    -> UI Object: Total weight tally. Whenever stock value changes, total stock weight tallied
+        //      --> checks maximum allowable weight, reads from prefab hardpointcontroller
+        //    -> Only allows spawn if weight is less than max allowed
+        //      --> only blocks spawn button?
+        //  - Application:  stored stock values of this loadout are copied onto instantiated aircraft
+
+        public List<int> stock; // each index = unique weapon type. Value = how many weapons of that type to store in onboard stock
+        public bool generateDefaultStock;
+        public List<Weapon> weaponTypes; // used to identify weapon type for stock values
     }
 
     //LoadoutPreset testLoadoutPleaseIgnore;
@@ -35,7 +58,117 @@ public class LoadoutStorage : MonoBehaviour
         
     }
 
-    
+    // count how many weapon types there are
+    // call this when weapon list is changed then validated
+    // the stock list needs to be reinstantiated every time the weapon list changes
+    //  --> ONLY change when internal weapon list changes -- not on dropdown changes such as changing aircraft or slot
+    // then, externally a different function will be used to modify the actual stock values
+    // ....how to make the fucking AI take default loadout without disturbing stored loadouts
+    //   --> AI spawn will instantiate and generate a new loadoutpreset that doesn't get stored anywhere,
+    //      ...except onto newly instantiated AI aircraft
+    public static void instantiateStockList(ref LoadoutPreset loadout, bool carryoverPrevStock = false)
+    {
+
+        if(loadout.stock == null)
+        {
+            loadout.stock = new List<int>();
+        }
+        if(loadout.weaponTypes == null)
+        {
+            loadout.weaponTypes = new List<Weapon>();
+        }
+
+        //loadout.stock.Clear();
+
+        // new set of stock lists, to compare old against new and carryover values
+        List<Weapon> newWeapTypes = new List<Weapon>();
+        List<int> newStock = new List<int>();
+
+        // loop through loadout weapons to build weapon type list
+        for (int i = 0; i < loadout.loadout.Count; i++)
+        {
+            Weapon weap = loadout.loadout[i];
+
+            // if new type found
+            if (!newWeapTypes.Contains(weap))
+            {
+                newWeapTypes.Add(weap); // keep track of this type
+                newStock.Add(0); // add blank index to stock. This index will correspond to above weap type
+
+            }
+        }
+
+        // only regenerate fresh stock values if auto-generate stock checked
+        if (carryoverPrevStock)
+        {
+            // loop through previous weapon types.
+            // for each type, see if same type exists in new types
+            //   - if found, save old stock onto new
+
+            //for(int i = 0; i < loadout.weaponTypes.Count; i++)
+            //{
+            //    Weapon oldWeapType = loadout.weaponTypes[i];
+
+            //    for(int j = 0; j < newWeapTypes.Count; i++)
+            //    {
+            //        Weapon newWeapType = newWeapTypes[j];
+            //        if(oldWeapType == newWeapType)
+            //        {
+            //            // same weapon type found, save old stock onto new
+            //            newStock[j] = loadout.stock[i];
+            //        }
+            //    }
+            //}
+
+
+        }
+        else // auto generate stock levels
+        {
+            // IMA DO THIS LATER GG
+        }
+        
+
+        loadout.stock = newStock;
+        loadout.weaponTypes = newWeapTypes;
+        
+        
+    }
+
+    public bool checkWeight(ref LoadoutPreset loadout)
+    {
+        //int weightTally = 0;
+
+        //for(int i = 0; i < loadout.weaponTypes.Count; i++)
+        //{
+        //    Weapon weap = loadout.weaponTypes[i];
+        //    int stockOfWeap = loadout.stock[i];
+
+        //    weightTally += weap.stockWeight * stockOfWeap;
+        //}
+
+        return weightTally(ref loadout) <= hardpointController.maxWeight;
+    }
+
+    public static int weightTally(ref LoadoutPreset loadout)
+    {
+        int weightTally = 0;
+
+        for (int i = 0; i < loadout.weaponTypes.Count; i++)
+        {
+            Weapon weap = loadout.weaponTypes[i];
+            int stockOfWeap = loadout.stock[i];
+
+            weightTally += weap.stockWeight * stockOfWeap;
+        }
+        return weightTally;
+    }
+
+    public int maxIndividualStock(Weapon weap)
+    {
+        // integer division will cut off decimal
+        // so result will be maximum allowable individual stock
+        return getController().maxWeight / weap.stockWeight;
+    }
 
 
     public HardpointController getController()
@@ -137,10 +270,13 @@ public class LoadoutStorage : MonoBehaviour
         }
     }
 
-
+    // Only called once per aircraft prefab to initialize the default loadout based on
+    // prefab hardpoint weapon settings
     private void constructLoadoutAsDefault(ref LoadoutPreset loadoutRef)
     {
         Debug.Log("LoadoutStorage.constructLoadoutAsDefault()");
+
+        // Fill the default loadout with hardpoint weapons set from aircraft prefab
         Hardpoint[] hardpoints = getController().getHardpoints();
 
         //if (loadoutRef.name.Equals("Custom1"))
@@ -152,6 +288,10 @@ public class LoadoutStorage : MonoBehaviour
         {
             loadoutRef.loadout[i] = hardpoints[i].weaponTypePrefab.GetComponent<Weapon>();
         }
+
+        // instantiate loadout stock. Will generate default values
+        instantiateStockList(ref loadoutRef);
+
     }
 
     public int getCustomIndex()
@@ -209,6 +349,13 @@ public class LoadoutStorage : MonoBehaviour
         for (int j = 0; j < loadout.loadout.Count; j++)
         {
             report += "Weapon " + j + ": " + loadout.loadout[j].gameObject.name + "\n";
+        }
+
+        report += "\nStock Levels: \n  ";
+
+        for(int i = 0; i < loadout.stock.Count; i++)
+        {
+            report += loadout.weaponTypes[i].name + ": " + loadout.stock[i] + "\n";
         }
         
 

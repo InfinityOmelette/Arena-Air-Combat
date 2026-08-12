@@ -47,7 +47,12 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
     public bool playerCanRespawn()
     {
-        return TeamSpawner.timeSincePlayerDeath > respawnTimeEffective;
+        bool countDownDone = TeamSpawner.timeSincePlayerDeath > respawnTimeEffective;
+
+
+        WeaponLoader loader = TechInventory.teamTechInventories[(int)team].weaponLoader;
+
+        return loader.validateWeight() && countDownDone;
     }
 
     // Update is called once per frame

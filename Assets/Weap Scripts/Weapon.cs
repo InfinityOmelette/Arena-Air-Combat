@@ -75,6 +75,8 @@ public class Weapon : MonoBehaviourPunCallbacks
     // Expected final version will have dynamic stock bias set via spawn UI
     public int stockWeightPerHardpoint = 3;
 
+    public int stockWeight = 1;
+
     public enum Weight
     {
         LIGHT,

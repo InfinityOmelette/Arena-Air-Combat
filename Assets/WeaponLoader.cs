@@ -13,7 +13,7 @@ public class WeaponLoader : MonoBehaviour
     // outer list indexes hardpoints, inner list indexes valid weapons for corresponding hardpoint
     public List<List<Weapon>> validWeaponsMasterList;
 
-    public List<Weapon> weaponsToEquip;
+    //public List<Weapon> weaponsToEquip;
 
     public GameObject weaponDropdownOrigin;
 
@@ -26,6 +26,15 @@ public class WeaponLoader : MonoBehaviour
 
     public Dropdown loadoutPresetDropdown;
 
+    public GameObject stockSliderOrigin;
+
+    public StockSliderReferences stockSliderPrefab;
+
+    public float stockSliderOffset = 30f;
+
+    public Text weightLabel;
+
+    public bool acceptableWeight = false;
 
     // loadoutpreset dropdown options must get built when aircraft selected
     //  - available weapons refreshed
@@ -94,7 +103,14 @@ public class WeaponLoader : MonoBehaviour
             //buildWeaponSelectorDropdowns();
             readLoadoutOntoDropdowns();
         }
+
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            Debug.LogError(getStorage().reportLoadout(ref getCurrentLoadoutRef()));
+        }
     }
+
+    
 
     public void debugRefreshDropdowns()
     {
@@ -169,18 +185,37 @@ public class WeaponLoader : MonoBehaviour
 
     }
 
+    public void deleteAllChildren(GameObject obj)
+    {
+        Debug.Log("Beginning child deletion");
+        for (int i = obj.transform.childCount - 1; i >= 0; i--)
+        {
+            Debug.Log(" Deleting child ");
+            GameObject.Destroy(obj.transform.GetChild(i).gameObject);
+        }
+
+    }
+
     // updates hardpoint dropdowns according to currently selected aircraft
     // defaulting to preset 0 -- Default loadout
     public void buildWeaponSelectorDropdowns()
     {
         Debug.Log("Build weapon selector dropdowns");
 
-        // Destroy all current ui weapon select dropdowns
-        for (int i = 0; i < weaponDropdownOrigin.transform.childCount; i++)
-        {
-            GameObject dropdown = weaponDropdownOrigin.transform.GetChild(i).gameObject;
-            GameObject.Destroy(dropdown);
-        }
+        //// Destroy all current ui weapon select dropdowns
+        //for (int i = 0; i < weaponDropdownOrigin.transform.childCount; i++)
+        //{
+        //    GameObject dropdown = weaponDropdownOrigin.transform.GetChild(i).gameObject;
+        //    GameObject.Destroy(dropdown); 
+        //    // ...if this index deleted, why does this work if incrementing and removing this index????
+        //}
+
+        //if(weaponDropdownOrigin.transform.childCount > 0)
+        //{
+        //    Debug.LogError("Some weapon dropdowns failed to delete: " + weaponDropdownOrigin.transform.childCount);
+        //}
+
+        deleteAllChildren(weaponDropdownOrigin);
 
         // add a new dropdown list for each hardpoint
         for (int i = 0; i < validWeaponsMasterList.Count; i++)
@@ -213,8 +248,106 @@ public class WeaponLoader : MonoBehaviour
             newDropDown.RefreshShownValue();
         }
 
+        generateStockSliders();
+
         //readLoadoutOntoDropdowns();
         
+    }
+
+    // PRE-REQUISITES FOR CALLING:
+    //  - stock and weapon type arrays set for loadout
+    public void generateStockSliders()
+    {
+
+        HardpointController controller = selectedAircraftPrefabHardpointController;
+
+
+
+        deleteAllStockSliders();
+
+        ref LoadoutStorage.LoadoutPreset activeLoadoutRef = ref getCurrentLoadoutRef();
+
+        // loop through weapon types
+        for (int i = 0; i < activeLoadoutRef.weaponTypes.Count; i++)
+        {
+            //  - instantiate UI slider, place inside corresponding team origin, offset by index
+            //  - calculate max stock for weapon, set this to max value on slider
+            Weapon weap = activeLoadoutRef.weaponTypes[i];
+            int stockOfWeap = activeLoadoutRef.stock[i];
+            int maxStockForWeap = controller.getStorage().maxIndividualStock(weap); // ignoring individual max for now
+                                                                                    //  - set slider value according to stock amt
+                                                                                    //  - attach onValueChanged listener?
+
+            StockSliderReferences newStockSlider = GameObject.Instantiate(stockSliderPrefab, 
+                stockSliderOrigin.transform).GetComponent<StockSliderReferences>();
+
+            newStockSlider.transform.localPosition = new Vector3(0f, -stockSliderOffset * i, 0f);
+
+            newStockSlider.initializeSlider(weap, stockOfWeap);
+
+            // attach callback to slider
+            newStockSlider.stockSlider.onValueChanged.AddListener(delegate
+            {
+                onStockSliderValueChange();
+            });
+
+
+
+        }
+
+    }
+
+    public void deleteAllStockSliders()
+    {
+        ////transform.get
+
+        //for (int i = 0; i < stockSliderOrigin.transform.childCount; i++)
+        //{
+        //    GameObject sliderObj = stockSliderOrigin.transform.GetChild(i).gameObject;
+        //    GameObject.Destroy(sliderObj);
+        //    // somehow this works in weapon dropdown case?
+        //    // even though we're incrementing after deleting an index?????
+        //    // this doesn't leave undeleted indexes????
+        //}
+
+
+        //if (stockSliderOrigin.transform.childCount > 0)
+        //{
+        //    Debug.LogError("DeleteAllStockSliders skipped some child indexes: " + stockSliderOrigin.transform.childCount);
+        //}
+
+        deleteAllChildren(stockSliderOrigin);
+    }
+
+    // propagate slider value to corresponding loadout weapon stock
+    // ignore if slider being generated for first time?
+    //  -> initial slider creation value set shouldn't cause problem?
+    public void onStockSliderValueChange()
+    {
+        ref LoadoutStorage.LoadoutPreset loadoutRef = ref getCurrentLoadoutRef();
+        
+        // loop through all sliders
+        for(int i = 0; i < stockSliderOrigin.transform.childCount; i++)
+        {
+            // each slider index corresponds to weapon type
+            StockSliderReferences sliderObj = stockSliderOrigin.transform.GetChild(i).GetComponent<StockSliderReferences>();
+
+            int stockAmt = (int)sliderObj.stockSlider.value;
+
+            loadoutRef.stock[i] = stockAmt;
+
+            sliderObj.quantityReadoutText.text = stockAmt.ToString();
+        }
+
+        validateWeight();
+        updateWeightLabel();
+
+
+    }
+
+    public bool validateWeight()
+    {
+        return acceptableWeight = getStorage().checkWeight(ref getCurrentLoadoutRef());
     }
 
     // called whenever selected aircraft changed
@@ -279,6 +412,10 @@ public class WeaponLoader : MonoBehaviour
                 Debug.Log("Test loop 5 " + i);
             }
 
+            // after loadout modifications complete, must reinstantiate loadout's stock
+            //LoadoutStorage storage = selectedAircraftPrefabHardpointController.getStorage();
+            LoadoutStorage.instantiateStockList(ref customLoadout, true);
+
             Debug.Log("Test 7");
             // programmatically select custom loadout at dropdown
             //  - should be valid regardless of if dropdown refresh occurs from selecting custom loadout preset
@@ -293,12 +430,16 @@ public class WeaponLoader : MonoBehaviour
             loadoutPresetDropdown.value = getCustomIndex();
             loadoutPresetDropdown.RefreshShownValue();
 
+            generateStockSliders();
+
         }
         else
         {
             ignoreModifyCallbacks--;
             Debug.Log("Ignoring modify callback. " + ignoreModifyCallbacks + " callbacks remaining");
         }
+
+        
         
     }
 
@@ -344,11 +485,24 @@ public class WeaponLoader : MonoBehaviour
             weapDropdown.RefreshShownValue();
         }
 
-
-        
-
     }
 
+    public void updateWeightLabel()
+    {
+        int weight = LoadoutStorage.weightTally(ref getCurrentLoadoutRef());
+        int maxWeight = getStorage().getController().maxWeight;
+
+
+        string label = "Weight: " + weight + " / " + maxWeight;
+        
+
+        if(weight > maxWeight)
+        {
+            label += " Overweight!!";
+        }
+
+        weightLabel.text = label;
+    }
     
 
     // trigger this on aircraft spawn for this team
@@ -382,31 +536,31 @@ public class WeaponLoader : MonoBehaviour
         //int dropdownIndex = loadoutPresetDropdown.value;
 
 
-        hardpointControllerInstance.equipLoadoutPreset(getCurrentLoadoutRef());
+        hardpointControllerInstance.equipLoadoutPreset(ref getCurrentLoadoutRef());
     }
 
-    // makes all selected weapon dropdowns to propagate their values to selected aircraft prefab's loadout
-    // loadoutIndex selects which loadout of the aircraft prefab will be modified
-    public void updateAircraftPrefabLoadout(GameObject aircraftPrefab, int loadoutIndex)
-    {
-        Debug.Log("updateAircraftPrefabLoadout()");
-        activeAircraftPrefab = aircraftPrefab;
-        selectedAircraftPrefabHardpointController = aircraftPrefab.GetComponent<TgtComputer>().getHardpointController();
-        prefabHardpoints = selectedAircraftPrefabHardpointController.getHardpoints();
+    //// makes all selected weapon dropdowns to propagate their values to selected aircraft prefab's loadout
+    //// loadoutIndex selects which loadout of the aircraft prefab will be modified
+    //public void updateAircraftPrefabLoadout(GameObject aircraftPrefab, int loadoutIndex)
+    //{
+    //    Debug.Log("updateAircraftPrefabLoadout()");
+    //    activeAircraftPrefab = aircraftPrefab;
+    //    selectedAircraftPrefabHardpointController = aircraftPrefab.GetComponent<TgtComputer>().getHardpointController();
+    //    prefabHardpoints = selectedAircraftPrefabHardpointController.getHardpoints();
 
-        LoadoutStorage loadStorage = selectedAircraftPrefabHardpointController.getStorage();
+    //    LoadoutStorage loadStorage = selectedAircraftPrefabHardpointController.getStorage();
 
-        for(int i = 0; i < prefabHardpoints.Length; i++)
-        {
-            Dropdown dropdown = weaponDropdownOrigin.transform.GetChild(i).GetComponent<Dropdown>();
-            int selectedIndex = dropdown.value;
-            Weapon newWeapon = validWeaponsMasterList[i][selectedIndex];
+    //    for(int i = 0; i < prefabHardpoints.Length; i++)
+    //    {
+    //        Dropdown dropdown = weaponDropdownOrigin.transform.GetChild(i).GetComponent<Dropdown>();
+    //        int selectedIndex = dropdown.value;
+    //        Weapon newWeapon = validWeaponsMasterList[i][selectedIndex];
 
-            loadStorage.standardLoadouts[loadoutIndex].loadout[i] = newWeapon;
-        }
+    //        loadStorage.standardLoadouts[loadoutIndex].loadout[i] = newWeapon;
+    //    }
 
-
-    }
+    //    //loadStorage.instantiateStockList(ref loadStorage.standardLoadouts[loadoutIndex], true);
+    //}
 
 
     public string reportAvailableWeaponsList()

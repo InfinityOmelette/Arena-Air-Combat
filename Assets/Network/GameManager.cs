@@ -206,6 +206,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (teamSpawnerCollections[teamNum].GetComponent<TeamSpawner>().playerCanRespawn())
         {
+            //this.
+
             spawnPlayer(teamNum, false);
             TeamSpawner.timeSincePlayerDeath = 0.0f;
         }

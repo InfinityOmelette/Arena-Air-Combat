@@ -66,7 +66,7 @@ public class LoadoutStorage : MonoBehaviour
     // ....how to make the fucking AI take default loadout without disturbing stored loadouts
     //   --> AI spawn will instantiate and generate a new loadoutpreset that doesn't get stored anywhere,
     //      ...except onto newly instantiated AI aircraft
-    public static void instantiateStockList(ref LoadoutPreset loadout, bool carryoverPrevStock = false)
+    public void instantiateStockList(ref LoadoutPreset loadout, bool carryoverPrevStock = false)
     {
 
         if(loadout.stock == null)
@@ -105,14 +105,24 @@ public class LoadoutStorage : MonoBehaviour
             // for each type, see if same type exists in new types
             //   - if found, save old stock onto new
 
-            //for(int i = 0; i < loadout.weaponTypes.Count; i++)
+            //Debug.LogError("Carrying over previous stock. old weap type count: "
+            //    + loadout.weaponTypes.Count + ", old stock count: " +
+            //    loadout.stock.Count + ", new weap type count: " + newWeapTypes.Count +
+            //    ", new stock count: " + newStock.Count);
+
+            //// loop through all pre-existing weapon types
+            //for (int i = 0; i < loadout.weaponTypes.Count; i++)
             //{
             //    Weapon oldWeapType = loadout.weaponTypes[i];
+            //    //Debug.LogError("Grabbing oldType " + i);
 
-            //    for(int j = 0; j < newWeapTypes.Count; i++)
+            //    // loop through all newly found weapon types
+            //    for (int j = 0; j < newWeapTypes.Count; j++)
             //    {
+            //        //Debug.LogError("Grabbing new type: " + j);
             //        Weapon newWeapType = newWeapTypes[j];
-            //        if(oldWeapType == newWeapType)
+
+            //        if (oldWeapType == newWeapType)
             //        {
             //            // same weapon type found, save old stock onto new
             //            newStock[j] = loadout.stock[i];
@@ -120,18 +130,86 @@ public class LoadoutStorage : MonoBehaviour
             //    }
             //}
 
+            //loadout.stock = newStock;
+            //loadout.weaponTypes = newWeapTypes;
+
+            carryOverPrevStock(ref loadout, newWeapTypes, newStock);
 
         }
         else // auto generate stock levels
         {
-            // IMA DO THIS LATER GG
+            // overwrite old lists since we don't care about carryover here
+            loadout.stock = newStock;
+            loadout.weaponTypes = newWeapTypes;
+            generateDefaultStock(ref loadout);
         }
         
 
-        loadout.stock = newStock;
-        loadout.weaponTypes = newWeapTypes;
         
         
+        
+    }
+
+    public void carryOverPrevStock(ref LoadoutPreset loadoutRef, List<Weapon> newWeapTypes, List<int> newStock)
+    {
+        // loop through all pre-existing weapon types
+        for (int i = 0; i < loadoutRef.weaponTypes.Count; i++)
+        {
+            Weapon oldWeapType = loadoutRef.weaponTypes[i];
+            //Debug.LogError("Grabbing oldType " + i);
+
+            // loop through all newly found weapon types
+            for (int j = 0; j < newWeapTypes.Count; j++)
+            {
+                //Debug.LogError("Grabbing new type: " + j);
+                Weapon newWeapType = newWeapTypes[j];
+
+                if (oldWeapType == newWeapType)
+                {
+                    // same weapon type found, save old stock onto new
+                    newStock[j] = loadoutRef.stock[i];
+                }
+            }
+        }
+
+        loadoutRef.stock = newStock;
+        loadoutRef.weaponTypes = newWeapTypes;
+    }
+
+    // ensure stock and weapontype lengths are properly initialized before calling
+    public void generateDefaultStock(ref LoadoutPreset loadoutRef)
+    {
+        bool weaponAdded = false;
+        int maxWeight = getController().maxWeight;
+        int newWeight = 0;
+
+        // continue looping until no weapons are added
+        do
+        {
+            weaponAdded = false;
+
+            // loop through each weapon in loadout
+            for (int i = 0; i < loadoutRef.loadout.Count; i++)
+            {
+                Weapon weap = loadoutRef.loadout[i];
+
+                int testWeight = newWeight + weap.stockWeight;
+
+                if (testWeight <= maxWeight)
+                {
+                    // add weapon to stock
+                    int weapIndex = loadoutRef.weaponTypes.IndexOf(weap);
+                    loadoutRef.stock[weapIndex]++;
+                    newWeight = testWeight;
+                    weaponAdded = true;
+                }
+
+            }
+
+
+        } while (weaponAdded);
+
+
     }
 
     public bool checkWeight(ref LoadoutPreset loadout)

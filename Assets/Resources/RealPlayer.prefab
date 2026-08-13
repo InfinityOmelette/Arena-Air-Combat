@@ -553,7 +553,7 @@ MonoBehaviour:
     - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
     - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
-    stock: 0a0000000400000002000000
+    stock: 0b0000000000000000000000
     generateDefaultStock: 0
     weaponTypes:
     - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
@@ -561,19 +561,32 @@ MonoBehaviour:
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
   customLoadouts:
   - name: Custom1
-    loadout: []
-    stock: 06000000050000000500000003000000
+    loadout:
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
+    - {fileID: 1928006486093276839, guid: d2bcdd024eb0a5343b126eecb07740bf, type: 3}
+    stock: 0b000000030000000100000001000000
     generateDefaultStock: 0
     weaponTypes:
-    - {fileID: 4638551824527901223, guid: e7c3b8c77ebe1e54a987fcfe43ca4312, type: 3}
     - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
     - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
+    - {fileID: 1928006486093276839, guid: d2bcdd024eb0a5343b126eecb07740bf, type: 3}
   - name: Custom2
     loadout: []
-    stock: 
+    stock: 000000000000000000000000
     generateDefaultStock: 0
-    weaponTypes: []
+    weaponTypes:
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
 --- !u!1 &2304895413824202424
 GameObject:
   m_ObjectHideFlags: 0

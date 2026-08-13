@@ -295,6 +295,8 @@ public class WeaponLoader : MonoBehaviour
 
         }
 
+        updateWeightLabel();
+
     }
 
     public void deleteAllStockSliders()
@@ -414,7 +416,7 @@ public class WeaponLoader : MonoBehaviour
 
             // after loadout modifications complete, must reinstantiate loadout's stock
             //LoadoutStorage storage = selectedAircraftPrefabHardpointController.getStorage();
-            LoadoutStorage.instantiateStockList(ref customLoadout, true);
+            getStorage().instantiateStockList(ref customLoadout, true);
 
             Debug.Log("Test 7");
             // programmatically select custom loadout at dropdown
@@ -484,6 +486,8 @@ public class WeaponLoader : MonoBehaviour
 
             weapDropdown.RefreshShownValue();
         }
+
+        generateStockSliders();
 
     }
 

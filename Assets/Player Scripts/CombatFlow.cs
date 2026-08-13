@@ -101,6 +101,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public TechSite myTechSite;
 
+    public CombatFlow prefabRef;
+
     // ??????????
     public static Team convertNumToTeam(short num)
     {

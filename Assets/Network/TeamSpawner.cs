@@ -86,6 +86,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         {
 
             player = PhotonNetwork.Instantiate(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
+            player.GetComponent<CombatFlow>().prefabRef = playerPrefab.GetComponent<CombatFlow>();
             localPlayerInstance = player;
 
             
@@ -97,6 +98,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         else
         {
             player = PhotonNetwork.InstantiateSceneObject(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
+            player.GetComponent<CombatFlow>().prefabRef = playerPrefab.GetComponent<CombatFlow>();
             techInventory.weaponLoader.equipLoadoutOntoSpawnedAircraft(player, true);
         }
 

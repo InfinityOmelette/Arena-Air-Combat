@@ -510,14 +510,14 @@ public class WeaponLoader : MonoBehaviour
     }
     
 
-    // trigger this on aircraft spawn for this team
+    // trigger this immediately after aircraft spawn for this team
     // TODO: Make this fetch proper selected loadout via preset index AND team
     //  ....actually, maybe i don't need to change anything? If correct values stored in dropdowns?
     //  --> not strictly necessary, but for cleanliness, I should refactor this to use the loadout struct
-    public void equipLoadoutOntoSpawnedAircraft(GameObject aircraftInstance, bool isAI = false)
+    public void equipLoadoutOntoSpawnedAircraft(GameObject spawnedAircraftInstance, bool isAI = false)
     {
         Debug.Log("equipLoadoutOntoSpawnedAircraft()");
-        HardpointController hardpointControllerInstance = aircraftInstance.GetComponent<TgtComputer>().getHardpointController();
+        HardpointController hardpointControllerInstance = spawnedAircraftInstance.GetComponent<TgtComputer>().getHardpointController();
         //Hardpoint[] hardpoints = hardpointControllerInstance.getHardpoints();
 
 
@@ -540,10 +540,14 @@ public class WeaponLoader : MonoBehaviour
         //hardpointControllerInstance.initializeEquippedLoadout();
         //int dropdownIndex = loadoutPresetDropdown.value;
 
+        
+
         if (isAI)
         {
             // AI will spawn w default loadout with original stock settings
-            LoadoutStorage.LoadoutPreset tempLoadout = getStorage().getDefaultLoadoutCopy(myTeamTechInventory.myTeam);
+            // need to access LoadoutStorage from prefab of AI selected aircraft
+            HardpointController prefabHPController = hardpointControllerInstance.getRootFlow().prefabRef.hardpoints;
+            LoadoutStorage.LoadoutPreset tempLoadout = prefabHPController.getStorage().getDefaultLoadoutCopy(myTeamTechInventory.myTeam);
             getStorage().instantiateStockList(ref tempLoadout); 
             hardpointControllerInstance.equipLoadoutPreset(ref tempLoadout);
         }

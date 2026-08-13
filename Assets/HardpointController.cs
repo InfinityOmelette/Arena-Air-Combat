@@ -54,6 +54,16 @@ public class HardpointController : MonoBehaviourPunCallbacks
         
     }
 
+    public CombatFlow getRootFlow()
+    {
+        if(rootFlow == null)
+        {
+            rootFlow = transform.parent.GetComponent<CombatFlow>();
+        }
+        return rootFlow;
+
+    }
+
     // instantiates stock list according to DEFAULT weapons set at prefab level
     //  -- this is useless for custom loadout stock levels
     public void tryInstantiateStock()
@@ -662,9 +672,12 @@ public class HardpointController : MonoBehaviourPunCallbacks
     {
         List<Weapon> loadoutWeapons = loadout.loadout;
 
+        Debug.Log("Equipping Loadout: \n" + getStorage().reportLoadout(ref loadout));
+
         for(int i = 0; i < getHardpoints().Length; i++)
         {
-            hardpoints[i].equipNewWeapon(loadoutWeapons[i]);
+            Weapon weap = loadoutWeapons[i];
+            hardpoints[i].equipNewWeapon(weap);
         }
 
         //for(int i = 0; i < loadout.weaponTypes.Count; i++)

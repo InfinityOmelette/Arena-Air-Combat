@@ -390,7 +390,6 @@ public class WeaponLoader : MonoBehaviour
         if (ignoreModifyCallbacks == 0)
         {
 
-
             // This actually should select the custom loadout
             ref LoadoutStorage.LoadoutPreset customLoadout = ref getCustomLoadoutRef();
 
@@ -513,7 +512,7 @@ public class WeaponLoader : MonoBehaviour
     // TODO: Make this fetch proper selected loadout via preset index AND team
     //  ....actually, maybe i don't need to change anything? If correct values stored in dropdowns?
     //  --> not strictly necessary, but for cleanliness, I should refactor this to use the loadout struct
-    public void equipLoadoutOntoSpawnedAircraft(GameObject aircraftInstance)
+    public void equipLoadoutOntoSpawnedAircraft(GameObject aircraftInstance, bool isAI = false)
     {
         Debug.Log("equipLoadoutOntoSpawnedAircraft()");
         HardpointController hardpointControllerInstance = aircraftInstance.GetComponent<TgtComputer>().getHardpointController();
@@ -530,7 +529,7 @@ public class WeaponLoader : MonoBehaviour
         //    int selectedIndex = dropdown.value;
         //    Weapon newWeapon = validWeaponsMasterList[i][selectedIndex];
 
-            
+
         //    hardpoints[i].equipNewWeapon(newWeapon);
         //}
 
@@ -539,8 +538,19 @@ public class WeaponLoader : MonoBehaviour
         //hardpointControllerInstance.initializeEquippedLoadout();
         //int dropdownIndex = loadoutPresetDropdown.value;
 
+        if (isAI)
+        {
+            // AI will spawn w default loadout with original stock settings
+            LoadoutStorage.LoadoutPreset tempLoadout = getStorage().getDefaultLoadoutCopy(myTeamTechInventory.myTeam);
+            getStorage().instantiateStockList(ref tempLoadout); 
+            hardpointControllerInstance.equipLoadoutPreset(ref tempLoadout);
+        }
+        else
+        {
+            hardpointControllerInstance.equipLoadoutPreset(ref getCurrentLoadoutRef());
+        }
 
-        hardpointControllerInstance.equipLoadoutPreset(ref getCurrentLoadoutRef());
+        
     }
 
     //// makes all selected weapon dropdowns to propagate their values to selected aircraft prefab's loadout

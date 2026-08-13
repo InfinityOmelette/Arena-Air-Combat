@@ -263,18 +263,20 @@ public class LoadoutStorage : MonoBehaviour
     {
         Debug.Log("LoadoutStorage.getLoadoutRef()");
         // establishing scope of loadoutRef, though requires instantiation to arbitrary value
-        ref LoadoutPreset loadoutRef = ref standardLoadouts[0]; 
+        ref LoadoutPreset loadoutRef = ref standardLoadouts[(int)team]; 
 
-        // If we attempt to index a loadout past those in standard loadout list...
-        if(loadoutIndex >= standardLoadouts.Length)
+        // loadout 0 index from selector is always a default
+
+        // If we attempt to index a non-default loadout
+        if(loadoutIndex != 0)
         {
             // we must be trying to read a CUSTOM loadout
             loadoutRef = ref customLoadouts[(int)team];
         }
-        else // if we are accessing a standard loadout
-        {
-            loadoutRef = ref standardLoadouts[loadoutIndex];
-        }
+        //else // if we are accessing a standard loadout
+        //{
+        //    loadoutRef = ref standardLoadouts[loadoutIndex];
+        //}
 
         // validate and, if need be, construct loadout as default
         validateLoadoutConstruction(ref loadoutRef);
@@ -372,28 +374,46 @@ public class LoadoutStorage : MonoBehaviour
 
     }
 
+    // index of custom loadout as seen by preset dropdown selector
     public int getCustomIndex()
     {
         Debug.Log("LoadoutStorage.getCustomIndex()");
-        return standardLoadouts.Length;
+        //return standardLoadouts.Length;
+        return 1; // structure changed so that 0 index is default, custom is 1
     }
 
+    // this is also used to index selected loadouts from UI
+    //  the returned string[] array corresponds to selectable loadouts per aircraft
     public string[] reportNamesArrayByTeam(CombatFlow.Team team)
     {
         Debug.Log("LoadoutStorage.reportNamesArrayByTeam()");
-        int stringCount = standardLoadouts.Length + 1; // 1 custom loadout will be included
-        string[] reportArray = new string[stringCount];
 
-        for (int i = 0; i < standardLoadouts.Length; i++)
-        {
-            reportArray[i] = standardLoadouts[i].name;
-        }
-        reportArray[standardLoadouts.Length] = customLoadouts[(int)team].name;
+        //int stringCount = standardLoadouts.Length + 1; // 1 custom loadout will be included
+        //string[] reportArray = new string[stringCount];
+
+        //for (int i = 0; i < standardLoadouts.Length; i++)
+        //{
+        //    reportArray[i] = standardLoadouts[i].name;
+        //}
+        //reportArray[standardLoadouts.Length] = customLoadouts[(int)team].name;
+
+        string[] reportArray = new string[2]; // one default, one custom loadout
+        reportArray[0] = standardLoadouts[(int)team].name;
+        reportArray[1] = customLoadouts[(int)team].name;
 
         return reportArray;
 
     }
 
+    public ref LoadoutPreset getDefaultLoadout(CombatFlow.Team team)
+    {
+        return ref standardLoadouts[(int)team];
+    }
+
+    public LoadoutPreset getDefaultLoadoutCopy(CombatFlow.Team team)
+    {
+        return standardLoadouts[(int)team];
+    }
 
     public string reportAllLoadouts()
     {

@@ -79,7 +79,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         GameObject emptySpawn = findEmptySpawnPoint();
 
         GameObject player;
-
+        TechInventory techInventory = TechInventory.teamTechInventories[(int)team];
 
         // AI must be scene object, so that it persists when host leaves
         if (isPlayer)
@@ -88,7 +88,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
             player = PhotonNetwork.Instantiate(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
             localPlayerInstance = player;
 
-            TechInventory techInventory = TechInventory.teamTechInventories[(int)team];
+            
 
             techInventory.equipSelectedAbilityToAircraft(player);
             techInventory.weaponLoader.equipLoadoutOntoSpawnedAircraft(player);
@@ -97,6 +97,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         else
         {
             player = PhotonNetwork.InstantiateSceneObject(playerPrefab.name, emptySpawn.transform.position, Quaternion.identity, 0);
+            techInventory.weaponLoader.equipLoadoutOntoSpawnedAircraft(player, true);
         }
 
         player.transform.rotation = emptySpawn.transform.rotation;

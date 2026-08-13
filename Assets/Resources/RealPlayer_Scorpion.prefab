@@ -719,6 +719,7 @@ MonoBehaviour:
   hardpoints:
   - {fileID: 146740923300902513}
   - {fileID: 7272716453543111332}
+  reloadStock: 
   activeTypeIndex: 0
   groupThisType_List: 
   weaponIndicatorManager: {fileID: 0}
@@ -729,6 +730,7 @@ MonoBehaviour:
   input_mouseLookToggleBtnDown: 0
   launchActive: 0
   loadoutStorage: {fileID: 4152702811868389561}
+  maxWeight: 35
 --- !u!114 &6628018224278952362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,15 +767,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hardpointController: {fileID: 3718655085937672987}
   standardLoadouts:
-  - name: Default
+  - name: Default1
     loadout:
     - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
     - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
+  - name: Default2
+    loadout:
+    - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
+    - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
   customLoadouts:
   - name: Custom1
     loadout: []
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
   - name: Custom2
     loadout: []
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
 --- !u!1 &2304895413824202424
 GameObject:
   m_ObjectHideFlags: 0

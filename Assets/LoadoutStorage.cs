@@ -183,6 +183,8 @@ public class LoadoutStorage : MonoBehaviour
         int maxWeight = getController().maxWeight;
         int newWeight = 0;
 
+        zeroStock(ref loadoutRef);
+
         // continue looping until no weapons are added
         do
         {
@@ -210,6 +212,15 @@ public class LoadoutStorage : MonoBehaviour
         } while (weaponAdded);
 
 
+    }
+
+    private void zeroStock(ref LoadoutPreset loadout)
+    {
+
+        for(int i = 0; i < loadout.stock.Count; i++)
+        {
+            loadout.stock[i] = 0;
+        }
     }
 
     public bool checkWeight(ref LoadoutPreset loadout)

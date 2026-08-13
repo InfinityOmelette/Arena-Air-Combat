@@ -36,6 +36,8 @@ public class WeaponLoader : MonoBehaviour
 
     public bool acceptableWeight = false;
 
+    public Button generateDefaultStockButton;
+
     // loadoutpreset dropdown options must get built when aircraft selected
     //  - available weapons refreshed
     //  - loadout preset dropdown built -- defaults to 0 (may not need to trigger update if all hardpoint dropdowns default to 0 anyways?)
@@ -576,6 +578,13 @@ public class WeaponLoader : MonoBehaviour
     //    //loadStorage.instantiateStockList(ref loadStorage.standardLoadouts[loadoutIndex], true);
     //}
 
+    public void onClickStockGenerateButton()
+    {
+        getStorage().generateDefaultStock(ref getCurrentLoadoutRef());
+        generateStockSliders();
+        // slightly inefficient to rebuild sliders completely when only new values needed
+        // but eh, only executes once per click so idc 
+    }
 
     public string reportAvailableWeaponsList()
     {

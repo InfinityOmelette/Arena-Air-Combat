@@ -29,7 +29,7 @@ public class WheelsControl : MonoBehaviour
     
     public float input_gear_button;
 
-    
+    public ArrestingHook hook;
 
     // Start is called before the first frame update
     void Start()
@@ -138,10 +138,15 @@ public class WheelsControl : MonoBehaviour
             {
                 wheels[i].setWheelLowered(enabled);
             }
-
             gearIsDown = enabled;
         }
+
+        if (hook != null)
+        {
+            hook.gameObject.SetActive(enabled);
+        }
         
+
 
         return enabled;
     }

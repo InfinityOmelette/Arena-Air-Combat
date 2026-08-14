@@ -27,6 +27,11 @@ public class ArrestingHook : MonoBehaviour
     //public float fullStretchDecayFactor = 1.5f;
     public float minimumDecayFactor = 0.5f;
 
+    private ArrestingWire caughtWire;
+    private WireGroup caughtGroup;
+
+    public Transform hookPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +61,9 @@ public class ArrestingHook : MonoBehaviour
         if( releaseTimer < 0)
         {
             isCatching = false;
+            caughtWire.release(this);
+            caughtGroup = null;
+            caughtWire = null;
         }
     }
 
@@ -65,7 +73,7 @@ public class ArrestingHook : MonoBehaviour
 
         Rigidbody rootRB = getRootFlow().myRb;
 
-        float displacement = Vector3.Distance(rootRB.transform.position, catchPoint);
+        float displacement = Vector3.Distance(rootRB.transform.position, caughtWire.transform.position);
         float displacementFactor =
             Mathf.Clamp(displacement / maxDisplacement, minimumDecayFactor, 1.0f);
 
@@ -99,13 +107,29 @@ public class ArrestingHook : MonoBehaviour
     //  - if touches another carrierops object
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == CARRIER_OPS_LAYER)
+        if(other.gameObject.layer == CARRIER_OPS_LAYER && !isCatching)
         {
             isCatching = true;
             releaseTimer = releaseTime;
             catchPoint = other.transform.position;
+            caughtGroup = other.GetComponent<WireGroup>();
+            caughtWire = caughtGroup.selectWire(getHookPoint().position);
+            caughtWire.Catch(this);
+
         }
         //isCatching = other.gameObject.layer == 14;
+    }
+
+    public Transform getHookPoint()
+    {
+        if(hookPoint != null)
+        {
+            return hookPoint;
+        }
+        else
+        {
+            return transform;
+        }
     }
 
 }

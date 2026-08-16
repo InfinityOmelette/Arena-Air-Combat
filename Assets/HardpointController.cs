@@ -107,6 +107,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
     public LoadoutStorage getStorage()
     {
+        Debug.Log("Getting storage for " + getRootFlow().gameObject.name);
+
         if(loadoutStorage == null)
         {
             loadoutStorage = GetComponent<LoadoutStorage>();
@@ -668,11 +670,13 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
     }
 
+
+
     public void equipLoadoutPreset(ref LoadoutStorage.LoadoutPreset loadout)
     {
         List<Weapon> loadoutWeapons = loadout.loadout;
 
-        Debug.Log("Equipping Loadout: \n" + getStorage().reportLoadout(ref loadout));
+        //Debug.Log("Equipping Loadout: \n" + getStorage().reportLoadout(ref loadout));
 
         for(int i = 0; i < getHardpoints().Length; i++)
         {
@@ -722,6 +726,26 @@ public class HardpointController : MonoBehaviourPunCallbacks
             // update UI
             weaponIndicatorManager.refreshStockCounts(reloadStock);
         }
+    }
+
+    public void rearm()
+    {
+        WeaponLoader loaderRef = 
+            TechInventory.teamTechInventories[(int)getRootFlow().team].weaponLoader;
+        Debug.Log("Rearming Hardpointcontroller");
+
+        if(loaderRef.activeAircraftPrefab == getRootFlow().prefabRef.gameObject)
+        {
+            //equipLoadoutPreset(ref loaderRef.getCurrentLoadoutRef());
+            loaderRef.equipLoadoutOntoSpawnedAircraft(getRootFlow().gameObject);
+        }
+        else
+        {
+            Debug.LogError("Cancelling rearm: active prefab " + loaderRef.activeAircraftPrefab.name 
+                + " different from live aircraft prefab " + getRootFlow().prefabRef.gameObject);
+        }
+
+        //loaderRef.equipLoadoutOntoSpawnedAircraft(getRootFlow().gameObject);
     }
     
 }

@@ -31,13 +31,20 @@ public class WheelsControl : MonoBehaviour
 
     public ArrestingHook hook;
 
+    private float externBrakeApply = 0.0f;
+
+    private bool lockSteering = false;
+
     // Start is called before the first frame update
     void Start()
     {
         setGearEnabled(gearIsDown);
     }
 
-    
+    public void externApplyBrake(float brake)
+    {
+        externBrakeApply = brake;
+    }
 
     private void FixedUpdate()
     {
@@ -74,6 +81,11 @@ public class WheelsControl : MonoBehaviour
     // calculate steering input, factoring in speed limiting
     private float steerInputProcess()
     {
+
+        if (lockSteering)
+        {
+            return 0f;
+        }
         // get velocity from root parent
         float readVel = 0.0f; // default value if unable to access
         if (root_RB != null)
@@ -112,7 +124,7 @@ public class WheelsControl : MonoBehaviour
         }
         
         
-        return brakeInput; // 1.0 is max brake, 0 is no brake
+        return Mathf.Clamp(brakeInput + externBrakeApply, 0f, 1f); // 1.0 is max brake, 0 is no brake
     }
 
     // toggle gear on gear button press
@@ -151,6 +163,25 @@ public class WheelsControl : MonoBehaviour
         return enabled;
     }
 
+    public void beginSlide()
+    {
+        for(int i = 0; i < wheels.Length; i++)
+        {
+            wheels[i].beginSlide();
+        }
+    }
 
+    public void endSlide()
+    {
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            wheels[i].endSlide();
+        }
+    }
+
+    public void setSteeringLock(bool doLock)
+    {
+        this.lockSteering = doLock;
+    }
 
 }

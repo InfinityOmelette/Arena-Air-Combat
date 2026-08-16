@@ -644,10 +644,13 @@ MonoBehaviour:
   launchThrottlePercent: 85
   launchReadyDistance: 1
   moveToCatSpeed: 3
-  rotateToCatRate: 2
+  rotateToCatRate: 4
   shootTimerMax: 1.2
   launchAcceleration: 100
   maxLinkInitiateSpeed: 20
+  maxRotSpeedDEG: 40
+  wheelControl: {fileID: 6801349663249705164}
+  angleCloseEnoughThreshold: 0.1
 --- !u!65 &2205377526354134026
 BoxCollider:
   m_ObjectHideFlags: 0

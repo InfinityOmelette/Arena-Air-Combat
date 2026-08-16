@@ -18,7 +18,19 @@ public class WheelBehavior : MonoBehaviour
 
     public bool wheelDown = true;
 
-    
+    //public float initSideFriction;
+
+    WheelFrictionCurve initSideFric;
+    WheelFrictionCurve initForwardFric;
+
+
+
+
+    private void Awake()
+    {
+        initSideFric = wheelCollider.sidewaysFriction;
+        initForwardFric = wheelCollider.forwardFriction;
+    }
 
     void Start()
     {
@@ -33,6 +45,8 @@ public class WheelBehavior : MonoBehaviour
         alignRotation();
 
         wheelCollider.motorTorque = 0.0001f; // to escape "park brake" mode
+
+        
     }
 
     // Moves mesh onto position of wheel collider
@@ -114,6 +128,31 @@ public class WheelBehavior : MonoBehaviour
         wheelDrag.setDragActive(lowered);
 
         return wheelDown = lowered; // value only changes if successfully returns
+    }
+
+    public void beginSlide()
+    {
+        //wheelCollider.sidewaysFriction = slipFriction;
+
+        WheelFrictionCurve wheelFric = wheelCollider.sidewaysFriction;
+
+        wheelFric.extremumValue = 0f;
+        wheelFric.asymptoteValue = 0f;
+        wheelFric.stiffness = 0f;
+
+        wheelCollider.sidewaysFriction = wheelFric;
+
+        wheelCollider.forwardFriction = wheelFric;
+
+        
+    }
+
+    public void endSlide()
+    {
+        //wheelCollider.sidewaysFriction = initFriction;
+
+        wheelCollider.sidewaysFriction = initSideFric;
+        wheelCollider.forwardFriction = initForwardFric;
     }
 
     

@@ -20,8 +20,23 @@ public class CatapultLaunchbox : MonoBehaviour
     }
 
 
+    // choose closest AVAILABLE catapult to gear
     public Catapult chooseCat(CatLaunchGear gear)
     {
-        return cats[0];
+        float minDist = 100f; // arbitrarily large start val
+        Catapult selectedCat = cats[0];
+
+        for(int i = 0; i < cats.Count; i++)
+        {
+            Catapult cat = cats[i];
+            float dist = Vector3.Distance(cat.launchCenter.position, gear.transform.position);
+            if(cat.catAvailable() && dist < minDist)
+            {
+                minDist = dist;
+                selectedCat = cat;
+            }
+        }
+
+        return selectedCat;
     }
 }

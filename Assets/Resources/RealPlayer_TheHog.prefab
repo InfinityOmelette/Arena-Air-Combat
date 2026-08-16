@@ -587,9 +587,13 @@ MonoBehaviour:
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
-    stock: 
+    stock: 04000000040000000500000003000000
     generateDefaultStock: 0
-    weaponTypes: []
+    weaponTypes:
+    - {fileID: 4638551824527901223, guid: e7c3b8c77ebe1e54a987fcfe43ca4312, type: 3}
+    - {fileID: 1928006486093276839, guid: d2bcdd024eb0a5343b126eecb07740bf, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
   - name: Default2
     loadout:
     - {fileID: 4638551824527901223, guid: e7c3b8c77ebe1e54a987fcfe43ca4312, type: 3}
@@ -612,9 +616,13 @@ MonoBehaviour:
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
-    stock: 
+    stock: 04000000040000000500000003000000
     generateDefaultStock: 0
-    weaponTypes: []
+    weaponTypes:
+    - {fileID: 4638551824527901223, guid: e7c3b8c77ebe1e54a987fcfe43ca4312, type: 3}
+    - {fileID: 1928006486093276839, guid: d2bcdd024eb0a5343b126eecb07740bf, type: 3}
+    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
   customLoadouts:
   - name: Custom1
     loadout: []
@@ -906,7 +914,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3548319413241554249}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.007865169, y: -0.58938205, z: 2.738}
+  m_LocalPosition: {x: -0.007865169, y: -0.36, z: 2.677}
   m_LocalScale: {x: 1.1235957, y: 1.1235957, z: 1.1235957}
   m_Children: []
   m_Father: {fileID: 4250449808659001882}
@@ -930,10 +938,13 @@ MonoBehaviour:
   launchThrottlePercent: 85
   launchReadyDistance: 1
   moveToCatSpeed: 3
-  rotateToCatRate: 2
+  rotateToCatRate: 4
   shootTimerMax: 1.2
   launchAcceleration: 100
   maxLinkInitiateSpeed: 20
+  maxRotSpeedDEG: 40
+  wheelControl: {fileID: 4203498709298792597}
+  angleCloseEnoughThreshold: 0.5
 --- !u!65 &8104983153977575425
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -33,6 +33,12 @@ public class CatLaunchGear : MonoBehaviour
 
     Vector3 launchAxis;
 
+    public float maxRotSpeedDEG = 15f; // degrees per second
+
+    public WheelsControl wheelControl;
+
+    //public float angleCloseEnoughThreshold = .5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +81,7 @@ public class CatLaunchGear : MonoBehaviour
         {
             doLaunch = false;
             linkedCat.release(this);
+            wheelControl.setSteeringLock(false);
 
         }
     }
@@ -88,15 +95,28 @@ public class CatLaunchGear : MonoBehaviour
 
             if(launchTimer < 0f)
             {
-                Debug.Log("Beginning launch");
-                // Begin launch
-                launchTimer = launchTimerMax; // reset timer
-                doAttach = false;
-                doLaunch = true;
-                shootTimer = shootTimerMax;
-                launchAxis = linkedCat.launchCenter.forward;
+
+                beginShoot();
+                
             }
         }
+    }
+
+    private void beginShoot()
+    {
+        Debug.Log("Beginning launch");
+        // Begin launch
+        launchTimer = launchTimerMax; // reset timer
+        doAttach = false;
+        doLaunch = true;
+        shootTimer = shootTimerMax;
+        launchAxis = linkedCat.launchCenter.forward;
+
+        //if (wheelControl != null)
+        //{
+        //    wheelControl.externApplyBrake(0f);
+        //    wheelControl.endSlide();
+        //}
     }
 
     //  - close to launch point
@@ -125,25 +145,43 @@ public class CatLaunchGear : MonoBehaviour
     private void rotateToLaunchAxis()
     {
         Vector3 aircraftFwd = getRootFlow().transform.forward;
-        Vector3 launchFwd = linkedCat.transform.forward;
+        Vector3 launchFwd = linkedCat.launchCenter.forward;
 
-        float rotAngle = Vector3.Angle(aircraftFwd, launchFwd);
-        rotAngle = Mathf.Min(rotAngle, rotateToCatRate * Time.fixedDeltaTime);
+        //float rotAngle = Vector3.Angle(aircraftFwd, launchFwd);
+        //rotAngle = Mathf.Min(rotAngle, rotateToCatRate * Time.fixedDeltaTime);
 
         ////rootFlow.myRb.rotation =
         ////    Quaternion.RotateTowards(rootFlow.transform.rotation,
         ////    linkedCat.launchCenter.rotation, rotAngle);
 
         //getRootFlow().myRb.rotation = linkedCat.launchCenter.rotation;
+        float rotAngleDeg = Vector3.SignedAngle(aircraftFwd, launchFwd, Vector3.up);
+        float rotAngleRAD = Mathf.Deg2Rad * rotAngleDeg;
 
-        rotAngle = Mathf.Deg2Rad * 
-            Vector3.SignedAngle(getRootFlow().transform.forward, launchFwd, Vector3.up);
 
-        getRootFlow().myRb.angularVelocity = new Vector3(0f, rotAngle * rotateToCatRate, 0f);
 
-        
+        float rotSpeed = Mathf.Clamp(rotAngleRAD * rotateToCatRate,
+            -maxRotSpeedDEG * Mathf.Deg2Rad, maxRotSpeedDEG * Mathf.Deg2Rad);
 
-        
+        //float rotSpeed = rotAngleRAD * rotateToCatRate;
+
+        //if (Mathf.Abs(rotAngleDeg) < angleCloseEnoughThreshold)
+        //{
+        //    rotSpeed = 0.0f;
+        //    getRootFlow().myRb.rotation = linkedCat.launchCenter.rotation;
+        //}
+
+        //getRootFlow().myRb.
+
+
+        getRootFlow().myRb.angularVelocity = new Vector3(0f, rotSpeed, 0f);
+
+        //getRootFlow().myRb.angularVelocity = new Vector3(0f,
+        //    maxRotSpeedDEG * Mathf.Deg2Rad, 0f);
+
+
+
+
     }
 
     public CombatFlow getRootFlow()
@@ -183,6 +221,13 @@ public class CatLaunchGear : MonoBehaviour
                 doAttach = true;
 
                 launchTimer = launchTimerMax;
+
+                if (wheelControl != null)
+                {
+                    //wheelControl.externApplyBrake(1.0f); // apply brake to dampen vibrations
+                    //wheelControl.beginSlide();
+                    wheelControl.setSteeringLock(true);
+                }
             }
 
         }

@@ -64,6 +64,7 @@ public class ArrestingHook : MonoBehaviour
             caughtWire.release(this);
             caughtGroup = null;
             caughtWire = null;
+            rearm();
         }
     }
 
@@ -92,6 +93,11 @@ public class ArrestingHook : MonoBehaviour
         //rootRB.velocity *= decayFactor*Time.fixedDeltaTime;
 
 
+    }
+
+    public void rearm()
+    {
+        getRootFlow().hardpoints.rearm();
     }
 
     public CombatFlow getRootFlow()

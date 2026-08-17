@@ -2326,6 +2326,7 @@ MonoBehaviour:
   myRWR: {fileID: 0}
   canTakeDamage: 1
   myTechSite: {fileID: 0}
+  prefabRef: {fileID: 0}
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4305,6 +4306,16 @@ PrefabInstance:
       propertyPath: root_flightData
       value: 
       objectReference: {fileID: -8673316639226967037}
+    - target: {fileID: 289835317414371001, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 289835317414371001, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_AsymptoteValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1605648155012602430, guid: 35309b70a4f07ea46a1e9b1b62e28534,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4409,6 +4420,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_ExtremumSlip
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_AsymptoteSlip
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_AsymptoteValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979788144489414164, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979788144489414164, guid: 35309b70a4f07ea46a1e9b1b62e28534,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_AsymptoteValue
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35309b70a4f07ea46a1e9b1b62e28534, type: 3}

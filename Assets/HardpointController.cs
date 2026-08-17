@@ -737,7 +737,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
         if(loaderRef.activeAircraftPrefab == getRootFlow().prefabRef.gameObject)
         {
             //equipLoadoutPreset(ref loaderRef.getCurrentLoadoutRef());
-            loaderRef.equipLoadoutOntoSpawnedAircraft(getRootFlow().gameObject);
+            loaderRef.equipLoadoutOntoSpawnedAircraft(getRootFlow().gameObject, getRootFlow().aiControlled);
         }
         else
         {

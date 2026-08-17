@@ -712,11 +712,11 @@ WheelCollider:
     m_AsymptoteValue: 0.5
     m_Stiffness: 0.1
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
+    m_ExtremumSlip: 0.5
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_AsymptoteSlip: 0.9
+    m_AsymptoteValue: 1
+    m_Stiffness: 4
   m_Enabled: 1
 --- !u!1 &1543237811658542776
 GameObject:
@@ -778,6 +778,7 @@ MonoBehaviour:
   rudderLerpRate: 0.0249
   input_rudderAxis: 0
   input_gear_button: 0
+  hook: {fileID: 0}
 --- !u!1 &1752465163140684361
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,7 +1162,7 @@ MonoBehaviour:
   wheelDrag: {fileID: 9000835984688130359}
   maxSteerAngle: 0
   steerRate: 0
-  brakeTorque: 700
+  brakeTorque: 1600
   raisedHeight: 1.2
   wheelDown: 1
 --- !u!114 &9000835984688130359
@@ -2169,8 +2170,8 @@ WheelCollider:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_AsymptoteValue: 1
+    m_Stiffness: 1.35
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
@@ -2429,8 +2430,8 @@ WheelCollider:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_AsymptoteValue: 1
+    m_Stiffness: 1.35
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
@@ -3789,6 +3790,7 @@ MonoBehaviour:
   myRWR: {fileID: 0}
   canTakeDamage: 1
   myTechSite: {fileID: 0}
+  prefabRef: {fileID: 0}
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4457,7 +4459,7 @@ MonoBehaviour:
   wheelDrag: {fileID: 820955467123011149}
   maxSteerAngle: 0
   steerRate: 0
-  brakeTorque: 700
+  brakeTorque: 1600
   raisedHeight: 1.2
   wheelDown: 1
 --- !u!114 &820955467123011149

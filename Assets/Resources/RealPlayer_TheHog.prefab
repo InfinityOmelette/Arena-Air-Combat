@@ -944,7 +944,6 @@ MonoBehaviour:
   maxLinkInitiateSpeed: 20
   maxRotSpeedDEG: 40
   wheelControl: {fileID: 4203498709298792597}
-  angleCloseEnoughThreshold: 0.5
 --- !u!65 &8104983153977575425
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6432,6 +6431,16 @@ PrefabInstance:
       propertyPath: root_flightData
       value: 
       objectReference: {fileID: -8673316639226967037}
+    - target: {fileID: 289835317414371001, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 289835317414371001, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_AsymptoteValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4361567833341784163, guid: 51ecf190fbb23a84a8276990c1e5394e,
         type: 3}
       propertyPath: root_flightData
@@ -6541,6 +6550,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_ExtremumSlip
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_AsymptoteSlip
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731216511808008067, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_AsymptoteValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932769830673334062, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: brakeTorque
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979788144489414164, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979788144489414164, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_AsymptoteValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057200075941505722, guid: 51ecf190fbb23a84a8276990c1e5394e,
+        type: 3}
+      propertyPath: brakeTorque
+      value: 1200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51ecf190fbb23a84a8276990c1e5394e, type: 3}

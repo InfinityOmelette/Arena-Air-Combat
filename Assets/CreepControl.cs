@@ -97,6 +97,7 @@ public class CreepControl : MonoBehaviourPunCallbacks
         // copy list by value from parent -- each creep has its own independent waypoint list
         waypoints = new List<Vector3>(parentLane.waypoints); // copies waypoint position vectors by VALUE
 
+        checkInitWaypoints();
         lookAtWaypoint();
 
         //transform.rotation = Quaternion.LookRotation(waypoints[0].position - transform.position, Vector3.up);

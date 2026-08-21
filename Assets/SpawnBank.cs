@@ -14,6 +14,8 @@ public class SpawnBank : MonoBehaviour
 
     private bool firstUpdate = true;
 
+    private bool ableToReceive = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +52,16 @@ public class SpawnBank : MonoBehaviour
 
     }
 
+    public void setAbleToReceive(bool able)
+    {
+        ableToReceive = able;
+    }
+
+    public bool getAbleToReceive()
+    {
+        return ableToReceive;
+    }
+
 
 
     public void resetSupplies()
@@ -62,12 +74,15 @@ public class SpawnBank : MonoBehaviour
         }
     }
 
-    public void addSupplies(int add)
+    public void tryAddSupplies(int add)
     {
-        supplies += add;
-        if(showSupplies)
+        if (ableToReceive)
         {
-            updateSupplyText();
+            supplies += add;
+            if (showSupplies)
+            {
+                updateSupplyText();
+            }
         }
         
     }

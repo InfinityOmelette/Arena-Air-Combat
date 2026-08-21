@@ -174,11 +174,11 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if(isHostInstance && !doSpawn && (PhotonNetwork.PlayerList.Length > 1 || 
-            Input.GetKeyDown(KeyCode.J)))
-        {
-            doSpawn = true;
-        }
+        //if(isHostInstance && !doSpawn && (PhotonNetwork.PlayerList.Length > 1 || 
+        //    Input.GetKeyDown(KeyCode.J)))
+        //{
+        //    doSpawn = true;
+        //}
     }
 
     void FixedUpdate()
@@ -513,7 +513,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
         {
             SpawnBank bank = spawner.getBank();
 
-            bank.addSupplies(supplies);
+            bank.tryAddSupplies(supplies);
         }
     }
 
@@ -527,7 +527,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
         {
             CreepSpawnPoint fob = spawnFOBs[i];
             float dist = Vector3.Distance(fob.transform.position, transform.position);
-            if(dist > maxDist)
+            if(dist > maxDist && !fob.myStrat.isSuppressed)
             {
                 maxDist = dist;
                 leadSpawner = fob;

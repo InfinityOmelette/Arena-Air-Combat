@@ -185,6 +185,7 @@ public class StrategicTarget : MonoBehaviour
         if(bank != null)
         {
             bank.resetSupplies();
+            bank.setAbleToReceive(false);
         }
 
         //tryCapture(CombatFlow.Team.TEAM1);
@@ -217,6 +218,11 @@ public class StrategicTarget : MonoBehaviour
         if (myRadar != null)
         {
             myRadar.setRadarActive(true);
+        }
+
+        if(bank != null)
+        {
+            bank.setAbleToReceive(true);
         }
     }
 

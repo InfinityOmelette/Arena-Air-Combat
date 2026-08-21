@@ -20,6 +20,8 @@ public class LogisticsHub : MonoBehaviour
     public float supplyPullInterval;
     private float supplyPullTimer;
 
+    private bool enableSpawners = false;
+
     private void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -35,14 +37,21 @@ public class LogisticsHub : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            enableSpawners = true;
+        }   
     }
 
     private void FixedUpdate()
     {
-        creepWaveTimerProcess();
+        if (enableSpawners)
+        {
+            creepWaveTimerProcess();
 
-        supplyPullTimerProcess();
+            supplyPullTimerProcess();
+        }
+        
 
 
     }

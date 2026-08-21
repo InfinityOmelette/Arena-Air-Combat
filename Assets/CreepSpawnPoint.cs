@@ -71,7 +71,14 @@ public class CreepSpawnPoint : MonoBehaviourPunCallbacks
         parentLane = myStrat.myLane;
     }
 
-
+    public SpawnBank getBank()
+    {
+        if(myBank == null)
+        {
+            myBank = GetComponent<SpawnBank>();
+        }
+        return myBank;
+    }
 
     private void Update()
     {
@@ -323,7 +330,7 @@ public class CreepSpawnPoint : MonoBehaviourPunCallbacks
         doSpawn = true;
         SAMCount = 0;
         samTimer = initSAMDelay;
-        generateSpawnRoster();
+        purchaseSpawnRoster();
         resetSquadCount();
         setRandomSquadSpawnPoint();
     }
@@ -333,7 +340,7 @@ public class CreepSpawnPoint : MonoBehaviourPunCallbacks
         squadMemberCounter = maxSquadSize;
     }
 
-    public void generateSpawnRoster()
+    public void purchaseSpawnRoster()
     {
         calculateSpawnRoster(myBank.supplies);
         myBank.resetSupplies();

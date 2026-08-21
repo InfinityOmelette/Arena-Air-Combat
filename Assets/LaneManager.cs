@@ -152,11 +152,6 @@ public class LaneManager : MonoBehaviourPunCallbacks
         frontWave = new List<CombatFlow>();
     }
 
-    //private void initSpawnAxis()
-    //{
-    //    spawnAxisDir = Vector3.Cross(Vector3.up, waypoints[0] - transform.position).normalized;
-    //    currentSpawnOffset = randomSpawnOffset();
-    //}
 
     private void fillWaypointList()
     {
@@ -174,21 +169,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
         
     }
 
-    //private bool waveComplete()
-    //{ // AAA not included, as a temporary bug fix
-    //    return SAMCount == SAMPerWave && 
-    //        tankCount == tankPerWave && artilleryCount == artilleryPerWave && 
-    //        rocketCount == rocketPerWave;
-    //}
 
-    //private void resetDeployCounts()
-    //{
-    //    AAACount = 0;
-    //    SAMCount = 0;
-    //    tankCount = 0;
-    //    artilleryCount = 0;
-    //    rocketCount = 0;
-    //}
 
 
     void Update()
@@ -208,37 +189,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
         leaderUpdateCountdown();
 
-        if (doSpawn)
-        {
 
-            if (isHostInstance)
-            {
-                //bool isWaveComplete = waveComplete();
-
-                //if (!isWaveComplete && myLaneUnits.Count + unitsRemain() < maxCreepAmount)
-                //{
-                //    countDownSAM();
-                //}
-
-                //if (squadRemaining <= 0)
-                //{
-                //    if (isWaveComplete)
-                //    {
-                //        // count down wave timer
-                //        countDownWave();
-                //    }
-                //    else if(myLaneUnits.Count + unitsRemain() < maxCreepAmount)
-                //    {
-                //        countDownSquad();
-                //    }
-                //}
-                //else
-                //{
-
-                //    countdownRapidDeploy();
-                //}
-            }
-        }
     }
 
     private void countDownCreepUpdate()
@@ -354,91 +305,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
          //   creepIds.Length + ", if's reached: " + ifCount + ", NullCount: " + nullCount);
     }
 
-    //private void countDownSAM()
-    //{
-    //    if(samTimer < 0)
-    //    {
-    //        if (SAMCount != SAMPerWave)
-    //        {
-
-    //            // deploy sam
-    //            deploySAM = true;
-    //            deployUnit();
-    //            samTimer = SAMDeployDelay;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        samTimer -= Time.fixedDeltaTime;
-    //    }
-    //}
-
-    //private void countDownWave()
-    //{
-    //    if (waveTimer < 0)
-    //    {
-    //        // action
-    //        resetDeployCounts();
-    //        waveTimer = waveDeployDelay;
-    //    }
-    //    else
-    //    {
-    //        waveTimer -= Time.fixedDeltaTime;
-    //    }
-
-    //}
-
-    //private void countDownSquad()
-    //{
-    //    if (squadTimer < 0)
-    //    {
-    //        // action
-    //        initiateSquadSpawn();
-    //        squadTimer = squadDeployDelay;
-    //    }
-    //    else
-    //    {
-    //        squadTimer -= Time.fixedDeltaTime;
-    //    }
-    //}
-
-    //private void countdownRapidDeploy()
-    //{
-    //    if(rapidTimer < 0)
-    //    {
-    //        deployUnit();
-    //        rapidTimer = rapidDeployDelay;
-    //    }
-    //    else
-    //    {
-    //        rapidTimer -= Time.fixedDeltaTime;
-    //    }
-    //}
-
-    // inefficient as fuck, but it isn't called very often, so I'll leave it
-    //  (would be better to keep a running tally, instead of summing every time)
-    //private int unitsRemain()
-    //{
-    //    int total = tankPerWave - tankCount;
-    //    total += AAAPerWave - AAACount;
-        
-    //    total += artilleryPerWave - artilleryCount;
-    //    total += rocketPerWave - rocketCount;
-
-    //    //total += SAMPerWave - SAMCount; -- SAM not included, because it spawns on its own independent cycle
-    //    //  sams are NOT "grouped" into squad spawns
-
-    //    return total;
-    //}
-
-    //private void initiateSquadSpawn()
-    //{
-    //    // set squad size
-    //    squadRemaining = Mathf.Min( Random.Range(squadSizeMin, squadSizeMax), unitsRemain());
-
-    //    currentSpawnOffset = randomSpawnOffset();
-
-    //}
+   
 
     public Vector3 randomSpawnOffset()
     {
@@ -457,124 +324,6 @@ public class LaneManager : MonoBehaviourPunCallbacks
         return spawnCenter + spawnAxisDir * Random.Range(-laneWidth, laneWidth);
     }
 
-    //private void deployUnit()
-    //{
-    //    //tankCount++;
-    //    //squadRemaining--;
-
-    //    GameObject selectedPrefab = selectDeployPrefab();
-
-    //    Vector3 spawnOffset = currentSpawnOffset;
-    //    if(selectedPrefab == SAMPrefab)
-    //    {
-    //        spawnOffset = randomSpawnOffset();
-    //        //Debug.LogError("SAM detected, spawning at random point");
-    //    }
-
-
-    //    // perform squad spawning at each available factory in this lane
-    //    // Squad counter is unaffected by how many factories are available
-    //    //  --> less factories available, less creeps spawn in the lane
-    //    for(int i = 0; i < spawnFactories.Count; i++)
-    //    {
-    //        if (spawnFactories[i] != null && !spawnFactories[i].myStrat.isSuppressed)
-    //        {
-    //            Vector3 spawnPos = spawnFactories[i].transform.position + spawnOffset;
-
-
-    //            CreepControl newCreep = PhotonNetwork.InstantiateSceneObject(selectedPrefab.name, spawnPos,
-    //                Quaternion.LookRotation(waypoints[1] - spawnPos, Vector3.up)).GetComponent<CreepControl>();
-
-    //            float range;
-
-    //            // remember, "effective range" just determines when creep stops moving when approached by enemy creep leader
-    //            if (selectedPrefab == SAMPrefab)
-    //            {
-    //                range = SAMSpacing * SAMCount + SAMSpacing;
-    //            }
-    //            else if (selectedPrefab == AAAPrefab)
-    //            {
-    //                //squadRemaining--;
-    //                range = currentSpawnRange - currentRangeOffset;
-    //            }
-    //            else
-    //            {
-    //                //squadRemaining--;
-    //                range = newCreep.effectiveRange - currentRangeOffset;
-    //                currentSpawnRange = range;
-    //            }
-
-    //            int teamNum = CombatFlow.convertTeamToNum(team);
-
-    //            newCreep.photonView.RPC("rpcInit", RpcTarget.AllBuffered, this.photonView.ViewID, spawnOffset, range, teamNum);
-    //        }
-    //    }
-        
-    //    if(selectedPrefab != SAMPrefab)
-    //    {
-    //        squadRemaining--;
-    //    }
-        
-
-
-
-        
-
-    //    // instantiate
-    //    // place at offset
-    //    // fill waypoints
-    //    // set offset
-
-    //    // RANGE:
-    //    //  if creep, use its own range
-    //    //  if AAA at end of squad, use previously saved range
-
-    //}
-
-    //private GameObject selectDeployPrefab()
-    //{
-    //    if (deploySAM) // if set to deploy SAM
-    //    {
-    //        SAMCount++;
-    //        deploySAM = false;
-    //        return SAMPrefab;
-    //    }
-    //    else // NOT set to deploy sam
-    //    {
-
-    //        if (squadRemaining == 1 && AAACount < AAAPerWave)
-    //        {
-    //            AAACount++;
-    //            return AAAPrefab;
-    //        }
-    //        else
-    //        {
-
-    //            if (tankCount != tankPerWave)
-    //            {
-    //                tankCount++;
-    //                return tankPrefab;
-    //            }
-    //            else if (rocketCount != rocketPerWave)
-    //            {
-    //                rocketCount++;
-    //                return rocketPrefab;
-    //            }
-    //            else if (artilleryCount != artilleryPerWave)
-    //            {
-    //                artilleryCount++;
-    //                return artilleryPrefab;
-    //            }
-    //            else
-    //            {
-    //                AAACount++;
-    //                return AAAPrefab;
-    //            }
-    //        }
-    //    }
-
-
-    //}
     
     private void leaderUpdateCountdown()
     {
@@ -741,6 +490,51 @@ public class LaneManager : MonoBehaviourPunCallbacks
             }
         }
 
+    }
+
+    // tell each FOB to begin attack wave with their own resources
+    public void relayWaveBeginCommand()
+    {
+        //getLeadSpawner().beginWave();
+
+        for(int i = 0; i < spawnFOBs.Count; i++)
+        {
+            spawnFOBs[i].beginWave();
+        }
+    }
+
+    public void relaySuppliesToLead(int supplies)
+    {
+        CreepSpawnPoint spawner = getLeadSpawner();
+
+        //Debug.LogError("RelaySuppliesToLead found spawner: " + spawner);
+
+        if (spawner != null)
+        {
+            SpawnBank bank = spawner.getBank();
+
+            bank.addSupplies(supplies);
+        }
+    }
+
+
+    public CreepSpawnPoint getLeadSpawner()
+    {
+        float maxDist = 0;
+
+        CreepSpawnPoint leadSpawner = null;
+        for(int i = 0; i < spawnFOBs.Count; i++)
+        {
+            CreepSpawnPoint fob = spawnFOBs[i];
+            float dist = Vector3.Distance(fob.transform.position, transform.position);
+            if(dist > maxDist)
+            {
+                maxDist = dist;
+                leadSpawner = fob;
+            }
+        }
+
+        return leadSpawner;
     }
 
 }

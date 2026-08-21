@@ -41,9 +41,10 @@ public class StrategicTarget : MonoBehaviour
     public enum StrategicType
     {
         GUNTOWER,
-        FACTORY,
+        FOB,
         HANGAR,
-        COMMANDCENTER
+        COMMANDCENTER,
+        FACTORY
     }
 
     // Aircraft suppress, ground forces capture

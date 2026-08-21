@@ -309,12 +309,12 @@ public class CreepSpawnPoint : MonoBehaviourPunCallbacks
         {
             if(parentLane != null)
             {
-                parentLane.spawnFactories.Remove(this);
+                parentLane.spawnFOBs.Remove(this);
             }
             
 
             parentLane = myStrat.myLane;
-            parentLane.spawnFactories.Add(this);
+            parentLane.spawnFOBs.Add(this);
         }
     }
 

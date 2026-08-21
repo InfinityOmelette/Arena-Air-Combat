@@ -44,11 +44,6 @@ public class LaneManager : MonoBehaviourPunCallbacks
     private bool doSpawn = false;
 
     // only counts the current wave spawning duration
-    private int artilleryCount;
-    private int rocketCount;
-    private int tankCount;
-    private int AAACount;
-    private int SAMCount;
 
     public float laneWidth;
 
@@ -100,12 +95,12 @@ public class LaneManager : MonoBehaviourPunCallbacks
 
     public static List<LaneManager> allLaneManagers;
 
-    public List<CreepSpawnPoint> spawnFactories;
+    public List<CreepSpawnPoint> spawnFOBs;
 
 
     void Awake()
     {
-        spawnFactories = new List<CreepSpawnPoint>();
+        spawnFOBs = new List<CreepSpawnPoint>();
 
         isHostInstance = PhotonNetwork.PlayerList.Length == 1;
 

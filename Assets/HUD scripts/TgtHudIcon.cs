@@ -64,6 +64,9 @@ public class TgtHudIcon : MonoBehaviour
 
     private hudControl hudObj;
 
+    public Text suppliesText;
+    public bool showSupplies;
+
     public enum TargetedState
     {
         NONE,
@@ -93,6 +96,8 @@ public class TgtHudIcon : MonoBehaviour
     public float initLerpRate;
     public float activeLerpRate;
 
+    private Vector3 suppliesTextOrigPos;
+
     void Awake()
     {
         transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
@@ -104,6 +109,7 @@ public class TgtHudIcon : MonoBehaviour
         distTextOriginPos = tgtDistText.transform.localPosition;
         titleTextOriginPos = tgtTitleText.transform.localPosition;
         dataLinkTextOriginPos = dataLinkText.transform.localPosition;
+        suppliesTextOrigPos = suppliesText.transform.localPosition;
 
         GameManager.getGM().playerSpawnEvent.AddListener(spawnCallback);
         hudObj = hudControl.mainHud.GetComponent<hudControl>();
@@ -154,6 +160,7 @@ public class TgtHudIcon : MonoBehaviour
 
             setHP_Display(hpDisplayDecimal);
             suppressedText.gameObject.SetActive(isSuppressed);
+            suppliesText.gameObject.SetActive(showSupplies);
 
 
             bool retrieving = rootFlow.type == CombatFlow.Type.TECH &&
@@ -185,7 +192,15 @@ public class TgtHudIcon : MonoBehaviour
         
             
     }
+    public void setShowSupplies(bool doShow) 
+    {
+        showSupplies = doShow;
+    }
 
+    public void updateSupplyText(int supplies)
+    {
+        suppliesText.text = supplies.ToString();
+    }
 
     private void setTargetedState()
     {
@@ -352,10 +367,13 @@ public class TgtHudIcon : MonoBehaviour
         float spd = getRB().velocity.magnitude * 3.6f; // 3.6 to convert m/s to kph
         txtKPH.text = spd.ToString("F0") + "kph";
 
+        float scale = tgtImageCenter.transform.localScale.x;
+
         // Move text to stay aligned with box
-        tgtDistText.transform.localPosition = tgtImageCenter.transform.localScale.x * distTextOriginPos;
-        tgtTitleText.transform.localPosition = tgtImageCenter.transform.localScale.x * titleTextOriginPos;
-        dataLinkText.transform.localPosition = tgtImageCenter.transform.localScale.x * dataLinkTextOriginPos;
+        tgtDistText.transform.localPosition = scale * distTextOriginPos;
+        tgtTitleText.transform.localPosition = scale * titleTextOriginPos;
+        dataLinkText.transform.localPosition = scale * dataLinkTextOriginPos;
+        suppliesText.transform.localPosition = scale * suppliesTextOrigPos;
     }
 
 
@@ -474,6 +492,7 @@ public class TgtHudIcon : MonoBehaviour
             hpBarImage.color = activeColor;
             suppressedText.color = activeColor;
             retrievingText.color = activeColor;
+            suppliesText.color = activeColor;
             
         }
 

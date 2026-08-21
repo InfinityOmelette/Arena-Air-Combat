@@ -28,6 +28,8 @@ public class StrategicTarget : MonoBehaviour
 
     public StrategicType strategicType;
 
+    public SpawnBank bank;
+
 
     public enum Lane
     {
@@ -86,17 +88,21 @@ public class StrategicTarget : MonoBehaviour
 
         myRadar = GetComponent<Radar>();
         myHangar = GetComponent<Hangar>();
+        bank = GetComponent<SpawnBank>();
+        myFlow = GetComponent<CombatFlow>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        myFlow = GetComponent<CombatFlow>();
+        
         myFlow.isActive = true;
         suppressionHealthCurrent = suppressionHealthMax;
 
 
         updateLaneRefs();
+
+        
     }
 
     void updateLaneRefs()
@@ -121,6 +127,9 @@ public class StrategicTarget : MonoBehaviour
         // update hud data (just hp for now)
         myFlow.myHudIconRef.hpDisplayDecimal = suppressionHealthCurrent / suppressionHealthMax;
         myFlow.myHudIconRef.isSuppressed = isSuppressed;
+        //myFlow.myHudIconRef.updateSupplyText()
+
+        
     }
 
     public void tryCapture(CombatFlow.Team capturingTeam)
@@ -170,6 +179,11 @@ public class StrategicTarget : MonoBehaviour
         if(propogateSuppressionTargetTypes != null)
         {
             doSuppressionPropogation();
+        }
+
+        if(bank != null)
+        {
+            bank.resetSupplies();
         }
 
         //tryCapture(CombatFlow.Team.TEAM1);

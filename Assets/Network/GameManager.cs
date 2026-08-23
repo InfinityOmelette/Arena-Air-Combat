@@ -74,7 +74,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     public GameObject aiSpawnControlObj;
+
+    public List<AirSpawnController> teamSpawnControllers;
+
+
+    public List<Dropdown> spawnerSelectors;
     
+
+
 
     public static GameManager getGM()
     {
@@ -202,14 +209,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
 
+    public int getSelectedSpawnIndex(int teamNum)
+    {
+        return spawnerSelectors[teamNum].value;
+    }
+
     public void spawnPlayerNoReturn(int teamNum)
     {
-        if (teamSpawnerCollections[teamNum].GetComponent<TeamSpawner>().playerCanRespawn())
+
+        if (teamSpawnControllers[teamNum].playerCanRespawn())
         {
             //this.
 
-            spawnPlayer(teamNum, false);
-            TeamSpawner.timeSincePlayerDeath = 0.0f;
+            GameObject playerInstance = spawnPlayer(teamNum, false, getSelectedSpawnIndex(teamNum)).gameObject;
+            AirSpawnController.setLocalPlayerInstance( playerInstance );
+            AirSpawnController.timeSincePlayerDeath = 0.0f;
         }
         
     }
@@ -221,6 +235,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public CombatFlow spawnPlayer(int teamNum, bool isAI = false)
+    {
+        return spawnPlayer(teamNum, isAI, 0);
+    }
+
+    public CombatFlow spawnPlayer(int teamNum, bool isAI = false, int spawnerIndex = 0)
     {
 
         CombatFlow newSpawn = null;
@@ -252,7 +271,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
                 //PhotonNetwork.Instantiate(this.playerPrefab.name, spawnPoint.position, Quaternion.identity, 0);
-                TeamSpawner spawner = getSpawnerByNum(teamNum);
+                TeamSpawner spawner = getSpawnerByNum(teamNum, spawnerIndex);
                 GameObject playerObj;
 
                 if (isAI)
@@ -306,23 +325,27 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #region Private Methods
 
-    private TeamSpawner getSpawnerByTeam(CombatFlow.Team team)
+    private TeamSpawner getSpawnerByTeam(CombatFlow.Team team, int spawnerIndex = 0)
     {
-        TeamSpawner returnObj = null;
-        for(int i = 0; i < teamSpawnerCollections.Length; i++)
-        {
-            TeamSpawner current = teamSpawnerCollections[i].GetComponent<TeamSpawner>();
-            if (current.team == team)
-            {
-                returnObj = current;
-            }
-        }
-        return returnObj;
+        //TeamSpawner returnObj = null;
+        //for(int i = 0; i < teamSpawnerCollections.Length; i++)
+        //{
+        //    TeamSpawner current = teamSpawnerCollections[i].GetComponent<TeamSpawner>();
+        //    if (current.team == team)
+        //    {
+        //        returnObj = current;
+        //    }
+        //}
+
+
+        
+
+        return teamSpawnControllers[(int)team].getSpawner(spawnerIndex);
     }
 
-    private TeamSpawner getSpawnerByNum(int teamNum)
+    private TeamSpawner getSpawnerByNum(int teamNum, int spawnerIndex = 0)
     {
-        return getSpawnerByTeam(CombatFlow.convertNumToTeam((short)teamNum));
+        return getSpawnerByTeam(CombatFlow.convertNumToTeam((short)teamNum), spawnerIndex);
     }
 
 

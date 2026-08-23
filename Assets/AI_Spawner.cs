@@ -23,7 +23,7 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
     public List<float> aiRespawnTimers;
 
 
-    private TeamSpawner spawner;
+    //private TeamSpawner spawner;
 
     public int maxAI = 8;
 
@@ -33,12 +33,16 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
 
     public PhotonView ph;
 
+    private AirSpawnController spawnControl;
+
     void Awake()
     {
         ph = GetComponent<PhotonView>();
-        spawner = GetComponent<TeamSpawner>();
+        //spawner = GetComponent<TeamSpawner>();
         myAI = new List<AI_GroundAttack>();
         aiRespawnTimers = new List<float>();
+
+        spawnControl = GetComponent<AirSpawnController>();
     }
 
     // Start is called before the first frame update
@@ -62,13 +66,15 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
         {
             txtNumAI.enabled = true;
 
+            // spawnCounter is used purely for having interval between concurrent AI player spawns
+            // So they don't spawn on top of each other
             if (spawnCounter > 0)
             {
                 spawnCounter -= Time.deltaTime;
             }
             else
             {
-                if (checkSpawnContainer(myAI, spawner.team))
+                if (trySpawn(myAI, spawnControl.getTeam()))
                 {
                     spawnCounter = spawnDelay;
                 }
@@ -84,9 +90,11 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
 
     }
 
+    // This defaults to first spawner of team. In future, will need to decide on spawner
+    // based on match context
     public bool canSpawnIndex(int index)
     {
-        return aiRespawnTimers[index] > spawner.respawnTimeEffective;
+        return aiRespawnTimers[index] > spawnControl.getSpawner().respawnTimeEffective;
     }
 
     public void tryIncrementAiSpawnTimers(float deltaTime)
@@ -102,12 +110,14 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
 
     
 
-    private bool checkSpawnContainer(List<AI_GroundAttack> listAI, CombatFlow.Team team)
+    private bool trySpawn(List<AI_GroundAttack> listAI, CombatFlow.Team team)
     {
         bool didSpawn = false;
 
         for(int i = 0; i < listAI.Count && !didSpawn; i++)
         {
+            // defaults to trying to spawn in first spawner
+            // in future, will need to decide spawner from match context
             if(listAI[i] == null && canSpawnIndex(i))
             {
                 didSpawn = true;
@@ -123,7 +133,8 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
     {
         totalSpawnCount++;
 
-        CombatFlow newAircraft = gm.spawnPlayer(CombatFlow.convertTeamToNum(spawner.team), true);
+        CombatFlow newAircraft = 
+            gm.spawnPlayer(CombatFlow.convertTeamToNum(spawnControl.getTeam()), true);
         AI_GroundAttack newAirGndAtk = newAircraft.GetComponent<AI_GroundAttack>();
 
 
@@ -191,7 +202,7 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
                     // add a slot -- note that this is NOT spawning the aircraft here
                     //  spawning done one at a time via timer in update
                     listAI.Add(null);
-                    aiRespawnTimers.Add(spawner.respawnTimeEffective);
+                    aiRespawnTimers.Add(spawnControl.getSpawner().respawnTimeEffective);
                 }
                 else if (listAI.Count > newSize)
                 {

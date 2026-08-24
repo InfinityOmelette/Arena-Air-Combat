@@ -94,7 +94,8 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
     // based on match context
     public bool canSpawnIndex(int index)
     {
-        return aiRespawnTimers[index] > spawnControl.getSpawner().respawnTimeEffective;
+        return aiRespawnTimers[index] > spawnControl.getSpawner().respawnTimeEffective || 
+            spawnControl.getSpawner().checkTickets();
     }
 
     public void tryIncrementAiSpawnTimers(float deltaTime)

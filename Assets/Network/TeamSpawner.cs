@@ -12,7 +12,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 {
 
     public static GameObject localPlayerInstance;
-    public static float timeSincePlayerDeath = 0.0f;
+    //public static float timeSincePlayerDeath = 0.0f;
 
     public CombatFlow.Team team;
 
@@ -31,11 +31,23 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
     public string displayName;
 
+    public int quickSpawnTicketsRemain;
+
+    public int ticketCapacity;
+
+    public float ticketGenerateTime;
+    private float ticketGenerateTimer;
+
+    //public Text ticketDisplay;
+    //public Text ticketGenerateDisplay;
+
+
 
     private void Awake()
     {
         // upon initial loading, player will be able to spawn right away
         //timeSincePlayerDeath = respawnTimeEffective;
+        resetTicketGenerateTimer();
     }
 
     // Start is called before the first frame update
@@ -47,33 +59,77 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         }
     }
 
+    private void resetTicketGenerateTimer()
+    {
+        ticketGenerateTimer = ticketGenerateTime;
+    }
+
     public bool playerCanRespawn()
     {
-        bool countDownDone = AirSpawnController.timeSincePlayerDeath > respawnTimeEffective;
-
+        bool countDownDone = canSlowSpawn();
+        bool ticketsRemain = checkTickets();
 
         WeaponLoader loader = TechInventory.teamTechInventories[(int)team].weaponLoader;
 
-        return loader.validateWeight() && countDownDone;
+        return (countDownDone || ticketsRemain) && loader.validateWeight();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //tryIncrementPlayerRespawnTimer(Time.deltaTime);
+        if(quickSpawnTicketsRemain < ticketCapacity)
+        {
+            ticketGenerateTimerProcess();
+        }
+        
+
+        //updateTicketGenerateTimerDisplay();
     }
 
-    //private void tryIncrementPlayerRespawnTimer(float deltaTime)
-    //{
-    //    if(localPlayerInstance == null)
-    //    {
-    //        // dividing by 2 because both fucking spawners will be incrementing timer
-    //        //  ..and i can't be arsed to find a better way to do this
-    //        timeSincePlayerDeath += deltaTime / 2;
+    private void ticketGenerateTimerProcess()
+    {
+        if (ticketGenerateTimer < 0)
+        {
+            addTicket();
+            resetTicketGenerateTimer();
+        }
+        else
+        {
+            ticketGenerateTimer -= Time.deltaTime;
+        }
+    }
 
-    //        respawnTimerText.text = (Mathf.Max(Mathf.RoundToInt(respawnTimeEffective - timeSincePlayerDeath), 0)).ToString();
-    //    }
-    //}
+    public void updateTicketGenerateTimerDisplay(Text display)
+    {
+        display.text = Mathf.RoundToInt(ticketGenerateTimer).ToString() + "s";
+    }
+
+    public void addTicket(int add = 1)
+    {
+        quickSpawnTicketsRemain += add;
+        //refreshTicketDisplay();
+    }
+
+    public bool checkTickets()
+    {
+        return quickSpawnTicketsRemain > 0;
+    }
+
+    public void refreshTicketDisplay(Text display)
+    {
+
+        display.text = quickSpawnTicketsRemain.ToString() + " / " + ticketCapacity;
+
+    }
+
+    private void spendTicket()
+    {
+        if(quickSpawnTicketsRemain > 0)
+        {
+            quickSpawnTicketsRemain--;
+        }
+        //refreshTicketDisplay();
+    }
 
     public GameObject spawnPlayer(GameObject playerPrefab, string name,  bool isPlayer = true)
     {
@@ -111,7 +167,18 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         playerFlow.setNetName(name);
         playerFlow.setNetTeam(CombatFlow.convertTeamToNum(team));
 
+        // only spend a respawn ticket if required
+        if (!canSlowSpawn())
+        {
+            spendTicket();
+        }
+
         return player;
+    }
+
+    private bool canSlowSpawn()
+    {
+        return AirSpawnController.timeSincePlayerDeath > respawnTimeEffective;
     }
 
     // moves all of nested children to layer, too

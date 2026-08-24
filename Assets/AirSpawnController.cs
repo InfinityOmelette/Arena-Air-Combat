@@ -20,9 +20,13 @@ public class AirSpawnController : MonoBehaviour
 
     private CombatFlow myFlow;
 
+    public Text ticketDisplay;
+    public Text ticketGenerateTimeDisplay;
+
     private void Awake()
     {
-        
+        //// arbitrarily high value, allow immediate first-time spawn
+        //timeSincePlayerDeath = 100f;
     }
 
     public CombatFlow.Team getTeam()
@@ -48,6 +52,10 @@ public class AirSpawnController : MonoBehaviour
     void Update()
     {
         tryIncrementPlayerRespawnTimer(Time.deltaTime);
+
+        getSelectedSpawner().refreshTicketDisplay(ticketDisplay);
+        getSelectedSpawner().updateTicketGenerateTimerDisplay(ticketGenerateTimeDisplay);
+        
     }
 
     public static GameObject getLocalPlayerInstance()

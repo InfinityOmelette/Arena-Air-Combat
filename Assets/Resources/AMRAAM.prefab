@@ -2320,8 +2320,8 @@ MonoBehaviour:
   isSam: 0
   lockType: 0
   scanConeAngle: 30
-  maxDetectRange: 5500
-  maxLockRange: 5000
+  maxDetectRange: 9000
+  maxLockRange: 7500
   lockAngle: 30
   detectionThreshold: 1
   radarOn: 0
@@ -2366,10 +2366,10 @@ MonoBehaviour:
   pitchTrim: 0
   downPitchMultiplier: 1
   wingLiftCoefficient: 0.035
-  wingDragCoefficient: 0.33
+  wingDragCoefficient: 0.3
   wingDragOffset: 0.001
   bodySideLiftCoefficient: 0.035
-  bodySideDragCoefficient: 0.33
+  bodySideDragCoefficient: 0.3
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
   pitchStability: 0
@@ -2396,10 +2396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db4fdd69d330754ea27d180db6f983a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 300
-  burnTime: 0.75
-  cruiseThrust: 50
-  cruiseTime: 2
+  thrustForce: 350
+  burnTime: 1.25
+  cruiseThrust: 85
+  cruiseTime: 6
   doBurn: 0
 --- !u!114 &4268398709732474751
 MonoBehaviour:

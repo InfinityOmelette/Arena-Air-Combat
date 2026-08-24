@@ -117,6 +117,8 @@ public class AI_Aircraft : MonoBehaviour
     public float takeOffAlt;
     private Vector3 takeOffAxis;
 
+    public float gearRaiseTimer = 12f;
+
     void Awake()
     {
         // start these vectors with some magnitude, helps facilitate rotation lerping
@@ -192,6 +194,20 @@ public class AI_Aircraft : MonoBehaviour
 
     }
 
+    private void checkGear(float deltaTime)
+    {
+        if(transform.position.y > 10f)
+        {
+            if(gearRaiseTimer > 0)
+            {
+                gearRaiseTimer -= deltaTime;
+            }
+            else
+            {
+                wheels.setGearEnabled(false);
+            }
+        }
+    }
 
     void FixedUpdate()
     {
@@ -200,8 +216,8 @@ public class AI_Aircraft : MonoBehaviour
         {
 
 
-            wheels.setGearEnabled(transform.position.y < 10f);
-
+            //wheels.setGearEnabled(transform.position.y < 10f);
+            checkGear(Time.fixedDeltaTime);
 
             if (aiTgtComputer.inCombat)
             {

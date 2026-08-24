@@ -101,7 +101,14 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
     public void updateTicketGenerateTimerDisplay(Text display)
     {
-        display.text = Mathf.RoundToInt(ticketGenerateTimer).ToString() + "s";
+        if (quickSpawnTicketsRemain < ticketCapacity)
+        {
+            display.text = Mathf.RoundToInt(ticketGenerateTimer).ToString() + "s";
+        }
+        else
+        {
+            display.text = "---";
+        }
     }
 
     public void addTicket(int add = 1)

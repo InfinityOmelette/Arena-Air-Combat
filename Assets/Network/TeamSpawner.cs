@@ -41,6 +41,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     //public Text ticketDisplay;
     //public Text ticketGenerateDisplay;
 
+    public AirSpawnController parentController;
 
 
     private void Awake()
@@ -57,6 +58,35 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         {
             transform.position = debugLocationObj.transform.position;
         }
+
+        linkToTeamController();
+        tryAddSpawnerToController();
+    }
+
+    // !!!!! if team gets set AFTER instantiation, this could link to wrong team controller
+    private void linkToTeamController()
+    {
+        parentController = AirSpawnController.getTeamController(team);
+    }
+
+    private void tryAddSpawnerToController()
+    {
+        parentController.tryAddSpawner(this);
+    }
+
+    private AirSpawnController getParentController()
+    {
+        if(parentController == null)
+        {
+            linkToTeamController();
+        }
+        else if(parentController.getTeam() != team)
+        {
+            parentController.removeSpawner(this);
+            linkToTeamController();
+            tryAddSpawnerToController();
+        }
+        return parentController;
     }
 
     private void resetTicketGenerateTimer()
@@ -264,6 +294,14 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
 
         return children[selectIndex];
+    }
+
+    private void OnDestroy()
+    {
+        if(parentController != null)
+        {
+            getParentController().removeSpawner(this);
+        }
     }
 
 

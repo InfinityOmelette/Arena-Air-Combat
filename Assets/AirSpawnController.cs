@@ -23,25 +23,30 @@ public class AirSpawnController : MonoBehaviour
     public Text ticketDisplay;
     public Text ticketGenerateTimeDisplay;
 
+    private static List<AirSpawnController> teamControllers;
+
     private void Awake()
     {
         //// arbitrarily high value, allow immediate first-time spawn
         //timeSincePlayerDeath = 100f;
-    }
 
-    public CombatFlow.Team getTeam()
-    {
-        return getFlow().team;
-    }
+        
 
-    public CombatFlow getFlow()
-    {
-        if(myFlow == null)
+        if(teamControllers == null)
         {
-            myFlow = GetComponent<CombatFlow>();
+            initializeStaticRefs();
         }
-        return myFlow;
+        else if(teamControllers.Count < 2)
+        {
+            initializeStaticRefs();
+        }
+        else
+        {
+            linkToStaticRef();
+        }
     }
+
+    
 
     void Start()
     {
@@ -100,8 +105,23 @@ public class AirSpawnController : MonoBehaviour
         return spawners[index];
     }
 
+    private void cleanSpawnerList()
+    {
+        for(int i = 0; i < spawners.Count; i++)
+        {
+            TeamSpawner spawner = spawners[i];
+            if(spawner == null || getTeam() != spawner.team)
+            {
+                spawners.RemoveAt(i);
+                i--;
+            }
+        }
+    }
+
     public void buildSpawnDropdown()
     {
+        cleanSpawnerList();
+
         spawnSelector.options.Clear();
 
         for(int i = 0; i < spawners.Count; i++)
@@ -114,4 +134,54 @@ public class AirSpawnController : MonoBehaviour
         spawnSelector.value = 0;
         spawnSelector.RefreshShownValue();
     }
+
+    public void tryAddSpawner(TeamSpawner spawner)
+    {
+        if (!spawners.Contains(spawner))
+        {
+            spawners.Add(spawner);
+        }
+    }
+
+    public void removeSpawner(TeamSpawner spawner)
+    {
+        spawners.Remove(spawner);
+        buildSpawnDropdown();
+    }
+
+    public CombatFlow.Team getTeam()
+    {
+        return getFlow().team;
+    }
+
+    public CombatFlow getFlow()
+    {
+        if (myFlow == null)
+        {
+            myFlow = GetComponent<CombatFlow>();
+        }
+        return myFlow;
+    }
+
+    private void linkToStaticRef()
+    {
+        //Debug.LogError("Linking spawncontroller to static: " + gameObject.name +
+        //    " while list size = " + teamControllers.Count);
+        teamControllers[(int)getFlow().team] = this;
+    }
+
+    private void initializeStaticRefs()
+    {
+        teamControllers = new List<AirSpawnController>();
+        teamControllers.Add(this);
+        teamControllers.Add(this);
+    }
+
+    
+
+    public static AirSpawnController getTeamController(CombatFlow.Team team)
+    {
+        return teamControllers[(int)team];
+    }
+
 }

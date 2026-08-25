@@ -38,15 +38,20 @@ public class Hangar : MonoBehaviour
     {
         Debug.Log("Setting spawn penalty: " + doPenalize);
 
-        if (doPenalize)
+        // ensure repeated calls don't double penalty
+        if (applyingSpawnPenalty != doPenalize) 
         {
-            teamSpawner.respawnTimeEffective += respawnPenaltyWhenSuppressed;
+            if (doPenalize)
+            {
+                teamSpawner.respawnTimeEffective += respawnPenaltyWhenSuppressed;
+            }
+            else
+            {
+                teamSpawner.respawnTimeEffective -= respawnPenaltyWhenSuppressed;
+            }
+            applyingSpawnPenalty = doPenalize;
         }
-        else
-        {
-            teamSpawner.respawnTimeEffective -= respawnPenaltyWhenSuppressed;
-        }
-        applyingSpawnPenalty = doPenalize;
+        
     }
 
 }

@@ -665,6 +665,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 4
   ticketCapacity: 4
   ticketGenerateTime: 240
+  parentController: {fileID: 0}
 --- !u!4 &72176182
 Transform:
   m_ObjectHideFlags: 0
@@ -1127,6 +1128,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 4
   ticketCapacity: 4
   ticketGenerateTime: 240
+  parentController: {fileID: 0}
 --- !u!4 &131961818
 Transform:
   m_ObjectHideFlags: 0
@@ -3091,6 +3093,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team2 CarrierReserve
       objectReference: {fileID: 0}
+    - target: {fileID: 4376348621203700691, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: viewIdField
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6674709321351465582, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443848811632011986, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: linkedSpawner
+      value: 
+      objectReference: {fileID: 1047487355}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4521fc637ac6022428462aee936437ba, type: 3}
 --- !u!1 &326911391
@@ -7962,6 +7979,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 0
   ticketCapacity: 0
   ticketGenerateTime: 1
+  parentController: {fileID: 0}
 --- !u!4 &878521809
 Transform:
   m_ObjectHideFlags: 0
@@ -8382,6 +8400,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 4
   ticketCapacity: 4
   ticketGenerateTime: 240
+  parentController: {fileID: 0}
 --- !u!4 &928244170
 Transform:
   m_ObjectHideFlags: 0
@@ -9715,6 +9734,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team1 CarrierTop
       objectReference: {fileID: 0}
+    - target: {fileID: 4376348621203700691, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: viewIdField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443848811632011986, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: linkedSpawner
+      value: 
+      objectReference: {fileID: 131961817}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4521fc637ac6022428462aee936437ba, type: 3}
 --- !u!1 &1047487353
@@ -9781,6 +9810,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 0
   ticketCapacity: 0
   ticketGenerateTime: 1
+  parentController: {fileID: 0}
 --- !u!4 &1047487356
 Transform:
   m_ObjectHideFlags: 0
@@ -10978,6 +11008,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team2 CarrierBottom
       objectReference: {fileID: 0}
+    - target: {fileID: 4376348621203700691, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: viewIdField
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6674709321351465582, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443848811632011986, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: linkedSpawner
+      value: 
+      objectReference: {fileID: 1153499300}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4521fc637ac6022428462aee936437ba, type: 3}
 --- !u!1001 &1124955035
@@ -11454,6 +11499,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 4
   ticketCapacity: 4
   ticketGenerateTime: 240
+  parentController: {fileID: 0}
 --- !u!4 &1153499301
 Transform:
   m_ObjectHideFlags: 0
@@ -12850,6 +12896,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 5
   ticketCapacity: 5
   ticketGenerateTime: 120
+  parentController: {fileID: 0}
 --- !u!4 &1265437874
 Transform:
   m_ObjectHideFlags: 0
@@ -16943,6 +16990,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team2 CarrierTop
       objectReference: {fileID: 0}
+    - target: {fileID: 4376348621203700691, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: viewIdField
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6674709321351465582, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443848811632011986, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: linkedSpawner
+      value: 
+      objectReference: {fileID: 928244169}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4521fc637ac6022428462aee936437ba, type: 3}
 --- !u!1 &1680912061
@@ -17199,6 +17261,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team1 CarrierReserve
       objectReference: {fileID: 0}
+    - target: {fileID: 4376348621203700691, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: viewIdField
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443848811632011986, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: linkedSpawner
+      value: 
+      objectReference: {fileID: 878521808}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4521fc637ac6022428462aee936437ba, type: 3}
 --- !u!1 &1700459261
@@ -19376,6 +19448,7 @@ MonoBehaviour:
   quickSpawnTicketsRemain: 5
   ticketCapacity: 5
   ticketGenerateTime: 120
+  parentController: {fileID: 0}
 --- !u!4 &2031357647
 Transform:
   m_ObjectHideFlags: 0
@@ -19799,6 +19872,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Team1 CarrierBottom
       objectReference: {fileID: 0}
+    - target: {fileID: 4376348621203700691, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: viewIdField
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443848811632011986, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: linkedSpawner
+      value: 
+      objectReference: {fileID: 72176181}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4521fc637ac6022428462aee936437ba, type: 3}
 --- !u!1 &2124659024
@@ -21684,6 +21767,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CarrierCat
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376348621203700691, guid: 4521fc637ac6022428462aee936437ba,
+        type: 3}
+      propertyPath: viewIdField
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4521fc637ac6022428462aee936437ba, type: 3}

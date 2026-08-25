@@ -22,6 +22,14 @@ public class TankShell : MonoBehaviour
     public float smokeEmitTime;
     public float lightEmitTime;
 
+
+    public float fuzeRadius;
+    public GameObject target;
+    //public Vector3 fuzePosition;
+    public float fuzeTimer;
+
+    private bool fuzeArmed = false;
+
     //private bool readyToEmit;
 
     //private bool startTrailOn;
@@ -61,6 +69,19 @@ public class TankShell : MonoBehaviour
     private void FixedUpdate()
     {
 
+        effectsProcess();
+        fuzeProcess(Time.fixedDeltaTime);
+        transform.rotation = Quaternion.LookRotation(rb.velocity, transform.up);
+
+
+        if (transform.position.y < 0)
+        {
+            ded();
+        }
+    }
+
+    private void effectsProcess()
+    {
         if (effectsObj != null)
         {
             effectsObj.transform.position = effectsCenter.transform.position;
@@ -93,14 +114,6 @@ public class TankShell : MonoBehaviour
 
 
         }
-
-        transform.rotation = Quaternion.LookRotation(rb.velocity, transform.up);
-
-
-        if (transform.position.y < 0)
-        {
-            ded();
-        }
     }
 
 
@@ -125,6 +138,50 @@ public class TankShell : MonoBehaviour
 
         explodeStats.explode(transform.position);
         GameObject.Destroy(gameObject);
+    }
+
+    public void programFuze(GameObject target, float estimatedImpactTime)
+    {
+        this.target = target;
+        //this.fuzePosition = estimatedImpactPos;
+        this.fuzeTimer = estimatedImpactTime;
+        fuzeArmed = true;
+        
+    }
+
+    private void fuzeProcess(float deltaTime)
+    {
+        if (fuzeArmed)
+        {
+            if (checkFuze())
+            {
+                ded();
+            }
+            else
+            {
+                fuzeTimer -= deltaTime;
+            }
+        }
+        
+    }
+
+    private bool checkFuze()
+    {
+
+        if(fuzeTimer < 0)
+        {
+            return true;
+        }
+
+        if(target!= null)
+        {
+            float distToTarget = Vector3.Distance(transform.position, target.transform.position);
+            return distToTarget < fuzeRadius || fuzeTimer < 0;
+        }
+
+        return false;
+
+        
     }
 
 }

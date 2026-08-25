@@ -35,7 +35,7 @@ public class TankTurret : MonoBehaviour
     private int roundsInCurrentMag;
 
 
-    private bool fireMission = false;
+    public bool fireMission = false;
 
 
     public Transform explodePosition;
@@ -44,6 +44,13 @@ public class TankTurret : MonoBehaviour
     private ExplodeStats explode;
 
     private TankShell tankShell;
+
+    public bool useExternAim = false;
+
+
+    public bool setFuze = false;
+
+    public AI_TurretMG parentTurret;
 
     //public float elev;
 
@@ -146,7 +153,11 @@ public class TankTurret : MonoBehaviour
     private void fireSequence()
     {
         roundsInCurrentMag--;
-        setAim(target);
+        if (!useExternAim)
+        {
+            setAim(target);
+        }
+        
         fire();
     }
 
@@ -221,13 +232,29 @@ public class TankTurret : MonoBehaviour
     private void fire()
     {
         // copy variable data over to determine what kind of shell
-        GameObject shell = GameObject.Instantiate(shellSettings);
-        shell.transform.position = projectileSpawn.transform.position;
-        shell.transform.rotation = projectileSpawn.transform.rotation;
-        shell.transform.rotation *= getShellSpreadRotation(shellSpreadHoriz, shellSpreadVert);
-        shell.SetActive(true);
+        GameObject shellObj = GameObject.Instantiate(shellSettings);
+        shellObj.transform.position = projectileSpawn.transform.position;
+        shellObj.transform.rotation = projectileSpawn.transform.rotation;
+        shellObj.transform.rotation *= getShellSpreadRotation(shellSpreadHoriz, shellSpreadVert);
+        shellObj.SetActive(true);
 
-        shell.GetComponent<Rigidbody>().velocity = shell.transform.forward * shellSpeed;
+        shellObj.GetComponent<Rigidbody>().velocity = shellObj.transform.forward * shellSpeed;
+
+        TankShell shell = shellObj.GetComponent<TankShell>();
+        
+
+        
+
+
+        if(parentTurret != null && parentTurret.targetRb != null && setFuze)
+        {
+            //Vector3 fuzePos = parentTurret.getFuzePos();
+            float fuzeTime = parentTurret.getFuzeTime();
+            shellObj.GetComponent<TankShell>().programFuze(parentTurret.targetRb.gameObject, fuzeTime);
+            ExplodeStats shellExplode = shellObj.GetComponent<ExplodeStats>();
+            shellExplode.team = parentTurret.myRb.GetComponent<CombatFlow>().team;
+        }
+
 
         //shell.GetComponent<TankShell>().readyEmit();
 

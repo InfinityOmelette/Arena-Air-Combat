@@ -12,13 +12,13 @@ public class AI_TurretMG : MonoBehaviour
 
     private bool gunsOn = false;
 
-    private float schutDistance = 1200f;
+    public float schutDistance = 1200f;
 
     private CombatFlow rootFlow;
 
     public ParticleSystem gun;
 
-    private float booleetSpeed;
+    public float booleetSpeed;
 
 
     private TurretNetworking turretNet;
@@ -42,15 +42,29 @@ public class AI_TurretMG : MonoBehaviour
 
     private int turretIndex = -1;
 
+    public float estimatedTimeToImpact = 0.0f;
+
+    private Vector3 estimatedImpactPoint;
+
     //public float rotationSpeed;
 
     //private bool isJef = false;
 
     public List<CombatFlow.Type> targetTypes;
 
+    public TankTurret tankTurret;
+
     public void setIndex(int index)
     {
         turretIndex = index;
+    }
+
+    private void Awake()
+    {
+        if(myRb == null)
+        {
+            myRb = transform.root.GetComponent<Rigidbody>();
+        }
     }
 
     // Start is called before the first frame update
@@ -67,9 +81,14 @@ public class AI_TurretMG : MonoBehaviour
         
 
         rootFlow = transform.root.GetComponent<CombatFlow>();
-        booleetSpeed = gun.startSpeed;
 
-        schutDistance = booleetSpeed * gun.startLifetime;
+        if(gun != null)
+        {
+            booleetSpeed = gun.startSpeed;
+
+            schutDistance = booleetSpeed * gun.startLifetime;
+        }
+        
 
         //isJef = rootObj.name.Equals("JefTrok");
 
@@ -93,11 +112,13 @@ public class AI_TurretMG : MonoBehaviour
             {
                 if (isStatic)
                 {
-                    transform.rotation = AI_TurretMG.calculateBulletLeadRot(transform.position, targetRb, booleetSpeed, targetVelMultiplier);
+                    transform.rotation = AI_TurretMG.calculateBulletLeadRot(transform.position, 
+                        targetRb, booleetSpeed, targetVelMultiplier, this);
                 }
                 else
                 {
-                    transform.rotation = AI_TurretMG.calculateBulletLeadRot(myRb, targetRb, booleetSpeed, targetVelMultiplier);
+                    transform.rotation = AI_TurretMG.calculateBulletLeadRot(myRb, targetRb, 
+                        booleetSpeed, targetVelMultiplier, this);
                 }
             }
             else
@@ -234,7 +255,7 @@ public class AI_TurretMG : MonoBehaviour
 
     private void setGunState(bool gunSet)
     {
-        if (gunSet != gunsOn)
+        if (gunSet != gunsOn && gun != null)
         {
             gunsOn = gunSet;
             if (gunSet)
@@ -242,7 +263,11 @@ public class AI_TurretMG : MonoBehaviour
                 gunfireSound.loop = true;
                 gunfireSound.Play();
 
-                gun.Play();
+                if(gun != null)
+                {
+                    gun.Play();
+                }
+                
             }
             else
             {
@@ -254,9 +279,21 @@ public class AI_TurretMG : MonoBehaviour
                 gun.Stop();
             }
         }
+
+        if(tankTurret != null)
+        {
+            tankTurret.fireMission = gunSet;
+            if (gunSet)
+            {
+                tankTurret.target = targetRb.gameObject;
+            }
+
+        }
     }
 
-    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Vector3 targetPosition, Vector3 relativeVelocity, float bulletSpeed, float targetVelMultiplier = 1.0f)
+    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Vector3 targetPosition, 
+        Vector3 relativeVelocity, float bulletSpeed, float targetVelMultiplier = 1.0f, 
+        AI_TurretMG turret = null)
     {
         float distance = Vector3.Distance(myPos, targetPosition);
         Vector3 targetBearingLine = targetPosition - myPos;
@@ -272,26 +309,37 @@ public class AI_TurretMG : MonoBehaviour
 
         float timeToImpact = distance / (bulletSpeed - closingVel);
 
+        
+
         Vector3 targetPos = targetPosition + relativeVelocity * timeToImpact * targetVelMultiplier;
+
+        if (turret != null)
+        {
+            turret.estimatedTimeToImpact = timeToImpact;
+            turret.estimatedImpactPoint = targetPos;
+
+        }
 
         return Quaternion.LookRotation(targetPos - myPos, Vector3.up);
     }
 
-    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier)
+    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier, AI_TurretMG turret = null)
     {
         Vector3 relativeVelocity = targetBody.velocity;
 
         return calculateBulletLeadRot(myPos, targetBody.transform.position, relativeVelocity, bulletSpeed, targVelMultiplier);
     }
 
-    public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier = 1.0f)
+    public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, 
+        float bulletSpeed, float targVelMultiplier = 1.0f, AI_TurretMG turret = null)
     {
         //Debug.Log("Calculatebullet lead for " + origBody.gameObject.name);
         // Velocity of target with origBody as the moving reference frame
         Vector3 relativeVelocity = targetBody.velocity - origBody.velocity;
 
 
-        return calculateBulletLeadRot(origBody.transform.position, targetBody.transform.position, relativeVelocity, bulletSpeed, targVelMultiplier);
+        return calculateBulletLeadRot(origBody.transform.position, targetBody.transform.position, 
+            relativeVelocity, bulletSpeed, targVelMultiplier, turret);
 
     }
 
@@ -322,5 +370,14 @@ public class AI_TurretMG : MonoBehaviour
     //    transform.rotation = newRot;
     //}
 
+    public float getFuzeTime()
+    {
+        return estimatedTimeToImpact;
+    }
+
+    public Vector3 getFuzePos()
+    {
+        return estimatedImpactPoint;
+    }
 
 }

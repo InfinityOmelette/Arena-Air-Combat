@@ -54,6 +54,8 @@ public class AI_TurretMG : MonoBehaviour
 
     public TankTurret tankTurret;
 
+    public float targetClosingTrim = 1.0f;
+
     public void setIndex(int index)
     {
         turretIndex = index;
@@ -113,12 +115,12 @@ public class AI_TurretMG : MonoBehaviour
                 if (isStatic)
                 {
                     transform.rotation = AI_TurretMG.calculateBulletLeadRot(transform.position, 
-                        targetRb, booleetSpeed, targetVelMultiplier, this);
+                        targetRb, booleetSpeed, targetVelMultiplier, this, targetClosingTrim);
                 }
                 else
                 {
                     transform.rotation = AI_TurretMG.calculateBulletLeadRot(myRb, targetRb, 
-                        booleetSpeed, targetVelMultiplier, this);
+                        booleetSpeed, targetVelMultiplier, this, targetClosingTrim);
                 }
             }
             else
@@ -295,9 +297,9 @@ public class AI_TurretMG : MonoBehaviour
         }
     }
 
-    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Vector3 targetPosition, 
-        Vector3 relativeVelocity, float bulletSpeed, float targetVelMultiplier = 1.0f, 
-        AI_TurretMG turret = null)
+    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Vector3 targetPosition,
+        Vector3 relativeVelocity, float bulletSpeed, float targetVelMultiplier = 1.0f,
+        AI_TurretMG turret = null, float targetClosingTrim = 1.0f)
     {
         float distance = Vector3.Distance(myPos, targetPosition);
         Vector3 targetBearingLine = targetPosition - myPos;
@@ -305,7 +307,7 @@ public class AI_TurretMG : MonoBehaviour
 
         targetBearingLine = Vector3.Project(relativeVelocity, targetBearingLine);
 
-        float closingVel = targetBearingLine.magnitude;
+        float closingVel = targetBearingLine.magnitude * targetClosingTrim;
         if (Vector3.Distance(myPos, targetPosition + targetBearingLine) < distance)
         {
             closingVel *= -1f;
@@ -328,16 +330,18 @@ public class AI_TurretMG : MonoBehaviour
     }
 
     public static Quaternion calculateBulletLeadRot(Vector3 myPos, Rigidbody targetBody, 
-        float bulletSpeed, float targVelMultiplier, AI_TurretMG turret = null)
+        float bulletSpeed, float targVelMultiplier, AI_TurretMG turret = null, 
+        float targetClosingTrim = 1.0f)
     {
         Vector3 relativeVelocity = targetBody.velocity;
 
         return calculateBulletLeadRot(myPos, targetBody.transform.position, relativeVelocity, 
-            bulletSpeed, targVelMultiplier, turret);
+            bulletSpeed, targVelMultiplier, turret, targetClosingTrim);
     }
 
-    public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, 
-        float bulletSpeed, float targVelMultiplier = 1.0f, AI_TurretMG turret = null)
+    public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody,
+        float bulletSpeed, float targVelMultiplier = 1.0f, AI_TurretMG turret = null,
+        float targetClosingTrim = 1.0f)
     {
         //Debug.Log("Calculatebullet lead for " + origBody.gameObject.name);
         // Velocity of target with origBody as the moving reference frame
@@ -350,7 +354,7 @@ public class AI_TurretMG : MonoBehaviour
         }
 
         return calculateBulletLeadRot(myPos, targetBody.transform.position, 
-            relativeVelocity, bulletSpeed, targVelMultiplier, turret);
+            relativeVelocity, bulletSpeed, targVelMultiplier, turret, targetClosingTrim);
 
     }
 

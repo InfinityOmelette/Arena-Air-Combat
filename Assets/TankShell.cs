@@ -30,6 +30,8 @@ public class TankShell : MonoBehaviour
 
     private bool fuzeArmed = false;
 
+    public float fuzeTrim = 1.0f;
+
     //private bool readyToEmit;
 
     //private bool startTrailOn;
@@ -144,7 +146,7 @@ public class TankShell : MonoBehaviour
     {
         this.target = target;
         //this.fuzePosition = estimatedImpactPos;
-        this.fuzeTimer = estimatedImpactTime;
+        this.fuzeTimer = estimatedImpactTime * fuzeTrim;
         fuzeArmed = true;
         
     }

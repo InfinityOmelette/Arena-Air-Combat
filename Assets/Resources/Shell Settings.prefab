@@ -130,6 +130,9 @@ MonoBehaviour:
   trail: {fileID: 0}
   smokeEmitTime: 0
   lightEmitTime: 0
+  fuzeRadius: 0
+  target: {fileID: 0}
+  fuzeTimer: 0
 --- !u!65 &7536621228142367262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -197,6 +200,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -262,8 +266,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8733813667504412014}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 2
+  m_Shape: 0
   m_Color: {r: 1, g: 0.81664944, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 7
@@ -329,6 +334,7 @@ TrailRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

@@ -2510,8 +2510,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
+      propertyPath: targetClosingTrim
+      value: 1.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
       propertyPath: targetVelMultiplier
-      value: 1.1
+      value: 1.12
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2586,12 +2591,12 @@ PrefabInstance:
     - target: {fileID: 2846866022197858923, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: reloadDelay
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2846866022197858923, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: roundsPerMag
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2846866022197858923, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2607,6 +2612,11 @@ PrefabInstance:
         type: 3}
       propertyPath: shellSpreadHoriz
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4406982260349741922, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: m_Range
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4557178484263556738, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2640,8 +2650,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
+      propertyPath: fuzeTrim
+      value: 0.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
       propertyPath: fuzeRadius
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2656,12 +2671,32 @@ PrefabInstance:
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: damage
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: radius
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: glowColor.g
+      value: 0.8116398
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: smokeColor.b
+      value: 0.4056604
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: smokeColor.g
+      value: 0.4056604
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: smokeColor.r
+      value: 0.4056604
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2754,6 +2789,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SAM Launcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707171475655768705, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
@@ -2868,6 +2908,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SAM Launcher 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3707171475655768705, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: fireRateDelay
@@ -2926,6 +2971,16 @@ PrefabInstance:
       propertyPath: myRb
       value: 
       objectReference: {fileID: 7770498610956574398}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetClosingTrim
+      value: 1.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetVelMultiplier
+      value: 1.225
+      objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: targetTypes.Array.size
@@ -3006,6 +3061,11 @@ PrefabInstance:
       propertyPath: shellSpreadHoriz
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4406982260349741922, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: m_Range
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5865994835303344778, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: m_Name
@@ -3013,18 +3073,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
+      propertyPath: fuzeTrim
+      value: 0.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
       propertyPath: fuzeRadius
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: damage
-      value: 20
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: radius
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: expandTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: smokeColor.b
+      value: 0.16037738
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: smokeColor.g
+      value: 0.16037738
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: smokeColor.r
+      value: 0.16037738
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 104e15c3b0a083245b7bec662fb45379, type: 3}

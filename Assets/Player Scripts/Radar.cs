@@ -99,6 +99,8 @@ public class Radar : MonoBehaviourPun
 
     hudControl mainHud;
 
+    public bool canLockProjectiles = false;
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -437,10 +439,19 @@ public class Radar : MonoBehaviourPun
 
     public bool lockableType(CombatFlow flow)
     {
-        return flow.type != CombatFlow.Type.PROJECTILE && (lockType == LockType.AIR_OR_GROUND
+        return (projectileCheck(flow) || flow.type !=CombatFlow.Type.PROJECTILE)
+            && (lockType == LockType.AIR_OR_GROUND
             || (lockType == LockType.AIR_ONLY && flow.type == CombatFlow.Type.AIRCRAFT)
-            || (lockType == LockType.GROUND_ONLY && flow.type != CombatFlow.Type.AIRCRAFT));
+            || (lockType == LockType.GROUND_ONLY && flow.type != CombatFlow.Type.AIRCRAFT)
+            || (canLockProjectiles && flow.type == CombatFlow.Type.PROJECTILE));
     }
+
+    public bool projectileCheck(CombatFlow flow)
+    {
+        return (flow.type == CombatFlow.Type.PROJECTILE && flow.isLaunched() && canLockProjectiles );
+    }
+
+
 
     private float calculateDetectability(CombatFlow targetFlow)
     {

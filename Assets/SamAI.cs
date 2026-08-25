@@ -161,7 +161,8 @@ public class SamAI : MonoBehaviour
             bool seeFlow = false;
             if (currentFlow != null)
             {
-                if (currentFlow.team != rootFlow.team && currentFlow.type == CombatFlow.Type.AIRCRAFT)
+                if (currentFlow.team != rootFlow.team &&
+                    (currentFlow.type == CombatFlow.Type.AIRCRAFT || radar.projectileCheck(currentFlow)))
                 {
 
                     if (radar.tryDetect(currentFlow))

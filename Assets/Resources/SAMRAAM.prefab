@@ -559,8 +559,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3911544153232449272}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1e-15, y: -2e-15, z: 0.23}
-  m_LocalScale: {x: 1, y: 3.5200446, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -66.5}
+  m_LocalScale: {x: 6.7888, y: 74.15762, z: 6.7888}
   m_Children: []
   m_Father: {fileID: 2707572036492433360}
   m_RootOrder: 14
@@ -964,6 +964,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  canLockProjectiles: 1
 --- !u!114 &6574464956620050637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1096,7 +1097,7 @@ MonoBehaviour:
   smokeColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
   expandTime: 0.075
   explosiveForce: 4000
-  damageProjectiles: 0
+  damageProjectiles: 1
   friendlyFire: 1
   team: 0
   doExplode: 1

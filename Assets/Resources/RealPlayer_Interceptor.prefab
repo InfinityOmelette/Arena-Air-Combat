@@ -734,12 +734,20 @@ MonoBehaviour:
     - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
   customLoadouts:
   - name: Custom1
-    loadout: []
-    stock: 0900000004000000
+    loadout:
+    - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
+    - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
+    - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
+    - {fileID: 1928006486093276839, guid: d2bcdd024eb0a5343b126eecb07740bf, type: 3}
+    stock: 080000000400000001000000
     generateDefaultStock: 0
     weaponTypes:
-    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
+    - {fileID: -5879226886572976462, guid: 3cbac014ad967d845a5743ea79fd4eb0, type: 3}
     - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 1928006486093276839, guid: d2bcdd024eb0a5343b126eecb07740bf, type: 3}
   - name: Custom2
     loadout: []
     stock: 
@@ -2553,6 +2561,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  canLockProjectiles: 0
 --- !u!114 &4424309726456864805
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -103,6 +103,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public CombatFlow prefabRef;
 
+    private Weapon weapRef;
+
     // ??????????
     public static Team convertNumToTeam(short num)
     {
@@ -162,6 +164,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         myRWR = GetComponent<RWR>();
         myStrat = GetComponent<StrategicTarget>();
         myTechSite = GetComponent<TechSite>();
+        weapRef = GetComponent<Weapon>();
 
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();
@@ -709,5 +712,10 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         root.gameObject.layer = layer;
         foreach (Transform child in root)
             MoveToLayer(child, layer);
+    }
+
+    public bool isLaunched()
+    {
+        return weapRef != null && weapRef.launched;
     }
 }

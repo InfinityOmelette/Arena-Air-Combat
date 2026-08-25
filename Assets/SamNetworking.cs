@@ -21,7 +21,7 @@ public class SamNetworking : MonoBehaviourPunCallbacks
     {
         if(sam != null)
         {
-            if(sams == null)
+            if(sams == null || sams.Count == 0)
             {
                 sams = new List<SamAI>();
                 sams.Add(sam);

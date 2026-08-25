@@ -35,7 +35,7 @@ public class RocketPod : Weapon
     public float rocketSpreadHoriz;
     public float rocketSpreadVert;
 
-
+    public bool instantAcceleration = true;
 
     private void Awake()
     {
@@ -130,7 +130,18 @@ public class RocketPod : Weapon
 
         // initial rocket data
         newRocket.setArmTime(rocketArmingTime);
-        newRocket.motorForce = rocketForce;
+
+        if (instantAcceleration)
+        {
+            newRocket.motorForce = 0f;
+            newRB.velocity += newRB.transform.forward * rocketForce * rocketMotorBurntime;
+        }
+        else
+        {
+            newRocket.motorForce = rocketForce;
+        }
+        
+
         newRocket.motorBurnTime = rocketMotorBurntime;
         newRocket.launched = true;
 

@@ -240,7 +240,7 @@ public class TankTurret : MonoBehaviour
 
         shellObj.GetComponent<Rigidbody>().velocity = shellObj.transform.forward * shellSpeed;
 
-        TankShell shell = shellObj.GetComponent<TankShell>();
+        //TankShell shell = shellObj.GetComponent<TankShell>();
         
 
         

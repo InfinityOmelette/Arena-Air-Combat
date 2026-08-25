@@ -2508,6 +2508,21 @@ PrefabInstance:
       propertyPath: booleetSpeed
       value: 1200
       objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetVelMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetTypes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetTypes.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2478282296061704856, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: m_RootOrder
@@ -2583,30 +2598,70 @@ PrefabInstance:
       propertyPath: fireRateDelay
       value: 0.15
       objectReference: {fileID: 0}
+    - target: {fileID: 2846866022197858923, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: shellSpreadVert
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2846866022197858923, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: shellSpreadHoriz
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4557178484263556738, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5865994835303344778, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: m_Name
       value: TurretFLAKFast
       objectReference: {fileID: 0}
+    - target: {fileID: 5890844346569228285, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.18784575
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890844346569228285, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.19031414
+      objectReference: {fileID: 0}
+    - target: {fileID: 5890844346569228285, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.5076742
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129795232691499689, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: fuzeRadius
-      value: 12
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: lightEmitTime
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: smokeEmitTime
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: damage
-      value: 25
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: radius
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2871,6 +2926,16 @@ PrefabInstance:
       propertyPath: myRb
       value: 
       objectReference: {fileID: 7770498610956574398}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetTypes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetTypes.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2478282296061704856, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: m_RootOrder
@@ -2931,10 +2996,35 @@ PrefabInstance:
       propertyPath: fireRateDelay
       value: 1.25
       objectReference: {fileID: 0}
+    - target: {fileID: 2846866022197858923, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: shellSpreadVert
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2846866022197858923, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: shellSpreadHoriz
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5865994835303344778, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: m_Name
       value: TurretFLAK
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: fuzeRadius
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: damage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: radius
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 104e15c3b0a083245b7bec662fb45379, type: 3}

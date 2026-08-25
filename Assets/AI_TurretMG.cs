@@ -287,6 +287,10 @@ public class AI_TurretMG : MonoBehaviour
             {
                 tankTurret.target = targetRb.gameObject;
             }
+            else
+            {
+                tankTurret.target = null;
+            }
 
         }
     }
@@ -323,11 +327,13 @@ public class AI_TurretMG : MonoBehaviour
         return Quaternion.LookRotation(targetPos - myPos, Vector3.up);
     }
 
-    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Rigidbody targetBody, float bulletSpeed, float targVelMultiplier, AI_TurretMG turret = null)
+    public static Quaternion calculateBulletLeadRot(Vector3 myPos, Rigidbody targetBody, 
+        float bulletSpeed, float targVelMultiplier, AI_TurretMG turret = null)
     {
         Vector3 relativeVelocity = targetBody.velocity;
 
-        return calculateBulletLeadRot(myPos, targetBody.transform.position, relativeVelocity, bulletSpeed, targVelMultiplier);
+        return calculateBulletLeadRot(myPos, targetBody.transform.position, relativeVelocity, 
+            bulletSpeed, targVelMultiplier, turret);
     }
 
     public static Quaternion calculateBulletLeadRot(Rigidbody origBody, Rigidbody targetBody, 
@@ -337,8 +343,13 @@ public class AI_TurretMG : MonoBehaviour
         // Velocity of target with origBody as the moving reference frame
         Vector3 relativeVelocity = targetBody.velocity - origBody.velocity;
 
+        Vector3 myPos = origBody.transform.position;
+        if(turret != null)
+        {
+            myPos = turret.transform.position;
+        }
 
-        return calculateBulletLeadRot(origBody.transform.position, targetBody.transform.position, 
+        return calculateBulletLeadRot(myPos, targetBody.transform.position, 
             relativeVelocity, bulletSpeed, targVelMultiplier, turret);
 
     }

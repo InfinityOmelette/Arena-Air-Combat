@@ -89,7 +89,7 @@ public class SamAI : MonoBehaviour
                         {
                             // do fire
                             // reset timer
-                            samNet.launchMissile(currentTarget);
+                            samNet.launchMissile(currentTarget, this);
                             //Debug.LogError("Firing SAM at " + currentTarget.name);
                             fireRateTimer = fireRateDelay;
                         }
@@ -134,7 +134,7 @@ public class SamAI : MonoBehaviour
                 if (targetFlow != this.currentTarget)
                 {
                     //turretNet.setTarget(targetFlow);
-                    samNet.setTarget(targetFlow);
+                    samNet.setTarget(targetFlow, this);
                     acquireTimer = acquireTimeMax;
                     locked = false;
 

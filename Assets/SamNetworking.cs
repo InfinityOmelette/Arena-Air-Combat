@@ -9,11 +9,25 @@ public class SamNetworking : MonoBehaviourPunCallbacks
 
     public SamAI sam;
 
+    public List<SamAI> sams;
+
     private CombatFlow myFlow;
 
     private Radar myRadar;
 
     private StrategicTarget myStrat;
+
+    private void Awake()
+    {
+        if(sam != null)
+        {
+            if(sams == null)
+            {
+                sams = new List<SamAI>();
+                sams.Add(sam);
+            }
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +56,7 @@ public class SamNetworking : MonoBehaviourPunCallbacks
 
     }
 
-    public void setTarget(CombatFlow target)
+    public void setTarget(CombatFlow target, SamAI activeSam)
     {
 
         int id = -1;
@@ -52,11 +66,13 @@ public class SamNetworking : MonoBehaviourPunCallbacks
             id = target.photonView.ViewID;
         }
 
-        photonView.RPC("rpcSetSamTarget", RpcTarget.All, id);
+        int samIndex = sams.IndexOf(activeSam);
+
+        photonView.RPC("rpcSetSamTarget", RpcTarget.All, id, samIndex);
     }
 
     [PunRPC]
-    public void rpcSetSamTarget(int viewID)
+    public void rpcSetSamTarget(int viewID, int samIndex)
     {
         if (viewID != -1)
         {
@@ -67,7 +83,7 @@ public class SamNetworking : MonoBehaviourPunCallbacks
             {
                 CombatFlow targetFlow = view.GetComponent<CombatFlow>();
 
-                sam.setTarget(targetFlow);
+                sams[samIndex].setTarget(targetFlow);
 
                 Radar myRadar = GetComponent<Radar>();
 
@@ -87,27 +103,27 @@ public class SamNetworking : MonoBehaviourPunCallbacks
         else
         {
             
-            if(sam.currentTarget.gameObject == GameManager.getGM().localPlayer)
+            if(sams[samIndex].currentTarget.gameObject == GameManager.getGM().localPlayer)
             {
                 Radar myRadar = GetComponent<Radar>();
                 myRadar.rwrIcon.endLock();
             }
 
-            sam.setTarget(null);
+            sams[samIndex].setTarget(null);
         }
 
 
     }
 
     // only local owner should call this
-    public void launchMissile(CombatFlow target)
+    public void launchMissile(CombatFlow target, SamAI launchingSAM)
     {
         if (myFlow.localOwned && target != null)
         {
             Debug.LogWarning("Launching at " + target.name);
 
-            GameObject missileObj = PhotonNetwork.Instantiate(sam.missilePrefab.name,
-                sam.missileSpawnCenter.position, sam.missileSpawnCenter.rotation);
+            GameObject missileObj = PhotonNetwork.Instantiate(launchingSAM.missilePrefab.name,
+                launchingSAM.missileSpawnCenter.position, launchingSAM.missileSpawnCenter.rotation);
 
             BasicMissile missile = missileObj.GetComponent<BasicMissile>();
             CombatFlow missileFlow = missileObj.GetComponent<CombatFlow>();

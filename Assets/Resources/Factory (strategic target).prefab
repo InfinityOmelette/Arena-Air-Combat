@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 5130862911302824119}
   - component: {fileID: 7537817030063335737}
   - component: {fileID: 3190138701030735521}
+  - component: {fileID: 2017220484258471488}
   m_Layer: 0
   m_Name: Factory (Strategic Target)
   m_TagString: Untagged
@@ -140,6 +141,7 @@ MonoBehaviour:
   canTakeDamage: 0
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
 --- !u!54 &2221568712399319233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -232,6 +234,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   supplyAmt: 1
+--- !u!114 &2017220484258471488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5736856393275262558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b3c47e6fb8e574ea0a6756a182462e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wakeUpTimeMax: 8
+  lowerGuardTimeMax: 12
+  isAlert: 0
 --- !u!1001 &3664208811193449670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -327,6 +344,11 @@ PrefabInstance:
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: isStatic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: triggerAlertness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
@@ -462,7 +484,7 @@ PrefabInstance:
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}

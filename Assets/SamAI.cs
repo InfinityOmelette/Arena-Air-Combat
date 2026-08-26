@@ -39,12 +39,20 @@ public class SamAI : MonoBehaviour
 
     public float closerOversaturateMargin = 3000f;
 
+    public UnitAlertness alertness;
+
+
+    public bool triggerAlertness = false;
+    public bool bypassAlertness = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
         rootFlow = transform.root.GetComponent<CombatFlow>();
         radar = rootFlow.GetComponent<Radar>();
         samNet = rootFlow.GetComponent<SamNetworking>();
+        alertness = rootFlow.GetComponent<UnitAlertness>();
 
     }
 
@@ -56,9 +64,19 @@ public class SamAI : MonoBehaviour
             // try to change to new target
             tryChangeTarget();
 
-            // try to perform launch
-            tryLaunch();
+            if (alertness.checkAlertStatus() || bypassAlertness)
+            {
+                // try to perform launch
+                tryLaunch();
+            }
 
+            if (triggerAlertness)
+            {
+                alertness.beginChangingAlertStatus(currentTarget != null);
+            }
+            
+
+            //tryLowerGuard(Time.deltaTime);
 
             if (currentTarget != null)
             {

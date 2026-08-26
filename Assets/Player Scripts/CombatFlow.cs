@@ -105,6 +105,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     private Weapon weapRef;
 
+    public UnitAlertness alertNess;
+
     // ??????????
     public static Team convertNumToTeam(short num)
     {
@@ -165,6 +167,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         myStrat = GetComponent<StrategicTarget>();
         myTechSite = GetComponent<TechSite>();
         weapRef = GetComponent<Weapon>();
+        alertNess = GetComponent<UnitAlertness>();
 
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();

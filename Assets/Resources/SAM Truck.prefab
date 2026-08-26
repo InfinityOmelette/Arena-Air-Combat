@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5706528795121487924}
   - component: {fileID: 6644604298661458783}
   - component: {fileID: -887790686386084422}
+  - component: {fileID: 7795246782158834178}
   m_Layer: 9
   m_Name: SAM Truck
   m_TagString: Untagged
@@ -104,6 +105,7 @@ MonoBehaviour:
   canTakeDamage: 1
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
 --- !u!114 &767922532286736341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +259,21 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+--- !u!114 &7795246782158834178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4764596039173869594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b3c47e6fb8e574ea0a6756a182462e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wakeUpTimeMax: 5
+  lowerGuardTimeMax: 12
+  isAlert: 0
 --- !u!1001 &2000921893324971538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -830,6 +847,11 @@ PrefabInstance:
     - target: {fileID: 7240250443418620994, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: triggerAlertness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7674640722463132363, guid: aa350bf2f8c92474ba40faabb8b9d274,

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7425787568368016830}
   - component: {fileID: -8323084260900981985}
   - component: {fileID: -3881178316974952867}
+  - component: {fileID: 9133762525964380875}
   m_Layer: 0
   m_Name: AAA Truck
   m_TagString: Untagged
@@ -103,6 +104,7 @@ MonoBehaviour:
   canTakeDamage: 1
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
 --- !u!114 &4662998394976126081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +216,21 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+--- !u!114 &9133762525964380875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576821350544307022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b3c47e6fb8e574ea0a6756a182462e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wakeUpTimeMax: 7
+  lowerGuardTimeMax: 12
+  isAlert: 0
 --- !u!1001 &4925052361784105263
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -226,6 +243,11 @@ PrefabInstance:
       propertyPath: myRb
       value: 
       objectReference: {fileID: 8184574061074758831}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: triggerAlertness
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: targetTypes.Array.size
@@ -339,7 +361,7 @@ PrefabInstance:
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}

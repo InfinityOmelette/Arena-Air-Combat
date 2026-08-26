@@ -56,6 +56,10 @@ public class AI_TurretMG : MonoBehaviour
 
     public float targetClosingTrim = 1.0f;
 
+    public UnitAlertness alertness;
+    public bool bypassAlertness = false;
+    public bool triggerAlertness = false;
+
     public void setIndex(int index)
     {
         turretIndex = index;
@@ -80,7 +84,8 @@ public class AI_TurretMG : MonoBehaviour
         {
             turretNet = transform.root.GetComponent<TurretNetworking>();
         }
-        
+
+        alertness = transform.root.GetComponent<UnitAlertness>();
 
         rootFlow = transform.root.GetComponent<CombatFlow>();
 
@@ -134,7 +139,12 @@ public class AI_TurretMG : MonoBehaviour
             rootFlow.returnOwnershipToHost();
         }
 
-        setGunState(canShoot);
+        if (triggerAlertness)
+        {
+            alertness.beginChangingAlertStatus(targetRb != null);
+        }
+
+        setGunState(canShoot && (bypassAlertness || alertness.checkAlertStatus()));
 
     }
 

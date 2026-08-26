@@ -239,16 +239,42 @@ public class RWR : MonoBehaviourPunCallbacks
         return bearing;
     }
 
+    public void nonNetLock(Radar radarSource)
+    {
+        if (!lockedBy.Contains(radarSource.myFlow))
+        {
+            lockedBy.Add(radarSource.myFlow);
+        }
+    }
+
+    public void nonNetEndLock(Radar radarSource)
+    {
+        while (lockedBy.Contains(radarSource.myFlow))
+        {
+            lockedBy.Remove(radarSource.myFlow);
+            //Debug.LogError("Successful removal of locked radar source");
+        }
+    }
+
     public void netLockedBy(Radar radarSource)
     {
         Debug.Log("============= NETLOCKEDBY CALL");
-        photonView.RPC("rpcLockedBy", RpcTarget.All, radarSource.photonView.ViewID);
+        if (!lockedBy.Contains(radarSource.myFlow))
+        {
+            photonView.RPC("rpcLockedBy", RpcTarget.All, radarSource.photonView.ViewID);
+        }
+        
     }
 
     public void endNetLock(Radar radarSource)
     {
         Debug.Log("============  ENDNETLOCKEDBY CALL");
-        photonView.RPC("rpcEndLockedBy", RpcTarget.All, radarSource.photonView.ViewID);
+
+        if (lockedBy.Contains(radarSource.myFlow))
+        {
+            photonView.RPC("rpcEndLockedBy", RpcTarget.All, radarSource.photonView.ViewID);
+        }
+        
     }
 
     [PunRPC]
@@ -316,5 +342,26 @@ public class RWR : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    public float closestLocker()
+    {
+        float closestDist = 1000000f; // arbitrarily large value
+
+        for(int i = 0; i < lockedBy.Count; i++)
+        {
+            if(lockedBy[i] != null)
+            {
+                float dist = Vector3.Distance(transform.position, lockedBy[i].transform.position);
+
+                if(dist < closestDist)
+                {
+                    closestDist = dist;
+                }
+            }
+            
+        }
+
+        return closestDist;
     }
 }

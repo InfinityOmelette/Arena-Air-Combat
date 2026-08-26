@@ -227,6 +227,24 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             die(); // kill self
     }
 
+    public void tryBeginLock(Radar incomingRadarSource)
+    {
+        if(rwr != null)
+        {
+            //rwr.netLockedBy(incomingRadarSource);
+            rwr.nonNetLock(incomingRadarSource);
+        }
+    }
+
+    public void tryEndLock(Radar incomingRadarSource)
+    {
+        if(rwr != null)
+        {
+            //rwr.endNetLock(incomingRadarSource);
+            rwr.nonNetEndLock(incomingRadarSource);
+        }
+    }
+
     // Update is called once per frame
     private void Update()
     {

@@ -1327,6 +1327,7 @@ GameObject:
   - component: {fileID: -4558703967161263445}
   - component: {fileID: 7904526581182807849}
   - component: {fileID: -112591001803502687}
+  - component: {fileID: 4486375670139822213}
   m_Layer: 0
   m_Name: BASICBOMB
   m_TagString: Untagged
@@ -1529,6 +1530,26 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4486375670139822213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5531036496383959406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rwrBearingAxis: {fileID: 0}
+  lockedBy: []
+  incomingMissiles: []
+  highestThreatMissile: {fileID: 0}
+  closestMissileDelay: 1
+  cleanListsDelay: 3
+  minImpactTime: 0
+  amraamsIncoming: 0
 --- !u!1 &5682025624188498081
 GameObject:
   m_ObjectHideFlags: 0

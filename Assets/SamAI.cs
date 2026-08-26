@@ -35,6 +35,10 @@ public class SamAI : MonoBehaviour
 
     public bool active = true;
 
+    public int maxTargetSaturation_Projectile = 1;
+
+    public float closerOversaturateMargin = 3000f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -131,10 +135,33 @@ public class SamAI : MonoBehaviour
                 changeCycleCounter = changeCycleCounterMax;
 
                 CombatFlow targetFlow = findNearestTarget();
+
                 if (targetFlow != this.currentTarget)
                 {
-                    //turretNet.setTarget(targetFlow);
+
+                    ////turretNet.setTarget(targetFlow);
+                    //if(currentTarget != null)
+                    //{
+                    //    this.currentTarget.tryEndLock(radar);
+
+                    //    //if(currentTarget.type == CombatFlow.Type.PROJECTILE)
+                    //    //{
+                    //    //    Debug.LogError("Ending lock against: " + currentTarget.name + 
+                    //    //        ", assigning to new target: " + targetFlow.name);
+                    //    //}
+                    //}
+
+                    //if(targetFlow != null)
+                    //{
+                    //    targetFlow.tryBeginLock(radar);
+                    //}
+
+
+                    //setTarget(targetFlow);
                     samNet.setTarget(targetFlow, this);
+
+                    //setTarget(targetFlow);
+
                     acquireTimer = acquireTimeMax;
                     locked = false;
 
@@ -144,6 +171,24 @@ public class SamAI : MonoBehaviour
 
             }
         }
+    }
+
+    // returns true if target is NOT saturated with locks
+    private bool projectileSaturationCheck(CombatFlow target)
+    {
+        //if(target == currentTarget)
+        //{
+        //    return true;
+        //}
+        return (target.rwr != null && (target.rwr.lockedBy.Count < maxTargetSaturation_Projectile
+            || target.rwr.lockedBy.Contains(radar.myFlow)) || iAmClosestByWideMargin(target.rwr));
+    }
+
+    private bool iAmClosestByWideMargin(RWR targetRWR)
+    {
+        float myDist = Vector3.Distance(transform.position, targetRWR.transform.position);
+
+        return myDist + closerOversaturateMargin < targetRWR.closestLocker();
     }
 
     private CombatFlow findNearestTarget()
@@ -162,13 +207,16 @@ public class SamAI : MonoBehaviour
             if (currentFlow != null)
             {
                 if (currentFlow.team != rootFlow.team &&
-                    (currentFlow.type == CombatFlow.Type.AIRCRAFT || radar.projectileCheck(currentFlow)))
+                    (currentFlow.type == CombatFlow.Type.AIRCRAFT || 
+                    (radar.projectileCheck(currentFlow) && projectileSaturationCheck(currentFlow))))
                 {
 
                     if (radar.tryDetect(currentFlow))
                     {
                         // contribute to datalink network, even if not selecting this as closest target
                         seeFlow = true;
+
+                        
 
                         float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
                         if (currentDistance < shortestDist)
@@ -181,10 +229,12 @@ public class SamAI : MonoBehaviour
                     if (seeFlow)
                     {
                         currentFlow.tryAddSeenBy(rootFlow.photonView.ViewID);
+                        //currentFlow.tryReceiveLock(radar);
                     }
                     else
                     {
                         currentFlow.tryRemoveSeenBy(rootFlow.photonView.ViewID);
+                        //currentFlow.tryEndLock(radar);
                     }
 
 
@@ -202,7 +252,39 @@ public class SamAI : MonoBehaviour
 
     public void setTarget(CombatFlow targetFlow)
     {
+
+        //fuckthisbullshit();
+
+        if (currentTarget != null)
+        {
+            currentTarget.tryEndLock(radar);
+        }
+
+        if (targetFlow != null)
+        {
+            targetFlow.tryBeginLock(radar);
+        }
+
+
+
+
+
         currentTarget = targetFlow;
     }
+
+    //private void fuckthisbullshit()
+    //{
+    //    for(int i = 0; i < CombatFlow.combatUnits.Count; i++)
+    //    {
+    //        CombatFlow currentFlow = CombatFlow.combatUnits[i];
+    //        if(currentFlow != null)
+    //        {
+    //            if(currentFlow.rwr != null)
+    //            {
+    //                currentFlow.tryEndLock(radar);
+    //            }
+    //        }
+    //    }
+    //}
 
 }

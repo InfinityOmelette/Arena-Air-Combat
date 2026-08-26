@@ -1884,6 +1884,7 @@ GameObject:
   - component: {fileID: 1812734287292680527}
   - component: {fileID: 7809785961381737416}
   - component: {fileID: 4292092153677973482}
+  - component: {fileID: 7553664524145088247}
   m_Layer: 0
   m_Name: NewPhoenix
   m_TagString: Untagged
@@ -2079,7 +2080,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
-  canLockProjectiles: 0
+  canLockProjectiles: 1
 --- !u!114 &2231978451065688927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2354,6 +2355,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7553664524145088247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9020280692747740723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rwrBearingAxis: {fileID: 0}
+  lockedBy: []
+  incomingMissiles: []
+  highestThreatMissile: {fileID: 0}
+  closestMissileDelay: 1
+  cleanListsDelay: 3
+  minImpactTime: 0
+  amraamsIncoming: 0
 --- !u!1001 &6437774213159727073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2443,15 +2464,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6bd0690b0d1b734d9d11488553094e5, type: 3}
---- !u!1 &7523632658139020953 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
-    type: 3}
-  m_PrefabInstance: {fileID: 6437774213159727073}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4877400303751863161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6437774213159727073}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7523632658139020953 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
     type: 3}
   m_PrefabInstance: {fileID: 6437774213159727073}
   m_PrefabAsset: {fileID: 0}

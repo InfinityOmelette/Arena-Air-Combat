@@ -2132,6 +2132,7 @@ GameObject:
   - component: {fileID: 1812734287292680527}
   - component: {fileID: 7809785961381737416}
   - component: {fileID: 4292092153677973482}
+  - component: {fileID: -3372059446627156865}
   m_Layer: 0
   m_Name: AMRAAM
   m_TagString: Untagged
@@ -2338,7 +2339,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
-  canLockProjectiles: 0
+  canLockProjectiles: 1
 --- !u!114 &2231978451065688927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2613,6 +2614,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-3372059446627156865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9020280692747740723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c485f6a946968cb4484c3bdb16950694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rwrBearingAxis: {fileID: 0}
+  lockedBy: []
+  incomingMissiles: []
+  highestThreatMissile: {fileID: 0}
+  closestMissileDelay: 1
+  cleanListsDelay: 3
+  minImpactTime: 0
+  amraamsIncoming: 0
 --- !u!1 &9043239427233778396
 GameObject:
   m_ObjectHideFlags: 0

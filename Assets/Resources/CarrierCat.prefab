@@ -32862,6 +32862,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  canLockProjectiles: 1
 --- !u!114 &6406732512501020692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67998,6 +67999,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SAM Launcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707171475655768705, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

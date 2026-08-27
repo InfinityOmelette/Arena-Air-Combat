@@ -277,7 +277,9 @@ public class MissileGuidance : MonoBehaviour
             //  - trig from velocity magnitude to get angle where tangential velocity matches target tangential velocity
             float leadAngleDegrees = Mathf.Rad2Deg * Mathf.Asin(targetTangentialVelocity.magnitude / estimatedMissileVelocityAverage.magnitude);
 
-            leadAngleDegrees = Mathf.Min(leadAngleDegrees, myRadar.scanConeAngle * scanConeFactor);
+            float banditHeadingOffset = Vector3.Angle(targetBearingLine, targetVel_now);
+
+            leadAngleDegrees = Mathf.Min(leadAngleDegrees, myRadar.scanConeAngle * scanConeFactor, banditHeadingOffset);
 
             //Debug.Log("leadAngleDegrees: " + leadAngleDegrees);
 

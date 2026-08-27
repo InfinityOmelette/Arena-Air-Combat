@@ -32948,15 +32948,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b3c47e6fb8e574ea0a6756a182462e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wakeUpTimeMax: 8
+  wakeUpTimeMax: 6
+  wakeUpTimer: 0
   lowerGuardTimeMax: 12
+  lowerGuardTimer: 0
   isAlert: 0
   lowerGuardResetTimerMax: 0.5
+  lowerGuardResetTimer: 0
   wakeUpResetTimerMax: 3
+  wakeUpResetTimer: 0
+  currentCoeff: 1
   alertingUnit: {fileID: 0}
-  minWakeTimeCoeff: 0.5
-  minWakeTimeRange: 2000
-  fullWakeTimeRange: 4500
+  closeWakeTimeCoeff: 2
+  closeWakeTimeRange: 1750
+  normalWakeTimeRange: 3000
 --- !u!1 &4365606027760939449
 GameObject:
   m_ObjectHideFlags: 0
@@ -67177,6 +67182,11 @@ PrefabInstance:
       objectReference: {fileID: 5345726298653757455}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
+      propertyPath: bypassAlertness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
       propertyPath: targetTypes.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -67249,6 +67259,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -68033,7 +68048,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: fireRateDelay
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
@@ -68044,7 +68059,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: acquireTimeMax
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

@@ -448,7 +448,10 @@ public class Radar : MonoBehaviourPun
 
     public bool projectileCheck(CombatFlow flow)
     {
-        return (flow.type == CombatFlow.Type.PROJECTILE && flow.isLaunched() && canLockProjectiles );
+        
+
+        return flow.type == CombatFlow.Type.PROJECTILE && flow.isLaunched() && canLockProjectiles
+            && (flow.mslGuidance == null || flow.mslGuidance.isLocked);
     }
 
 

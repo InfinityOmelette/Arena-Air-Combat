@@ -2147,10 +2147,11 @@ MonoBehaviour:
   lowerGuardResetTimer: 0
   wakeUpResetTimerMax: 7
   wakeUpResetTimer: 0
+  currentCoeff: 1
   alertingUnit: {fileID: 0}
-  minWakeTimeCoeff: 0.5
-  minWakeTimeRange: 2000
-  fullWakeTimeRange: 4500
+  closeWakeTimeCoeff: 2
+  closeWakeTimeRange: 1750
+  normalWakeTimeRange: 3000
 --- !u!1 &8175238099947272985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,6 +2417,11 @@ PrefabInstance:
       objectReference: {fileID: 7770498610956574398}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
+      propertyPath: bypassAlertness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
       propertyPath: targetVelMultiplier
       value: 1
       objectReference: {fileID: 0}
@@ -2483,6 +2489,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5423420510096850684, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -2841,7 +2852,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: fireRateDelay
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
@@ -2852,7 +2863,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: acquireTimeMax
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

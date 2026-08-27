@@ -3323,10 +3323,11 @@ MonoBehaviour:
   lowerGuardResetTimer: 0
   wakeUpResetTimerMax: 3
   wakeUpResetTimer: 0
+  currentCoeff: 1
   alertingUnit: {fileID: 0}
-  minWakeTimeCoeff: 0.5
-  minWakeTimeRange: 2000
-  fullWakeTimeRange: 4500
+  closeWakeTimeCoeff: 2
+  closeWakeTimeRange: 1750
+  normalWakeTimeRange: 3000
 --- !u!1 &5770050702040836372
 GameObject:
   m_ObjectHideFlags: 0
@@ -5097,6 +5098,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
+      propertyPath: bypassAlertness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
       propertyPath: targetTypes.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -5213,7 +5219,7 @@ PrefabInstance:
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -5281,6 +5287,11 @@ PrefabInstance:
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: isStatic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: bypassAlertness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
@@ -5401,7 +5412,7 @@ PrefabInstance:
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -5484,7 +5495,7 @@ PrefabInstance:
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: targetTypes.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -5770,6 +5781,11 @@ PrefabInstance:
       propertyPath: maxTargetRange
       value: 7000
       objectReference: {fileID: 0}
+    - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: triggerAlertness
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa350bf2f8c92474ba40faabb8b9d274, type: 3}
 --- !u!1 &7635578991163736996 stripped
@@ -5811,6 +5827,11 @@ PrefabInstance:
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: isStatic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: bypassAlertness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
@@ -5931,7 +5952,7 @@ PrefabInstance:
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -6003,8 +6024,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
-      propertyPath: triggerAlertness
+      propertyPath: bypassAlertness
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: triggerAlertness
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -6124,7 +6150,7 @@ PrefabInstance:
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
@@ -6192,6 +6218,11 @@ PrefabInstance:
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: isStatic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
+        type: 3}
+      propertyPath: bypassAlertness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: ee0d07f86442c6d449544d32c92431b9,
@@ -6312,7 +6343,7 @@ PrefabInstance:
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4825768402240153092, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}

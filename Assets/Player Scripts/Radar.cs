@@ -451,7 +451,9 @@ public class Radar : MonoBehaviourPun
         
 
         return flow.type == CombatFlow.Type.PROJECTILE && flow.isLaunched() && canLockProjectiles
-            && (flow.mslGuidance == null || flow.mslGuidance.isLocked);
+            && (flow.mslGuidance == null || (flow.mslGuidance.isLocked 
+            && flow.mslGuidance.getTargetType() != CombatFlow.Type.PROJECTILE)); 
+        // only bother intercepting missile if it isn't targeting another projectile
     }
 
 

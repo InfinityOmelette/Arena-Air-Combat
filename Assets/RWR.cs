@@ -30,6 +30,8 @@ public class RWR : MonoBehaviourPunCallbacks
 
     public float closingVelocityThreatThreshold = 50f;
 
+    public WarningComputer warningComputer;
+
     //private WarningComputer warnComputer;
     void Awake()
     {
@@ -37,8 +39,15 @@ public class RWR : MonoBehaviourPunCallbacks
         myRb = GetComponent<Rigidbody>();
         lockedBy = new List<CombatFlow>();
         incomingMissiles = new List<CombatFlow>();
+
+        
     }
 
+    public void linkWarningComputer()
+    {
+        warningComputer = hudControl.mainHud.GetComponent<hudControl>().warningComputer;
+        warningComputer.resetLists();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -398,5 +407,13 @@ public class RWR : MonoBehaviourPunCallbacks
         }
 
         return closestDist;
+    }
+
+    private void OnDestroy()
+    {
+        if(warningComputer != null)
+        {
+            warningComputer.resetLists();
+        }
     }
 }

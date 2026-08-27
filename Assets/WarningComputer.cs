@@ -48,6 +48,11 @@ public class WarningComputer : MonoBehaviour
         
     }
 
+    public void resetLists()
+    {
+        incomingMissiles.Clear();
+        incomingLocks.Clear();
+    }
     
     void Update()
     {

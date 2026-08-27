@@ -108,7 +108,20 @@ public class MissileGuidance : MonoBehaviour
         targetPos_prev = new Vector3();
     }
 
+    public CombatFlow getFlow()
+    {
+        return targetFlow;
+    }
 
+    public CombatFlow.Type getTargetType()
+    {
+        CombatFlow.Type type = CombatFlow.Type.AIRCRAFT;
+        if(targetFlow != null)
+        {
+            type = targetFlow.type;
+        }
+        return type;
+    }
 
     private void FixedUpdate()
     {

@@ -282,10 +282,11 @@ MonoBehaviour:
   lowerGuardResetTimer: 0
   wakeUpResetTimerMax: 3
   wakeUpResetTimer: 0
+  currentCoeff: 1
   alertingUnit: {fileID: 0}
-  minWakeTimeCoeff: 0.5
-  minWakeTimeRange: 2000
-  fullWakeTimeRange: 4500
+  closeWakeTimeCoeff: 2
+  closeWakeTimeRange: 1750
+  normalWakeTimeRange: 3000
 --- !u!1001 &2000921893324971538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -863,8 +864,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
+      propertyPath: fireRateDelay
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
       propertyPath: acquireTimeMax
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

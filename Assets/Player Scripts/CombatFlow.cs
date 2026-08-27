@@ -441,6 +441,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
             PlayerInput_Aircraft input = GetComponent<PlayerInput_Aircraft>();
             input.hardpointController.destroyWeapons();
+            
 
         }
 
@@ -684,6 +685,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
 
         inputRoot.isReady = true; // start receiving and processing input
+
+        rwr.linkWarningComputer();
     }
 
     public void setAsAI()

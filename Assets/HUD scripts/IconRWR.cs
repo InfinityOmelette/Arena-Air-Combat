@@ -338,5 +338,12 @@ public class IconRWR : MonoBehaviour
         {
             endLock();
         }
+        
+
+        //if(warningComputer != null)
+        //{
+        //    if(warningComputer.incomingLocks.Contains)
+        //}
+
     }
 }

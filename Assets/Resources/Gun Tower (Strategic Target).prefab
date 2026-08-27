@@ -678,7 +678,7 @@ MonoBehaviour:
   suppressionHealthMax: 20000
   suppressionHealthCurrent: 20000
   isSuppressed: 0
-  suppressionRepairRate: 60
+  suppressionRepairRate: 40
   lane: 0
   myLane: {fileID: 0}
   enemyLane: {fileID: 0}
@@ -714,6 +714,7 @@ MonoBehaviour:
   minImpactTime: 0
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
 --- !u!114 &7537817030063335737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1967,7 +1968,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: acquireTimeMax
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

@@ -60,6 +60,8 @@ public class AI_TurretMG : MonoBehaviour
     public bool bypassAlertness = false;
     public bool triggerAlertness = false;
 
+    public bool bypassLineOfSight = false;
+
     public void setIndex(int index)
     {
         turretIndex = index;
@@ -245,7 +247,7 @@ public class AI_TurretMG : MonoBehaviour
                     if (currentDistance < shortestDist)
                     {
                         int terrainLayer = 1 << 10; // line only collides with terrain layer
-                        bool hasLineOfSight = !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
+                        bool hasLineOfSight = bypassLineOfSight || !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
                         if (hasLineOfSight)
                         {
                             closestTarget = currentFlow;
@@ -373,7 +375,7 @@ public class AI_TurretMG : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, targetRb.transform.position);
         int terrainLayer = 1 << 10; // line only collides with terrain layer
-        bool hasLineOfSight = !Physics.Linecast(transform.position, targetRb.transform.position, terrainLayer);
+        bool hasLineOfSight = bypassLineOfSight || !Physics.Linecast(transform.position, targetRb.transform.position, terrainLayer);
         return distance < schutDistance && hasLineOfSight && (targetIsAbove(targetRb) || !onlyTargetAbove) ;
     }
 

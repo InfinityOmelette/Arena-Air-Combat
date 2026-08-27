@@ -645,6 +645,7 @@ MonoBehaviour:
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!54 &2221568712399319233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -712,6 +713,7 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
 --- !u!114 &7537817030063335737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -797,9 +799,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b3c47e6fb8e574ea0a6756a182462e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wakeUpTimeMax: 5
+  wakeUpTimeMax: 6.5
+  wakeUpTimer: 0
   lowerGuardTimeMax: 12
+  lowerGuardTimer: 0
   isAlert: 0
+  lowerGuardResetTimerMax: 0.5
+  lowerGuardResetTimer: 0
+  wakeUpResetTimerMax: 3
+  wakeUpResetTimer: 0
+  alertingUnit: {fileID: 0}
+  minWakeTimeCoeff: 0.25
+  minWakeTimeRange: 2000
+  fullWakeTimeRange: 4500
 --- !u!1 &6631274876345390503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,7 +1956,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: acquireTimeMax
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

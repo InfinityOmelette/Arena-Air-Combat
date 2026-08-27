@@ -3315,10 +3315,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wakeUpTimeMax: 8
+  wakeUpTimer: 0
   lowerGuardTimeMax: 12
+  lowerGuardTimer: 0
   isAlert: 0
   lowerGuardResetTimerMax: 0.5
+  lowerGuardResetTimer: 0
   wakeUpResetTimerMax: 3
+  wakeUpResetTimer: 0
   alertingUnit: {fileID: 0}
   minWakeTimeCoeff: 0.5
   minWakeTimeRange: 2000
@@ -5759,17 +5763,12 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: maxLaunchRange
-      value: 7000
+      value: 6000
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: maxTargetRange
-      value: 8000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
-        type: 3}
-      propertyPath: bypassAlertness
-      value: 1
+      value: 7000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa350bf2f8c92474ba40faabb8b9d274, type: 3}

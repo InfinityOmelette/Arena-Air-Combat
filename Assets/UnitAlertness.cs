@@ -24,13 +24,18 @@ public class UnitAlertness : MonoBehaviour
     public float wakeUpResetTimerMax = 10f;
     public float wakeUpResetTimer;
 
+    public float currentCoeff = 1.0f;
 
     public Rigidbody alertingUnit;
 
 
-    public float minWakeTimeCoeff = .25f;
-    public float minWakeTimeRange = 2000f;
-    public float fullWakeTimeRange = 4500f;
+    //public float minWakeTimeCoeff = .25f;
+    //public float minWakeTimeRange = 2000f;
+    //public float fullWakeTimeRange = 4500f;
+
+    public float closeWakeTimeCoeff = 2f;
+    public float closeWakeTimeRange = 1750;
+    public float normalWakeTimeRange = 3000f;
 
 
     // Start is called before the first frame update
@@ -90,11 +95,16 @@ public class UnitAlertness : MonoBehaviour
         if(alertingUnit != null)
         {
             float dist = Vector3.Distance(transform.position, alertingUnit.transform.position);
-            coeff = minWakeTimeCoeff + 
-                Mathf.Max((dist - minWakeTimeRange) / fullWakeTimeRange, 0.0f);
-            coeff = Mathf.Clamp(coeff, minWakeTimeCoeff, 1.0f);
+            //coeff = minWakeTimeCoeff + 
+            //    Mathf.Max((dist - minWakeTimeRange) / fullWakeTimeRange, 0.0f);
+            //coeff = Mathf.Clamp(coeff, minWakeTimeCoeff, 1.0f);
+
+            float lerpRate = Mathf.Clamp((dist - closeWakeTimeRange) / normalWakeTimeRange, 0f, 1f);
+            coeff = Mathf.Lerp(closeWakeTimeCoeff, 1.0f, lerpRate);
+
         }
 
+        currentCoeff = coeff;
 
         return coeff;
     }

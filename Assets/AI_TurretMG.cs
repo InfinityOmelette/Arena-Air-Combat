@@ -141,7 +141,7 @@ public class AI_TurretMG : MonoBehaviour
 
         if (triggerAlertness)
         {
-            alertness.beginChangingAlertStatus(targetRb != null);
+            alertness.beginChangingAlertStatus(targetRb != null, targetRb );
         }
 
         setGunState(canShoot && (bypassAlertness || alertness.checkAlertStatus()));

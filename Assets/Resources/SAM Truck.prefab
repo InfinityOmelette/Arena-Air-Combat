@@ -106,6 +106,7 @@ MonoBehaviour:
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &767922532286736341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +260,7 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
 --- !u!114 &7795246782158834178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +276,12 @@ MonoBehaviour:
   wakeUpTimeMax: 5
   lowerGuardTimeMax: 12
   isAlert: 0
+  lowerGuardResetTimerMax: 0.5
+  wakeUpResetTimerMax: 3
+  alertingUnit: {fileID: 0}
+  minWakeTimeCoeff: 0.5
+  minWakeTimeRange: 2000
+  fullWakeTimeRange: 4500
 --- !u!1001 &2000921893324971538
 PrefabInstance:
   m_ObjectHideFlags: 0

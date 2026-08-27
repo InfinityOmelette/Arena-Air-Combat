@@ -3134,6 +3134,7 @@ MonoBehaviour:
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!54 &2221568712399319233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3204,6 +3205,7 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
 --- !u!114 &7537817030063335737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3315,6 +3317,12 @@ MonoBehaviour:
   wakeUpTimeMax: 8
   lowerGuardTimeMax: 12
   isAlert: 0
+  lowerGuardResetTimerMax: 0.5
+  wakeUpResetTimerMax: 3
+  alertingUnit: {fileID: 0}
+  minWakeTimeCoeff: 0.5
+  minWakeTimeRange: 2000
+  fullWakeTimeRange: 4500
 --- !u!1 &5770050702040836372
 GameObject:
   m_ObjectHideFlags: 0
@@ -5741,12 +5749,12 @@ PrefabInstance:
         type: 3}
       propertyPath: missilePrefab
       value: 
-      objectReference: {fileID: 9020280692747740723, guid: 3cbac014ad967d845a5743ea79fd4eb0,
+      objectReference: {fileID: 9020280692747740723, guid: c1e013f94f45224449ed975f068a1c5d,
         type: 3}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: acquireTimeMax
-      value: 12
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

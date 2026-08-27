@@ -2116,7 +2116,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8131712627891980879}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9321d2e299a64314e9abe67aeb7bfc5b, type: 3}
   m_Name: 
@@ -2139,10 +2139,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wakeUpTimeMax: 8
+  wakeUpTimer: 0
   lowerGuardTimeMax: 12
+  lowerGuardTimer: 0
   isAlert: 0
   lowerGuardResetTimerMax: 0.5
-  wakeUpResetTimerMax: 3
+  lowerGuardResetTimer: 0
+  wakeUpResetTimerMax: 7
+  wakeUpResetTimer: 0
+  alertingUnit: {fileID: 0}
+  minWakeTimeCoeff: 0.5
+  minWakeTimeRange: 2000
+  fullWakeTimeRange: 4500
 --- !u!1 &8175238099947272985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,7 +2502,7 @@ PrefabInstance:
     - target: {fileID: 5865994835303344778, guid: ee0d07f86442c6d449544d32c92431b9,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee0d07f86442c6d449544d32c92431b9, type: 3}
@@ -2661,7 +2669,7 @@ PrefabInstance:
     - target: {fileID: 5865994835303344778, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5890844346569228285, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2833,7 +2841,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: fireRateDelay
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
@@ -2844,7 +2852,7 @@ PrefabInstance:
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
       propertyPath: acquireTimeMax
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}
@@ -2860,6 +2868,11 @@ PrefabInstance:
         type: 3}
       propertyPath: triggerAlertness
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: maxTargetSaturation_Aircraft
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa350bf2f8c92474ba40faabb8b9d274, type: 3}
@@ -3001,7 +3014,7 @@ PrefabInstance:
     - target: {fileID: 5865994835303344778, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}

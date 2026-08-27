@@ -73,7 +73,7 @@ public class SamAI : MonoBehaviour
 
             if (triggerAlertness)
             {
-                alertness.beginChangingAlertStatus(currentTarget != null);
+                alertness.beginChangingAlertStatus(currentTarget != null, getTargetRb());
             }
             
 
@@ -88,6 +88,15 @@ public class SamAI : MonoBehaviour
 
         
 
+    }
+
+    private Rigidbody getTargetRb()
+    {
+        if(currentTarget == null)
+        {
+            return null;
+        }
+        return currentTarget.myRb;
     }
 
     private void tryLaunch()

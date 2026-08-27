@@ -6,11 +6,11 @@ public class UnitAlertness : MonoBehaviour
 {
 
     public float wakeUpTimeMax = 8f;
-    private float wakeUpTimer;
+    public float wakeUpTimer;
 
 
     public float lowerGuardTimeMax = 12f;
-    private float lowerGuardTimer;
+    public float lowerGuardTimer;
 
     public bool isAlert;
 
@@ -19,13 +19,19 @@ public class UnitAlertness : MonoBehaviour
 
 
     public float lowerGuardResetTimerMax = .5f;
-    private float lowerGuardResetTimer;
+    public float lowerGuardResetTimer;
 
-    public float wakeUpResetTimerMax = 3f;
-    private float wakeUpResetTimer;
+    public float wakeUpResetTimerMax = 10f;
+    public float wakeUpResetTimer;
 
 
-    //public GameObject alertingUnit;
+    public Rigidbody alertingUnit;
+
+
+    public float minWakeTimeCoeff = .25f;
+    public float minWakeTimeRange = 2000f;
+    public float fullWakeTimeRange = 4500f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +56,8 @@ public class UnitAlertness : MonoBehaviour
         //bool wake = false;
         isAlert = wakeUpTimer < 0f;
 
+
+
         // target locked --> begin waking up
         if (beginWakingUp)
         {
@@ -60,8 +68,10 @@ public class UnitAlertness : MonoBehaviour
             }
             else // target locked but NOT alert
             {
-                wakeUpTimer -= deltaTime; // slowly become alert
+                wakeUpTimer -= deltaTime * timerCoeffByDist(); // slowly become alert
             }
+
+            wakeUpResetTimer = wakeUpResetTimerMax;
 
         }
         else if (!isAlert) // no target locked and not alert yet --> reset wake timer
@@ -73,10 +83,27 @@ public class UnitAlertness : MonoBehaviour
         return isAlert;
     }
 
+    private float timerCoeffByDist()
+    {
+        float coeff = 1.0f;
+
+        if(alertingUnit != null)
+        {
+            float dist = Vector3.Distance(transform.position, alertingUnit.transform.position);
+            coeff = minWakeTimeCoeff + 
+                Mathf.Max((dist - minWakeTimeRange) / fullWakeTimeRange, 0.0f);
+            coeff = Mathf.Clamp(coeff, minWakeTimeCoeff, 1.0f);
+        }
+
+
+        return coeff;
+    }
 
     private void tryLowerGuard(float deltaTime)
     {
         bool doSleep = lowerGuardTimer < 0f;
+
+
 
         // no target locked --> begin lowering guard
         if (beginLoweringGuard)
@@ -101,20 +128,23 @@ public class UnitAlertness : MonoBehaviour
 
     }
 
-    public void beginChangingAlertStatus(bool alertingUnitPresent)
+    public void beginChangingAlertStatus(bool alertingUnitPresent, Rigidbody alertingUnit = null)
     {
-        beginLowerGuard(!alertingUnitPresent);
-        beginWake(alertingUnitPresent);
+        setLoweringGuard(!alertingUnitPresent);
+        setBeginWake(alertingUnitPresent, alertingUnit);
     }
 
-    public void beginLowerGuard(bool lowerGuard)
+    public void setLoweringGuard(bool lowerGuard)
     {
         beginLoweringGuard = lowerGuard;
+        alertingUnit = null;
     }
 
-    public void beginWake(bool doWake)
+    public void setBeginWake(bool doWake, Rigidbody alertingUnit)
     {
+
         beginWakingUp = doWake;
+        this.alertingUnit = alertingUnit;
     }
 
 

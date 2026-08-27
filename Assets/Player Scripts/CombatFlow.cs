@@ -107,6 +107,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public UnitAlertness alertNess;
 
+    public MissileGuidance mslGuidance;
+
     // ??????????
     public static Team convertNumToTeam(short num)
     {
@@ -168,6 +170,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         myTechSite = GetComponent<TechSite>();
         weapRef = GetComponent<Weapon>();
         alertNess = GetComponent<UnitAlertness>();
+        mslGuidance = GetComponent<MissileGuidance>();
 
         if (CombatFlow.combatUnits == null)
             CombatFlow.combatUnits = new List<CombatFlow>();

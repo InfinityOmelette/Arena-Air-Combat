@@ -414,6 +414,7 @@ MonoBehaviour:
   maxLoftDegreesKM: 18
   loftChangeSlope: 6.7
   loftMinRangeKM: 3.3
+  interceptionProxFuzeRange: 40
 --- !u!114 &8037426339974216245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,6 +568,8 @@ MonoBehaviour:
   canTakeDamage: 1
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &4305602229554513232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,6 +753,7 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
 --- !u!1 &1454347305746384401
 GameObject:
   m_ObjectHideFlags: 0

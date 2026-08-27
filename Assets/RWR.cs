@@ -28,6 +28,8 @@ public class RWR : MonoBehaviourPunCallbacks
 
     public bool amraamsIncoming = false;
 
+    public float closingVelocityThreatThreshold = 50f;
+
     //private WarningComputer warnComputer;
     void Awake()
     {
@@ -125,7 +127,7 @@ public class RWR : MonoBehaviourPunCallbacks
     private void cleanLists()
     {
         //cleanLockedList();
-        cleanFlowList(incomingMissiles);
+        cleanFlowList(incomingMissiles, true);
         cleanFlowList(lockedBy);
     }
 
@@ -152,13 +154,14 @@ public class RWR : MonoBehaviourPunCallbacks
         return amraamsIncoming;
     }
 
-    private void cleanFlowList(List<CombatFlow> flowList)
+    private void cleanFlowList(List<CombatFlow> flowList, bool useMissileConditions = false)
     {
         if(flowList != null)
         {
             for(int i = 0; i < flowList.Count; i++)
             {
-                if(flowList[i] == null || flowList[i].team == myFlow.team)
+                if(flowList[i] == null || flowList[i].team == myFlow.team
+                    || (useMissileConditions && !missileIsAThreat(flowList[i])))
                 {
                     if(flowList[i].myRadar != null)
                     {
@@ -169,6 +172,28 @@ public class RWR : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    // must not pass in null
+    // must pass in guided missile
+    // must be a missile targeting this RWR
+    // Returns true if missile is a threat to player
+    //  --> lockedBy list includes player
+    //  --> OR missile closing velocity high
+    private bool missileIsAThreat(CombatFlow missile)
+    {
+
+        MissileGuidance guidance = missile.mslGuidance;
+        bool missileIsLocking = guidance != null && guidance.isLocked;
+
+        Vector3 relativeVelocity = myRb.velocity - missile.myRb.velocity;
+        Vector3 bearingLine = missile.transform.position - transform.position;
+        
+        // POSITIVE number if closing
+        float closingSpeed = 
+            Mathf.Sign(Vector3.Dot(relativeVelocity, bearingLine)) * relativeVelocity.magnitude;
+
+        return missileIsLocking || closingSpeed > closingVelocityThreatThreshold;
     }
     
     public bool isAttacked()
@@ -277,6 +302,14 @@ public class RWR : MonoBehaviourPunCallbacks
         
     }
 
+    void tryAddListElement(CombatFlow flowAdd, List<CombatFlow> list)
+    {
+        if (!list.Contains(flowAdd))
+        {
+            list.Add(flowAdd);
+        }
+    }
+
     [PunRPC]
     public void rpcLockedBy(int sourceID)
     {
@@ -292,11 +325,13 @@ public class RWR : MonoBehaviourPunCallbacks
 
                 if(sourceFlow.type == CombatFlow.Type.PROJECTILE)
                 {
-                    incomingMissiles.Add(sourceFlow);
+                    //incomingMissiles.Add(sourceFlow);
+                    tryAddListElement(sourceFlow, incomingMissiles);
                 }
                 else
                 {
-                    lockedBy.Add(sourceFlow);
+                    //lockedBy.Add(sourceFlow);
+                    tryAddListElement(sourceFlow, lockedBy);
                 }
 
                 if (myFlow.isLocalPlayer)

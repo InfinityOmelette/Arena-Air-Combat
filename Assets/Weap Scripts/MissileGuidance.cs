@@ -36,6 +36,8 @@ public class MissileGuidance : MonoBehaviour
     public Rigidbody myRB;
     private Radar myRadar;
 
+    //public MissileGuidance mslGuidance;
+
     public float maxCorrectionErrorAngle; // at this angle error, torque is max
 
     public Weapon weaponRef;
@@ -78,7 +80,7 @@ public class MissileGuidance : MonoBehaviour
     public float loftChangeSlope = 6.7f; // degrees per kilometer past minRange
     public float loftMinRangeKM = 3.3f; // kilometers
 
-
+    public float mslInterceptionProxDist = 30f;
 
     private void Awake()
     {
@@ -88,7 +90,7 @@ public class MissileGuidance : MonoBehaviour
         myFlightControl = GetComponent<RealFlightControl>();
         myRB = GetComponent<Rigidbody>();
         myRadar = GetComponent<Radar>();
-        
+        //mslGuidance = GetComponent<MissileGuidance>();
     }
 
     // Start is called before the first frame update
@@ -378,10 +380,28 @@ public class MissileGuidance : MonoBehaviour
 
     void OnDestroy()
     {
-        if(targetFlow != null && isLocked && targetFlow.rwr != null)
+        if(targetFlow != null && isLocked)
         {
-            targetFlow.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
+            if(targetFlow.rwr != null)
+            {
+                targetFlow.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
+            }
+
+            // aid in missile interception via prox fuze
+            if (targetFlow.type == CombatFlow.Type.PROJECTILE && checkProxFuze(targetFlow))
+            {
+                targetFlow.dealDamage(50f); // arbitrary large value. Missiles usually 1hp.
+            }
+            
         }
+
+        //if(targetFlow !=)
+    }
+
+    private bool checkProxFuze(CombatFlow target)
+    {
+       
+        return Vector3.Distance(target.transform.position, transform.position) < mslInterceptionProxDist;
     }
 
 }

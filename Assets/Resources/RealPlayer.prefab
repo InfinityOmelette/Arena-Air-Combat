@@ -2058,6 +2058,7 @@ MonoBehaviour:
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2207,9 +2208,10 @@ MonoBehaviour:
   incomingMissiles: []
   highestThreatMissile: {fileID: 0}
   closestMissileDelay: 0.5
-  cleanListsDelay: 3
+  cleanListsDelay: 2
   minImpactTime: 7
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 1
 --- !u!114 &2320197551087535654
 MonoBehaviour:
   m_ObjectHideFlags: 0

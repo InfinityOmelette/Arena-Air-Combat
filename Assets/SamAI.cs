@@ -36,6 +36,7 @@ public class SamAI : MonoBehaviour
     public bool active = true;
 
     public int maxTargetSaturation_Projectile = 1;
+    public int maxTargetSaturation_Aircraft = 3;
 
     public float closerOversaturateMargin = 3000f;
 
@@ -191,6 +192,11 @@ public class SamAI : MonoBehaviour
         }
     }
 
+    private bool aircraftSaturationCheck(CombatFlow target)
+    {
+        return target.rwr != null && target.rwr.incomingMissiles.Count < maxTargetSaturation_Aircraft;
+    }
+
     // returns true if target is NOT saturated with locks
     private bool projectileSaturationCheck(CombatFlow target)
     {
@@ -225,7 +231,7 @@ public class SamAI : MonoBehaviour
             if (currentFlow != null)
             {
                 if (currentFlow.team != rootFlow.team &&
-                    (currentFlow.type == CombatFlow.Type.AIRCRAFT || 
+                    ((currentFlow.type == CombatFlow.Type.AIRCRAFT && aircraftSaturationCheck(currentFlow)) || 
                     (radar.projectileCheck(currentFlow) && projectileSaturationCheck(currentFlow))))
                 {
 

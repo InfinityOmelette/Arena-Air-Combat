@@ -138,6 +138,16 @@ public class RWR : MonoBehaviourPunCallbacks
         //cleanLockedList();
         cleanFlowList(incomingMissiles, true);
         cleanFlowList(lockedBy);
+
+        if (myFlow.isLocalPlayer && lockedBy.Count == 0)
+        {
+            cleanWarningComputer();
+        }
+    }
+
+    private void cleanWarningComputer()
+    {
+        warningComputer.endLockWarning();
     }
 
     private void cleanLockedList()

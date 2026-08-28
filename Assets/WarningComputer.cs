@@ -52,6 +52,7 @@ public class WarningComputer : MonoBehaviour
     {
         incomingMissiles.Clear();
         incomingLocks.Clear();
+        endLockWarning();
     }
     
     void Update()
@@ -199,10 +200,15 @@ public class WarningComputer : MonoBehaviour
 
         if (incomingLocks.Count == 0 && isLocked)
         {
-            isLocked = false;
-            lockWarningDisplay.SetActive(false);
-            incomingLockAudio.loop = false;
-            incomingLockAudio.Stop();
+            endLockWarning();
         }
+    }
+
+    public void endLockWarning()
+    {
+        isLocked = false;
+        lockWarningDisplay.SetActive(false);
+        incomingLockAudio.loop = false;
+        incomingLockAudio.Stop();
     }
 }

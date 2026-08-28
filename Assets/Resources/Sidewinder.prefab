@@ -400,7 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f04f5ab53407244972ae2aff7c52ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRB: {fileID: 0}
+  targetFlowPersistent: {fileID: 0}
   rocketMotor: {fileID: 0}
   myFlightControl: {fileID: 0}
   myRB: {fileID: 0}
@@ -754,6 +754,7 @@ MonoBehaviour:
   minImpactTime: 0
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
 --- !u!1 &1454347305746384401
 GameObject:
   m_ObjectHideFlags: 0

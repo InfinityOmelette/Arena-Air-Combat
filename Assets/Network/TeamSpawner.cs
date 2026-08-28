@@ -43,12 +43,18 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
     public AirSpawnController parentController;
 
+    public CombatFlow rootFlow;
+
+    public float linkTimer = 1f;
+    
 
     private void Awake()
     {
         // upon initial loading, player will be able to spawn right away
         //timeSincePlayerDeath = respawnTimeEffective;
         resetTicketGenerateTimer();
+
+        rootFlow = transform.root.GetComponent<CombatFlow>();
     }
 
     // Start is called before the first frame update
@@ -58,9 +64,22 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         {
             transform.position = debugLocationObj.transform.position;
         }
+        
+    }
 
+    private void fullLinkProcess()
+    {
+        linkToTeam();
         linkToTeamController();
         tryAddSpawnerToController();
+    }
+
+    private void linkToTeam()
+    {
+        if(rootFlow != null)
+        {
+            team = rootFlow.team;
+        }
     }
 
     // !!!!! if team gets set AFTER instantiation, this could link to wrong team controller
@@ -107,10 +126,24 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if(quickSpawnTicketsRemain < ticketCapacity)
+        if(linkTimer < 0)
         {
-            ticketGenerateTimerProcess();
+            if(parentController == null)
+            {
+                fullLinkProcess();
+            }
+
+            if (quickSpawnTicketsRemain < ticketCapacity)
+            {
+                ticketGenerateTimerProcess();
+            }
         }
+        else
+        {
+            linkTimer -= Time.deltaTime;
+        }
+
+        
         
 
         //updateTicketGenerateTimerDisplay();

@@ -25,6 +25,9 @@ public class AirSpawnController : MonoBehaviour
 
     private static List<AirSpawnController> teamControllers;
 
+    public float shittyfuckingrefreshtimer = 3f;
+    public bool shittyFuckingRefreshComplete = false;
+
     private void Awake()
     {
         //// arbitrarily high value, allow immediate first-time spawn
@@ -32,11 +35,7 @@ public class AirSpawnController : MonoBehaviour
 
         
 
-        if(teamControllers == null)
-        {
-            initializeStaticRefs();
-        }
-        else if(teamControllers.Count < 2)
+        if(teamControllers == null || teamControllers.Count < 2)
         {
             initializeStaticRefs();
         }
@@ -60,7 +59,23 @@ public class AirSpawnController : MonoBehaviour
 
         getSelectedSpawner().refreshTicketDisplay(ticketDisplay);
         getSelectedSpawner().updateTicketGenerateTimerDisplay(ticketGenerateTimeDisplay);
-        
+
+
+        if (!shittyFuckingRefreshComplete)
+        {
+            if (shittyfuckingrefreshtimer < 0)
+            {
+                //Debug.LogError("Performing shitty fucking refresh");
+                shittyFuckingRefreshComplete = true;
+                buildSpawnDropdown();
+            }
+            else
+            {
+                shittyfuckingrefreshtimer -= Time.deltaTime;
+            }
+        }
+
+
     }
 
     public static GameObject getLocalPlayerInstance()
@@ -140,6 +155,7 @@ public class AirSpawnController : MonoBehaviour
         if (!spawners.Contains(spawner))
         {
             spawners.Add(spawner);
+            buildSpawnDropdown();
         }
     }
 

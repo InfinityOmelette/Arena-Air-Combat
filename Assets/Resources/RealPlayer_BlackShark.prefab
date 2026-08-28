@@ -2028,6 +2028,7 @@ MonoBehaviour:
   takeOffComplete: 0
   takeOffAngle: 12
   takeOffAlt: 85
+  gearRaiseTimer: 12
 --- !u!114 &1043727250034176688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2327,6 +2328,8 @@ MonoBehaviour:
   canTakeDamage: 1
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2417,6 +2420,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  canLockProjectiles: 0
 --- !u!114 &4424309726456864805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2478,6 +2482,8 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 7
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
 --- !u!114 &2320197551087535654
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ using UnityEngine;
 public class MissileGuidance : MonoBehaviour
 {
 
-    public Rigidbody targetRB;
+    public CombatFlow targetFlowPersistent;
 
     public RocketMotor rocketMotor;
     public RealFlightControl myFlightControl;
@@ -62,7 +62,9 @@ public class MissileGuidance : MonoBehaviour
 
     private Vector3 targetAccel;
 
-    private CombatFlow targetFlow = null;
+    // "deprecated" but still used, null or not has meaning regarding LOS
+    //  "deprecated" may not be right word but w/e
+    private CombatFlow targetFlowDeprecated = null;
 
     private Vector3 targetBearingLine;
 
@@ -110,15 +112,17 @@ public class MissileGuidance : MonoBehaviour
 
     public CombatFlow getFlow()
     {
-        return targetFlow;
+        return targetFlowDeprecated;
     }
 
     public CombatFlow.Type getTargetType()
     {
         CombatFlow.Type type = CombatFlow.Type.AIRCRAFT;
-        if(targetFlow != null)
+
+
+        if(targetFlowPersistent != null)
         {
-            type = targetFlow.type;
+            type = targetFlowPersistent.type;
         }
         return type;
     }
@@ -126,8 +130,8 @@ public class MissileGuidance : MonoBehaviour
     private void FixedUpdate()
     {
         GameObject myTarget = weaponRef.myTarget;
-        if(myTarget != null && targetRB == null)
-            targetRB = weaponRef.myTarget.GetComponent<Rigidbody>();
+        if(myTarget != null && targetFlowPersistent == null)
+            targetFlowPersistent = weaponRef.myTarget.GetComponent<CombatFlow>();
 
         if (weaponRef.launched)
         {
@@ -145,23 +149,23 @@ public class MissileGuidance : MonoBehaviour
                 // If target successfully tracked by missile, notify target and update target position data
                 if (lineOfSight)
                 {
-                    if (weaponRef.launched && targetFlow == null) // outer control layer already checkks that weaponRef.myTarget != null
+                    if (weaponRef.launched && targetFlowDeprecated == null) // outer control layer already checkks that weaponRef.myTarget != null
                     {
-                        targetFlow = weaponRef.myTarget.GetComponent<CombatFlow>();
+                        targetFlowDeprecated = weaponRef.myTarget.GetComponent<CombatFlow>();
                     }
 
 
-                    bool tryLock = !targetFlow.jamming && myRadar.tryDetect(targetFlow);
+                    bool tryLock = !targetFlowDeprecated.jamming && myRadar.tryDetect(targetFlowDeprecated);
 
-                    if(tryLock != isLocked && targetFlow.rwr != null)
+                    if(tryLock != isLocked && targetFlowDeprecated.rwr != null)
                     {
                         if (tryLock) // begin lock
                         {
-                            targetFlow.rwr.netLockedBy(myRadar);
+                            targetFlowDeprecated.rwr.netLockedBy(myRadar);
                         }
                         else // end lock
                         {
-                            targetFlow.rwr.endNetLock(myRadar);
+                            targetFlowDeprecated.rwr.endNetLock(myRadar);
                         }
                     }
 
@@ -176,7 +180,7 @@ public class MissileGuidance : MonoBehaviour
                 }
 
                 // If missile loses track of target, continue intercepting previous known course
-                if (targetRB != null)
+                if (targetFlowPersistent != null)
                 {
                     guidanceProcess();
                 }
@@ -196,8 +200,8 @@ public class MissileGuidance : MonoBehaviour
     private void updateTargetData()
     {
         // UPDATE TARGET POSITION AND VELOCITY
-        targetPos_now = targetRB.position + projectForwardByTime(targetPosForwardProjectionTime); // aim slightly ahead
-        targetVel_now = targetRB.velocity;
+        targetPos_now = targetFlowPersistent.myRb.position + projectForwardByTime(targetPosForwardProjectionTime); // aim slightly ahead
+        targetVel_now = targetFlowPersistent.myRb.velocity;
 
 
 
@@ -391,23 +395,23 @@ public class MissileGuidance : MonoBehaviour
 
     private Vector3 projectForwardByTime(float projectionTime)
     {
-        return targetRB.velocity * projectionTime;
+        return targetFlowPersistent.myRb.velocity * projectionTime;
     }
 
 
     void OnDestroy()
     {
-        if(targetFlow != null && isLocked)
+        if(targetFlowDeprecated != null && isLocked)
         {
-            if(targetFlow.rwr != null)
+            if(targetFlowDeprecated.rwr != null)
             {
-                targetFlow.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
+                targetFlowDeprecated.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
             }
 
             // aid in missile interception via prox fuze
-            if (targetFlow.type == CombatFlow.Type.PROJECTILE && checkProxFuze(targetFlow))
+            if (targetFlowDeprecated.type == CombatFlow.Type.PROJECTILE && checkProxFuze(targetFlowDeprecated))
             {
-                targetFlow.dealDamage(50f); // arbitrary large value. Missiles usually 1hp.
+                targetFlowDeprecated.dealDamage(50f); // arbitrary large value. Missiles usually 1hp.
             }
             
         }

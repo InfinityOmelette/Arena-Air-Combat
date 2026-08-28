@@ -65,12 +65,12 @@ public class LogisticsHub : MonoBehaviour
         else
         {
             
-            sendSupply(supplyPull());
+            propagateSupplies(supplyPullAllSources());
             supplyPullTimer = supplyPullInterval;
         }
     }
 
-    private int supplyPull()
+    private int supplyPullAllSources()
     {
         int supply = 0;
 
@@ -82,7 +82,7 @@ public class LogisticsHub : MonoBehaviour
         return supply;
     }
 
-    private void sendSupply(int supply)
+    private void propagateSupplies(int supply)
     {
         for(int i = 0; i < lanes.Count; i++)
         {

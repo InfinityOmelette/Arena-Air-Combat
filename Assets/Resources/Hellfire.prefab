@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f04f5ab53407244972ae2aff7c52ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRB: {fileID: 0}
+  targetFlowPersistent: {fileID: 0}
   rocketMotor: {fileID: 0}
   myFlightControl: {fileID: 0}
   myRB: {fileID: 0}
@@ -459,6 +459,7 @@ MonoBehaviour:
   maxLoftDegreesKM: 30
   loftChangeSlope: 15
   loftMinRangeKM: 0.5
+  mslInterceptionProxDist: 30
 --- !u!114 &2458642289922689017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,6 +613,8 @@ MonoBehaviour:
   canTakeDamage: 1
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &2687535952377180928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,6 +798,8 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
 --- !u!1 &1754644905706637530
 GameObject:
   m_ObjectHideFlags: 0

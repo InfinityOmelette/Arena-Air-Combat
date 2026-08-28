@@ -73,7 +73,7 @@ public class CatLaunchGear : MonoBehaviour
         // follow velocity schedule for controlled launch
         //  - ensure movement strictly along track
         float timeSinceLaunch = shootTimerMax - shootTimer;
-        rootFlow.myRb.velocity = launchAxis * launchAcceleration * timeSinceLaunch;
+        rootFlow.myRb.velocity = launchAxis * launchAcceleration * timeSinceLaunch + linkedCat.getRB().velocity;
 
         rotateToLaunchAxis(); // prevent rudder influence
 
@@ -133,7 +133,7 @@ public class CatLaunchGear : MonoBehaviour
         Vector3 dirToCat = linkedCat.launchCenter.position - transform.position;
         dirToCat = new Vector3(dirToCat.x, 0f, dirToCat.z);
 
-        getRootFlow().myRb.velocity = dirToCat * moveToCatSpeed;
+        getRootFlow().myRb.velocity = dirToCat * moveToCatSpeed + linkedCat.getRB().velocity;
 
         //getRootFlow().myRb.position = Vector3.MoveTowards(getRootFlow().transform.position, linkedCat.launchCenter.position,
         //    Mathf.Min( moveToCatSpeed * Time.deltaTime, dirToCat.magnitude));
@@ -188,29 +188,40 @@ public class CatLaunchGear : MonoBehaviour
     // Triggering into launchbox
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == CATAPULT_LAYER 
-            && getRootFlow().myRb.velocity.magnitude < maxLinkInitiateSpeed)
+        if (other.gameObject.layer == CATAPULT_LAYER)
         {
+
+
+
             Debug.Log("Cat layer triggered");
             CatapultLaunchbox catLaunchBox = other.GetComponent<CatapultLaunchbox>();
-            if(catLaunchBox != null && !doLaunch && !doAttach)
+
+            Vector3 relativeVelocity = getRootFlow().myRb.velocity - catLaunchBox.getRB().velocity;
+
+
+            if(relativeVelocity.magnitude < maxLinkInitiateSpeed)
             {
-                Debug.Log("Linking to cat");
-                linkedCat = catLaunchBox.chooseCat(this);
-
-                linkedCat.linkToGear(this);
-
-                doAttach = true;
-
-                launchTimer = launchTimerMax;
-
-                if (wheelControl != null)
+                if (catLaunchBox != null && !doLaunch && !doAttach)
                 {
-                    //wheelControl.externApplyBrake(1.0f); // apply brake to dampen vibrations
-                    //wheelControl.beginSlide();
-                    wheelControl.setSteeringLock(true);
+                    Debug.Log("Linking to cat");
+                    linkedCat = catLaunchBox.chooseCat(this);
+
+                    linkedCat.linkToGear(this);
+
+                    doAttach = true;
+
+                    launchTimer = launchTimerMax;
+
+                    if (wheelControl != null)
+                    {
+                        //wheelControl.externApplyBrake(1.0f); // apply brake to dampen vibrations
+                        //wheelControl.beginSlide();
+                        wheelControl.setSteeringLock(true);
+                    }
                 }
             }
+
+            
 
         }
         //isCatching = other.gameObject.layer == 14;

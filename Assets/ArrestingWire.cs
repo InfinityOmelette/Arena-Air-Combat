@@ -13,11 +13,30 @@ public class ArrestingWire : MonoBehaviour
 
     private bool centered = false;
 
+    public CombatFlow rootFlow;
+
+    
+
     // Start is called before the first frame update
     void Start()
     {
         //stretchToPoint(wireCenter.position);
         returnToCenter();
+    }
+
+    public CombatFlow getRootFlow()
+    {
+        if(rootFlow == null)
+        {
+            rootFlow = transform.root.GetComponent<CombatFlow>();
+        }
+
+        return rootFlow;
+    }
+
+    public Rigidbody rootRB()
+    {
+        return getRootFlow().myRb;
     }
 
     // Update is called once per frame

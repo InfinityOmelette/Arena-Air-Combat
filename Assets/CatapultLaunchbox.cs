@@ -7,6 +7,9 @@ public class CatapultLaunchbox : MonoBehaviour
 
     public List<Catapult> cats;
 
+    public CombatFlow rootFlow;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +20,20 @@ public class CatapultLaunchbox : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public Rigidbody getRB()
+    {
+        return getRootFlow().myRb;
+    }
+
+    public CombatFlow getRootFlow()
+    {
+        if(rootFlow == null)
+        {
+            rootFlow = transform.root.GetComponent<CombatFlow>();
+        }
+        return rootFlow;
     }
 
 

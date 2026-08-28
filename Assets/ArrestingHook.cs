@@ -30,6 +30,7 @@ public class ArrestingHook : MonoBehaviour
     private ArrestingWire caughtWire;
     private WireGroup caughtGroup;
 
+    // BADBADBAD -- THIS NEEDS TO BE RELATIVE TO CARRIER POSITION ON DECK
     public Transform hookPoint;
 
     // Start is called before the first frame update
@@ -81,12 +82,14 @@ public class ArrestingHook : MonoBehaviour
 
         float effectiveDecay = linearDecayRate * Time.fixedDeltaTime * displacementFactor;
 
-        if (rootRB.velocity.magnitude < effectiveDecay)
+        Vector3 relativeVelocity = rootRB.velocity - caughtWire.rootRB().velocity;
+
+        if (relativeVelocity.magnitude < effectiveDecay)
         {
-            effectiveDecay = rootRB.velocity.magnitude;
+            effectiveDecay = relativeVelocity.magnitude;
         }
 
-        Vector3 decayVect = (rootRB.velocity.normalized) * effectiveDecay;
+        Vector3 decayVect = (relativeVelocity.normalized) * effectiveDecay;
         decayVect = new Vector3(decayVect.x, 0f, decayVect.z);
         rootRB.velocity -= decayVect;
 

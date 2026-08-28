@@ -46,6 +46,8 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     public CombatFlow rootFlow;
 
     public float linkTimer = 1f;
+
+
     
 
     private void Awake()
@@ -56,6 +58,16 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
 
         rootFlow = transform.root.GetComponent<CombatFlow>();
     }
+
+    public CombatFlow getRootFlow()
+    {
+        if (rootFlow == null)
+        {
+            rootFlow = transform.root.GetComponent<CombatFlow>();
+        }
+        return rootFlow;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -243,7 +255,18 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
             spendTicket();
         }
 
+        // some spawners are static and thereby don't have velocity to inherit
+        if(getRootFlow() != null)
+        {
+            velocityInherit(playerFlow);
+        }
+
         return player;
+    }
+
+    private void velocityInherit(CombatFlow newFlow)
+    {
+        newFlow.myRb.velocity = getRootFlow().myRb.velocity;
     }
 
     private bool canSlowSpawn()

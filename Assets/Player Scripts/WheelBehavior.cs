@@ -36,6 +36,8 @@ public class WheelBehavior : MonoBehaviour
     {
         wheelDrag = GetComponent<ParasiticDrag>();
         setWheelLowered(wheelDown);
+
+        //wheelCollider.
     }
 
     void FixedUpdate()

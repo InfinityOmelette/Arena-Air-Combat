@@ -87,13 +87,23 @@ public class WheelsControl : MonoBehaviour
             return 0f;
         }
         // get velocity from root parent
-        float readVel = 0.0f; // default value if unable to access
-        if (root_RB != null)
-            readVel = root_RB.velocity.magnitude; // only access reference if not null
+        //float readVel = 0.0f; // default value if unable to access
+        //if (root_RB != null)
+        //{
+        //    Vector3 ;
+        //    readVel = root_RB.velocity.magnitude; // only access reference if not null
+        //}
+
+        WheelCollider wheel = wheels[0].wheelCollider;
+
+        float wheelCircumf = 2 * wheel.radius * Mathf.PI;
+
+        float wheelCircSpeed = wheel.rpm * wheelCircumf / 60f;
+
 
         // get set steering limit based on speed
         float steerInput = Mathf.Abs((steerReductionSpeedFactor) /
-          (steerReductionSpeedFactor + readVel - steerReductionBeginSpeed));
+          (steerReductionSpeedFactor + wheelCircSpeed - steerReductionBeginSpeed));
 
         // limit extremely high 1/x values to 1
         steerInput = Mathf.Clamp(steerInput, 0.0f, 1.0f);

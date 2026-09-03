@@ -133,4 +133,6 @@ public class ShipPhysics : MonoBehaviour
     {
         this.rudder = Mathf.Clamp(rudder, -1f, 1f);
     }
+
+    
 }

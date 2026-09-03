@@ -38,6 +38,8 @@ public class ShipNavigation : MonoBehaviour
 
     public Transform followerOffset;
 
+    public static float LEADER_RADIUS = 3500f;
+
     private void Awake()
     {
         shipPhysics = GetComponent<ShipPhysics>();
@@ -54,12 +56,52 @@ public class ShipNavigation : MonoBehaviour
         this.admiral = admiral;
         waypoints = admiral.wpts;
         formationIndex = admiral.getFormationIndex(this);
+        setWptIndexByPos();
+
+        if(formationIndex == 0)
+        {
+            changeNavmode(NavMode.ADVANCE);
+        }
+        else
+        {
+            changeNavmode(NavMode.FOLLOW);
+        }
+    }
+
+    public void changeNavmode(NavMode navMode)
+    {
+        if(navMode != this.navMode)
+        {
+            
+
+            switch (navMode)
+            {
+                case NavMode.ADVANCE:
+                    currentWptIndex = admiral.closestForwardWaypointIndex(this);
+                    shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+                    break;
+                case NavMode.RETREAT:
+                    currentWptIndex = admiral.closestRetreatWaypointIndex(this);
+                    shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+                    break;
+            }
+
+            this.navMode = navMode;
+        }
+
+        
+    }
+
+    private void setWptIndexByPos()
+    {
+        currentWptIndex = admiral.closestForwardWaypointIndex(this);
     }
 
     private void FixedUpdate()
     {
         if(admiral != null)
         {
+            checkLeader();
             checkWaypoint();
 
             // waypoint steer process
@@ -82,11 +124,19 @@ public class ShipNavigation : MonoBehaviour
     }
 
 
+    void checkLeader()
+    {
+        if(admiral.getLeader() == null)
+        {
+            admiral.reassessFormation();
+        }
+    }
+
     // need to slightly rework to dynamically resize error based on INDEX of this ship,
     // rather than directly referencing leader transform
     private void followLeader()
     {
-        ShipNavigation leader = admiral.getShip(0);
+        ShipNavigation leader = admiral.getLeader();
 
         // convert position to leader's space
         Transform followTransform = leader.transform;
@@ -138,7 +188,7 @@ public class ShipNavigation : MonoBehaviour
             + angleCorrectionSigned + ", formPos x error: " + formPos.x);
 
         // angle --> direction
-        Vector3 leaderDir = admiral.getShip(0).transform.forward;
+        Vector3 leaderDir = admiral.getLeader().transform.forward;
         Vector3 dir = Quaternion.AngleAxis(angleCorrectionSigned, Vector3.up) * leaderDir;
 
         // steer to direction
@@ -175,7 +225,22 @@ public class ShipNavigation : MonoBehaviour
 
         clampWptIndex();
 
+        // orient all follower vessels to leader's waypoint
+        if (checkIfIAmLeader())
+        {
+            admiral.propagateWptIndex(currentWptIndex);
+        }
+        
+    }
 
+    public bool withinLeaderRadius()
+    {
+        return Vector3.Distance(admiral.getLeader().transform.position, transform.position) < LEADER_RADIUS;
+    }
+
+    private bool checkIfIAmLeader()
+    {
+        return admiral.getLeader() == this;
     }
 
     private void clampWptIndex()
@@ -222,6 +287,15 @@ public class ShipNavigation : MonoBehaviour
         float errorScale = Mathf.Clamp(signedAngleError / maxHeadingErrorDegrees, -1f, 1f);
 
         return errorScale;
+    }
+
+    private void OnDestroy()
+    {
+        if(admiral != null)
+        {
+            admiral.laneFleet.Remove(this);
+            admiral.reassessFormation();
+        }
     }
 
 }

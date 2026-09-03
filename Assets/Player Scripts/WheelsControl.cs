@@ -35,6 +35,22 @@ public class WheelsControl : MonoBehaviour
 
     private bool lockSteering = false;
 
+
+
+    private void Awake()
+    {
+        configureWheels();
+    }
+
+    void configureWheels()
+    {
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            //Debug.LogError("Setting vehicle wheel substeps");
+            wheels[i].wheelCollider.ConfigureVehicleSubsteps(1000f, 8, 8);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -2200,6 +2200,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee010c2cedbdaf4594b624721542b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navMode: 0
+  waypoints: []
+  currentWptIndex: 0
+  admiral: {fileID: 0}
+  maxHeadingErrorDegrees: 5
 --- !u!114 &1915432799035607644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2219,8 +2224,10 @@ MonoBehaviour:
   myRb: {fileID: 0}
   speedSet: 3
   acceleration: 3
-  maxRotSpeed: 0
   internalSpeedBecauseUnityFuckingSucksSometimes: 0
+  rudder: 0
+  maxYawRate: 0.15
+  yawRateAccel: 0.25
 --- !u!1 &8175238099947272985
 GameObject:
   m_ObjectHideFlags: 0

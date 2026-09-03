@@ -26,6 +26,18 @@ public class ShipNavigation : MonoBehaviour
 
     public float maxHeadingErrorDegrees;
 
+    [Tooltip ("Degrees")]
+    public float maxFollowAngleCorrection;
+
+    public float maxFollowLateralError;
+    public float maxFollowLongitudinalError;
+
+    public float wptRadius = 300f;
+
+    public int formationIndex = 0;
+
+    public Transform followerOffset;
+
     private void Awake()
     {
         shipPhysics = GetComponent<ShipPhysics>();
@@ -41,36 +53,175 @@ public class ShipNavigation : MonoBehaviour
     {
         this.admiral = admiral;
         waypoints = admiral.wpts;
+        formationIndex = admiral.getFormationIndex(this);
     }
 
     private void FixedUpdate()
     {
-        if(navMode == NavMode.DEBUG && admiral != null)
+        if(admiral != null)
         {
-            // Waypoint steer process
-            driveToWaypoint(Time.fixedDeltaTime);
+            checkWaypoint();
+
+            // waypoint steer process
+            switch (navMode)
+            {
+                case NavMode.FOLLOW:
+                    followLeader();
+                    break;
+                default:
+                    driveToWaypoint(Time.fixedDeltaTime);
+                    break;
+
+            }
+            
         }
         
+        
 
-        // Follow process
+        // Follow leader process
+    }
+
+
+    // need to slightly rework to dynamically resize error based on INDEX of this ship,
+    // rather than directly referencing leader transform
+    private void followLeader()
+    {
+        ShipNavigation leader = admiral.getShip(0);
+
+        // convert position to leader's space
+        Transform followTransform = leader.transform;
+
+
+        Vector3 currentFormPos = followTransform.InverseTransformPoint(transform.position);
+        currentFormPos = currentFormPos - leader.followerOffset.localPosition * formationIndex;
+        
+        
+        //Debug.Log("Leader follower offset: " + (leader.followerOffset.localPosition * formationIndex));
+        
+        
+        // steer based on lateral error FROM LEADER HEADING LINE
+        steerFollow(currentFormPos);
+
+        // speed based on longitudinal error from point FROM LEADER HEADING LINE
+        speedFollow(currentFormPos);
+
+    }
+
+    private void speedFollow(Vector3 formPos)
+    {
+        float longitudinalError = formPos.z;
+
+        if(longitudinalError > maxFollowLongitudinalError)
+        {
+            shipPhysics.setSpeed(ShipPhysics.Speed.SLOW);
+        }
+        else if (longitudinalError < -maxFollowLongitudinalError)
+        {
+            shipPhysics.setSpeed(ShipPhysics.Speed.FLANK);
+        }
+        else
+        {
+            shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+        }
+
+
+    }
+
+    // formpos is our position in leader's local space (w/ formation offset baked in)
+    private void steerFollow(Vector3 formPos)
+    {
+        // max lateral error --> max angle correction
+        float errorCoeff = Mathf.Clamp(formPos.x / maxFollowLateralError, -1f, 1f);
+        float angleCorrectionSigned = -errorCoeff * maxFollowAngleCorrection;
+
+        Debug.Log("SteerFollow angleCorrectionSigned: " 
+            + angleCorrectionSigned + ", formPos x error: " + formPos.x);
+
+        // angle --> direction
+        Vector3 leaderDir = admiral.getShip(0).transform.forward;
+        Vector3 dir = Quaternion.AngleAxis(angleCorrectionSigned, Vector3.up) * leaderDir;
+
+        // steer to direction
+        shipPhysics.setRudder( steerToDir(dir));
+    }
+
+    private void checkWaypoint()
+    {
+        float distToWpt = Vector3.Distance(transform.position, getCurrentWpt());
+
+        if(distToWpt < wptRadius)
+        {
+            setNextWaypoint();
+        }
+    }
+
+    public void setNextWaypoint(NavMode newNavMode)
+    {
+        navMode = newNavMode;
+        setNextWaypoint();
+    }
+
+    private void setNextWaypoint()
+    {
+        switch (navMode)
+        {
+            case NavMode.ADVANCE:
+                currentWptIndex++;
+                break;
+            case NavMode.RETREAT:
+                currentWptIndex--;
+                break;
+        }
+
+        clampWptIndex();
+
+
+    }
+
+    private void clampWptIndex()
+    {
+        if(currentWptIndex > admiral.wpts.Count - 1)
+        {
+            currentWptIndex = admiral.wpts.Count - 1;
+        }
+        else if (currentWptIndex < 0)
+        {
+            currentWptIndex = 0;
+        }
+    }
+
+    private Vector3 getCurrentWpt()
+    {
+        return admiral.getWpt(currentWptIndex);
     }
 
     private void driveToWaypoint(float deltaTime)
     {
         // current wpt
-        Vector3 wpt = admiral.wpts[currentWptIndex].position;
-        Vector3 dirToWpt = wpt - transform.position;
+        if(admiral != null)
+        {
+            Vector3 wpt = admiral.wpts[currentWptIndex].position;
+            Vector3 dirToWpt = wpt - transform.position;
 
-        // angle off nose --> set rudder
-        float signedAngleError = Vector3.SignedAngle(transform.forward, dirToWpt, Vector3.up);
+            // angle off nose --> set rudder
+            float rudder = steerToDir(dirToWpt);
+
+            shipPhysics.setRudder(rudder);
+
+            // speed setting always cruise
+            shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+        }
+
+        
+    }
+
+    private float steerToDir(Vector3 dir)
+    {
+
+        float signedAngleError = Vector3.SignedAngle(transform.forward, dir, Vector3.up);
         float errorScale = Mathf.Clamp(signedAngleError / maxHeadingErrorDegrees, -1f, 1f);
 
-        shipPhysics.setRudder(errorScale);
-
-
-
-        // speed setting always cruise
-        shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+        return errorScale;
     }
 
 }

@@ -33,7 +33,10 @@ public class LaneAdmiral : MonoBehaviour
         }
     }
 
-    
+    public ShipNavigation getShip(int index)
+    {
+        return laneFleet[index];
+    }
 
     public void linkShip(ShipNavigation ship)
     {
@@ -53,8 +56,29 @@ public class LaneAdmiral : MonoBehaviour
 
     public Vector3 getWpt(int index)
     {
+        index = clampWtpIndex(index);
+
         return wpts[index].position;
     }
 
+    private int clampWtpIndex(int index)
+    {
+        
 
+        if (index > wpts.Count - 1)
+        {
+            index = wpts.Count - 1;
+        }
+        else if (index < 0)
+        {
+            index = 0;
+        }
+
+        return index;
+    }
+
+    public int getFormationIndex(ShipNavigation ship)
+    {
+        return laneFleet.IndexOf(ship);
+    }
 }

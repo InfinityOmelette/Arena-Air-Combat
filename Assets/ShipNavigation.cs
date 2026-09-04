@@ -40,6 +40,8 @@ public class ShipNavigation : MonoBehaviour
 
     public static float LEADER_RADIUS = 3500f;
 
+    public static float DRIVE_POINT_RADIUS = 100f;
+
     private void Awake()
     {
         shipPhysics = GetComponent<ShipPhysics>();
@@ -111,7 +113,7 @@ public class ShipNavigation : MonoBehaviour
                     followLeader();
                     break;
                 default:
-                    driveToWaypoint(Time.fixedDeltaTime);
+                    driveToWaypoint(ShipPhysics.Speed.CRUISE);
                     break;
 
             }
@@ -130,31 +132,62 @@ public class ShipNavigation : MonoBehaviour
         {
             admiral.reassessFormation();
         }
+
+        // check if we are close enough to leader to follow? otherwise, just follow wpts independently?
+
     }
 
-    // need to slightly rework to dynamically resize error based on INDEX of this ship,
-    // rather than directly referencing leader transform
+    // HOW TO HANDLE LEADER STOPPED CASE?
+    //   -> if case 
+    // HOW TO HANDLE ROUNDING CORNER (ex: new ship at base, rest of fleet near enemy base)
+    //   -> only follow leader if within follow radius, otherwise follow waypoints at flank speed?
     private void followLeader()
     {
         ShipNavigation leader = admiral.getLeader();
 
-        // convert position to leader's space
-        Transform followTransform = leader.transform;
+        if(withinLeaderRadius())
+        {
+            if (leader.shipPhysics.speedSet == ShipPhysics.Speed.HALT)
+            {
+                // just drive directly to form position as if waypoint, stop there
+                Vector3 formPos = leader.offsetPos(formationIndex);
+
+                driveToPoint(formPos, ShipPhysics.Speed.CRUISE);
+
+            }
+            else // leader is NOT halted
+            {
+
+                // convert position to leader's space
+                Transform followTransform = leader.transform;
+
+                Vector3 currentFormPos = followTransform.InverseTransformPoint(transform.position);
+                currentFormPos = currentFormPos - leader.followerOffset.localPosition * formationIndex;
+
+                // steer based on lateral error FROM LEADER HEADING LINE
+                steerFollow(currentFormPos);
+
+                // speed based on longitudinal error from point FROM LEADER HEADING LINE
+                speedFollow(currentFormPos);
+            }
+        }
+        else // drive to waypoints at flank speed to catch up
+        {
+            driveToWaypoint(ShipPhysics.Speed.FLANK);
+        }
+
+        
+
+        
+
+    }
 
 
-        Vector3 currentFormPos = followTransform.InverseTransformPoint(transform.position);
-        currentFormPos = currentFormPos - leader.followerOffset.localPosition * formationIndex;
-        
-        
-        //Debug.Log("Leader follower offset: " + (leader.followerOffset.localPosition * formationIndex));
-        
-        
-        // steer based on lateral error FROM LEADER HEADING LINE
-        steerFollow(currentFormPos);
+    public Vector3 offsetPos(int index)
+    {
+        Vector3 oneOffset = followerOffset.position - transform.position;
 
-        // speed based on longitudinal error from point FROM LEADER HEADING LINE
-        speedFollow(currentFormPos);
-
+        return transform.position + oneOffset * index;
     }
 
     private void speedFollow(Vector3 formPos)
@@ -260,21 +293,35 @@ public class ShipNavigation : MonoBehaviour
         return admiral.getWpt(currentWptIndex);
     }
 
-    private void driveToWaypoint(float deltaTime)
+    private void driveToPoint(Vector3 wpt, ShipPhysics.Speed speed)
+    {
+
+        Vector3 dirToWpt = wpt - transform.position;
+
+        // angle off nose --> set rudder
+        float rudder = steerToDir(dirToWpt);
+
+        shipPhysics.setRudder(rudder);
+
+
+        if(dirToWpt.magnitude < DRIVE_POINT_RADIUS)
+        {
+            speed = ShipPhysics.Speed.HALT;
+        }
+
+
+        shipPhysics.setSpeed(speed);
+    }
+
+    private void driveToWaypoint(ShipPhysics.Speed defaultSpeed)
     {
         // current wpt
         if(admiral != null)
         {
             Vector3 wpt = admiral.wpts[currentWptIndex].position;
-            Vector3 dirToWpt = wpt - transform.position;
 
-            // angle off nose --> set rudder
-            float rudder = steerToDir(dirToWpt);
-
-            shipPhysics.setRudder(rudder);
-
-            // speed setting always cruise
-            shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+            driveToPoint(wpt, defaultSpeed);
+            
         }
 
         

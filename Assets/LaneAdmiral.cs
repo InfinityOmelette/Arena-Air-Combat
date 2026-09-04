@@ -124,12 +124,12 @@ public class LaneAdmiral : MonoBehaviour
 
     // Z axis of admiral object points towards enemy base
     //  this axis is used to determine progress
-
     public int closestForwardWaypointIndex(ShipNavigation ship)
     {
-        int nextIndex = -1;
+        int nextIndex = 0;
+        bool wptFound = false;
 
-        for(int i = 0; i < wpts.Count && nextIndex == -1; i++)
+        for(int i = 0; i < wpts.Count && !wptFound; i++)
         {
             float shipDistFromBase = transform.InverseTransformPoint(ship.transform.position).z;
             float wptDistFromBase = transform.InverseTransformPoint(getWpt(i)).z;
@@ -140,6 +140,7 @@ public class LaneAdmiral : MonoBehaviour
             {
                 // exit loop
                 nextIndex = i;
+                wptFound = true;
             }
 
         }

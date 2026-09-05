@@ -13,13 +13,17 @@ public class ShipNavigation : MonoBehaviour
         DEBUG
     }
 
+    public static float LEADER_RADIUS = 3500f;
+
+    public static float DRIVE_POINT_RADIUS = 100f;
+
     public NavMode navMode;
 
-    public List<Transform> waypoints;
+   // public List<Transform> waypoints;
 
     public int currentWptIndex;
 
-    private ShipPhysics shipPhysics;
+    protected ShipPhysics shipPhysics;
 
     public LaneAdmiral admiral;
 
@@ -38,9 +42,7 @@ public class ShipNavigation : MonoBehaviour
 
     public Transform followerOffset;
 
-    public static float LEADER_RADIUS = 3500f;
-
-    public static float DRIVE_POINT_RADIUS = 100f;
+    public bool isCarrier = false;
 
     private void Awake()
     {
@@ -56,7 +58,7 @@ public class ShipNavigation : MonoBehaviour
     public void linktoAdmiral(LaneAdmiral admiral)
     {
         this.admiral = admiral;
-        waypoints = admiral.wpts;
+        //waypoints = admiral.wpts;
         formationIndex = admiral.getFormationIndex(this);
         setWptIndexByPos();
 
@@ -70,7 +72,7 @@ public class ShipNavigation : MonoBehaviour
         }
     }
 
-    public void changeNavmode(NavMode navMode)
+    public void changeNavmode(NavMode navMode, ShipPhysics.Speed speed = ShipPhysics.Speed.CRUISE)
     {
         if(navMode != this.navMode)
         {
@@ -80,11 +82,14 @@ public class ShipNavigation : MonoBehaviour
             {
                 case NavMode.ADVANCE:
                     currentWptIndex = admiral.closestForwardWaypointIndex(this);
-                    shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+                    shipPhysics.setSpeed(speed);
                     break;
                 case NavMode.RETREAT:
                     currentWptIndex = admiral.closestRetreatWaypointIndex(this);
-                    shipPhysics.setSpeed(ShipPhysics.Speed.CRUISE);
+                    shipPhysics.setSpeed(speed);
+                    break;
+                case NavMode.HALT:
+                    shipPhysics.setSpeed(ShipPhysics.Speed.HALT);
                     break;
             }
 
@@ -94,7 +99,7 @@ public class ShipNavigation : MonoBehaviour
         
     }
 
-    private void setWptIndexByPos()
+    protected void setWptIndexByPos()
     {
         currentWptIndex = admiral.closestForwardWaypointIndex(this);
     }
@@ -119,14 +124,12 @@ public class ShipNavigation : MonoBehaviour
             }
             
         }
-        
-        
 
-        // Follow leader process
     }
 
 
-    void checkLeader()
+
+    protected void checkLeader()
     {
         if(admiral.getLeader() == null)
         {
@@ -141,7 +144,7 @@ public class ShipNavigation : MonoBehaviour
     //   -> if case 
     // HOW TO HANDLE ROUNDING CORNER (ex: new ship at base, rest of fleet near enemy base)
     //   -> only follow leader if within follow radius, otherwise follow waypoints at flank speed?
-    private void followLeader()
+    protected void followLeader()
     {
         ShipNavigation leader = admiral.getLeader();
 
@@ -151,7 +154,6 @@ public class ShipNavigation : MonoBehaviour
             {
                 // just drive directly to form position as if waypoint, stop there
                 Vector3 formPos = leader.offsetPos(formationIndex);
-
                 driveToPoint(formPos, ShipPhysics.Speed.CRUISE);
 
             }
@@ -190,7 +192,7 @@ public class ShipNavigation : MonoBehaviour
         return transform.position + oneOffset * index;
     }
 
-    private void speedFollow(Vector3 formPos)
+    protected void speedFollow(Vector3 formPos)
     {
         float longitudinalError = formPos.z;
 
@@ -211,7 +213,7 @@ public class ShipNavigation : MonoBehaviour
     }
 
     // formpos is our position in leader's local space (w/ formation offset baked in)
-    private void steerFollow(Vector3 formPos)
+    protected void steerFollow(Vector3 formPos)
     {
         // max lateral error --> max angle correction
         float errorCoeff = Mathf.Clamp(formPos.x / maxFollowLateralError, -1f, 1f);
@@ -228,7 +230,7 @@ public class ShipNavigation : MonoBehaviour
         shipPhysics.setRudder( steerToDir(dir));
     }
 
-    private void checkWaypoint()
+    protected void checkWaypoint()
     {
         float distToWpt = Vector3.Distance(transform.position, getCurrentWpt());
 
@@ -244,7 +246,7 @@ public class ShipNavigation : MonoBehaviour
         setNextWaypoint();
     }
 
-    private void setNextWaypoint()
+    protected void setNextWaypoint()
     {
         switch (navMode)
         {
@@ -271,12 +273,12 @@ public class ShipNavigation : MonoBehaviour
         return Vector3.Distance(admiral.getLeader().transform.position, transform.position) < LEADER_RADIUS;
     }
 
-    private bool checkIfIAmLeader()
+    protected bool checkIfIAmLeader()
     {
         return admiral.getLeader() == this;
     }
 
-    private void clampWptIndex()
+    protected void clampWptIndex()
     {
         if(currentWptIndex > admiral.wpts.Count - 1)
         {
@@ -288,12 +290,12 @@ public class ShipNavigation : MonoBehaviour
         }
     }
 
-    private Vector3 getCurrentWpt()
+    protected Vector3 getCurrentWpt()
     {
         return admiral.getWpt(currentWptIndex);
     }
 
-    private void driveToPoint(Vector3 wpt, ShipPhysics.Speed speed)
+    protected void driveToPoint(Vector3 wpt, ShipPhysics.Speed speed)
     {
 
         Vector3 dirToWpt = wpt - transform.position;
@@ -313,7 +315,7 @@ public class ShipNavigation : MonoBehaviour
         shipPhysics.setSpeed(speed);
     }
 
-    private void driveToWaypoint(ShipPhysics.Speed defaultSpeed)
+    protected void driveToWaypoint(ShipPhysics.Speed defaultSpeed)
     {
         // current wpt
         if(admiral != null)
@@ -327,7 +329,7 @@ public class ShipNavigation : MonoBehaviour
         
     }
 
-    private float steerToDir(Vector3 dir)
+    protected float steerToDir(Vector3 dir)
     {
 
         float signedAngleError = Vector3.SignedAngle(transform.forward, dir, Vector3.up);

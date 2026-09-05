@@ -6,6 +6,8 @@ public class LaneAdmiral : MonoBehaviour
 {
     public List<ShipNavigation> laneFleet;
 
+    public CarrierNavigation laneCarrier;
+
 
     public List<Transform> wpts;
 
@@ -37,8 +39,12 @@ public class LaneAdmiral : MonoBehaviour
 
     public void reassessFormation()
     {
-        cleanShipList();
-        linkAllShips();
+        if(laneFleet.Count > 0)
+        {
+            cleanShipList();
+            linkAllShips();
+        }
+        
     }
 
     void linkAllShips()
@@ -46,6 +52,11 @@ public class LaneAdmiral : MonoBehaviour
         for (int i = 0; i < laneFleet.Count; i++)
         {
             linkShip(laneFleet[i]);
+        }
+
+        if(laneCarrier != null)
+        {
+            laneCarrier.carrierLinktoAdmiral(this);
         }
     }
 
@@ -131,8 +142,8 @@ public class LaneAdmiral : MonoBehaviour
 
         for(int i = 0; i < wpts.Count && !wptFound; i++)
         {
-            float shipDistFromBase = transform.InverseTransformPoint(ship.transform.position).z;
-            float wptDistFromBase = transform.InverseTransformPoint(getWpt(i)).z;
+            float shipDistFromBase = laneAxisPos(ship);
+            float wptDistFromBase = laneAxisPos(getWpt(i));
 
             // assign next index once wpt farther from base
             // OR we have reached final index
@@ -147,6 +158,16 @@ public class LaneAdmiral : MonoBehaviour
 
 
         return nextIndex;
+    }
+
+    public float laneAxisPos(ShipNavigation ship)
+    {
+        return laneAxisPos(ship.transform.position);
+    }
+
+    public float laneAxisPos(Vector3 pos)
+    {
+        return transform.InverseTransformPoint(pos).z;
     }
 
     public int closestRetreatWaypointIndex(ShipNavigation ship)

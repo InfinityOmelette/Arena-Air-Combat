@@ -346,7 +346,7 @@ public class CreepSpawnPoint : MonoBehaviourPunCallbacks
         myBank.resetSupplies();
     }
 
-    private void calculateSpawnRoster(int resources)
+    private void calculateSpawnRoster(float resources)
     {
         rosterSAMs = Mathf.RoundToInt(samPercent * resources);
         rosterArtilleries = Mathf.RoundToInt(artilleryPercent * resources);

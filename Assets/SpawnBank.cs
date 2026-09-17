@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnBank : MonoBehaviour
 {
 
-    public int supplies;
+    public float supplies;
 
     public bool showSupplies;
 
@@ -70,11 +70,12 @@ public class SpawnBank : MonoBehaviour
 
         if(showSupplies)
         {
-            hudIconRef.updateSupplyText(supplies);
+            
+            hudIconRef.updateSupplyText(Mathf.FloorToInt(supplies));
         }
     }
 
-    public void tryAddSupplies(int add)
+    public void tryAddSupplies(float add)
     {
         if (ableToReceive)
         {
@@ -90,6 +91,6 @@ public class SpawnBank : MonoBehaviour
 
     public void updateSupplyText()
     {
-        hudIconRef.updateSupplyText(supplies);
+        hudIconRef.updateSupplyText(Mathf.FloorToInt(supplies));
     }
 }

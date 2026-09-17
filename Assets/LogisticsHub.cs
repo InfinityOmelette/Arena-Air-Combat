@@ -8,6 +8,9 @@ public class LogisticsHub : MonoBehaviour
     public List<LaneManager> lanes;
     public List<float> laneSupplyBias;
 
+    public List<ShipSpawner> shipLanes;
+    public List<float> shipLaneSupplyBias;
+
     public List<SupplyGenerator> factories;
 
     public CombatFlow myFlow;
@@ -48,12 +51,8 @@ public class LogisticsHub : MonoBehaviour
         if (enableSpawners)
         {
             creepWaveTimerProcess();
-
             supplyPullTimerProcess();
         }
-        
-
-
     }
 
     private void supplyPullTimerProcess()
@@ -86,8 +85,14 @@ public class LogisticsHub : MonoBehaviour
     {
         for(int i = 0; i < lanes.Count; i++)
         {
-            int supplyAmt = Mathf.RoundToInt(supply * laneSupplyBias[i]);
+            float supplyAmt = supply * laneSupplyBias[i];
             lanes[i].relaySuppliesToLead(supplyAmt);
+        }
+
+        for(int i = 0; i < shipLanes.Count; i++)
+        {
+            float supplyAmt = supply * shipLaneSupplyBias[i];
+            shipLanes[i].spawnBank.tryAddSupplies(supplyAmt);
         }
     }
 

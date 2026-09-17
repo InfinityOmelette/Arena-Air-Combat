@@ -333,8 +333,12 @@ MonoBehaviour:
   fireRateDelay: 1.5
   reloadDelay: 7
   roundsPerMag: 1
+  fireMission: 0
   explodePosition: {fileID: 5134914116728807814}
   explodeOnLaunch: 1
+  useExternAim: 0
+  setFuze: 0
+  parentTurret: {fileID: 0}
 --- !u!114 &6155721081161008929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +684,8 @@ MonoBehaviour:
   canTakeDamage: 1
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &3172510116241956800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,6 +782,8 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
 --- !u!1 &6952010633450106937
 GameObject:
   m_ObjectHideFlags: 0

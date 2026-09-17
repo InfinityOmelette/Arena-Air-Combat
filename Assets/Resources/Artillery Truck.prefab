@@ -395,6 +395,7 @@ MonoBehaviour:
   explodeOnLaunch: 1
   useExternAim: 0
   setFuze: 0
+  parentTurret: {fileID: 0}
 --- !u!114 &6581382952840814037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,6 +524,8 @@ MonoBehaviour:
   canTakeDamage: 1
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &2467764221919642932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,6 +622,8 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
 --- !u!1 &5968324385412187183
 GameObject:
   m_ObjectHideFlags: 0

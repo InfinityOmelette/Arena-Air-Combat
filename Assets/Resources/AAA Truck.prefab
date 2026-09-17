@@ -218,6 +218,7 @@ MonoBehaviour:
   minImpactTime: 0
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
 --- !u!114 &9133762525964380875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,14 +232,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wakeUpTimeMax: 7
+  wakeUpTimer: 0
   lowerGuardTimeMax: 12
+  lowerGuardTimer: 0
   isAlert: 0
   lowerGuardResetTimerMax: 0.5
+  lowerGuardResetTimer: 0
   wakeUpResetTimerMax: 3
+  wakeUpResetTimer: 0
+  currentCoeff: 1
   alertingUnit: {fileID: 0}
-  minWakeTimeCoeff: 0.5
-  minWakeTimeRange: 2000
-  fullWakeTimeRange: 4500
+  closeWakeTimeCoeff: 2
+  closeWakeTimeRange: 1750
+  normalWakeTimeRange: 3000
 --- !u!1001 &4925052361784105263
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class ShipNavigation : MonoBehaviour
     public enum NavMode
     {
         ADVANCE, // go to next waypoint
-        HALT,       
+        STANDBY,       
         RETREAT, // go to previous waypoint
         FOLLOW,   // follow lane naval leader
         DEBUG
@@ -44,9 +44,12 @@ public class ShipNavigation : MonoBehaviour
 
     public bool isCarrier = false;
 
+    public CombatFlow myFlow;
+
     private void Awake()
     {
         shipPhysics = GetComponent<ShipPhysics>();
+        myFlow = GetComponent<CombatFlow>();
     }
 
     // Start is called before the first frame update
@@ -88,7 +91,7 @@ public class ShipNavigation : MonoBehaviour
                     currentWptIndex = admiral.closestRetreatWaypointIndex(this);
                     shipPhysics.setSpeed(speed);
                     break;
-                case NavMode.HALT:
+                case NavMode.STANDBY:
                     shipPhysics.setSpeed(ShipPhysics.Speed.HALT);
                     break;
             }
@@ -111,6 +114,11 @@ public class ShipNavigation : MonoBehaviour
             checkLeader();
             checkWaypoint();
 
+            if (checkIfIAmLeader())
+            {
+                receiveFleetNavOrder();
+            }
+
             // waypoint steer process
             switch (navMode)
             {
@@ -125,6 +133,11 @@ public class ShipNavigation : MonoBehaviour
             
         }
 
+    }
+
+    private void receiveFleetNavOrder()
+    {
+        changeNavmode(admiral.getFleetNavOrder());
     }
 
 
@@ -164,7 +177,13 @@ public class ShipNavigation : MonoBehaviour
                 Transform followTransform = leader.transform;
 
                 Vector3 currentFormPos = followTransform.InverseTransformPoint(transform.position);
-                currentFormPos = currentFormPos - leader.followerOffset.localPosition * formationIndex;
+                Vector3 offset = leader.followerOffset.localPosition * formationIndex;
+                
+                // choose which side to form up on based on admiral's setting for lane
+                offset = new Vector3(offset.x * admiral.getFormationInversion(), offset.y, offset.z);
+
+                currentFormPos = currentFormPos - offset;
+
 
                 // steer based on lateral error FROM LEADER HEADING LINE
                 steerFollow(currentFormPos);
@@ -264,6 +283,14 @@ public class ShipNavigation : MonoBehaviour
         if (checkIfIAmLeader())
         {
             admiral.propagateWptIndex(currentWptIndex);
+
+            //// Halt at first wpt until fleet is reasonable size
+            //// otherwise, don't halt if fleet has already moved out
+            ////  --> requires Admiral to send advance command once ready
+            //if (!admiral.isFleetReady() && currentWptIndex == 1)
+            //{
+            //    changeNavmode(NavMode.HALT);
+            //}
         }
         
     }
@@ -306,7 +333,7 @@ public class ShipNavigation : MonoBehaviour
         shipPhysics.setRudder(rudder);
 
 
-        if(dirToWpt.magnitude < DRIVE_POINT_RADIUS)
+        if(dirToWpt.magnitude < DRIVE_POINT_RADIUS || navMode == NavMode.STANDBY)
         {
             speed = ShipPhysics.Speed.HALT;
         }

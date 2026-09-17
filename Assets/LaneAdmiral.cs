@@ -12,12 +12,46 @@ public class LaneAdmiral : MonoBehaviour
     public List<Transform> wpts;
 
 
-    public GameObject carrierPrefab;
-    public GameObject cruiserPrefab;
+    //public GameObject carrierPrefab;
+    //public GameObject cruiserPrefab;
+
+    // Only push fleet past wp1 once fleet size is appropriate
+    //public bool fleetReady = false;
+
+    public int fleetReadySize = 3;
+
+    //private bool wasReady = false;
+
+    public ShipNavigation.NavMode fleetNavOrder;
+
+    // fleet considered "deployed" if leader x meters past first wpt
+    public float isDeployedThreshold = 500f;
+
+
+    public float fleetTickDelay = 3f;
+    public float fleetTickTimer;
+
+    public bool invertFormationOffset = false;
+
+    private float formationInversionCoeff = 1.0f;
 
     private void Awake()
     {
         generateWaypointsFromChildren();
+        if (invertFormationOffset)
+        {
+            formationInversionCoeff = -1.0f;
+        }
+    }
+
+    public float getFormationInversion()
+    {
+        return formationInversionCoeff;
+    }
+
+    public bool isFleetReady()
+    {
+        return laneFleet.Count >= fleetReadySize;
     }
 
     private void generateWaypointsFromChildren()
@@ -30,11 +64,83 @@ public class LaneAdmiral : MonoBehaviour
         }
     }
 
+    public ShipNavigation.NavMode getFleetNavOrder()
+    {
+        return fleetNavOrder;
+    }
+
+    public void setLeaderNavMode(ShipNavigation.NavMode navMode)
+    {
+        if(getLeader() != null)
+        {
+            getLeader().changeNavmode(navMode);
+        }
+    }
+
+    public void setFleetNavMode(ShipNavigation.NavMode navMode)
+    {
+        for(int i = 0; i < laneFleet.Count; i++)
+        {
+            laneFleet[i].changeNavmode(navMode);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
 
         reassessFormation();
+    }
+
+    private void FixedUpdate()
+    {
+
+        if(fleetTickTimer < 0f)
+        {
+            fleetTick();
+            fleetTickTimer = fleetTickDelay;
+        }
+        else
+        {
+            fleetTickTimer -= Time.fixedDeltaTime;
+        }
+
+    } 
+
+    // put any other intermittent fleet decisionmaking processing here
+    private void fleetTick()
+    {
+        assessFleetNavOrder();
+    }
+
+    private void assessFleetNavOrder()
+    {
+        if (isFleetReady() || isFleetDeployed())
+        {
+            fleetNavOrder = ShipNavigation.NavMode.ADVANCE;
+        }
+        else
+        {
+            fleetNavOrder = ShipNavigation.NavMode.RETREAT;
+        }
+    }
+
+    public bool isFleetDeployed()
+    {
+        ShipNavigation leader = getLeader();
+
+        bool deployed = false;
+
+        if(leader != null)
+        {
+            float leaderPos = laneAxisPos(leader);
+            float wpt1Pos = laneAxisPos(wpts[0].position);
+
+            deployed = leaderPos > wpt1Pos + isDeployedThreshold;
+        }
+
+
+        return deployed;
     }
 
     public void reassessFormation()
@@ -60,14 +166,25 @@ public class LaneAdmiral : MonoBehaviour
         }
     }
 
+    //public void 
+
     public void linkShip(ShipNavigation ship)
     {
-        if (!laneFleet.Contains(ship))
+        
+        // hhhhh this is crusty, i really should just use an inherited method lol
+        if(ship is CarrierNavigation)
         {
-            laneFleet.Add(ship);
+            ((CarrierNavigation)ship).carrierLinktoAdmiral(this);
         }
-
-        ship.linktoAdmiral(this);
+        else
+        {
+            if (!laneFleet.Contains(ship))
+            {
+                laneFleet.Add(ship);
+            }
+            ship.linktoAdmiral(this);
+        }
+        
     }
 
     void cleanShipList()
@@ -162,6 +279,10 @@ public class LaneAdmiral : MonoBehaviour
 
     public float laneAxisPos(ShipNavigation ship)
     {
+        if(ship == null)
+        {
+            return laneAxisPos(transform.position);
+        }
         return laneAxisPos(ship.transform.position);
     }
 

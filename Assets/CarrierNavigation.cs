@@ -32,8 +32,17 @@ public class CarrierNavigation : ShipNavigation
         {
             checkLeader();
             checkWaypoint();
-
-            carrierNavModeAndSpeed();
+            
+            if(admiral.getLeader() == null)
+            {
+                changeNavmode(NavMode.RETREAT);
+                driveToWaypoint(ShipPhysics.Speed.CRUISE);
+            }
+            else
+            {
+                carrierFollowLeader();
+            }
+            
 
         }
     }
@@ -41,10 +50,12 @@ public class CarrierNavigation : ShipNavigation
     public void carrierLinktoAdmiral(LaneAdmiral admiral)
     {
         this.admiral = admiral;
+        admiral.laneCarrier = this;
         setWptIndexByPos();
+
     }
 
-    private void carrierNavModeAndSpeed()
+    private void carrierFollowLeader()
     {
         ShipNavigation leader = admiral.getLeader();
         float leaderAxisPos = admiral.laneAxisPos(leader);
@@ -73,7 +84,7 @@ public class CarrierNavigation : ShipNavigation
         else if(axisStandoffToLeader > farAheadStandoff)
         {
             // halt
-            changeNavmode(NavMode.HALT);
+            changeNavmode(NavMode.STANDBY);
             speedSet = ShipPhysics.Speed.HALT;
         }
         else
@@ -92,5 +103,10 @@ public class CarrierNavigation : ShipNavigation
         // far ahead position --> retreat flank
 
 
+    }
+
+    private void OnDestroy()
+    {
+        
     }
 }

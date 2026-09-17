@@ -503,7 +503,7 @@ public class LaneManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void relaySuppliesToLead(int supplies)
+    public void relaySuppliesToLead(float supplies)
     {
         CreepSpawnPoint spawner = getLeadSpawner();
 

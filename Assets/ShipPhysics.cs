@@ -53,21 +53,29 @@ public class ShipPhysics : MonoBehaviour
     private void FixedUpdate()
     {
         forwardDrive(Time.fixedDeltaTime);
+
         steerProcess(Time.fixedDeltaTime);
     }
 
     private void steerProcess(float deltaTime)
     {
-        float targetYawRate = rudder * maxYawRate;
-        float yawError = targetYawRate - yawRate;
-        float absError = Mathf.Abs(yawError);
 
-        float yawRateDelta = Mathf.Sign(yawError) * yawRateAccel * deltaTime;
-        yawRateDelta = Mathf.Clamp(yawRateDelta, -absError, absError);
+        if(speedSet == Speed.HALT)
+        {
+            yawRate = 0;
+        }
+        else
+        {
+            float targetYawRate = rudder * maxYawRate;
+            float yawError = targetYawRate - yawRate;
+            float absError = Mathf.Abs(yawError);
 
-        float yawOut = yawRate + yawRateDelta;
-        yawRate = yawOut;
+            float yawRateDelta = Mathf.Sign(yawError) * yawRateAccel * deltaTime;
+            yawRateDelta = Mathf.Clamp(yawRateDelta, -absError, absError);
 
+            float yawOut = yawRate + yawRateDelta;
+            yawRate = yawOut;
+        }
 
         // set angular velocity according to yaw rate
         myRb.angularVelocity = Vector3.up * yawRate;

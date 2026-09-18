@@ -221,12 +221,20 @@ public class LaneAdmiral : MonoBehaviour
 
     public ShipNavigation getLeader()
     {
-        if(laneFleet[0] == null)
+        if(laneFleet.Count > 0)
         {
-            reassessFormation();
-        }
+            if (laneFleet[0] == null)
+            {
+                reassessFormation();
+            }
 
-        return laneFleet[0];
+            return laneFleet[0];
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
     private int clampWtpIndex(int index)

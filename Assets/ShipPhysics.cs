@@ -79,6 +79,15 @@ public class ShipPhysics : MonoBehaviour
 
         // set angular velocity according to yaw rate
         myRb.angularVelocity = Vector3.up * yawRate;
+
+        forceFlatten();
+    }
+
+    // does this allow velocity to change rotation???
+    public void forceFlatten()
+    {
+        Vector3 eulerRot = Quaternion.ToEulerAngles(myRb.rotation) * Mathf.Rad2Deg;
+        myRb.MoveRotation(Quaternion.Euler(0.0f, eulerRot.y, 0.0f));
     }
 
     // this does handle reverse case
@@ -104,7 +113,12 @@ public class ShipPhysics : MonoBehaviour
         //    + speedOut + ", speedSet: " + speedSetValue + 
         //    ", SpeedActual: " + myRb.velocity.magnitude);
 
-        myRb.velocity = transform.forward * internalSpeedBecauseUnityFuckingSucksSometimes;
+        Vector3 fwd = transform.forward;
+        fwd = new Vector3(fwd.x, 0.0f, fwd.z);
+
+        Vector3 vert = new Vector3(0.0f, myRb.velocity.y, 0.0f); // preserve vert speed --> gravity
+
+        myRb.velocity = fwd.normalized * internalSpeedBecauseUnityFuckingSucksSometimes + vert;
     }
 
     public void setSpeed(Speed speed)

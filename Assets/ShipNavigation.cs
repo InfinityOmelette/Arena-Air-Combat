@@ -238,8 +238,8 @@ public class ShipNavigation : MonoBehaviour
         float errorCoeff = Mathf.Clamp(formPos.x / maxFollowLateralError, -1f, 1f);
         float angleCorrectionSigned = -errorCoeff * maxFollowAngleCorrection;
 
-        Debug.Log("SteerFollow angleCorrectionSigned: " 
-            + angleCorrectionSigned + ", formPos x error: " + formPos.x);
+        //Debug.Log("SteerFollow angleCorrectionSigned: " 
+        //    + angleCorrectionSigned + ", formPos x error: " + formPos.x);
 
         // angle --> direction
         Vector3 leaderDir = admiral.getLeader().transform.forward;

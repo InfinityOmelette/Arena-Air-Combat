@@ -101,6 +101,7 @@ public class ArrestingHook : MonoBehaviour
     public void rearm()
     {
         getRootFlow().hardpoints.rearm();
+        getRootFlow().fullHeal();
     }
 
     public CombatFlow getRootFlow()

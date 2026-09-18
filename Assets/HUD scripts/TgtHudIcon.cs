@@ -207,6 +207,9 @@ public class TgtHudIcon : MonoBehaviour
         if (targetedState != activeState)
         {
 
+
+
+
             // SET COLOR BASED ON LOCK STATE
             if (targetedState == TargetedState.LOCKED) // LOCKED
             {
@@ -239,27 +242,57 @@ public class TgtHudIcon : MonoBehaviour
                     txtKPH.enabled = false;
                     doBlink = false;
 
-                    if (rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
+                    switch (rootFlow.type)
                     {
-                        // show name and dist
-                        tgtTitleText.enabled = true;
-                        tgtDistText.enabled = true;
+                        case CombatFlow.Type.AIRCRAFT:
+                            if (isFriendly)
+                            {
+                                tgtTitleText.enabled = true;
+                                tgtDistText.enabled = true;
+                            }
+                            break;
+                        case CombatFlow.Type.NAVAL:
+                        case CombatFlow.Type.STRATEGIC:
+                            //if (isFriendly)
+                            //{
+                                
+                            //}
+                            tgtTitleText.enabled = isFriendly;
+                            tgtDistText.enabled = false;
+                            break;
+                        case CombatFlow.Type.TECH:
+                            tgtTitleText.enabled = true;
+                            tgtDistText.enabled = false;
+                            break;
+                        default:
+                            tgtTitleText.enabled = false;
+                            tgtDistText.enabled = false;
+                            break;
                     }
-                    else if(rootFlow.type == CombatFlow.Type.STRATEGIC && isFriendly)
-                    {
-                        tgtTitleText.enabled = true;
-                        tgtDistText.enabled = false;
-                    }
-                    else if(rootFlow.type == CombatFlow.Type.TECH)
-                    {
-                        tgtTitleText.enabled = true;
-                        tgtDistText.enabled = false;
-                    }
-                    else
-                    {
-                        tgtTitleText.enabled = false;
-                        tgtDistText.enabled = false;
-                    }
+
+
+                    //if (rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
+                    //{
+                    //    // show name and dist
+                    //    tgtTitleText.enabled = true;
+                    //    tgtDistText.enabled = true;
+                    //}
+                    //else if ((rootFlow.type == CombatFlow.Type.STRATEGIC
+                    //    || rootFlow.type == CombatFlow.Type.NAVAL) && isFriendly)
+                    //{
+                    //    tgtTitleText.enabled = true;
+                    //    tgtDistText.enabled = false;
+                    //}
+                    //else if (rootFlow.type == CombatFlow.Type.TECH)
+                    //{
+                    //    tgtTitleText.enabled = true;
+                    //    tgtDistText.enabled = false;
+                    //}
+                    //else
+                    //{
+                    //    tgtTitleText.enabled = false;
+                    //    tgtDistText.enabled = false;
+                    //}
                 }
             }
 

@@ -35,6 +35,8 @@ public class LaneAdmiral : MonoBehaviour
 
     private float formationInversionCoeff = 1.0f;
 
+    public LaneAdmiral opponentAdmiral;
+
     private void Awake()
     {
         generateWaypointsFromChildren();

@@ -84,7 +84,7 @@ public class CarrierNavigation : ShipNavigation
         else if(axisStandoffToLeader > farAheadStandoff)
         {
             // halt
-            changeNavmode(NavMode.STANDBY);
+            changeNavmode(NavMode.STOP);
             speedSet = ShipPhysics.Speed.HALT;
         }
         else

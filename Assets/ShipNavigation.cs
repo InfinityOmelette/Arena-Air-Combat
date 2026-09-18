@@ -7,7 +7,7 @@ public class ShipNavigation : MonoBehaviour
     public enum NavMode
     {
         ADVANCE, // go to next waypoint
-        STANDBY,       
+        STOP,       
         RETREAT, // go to previous waypoint
         FOLLOW,   // follow lane naval leader
         DEBUG
@@ -45,6 +45,8 @@ public class ShipNavigation : MonoBehaviour
     public bool isCarrier = false;
 
     public CombatFlow myFlow;
+
+    public TankTurret cannon;
 
     private void Awake()
     {
@@ -91,7 +93,7 @@ public class ShipNavigation : MonoBehaviour
                     currentWptIndex = admiral.closestRetreatWaypointIndex(this);
                     shipPhysics.setSpeed(speed);
                     break;
-                case NavMode.STANDBY:
+                case NavMode.STOP:
                     shipPhysics.setSpeed(ShipPhysics.Speed.HALT);
                     break;
             }
@@ -138,6 +140,7 @@ public class ShipNavigation : MonoBehaviour
     private void receiveFleetNavOrder()
     {
         changeNavmode(admiral.getFleetNavOrder());
+
     }
 
 
@@ -333,7 +336,7 @@ public class ShipNavigation : MonoBehaviour
         shipPhysics.setRudder(rudder);
 
 
-        if(dirToWpt.magnitude < DRIVE_POINT_RADIUS || navMode == NavMode.STANDBY)
+        if(dirToWpt.magnitude < DRIVE_POINT_RADIUS || navMode == NavMode.STOP)
         {
             speed = ShipPhysics.Speed.HALT;
         }
@@ -355,6 +358,12 @@ public class ShipNavigation : MonoBehaviour
 
         
     }
+
+    //// conditions in which cannon status will allow movement
+    //protected bool cannonTargetCheck()
+    //{
+    //    return cannon == null || cannon.target == null;
+    //}
 
     protected float steerToDir(Vector3 dir)
     {

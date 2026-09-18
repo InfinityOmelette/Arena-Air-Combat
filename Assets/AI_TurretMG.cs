@@ -62,6 +62,8 @@ public class AI_TurretMG : MonoBehaviour
 
     public bool bypassLineOfSight = false;
 
+    public bool prioritizeNavalTargets = false;
+
     public void setIndex(int index)
     {
         turretIndex = index;
@@ -168,7 +170,7 @@ public class AI_TurretMG : MonoBehaviour
 
                 CombatFlow targetFlow = findNearestTarget();
 
-                if (targetFlow != null && targetFlow.GetComponent<Rigidbody>() != targetRb 
+                if (targetFlow != null && targetFlow.myRb != targetRb 
                     && (targetIsAbove(targetFlow.myRb) || !onlyTargetAbove))
                 {
 
@@ -227,45 +229,69 @@ public class AI_TurretMG : MonoBehaviour
         if (debug)
             Debug.Log("FindNearestTarget called");
 
+        CombatFlow shipFound = null;
+
         for(int i = 0; i < allUnits.Count; i++)
         {
             CombatFlow currentFlow = allUnits[i];
 
-            if (currentFlow.isLocalPlayer)
-            {
-                //Debug.Log("Found local player");
-            }
+            //if (currentFlow.isLocalPlayer)
+            //{
+            //    //Debug.Log("Found local player");
+            //}
 
             if (currentFlow != null)
             {
-                if (currentFlow.team != rootFlow.team && targetTypes.Contains(currentFlow.type))
+                if (currentFlow.team != rootFlow.team && targetTypes.Contains(currentFlow.type) && 
+                    !currentFlow.isSuppressedStrategic() && shipCheck(currentFlow, shipFound))
                 {
 
                     
                     float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
 
-                    if (currentDistance < shortestDist)
+                    if (currentDistance < shortestDist || 
+                        isNavalWithinRange(currentFlow, currentDistance))
                     {
                         int terrainLayer = 1 << 10; // line only collides with terrain layer
-                        bool hasLineOfSight = bypassLineOfSight || !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
-                        if (hasLineOfSight)
+                        bool checkLOS = bypassLineOfSight 
+                            || currentFlow.type == CombatFlow.Type.NAVAL
+                            || !Physics.Linecast(transform.position, currentFlow.transform.position, terrainLayer);
+                        if (checkLOS)
                         {
                             closestTarget = currentFlow;
                             shortestDist = currentDistance;
+
+                            if (closestTarget.type == CombatFlow.Type.NAVAL)
+                            {
+                                shipFound = closestTarget;
+                            }
                         }
                     }
                 }
+
+                
             }
         }
 
-        if (debug && closestTarget != null && closestTarget.isLocalPlayer)
-        {
-            Debug.Log("Found local player");
-        }
+        //if (debug && closestTarget != null && closestTarget.isLocalPlayer)
+        //{
+        //    Debug.Log("Found local player");
+        //}
 
         return closestTarget;
     }
 
+    // valid target if not prioritizing naval, or no ship has been found this tick, or target is naval anyways
+    private bool shipCheck(CombatFlow targetFlow, CombatFlow shipFound)
+    {
+        return !prioritizeNavalTargets 
+            || shipFound == null || targetFlow.type == CombatFlow.Type.NAVAL;
+    }
+
+    private bool isNavalWithinRange(CombatFlow targetFlow, float distance)
+    {
+        return prioritizeNavalTargets && targetFlow.type == CombatFlow.Type.NAVAL && distance < schutDistance;
+    }
 
     private void setGunState(bool gunSet)
     {

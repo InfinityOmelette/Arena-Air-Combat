@@ -20,7 +20,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public enum Type
     {
-        AIRCRAFT, PROJECTILE , GROUND, ANTI_AIR, SAM, STRATEGIC, TECH
+        AIRCRAFT, PROJECTILE , GROUND, ANTI_AIR, SAM, STRATEGIC, TECH, NAVAL
     }
     
     public float maxHP;
@@ -154,6 +154,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         return getEnemyTeam(team);
     }
 
+    public bool isSuppressedStrategic()
+    {
+        return myStrat != null && myStrat.isSuppressed;
+    }
+
     public void setHP(float hp)
     {
         currentHP = hp;
@@ -165,7 +170,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         rwr = GetComponent<RWR>();
         creepAI = GetComponent<CreepControl>();
         myRb = GetComponent<Rigidbody>();
-        myRWR = GetComponent<RWR>();
+        //myRWR = GetComponent<RWR>();
         myStrat = GetComponent<StrategicTarget>();
         myTechSite = GetComponent<TechSite>();
         weapRef = GetComponent<Weapon>();
@@ -185,6 +190,10 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     }
 
     
+    public void fullHeal()
+    {
+        setHP(maxHP);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -205,7 +214,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         // spawn icon, set reference here to the TgtHudIconScript of icon spawned
         myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this).GetComponent<TgtHudIcon>();// add my icon to hud
-        myHudIconRef.neverFar = type == Type.STRATEGIC || type == Type.AIRCRAFT || type == Type.TECH;
+        myHudIconRef.neverFar = type == Type.STRATEGIC || type == Type.AIRCRAFT || type == Type.TECH || type == Type.NAVAL;
 
         if (!isLocalPlayer)
         {

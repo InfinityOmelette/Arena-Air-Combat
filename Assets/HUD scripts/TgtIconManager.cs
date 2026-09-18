@@ -97,41 +97,78 @@ public class TgtIconManager : MonoBehaviour
         // IMAGE SETTING
         //  ........ Why the fuck in god's name do I do this here and not setting refs in each prefab????
         //  why in the fuck
-        if(unitFlow.type == CombatFlow.Type.AIRCRAFT)
+
+        switch (unitFlow.type)
         {
-            iconScript.tgtImageLOS.sprite = aircraftHudImageLOS;
-            iconScript.tgtImageNoLOS.sprite = aircraftHudImageNoLOS;
+            case CombatFlow.Type.AIRCRAFT:
+                iconScript.tgtImageLOS.sprite = aircraftHudImageLOS;
+                iconScript.tgtImageNoLOS.sprite = aircraftHudImageNoLOS;
+                break;
+            case CombatFlow.Type.PROJECTILE:
+                iconScript.tgtImageLOS.sprite = missileHudImageLOS;
+                iconScript.tgtImageNoLOS.sprite = missileHudImageNoLOS;
+                break;
+            case CombatFlow.Type.GROUND:
+                iconScript.tgtImageLOS.sprite = groundHudImageLOS;
+                iconScript.tgtImageNoLOS.sprite = groundHudImageNoLOS;
+                break;
+            case CombatFlow.Type.ANTI_AIR:
+                iconScript.tgtImageLOS.sprite = antiAirHudImageLOS;
+                iconScript.tgtImageNoLOS.sprite = antiAirHudImageNoLOS;
+                break;
+            case CombatFlow.Type.SAM:
+                iconScript.tgtImageLOS.sprite = SamHudImageLOS;
+                iconScript.tgtImageNoLOS.sprite = SamHudImageNoLOS;
+                break;
+            case CombatFlow.Type.STRATEGIC:
+                iconScript.tgtImageLOS.sprite = StrategicImageLOS;
+                iconScript.tgtImageNoLOS.sprite = StrategicImageNoLOS;
+                break;
+            case CombatFlow.Type.NAVAL:
+                iconScript.tgtImageLOS.sprite = StrategicImageLOS;
+                iconScript.tgtImageNoLOS.sprite = StrategicImageNoLOS;
+                break;
+            case CombatFlow.Type.TECH:
+                iconScript.tgtImageLOS.sprite = TechSiteLOS;
+                iconScript.tgtImageNoLOS.sprite = TechSiteNoLOS;
+                break;
         }
-        else if(unitFlow.type == CombatFlow.Type.PROJECTILE)
-        {
-            iconScript.tgtImageLOS.sprite = missileHudImageLOS;
-            iconScript.tgtImageNoLOS.sprite = missileHudImageNoLOS;
-        }
-        else if(unitFlow.type == CombatFlow.Type.GROUND)
-        {
-            iconScript.tgtImageLOS.sprite = groundHudImageLOS;
-            iconScript.tgtImageNoLOS.sprite = groundHudImageNoLOS;
-        }
-        else if(unitFlow.type == CombatFlow.Type.ANTI_AIR)
-        {
-            iconScript.tgtImageLOS.sprite = antiAirHudImageLOS;
-            iconScript.tgtImageNoLOS.sprite = antiAirHudImageNoLOS;
-        }
-        else if(unitFlow.type == CombatFlow.Type.SAM)
-        {
-            iconScript.tgtImageLOS.sprite = SamHudImageLOS;
-            iconScript.tgtImageNoLOS.sprite = SamHudImageNoLOS;
-        }
-        else if(unitFlow.type == CombatFlow.Type.STRATEGIC)
-        {
-            iconScript.tgtImageLOS.sprite = StrategicImageLOS;
-            iconScript.tgtImageNoLOS.sprite = StrategicImageNoLOS;
-        }
-        else if(unitFlow.type == CombatFlow.Type.TECH)
-        {
-            iconScript.tgtImageLOS.sprite = TechSiteLOS;
-            iconScript.tgtImageNoLOS.sprite = TechSiteNoLOS;
-        }
+
+        //if(unitFlow.type == CombatFlow.Type.AIRCRAFT)
+        //{
+        //    iconScript.tgtImageLOS.sprite = aircraftHudImageLOS;
+        //    iconScript.tgtImageNoLOS.sprite = aircraftHudImageNoLOS;
+        //}
+        //else if(unitFlow.type == CombatFlow.Type.PROJECTILE)
+        //{
+        //    iconScript.tgtImageLOS.sprite = missileHudImageLOS;
+        //    iconScript.tgtImageNoLOS.sprite = missileHudImageNoLOS;
+        //}
+        //else if(unitFlow.type == CombatFlow.Type.GROUND)
+        //{
+        //    iconScript.tgtImageLOS.sprite = groundHudImageLOS;
+        //    iconScript.tgtImageNoLOS.sprite = groundHudImageNoLOS;
+        //}
+        //else if(unitFlow.type == CombatFlow.Type.ANTI_AIR)
+        //{
+        //    iconScript.tgtImageLOS.sprite = antiAirHudImageLOS;
+        //    iconScript.tgtImageNoLOS.sprite = antiAirHudImageNoLOS;
+        //}
+        //else if(unitFlow.type == CombatFlow.Type.SAM)
+        //{
+        //    iconScript.tgtImageLOS.sprite = SamHudImageLOS;
+        //    iconScript.tgtImageNoLOS.sprite = SamHudImageNoLOS;
+        //}
+        //else if(unitFlow.type == CombatFlow.Type.STRATEGIC)
+        //{
+        //    iconScript.tgtImageLOS.sprite = StrategicImageLOS;
+        //    iconScript.tgtImageNoLOS.sprite = StrategicImageNoLOS;
+        //}
+        //else if(unitFlow.type == CombatFlow.Type.TECH)
+        //{
+        //    iconScript.tgtImageLOS.sprite = TechSiteLOS;
+        //    iconScript.tgtImageNoLOS.sprite = TechSiteNoLOS;
+        //}
 
 
         return iconObj;

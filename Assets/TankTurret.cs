@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class TankTurret : MonoBehaviour
 {
+    public enum TrajectMode
+    {
+        LOW,
+        HIGH,
+        LOSLOW
+    }
+
     public GameObject projectileSpawn;
+
+
 
     // copy this for every shot
     public GameObject shellSettings;
@@ -18,6 +27,8 @@ public class TankTurret : MonoBehaviour
     public float shellSpeed;
 
     public bool highTraject = false;
+    public TrajectMode trajectyMode = TrajectMode.LOW;
+
 
     public float shellSpreadHoriz;
     public float shellSpreadVert;
@@ -184,10 +195,10 @@ public class TankTurret : MonoBehaviour
 
             float elev = calculateElev(distance);
 
-            if (highTraject)
+
+            if(trajectyMode == TrajectMode.HIGH || losCheck(target))
             {
-                float diff = 45 - elev;
-                elev = 45 + diff;
+                elev = convertToHigh(elev);
             }
 
 
@@ -203,6 +214,20 @@ public class TankTurret : MonoBehaviour
 
             transform.localEulerAngles = new Vector3(-elev, transform.localEulerAngles.y, 0.0f);
         }
+    }
+
+    public bool losCheck(GameObject target)
+    {
+        int terrainLayer = 1 << 10;
+        bool losObstructed = Physics.Linecast(transform.position, target.transform.position, terrainLayer);
+        return trajectyMode == TrajectMode.LOSLOW && losObstructed;
+    }
+
+    public float convertToHigh(float elev)
+    {
+        float diff = 45 - elev;
+        elev = 45 + diff;
+        return elev;
     }
 
     private Vector3 leadTargetPos(Vector3 targetPos, Vector3 targetVel)

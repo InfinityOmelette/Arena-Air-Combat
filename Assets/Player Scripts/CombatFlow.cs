@@ -159,6 +159,12 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         return myStrat != null && myStrat.isSuppressed;
     }
 
+    public string report()
+    {
+        string report = name + ", " + team;
+        return report;
+    }
+
     public void setHP(float hp)
     {
         currentHP = hp;

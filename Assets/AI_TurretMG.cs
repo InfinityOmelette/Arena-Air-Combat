@@ -64,6 +64,8 @@ public class AI_TurretMG : MonoBehaviour
 
     public bool prioritizeNavalTargets = false;
 
+    //public bool debugGunFuckery = false;
+
     public void setIndex(int index)
     {
         turretIndex = index;
@@ -174,6 +176,10 @@ public class AI_TurretMG : MonoBehaviour
                     && (targetIsAbove(targetFlow.myRb) || !onlyTargetAbove))
                 {
 
+                    //if (debugGunFuckery)
+                    //{
+                    //    Debug.Log("Setting target: " + targetFlow.report());
+                    //}
 
                     //Debug.LogWarning
                     //Debug.LogWarning("new target name: " + targetFlow.name);
@@ -240,18 +246,34 @@ public class AI_TurretMG : MonoBehaviour
             //    //Debug.Log("Found local player");
             //}
 
+            
+
             if (currentFlow != null)
             {
+
+                //if (debugGunFuckery)
+                //{
+                //    Debug.Log("Outer Check: " + allUnits[i].report());
+                //}
+
                 if (currentFlow.team != rootFlow.team && targetTypes.Contains(currentFlow.type) && 
                     !currentFlow.isSuppressedStrategic() && shipCheck(currentFlow, shipFound))
                 {
-
+                    //if (debugGunFuckery)
+                    //{
+                    //    Debug.Log("Is proper type: " + currentFlow.report());
+                    //}
+                    
                     
                     float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
 
-                    if (currentDistance < shortestDist || 
-                        isNavalWithinRange(currentFlow, currentDistance))
+                    if (currentDistance < shortestDist && 
+                        (shipFound == null || isNavalWithinRange(currentFlow, currentDistance)))
                     {
+                        //if (debugGunFuckery)
+                        //{
+                        //    Debug.Log("Is within range: " + currentFlow.report());
+                        //}
                         int terrainLayer = 1 << 10; // line only collides with terrain layer
                         bool checkLOS = bypassLineOfSight 
                             || currentFlow.type == CombatFlow.Type.NAVAL
@@ -261,9 +283,19 @@ public class AI_TurretMG : MonoBehaviour
                             closestTarget = currentFlow;
                             shortestDist = currentDistance;
 
+                            //if (debugGunFuckery)
+                            //{
+                            //    Debug.Log("Los good on: " + currentFlow.report());
+                            //}
+
                             if (closestTarget.type == CombatFlow.Type.NAVAL)
                             {
                                 shipFound = closestTarget;
+                                //if (debugGunFuckery)
+                                //{
+                                //    Debug.Log("ShipFound!!!");
+                                //}
+                                
                             }
                         }
                     }
@@ -278,18 +310,40 @@ public class AI_TurretMG : MonoBehaviour
         //    Debug.Log("Found local player");
         //}
 
+        //if (debugGunFuckery)
+        //{
+        //    if(closestTarget == null)
+        //    {
+        //        Debug.Log("Closest target: null");
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Closest target: " + closestTarget.report());
+        //    }
+        //}
+
         return closestTarget;
     }
 
     // valid target if not prioritizing naval, or no ship has been found this tick, or target is naval anyways
     private bool shipCheck(CombatFlow targetFlow, CombatFlow shipFound)
     {
+        //if (debugGunFuckery)
+        //{
+        //    Debug.Log("shipCheck on: " + targetFlow.report());
+        //}
+        
         return !prioritizeNavalTargets 
             || shipFound == null || targetFlow.type == CombatFlow.Type.NAVAL;
     }
 
     private bool isNavalWithinRange(CombatFlow targetFlow, float distance)
     {
+        //if (debugGunFuckery)
+        //{
+        //    Debug.Log("isNavalWithinRange on: " + targetFlow.report());
+        //}
+        
         return prioritizeNavalTargets && targetFlow.type == CombatFlow.Type.NAVAL && distance < schutDistance;
     }
 

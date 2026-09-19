@@ -2547,6 +2547,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
+      propertyPath: onlyTargetAbove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
       propertyPath: bypassLineOfSight
       value: 1
       objectReference: {fileID: 0}
@@ -2562,8 +2567,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
-      propertyPath: targetTypes.Array.size
+      propertyPath: prioritizeNavalTargets
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: targetTypes.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2573,7 +2583,7 @@ PrefabInstance:
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: targetTypes.Array.data[1]
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
@@ -2723,7 +2733,7 @@ PrefabInstance:
     - target: {fileID: 6787584501163040595, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: lightEmitTime
-      value: 60
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7574374876613732134, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}

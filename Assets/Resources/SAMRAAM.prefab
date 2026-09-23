@@ -887,7 +887,6 @@ MonoBehaviour:
   att_weight: 0
   att_guidance: 0
   att_domain: 0
-  stockWeightPerHardpoint: 3
   stockWeight: 1
   ownerObj: {fileID: 0}
   proximityFuseRange: 10
@@ -921,10 +920,12 @@ MonoBehaviour:
   scanConeFactor: 1
   timeRemainDragEstFactor: 31
   isLocked: 0
-  maxLoftDegreesKM: 18
+  maxLoftDegrees: 18
   loftChangeSlope: 6.7
   loftMinRangeKM: 3.3
   mslInterceptionProxDist: 30
+  corkscrewRate: 0
+  timeSinceLaunch: 0
 --- !u!114 &1412596578729976127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,6 +1266,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!1 &4513904163959119564
 GameObject:
   m_ObjectHideFlags: 0

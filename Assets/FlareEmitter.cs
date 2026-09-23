@@ -48,6 +48,8 @@ public class FlareEmitter : MonoBehaviourPun
 
     private FlareIconManager flareIconManager;
 
+    public bool debug = false;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -81,6 +83,11 @@ public class FlareEmitter : MonoBehaviourPun
     void Update()
     {
 
+        if (debug && Input.GetKeyDown(KeyCode.K))
+        {
+            flareButtonDown = true;
+        }
+
         doRapidDeployTimer();
 
         // cooldown timer
@@ -89,6 +96,9 @@ public class FlareEmitter : MonoBehaviourPun
         doJammingTimer();
 
         doFlareSlotReloadTimer();
+
+
+        
 
     }
 
@@ -148,7 +158,8 @@ public class FlareEmitter : MonoBehaviourPun
     {
         if (cooldownTimer < 0f)
         {
-            if ((myFlow.isLocalPlayer || myFlow.aiControlled) && flareButtonDown)
+            //if ((myFlow.isLocalPlayer || myFlow.aiControlled || ) && flareButtonDown)
+            if(flareButtonDown)
             {
 
                 int flareSlot = getAvailableFlareIndex();

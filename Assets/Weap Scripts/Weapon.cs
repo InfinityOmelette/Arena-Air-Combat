@@ -73,7 +73,7 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     // TEMPORARY -- currently, stock count per type multiplied per hardpoint
     // Expected final version will have dynamic stock bias set via spawn UI
-    public int stockWeightPerHardpoint = 3;
+    //public int stockWeightPerHardpoint = 3;
 
     public int stockWeight = 1;
 

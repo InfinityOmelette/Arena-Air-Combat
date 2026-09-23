@@ -78,13 +78,14 @@ public class MissileGuidance : MonoBehaviour
 
     public bool isLocked;
 
-    public float maxLoftDegreesKM = 18f;
+    public float maxLoftDegrees = 18f;
     public float loftChangeSlope = 6.7f; // degrees per kilometer past minRange
     public float loftMinRangeKM = 3.3f; // kilometers
 
     public float mslInterceptionProxDist = 30f;
 
-    
+    public float corkscrewRate;
+    public float timeSinceLaunch = 0.0f;
 
     private void Awake()
     {
@@ -108,6 +109,11 @@ public class MissileGuidance : MonoBehaviour
 
         targetPos_now = new Vector3();
         targetPos_prev = new Vector3();
+    }
+
+    public float getETA()
+    {
+        return estimatedTimeToImpact;
     }
 
     public CombatFlow getFlow()
@@ -135,6 +141,7 @@ public class MissileGuidance : MonoBehaviour
 
         if (weaponRef.launched)
         {
+            timeSinceLaunch += Time.fixedDeltaTime;
 
             if (weaponRef.myTarget != null)
             {
@@ -309,6 +316,11 @@ public class MissileGuidance : MonoBehaviour
             // Loft formula based entirely off of distance
             leadDirection = loftAdjustment(leadDirection, targetBearingLine);
 
+            if (!corkscrewRate.Equals(0f))
+            {
+                leadDirection = corkscrewAdjustment(leadDirection, targetBearingLine);
+            }
+
             // Show lead direction
             //Debug.DrawRay(transform.position, leadDirection * Vector3.Distance(targetRB.position, transform.position), Color.green);
 
@@ -367,6 +379,14 @@ public class MissileGuidance : MonoBehaviour
         targetVel_prev = targetVel_now;
     }
 
+    private Vector3 corkscrewAdjustment(Vector3 interceptLine, Vector3 targetBearingLine)
+    {
+        float twistAngle = timeSinceLaunch * corkscrewRate;
+
+
+        return (Quaternion.AngleAxis(twistAngle, targetBearingLine)) * interceptLine;
+    }
+
 
     // See desmos chart "Missile loft angle vs distance"
     private Vector3 loftAdjustment(Vector3 interceptLine, Vector3 targetBearingLine)
@@ -381,7 +401,7 @@ public class MissileGuidance : MonoBehaviour
         }
         else
         {
-            float loftUpAngle = Mathf.Min(loftChangeSlope * (distance - loftMinRangeKM), maxLoftDegreesKM);
+            float loftUpAngle = Mathf.Min(loftChangeSlope * (distance - loftMinRangeKM), maxLoftDegrees);
 
             Vector3 angleUpAxis = Vector3.Cross(interceptLine, Vector3.up).normalized;
             return (Quaternion.AngleAxis(loftUpAngle, angleUpAxis) * interceptLine).normalized;

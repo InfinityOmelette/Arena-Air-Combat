@@ -32,6 +32,8 @@ public class RWR : MonoBehaviourPunCallbacks
 
     public WarningComputer warningComputer;
 
+    public bool checkClosestMissile = false;
+
     //private WarningComputer warnComputer;
     void Awake()
     {
@@ -58,7 +60,7 @@ public class RWR : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (myFlow.aiControlled || myFlow.isLocalPlayer || myFlow.localOwned)
+        if (checkClosestMissile || myFlow.aiControlled || myFlow.isLocalPlayer || myFlow.localOwned)
         {
             countDownClosestMissileTimer();
         }

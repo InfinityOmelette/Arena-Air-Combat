@@ -59,7 +59,7 @@ MonoBehaviour:
   - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
   - {fileID: 1928006486093276839, guid: d2bcdd024eb0a5343b126eecb07740bf, type: 3}
   - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
-  - {fileID: 1928006486093276839, guid: b59ff52cc0994ee4c8b290f7fc2b1162, type: 3}
+  - {fileID: 6833064068241929335, guid: 8ecbbec38a93756488b6c6355b90892c, type: 3}
   weaponLoader: {fileID: 0}
 --- !u!114 &4835299277701997196
 MonoBehaviour:
@@ -76,9 +76,15 @@ MonoBehaviour:
   activeAircraftPrefab: {fileID: 0}
   selectedAircraftPrefabHardpointController: {fileID: 0}
   prefabHardpoints: []
-  weaponsToEquip: []
   weaponDropdownOrigin: {fileID: 0}
   myTeamTechInventory: {fileID: 0}
   weaponDropdownPrefab: {fileID: 8030630887027095669, guid: 29365331ec4ff91438527338e6400727,
     type: 3}
   dropdownOffset: 27
+  loadoutPresetDropdown: {fileID: 0}
+  stockSliderOrigin: {fileID: 0}
+  stockSliderPrefab: {fileID: 0}
+  stockSliderOffset: 30
+  weightLabel: {fileID: 0}
+  acceptableWeight: 0
+  generateDefaultStockButton: {fileID: 0}

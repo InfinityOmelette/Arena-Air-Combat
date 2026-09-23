@@ -579,12 +579,22 @@ MonoBehaviour:
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
   customLoadouts:
   - name: Custom1
-    loadout: []
-    stock: 0b0000000500000001000000
+    loadout:
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: 8ecbbec38a93756488b6c6355b90892c, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 6833064068241929335, guid: 8ecbbec38a93756488b6c6355b90892c, type: 3}
+    - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
+    - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
+    - {fileID: 6833064068241929335, guid: 8ecbbec38a93756488b6c6355b90892c, type: 3}
+    stock: 0b0000000000000001000000
     generateDefaultStock: 0
     weaponTypes:
     - {fileID: -5879226886572976462, guid: c1e013f94f45224449ed975f068a1c5d, type: 3}
-    - {fileID: 6833064068241929335, guid: d7c3b0248a49d1e409f93b1e7e771ce6, type: 3}
+    - {fileID: 6833064068241929335, guid: 8ecbbec38a93756488b6c6355b90892c, type: 3}
     - {fileID: 7904526581182807849, guid: 18ebd03327c38e448812fa1002c951ae, type: 3}
   - name: Custom2
     loadout: []
@@ -2213,6 +2223,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 1
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!114 &2320197551087535654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2273,6 +2284,7 @@ MonoBehaviour:
   flareLaunchR: {fileID: 6698832646241830736}
   jammingTimeMax: 1.5
   flareButtonDown: 0
+  debug: 0
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0

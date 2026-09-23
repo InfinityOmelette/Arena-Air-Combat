@@ -1998,11 +1998,10 @@ MonoBehaviour:
   launchSound: {fileID: 8300000, guid: 1e9c71f9a11b0944daac0fec3df97c06, type: 3}
   flightSound: {fileID: 0}
   launchSoundVolume: 1
-  reloadTimeDefault: 25
+  reloadTimeDefault: 45
   att_weight: 2
   att_guidance: 1
   att_domain: 0
-  stockWeightPerHardpoint: 3
   stockWeight: 3
   ownerObj: {fileID: 0}
   proximityFuseRange: 7
@@ -2036,10 +2035,12 @@ MonoBehaviour:
   scanConeFactor: 0.9
   timeRemainDragEstFactor: 15
   isLocked: 0
-  maxLoftDegreesKM: 18
+  maxLoftDegrees: 18
   loftChangeSlope: 6.7
   loftMinRangeKM: 3.3
   mslInterceptionProxDist: 30
+  corkscrewRate: 0
+  timeSinceLaunch: 0
 --- !u!114 &6223456275018982061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2380,6 +2381,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!1001 &6437774213159727073
 PrefabInstance:
   m_ObjectHideFlags: 0

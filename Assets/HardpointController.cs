@@ -221,7 +221,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
             // this is TEMPORARY -- final version will have stock bias set from respawn UI
             //  this version multiplies stock of each type by # of hardpoints with that type
-            int weaponStockWeight = hardpoints[i].weaponTypePrefab.GetComponent<Weapon>().stockWeightPerHardpoint;
+            //int weaponStockWeight = hardpoints[i].weaponTypePrefab.GetComponent<Weapon>().stockWeightPerHardpoint;
 
             short typeIndex = findTypeIndex(hardpoints[i].weaponTypePrefab);
 

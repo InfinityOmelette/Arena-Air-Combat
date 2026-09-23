@@ -118,7 +118,8 @@ public class AI_MissileEvade : MonoBehaviour
                 currentDir = planarDrag(msl, currentDir);
             }
 
-            flare.flareButtonDown = impactTime < flareDropTime && msl.myRb.velocity.magnitude > flareMissileVelocityMin;
+            flare.flareButtonDown = impactTime < flareDropTime 
+                && msl.myRb.velocity.magnitude > flareMissileVelocityMin;
         }
 
 

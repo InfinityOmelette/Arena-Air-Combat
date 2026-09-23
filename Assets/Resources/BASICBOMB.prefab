@@ -1430,7 +1430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 120
-  damage: 3500
+  damage: 8000
   collisionsEnabled: 1
   dissipationTime: 30
   emitLightEnabled: 1
@@ -1504,7 +1504,6 @@ MonoBehaviour:
   att_weight: 2
   att_guidance: 0
   att_domain: 1
-  stockWeightPerHardpoint: 3
   stockWeight: 3
   ownerObj: {fileID: 0}
   myCombatFlow: {fileID: 0}
@@ -1554,6 +1553,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!1 &5682025624188498081
 GameObject:
   m_ObjectHideFlags: 0

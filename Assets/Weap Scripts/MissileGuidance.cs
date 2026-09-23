@@ -319,6 +319,8 @@ public class MissileGuidance : MonoBehaviour
             if (!corkscrewRate.Equals(0f))
             {
                 leadDirection = corkscrewAdjustment(leadDirection, targetBearingLine);
+
+                //leadDirection = seaAvoid(leadDirection);
             }
 
             // Show lead direction
@@ -383,10 +385,51 @@ public class MissileGuidance : MonoBehaviour
     {
         float twistAngle = timeSinceLaunch * corkscrewRate;
 
+        Vector3 newDir = (Quaternion.AngleAxis(twistAngle, targetBearingLine)) * interceptLine;
 
-        return (Quaternion.AngleAxis(twistAngle, targetBearingLine)) * interceptLine;
+        newDir = seaAvoid(newDir);
+
+        return newDir;
     }
 
+    private Vector3 seaAvoid(Vector3 desireDir)
+    {
+
+        Vector3 newDir = desireDir;
+
+        float extensionTime = Mathf.Min(1.5f, estimateTimeToImpact(targetBearingLine));
+
+
+
+        float yGroundAvoidBuffer = 10f; // 15m from sea floor
+
+        newDir = (newDir.normalized) * (myRB.velocity.magnitude) * extensionTime;
+
+
+
+        Vector3 aimpointWorldSpace = transform.position + newDir;
+
+
+
+        //Debug.Log("SeaAvoid Data ------------- newDir: " + newDir + 
+        //    " with velocity: " + myRB.velocity.magnitude);
+
+        aimpointWorldSpace.y = Mathf.Max(aimpointWorldSpace.y, yGroundAvoidBuffer);
+
+        newDir = (aimpointWorldSpace - transform.position).normalized;
+
+        
+
+        return newDir;
+    }
+
+    private float estimateTimeToImpact(Vector3 targetBearingLine)
+    {
+        Vector3 velToTarget = Vector3.Project(myRB.velocity, targetBearingLine);
+
+
+        return targetBearingLine.magnitude / velToTarget.magnitude;
+    }
 
     // See desmos chart "Missile loft angle vs distance"
     private Vector3 loftAdjustment(Vector3 interceptLine, Vector3 targetBearingLine)

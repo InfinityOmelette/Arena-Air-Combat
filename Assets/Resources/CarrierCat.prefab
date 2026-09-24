@@ -33299,9 +33299,11 @@ MonoBehaviour:
   isCarrier: 0
   myFlow: {fileID: 0}
   cannon: {fileID: 0}
-  farAheadStandoff: 0
-  slightAheadStandoff: 800
-  farBehindStandoff: 1300
+  farAheadThresh: 500
+  slightAheadThresh: 300
+  desiredStandoff: 1000
+  slightBehindThresh: -300
+  independentNavThreshold: 800
   debugStandoffRead: 0
 --- !u!1 &4365606027760939449
 GameObject:

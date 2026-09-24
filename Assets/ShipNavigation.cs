@@ -137,7 +137,7 @@ public class ShipNavigation : MonoBehaviour
 
     }
 
-    private void receiveFleetNavOrder()
+    protected void receiveFleetNavOrder()
     {
         changeNavmode(admiral.getFleetNavOrder());
 

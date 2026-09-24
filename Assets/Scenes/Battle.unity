@@ -627,6 +627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 67256840}
   - component: {fileID: 67256839}
+  - component: {fileID: 67256841}
   m_Layer: 0
   m_Name: Team2 LaneAdmiral Top
   m_TagString: Untagged
@@ -658,6 +659,9 @@ MonoBehaviour:
   fleetTickTimer: 0
   invertFormationOffset: 1
   opponentAdmiral: {fileID: 86811876}
+  admiralStrat: {fileID: 0}
+  lane: 0
+  team: 1
 --- !u!4 &67256840
 Transform:
   m_ObjectHideFlags: 0
@@ -675,6 +679,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 108
   m_LocalEulerAnglesHint: {x: 0, y: -135, z: 0}
+--- !u!114 &67256841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67256838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b595a78dd5bf44bae0cc5367744ce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombardStandoffOnAxis: 6000
+  admiral: {fileID: 0}
+  standoffHaltBuffer: 500
 --- !u!1001 &70361491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -922,6 +941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 86811877}
   - component: {fileID: 86811876}
+  - component: {fileID: 86811878}
   m_Layer: 0
   m_Name: Team1 LaneAdmiral Top
   m_TagString: Untagged
@@ -953,6 +973,9 @@ MonoBehaviour:
   fleetTickTimer: 0
   invertFormationOffset: 0
   opponentAdmiral: {fileID: 67256839}
+  admiralStrat: {fileID: 0}
+  lane: 0
+  team: 0
 --- !u!4 &86811877
 Transform:
   m_ObjectHideFlags: 0
@@ -973,6 +996,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 95
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &86811878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86811875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b595a78dd5bf44bae0cc5367744ce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombardStandoffOnAxis: 6000
+  admiral: {fileID: 0}
+  standoffHaltBuffer: 500
 --- !u!1 &88078956
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,7 +2022,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: e87ceec3c2ae282438efc70bda6e6a5d,
         type: 3}
       propertyPath: m_Name
-      value: Factory (Strategic Target)
+      value: FACTORY Team1 Bot1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87ceec3c2ae282438efc70bda6e6a5d, type: 3}
@@ -3011,6 +3049,7 @@ MonoBehaviour:
   creepsPerWave: 0
   lane: 0
   spawnFOBs: []
+  laneStructures: []
 --- !u!4 &310122044
 Transform:
   m_ObjectHideFlags: 0
@@ -3433,7 +3472,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: e87ceec3c2ae282438efc70bda6e6a5d,
         type: 3}
       propertyPath: m_Name
-      value: Factory (Strategic Target) (4)
+      value: FACTORY Team2 Top1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87ceec3c2ae282438efc70bda6e6a5d, type: 3}
@@ -3519,7 +3558,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (10)
+      value: FOB Team2 Top1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -4023,7 +4062,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower Top Mid 2
+      value: GUNTOWER Team2 Top2
       objectReference: {fileID: 0}
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -4328,7 +4367,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower Bottom Front 1
+      value: GUNTOWER Team1 Bot3
       objectReference: {fileID: 0}
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -6458,7 +6497,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (9)
+      value: FOB Team1 Bot1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -6647,7 +6686,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target) (3)
+      value: GUNTOWER Team2 Bot1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -6727,6 +6766,7 @@ MonoBehaviour:
   creepsPerWave: 0
   lane: 0
   spawnFOBs: []
+  laneStructures: []
 --- !u!4 &671980920
 Transform:
   m_ObjectHideFlags: 0
@@ -7948,7 +7988,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: e87ceec3c2ae282438efc70bda6e6a5d,
         type: 3}
       propertyPath: m_Name
-      value: Factory (Strategic Target) (2)
+      value: FACTORY Team1 Top1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87ceec3c2ae282438efc70bda6e6a5d, type: 3}
@@ -8104,7 +8144,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target) (2)
+      value: GUNTOWER Team1 Bot1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -8306,6 +8346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 925735337}
   - component: {fileID: 925735336}
+  - component: {fileID: 925735338}
   m_Layer: 0
   m_Name: Team2 LaneAdmiral Bottom
   m_TagString: Untagged
@@ -8337,6 +8378,9 @@ MonoBehaviour:
   fleetTickTimer: 0
   invertFormationOffset: 0
   opponentAdmiral: {fileID: 1508979710}
+  admiralStrat: {fileID: 0}
+  lane: 1
+  team: 1
 --- !u!4 &925735337
 Transform:
   m_ObjectHideFlags: 0
@@ -8354,6 +8398,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 104
   m_LocalEulerAnglesHint: {x: 0, y: -135, z: 0}
+--- !u!114 &925735338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925735335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b595a78dd5bf44bae0cc5367744ce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombardStandoffOnAxis: 6000
+  admiral: {fileID: 0}
+  standoffHaltBuffer: 500
 --- !u!1 &928903283
 GameObject:
   m_ObjectHideFlags: 0
@@ -8447,6 +8506,7 @@ MonoBehaviour:
   creepsPerWave: 0
   lane: 1
   spawnFOBs: []
+  laneStructures: []
 --- !u!4 &928903286
 Transform:
   m_ObjectHideFlags: 0
@@ -8584,7 +8644,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower Bottom Front 2
+      value: GUNTOWER Team2 Bot3
       objectReference: {fileID: 0}
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -8898,7 +8958,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (11)
+      value: FOB Team2 Bot1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -9052,7 +9112,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target) (3)
+      value: GUNTOWER Team1 Base
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -9421,7 +9481,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target) (4)
+      value: GUNTOWER Team2 Mid
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -9857,7 +9917,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (3)
+      value: FOB Team2 Top2
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -10130,7 +10190,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (6)
+      value: FOB Team1 Bot3
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -10369,7 +10429,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: Factory (strategic target) (8)
+      value: FOB Team1 Top1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -11377,7 +11437,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: e87ceec3c2ae282438efc70bda6e6a5d,
         type: 3}
       propertyPath: m_Name
-      value: Factory (Strategic Target) (6)
+      value: FACTORY Team2 Bot1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87ceec3c2ae282438efc70bda6e6a5d, type: 3}
@@ -12046,7 +12106,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target)
+      value: GUNTOWER Team1 Top1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -12175,7 +12235,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target)
+      value: FOB Team1 Top2
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -12423,7 +12483,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower Top Front 2
+      value: GUNTOWER Team2 Top3
       objectReference: {fileID: 0}
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -13147,7 +13207,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (7)
+      value: FOB Team1 Bot2
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -13397,7 +13457,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target) (1)
+      value: GUNTOWER Team1 Mid
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -13594,7 +13654,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (1)
+      value: FOB Team1 Top3
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -14434,6 +14494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1508979711}
   - component: {fileID: 1508979710}
+  - component: {fileID: 1508979712}
   m_Layer: 0
   m_Name: Team1 LaneAdmiral Bottom
   m_TagString: Untagged
@@ -14465,6 +14526,9 @@ MonoBehaviour:
   fleetTickTimer: 0
   invertFormationOffset: 1
   opponentAdmiral: {fileID: 925735336}
+  admiralStrat: {fileID: 0}
+  lane: 1
+  team: 0
 --- !u!4 &1508979711
 Transform:
   m_ObjectHideFlags: 0
@@ -14482,6 +14546,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 100
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &1508979712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508979709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b595a78dd5bf44bae0cc5367744ce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombardStandoffOnAxis: 6000
+  admiral: {fileID: 0}
+  standoffHaltBuffer: 500
 --- !u!1001 &1516160366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14948,7 +15027,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower Bottom Mid 2
+      value: GUNTOWER Team2 Bot2
       objectReference: {fileID: 0}
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -16414,7 +16493,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (2)
+      value: FOB Team2 Top3
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -16503,7 +16582,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: e87ceec3c2ae282438efc70bda6e6a5d,
         type: 3}
       propertyPath: m_Name
-      value: Factory (Strategic Target) (5)
+      value: FACTORY Team2 Mid
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87ceec3c2ae282438efc70bda6e6a5d, type: 3}
@@ -17332,7 +17411,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (4)
+      value: FOB Team2 Bot2
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -17662,7 +17741,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: e87ceec3c2ae282438efc70bda6e6a5d,
         type: 3}
       propertyPath: m_Name
-      value: Factory (Strategic Target) (3)
+      value: FACTORY Team1 Base
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87ceec3c2ae282438efc70bda6e6a5d, type: 3}
@@ -17957,7 +18036,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target) (2)
+      value: GUNTOWER Team2 Top1
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -18825,7 +18904,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: e87ceec3c2ae282438efc70bda6e6a5d,
         type: 3}
       propertyPath: m_Name
-      value: Factory (Strategic Target) (1)
+      value: FACTORY Team1 Mid
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e87ceec3c2ae282438efc70bda6e6a5d, type: 3}
@@ -19228,6 +19307,7 @@ MonoBehaviour:
   creepsPerWave: 0
   lane: 1
   spawnFOBs: []
+  laneStructures: []
 --- !u!4 &1964274538
 Transform:
   m_ObjectHideFlags: 0
@@ -19780,7 +19860,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: b9991383782411448a521994b902e4a6,
         type: 3}
       propertyPath: m_Name
-      value: FOB (strategic target) (5)
+      value: FOB Team2 Bot3
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: b9991383782411448a521994b902e4a6,
         type: 3}
@@ -20239,7 +20319,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower (Strategic Target) (5)
+      value: GUNTOWER Team2 Base
       objectReference: {fileID: 0}
     - target: {fileID: 6160939690606194593, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
@@ -22170,7 +22250,7 @@ PrefabInstance:
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}
       propertyPath: m_Name
-      value: Gun Tower Bottom Mid 1
+      value: GUNTOWER Team1 Bot2
       objectReference: {fileID: 0}
     - target: {fileID: 5736856393275262558, guid: 1b266e897044349459b289aaacd62995,
         type: 3}

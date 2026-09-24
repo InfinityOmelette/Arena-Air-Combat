@@ -98,6 +98,8 @@ public class LaneManager : MonoBehaviourPunCallbacks
     public List<CreepSpawnPoint> spawnFOBs;
 
 
+    public List<StrategicTarget> laneStructures;
+
     void Awake()
     {
         spawnFOBs = new List<CreepSpawnPoint>();

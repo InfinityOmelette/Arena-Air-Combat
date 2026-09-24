@@ -31,6 +31,9 @@ public class StrategicTarget : MonoBehaviour
     public SpawnBank bank;
 
 
+    //public static List<List<StrategicTarget>> allStructures;
+
+
     public enum Lane
     {
         TOP,

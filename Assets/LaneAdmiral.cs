@@ -37,6 +37,11 @@ public class LaneAdmiral : MonoBehaviour
 
     public LaneAdmiral opponentAdmiral;
 
+    public AdmiralStrategy admiralStrat;
+
+    public StrategicTarget.Lane lane;
+    public CombatFlow.Team team;
+
     private void Awake()
     {
         generateWaypointsFromChildren();
@@ -44,6 +49,8 @@ public class LaneAdmiral : MonoBehaviour
         {
             formationInversionCoeff = -1.0f;
         }
+
+        admiralStrat = GetComponent<AdmiralStrategy>();
     }
 
     public float getFormationInversion()
@@ -119,7 +126,7 @@ public class LaneAdmiral : MonoBehaviour
     {
         if (isFleetReady() || isFleetDeployed())
         {
-            fleetNavOrder = ShipNavigation.NavMode.ADVANCE;
+            fleetNavOrder = admiralStrat.fleetStrategy();
         }
         else
         {
@@ -294,6 +301,11 @@ public class LaneAdmiral : MonoBehaviour
             return laneAxisPos(transform.position);
         }
         return laneAxisPos(ship.transform.position);
+    }
+
+    public float laneAxisPos(GameObject obj)
+    {
+        return laneAxisPos(obj.transform.position);
     }
 
     public float laneAxisPos(Vector3 pos)

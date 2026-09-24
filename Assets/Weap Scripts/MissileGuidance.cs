@@ -87,6 +87,9 @@ public class MissileGuidance : MonoBehaviour
     public float corkscrewRate;
     public float timeSinceLaunch = 0.0f;
 
+
+    public bool avoidGround = false;
+
     private void Awake()
     {
         missileRef = GetComponent<BasicMissile>();
@@ -316,11 +319,18 @@ public class MissileGuidance : MonoBehaviour
             // Loft formula based entirely off of distance
             leadDirection = loftAdjustment(leadDirection, targetBearingLine);
 
+            float ETA = estimateTimeToImpact(targetBearingLine);
+
             if (!corkscrewRate.Equals(0f))
             {
-                leadDirection = corkscrewAdjustment(leadDirection, targetBearingLine);
+                leadDirection = corkscrewAdjustment(leadDirection, targetBearingLine, ETA);
 
                 //leadDirection = seaAvoid(leadDirection);
+            }
+
+            if (avoidGround)
+            {
+                leadDirection = groundAvoid(leadDirection, ETA);
             }
 
             // Show lead direction
@@ -381,23 +391,69 @@ public class MissileGuidance : MonoBehaviour
         targetVel_prev = targetVel_now;
     }
 
+
     private Vector3 corkscrewAdjustment(Vector3 interceptLine, Vector3 targetBearingLine)
+    {
+        return corkscrewAdjustment(interceptLine, 
+            targetBearingLine, estimateTimeToImpact(targetBearingLine));
+    }
+
+    private Vector3 corkscrewAdjustment(Vector3 interceptLine, Vector3 targetBearingLine, float ETA)
     {
         float twistAngle = timeSinceLaunch * corkscrewRate;
 
         Vector3 newDir = (Quaternion.AngleAxis(twistAngle, targetBearingLine)) * interceptLine;
 
-        newDir = seaAvoid(newDir);
+        newDir = seaAvoid(newDir, ETA);
 
         return newDir;
     }
 
-    private Vector3 seaAvoid(Vector3 desireDir)
+
+
+    private Vector3 groundAvoid(Vector3 desireDir, float ETA)
+    {
+        Vector3 newDir = desireDir;
+
+        float extensionTime = Mathf.Min(1.5f, ETA);
+
+        newDir = (newDir.normalized) * (myRB.velocity.magnitude) * extensionTime;
+        //Debug.DrawRay(transform.position, newDir, Color.green, 1f);
+
+        RaycastHit hit;
+        int terrainLayer = 1 << 10;
+
+        if(Physics.Raycast(transform.position, newDir, out hit, newDir.magnitude, terrainLayer))
+        {
+            Vector3 hitPoint = hit.point;
+            Vector3 hitNormal = Vector3.ProjectOnPlane(hit.normal, desireDir).normalized;
+
+            float hitBuffer = 80f; // fly this many meters above hitpoint
+            hitPoint += hitNormal * hitBuffer;
+
+            
+
+            newDir = (hitPoint - transform.position).normalized;
+
+            //Debug.DrawRay(transform.position, newDir, Color.blue, 1f);
+           //Debug.DrawRay(hit.point, hitNormal * hitBuffer, Color.red, 1f);
+
+           // Debug.LogError("--------------- Missile groundavoid raycast triggered");
+
+            
+
+        }
+
+
+        return newDir;
+    }
+
+    private Vector3 seaAvoid(Vector3 desireDir, float ETA)
     {
 
         Vector3 newDir = desireDir;
 
-        float extensionTime = Mathf.Min(1.5f, estimateTimeToImpact(targetBearingLine));
+        float extensionTime = Mathf.Min(1.5f, ETA);
 
 
 

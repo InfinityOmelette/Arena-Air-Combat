@@ -46,14 +46,21 @@ public class SamAI : MonoBehaviour
     public bool triggerAlertness = false;
     public bool bypassAlertness = false;
 
+    public Magazine mag;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rootFlow = transform.root.GetComponent<CombatFlow>();
         radar = rootFlow.GetComponent<Radar>();
         samNet = rootFlow.GetComponent<SamNetworking>();
         alertness = rootFlow.GetComponent<UnitAlertness>();
+        mag = GetComponent<Magazine>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
 
     }
 
@@ -103,39 +110,29 @@ public class SamAI : MonoBehaviour
     {
         //Debug.LogWarning("SAM reload timer: " + fireRateTimer);
 
-        if (rootFlow.isHostInstance)
+        // fire as soon as target acquired
+        if (rootFlow.isHostInstance && currentTarget != null)
         {
-            if (fireRateTimer >= 0)
+            if (locked)
             {
-                fireRateTimer -= Time.deltaTime;
-            }
-            else // ready to fire
-            {
-                
-                // fire as soon as target acquired
-                if(currentTarget != null)
+                if (Vector3.Distance(currentTarget.transform.position, transform.position) < maxLaunchRange
+                     && mag.tryShoot())
                 {
-                    if(locked)
-                    {
-                        if (Vector3.Distance(currentTarget.transform.position, transform.position) < maxLaunchRange)
-                        {
-                            // do fire
-                            // reset timer
-                            samNet.launchMissile(currentTarget, this);
-                            //Debug.LogError("Firing SAM at " + currentTarget.name);
-                            fireRateTimer = fireRateDelay;
-                        }
-                    }
-                    else
-                    {
-                        acquireCountdown();
-                    }
-
+                    samNet.launchMissile(currentTarget, this);
+                    //Debug.LogError("Firing SAM at " + currentTarget.name);
+                    //fireRateTimer = fireRateDelay;
                 }
+
             }
-            
+            else // selected target not yet locked --> try to lock
+            {
+                acquireCountdown();
+            }
+
         }
     }
+
+  
 
     private bool acquireCountdown()
     {

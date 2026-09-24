@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 4529429294983318342}
   - component: {fileID: 1551006744349778256}
   - component: {fileID: 6581382952840814037}
+  - component: {fileID: 1150618437123128752}
   m_Layer: 9
   m_Name: TankTurret
   m_TagString: Untagged
@@ -397,6 +398,7 @@ MonoBehaviour:
   useExternAim: 0
   setFuze: 0
   parentTurret: {fileID: 0}
+  mag: {fileID: 0}
 --- !u!114 &6581382952840814037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +425,21 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+--- !u!114 &1150618437123128752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5609040187651201876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5fc866379b009046bbf31fea9b810e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRateDelay: 1.5
+  reloadDelay: 7
+  roundsPerMag: 1
 --- !u!1 &5829744366641863615
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +642,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!1 &5968324385412187183
 GameObject:
   m_ObjectHideFlags: 0

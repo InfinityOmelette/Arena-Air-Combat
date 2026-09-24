@@ -63,11 +63,14 @@ public class TankTurret : MonoBehaviour
 
     public AI_TurretMG parentTurret;
 
+    public Magazine mag;
+
     //public float elev;
 
-        void Awake()
+    void Awake()
     {
         tankShell = shellSettings.GetComponent<TankShell>();
+        mag = GetComponent<Magazine>();
     }
 
     // Start is called before the first frame update
@@ -119,6 +122,7 @@ public class TankTurret : MonoBehaviour
 
         fireMissionProcess();
 
+
     }
 
     public void setShellTeam(CombatFlow.Team team)
@@ -129,41 +133,44 @@ public class TankTurret : MonoBehaviour
 
     private void fireMissionProcess()
     {
-        if (roundsInCurrentMag > 0) // rounds in mag, try to fire
-        {
 
-            if (fireRateTimer > 0) // keep waiting until shot is loaded
-            {
-                fireRateTimer -= Time.fixedDeltaTime;
-            }
-            else if (fireMission)   // wait complete, firemission active, do a shot
-            {
-                if (target != null)
-                {
-                    fireRateTimer = fireRateDelay;
-                    fireSequence();
-                }
-            }
-        }
-        else // no rounds in mag, try to reload
+        if (target != null && fireMission && mag.tryShoot())
         {
-            if (reloadTimer > 0) // wait for reload
-            {
-                reloadTimer -= Time.fixedDeltaTime;
-            }
-            else // wait complete, perform reload
-            {
-                reloadTimer = reloadDelay;
-                roundsInCurrentMag = roundsPerMag;
-
-            }
+            //fireRateTimer = fireRateDelay;
+            fireSequence();
         }
+
+        //if (roundsInCurrentMag > 0) // rounds in mag, try to fire
+        //{
+
+        //    if (fireRateTimer > 0) // keep waiting until shot is loaded
+        //    {
+        //        fireRateTimer -= Time.fixedDeltaTime;
+        //    }
+        //    else if (fireMission)   // wait complete, firemission active, do a shot
+        //    {
+
+        //    }
+        //}
+        //else // no rounds in mag, try to reload
+        //{
+        //    if (reloadTimer > 0) // wait for reload
+        //    {
+        //        reloadTimer -= Time.fixedDeltaTime;
+        //    }
+        //    else // wait complete, perform reload
+        //    {
+        //        reloadTimer = reloadDelay;
+        //        roundsInCurrentMag = roundsPerMag;
+
+        //    }
+        //}
     }
 
 
     private void fireSequence()
     {
-        roundsInCurrentMag--;
+        //roundsInCurrentMag--;
         if (!useExternAim)
         {
             setAim(target);

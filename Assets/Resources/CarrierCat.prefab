@@ -33033,6 +33033,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!114 &-7553982780568947483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33217,6 +33218,7 @@ MonoBehaviour:
   followerOffset: {fileID: 0}
   isCarrier: 0
   myFlow: {fileID: 0}
+  cannon: {fileID: 0}
   farAheadStandoff: 0
   slightAheadStandoff: 800
   farBehindStandoff: 1300
@@ -68419,6 +68421,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919332582832109050, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: reloadDelay
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919332582832109050, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: fireRateDelay
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

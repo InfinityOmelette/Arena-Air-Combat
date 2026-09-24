@@ -413,6 +413,7 @@ GameObject:
   - component: {fileID: 4825768402240153147}
   - component: {fileID: 2846866022197858923}
   - component: {fileID: 2269430303102979476}
+  - component: {fileID: 3627168639572013972}
   m_Layer: 0
   m_Name: CannonBarrel
   m_TagString: Untagged
@@ -453,6 +454,7 @@ MonoBehaviour:
   target: {fileID: 0}
   shellSpeed: 850
   highTraject: 0
+  trajectyMode: 0
   shellSpreadHoriz: 0.25
   shellSpreadVert: 0.25
   fireRateDelay: 0.75
@@ -464,6 +466,7 @@ MonoBehaviour:
   useExternAim: 1
   setFuze: 1
   parentTurret: {fileID: 1400340902987679711}
+  mag: {fileID: 0}
 --- !u!114 &2269430303102979476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,6 +493,21 @@ MonoBehaviour:
   team: 2
   doExplode: 1
   armingTime: 0
+--- !u!114 &3627168639572013972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825768402240153150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5fc866379b009046bbf31fea9b810e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRateDelay: 0.75
+  reloadDelay: 2
+  roundsPerMag: 5
 --- !u!1 &4978078762617391174
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +802,12 @@ MonoBehaviour:
   estimatedTimeToImpact: 0
   targetTypes: 00000000
   tankTurret: {fileID: 2846866022197858923}
+  targetClosingTrim: 1
+  alertness: {fileID: 0}
+  bypassAlertness: 0
+  triggerAlertness: 0
+  bypassLineOfSight: 0
+  prioritizeNavalTargets: 0
 --- !u!1 &6635683841000636922
 GameObject:
   m_ObjectHideFlags: 0

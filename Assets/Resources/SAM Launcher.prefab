@@ -965,6 +965,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3205606781800231424}
   - component: {fileID: 7534161316425597086}
+  - component: {fileID: 3919332582832109050}
   m_Layer: 0
   m_Name: SAM Launcher
   m_TagString: Untagged
@@ -1010,6 +1011,28 @@ MonoBehaviour:
   missilePrefab: {fileID: 4101333296510952865, guid: 02885b95f14193a4db2e87fd84373403,
     type: 3}
   acquireTimeMax: 5
+  active: 1
+  maxTargetSaturation_Projectile: 1
+  maxTargetSaturation_Aircraft: 3
+  closerOversaturateMargin: 3000
+  alertness: {fileID: 0}
+  triggerAlertness: 0
+  bypassAlertness: 0
+--- !u!114 &3919332582832109050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3707171475655768705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5fc866379b009046bbf31fea9b810e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRateDelay: 5
+  reloadDelay: 20
+  roundsPerMag: 5
 --- !u!1 &3798520693189574381
 GameObject:
   m_ObjectHideFlags: 0

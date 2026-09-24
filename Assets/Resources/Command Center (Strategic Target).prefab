@@ -3207,6 +3207,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!114 &7537817030063335737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3298,6 +3299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lanes: []
   laneSupplyBias: []
+  shipLanes: []
+  shipLaneSupplyBias: []
   factories: []
   myFlow: {fileID: 0}
   myStrat: {fileID: 0}
@@ -5755,6 +5758,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SAM Launcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919332582832109050, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: fireRateDelay
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

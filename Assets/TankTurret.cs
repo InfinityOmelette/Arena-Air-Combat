@@ -188,6 +188,7 @@ public class TankTurret : MonoBehaviour
 
         targetPos = leadTargetPos(targetPos, target.GetComponent<Rigidbody>().velocity);
 
+        //CombatFlow targetFlow = target.GetComponent<CombatFlow>();
 
         float distance = Vector3.Distance(myPos, targetPos);
 
@@ -300,6 +301,13 @@ public class TankTurret : MonoBehaviour
 
     private Quaternion getShellSpreadRotation(float horizSpread, float vertSpread)
     {
+        if (target.GetComponent<CombatFlow>().jamming)
+        {
+            float jamFactor = 8f;
+            horizSpread *= jamFactor;
+            vertSpread *= jamFactor;
+            Debug.Log("Tank turret's target is jamming, increasing spread");
+        }
 
         horizSpread = Random.Range(-horizSpread, horizSpread);
         vertSpread = Random.Range(-vertSpread, vertSpread);

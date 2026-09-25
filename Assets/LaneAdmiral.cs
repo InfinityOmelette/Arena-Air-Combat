@@ -42,6 +42,9 @@ public class LaneAdmiral : MonoBehaviour
     public StrategicTarget.Lane lane;
     public CombatFlow.Team team;
 
+    public bool biasRightReturning = false;
+    private int turnaroundSteerBiasDefault;
+
     private void Awake()
     {
         generateWaypointsFromChildren();
@@ -51,11 +54,36 @@ public class LaneAdmiral : MonoBehaviour
         }
 
         admiralStrat = GetComponent<AdmiralStrategy>();
+
+        initTurnaroundSteerBias();
     }
+
+
+    // Positive --> steer right
+    // Negative --> steer left
+    private void initTurnaroundSteerBias()
+    {
+        if (biasRightReturning)
+        {
+            turnaroundSteerBiasDefault = 1;
+        }
+        else
+        {
+            turnaroundSteerBiasDefault = -1;
+        }
+    }
+
 
     public float getFormationInversion()
     {
-        return formationInversionCoeff;
+        float retreatingCoeff = 1f;
+        // switch sides if retreating so followers don't hit terrain lol
+        if(fleetNavOrder == ShipNavigation.NavMode.RETREAT)
+        {
+            retreatingCoeff = -1f;
+        }
+
+        return formationInversionCoeff * retreatingCoeff;
     }
 
     public bool isFleetReady()
@@ -294,6 +322,27 @@ public class LaneAdmiral : MonoBehaviour
         return nextIndex;
     }
 
+    public int turnaroundSteerBias(int fwdAxisSign)
+    {
+        // STEER RIGHT --> POSITIVE
+        // STEER LEFT  --> NEGATIVE
+
+        int bias;
+
+        // vehicle currently pointed downrange, trying to turn around
+        // steer AWAY from land
+        if (fwdAxisSign > 0)
+        {
+            bias = turnaroundSteerBiasDefault;
+        }
+        else 
+        {
+            bias = -turnaroundSteerBiasDefault;
+        }
+
+        return bias;
+    }
+
     public float laneAxisPos(ShipNavigation ship)
     {
         if(ship == null)
@@ -311,6 +360,13 @@ public class LaneAdmiral : MonoBehaviour
     public float laneAxisPos(Vector3 pos)
     {
         return transform.InverseTransformPoint(pos).z;
+    }
+
+    // positive: dir pointing downrange (towards enemy)
+    // negative: dir pointing uprange (towards home)
+    public float laneAxisDirLength(Vector3 dir)
+    {
+        return transform.InverseTransformDirection(dir).z;
     }
 
     public int closestRetreatWaypointIndex(ShipNavigation ship)

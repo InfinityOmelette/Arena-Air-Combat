@@ -52,7 +52,12 @@ public class ShipNavigation : MonoBehaviour
     {
         shipPhysics = GetComponent<ShipPhysics>();
         myFlow = GetComponent<CombatFlow>();
+
+
+
     }
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -183,7 +188,9 @@ public class ShipNavigation : MonoBehaviour
                 Vector3 offset = leader.followerOffset.localPosition * formationIndex;
                 
                 // choose which side to form up on based on admiral's setting for lane
-                offset = new Vector3(offset.x * admiral.getFormationInversion(), offset.y, offset.z);
+                //offset = new Vector3(, offset.y, offset.z);
+
+                offset.x = offset.x * admiral.getFormationInversion();
 
                 currentFormPos = currentFormPos - offset;
 
@@ -365,14 +372,33 @@ public class ShipNavigation : MonoBehaviour
     //    return cannon == null || cannon.target == null;
     //}
 
+
+    // Positive --> steer right
+    // Negative --> steer left
     protected float steerToDir(Vector3 dir)
     {
 
         float signedAngleError = Vector3.SignedAngle(transform.forward, dir, Vector3.up);
         float errorScale = Mathf.Clamp(signedAngleError / maxHeadingErrorDegrees, -1f, 1f);
 
-        return errorScale;
+
+        int dirAxisSign = Mathf.RoundToInt(Mathf.Sign(admiral.laneAxisDirLength(dir)));
+        int fwdAxisSign = Mathf.RoundToInt(Mathf.Sign(admiral.laneAxisDirLength(transform.forward)));
+        
+        
+        // no turnaround attempted, steer directly to dir
+        if (dirAxisSign == fwdAxisSign)
+        {
+            return errorScale;
+        }
+        else // attempting to turn around --> steer away from land
+        {
+            return Mathf.Abs(errorScale) * admiral.turnaroundSteerBias(fwdAxisSign);
+        }
+
+       
     }
+
 
     private void OnDestroy()
     {

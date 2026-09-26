@@ -48,6 +48,8 @@ public class ShipNavigation : MonoBehaviour
 
     public TankTurret cannon;
 
+    
+
     private void Awake()
     {
         shipPhysics = GetComponent<ShipPhysics>();
@@ -279,6 +281,7 @@ public class ShipNavigation : MonoBehaviour
     {
         switch (navMode)
         {
+            case NavMode.FOLLOW:
             case NavMode.ADVANCE:
                 currentWptIndex++;
                 break;
@@ -378,10 +381,11 @@ public class ShipNavigation : MonoBehaviour
 
         int dirAxisSign = Mathf.RoundToInt(Mathf.Sign(admiral.laneAxisDirLength(dir)));
         int fwdAxisSign = Mathf.RoundToInt(Mathf.Sign(admiral.laneAxisDirLength(transform.forward)));
-        
-        
+
+        float turnaroundThreshold = 90f;
+
         // no turnaround attempted, steer directly to dir
-        if (dirAxisSign == fwdAxisSign)
+        if (dirAxisSign == fwdAxisSign || Mathf.Abs(signedAngleError) < 90f)
         {
             return errorScale;
         }

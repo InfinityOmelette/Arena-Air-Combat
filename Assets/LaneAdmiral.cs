@@ -302,9 +302,11 @@ public class LaneAdmiral : MonoBehaviour
         int nextIndex = 0;
         bool wptFound = false;
 
-        for(int i = 0; i < wpts.Count && !wptFound; i++)
+        float shipDistFromBase = laneAxisPos(ship);
+
+        for (int i = 0; i < wpts.Count && !wptFound; i++)
         {
-            float shipDistFromBase = laneAxisPos(ship);
+            
             float wptDistFromBase = laneAxisPos(getWpt(i));
 
             // assign next index once wpt farther from base

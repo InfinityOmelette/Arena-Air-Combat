@@ -13,7 +13,7 @@ public class ShipNavigation : MonoBehaviour
         DEBUG
     }
 
-    public static float LEADER_RADIUS = 3500f;
+    public static float LEADER_RADIUS = 1000f;
 
     public static float DRIVE_POINT_RADIUS = 100f;
 
@@ -365,12 +365,6 @@ public class ShipNavigation : MonoBehaviour
 
         
     }
-
-    //// conditions in which cannon status will allow movement
-    //protected bool cannonTargetCheck()
-    //{
-    //    return cannon == null || cannon.target == null;
-    //}
 
 
     // Positive --> steer right

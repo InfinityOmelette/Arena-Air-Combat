@@ -14,6 +14,14 @@ public class CarrierNavigation : ShipNavigation
 
     public float debugStandoffRead;
 
+
+    //public float debugMyAxisPos;
+    //public float debugLeaderAxisPos;
+    //public float debugRawDeisrePos;
+    //public float debugRawAxisDeltaToDesirePos;
+    //public float debugEffectiveAxisDeltaToDesirePos;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +73,14 @@ public class CarrierNavigation : ShipNavigation
         float desireAxisPos = leaderAxisPos - desiredStandoff;
         float myDeltaToStandoff = desireAxisPos - myAxisPos;
 
+
+
+        //debugMyAxisPos = myAxisPos;
+        //debugLeaderAxisPos = leaderAxisPos;
+        //debugRawDeisrePos = desireAxisPos;
+        //debugRawAxisDeltaToDesirePos = myDeltaToStandoff;
+        //debugEffectiveAxisDeltaToDesirePos = myDeltaToStandoff;
+
         //if(admiral.getFleetNavOrder() == NavMode.RETREAT)
         //{
         //    //axisStandoffToLeader *= -1;
@@ -86,6 +102,8 @@ public class CarrierNavigation : ShipNavigation
             {
                 myDeltaToStandoff *= -1;
             }
+
+            //debugEffectiveAxisDeltaToDesirePos = myDeltaToStandoff;
 
             speedSet = followSpeed(myDeltaToStandoff);
             
@@ -156,6 +174,8 @@ public class CarrierNavigation : ShipNavigation
     private ShipPhysics.Speed followSpeed(float deltaFromDesirePos)
     {
         ShipPhysics.Speed speedSet;
+
+        deltaFromDesirePos *= -1f;
 
         if (deltaFromDesirePos < slightBehindThresh)
         {

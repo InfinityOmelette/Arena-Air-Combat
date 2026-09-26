@@ -281,7 +281,8 @@ public class ShipNavigation : MonoBehaviour
     {
         switch (navMode)
         {
-            case NavMode.FOLLOW:
+            // is there truly never a circumstance where follower must retreat to regroup?
+            case NavMode.FOLLOW: 
             case NavMode.ADVANCE:
                 currentWptIndex++;
                 break;

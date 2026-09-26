@@ -33,6 +33,9 @@ public class ShipPhysics : MonoBehaviour
     public float maxYawRate;
     public float yawRateAccel;
 
+    public float hoverTargetAlt = 10f;
+    public float hoverSensitivity;
+
     private void Awake()
     {
         myRb = GetComponent<Rigidbody>();
@@ -114,11 +117,20 @@ public class ShipPhysics : MonoBehaviour
         //    ", SpeedActual: " + myRb.velocity.magnitude);
 
         Vector3 fwd = transform.forward;
-        fwd = new Vector3(fwd.x, 0.0f, fwd.z);
+        //fwd = new Vector3(fwd.x, 0.0f, fwd.z);
+        fwd.y = 0f;
 
-        Vector3 vert = new Vector3(0.0f, myRb.velocity.y, 0.0f); // preserve vert speed --> gravity
+        Vector3 vert = calculateHoverYVel(); // preserve vert speed --> gravity
 
         myRb.velocity = fwd.normalized * internalSpeedBecauseUnityFuckingSucksSometimes + vert;
+    }
+
+    public Vector3 calculateHoverYVel()
+    {
+        float hoverVel = (hoverTargetAlt - transform.position.y) * hoverSensitivity;
+
+
+        return new Vector3(0.0f, hoverVel, 0.0f);
     }
 
     public void setSpeed(Speed speed)

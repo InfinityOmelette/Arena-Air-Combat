@@ -58,17 +58,18 @@ public class ParticleBehavior : MonoBehaviour
 
     private LayerMask ignoreLayer(int layerToIgnore)
     {
-        const int layerCount = 12;
+        const int layerCount = 16;
         LayerMask mask = 0;
-        for (int i = 0; i < layerCount; i++)
+        for (int i = 0; i <= layerCount; i++)
         {
-            if(i != layerToIgnore)
+            if (i != layerToIgnore)
             {
                 int tempMask = 1 << i;
                 mask = mask | tempMask;
             }
 
         }
+
         return mask;
     }
 

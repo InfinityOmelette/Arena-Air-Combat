@@ -18,7 +18,7 @@ public class Contrail : MonoBehaviour
 
     private void Awake()
     {
-        air = GameObject.Find("AirEnvironmentProperties").GetComponent<AirEnvironmentStats>();
+        air = AirEnvironmentStats.getAir();
         trail = GetComponent<TrailRenderer>();
     }
 

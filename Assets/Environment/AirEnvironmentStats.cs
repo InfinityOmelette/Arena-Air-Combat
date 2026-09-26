@@ -12,6 +12,11 @@ public class AirEnvironmentStats : MonoBehaviour
 
     private static AirEnvironmentStats air;
 
+    private void Awake()
+    {
+        air = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +27,7 @@ public class AirEnvironmentStats : MonoBehaviour
     {
         if(air == null)
         {
-            air = GameObject.Find("AirEnvironmentProperties").GetComponent<AirEnvironmentStats>();
+            air = GameObject.Find("EnvironmentProperties").GetComponent<AirEnvironmentStats>();
         }
         return air;
     }

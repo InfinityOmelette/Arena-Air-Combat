@@ -55,22 +55,15 @@ public class ParticleBehavior : MonoBehaviour
         editableCollModule.collidesWith = ignoreLayer(layerToIgnore);
     }
 
-
+    // This sets layers to collide with, and excludes the one in argument
+    // LayerCount hhhhhh really should be in some static physics script than buried here
     private LayerMask ignoreLayer(int layerToIgnore)
     {
-        const int layerCount = 16;
-        LayerMask mask = 0;
-        for (int i = 0; i <= layerCount; i++)
-        {
-            if (i != layerToIgnore)
-            {
-                int tempMask = 1 << i;
-                mask = mask | tempMask;
-            }
+        //int layerCount = PhysicsProperties.getPhys().getNumLayers();
+        //LayerMask mask = 0;
+        
 
-        }
-
-        return mask;
+        return PhysicsProperties.getPhys().getIgnoreLayerMask(layerToIgnore);
     }
 
     // Update is called once per frame

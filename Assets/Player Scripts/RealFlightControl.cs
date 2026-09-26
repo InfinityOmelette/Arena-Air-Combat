@@ -73,17 +73,11 @@ public class RealFlightControl : MonoBehaviour
     void Start()
     {
         rbRef = GetComponent<Rigidbody>();
-        air = findAirStats("AirEnvironmentProperties");
+        air = AirEnvironmentStats.getAir();
 
     }
 
-    private AirEnvironmentStats findAirStats(string statsObjName)
-    {
-        AirEnvironmentStats airRef = GameObject.Find(statsObjName).GetComponent<AirEnvironmentStats>();
-        if (airRef == null)
-            Debug.Log("No AirEnvironmentStats object found.");
-        return airRef;
-    }
+
 
     // Update is called once per frame
     void Update()

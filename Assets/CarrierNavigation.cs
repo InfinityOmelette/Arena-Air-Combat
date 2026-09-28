@@ -15,11 +15,11 @@ public class CarrierNavigation : ShipNavigation
     public float debugStandoffRead;
 
 
-    //public float debugMyAxisPos;
-    //public float debugLeaderAxisPos;
-    //public float debugRawDeisrePos;
-    //public float debugRawAxisDeltaToDesirePos;
-    //public float debugEffectiveAxisDeltaToDesirePos;
+    public float debugMyAxisPos;
+    public float debugLeaderAxisPos;
+    public float debugRawDeisrePos;
+    public float debugRawAxisDeltaToDesirePos;
+    public float debugEffectiveAxisDeltaToDesirePos;
 
 
     // Start is called before the first frame update
@@ -44,7 +44,7 @@ public class CarrierNavigation : ShipNavigation
             if(admiral.getLeader() == null)
             {
                 changeNavmode(NavMode.RETREAT);
-                driveToWaypoint(ShipPhysics.Speed.CRUISE);
+                driveToWaypoint(ShipPhysics.Speed.FLANK);
             }
             else
             {
@@ -75,10 +75,10 @@ public class CarrierNavigation : ShipNavigation
 
 
 
-        //debugMyAxisPos = myAxisPos;
-        //debugLeaderAxisPos = leaderAxisPos;
-        //debugRawDeisrePos = desireAxisPos;
-        //debugRawAxisDeltaToDesirePos = myDeltaToStandoff;
+        debugMyAxisPos = myAxisPos;
+        debugLeaderAxisPos = leaderAxisPos;
+        debugRawDeisrePos = desireAxisPos;
+        debugRawAxisDeltaToDesirePos = myDeltaToStandoff;
         //debugEffectiveAxisDeltaToDesirePos = myDeltaToStandoff;
 
         //if(admiral.getFleetNavOrder() == NavMode.RETREAT)
@@ -98,10 +98,9 @@ public class CarrierNavigation : ShipNavigation
         {
             receiveFleetNavOrder();
 
-            if(admiral.getFleetNavOrder() == NavMode.RETREAT)
-            {
-                myDeltaToStandoff *= -1;
-            }
+            myDeltaToStandoff *= admiral.getLeaderOrientation();
+
+            
 
             //debugEffectiveAxisDeltaToDesirePos = myDeltaToStandoff;
 
@@ -176,6 +175,8 @@ public class CarrierNavigation : ShipNavigation
         ShipPhysics.Speed speedSet;
 
         deltaFromDesirePos *= -1f;
+
+        debugEffectiveAxisDeltaToDesirePos = deltaFromDesirePos;
 
         if (deltaFromDesirePos < slightBehindThresh)
         {

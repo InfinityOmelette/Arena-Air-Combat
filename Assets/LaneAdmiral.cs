@@ -78,12 +78,12 @@ public class LaneAdmiral : MonoBehaviour
     {
         float retreatingCoeff = 1f;
         // switch sides if retreating so followers don't hit terrain lol
-        if(fleetNavOrder == ShipNavigation.NavMode.RETREAT)
-        {
-            retreatingCoeff = -1f;
-        }
+        //if(fleetNavOrder == ShipNavigation.NavMode.RETREAT)
+        //{
+        //    retreatingCoeff = -1f;
+        //}
 
-        return formationInversionCoeff * retreatingCoeff;
+        return formationInversionCoeff * getLeaderOrientation();
     }
 
     public bool isFleetReady()
@@ -343,6 +343,14 @@ public class LaneAdmiral : MonoBehaviour
         }
 
         return bias;
+    }
+
+    // return 1.0 if leader pointing towards enemy base
+    // return -1.0f if leader retreating
+    public float getLeaderOrientation()
+    {
+
+        return Mathf.Sign(laneAxisDirLength(getLeader().transform.forward));
     }
 
     public float laneAxisPos(ShipNavigation ship)

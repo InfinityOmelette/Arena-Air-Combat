@@ -29,7 +29,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
     [SerializeField]
     private float armingTime;
 
-    public float quickFlashTime = .033f;
+    public float flashDurationDeprecated = .033f;
     
     
 
@@ -65,7 +65,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         {
             // no damage, collider disabled, no explosive force
             Explosion.createExplosionAt(position, radius, 0f, false, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, 0f, brightFlashColor, quickFlashTime);
+                expandTime, team, damageProjectiles, friendlyFire, 0f, brightFlashColor, flashDurationDeprecated);
         }
     }
 
@@ -74,7 +74,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         if (doExplode && armingTime <= 0)
         {
             Explosion.createExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, quickFlashTime);
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, flashDurationDeprecated);
         }
     }
 
@@ -83,7 +83,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         if (doExplode && armingTime <= 0)
         {
             ExplodeManager.getExplodeManager().createNetExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, quickFlashTime);
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, flashDurationDeprecated);
         }
     }
 

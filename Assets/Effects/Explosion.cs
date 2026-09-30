@@ -10,8 +10,8 @@ public class Explosion : MonoBehaviour
     public static float MEDIUM_SIZE = 8f;
     public static float LARGE_SIZE = 30f;
 
-    public static float RANDOM_PITCH_MIN = 0.35f;
-    public static float RANDOM_PITCH_MAX = 1.65f;
+    public static float RANDOM_PITCH_MIN = 0.6f; // was .35f
+    public static float RANDOM_PITCH_MAX = 1.4f; // was 1.65f
 
     public float radius;
     public float coreDamage; // damage falls off linearly from max at core to zero at radius
@@ -73,6 +73,16 @@ public class Explosion : MonoBehaviour
     private Light light;
 
     private float flashScale = 10f;
+
+
+    private int sparkCount;
+    private float sparkVelocity;
+    private float sparkLifetime;
+
+    public SparkSystem sparkPrefab;
+
+    public SparkSystem mySpark;
+    private bool doSpark = true;
 
     public static GameObject getExplodePrefab()
     {
@@ -224,6 +234,30 @@ public class Explosion : MonoBehaviour
         //}
     }
 
+    void sparkProcess()
+    {
+        if(mySpark == null && doSpark)
+        {
+            createSpark();
+        }
+    }
+
+    void createSpark()
+    {
+        doSpark = false; // only create one spark
+
+        // instantiate, place at this position
+        GameObject sparkObj = GameObject.Instantiate(sparkPrefab.gameObject, 
+            transform.position, transform.rotation);
+
+        SparkSystem spark = sparkObj.GetComponent<SparkSystem>();
+
+        // sparksystem init by radius
+        spark.initSparkByRadius(radius);
+
+        // spark system play
+        spark.begin();
+    }
 
     // Update is called once per frame
     void Update()
@@ -231,7 +265,7 @@ public class Explosion : MonoBehaviour
 
         if (doExplode)
         {
-
+            sparkProcess();
             //Light light = GetComponent<Light>();
 
             //SphereCollider coll = GetComponent<SphereCollider>();
@@ -312,8 +346,8 @@ public class Explosion : MonoBehaviour
     {
 
         float maxScale = radius * flashScale;
-
-        float flashLerp = Mathf.Clamp(flashDuration / initFlashDuration, 0.0f, 1.0f);
+        float minLerp = .25f;
+        float flashLerp = Mathf.Clamp(flashDuration / initFlashDuration, minLerp, 1.0f);
 
         float scale = Mathf.Lerp(0.0f, maxScale, flashLerp);
 

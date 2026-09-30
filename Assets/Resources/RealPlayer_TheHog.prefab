@@ -2278,6 +2278,7 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 11
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.7698325, b: 0, a: 1}
   smokeColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   expandTime: 0.15
@@ -2287,6 +2288,7 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 1
+  flashDurationDeprecated: 0.033
 --- !u!114 &6801930850055786249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2415,6 +2417,7 @@ MonoBehaviour:
   amraamsIncoming: 0
   closingVelocityThreatThreshold: 50
   warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!114 &2320197551087535654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2475,6 +2478,7 @@ MonoBehaviour:
   flareLaunchR: {fileID: 6698832646241830736}
   jammingTimeMax: 1.5
   flareButtonDown: 0
+  debug: 0
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0
@@ -6836,7 +6840,7 @@ PrefabInstance:
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: radius
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -7285,7 +7289,7 @@ PrefabInstance:
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: radius
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}

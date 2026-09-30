@@ -2486,7 +2486,7 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   cannon: {fileID: 2654884894217239682}
   myLanePos: 0
-  debugBullshit: 0
+  artillery: {fileID: 1167857885282183478}
 --- !u!114 &1915432799035607644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2780,6 +2780,11 @@ PrefabInstance:
       propertyPath: myRb
       value: 
       objectReference: {fileID: 7770498610956574398}
+    - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
+        type: 3}
+      propertyPath: armed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1400340902987679711, guid: 104e15c3b0a083245b7bec662fb45379,
         type: 3}
       propertyPath: booleetSpeed

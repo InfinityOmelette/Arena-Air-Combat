@@ -50,6 +50,8 @@ public class ShipNavigation : MonoBehaviour
 
     public float myLanePos;
 
+    public AI_TurretMG artillery;
+
     //public bool debugBullshit = false;
 
     private void Awake()
@@ -240,6 +242,13 @@ public class ShipNavigation : MonoBehaviour
         return leader.getLanePos() - getLanePos();
     }
 
+    public void setArtilleryEngage(bool doEngage)
+    {
+        artillery.armed = doEngage && 
+            (checkIfIAmLeader() || closeToLeader(admiral.getLeader()));
+    }
+
+    
 
     public Vector3 offsetPos(int index)
     {

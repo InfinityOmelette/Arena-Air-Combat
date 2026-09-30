@@ -22,6 +22,8 @@ public class CarrierNavigation : ShipNavigation
     public float debugEffectiveAxisDeltaToDesirePos;
 
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -188,11 +190,11 @@ public class CarrierNavigation : ShipNavigation
         }
         else if (deltaFromDesirePos < farAheadThresh)
         {
-            speedSet = ShipPhysics.Speed.SLOW;
+            speedSet = ShipPhysics.Speed.HALT;
         }
         else
         {
-            speedSet = ShipPhysics.Speed.HALT;
+            speedSet = ShipPhysics.Speed.REVERSE;
         }
 
         return speedSet;

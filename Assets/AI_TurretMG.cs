@@ -66,6 +66,8 @@ public class AI_TurretMG : MonoBehaviour
 
     //public bool debugGunFuckery = false;
 
+    public bool armed = true;
+
     public void setIndex(int index)
     {
         turretIndex = index;
@@ -150,7 +152,8 @@ public class AI_TurretMG : MonoBehaviour
             alertness.beginChangingAlertStatus(targetRb != null, targetRb );
         }
 
-        setGunState(canShoot && (bypassAlertness || alertness.checkAlertStatus()));
+        setGunState(armed && canShoot 
+            && (bypassAlertness || alertness.checkAlertStatus()));
 
     }
 

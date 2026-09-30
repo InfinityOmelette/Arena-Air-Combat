@@ -126,7 +126,7 @@ public class MissileGuidance : MonoBehaviour
 
     public CombatFlow.Type getTargetType()
     {
-        CombatFlow.Type type = CombatFlow.Type.AIRCRAFT;
+        CombatFlow.Type type = CombatFlow.Type.PROJECTILE;
 
 
         if(targetFlowPersistent != null)

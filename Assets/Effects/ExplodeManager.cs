@@ -36,7 +36,7 @@ public class ExplodeManager : MonoBehaviourPunCallbacks
     public void createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
         bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor,
         float newExpandTime, CombatFlow.Team newTeam, bool newDamageProjectiles, bool newFriendlyFire,
-        float newExplosiveForce)
+        float newExplosiveForce, Color flashColor, float flashDuration)
     {
         // If the weapon that initiated the explosion is not local-owned, it will have
         //  to set the damage, doCollide, and explosive force to zero
@@ -45,20 +45,20 @@ public class ExplodeManager : MonoBehaviourPunCallbacks
         rpcCreateExplosionAt(position, setRadius, setCoreDamage,
         doCollide, dissipationTime, glowColor, doEmitLight, newSmokeColor,
         newExpandTime, CombatFlow.convertTeamToNum(newTeam), newDamageProjectiles, newFriendlyFire,
-        newExplosiveForce);
+        newExplosiveForce, flashColor, flashDuration);
 
     }
 
     public void createNetExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
         bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor,
         float newExpandTime, CombatFlow.Team newTeam, bool newDamageProjectiles, bool newFriendlyFire,
-        float newExplosiveForce)
+        float newExplosiveForce, Color flashColor, float flashDuration)
     {
         // create local explosion, will deal damage
         rpcCreateExplosionAt(position, setRadius, setCoreDamage,
         doCollide, dissipationTime, glowColor, doEmitLight, newSmokeColor,
         newExpandTime, CombatFlow.convertTeamToNum(newTeam), newDamageProjectiles, newFriendlyFire,
-        newExplosiveForce);
+        newExplosiveForce, flashColor, flashDuration);
 
         // create networked explosion, cosmetic only
         //  zero damage, will not collide, zero explosive force
@@ -72,7 +72,7 @@ public class ExplodeManager : MonoBehaviourPunCallbacks
     public void rpcCreateExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
         bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor,
         float newExpandTime, short newTeamNum, bool newDamageProjectiles, bool newFriendlyFire,
-        float newExplosiveForce)
+        float newExplosiveForce, Color flashColor, float flashDuration)
     {
         GameObject newExplosion = GameObject.Instantiate(explodePrefab);
         newExplosion.transform.position = position;
@@ -98,6 +98,15 @@ public class ExplodeManager : MonoBehaviourPunCallbacks
         newExplosionScript.damageProjectiles = newDamageProjectiles;
         newExplosionScript.friendlyFire = newFriendlyFire;
         newExplosionScript.explosiveForce = newExplosiveForce;
+
+        newExplosionScript.flashColor = flashColor;
+        //newExplosionScript.flashDuration = flashDuration;
+        //newExplosionScript.initFlashDuration = flashDuration;
+
+        float flashPercent = .65f;
+        newExplosionScript.flashDuration = newExpandTime * flashPercent;
+        newExplosionScript.initFlashDuration = newExpandTime * flashPercent;
+
 
         // light settings
         Light light = newExplosionScript.GetComponent<Light>();

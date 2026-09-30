@@ -38,7 +38,8 @@ public class Explosion : MonoBehaviour
     public Material mat;
     private MeshRenderer rend;
 
-    
+
+    public Color flashColor = new Color(0.0f, 0.0f, 0.0f, 1.0f);
     public Color emissionColor;
     public Color smokeColor;
 
@@ -58,9 +59,20 @@ public class Explosion : MonoBehaviour
     public AudioClip mediumExplodeSound;
     public AudioClip largeExplodeSound;
 
+    public float flashDuration;
+
+    public float initFlashDuration;
+
     // *********************************************************************************
     // **************************   STATIC METHODS   ***********************************
     // *********************************************************************************
+
+
+    private Color initLightColor;
+
+    private Light light;
+
+    private float flashScale = 10f;
 
     public static GameObject getExplodePrefab()
     {
@@ -88,13 +100,14 @@ public class Explosion : MonoBehaviour
     public static void createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
         bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor,
         float newExpandTime, CombatFlow.Team newTeam, bool newDamageProjectiles, bool newFriendlyFire, 
-        float newExplosiveForce)
+        float newExplosiveForce, Color flashColor, float flashDuration)
     {
 
         ExplodeManager expMan = ExplodeManager.getExplodeManager();
 
         expMan.createExplosionAt(position, setRadius, setCoreDamage, doCollide, dissipationTime, glowColor,
-            doEmitLight, newSmokeColor, newExpandTime, newTeam, newDamageProjectiles, newFriendlyFire, newExplosiveForce);
+            doEmitLight, newSmokeColor, newExpandTime, newTeam, newDamageProjectiles, newFriendlyFire, 
+            newExplosiveForce, flashColor, flashDuration);
 
     }
 
@@ -111,14 +124,15 @@ public class Explosion : MonoBehaviour
 
     private void Awake()
     {
+        light = GetComponent<Light>();
         // material reference points to copy of original -- each explosion has its own material
         mat = new Material(mat);
         explosionVictimRootList = new List<GameObject>();
 
 
         audioSource = GetComponent<AudioSource>();
-        
 
+        initLightColor = light.color;
         
 
     }
@@ -218,7 +232,7 @@ public class Explosion : MonoBehaviour
         if (doExplode)
         {
 
-            Light light = GetComponent<Light>();
+            //Light light = GetComponent<Light>();
 
             //SphereCollider coll = GetComponent<SphereCollider>();
             //Debug.Log("SphereCollider info: enabled: " + coll.enabled + ", radius: " + coll.radius);
@@ -232,8 +246,19 @@ public class Explosion : MonoBehaviour
                 float rapidExpandScale = stepValOverTime(transform.localScale.x, radius, 0.0f, expandTime);
                 transform.localScale = new Vector3(rapidExpandScale, rapidExpandScale, rapidExpandScale);
 
-                // expand flash range relative to radius
-                light.range = transform.localScale.x * lightRangeScaleFactor;
+                if(flashDuration > 0f)
+                {
+                    light.range = flashSizing(flashDuration);
+                    light.color = flashColor;
+                }
+                else
+                {
+                    // expand flash range relative to radius
+                    light.range = transform.localScale.x * lightRangeScaleFactor;
+                    light.color = initLightColor;
+                }
+
+                
 
                 // change behavior when radius is maxed
                 if (Mathf.Approximately(transform.localScale.x, radius))
@@ -276,11 +301,24 @@ public class Explosion : MonoBehaviour
                 }
 
             }
+
+            flashDuration -= Time.deltaTime;
         }
         
 
     }
 
+    private float flashSizing(float flashDuration)
+    {
+
+        float maxScale = radius * flashScale;
+
+        float flashLerp = Mathf.Clamp(flashDuration / initFlashDuration, 0.0f, 1.0f);
+
+        float scale = Mathf.Lerp(0.0f, maxScale, flashLerp);
+
+        return scale;
+    }
     
 
     private Color stepColorOverTime(Color currentColor, Color targetColor, Color beginColor, float timeToCompletion)

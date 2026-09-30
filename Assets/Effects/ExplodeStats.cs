@@ -11,6 +11,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
     public bool collisionsEnabled;
     public float dissipationTime;
     public bool emitLightEnabled;
+    public Color brightFlashColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     public Color glowColor;
     public Color smokeColor;
     public float expandTime;
@@ -27,6 +28,9 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private float armingTime;
+
+    public float quickFlashTime = .033f;
+    
     
 
     // Start is called before the first frame update
@@ -61,7 +65,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         {
             // no damage, collider disabled, no explosive force
             Explosion.createExplosionAt(position, radius, 0f, false, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, 0f);
+                expandTime, team, damageProjectiles, friendlyFire, 0f, brightFlashColor, quickFlashTime);
         }
     }
 
@@ -70,7 +74,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         if (doExplode && armingTime <= 0)
         {
             Explosion.createExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, explosiveForce);
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, quickFlashTime);
         }
     }
 
@@ -79,7 +83,7 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         if (doExplode && armingTime <= 0)
         {
             ExplodeManager.getExplodeManager().createNetExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, explosiveForce);
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, quickFlashTime);
         }
     }
 

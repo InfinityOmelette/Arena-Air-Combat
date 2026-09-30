@@ -11,8 +11,8 @@ public class AdmiralStrategy : MonoBehaviour
 
     public float standoffHaltBuffer = 500f;
 
-    public float groundStandoffRange = 500f;
-    public float navalStandoffRange = 1500f;
+    public float groundStandoffRange = 600f;
+    public float navalStandoffRange = 2500f;
 
     public bool debugBullshit = false;
 
@@ -43,19 +43,20 @@ public class AdmiralStrategy : MonoBehaviour
         float leaderAxisPos = admiral.laneAxisPos(admiral.getLeader());
 
         // whichever is lower --> enemy fleet, or frontline enemy structure
-        
+
 
         // Check enemy fleet. If within range, standoff from them and engage
-        float enemyFleetAxisPos = 
-            admiral.laneAxisPos(admiral.opponentAdmiral.getLeader()) - navalStandoffRange;
+        float enemyFleetAxisPos = enemyFleetPos() - navalStandoffRange;
+            
 
+        float enemyCarrPos = enemyCarrierPos() - navalStandoffRange;
 
         // If enemy fleet far, Check enemy structures. Standoff from them and engage
         StrategicTarget frontlineEnemyStruct = findFrontlineEnemyStructure();
         float structAxisPos = admiral.laneAxisPos(frontlineEnemyStruct.gameObject) 
                               - groundStandoffRange;
 
-        float desireAxisPos = Mathf.Min(enemyFleetAxisPos, structAxisPos);
+        float desireAxisPos = Mathf.Min(enemyFleetAxisPos, structAxisPos, enemyCarrPos);
 
         float leaderDeltaToDesirePos = desireAxisPos - leaderAxisPos;
 
@@ -67,6 +68,30 @@ public class AdmiralStrategy : MonoBehaviour
 
 
         return navMode;
+    }
+
+    private float enemyFleetPos()
+    {
+        ShipNavigation enemyLeader = admiral.opponentAdmiral.getLeader();
+
+        if(enemyLeader == null)
+        {
+            return 30000000f; // arbitrarily large pos
+        }
+
+        return admiral.laneAxisPos(enemyLeader);
+    }
+
+    private float enemyCarrierPos()
+    {
+        CarrierNavigation enemyCarrier = admiral.opponentAdmiral.laneCarrier;
+
+        if(enemyCarrier == null)
+        {
+            return 30000000f; // arbitrarily large pos
+        }
+
+        return admiral.laneAxisPos(enemyCarrier);
     }
 
     public void fleetEngage(bool engage)

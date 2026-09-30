@@ -391,7 +391,7 @@ public class LaneAdmiral : MonoBehaviour
     {
         for(int i = 0; i < laneFleet.Count; i++)
         {
-            if (laneFleet[i].withinLeaderRadius())
+            if (laneFleet[i].closeToLeader(getLeader()))
             {
                 laneFleet[i].currentWptIndex = index;
             }

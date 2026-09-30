@@ -13,7 +13,7 @@ public class ShipNavigation : MonoBehaviour
         DEBUG
     }
 
-    public static float LEADER_RADIUS = 1000f;
+    public static float LEADER_RADIUS = 1500f;
 
     public static float DRIVE_POINT_RADIUS = 100f;
 
@@ -48,7 +48,9 @@ public class ShipNavigation : MonoBehaviour
 
     public TankTurret cannon;
 
-    
+    public float myLanePos;
+
+    //public bool debugBullshit = false;
 
     private void Awake()
     {
@@ -60,6 +62,10 @@ public class ShipNavigation : MonoBehaviour
     }
 
     
+    public float getLanePos()
+    {
+        return myLanePos;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -116,29 +122,30 @@ public class ShipNavigation : MonoBehaviour
         currentWptIndex = admiral.closestForwardWaypointIndex(this);
     }
 
+    private void updateLanePos()
+    {
+        myLanePos = admiral.laneAxisPos(this);
+    }
+
     private void FixedUpdate()
     {
+        
         if(admiral != null)
         {
+            updateLanePos();
             checkLeader();
             checkWaypoint();
 
             if (checkIfIAmLeader())
             {
                 receiveFleetNavOrder();
+                driveToWaypoint(ShipPhysics.Speed.CRUISE);
             }
-
-            // waypoint steer process
-            switch (navMode)
+            else
             {
-                case NavMode.FOLLOW:
-                    followLeader();
-                    break;
-                default:
-                    driveToWaypoint(ShipPhysics.Speed.CRUISE);
-                    break;
-
+                followLeader();
             }
+
             
         }
 
@@ -171,8 +178,10 @@ public class ShipNavigation : MonoBehaviour
     {
         ShipNavigation leader = admiral.getLeader();
 
-        if(withinLeaderRadius())
+        if(closeToLeader(leader))
         {
+            changeNavmode(NavMode.FOLLOW);
+
             if (leader.shipPhysics.speedSet == ShipPhysics.Speed.HALT)
             {
                 // just drive directly to form position as if waypoint, stop there
@@ -206,6 +215,8 @@ public class ShipNavigation : MonoBehaviour
         }
         else // drive to waypoints at flank speed to catch up
         {
+
+            changeNavmode(navToLeader(leader), ShipPhysics.Speed.FLANK);
             driveToWaypoint(ShipPhysics.Speed.FLANK);
         }
 
@@ -213,6 +224,20 @@ public class ShipNavigation : MonoBehaviour
 
         
 
+    }
+
+    public NavMode navToLeader(ShipNavigation leader)
+    {
+
+
+        float deltaToLeader = this.deltaToLeader(leader);
+
+        return admiral.admiralStrat.navToPosByDelta(deltaToLeader);
+    }
+
+    public float deltaToLeader(ShipNavigation leader)
+    {
+        return leader.getLanePos() - getLanePos();
     }
 
 
@@ -309,9 +334,9 @@ public class ShipNavigation : MonoBehaviour
         
     }
 
-    public bool withinLeaderRadius()
+    public bool closeToLeader(ShipNavigation leader)
     {
-        return Vector3.Distance(admiral.getLeader().transform.position, transform.position) < LEADER_RADIUS;
+        return Mathf.Abs(deltaToLeader(leader)) < LEADER_RADIUS;
     }
 
     protected bool checkIfIAmLeader()

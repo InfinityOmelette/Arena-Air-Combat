@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AdmiralStrategy : MonoBehaviour
 {
-    public float bombardStandoffOnAxis = 6000f;
+    //public float bombardStandoffOnAxis = 6000f;
 
     public LaneAdmiral admiral;
 
@@ -53,25 +53,26 @@ public class AdmiralStrategy : MonoBehaviour
 
         float leaderDeltaToDesirePos = desireAxisPos - leaderAxisPos;
 
-        navMode = navToPosByDelta(leaderDeltaToDesirePos);
+        navMode = navToPosByDelta(leaderDeltaToDesirePos, standoffHaltBuffer);
 
 
         return navMode;
     }
 
-    public ShipNavigation.NavMode navToPosByDelta(float deltaToDesirePos)
+    public ShipNavigation.NavMode navToPosByDelta(float deltaToDesirePos, float standoffBuffer = 1f)
     {
-        ShipNavigation.NavMode navMode = ShipNavigation.NavMode.ADVANCE;
+        ShipNavigation.NavMode navMode;
 
-        if (Mathf.Abs(deltaToDesirePos) < standoffHaltBuffer)
+
+        if (Mathf.Abs(deltaToDesirePos) < standoffBuffer)
         {
             navMode = ShipNavigation.NavMode.STOP;
         }
-        else if (deltaToDesirePos > 0f)
+        else if (deltaToDesirePos > 0f)  // Delta positive --> advance
         {
             navMode = ShipNavigation.NavMode.ADVANCE;
         }
-        else
+        else // delta negative --> retreat
         {
             navMode = ShipNavigation.NavMode.RETREAT;
         }

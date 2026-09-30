@@ -86,6 +86,7 @@ public class TgtIconManager : MonoBehaviour
     
     public GameObject spawnIcon(CombatFlow unitFlow)
     {
+        // TODO: tgtIconPrefab should be in CombatFlow to allow changes
         GameObject iconObj = Instantiate(tgtIconPrefab, transform);
 
         // initialize icon's data

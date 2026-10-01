@@ -30,8 +30,9 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
     private float armingTime;
 
     public float flashDurationDeprecated = .033f;
-    
-    
+
+    public int smokeshootCountOverride = -1;
+    public int sparkCountOverride = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +66,8 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         {
             // no damage, collider disabled, no explosive force
             Explosion.createExplosionAt(position, radius, 0f, false, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, 0f, brightFlashColor, flashDurationDeprecated);
+                expandTime, team, damageProjectiles, friendlyFire, 0f, brightFlashColor, flashDurationDeprecated,
+                sparkCountOverride, smokeshootCountOverride);
         }
     }
 
@@ -74,7 +76,8 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         if (doExplode && armingTime <= 0)
         {
             Explosion.createExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, flashDurationDeprecated);
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, flashDurationDeprecated,
+                sparkCountOverride, smokeshootCountOverride);
         }
     }
 
@@ -83,7 +86,8 @@ public class ExplodeStats : MonoBehaviourPunCallbacks
         if (doExplode && armingTime <= 0)
         {
             ExplodeManager.getExplodeManager().createNetExplosionAt(position, radius, damage, collisionsEnabled, dissipationTime, glowColor, emitLightEnabled, smokeColor,
-                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, flashDurationDeprecated);
+                expandTime, team, damageProjectiles, friendlyFire, explosiveForce, brightFlashColor, flashDurationDeprecated,
+                sparkCountOverride, smokeshootCountOverride);
         }
     }
 

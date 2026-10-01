@@ -84,8 +84,11 @@ public class Explosion : MonoBehaviour
     public SparkSystem mySpark;
     private bool doCreateParticles = true;
 
-    public SmokeshootSystem smokeshootPrefab;
-    public SmokeshootSystem mySmokeshoot;
+    public SparkSystem smokeshootPrefab;
+    public SparkSystem mySmokeshoot;
+
+    public int sparkCountOverride = -1;
+    public int smokeshootCountOverride = -1;
 
     public static GameObject getExplodePrefab()
     {
@@ -113,14 +116,15 @@ public class Explosion : MonoBehaviour
     public static void createExplosionAt(Vector3 position, float setRadius, float setCoreDamage,
         bool doCollide, float dissipationTime, Color glowColor, bool doEmitLight, Color newSmokeColor,
         float newExpandTime, CombatFlow.Team newTeam, bool newDamageProjectiles, bool newFriendlyFire, 
-        float newExplosiveForce, Color flashColor, float flashDuration)
+        float newExplosiveForce, Color flashColor, float flashDuration, int sparkCountOverride,
+        int smokeshootCountOverride)
     {
 
         ExplodeManager expMan = ExplodeManager.getExplodeManager();
 
         expMan.createExplosionAt(position, setRadius, setCoreDamage, doCollide, dissipationTime, glowColor,
             doEmitLight, newSmokeColor, newExpandTime, newTeam, newDamageProjectiles, newFriendlyFire, 
-            newExplosiveForce, flashColor, flashDuration);
+            newExplosiveForce, flashColor, flashDuration, sparkCountOverride, smokeshootCountOverride);
 
     }
 
@@ -249,16 +253,16 @@ public class Explosion : MonoBehaviour
     {
         doCreateParticles = false;
         
-        createParticles(sparkPrefab.gameObject);
+        createParticles(sparkPrefab.gameObject, sparkCountOverride);
 
-        if(radius > SmokeshootSystem.minRadius)
+        if(radius > smokeshootPrefab.settings.minRadius)
         {
-            createParticles(smokeshootPrefab.gameObject);
+            createParticles(smokeshootPrefab.gameObject, smokeshootCountOverride);
         }
     }
 
 
-    void createParticles(GameObject particlePrefab)
+    void createParticles(GameObject particlePrefab, int countOverride)
     {
 
         // instantiate, place at this position
@@ -267,8 +271,10 @@ public class Explosion : MonoBehaviour
 
         SparkSystem spark = sparkObj.GetComponent<SparkSystem>();
 
+
+
         // sparksystem init by radius
-        spark.initSparkByRadius(radius);
+        spark.initSparkByRadius(radius, countOverride);
 
         // spark system play
         spark.begin();

@@ -5,7 +5,9 @@ using UnityEngine;
 public class SparkSystem : MonoBehaviour
 {
 
-    ParticleSystem particles;
+    protected ParticleSystem particles;
+
+    public static float sizeRandPercent = .35f;
 
     public static float minSize = 1f;
     public static float lerpBeginRadius_size = 8f;
@@ -17,12 +19,14 @@ public class SparkSystem : MonoBehaviour
     public static float maxSpeed = 3000f;
     public static float lerpMaxRadius_speed = 80f;
 
+    public static float speedRandPercent = .5f; // percent range above and below
+
     public static float minLifeTime = .275f;
     public static float lerpBeginRadius_lifetime = 5;
     public static float maxLifeTime = .45f;
     public static float lerpMaxRadius_lifetime = 80f;
 
-    public static int minCount = 4;
+    public static int minCount = 2;
     public static float lerpBeginRadius_count = 5f;
     public static int maxCount = 30;
     public static float lerpMaxRadius_count = 30f;
@@ -44,7 +48,7 @@ public class SparkSystem : MonoBehaviour
         return particles;
     }
 
-    public void initSparkByRadius(float radius)
+    public virtual void initSparkByRadius(float radius)
     {
         int sparkCount =  (int)lerpProperty(minCount, maxCount, 
             lerpBeginRadius_count, lerpMaxRadius_count, radius);
@@ -62,7 +66,7 @@ public class SparkSystem : MonoBehaviour
         initSpark(sparkCount, sparkVelocity, sparkLifeTime, sparkSize);
     }
 
-    public float lerpProperty(float min, float max, float lerpMinRadius, float lerpMaxRadius, float radius)
+    public static float lerpProperty(float min, float max, float lerpMinRadius, float lerpMaxRadius, float radius)
     {
         float lerpRate = Mathf.Clamp((radius - lerpMinRadius) / (lerpMaxRadius - lerpMinRadius), 0.0f, 1.0f);
 
@@ -71,11 +75,25 @@ public class SparkSystem : MonoBehaviour
 
     public void initSpark(int sparkCount, float sparkVelocity, float sparkLifetime, float sparkSize)
     {
+
+
         particles.startLifetime = sparkLifetime;
-        particles.startSpeed = sparkVelocity;
-        particles.startSize = sparkSize;
+
+        float randSpeedRange = sparkVelocity * speedRandPercent;
+
+        var main = particles.main;
+
+        main.startSpeed = new ParticleSystem.MinMaxCurve(sparkVelocity - randSpeedRange, sparkVelocity + randSpeedRange);
+
+        float randSizeRange = sparkSize * sizeRandPercent;
+        
+        //particles.startSize = sparkSize;
+        main.startSize = new ParticleSystem.MinMaxCurve(sparkSize - randSizeRange, sparkSize + randSizeRange);
+
         particles.emission.SetBurst(0, new ParticleSystem.Burst(0.0f, sparkCount));
 
+
+        //particles.
 
         destroyTimer = sparkLifetime + .1f;
     }
@@ -100,9 +118,14 @@ public class SparkSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        selfDestructTimer();
+    }
+
+    protected void selfDestructTimer()
+    {
         destroyTimer -= Time.fixedDeltaTime;
 
-        if(destroyTimer < 0f)
+        if (destroyTimer < 0f)
         {
             GameObject.Destroy(gameObject);
         }

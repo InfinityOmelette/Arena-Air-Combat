@@ -82,7 +82,10 @@ public class Explosion : MonoBehaviour
     public SparkSystem sparkPrefab;
 
     public SparkSystem mySpark;
-    private bool doSpark = true;
+    private bool doCreateParticles = true;
+
+    public SmokeshootSystem smokeshootPrefab;
+    public SmokeshootSystem mySmokeshoot;
 
     public static GameObject getExplodePrefab()
     {
@@ -236,18 +239,30 @@ public class Explosion : MonoBehaviour
 
     void sparkProcess()
     {
-        if(mySpark == null && doSpark)
+        if(mySpark == null && doCreateParticles)
         {
-            createSpark();
+            createParticles();
         }
     }
 
-    void createSpark()
+    void createParticles()
     {
-        doSpark = false; // only create one spark
+        doCreateParticles = false;
+        
+        createParticles(sparkPrefab.gameObject);
+
+        if(radius > SmokeshootSystem.minRadius)
+        {
+            createParticles(smokeshootPrefab.gameObject);
+        }
+    }
+
+
+    void createParticles(GameObject particlePrefab)
+    {
 
         // instantiate, place at this position
-        GameObject sparkObj = GameObject.Instantiate(sparkPrefab.gameObject, 
+        GameObject sparkObj = GameObject.Instantiate(particlePrefab.gameObject, 
             transform.position, transform.rotation);
 
         SparkSystem spark = sparkObj.GetComponent<SparkSystem>();

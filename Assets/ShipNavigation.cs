@@ -252,7 +252,18 @@ public class ShipNavigation : MonoBehaviour
 
     public Vector3 offsetPos(int index)
     {
-        Vector3 oneOffset = followerOffset.position - transform.position;
+        //Vector3 oneOffset = followerOffset.position - transform.position;
+
+        //Vector3 oneOffsetLocal = transform.InverseTransformDirection(oneOffset);
+        //oneOffset.x *= admiral.getFormationInversion();
+
+        ////oneOffset = transform.direc
+
+        Vector3 oneOffset = followerOffset.localPosition;
+        oneOffset.x *= admiral.getFormationInversion();
+
+        oneOffset = transform.TransformDirection(oneOffset);
+
 
         return transform.position + oneOffset * index;
     }

@@ -65,7 +65,7 @@ public class SparkSystem : MonoBehaviour
     }
 
     public void initSpark(int sparkCount, float sparkVelocity, float sparkLifetime, 
-        float sparkSize, float speedRandPercent, float sizeRandPercent)
+        float sparkSize, float speedRandPercent, float sizeRandPercent, float emissionRadius)
     {
 
 
@@ -86,7 +86,10 @@ public class SparkSystem : MonoBehaviour
 
         particles.emission.SetBurst(0, new ParticleSystem.Burst(0.0f, sparkCount));
 
+        //particles.shape.radius = emissionRadius;
 
+        var shape = particles.shape;
+        shape.radius = emissionRadius;
         //particles.
 
         destroyTimer = sparkLifetime + .1f;

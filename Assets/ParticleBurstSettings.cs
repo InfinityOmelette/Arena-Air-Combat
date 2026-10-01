@@ -31,6 +31,8 @@ public class ParticleBurstSettings : MonoBehaviour
 
     public float minRadius;
 
+    public float emissionRadiusPercent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,8 +70,10 @@ public class ParticleBurstSettings : MonoBehaviour
             lerpBeginRadius_size, lerpEndRadius_size, radius);
 
 
+        float emissionRadius = emissionRadiusPercent * radius;
+
         spark.initSpark(sparkCount, sparkVelocity, sparkLifeTime, sparkSize, 
-            speedRandPercent, sizeRandPercent);
+            speedRandPercent, sizeRandPercent, emissionRadius);
     }
 
     public float lerpProperty(float min, float max, float lerpMinRadius, 

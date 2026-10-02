@@ -159,9 +159,15 @@ public class TgtHudIcon : MonoBehaviour
 
             isFar = currentDistance > HIDE_DISTANCE && targetedState == TargetedState.NONE;
 
-            setTargetedState();
-            
+            //
+            //setIsFar(false);
             setIsFar(isFar && !neverFar);
+
+            setTargetedState();
+
+            
+
+
             setImageLOS(hasLineOfSight);
             if (!(isFar && !neverFar))
             {
@@ -227,7 +233,8 @@ public class TgtHudIcon : MonoBehaviour
 
     protected virtual void targetedStateProcess()
     {
-        if (!(isFar && !neverFar))
+        //if (!(isFar && !neverFar))
+        //if(!isFar || neverFar)
         {
             //tgtTitleText.enabled = true;
             //tgtDistText.enabled = true;
@@ -336,10 +343,10 @@ public class TgtHudIcon : MonoBehaviour
                 farDotText.enabled = false;
 
                 nearImages.SetActive(true);
-                //txtKPH.enabled = true;
-                //tgtDistText.enabled = true;
-                //tgtTitleText.enabled = true;
-                //dataLinkText.enabled = true;
+                txtKPH.enabled = true;
+                tgtDistText.enabled = true;
+                tgtTitleText.enabled = true;
+                dataLinkText.enabled = true;
             }
         }
         

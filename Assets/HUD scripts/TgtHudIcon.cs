@@ -112,9 +112,14 @@ public class TgtHudIcon : MonoBehaviour
 
     public bool showHPBar = false;
 
+    public List<Text> specialTexts;
+
+    public ReloadIndicator reloadIndicator;
+
     void Awake()
     {
         transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        getReloadIndic();
     }
 
     // Start is called before the first frame update
@@ -133,6 +138,25 @@ public class TgtHudIcon : MonoBehaviour
         hpBarCenter.SetActive(showHPBar);
 
         //FixedUpdate();
+    }
+
+    public ReloadIndicator getReloadIndic()
+    {
+        if(reloadIndicator == null)
+        {
+            reloadIndicator = GetComponent<ReloadIndicator>();
+        }
+        return reloadIndicator;
+    }
+
+    public void setReload(bool reloadSet)
+    {
+        // raw nullcheck instead of get method to avoid excessive GetComponenet calls
+        // on sams that do NOT use reload ui
+        if(reloadIndicator != null)
+        {
+            reloadIndicator.setReloadStatus(reloadSet);
+        }
     }
 
     void spawnCallback()
@@ -256,9 +280,10 @@ public class TgtHudIcon : MonoBehaviour
 
         //tgtTitleText.enabled = false;
         //tgtDistText.enabled = false;
+        setElementsActive(hideUntargeted, false);
         setElementsActive(showUntargetedIfFriendly, isFriendly);
         setElementsActive(showUntargeted, true);
-        setElementsActive(hideUntargeted, false);
+        
     }
 
     private void setTargetedState()
@@ -540,7 +565,7 @@ public class TgtHudIcon : MonoBehaviour
             suppressedText.color = activeColor;
             retrievingText.color = activeColor;
             suppliesText.color = activeColor;
-            specialChildColors(color);
+            specialChildColors(activeColor);
             
         }
 
@@ -550,7 +575,14 @@ public class TgtHudIcon : MonoBehaviour
     // used for child classes to set color
     protected virtual void specialChildColors(Color color)
     {
-
+        if(specialTexts != null)
+        {
+            for (int i = 0; i < specialTexts.Count; i++)
+            {
+                specialTexts[i].color = color;
+            }
+        }
+        
     }
 
     public void updateHPValue(float hpDecimal)

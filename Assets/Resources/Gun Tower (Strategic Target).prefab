@@ -648,6 +648,7 @@ MonoBehaviour:
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
+  linkHPToIconBar: 0
 --- !u!54 &2221568712399319233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1972,6 +1973,11 @@ PrefabInstance:
         type: 3}
       propertyPath: reloadDelay
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919332582832109050, guid: aa350bf2f8c92474ba40faabb8b9d274,
+        type: 3}
+      propertyPath: useReloadIndicator
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7534161316425597086, guid: aa350bf2f8c92474ba40faabb8b9d274,
         type: 3}

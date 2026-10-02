@@ -55,6 +55,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -141,6 +142,7 @@ MonoBehaviour:
   collisionsEnabled: 0
   dissipationTime: 3
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.9656743, b: 0, a: 1}
   smokeColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
   expandTime: 0.07
@@ -149,6 +151,10 @@ MonoBehaviour:
   friendlyFire: 1
   team: 0
   doExplode: 1
+  armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!1 &5815251015398722670
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +210,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -350,6 +357,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -436,6 +444,7 @@ MonoBehaviour:
   collisionsEnabled: 0
   dissipationTime: 2
   emitLightEnabled: 0
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   smokeColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
   expandTime: 0.15
@@ -444,6 +453,10 @@ MonoBehaviour:
   friendlyFire: 0
   team: 0
   doExplode: 1
+  armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!1001 &82743988653350584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -451,14 +464,56 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5072710595775559579}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: impactExplosionProperties
-      value: 
-      objectReference: {fileID: 2841702368167520896}
-    - target: {fileID: 0}
-      propertyPath: bounceExplosionProperties
-      value: 
-      objectReference: {fileID: 6685327531406274122}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.minMaxState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[1].time
+      value: 0.33554664
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[2].time
+      value: 0.7748413
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].inSlope
+      value: 0.10931413
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].outSlope
+      value: 0.10931413
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[0].outWeight
+      value: 0.23728815
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: TrailModule.widthOverTrail.maxCurve.m_Curve.Array.data[2].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
     - target: {fileID: 7031010644802760699, guid: d8f6313db706977489b7bb8d630436ad,
         type: 3}
       propertyPath: m_Name
@@ -468,21 +523,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
         type: 3}
@@ -499,10 +539,20 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 1.441
       objectReference: {fileID: 0}
-    - target: {fileID: 7031010644802760641, guid: d8f6313db706977489b7bb8d630436ad,
+    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
         type: 3}
-      propertyPath: CollisionModule.enabled
-      value: 1
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7031010644802760702, guid: d8f6313db706977489b7bb8d630436ad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8f6313db706977489b7bb8d630436ad, type: 3}

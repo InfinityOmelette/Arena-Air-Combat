@@ -15,6 +15,20 @@ public class Magazine : MonoBehaviour
 
     private bool roundChambered = false;
 
+    public bool useReloadIndicator = false;
+
+    private CombatFlow rootFlow;
+
+
+    private CombatFlow getRootFlow()
+    {
+        if(rootFlow == null)
+        {
+            rootFlow = transform.root.GetComponent<CombatFlow>();
+        }
+        return rootFlow;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +38,10 @@ public class Magazine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (useReloadIndicator)
+        {
+            updateReloadIndicator();
+        }
     }
 
     private void FixedUpdate()
@@ -71,6 +88,8 @@ public class Magazine : MonoBehaviour
     {
         if(roundsInCurrentMag <= 0)
         {
+            
+
             if (reloadTimer > 0) // wait for reload
             {
                 reloadTimer -= deltaTime;
@@ -83,5 +102,10 @@ public class Magazine : MonoBehaviour
             }
 
         }
+    }
+
+    private void updateReloadIndicator()
+    {
+        getRootFlow().myHudIconRef.setReload(roundsInCurrentMag <= 0);
     }
 }

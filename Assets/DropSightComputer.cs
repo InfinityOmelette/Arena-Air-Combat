@@ -8,6 +8,7 @@ public class DropSightComputer : MonoBehaviour
     public float maxRange;
     public bool active;
     public float initForwardVel;
+    public float initDownVel;
 
     private DropSightReticle reticle;
     private Rigidbody rb;
@@ -69,16 +70,17 @@ public class DropSightComputer : MonoBehaviour
 
 
 
-    public void setComputer(bool active, float initForwardVel, float maxRange)
+    public void setComputer(bool active, float initForwardVel, float maxRange, float initDownvel)
     {
         this.active = active;
         this.initForwardVel = initForwardVel;
         this.maxRange = maxRange;
+        this.initDownVel = initDownvel;
     }
 
     private float calculateDropRange()
     {
-        Vector3 initVel = rb.velocity + transform.forward * initForwardVel;
+        Vector3 initVel = rb.velocity + transform.forward * initForwardVel - transform.up * initDownVel;
         dropDir = initVel;
         float elevRad = getElevation(initVel) * Mathf.Deg2Rad;
         float velMagnitude = initVel.magnitude;

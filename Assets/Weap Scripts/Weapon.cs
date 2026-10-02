@@ -82,6 +82,8 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     int lineCastLayerMask = -1;
 
+    public float dropDownSpeed = 0.0f;
+
     public enum Weight
     {
         LIGHT,

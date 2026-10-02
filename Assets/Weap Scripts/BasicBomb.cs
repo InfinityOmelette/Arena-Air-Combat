@@ -15,7 +15,9 @@ public class BasicBomb : Weapon
 
 
     private GameObject oneImpactVictim;
+
     
+
     void Awake()
     {
         myCombatFlow = GetComponent<CombatFlow>();
@@ -79,13 +81,18 @@ public class BasicBomb : Weapon
 
         Destroy(GetComponent<FixedJoint>());
 
-        rbRef.velocity = ownerObj.GetComponent<Rigidbody>().velocity;
+        rbRef.velocity = ownerObj.GetComponent<Rigidbody>().velocity + launchShove();
 
         myHardpoint.roundsRemain = 0;
 
         launched = true;
         armTimeRemaining = armingTime;
         myCombatFlow.isActive = true;
+    }
+
+    private Vector3 launchShove()
+    {
+        return -ownerObj.transform.up * dropDownSpeed;
     }
 
     private void OnTriggerEnter(Collider other)

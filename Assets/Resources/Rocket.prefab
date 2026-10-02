@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5516167602051453820}
   - component: {fileID: 6493295548027924798}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 3190669787290923272}
   - component: {fileID: 4657907332704557520}
   - component: {fileID: 5338866093098818967}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Nosecone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 8524783541669591133}
   - component: {fileID: 6993352215542689212}
   - component: {fileID: 2467965989498220791}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3878264266046290918}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EffectsCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 1738585630062077334}
   - component: {fileID: 8777350920258958012}
   - component: {fileID: 5464522084054463323}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Exhaust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 8681456245596784411}
   - component: {fileID: 6200348694561243607}
   - component: {fileID: 4856559820244679748}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 3905575056021906990}
   - component: {fileID: 5444956521606551940}
   - component: {fileID: 4201530095190325933}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 8332108315422785255}
   - component: {fileID: 8479071374173081427}
   - component: {fileID: 6762454170125819943}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: ExhaustGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 1195842359684267916}
   - component: {fileID: 2852526732308735592}
   - component: {fileID: -143509994507629933}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Rocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -690,6 +690,7 @@ MonoBehaviour:
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
+  linkHPToIconBar: 0
 --- !u!114 &2852526732308735592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,7 +708,7 @@ MonoBehaviour:
   armingTime: 0.25
   armTimeRemaining: 0.25
   armed: 0
-  friendlyImpact: 0
+  friendlyImpact: 1
   impactOnEffects: 0
   useDropComputer: 0
   dropInitSpeed: 0

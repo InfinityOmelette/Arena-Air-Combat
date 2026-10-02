@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 using Photon.Pun;
 using Photon.Realtime;
@@ -71,11 +72,15 @@ public class Weapon : MonoBehaviourPunCallbacks
     public Guidance att_guidance;
     public Domain att_domain;
 
+    
+
     // TEMPORARY -- currently, stock count per type multiplied per hardpoint
     // Expected final version will have dynamic stock bias set via spawn UI
     //public int stockWeightPerHardpoint = 3;
 
     public int stockWeight = 1;
+
+    int lineCastLayerMask = -1;
 
     public enum Weight
     {
@@ -96,6 +101,33 @@ public class Weapon : MonoBehaviourPunCallbacks
         AIRTOGROUND,
         MULTIROLE,
         FUTURE
+    }
+
+    private int layerMask(int[] layers)
+    {
+        int layerMask = 0;
+        for(int i = 0; i < layers.Length; i++)
+        {
+            int tempMask = 1 << layers[i];
+            layerMask = layerMask | tempMask;
+        }
+        return layerMask;
+    }
+
+    private int getLayerMask()
+    {
+        if(lineCastLayerMask == -1)
+        {
+            initLayerMask();
+        }
+        return lineCastLayerMask;
+    }
+
+    private void initLayerMask()
+    {
+        int[] layers = { 0, 10, 16 }; // default, terrain, naval
+        //int[] layers = { 10};
+        lineCastLayerMask = layerMask(layers);
     }
 
     public void checkLinecastCollision()
@@ -121,41 +153,51 @@ public class Weapon : MonoBehaviourPunCallbacks
         if (armed)
         {
             RaycastHit hitInfo = new RaycastHit();
-            short terrainLayer = 1 << 10; // only check collisions with terrain
+
+            //int[] layers = { 0, 10, 16 }; // default, terrain, naval
+
+
+            int collLayerMask = getLayerMask(); // only collide w specified layers
+
+
             if (Physics.Linecast(previousPos, transform.position,
-                out hitInfo, terrainLayer))
+                out hitInfo, collLayerMask))
             {
                 Debug.DrawLine(transform.position, hitInfo.point, Color.green, 1.0f);
 
                 // hitInfo.point is confirmed absolutely to be correct. transform isn't moving as it should.
                 //  - explosion triggering before able to move?
 
-                Debug.Log("*********************************************************************  linecast hit");
+                
                 transform.position = hitInfo.point;
 
                 int id = -1;
                 GameObject otherRootObj = hitInfo.collider.transform.root.gameObject;
                 CombatFlow otherFlow = otherRootObj.GetComponent<CombatFlow>();
-                if(otherFlow != null)
+
+                Debug.Log("*********************************************************************  linecast hit against: " +
+                    otherRootObj.name + " at collider: " + hitInfo.collider.name);
+
+                if (otherFlow != null)
                 {
                     id = otherRootObj.GetComponent<PhotonView>().ViewID;
                 }
 
                 //if (explodeOnOther(otherRootObj))
+                
+                if (networkImpact)
                 {
-                    if (networkImpact)
-                    {
-                        photonView.RPC("rpcContactProcess", RpcTarget.AllBuffered, transform.position,
-                        id);
-                    }
-                    else // local impact
-                    {
-                        //Debug.LogError("MYERROR: linecast triggered");
-                        //rpcContactProcess(transform.position, id);
-                        impactLocal(transform.position, otherRootObj);
-                    }
-                    
+                    photonView.RPC("rpcContactProcess", RpcTarget.AllBuffered, transform.position,
+                    id);
                 }
+                else // local impact
+                {
+                    //Debug.LogError("MYERROR: linecast triggered");
+                    //rpcContactProcess(transform.position, id);
+                    impactLocal(transform.position, otherRootObj);
+                }
+                
+                
 
                 
             }

@@ -173,7 +173,8 @@ public class Rocket : Weapon
 
             if (otherFlow != null)
             {
-                if (otherFlow.team != myTeam || friendlyImpact)
+                //if (otherFlow.team != myTeam || friendlyImpact)
+                if(friendlyImpact)
                 {
                     if (myFlow.localOwned)
                     {
@@ -222,6 +223,7 @@ public class Rocket : Weapon
         if (otherRoot != null) // do not do anything against effects
         {
             bool doExplode = !otherRoot.CompareTag("Effects");
+            doExplode = true;
 
             Debug.LogWarning("NOTE: ROCKET FOUND OTHER ROOT GAMEOBJECT");
 

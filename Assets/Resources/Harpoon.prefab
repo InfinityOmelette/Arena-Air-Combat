@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5508167400971253709}
   - component: {fileID: 303030479866117922}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8936784393781697864}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5243222522999179577}
   - component: {fileID: 1613182797378512059}
   - component: {fileID: 6830418752390506251}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 2776068667063645978}
   - component: {fileID: 384503897561896419}
   - component: {fileID: 7415022456210840322}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 2992734583422249209}
   - component: {fileID: 5385092984784126743}
   - component: {fileID: 2576938135312958517}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 1865335916417077823}
   - component: {fileID: 8534628589424798125}
   - component: {fileID: 2598215602722898354}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Harpoon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,6 +660,7 @@ MonoBehaviour:
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
+  linkHPToIconBar: 0
 --- !u!114 &2687535952377180928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -907,7 +908,7 @@ GameObject:
   - component: {fileID: 8767946637232180926}
   - component: {fileID: 2461449384867718380}
   - component: {fileID: 7582043961913625463}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Exhaust inner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -986,7 +987,7 @@ GameObject:
   - component: {fileID: 7289794369104899181}
   - component: {fileID: 2965029852984140780}
   - component: {fileID: 3349962425002796085}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1065,7 +1066,7 @@ GameObject:
   - component: {fileID: 3313374563331383446}
   - component: {fileID: 4518911288084999342}
   - component: {fileID: 2812095079721119733}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1144,7 +1145,7 @@ GameObject:
   - component: {fileID: 2693538639294804771}
   - component: {fileID: 7764350504492509721}
   - component: {fileID: 3229227020199086031}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1223,7 +1224,7 @@ GameObject:
   - component: {fileID: 2841208619028593106}
   - component: {fileID: 2201444558467828385}
   - component: {fileID: 6019357151777626746}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1300,7 +1301,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 436793150673129759}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Flare R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1332,7 +1333,7 @@ GameObject:
   - component: {fileID: 6008155193382490448}
   - component: {fileID: 619688916558388774}
   - component: {fileID: 7977178326171405284}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Exhaust Shell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1409,7 +1410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3067238815452910938}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LineCast Rear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1441,7 +1442,7 @@ GameObject:
   - component: {fileID: 4257258101550513116}
   - component: {fileID: 1688585266757744490}
   - component: {fileID: 1948255085056934795}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1520,7 +1521,7 @@ GameObject:
   - component: {fileID: 1286510402007905431}
   - component: {fileID: 331658086899561148}
   - component: {fileID: 2144868405354964816}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1599,7 +1600,7 @@ GameObject:
   - component: {fileID: 6558761295687916767}
   - component: {fileID: 5400990747657663145}
   - component: {fileID: 6128854766439307114}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1676,7 +1677,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4124433627709447581}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LineCast Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1708,7 +1709,7 @@ GameObject:
   - component: {fileID: 1441122531750876968}
   - component: {fileID: 6901976571882843892}
   - component: {fileID: 6565255171839217495}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1785,7 +1786,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2942949429014391505}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Flare L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1817,7 +1818,7 @@ GameObject:
   - component: {fileID: 9013671708342018700}
   - component: {fileID: 6035981448617799967}
   - component: {fileID: 693409714809298251}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Paint ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1894,7 +1895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7359781267142711964}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EffectsCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1926,7 +1927,7 @@ GameObject:
   - component: {fileID: 4489758463223373506}
   - component: {fileID: 4071884668172950077}
   - component: {fileID: 2118665114361169293}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2005,7 +2006,7 @@ GameObject:
   - component: {fileID: 7559066365442080532}
   - component: {fileID: 1602532040208673032}
   - component: {fileID: 3779045893437548594}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2084,7 +2085,7 @@ GameObject:
   - component: {fileID: 7495488463136741825}
   - component: {fileID: 259216107581238020}
   - component: {fileID: 7975866738281391951}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2163,7 +2164,7 @@ GameObject:
   - component: {fileID: 8221584635154642236}
   - component: {fileID: 6353146551288454405}
   - component: {fileID: 8528444823481999043}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Paint ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2241,7 +2242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1127008975841815730}
   - component: {fileID: 5030596588601793438}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FlarePop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2378,7 +2379,7 @@ GameObject:
   - component: {fileID: 1222103984123351072}
   - component: {fileID: 7261866650117432346}
   - component: {fileID: 8683732635582995954}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Paint Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2457,7 +2458,7 @@ GameObject:
   - component: {fileID: 6943762868077519375}
   - component: {fileID: 8308180655443099453}
   - component: {fileID: 1206286168642044003}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2536,7 +2537,7 @@ GameObject:
   - component: {fileID: 4912435231348423828}
   - component: {fileID: 1399886199719630272}
   - component: {fileID: 5442480719756824793}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2615,7 +2616,7 @@ GameObject:
   - component: {fileID: 2890700001488245219}
   - component: {fileID: 6399940865121062785}
   - component: {fileID: 4572793584839769869}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2694,7 +2695,7 @@ GameObject:
   - component: {fileID: 3012024907632312412}
   - component: {fileID: 7884912460534432818}
   - component: {fileID: 3249955817079028992}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Nosecone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2771,7 +2772,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370242816610256775}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bodyfins 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2813,7 +2814,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8573574417276940607}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EffectsCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2846,7 +2847,7 @@ GameObject:
   - component: {fileID: 6586733753965069036}
   - component: {fileID: 9088095742161293884}
   - component: {fileID: 2417757454902104551}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2925,7 +2926,7 @@ GameObject:
   - component: {fileID: 5520838033160501200}
   - component: {fileID: 3676147531178002724}
   - component: {fileID: 8814138865333609972}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3004,7 +3005,7 @@ GameObject:
   - component: {fileID: 9175813629141343286}
   - component: {fileID: 95228911835960958}
   - component: {fileID: 1228169144832254639}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3083,7 +3084,7 @@ GameObject:
   - component: {fileID: 5450467475130021995}
   - component: {fileID: 8273946318540202590}
   - component: {fileID: 3697706327638761713}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3162,7 +3163,7 @@ GameObject:
   - component: {fileID: 7373127266393645269}
   - component: {fileID: 4623778418893287775}
   - component: {fileID: 1153250106684101953}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3241,7 +3242,7 @@ GameObject:
   - component: {fileID: 6179361378272920311}
   - component: {fileID: 2049572184424052051}
   - component: {fileID: 3712886421954236538}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3320,7 +3321,7 @@ GameObject:
   - component: {fileID: 8372095997359233633}
   - component: {fileID: 83399677846657763}
   - component: {fileID: 1172990911219462520}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3399,7 +3400,7 @@ GameObject:
   - component: {fileID: 3011191842019858328}
   - component: {fileID: 4637720244365617864}
   - component: {fileID: 767937082948754096}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tailfin V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3476,7 +3477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2116771318005547437}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Extra Audio Sources
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3584,6 +3585,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MissileEffects
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

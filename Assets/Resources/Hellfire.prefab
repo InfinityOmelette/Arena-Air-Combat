@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3046144563571735539}
   - component: {fileID: 2354257607152669290}
   - component: {fileID: 1938477010447797150}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 85221316908794032}
   - component: {fileID: 4244210738874423420}
   - component: {fileID: 6159063980369287249}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5508167400971253709}
   - component: {fileID: 303030479866117922}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 4194435152070430281}
   - component: {fileID: 3630134369003194802}
   - component: {fileID: 4069474044249694165}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 7088338195609811413}
   - component: {fileID: 1227540421644996034}
   - component: {fileID: 4182436352927089232}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hellfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,6 +619,7 @@ MonoBehaviour:
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
+  linkHPToIconBar: 0
 --- !u!114 &2687535952377180928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,7 +822,7 @@ GameObject:
   - component: {fileID: 3829093285608776552}
   - component: {fileID: 5102325457046249380}
   - component: {fileID: 7189725240560236080}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -911,7 +912,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3067238815452910938}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LineCast Rear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -944,7 +945,7 @@ GameObject:
   - component: {fileID: 7040230053611345440}
   - component: {fileID: 1487600264572993357}
   - component: {fileID: 7436581035050248284}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1034,7 +1035,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4124433627709447581}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LineCast Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1064,7 +1065,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7359781267142711964}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EffectsCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,7 +1098,7 @@ GameObject:
   - component: {fileID: 5615430518946076776}
   - component: {fileID: 4067488031284999434}
   - component: {fileID: 6743156570671721134}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1190,7 +1191,7 @@ GameObject:
   - component: {fileID: 4894497430888203178}
   - component: {fileID: 1861249747508816540}
   - component: {fileID: 1170105020621727727}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1283,7 +1284,7 @@ GameObject:
   - component: {fileID: 8034373054489164033}
   - component: {fileID: 3880200156305490812}
   - component: {fileID: 8643223651552791056}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1375,7 +1376,7 @@ GameObject:
   - component: {fileID: 3566629901781780611}
   - component: {fileID: 8708016024999215627}
   - component: {fileID: 4971065470327923961}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1452,7 +1453,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370242816610256775}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bodyfins V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1482,7 +1483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8573574417276940607}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EffectsCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1515,7 +1516,7 @@ GameObject:
   - component: {fileID: 6683842506563448654}
   - component: {fileID: 6612572082510604460}
   - component: {fileID: 9159285100740732279}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1595,7 +1596,7 @@ GameObject:
   - component: {fileID: 4367369235861771179}
   - component: {fileID: 7217263698203215729}
   - component: {fileID: 1828595156667444951}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1688,7 +1689,7 @@ GameObject:
   - component: {fileID: 1068687130312958093}
   - component: {fileID: 1487186352274375442}
   - component: {fileID: 651426435623197888}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1781,7 +1782,7 @@ GameObject:
   - component: {fileID: 4569433082184820847}
   - component: {fileID: 4154084651100954720}
   - component: {fileID: 7730033752650112425}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1871,7 +1872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2353420240220351246}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bodyfins H
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1978,6 +1979,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MissileEffects
+      objectReference: {fileID: 0}
+    - target: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

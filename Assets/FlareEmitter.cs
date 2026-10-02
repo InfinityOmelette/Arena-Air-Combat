@@ -50,6 +50,10 @@ public class FlareEmitter : MonoBehaviourPun
 
     public bool debug = false;
 
+    public bool useFlareIndicator = false;
+
+    public int availableFlareCount = 0;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -69,6 +73,8 @@ public class FlareEmitter : MonoBehaviourPun
     void Start()
     {
         flareIconManager = hudControl.mainHud.GetComponent<hudControl>().flareIconManager;
+
+        updateFlareIndicator();
 
         if (myFlow.isLocalPlayer)
         {
@@ -98,8 +104,38 @@ public class FlareEmitter : MonoBehaviourPun
         doFlareSlotReloadTimer();
 
 
-        
 
+    }
+
+    private void updateFlareIndicator()
+    {
+        countAvailableFlares();
+        if (useFlareIndicator)
+        {
+            myFlow.myHudIconRef.setFlares(availableFlareCount);
+        }
+        
+    }
+
+    private int countAvailableFlares()
+    {
+        int count = 0;
+
+        Debug.Log("Counting available flares: .....");
+
+        for (int i = 0; i < flareSlotReloads.Length; i++)
+        {
+            float flareslottime = flareSlotReloads[i];
+            Debug.Log("Flare: " + i + " time: " + flareslottime);
+            if (flareSlotReloads[i] <= 0f)
+            {
+                count++;
+            }
+        }
+        Debug.Log(count + " flares available");
+
+        availableFlareCount = count;
+        return count;
     }
 
     private int getAvailableFlareIndex()
@@ -152,6 +188,7 @@ public class FlareEmitter : MonoBehaviourPun
         deploying = true;
         cooldownTimer = deployCooldown;
         jammingTimer = jammingTimeMax;
+        updateFlareIndicator();
     }
 
     private void doCooldownTimer()
@@ -168,6 +205,7 @@ public class FlareEmitter : MonoBehaviourPun
                 {
                     flareSlotReloads[flareSlot] = flareReloadDelay;
                     photonView.RPC("activateFlares", RpcTarget.All);
+                    updateFlareIndicator();
                 }
             }
 

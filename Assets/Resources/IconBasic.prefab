@@ -492,18 +492,20 @@ MonoBehaviour:
   - {fileID: 6908307280296702229}
   - {fileID: 8547947084918120414}
   hideOnTargeted: []
-  showUntargeted: []
+  showUntargeted:
+  - {fileID: 8547947084918120414}
   hideUntargeted:
   - {fileID: 4586797580652843447}
   - {fileID: 1116528655502655442}
   - {fileID: 6908307280296702229}
-  - {fileID: 8547947084918120414}
-  showUntargetedIfFriendly:
-  - {fileID: 8547947084918120414}
+  showUntargetedIfFriendly: []
   showHPBar: 0
-  specialTexts:
+  specialTextsToColor:
   - {fileID: 4356299884649998622}
   reloadIndicator: {fileID: 7960709556708776316}
+  specialMoveTexts: []
+  specialMoveTextsOrigPos: []
+  flareIndic: {fileID: 0}
 --- !u!114 &7960709556708776316
 MonoBehaviour:
   m_ObjectHideFlags: 0

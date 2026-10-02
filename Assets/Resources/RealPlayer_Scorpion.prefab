@@ -3718,6 +3718,7 @@ MonoBehaviour:
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
+  linkHPToIconBar: 0
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3909,6 +3910,7 @@ MonoBehaviour:
   maxRange: 0
   active: 0
   initForwardVel: 0
+  initDownVel: 0
 --- !u!114 &5187546682584904764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3938,6 +3940,8 @@ MonoBehaviour:
   jammingTimeMax: 1.5
   flareButtonDown: 0
   debug: 0
+  useFlareIndicator: 1
+  availableFlareCount: 0
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0

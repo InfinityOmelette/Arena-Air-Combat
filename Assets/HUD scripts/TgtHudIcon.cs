@@ -68,6 +68,8 @@ public class TgtHudIcon : MonoBehaviour
     public Text suppliesText;
     public bool showSupplies;
 
+    
+
     public enum TargetedState
     {
         NONE,
@@ -112,14 +114,32 @@ public class TgtHudIcon : MonoBehaviour
 
     public bool showHPBar = false;
 
-    public List<Text> specialTexts;
+    public List<Text> specialTextsToColor;
 
     public ReloadIndicator reloadIndicator;
+
+    public List<Text> specialMoveTexts;
+    public List<Vector3> specialMoveTextsOrigPos;
+    public FlareIndicator flareIndic;
 
     void Awake()
     {
         transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
         getReloadIndic();
+        flareIndic = GetComponent<FlareIndicator>();
+    }
+
+    private void initMovingTextPositions()
+    {
+        if(specialMoveTexts != null)
+        {
+            specialMoveTextsOrigPos = new List<Vector3>();
+
+            for(int i = 0; i < specialMoveTexts.Count; i++)
+            {
+                specialMoveTextsOrigPos.Add(specialMoveTexts[i].transform.localPosition);
+            }
+        }
     }
 
     // Start is called before the first frame update
@@ -129,6 +149,7 @@ public class TgtHudIcon : MonoBehaviour
         titleTextOriginPos = tgtTitleText.transform.localPosition;
         dataLinkTextOriginPos = dataLinkText.transform.localPosition;
         suppliesTextOrigPos = suppliesText.transform.localPosition;
+        initMovingTextPositions();
 
         GameManager.getGM().playerSpawnEvent.AddListener(spawnCallback);
         hudObj = hudControl.mainHud.GetComponent<hudControl>();
@@ -138,6 +159,14 @@ public class TgtHudIcon : MonoBehaviour
         hpBarCenter.SetActive(showHPBar);
 
         //FixedUpdate();
+    }
+
+    public void setFlares(int numFlares)
+    {
+        if(flareIndic != null)
+        {
+            flareIndic.setFlareText(numFlares);
+        }
     }
 
     public ReloadIndicator getReloadIndic()
@@ -446,6 +475,20 @@ public class TgtHudIcon : MonoBehaviour
         tgtTitleText.transform.localPosition = scale * titleTextOriginPos;
         dataLinkText.transform.localPosition = scale * dataLinkTextOriginPos;
         suppliesText.transform.localPosition = scale * suppliesTextOrigPos;
+        updateSpecialTextMovers(scale);
+    }
+
+    private void updateSpecialTextMovers(float scale)
+    {
+        for(int i = 0; i < specialMoveTexts.Count; i++)
+        {
+            Text text = specialMoveTexts[i];
+            Vector3 origPos = specialMoveTextsOrigPos[i];
+
+            //Vector3 pos = text.transform.localPosition;
+
+            text.transform.localPosition = origPos * scale;
+        }
     }
 
 
@@ -575,11 +618,11 @@ public class TgtHudIcon : MonoBehaviour
     // used for child classes to set color
     protected virtual void specialChildColors(Color color)
     {
-        if(specialTexts != null)
+        if(specialTextsToColor != null)
         {
-            for (int i = 0; i < specialTexts.Count; i++)
+            for (int i = 0; i < specialTextsToColor.Count; i++)
             {
-                specialTexts[i].color = color;
+                specialTextsToColor[i].color = color;
             }
         }
         

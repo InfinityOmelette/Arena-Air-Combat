@@ -2385,7 +2385,6 @@ MonoBehaviour:
   att_weight: 2
   att_guidance: 0
   att_domain: 1
-  stockWeightPerHardpoint: 3
   stockWeight: 1
   ownerObj: {fileID: 0}
   myCombatFlow: {fileID: 0}
@@ -2460,6 +2459,8 @@ MonoBehaviour:
   radarSymbol: .
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
+  iconPrefab: {fileID: 6074590993853285948, guid: f4ace1b4e761ac4479e12dc2e3b569f6,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 1
@@ -2488,6 +2489,7 @@ MonoBehaviour:
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
+  linkHPToIconBar: 0
 --- !u!1 &6855708959548756079
 GameObject:
   m_ObjectHideFlags: 0

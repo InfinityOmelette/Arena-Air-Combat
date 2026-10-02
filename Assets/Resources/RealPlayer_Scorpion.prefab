@@ -1617,6 +1617,7 @@ MonoBehaviour:
   rudderLerpRate: 0.0249
   input_rudderAxis: 0
   input_gear_button: 0
+  hook: {fileID: 0}
 --- !u!1 &4745797078621705162
 GameObject:
   m_ObjectHideFlags: 0
@@ -3413,6 +3414,7 @@ MonoBehaviour:
   takeOffComplete: 0
   takeOffAngle: 12
   takeOffAlt: 85
+  gearRaiseTimer: 12
 --- !u!114 &1043727250034176688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3686,6 +3688,8 @@ MonoBehaviour:
   radarSymbol: "\u0394"
   camManager: {fileID: 0}
   unitCam: {fileID: 7121171246493503251}
+  iconPrefab: {fileID: 6074590993853285948, guid: f9f839fc489c02445aca5da1b6bfe3aa,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 0
@@ -3711,6 +3715,9 @@ MonoBehaviour:
   myRWR: {fileID: 0}
   canTakeDamage: 1
   myTechSite: {fileID: 0}
+  prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &9024033700797437041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3728,6 +3735,7 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 11
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.7698325, b: 0, a: 1}
   smokeColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   expandTime: 0.15
@@ -3737,6 +3745,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 1
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!114 &6801930850055786249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3801,6 +3812,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  canLockProjectiles: 0
 --- !u!114 &4424309726456864805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3862,6 +3874,9 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 7
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!114 &2320197551087535654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3922,6 +3937,7 @@ MonoBehaviour:
   flareLaunchR: {fileID: 6698832646241830736}
   jammingTimeMax: 1.5
   flareButtonDown: 0
+  debug: 0
 --- !u!1 &7744941293352778913
 GameObject:
   m_ObjectHideFlags: 0

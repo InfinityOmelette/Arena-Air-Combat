@@ -8,7 +8,7 @@ public class TgtIconManager : MonoBehaviour
 
     public static TgtIconManager tgtIconManager;
 
-    public GameObject tgtIconPrefab;
+    //public GameObject tgtIconPrefab;
 
     //public float estimatedFarDistance;
     public float estimatedCloseDistance;
@@ -47,31 +47,33 @@ public class TgtIconManager : MonoBehaviour
     public Sprite TechSiteLOS;
     public Sprite TechSiteNoLOS;
 
+
+
     private void Awake()
     {
 
-        // This is damn silly. Why am I setting here and not drag/drop in the prefab????
+        //// This is damn silly. Why am I setting here and not drag/drop in the prefab????
 
-        aircraftHudImageLOS = Resources.Load<Sprite>("HUD Images/HudSquare");
-        aircraftHudImageNoLOS = Resources.Load<Sprite>("HUD Images/HudSquareNoLOS");
+        //aircraftHudImageLOS = Resources.Load<Sprite>("HUD Images/HudSquare");
+        //aircraftHudImageNoLOS = Resources.Load<Sprite>("HUD Images/HudSquareNoLOS");
 
-        missileHudImageLOS = Resources.Load<Sprite>("HUD Images/MissileLOS");
-        missileHudImageNoLOS = Resources.Load<Sprite>("HUD Images/MissileNoLOS");
+        //missileHudImageLOS = Resources.Load<Sprite>("HUD Images/MissileLOS");
+        //missileHudImageNoLOS = Resources.Load<Sprite>("HUD Images/MissileNoLOS");
 
-        groundHudImageLOS = Resources.Load<Sprite>("HUD Images/GroundUnitLOS");
-        groundHudImageNoLOS = Resources.Load<Sprite>("HUD Images/GroundUnitNoLOS");
+        //groundHudImageLOS = Resources.Load<Sprite>("HUD Images/GroundUnitLOS");
+        //groundHudImageNoLOS = Resources.Load<Sprite>("HUD Images/GroundUnitNoLOS");
 
-        antiAirHudImageLOS = Resources.Load<Sprite>("HUD Images/AntiAirUnitLOS");
-        antiAirHudImageNoLOS = Resources.Load<Sprite>("HUD Images/AntiAirUnitNoLOS");
+        //antiAirHudImageLOS = Resources.Load<Sprite>("HUD Images/AntiAirUnitLOS");
+        //antiAirHudImageNoLOS = Resources.Load<Sprite>("HUD Images/AntiAirUnitNoLOS");
 
-        SamHudImageLOS = Resources.Load<Sprite>("HUD Images/SamUnitLOS");
-        SamHudImageNoLOS = Resources.Load<Sprite>("HUD Images/SamUnitNoLOS");
+        //SamHudImageLOS = Resources.Load<Sprite>("HUD Images/SamUnitLOS");
+        //SamHudImageNoLOS = Resources.Load<Sprite>("HUD Images/SamUnitNoLOS");
 
-        StrategicImageLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetLOS");
-        StrategicImageNoLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetNoLOS");
+        //StrategicImageLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetLOS");
+        //StrategicImageNoLOS = Resources.Load<Sprite>("HUD Images/StrategicTargetNoLOS");
 
-        TechSiteLOS = Resources.Load<Sprite>("HUD Images/TechSiteLOS");
-        TechSiteNoLOS = Resources.Load<Sprite>("HUD Images/TechSiteNoLOS");
+        //TechSiteLOS = Resources.Load<Sprite>("HUD Images/TechSiteLOS");
+        //TechSiteNoLOS = Resources.Load<Sprite>("HUD Images/TechSiteNoLOS");
 
         if (TgtIconManager.tgtIconManager == null)
             TgtIconManager.tgtIconManager = this;
@@ -86,8 +88,10 @@ public class TgtIconManager : MonoBehaviour
     
     public GameObject spawnIcon(CombatFlow unitFlow)
     {
+        Debug.Log("Attempting to spawn icon for: " + unitFlow.gameObject.name);
+
         // TODO: tgtIconPrefab should be in CombatFlow to allow changes
-        GameObject iconObj = Instantiate(tgtIconPrefab, transform);
+        GameObject iconObj = Instantiate(unitFlow.iconPrefab.gameObject, transform);
 
         // initialize icon's data
         TgtHudIcon iconScript = iconObj.GetComponent<TgtHudIcon>();

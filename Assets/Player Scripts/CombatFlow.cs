@@ -42,6 +42,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public PerspectiveManager camManager;
     public GameObject unitCam; // leave null if item won't have its own camera
 
+    public TgtHudIcon iconPrefab;
     public TgtHudIcon myHudIconRef;
 
     public Team team;
@@ -108,6 +109,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
     public UnitAlertness alertNess;
 
     public MissileGuidance mslGuidance;
+
+    public bool linkHPToIconBar = false;
 
     // ??????????
     public static Team convertNumToTeam(short num)
@@ -220,7 +223,11 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
         // spawn icon, set reference here to the TgtHudIconScript of icon spawned
         myHudIconRef = TgtIconManager.tgtIconManager.spawnIcon(this).GetComponent<TgtHudIcon>();// add my icon to hud
+
+        // BAD BAD BAD BAD BAD BAD BAD
         myHudIconRef.neverFar = type == Type.STRATEGIC || type == Type.AIRCRAFT || type == Type.TECH || type == Type.NAVAL;
+
+        applyDamage(0.0f); // update health bar if shown
 
         if (!isLocalPlayer)
         {
@@ -361,13 +368,29 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public void dealLocalDamage(float damage)
     {
-        currentHP -= damage;
+        //currentHP -= damage;
+
+        applyDamage(damage);
+    }
+
+    private void applyDamage(float damage)
+    {
+        this.currentHP -= damage;
+
+        if (linkHPToIconBar)
+        {
+            myHudIconRef.updateHPValue(currentHP / maxHP);
+        }
+       
     }
 
     [PunRPC]
     private void rpcDealDamage(float damage)
     {
-        this.currentHP -= damage;
+
+        applyDamage(damage);
+
+        
     }
 
     public void die()

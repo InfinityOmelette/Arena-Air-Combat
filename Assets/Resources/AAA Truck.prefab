@@ -78,6 +78,8 @@ MonoBehaviour:
   radarSymbol: ^
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
+  iconPrefab: {fileID: 6074590993853285948, guid: f4ace1b4e761ac4479e12dc2e3b569f6,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 3
@@ -123,6 +125,7 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 11
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.45953527, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
   expandTime: 0.15
@@ -132,6 +135,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!114 &5051314130571058155
 MonoBehaviour:
   m_ObjectHideFlags: 0

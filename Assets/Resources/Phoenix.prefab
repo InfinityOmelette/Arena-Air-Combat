@@ -826,6 +826,7 @@ MonoBehaviour:
   att_weight: 2
   att_guidance: 1
   att_domain: 0
+  stockWeight: 1
   ownerObj: {fileID: 0}
   proximityFuseRange: 15
   fuseLeadTime: 0.1
@@ -847,7 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f04f5ab53407244972ae2aff7c52ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRB: {fileID: 0}
+  targetFlowPersistent: {fileID: 0}
   rocketMotor: {fileID: 0}
   myFlightControl: {fileID: 0}
   myRB: {fileID: 0}
@@ -858,9 +859,13 @@ MonoBehaviour:
   scanConeFactor: 1
   timeRemainDragEstFactor: 10
   isLocked: 0
-  maxLoftDegreesKM: 18
+  maxLoftDegrees: 18
   loftChangeSlope: 6.7
   loftMinRangeKM: 3.3
+  mslInterceptionProxDist: 30
+  corkscrewRate: 0
+  timeSinceLaunch: 0
+  avoidGround: 0
 --- !u!114 &519547984996097237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,6 +907,7 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  canLockProjectiles: 0
 --- !u!114 &3456510896575939194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,6 +993,8 @@ MonoBehaviour:
   radarSymbol: I
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
+  iconPrefab: {fileID: 6074590993853285948, guid: f4ace1b4e761ac4479e12dc2e3b569f6,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 1
@@ -1012,6 +1020,9 @@ MonoBehaviour:
   myRWR: {fileID: 0}
   canTakeDamage: 1
   myTechSite: {fileID: 0}
+  prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &29026782760298540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,6 +1040,7 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 11
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.6639284, b: 0, a: 1}
   smokeColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
   expandTime: 0.075
@@ -1038,6 +1050,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!114 &3786267972704520770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2293,6 +2308,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2305,6 +2340,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
@@ -2323,16 +2363,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -2345,21 +2375,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1938676724783723672, guid: c6bd0690b0d1b734d9d11488553094e5,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

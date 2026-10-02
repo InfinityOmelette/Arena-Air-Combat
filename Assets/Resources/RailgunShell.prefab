@@ -625,6 +625,7 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 3
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 0, g: 0.6957073, b: 1, a: 1}
   smokeColor: {r: 0.740566, g: 1, b: 0.99748576, a: 1}
   expandTime: 0.15
@@ -634,6 +635,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!114 &1195842359684267916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,6 +660,8 @@ MonoBehaviour:
   radarSymbol: .
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
+  iconPrefab: {fileID: 6074590993853285948, guid: f4ace1b4e761ac4479e12dc2e3b569f6,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 1
@@ -680,6 +686,10 @@ MonoBehaviour:
   myRadar: {fileID: 0}
   myRWR: {fileID: 0}
   canTakeDamage: 1
+  myTechSite: {fileID: 0}
+  prefabRef: {fileID: 0}
+  alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!114 &2852526732308735592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,6 +732,11 @@ MonoBehaviour:
   launchSound: {fileID: 0}
   flightSound: {fileID: 0}
   launchSoundVolume: 0
+  reloadTimeDefault: 10
+  att_weight: 0
+  att_guidance: 0
+  att_domain: 0
+  stockWeight: 1
   rocketEffectsPrefab: {fileID: 3795491082417072009, guid: 90dd05cbad62d3940b58f64eaedd4a97,
     type: 3}
   impactDamage: 90

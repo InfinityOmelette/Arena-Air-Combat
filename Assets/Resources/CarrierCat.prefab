@@ -33063,6 +33063,8 @@ MonoBehaviour:
   radarSymbol: C
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
+  iconPrefab: {fileID: 6074590993853285948, guid: 1ceba941ea433434fa9d5a061e76f262,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 7
@@ -33091,6 +33093,7 @@ MonoBehaviour:
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
+  linkHPToIconBar: 1
 --- !u!114 &5057426601441702812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33201,6 +33204,7 @@ MonoBehaviour:
   collisionsEnabled: 0
   dissipationTime: 15
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.54949003, b: 0, a: 1}
   smokeColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
   expandTime: 0.35
@@ -33210,6 +33214,9 @@ MonoBehaviour:
   team: 2
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!114 &6528340766504547530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33301,12 +33308,19 @@ MonoBehaviour:
   isCarrier: 0
   myFlow: {fileID: 0}
   cannon: {fileID: 0}
+  myLanePos: 0
+  artillery: {fileID: 0}
   farAheadThresh: 500
   slightAheadThresh: 300
   desiredStandoff: 1000
   slightBehindThresh: -300
   independentNavThreshold: 800
   debugStandoffRead: 0
+  debugMyAxisPos: 0
+  debugLeaderAxisPos: 0
+  debugRawDeisrePos: 0
+  debugRawAxisDeltaToDesirePos: 0
+  debugEffectiveAxisDeltaToDesirePos: 0
 --- !u!1 &4365606027760939449
 GameObject:
   m_ObjectHideFlags: 0

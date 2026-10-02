@@ -142,6 +142,7 @@ MonoBehaviour:
   collisionsEnabled: 0
   dissipationTime: 0.45
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.9656743, b: 0, a: 1}
   smokeColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
   expandTime: 0.07
@@ -151,6 +152,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!1 &1275477206701775578
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +363,7 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 1.5
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.5927993, b: 0, a: 1}
   smokeColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
   expandTime: 0.075
@@ -368,6 +373,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!114 &3891058292600068347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +439,7 @@ MonoBehaviour:
   collisionsEnabled: 0
   dissipationTime: 0.3
   emitLightEnabled: 0
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   smokeColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
   expandTime: 0.15
@@ -440,6 +449,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!1 &5817169110748130381
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +688,8 @@ MonoBehaviour:
   radarSymbol: "\u2726"
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
+  iconPrefab: {fileID: 6074590993853285948, guid: f4ace1b4e761ac4479e12dc2e3b569f6,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 0
   type: 2
@@ -749,6 +763,7 @@ MonoBehaviour:
   collisionsEnabled: 1
   dissipationTime: 11
   emitLightEnabled: 1
+  brightFlashColor: {r: 1, g: 1, b: 1, a: 1}
   glowColor: {r: 1, g: 0.45953527, b: 0, a: 1}
   smokeColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
   expandTime: 0.15
@@ -758,6 +773,9 @@ MonoBehaviour:
   team: 0
   doExplode: 1
   armingTime: 0
+  flashDurationDeprecated: 0.033
+  smokeshootCountOverride: -1
+  sparkCountOverride: -1
 --- !u!114 &1209135425102178798
 MonoBehaviour:
   m_ObjectHideFlags: 0

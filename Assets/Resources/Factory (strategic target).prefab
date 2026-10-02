@@ -115,6 +115,8 @@ MonoBehaviour:
   radarSymbol: (F)
   camManager: {fileID: 0}
   unitCam: {fileID: 0}
+  iconPrefab: {fileID: 6074590993853285948, guid: a24c339edc0fb274baf6b4f238f5b99b,
+    type: 3}
   myHudIconRef: {fileID: 0}
   team: 1
   type: 5
@@ -142,6 +144,7 @@ MonoBehaviour:
   myTechSite: {fileID: 0}
   prefabRef: {fileID: 0}
   alertNess: {fileID: 0}
+  mslGuidance: {fileID: 0}
 --- !u!54 &2221568712399319233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -206,6 +209,9 @@ MonoBehaviour:
   cleanListsDelay: 3
   minImpactTime: 0
   amraamsIncoming: 0
+  closingVelocityThreatThreshold: 50
+  warningComputer: {fileID: 0}
+  checkClosestMissile: 0
 --- !u!114 &7537817030063335737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,8 +253,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wakeUpTimeMax: 8
+  wakeUpTimer: 0
   lowerGuardTimeMax: 12
+  lowerGuardTimer: 0
   isAlert: 0
+  lowerGuardResetTimerMax: 0.5
+  lowerGuardResetTimer: 0
+  wakeUpResetTimerMax: 10
+  wakeUpResetTimer: 0
+  currentCoeff: 1
+  alertingUnit: {fileID: 0}
+  closeWakeTimeCoeff: 2
+  closeWakeTimeRange: 1750
+  normalWakeTimeRange: 3000
 --- !u!1001 &3664208811193449670
 PrefabInstance:
   m_ObjectHideFlags: 0

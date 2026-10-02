@@ -22,6 +22,7 @@ public class TgtHudIcon : MonoBehaviour
     public Text tgtTitleText;
     public Text tgtVisConditionsText;
     public Text tgtDistText;
+    public GameObject statusTextCenter;
 
     private bool doBlink;
     private float currentBlinkUpTime;
@@ -86,7 +87,7 @@ public class TgtHudIcon : MonoBehaviour
     public bool isNeutral = false;
 
 
-    private Vector3 distTextOriginPos;
+    private Vector3 statusTextOriginPos;
     private Vector3 titleTextOriginPos;
     private Vector3 dataLinkTextOriginPos;
 
@@ -98,6 +99,19 @@ public class TgtHudIcon : MonoBehaviour
 
     private Vector3 suppliesTextOrigPos;
 
+    public List<GameObject> showOnLock;
+    public List<GameObject> hideOnLock;
+
+    public List<GameObject> showOnTargeted;
+    public List<GameObject> hideOnTargeted;
+
+    public List<GameObject> showUntargeted;
+    public List<GameObject> hideUntargeted;
+
+    public List<GameObject> showUntargetedIfFriendly;
+
+    public bool showHPBar = false;
+
     void Awake()
     {
         transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
@@ -106,7 +120,7 @@ public class TgtHudIcon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        distTextOriginPos = tgtDistText.transform.localPosition;
+        statusTextOriginPos = statusTextCenter.transform.localPosition;
         titleTextOriginPos = tgtTitleText.transform.localPosition;
         dataLinkTextOriginPos = dataLinkText.transform.localPosition;
         suppliesTextOrigPos = suppliesText.transform.localPosition;
@@ -116,7 +130,7 @@ public class TgtHudIcon : MonoBehaviour
         //resizeForDist(currentDistance);
 
         // only show health bar if is strategic
-        hpBarCenter.SetActive(neverFar);
+        hpBarCenter.SetActive(showHPBar);
 
         //FixedUpdate();
     }
@@ -143,7 +157,7 @@ public class TgtHudIcon : MonoBehaviour
                 init = true;
             }
 
-            isFar = currentDistance > HIDE_DISTANCE;
+            isFar = currentDistance > HIDE_DISTANCE && targetedState == TargetedState.NONE;
 
             setTargetedState();
             
@@ -202,24 +216,61 @@ public class TgtHudIcon : MonoBehaviour
         suppliesText.text = supplies.ToString();
     }
 
+    protected virtual void lockStateProcess()
+    {
+        //tgtTitleText.enabled = true;
+        //tgtDistText.enabled = true;
+        //txtKPH.enabled = true;
+        setElementsActive(showOnLock, true);
+        setElementsActive(hideOnLock, false);
+    }
+
+    protected virtual void targetedStateProcess()
+    {
+        if (!(isFar && !neverFar))
+        {
+            //tgtTitleText.enabled = true;
+            //tgtDistText.enabled = true;
+            //txtKPH.enabled = true;
+
+            setElementsActive(showOnTargeted, true);
+            setElementsActive(hideOnTargeted, false);
+
+
+
+
+        }
+        
+    }
+
+
+    protected virtual void untargetedStateProcess()
+    {
+
+        //tgtTitleText.enabled = false;
+        //tgtDistText.enabled = false;
+        setElementsActive(showUntargetedIfFriendly, isFriendly);
+        setElementsActive(showUntargeted, true);
+        setElementsActive(hideUntargeted, false);
+    }
+
     private void setTargetedState()
     {
         if (targetedState != activeState)
         {
 
-
-
-
             // SET COLOR BASED ON LOCK STATE
             if (targetedState == TargetedState.LOCKED) // LOCKED
             {
-                //activeState = targetedState;
 
-                tgtTitleText.enabled = true;
-                txtKPH.enabled = true;
-                tgtDistText.enabled = true;
+
+
                 changeChildColors(tgtIconManager.lockedColor);
                 doBlink = false;
+
+                lockStateProcess();
+                
+
             }
             else // NONE OR TARGETED
             {
@@ -228,77 +279,33 @@ public class TgtHudIcon : MonoBehaviour
 
                 if (targetedState == TargetedState.TARGETED)
                 {
-                    if (!(isFar && !neverFar))
-                    {
-                        tgtTitleText.enabled = true;
-                        tgtDistText.enabled = true;
-                        txtKPH.enabled = true;
-                    }
                     doBlink = true;
+                    targetedStateProcess();
 
                 }
                 else // NONE -- NOT TARGETED AT ALL
                 {
-                    txtKPH.enabled = false;
+                    //txtKPH.enabled = false;
                     doBlink = false;
 
-                    switch (rootFlow.type)
-                    {
-                        case CombatFlow.Type.AIRCRAFT:
-                            if (isFriendly)
-                            {
-                                tgtTitleText.enabled = true;
-                                tgtDistText.enabled = true;
-                            }
-                            break;
-                        case CombatFlow.Type.NAVAL:
-                        case CombatFlow.Type.STRATEGIC:
-                            //if (isFriendly)
-                            //{
-                                
-                            //}
-                            tgtTitleText.enabled = isFriendly;
-                            tgtDistText.enabled = false;
-                            break;
-                        case CombatFlow.Type.TECH:
-                            tgtTitleText.enabled = true;
-                            tgtDistText.enabled = false;
-                            break;
-                        default:
-                            tgtTitleText.enabled = false;
-                            tgtDistText.enabled = false;
-                            break;
-                    }
+                    untargetedStateProcess();
 
 
-                    //if (rootFlow.type == CombatFlow.Type.AIRCRAFT && isFriendly)
-                    //{
-                    //    // show name and dist
-                    //    tgtTitleText.enabled = true;
-                    //    tgtDistText.enabled = true;
-                    //}
-                    //else if ((rootFlow.type == CombatFlow.Type.STRATEGIC
-                    //    || rootFlow.type == CombatFlow.Type.NAVAL) && isFriendly)
-                    //{
-                    //    tgtTitleText.enabled = true;
-                    //    tgtDistText.enabled = false;
-                    //}
-                    //else if (rootFlow.type == CombatFlow.Type.TECH)
-                    //{
-                    //    tgtTitleText.enabled = true;
-                    //    tgtDistText.enabled = false;
-                    //}
-                    //else
-                    //{
-                    //    tgtTitleText.enabled = false;
-                    //    tgtDistText.enabled = false;
-                    //}
                 }
             }
 
         }
 
         activeState = targetedState;
+    }
+
+    
+    protected virtual void setElementsActive(List<GameObject> elements, bool doShow)
+    {
+        for(int i = 0; i < elements.Count; i++)
+        {
+            elements[i].SetActive(doShow);
+        }
     }
 
 
@@ -403,7 +410,7 @@ public class TgtHudIcon : MonoBehaviour
         float scale = tgtImageCenter.transform.localScale.x;
 
         // Move text to stay aligned with box
-        tgtDistText.transform.localPosition = scale * distTextOriginPos;
+        statusTextCenter.transform.localPosition = scale * statusTextOriginPos;
         tgtTitleText.transform.localPosition = scale * titleTextOriginPos;
         dataLinkText.transform.localPosition = scale * dataLinkTextOriginPos;
         suppliesText.transform.localPosition = scale * suppliesTextOrigPos;
@@ -526,12 +533,23 @@ public class TgtHudIcon : MonoBehaviour
             suppressedText.color = activeColor;
             retrievingText.color = activeColor;
             suppliesText.color = activeColor;
+            specialChildColors(color);
             
         }
 
         return color;
     }
 
+    // used for child classes to set color
+    protected virtual void specialChildColors(Color color)
+    {
+
+    }
+
+    public void updateHPValue(float hpDecimal)
+    {
+        this.hpDisplayDecimal = Mathf.Max(hpDecimal, 0.0f);
+    }
 
     void blinkProcess()
     {

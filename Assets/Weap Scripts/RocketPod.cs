@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class RocketPod : Weapon
 {
-    public GameObject ownerObj;
+    //public GameObject ownerObj;
 
     public CombatFlow myCombatFlow;
 

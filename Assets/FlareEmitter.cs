@@ -121,18 +121,18 @@ public class FlareEmitter : MonoBehaviourPun
     {
         int count = 0;
 
-        Debug.Log("Counting available flares: .....");
+        //Debug.Log("Counting available flares: .....");
 
         for (int i = 0; i < flareSlotReloads.Length; i++)
         {
             float flareslottime = flareSlotReloads[i];
-            Debug.Log("Flare: " + i + " time: " + flareslottime);
+            //Debug.Log("Flare: " + i + " time: " + flareslottime);
             if (flareSlotReloads[i] <= 0f)
             {
                 count++;
             }
         }
-        Debug.Log(count + " flares available");
+        //Debug.Log(count + " flares available");
 
         availableFlareCount = count;
         return count;

@@ -31,6 +31,8 @@ public class Weapon : MonoBehaviourPunCallbacks
     public GameObject effectsObj;
     public Transform effectsCenter;
 
+    public GameObject ownerObj;
+
     // hardpointController will call Fire and FireEnd on all of this type simultaneously
     // hardpointcontroller will NOT step to next type
     public bool groupHardpointsTogether;
@@ -84,6 +86,8 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public float dropDownSpeed = 0.0f;
 
+    public float launchSoundDelay = 0.0f;
+
     public enum Weight
     {
         LIGHT,
@@ -113,6 +117,8 @@ public class Weapon : MonoBehaviourPunCallbacks
             int tempMask = 1 << layers[i];
             layerMask = layerMask | tempMask;
         }
+        
+
         return layerMask;
     }
 
@@ -311,6 +317,7 @@ public class Weapon : MonoBehaviourPunCallbacks
     virtual public void linkToOwner( GameObject owner)
     {
         Debug.Log("Parent LinkToOwner called");
+        ownerObj = owner;
     }
 
 
@@ -330,6 +337,20 @@ public class Weapon : MonoBehaviourPunCallbacks
         armingTime = newArmTime;
         armTimeRemaining = newArmTime;
         return newArmTime;
+    }
+
+    public Vector3 shoveDownVel()
+    {
+        if(ownerObj == null)
+        {
+            return new Vector3();
+        }
+        else
+        {
+            return -ownerObj.transform.up * dropDownSpeed;
+        }
+        
+
     }
 
 

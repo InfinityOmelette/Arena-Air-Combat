@@ -444,6 +444,7 @@ MonoBehaviour:
   effectsOriginalObj: {fileID: 297944557742414177}
   effectsObj: {fileID: 0}
   effectsCenter: {fileID: 8573574417276940607}
+  ownerObj: {fileID: 0}
   groupHardpointsTogether: 0
   sequentialLaunch: 0
   fireRateTimer: 0
@@ -464,7 +465,8 @@ MonoBehaviour:
   att_guidance: 1
   att_domain: 1
   stockWeight: 4
-  ownerObj: {fileID: 0}
+  dropDownSpeed: 5
+  launchSoundDelay: 0
   proximityFuseRange: 7
   fuseLeadTime: 0.1
   impactDamage: 0
@@ -503,6 +505,7 @@ MonoBehaviour:
   corkscrewRate: 65
   timeSinceLaunch: 0
   avoidGround: 1
+  corkscrewBeginAngle: 180
 --- !u!114 &2458642289922689017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,6 +611,7 @@ MonoBehaviour:
   cruiseThrust: 225
   cruiseTime: 30
   doBurn: 0
+  burnDelay: 0.85
 --- !u!114 &5442397668170603962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,6 +884,8 @@ MonoBehaviour:
   jammingTimeMax: 1.5
   flareButtonDown: 0
   debug: 0
+  useFlareIndicator: 0
+  availableFlareCount: 0
 --- !u!114 &2598215602722898354
 MonoBehaviour:
   m_ObjectHideFlags: 0

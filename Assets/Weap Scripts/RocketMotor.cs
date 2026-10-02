@@ -23,6 +23,8 @@ public class RocketMotor : MonoBehaviour
 
     private bool makeEffect = true;
 
+    public float burnDelay = 0.0f;
+
     private void Awake()
     {
         doBurn = false;
@@ -56,42 +58,45 @@ public class RocketMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(myWeapon.launched && burnTime > 0)
+        if(burnDelay < 0f)
         {
-            burnTime -= Time.deltaTime;
-            if (!doBurn) // activate effects on the very first frame that doBurn is enabled
+            if (myWeapon.launched && burnTime > 0)
             {
-                myWeapon.effectsObj.GetComponent<Light>().enabled = true;
-                myWeapon.effectsObj.GetComponent<TrailRenderer>().enabled = true;
-            }
-            myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
-            doBurn = true;
-            doCruise = true;
-        }
-        else
-        {
-            if (doBurn) // disable light on the very first frame that doBurn is disabled
-            {
-                myWeapon.effectsObj.GetComponent<Light>().enabled = false;
-            }
-            doBurn = false;
-            
-        }
-
-        if (doCruise && !doBurn)
-        {
-            if (cruiseTime > 0)
-            {
-                //Debug.Log("Time for cruise");
+                burnTime -= Time.deltaTime;
+                if (!doBurn) // activate effects on the very first frame that doBurn is enabled
+                {
+                    myWeapon.effectsObj.GetComponent<Light>().enabled = true;
+                    myWeapon.effectsObj.GetComponent<TrailRenderer>().enabled = true;
+                }
                 myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
-                cruiseTime -= Time.deltaTime;
+                doBurn = true;
+                doCruise = true;
             }
             else
             {
-                doCruise = false;
+                if (doBurn) // disable light on the very first frame that doBurn is disabled
+                {
+                    myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+                }
+                doBurn = false;
+
+            }
+
+            if (doCruise && !doBurn)
+            {
+                if (cruiseTime > 0)
+                {
+                    //Debug.Log("Time for cruise");
+                    myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
+                    cruiseTime -= Time.deltaTime;
+                }
+                else
+                {
+                    doCruise = false;
+                }
             }
         }
+        
 
     }
 
@@ -117,6 +122,8 @@ public class RocketMotor : MonoBehaviour
                     if (myRB != null)
                         myRB.AddForce(transform.forward * cruiseThrust);
                 }
+
+                burnDelay -= Time.fixedDeltaTime;
             }
         }
     }

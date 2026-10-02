@@ -90,6 +90,8 @@ public class MissileGuidance : MonoBehaviour
 
     public bool avoidGround = false;
 
+    public float corkscrewBeginAngle = 90f;
+
     private void Awake()
     {
         missileRef = GetComponent<BasicMissile>();
@@ -136,13 +138,18 @@ public class MissileGuidance : MonoBehaviour
         return type;
     }
 
+    private bool rocketReady()
+    {
+        return rocketMotor == null || rocketMotor.burnDelay <= 0;
+    }
+
     private void FixedUpdate()
     {
         GameObject myTarget = weaponRef.myTarget;
         if(myTarget != null && targetFlowPersistent == null)
             targetFlowPersistent = weaponRef.myTarget.GetComponent<CombatFlow>();
 
-        if (weaponRef.launched)
+        if (weaponRef.launched && rocketReady())
         {
             timeSinceLaunch += Time.fixedDeltaTime;
 
@@ -398,9 +405,11 @@ public class MissileGuidance : MonoBehaviour
             targetBearingLine, estimateTimeToImpact(targetBearingLine));
     }
 
+    
+
     private Vector3 corkscrewAdjustment(Vector3 interceptLine, Vector3 targetBearingLine, float ETA)
     {
-        float twistAngle = timeSinceLaunch * corkscrewRate;
+        float twistAngle = timeSinceLaunch * corkscrewRate + corkscrewBeginAngle;
 
         Vector3 newDir = (Quaternion.AngleAxis(twistAngle, targetBearingLine)) * interceptLine;
 

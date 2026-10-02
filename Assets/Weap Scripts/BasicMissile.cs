@@ -11,7 +11,7 @@ public class BasicMissile : Weapon
 
     // inherits target property from Weapon
 
-    public GameObject ownerObj;
+    //public GameObject ownerObj;
 
     //public GameObject effectsOriginalObj;
     
@@ -41,6 +41,8 @@ public class BasicMissile : Weapon
 
     private bool hasPassed = false;
 
+    private RocketMotor motor;
+
     void Awake()
     {
         init();
@@ -67,6 +69,16 @@ public class BasicMissile : Weapon
         // RocketMotor instantiates effects obj
 
         myCombatFlow.isActive = false;
+        launchSoundDelay = motor.burnDelay;
+    }
+
+    private void tryOverrideLaunchDelay()
+    {
+        if(myHardpoint == null)
+        {
+            motor.burnDelay = 0.0f;
+            launchSoundDelay = 0.0f;
+        }
     }
 
     private void setRefs()
@@ -75,17 +87,21 @@ public class BasicMissile : Weapon
         radar = GetComponent<Radar>();
         rbRef = GetComponent<Rigidbody>();
         flightSound = GetComponent<AudioSource>();
+        motor = GetComponent<RocketMotor>();
     }
 
     override
     public void linkToOwner(GameObject ownerObjArg)
     {
-        ownerObj = ownerObjArg;
+        //ownerObj = ownerObjArg;
+        base.linkToOwner(ownerObjArg);
         GetComponent<FixedJoint>().connectedBody = ownerObj.GetComponent<Rigidbody>();
 
         myHardpoint.roundsMax = 1;
         myHardpoint.roundsRemain = 1;
         //myHardpoint.reloadTimeMax = 
+
+
     }
     
 
@@ -352,6 +368,8 @@ public class BasicMissile : Weapon
         }
     }
 
+
+
     [PunRPC]
     private void rpcLaunch()
     {
@@ -360,6 +378,8 @@ public class BasicMissile : Weapon
         if (!doDestroy)
         {
             GetComponent<NetPosition>().active = true;
+
+            tryOverrideLaunchDelay();
 
             if (myHardpoint != null)
             {
@@ -370,7 +390,8 @@ public class BasicMissile : Weapon
                 {
                     myHardpoint.launchSoundSource.clip = launchSound;
                     myHardpoint.launchSoundSource.volume = launchSoundVolume;
-                    myHardpoint.launchSoundSource.Play();
+                    myHardpoint.launchSoundSource.PlayDelayed(launchSoundDelay);
+                    //myHardpoint.launchSoundSource.Play();
                 }
             }
 
@@ -407,6 +428,8 @@ public class BasicMissile : Weapon
 
         flightSound.loop = true;
         flightSound.Play();
+
+        rbRef.velocity += shoveDownVel();
     }
 
 

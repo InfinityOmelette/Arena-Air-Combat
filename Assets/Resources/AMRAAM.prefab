@@ -2242,6 +2242,7 @@ MonoBehaviour:
   effectsOriginalObj: {fileID: 7523632658139020953}
   effectsObj: {fileID: 0}
   effectsCenter: {fileID: 450453812365546490}
+  ownerObj: {fileID: 0}
   groupHardpointsTogether: 0
   sequentialLaunch: 0
   fireRateTimer: 0
@@ -2262,8 +2263,8 @@ MonoBehaviour:
   att_guidance: 0
   att_domain: 0
   stockWeight: 2
-  dropDownSpeed: 0
-  ownerObj: {fileID: 0}
+  dropDownSpeed: 5
+  launchSoundDelay: 0
   proximityFuseRange: 8
   fuseLeadTime: 0.1
   impactDamage: 0
@@ -2302,6 +2303,7 @@ MonoBehaviour:
   corkscrewRate: 0
   timeSinceLaunch: 0
   avoidGround: 0
+  corkscrewBeginAngle: 90
 --- !u!114 &6223456275018982061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2372,10 +2374,10 @@ MonoBehaviour:
   pitchTrim: 0
   downPitchMultiplier: 1
   wingLiftCoefficient: 0.035
-  wingDragCoefficient: 0.3
+  wingDragCoefficient: 0.25
   wingDragOffset: 0.001
   bodySideLiftCoefficient: 0.035
-  bodySideDragCoefficient: 0.3
+  bodySideDragCoefficient: 0.25
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
   pitchStability: 0
@@ -2407,6 +2409,7 @@ MonoBehaviour:
   cruiseThrust: 85
   cruiseTime: 6
   doBurn: 0
+  burnDelay: 0.6
 --- !u!114 &4268398709732474751
 MonoBehaviour:
   m_ObjectHideFlags: 0

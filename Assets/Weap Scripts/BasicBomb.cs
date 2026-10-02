@@ -5,7 +5,7 @@ using Photon.Pun;
 public class BasicBomb : Weapon
 {
 
-    public GameObject ownerObj;
+    //public GameObject ownerObj;
 
     public CombatFlow myCombatFlow;
 
@@ -30,7 +30,9 @@ public class BasicBomb : Weapon
     override
     public void linkToOwner(GameObject newOwner)
     {
-        ownerObj = newOwner;
+        base.linkToOwner(newOwner);
+
+        
         GetComponent<FixedJoint>().connectedBody = ownerObj.GetComponent<Rigidbody>();
 
         myHardpoint.roundsMax = 1;
@@ -81,7 +83,7 @@ public class BasicBomb : Weapon
 
         Destroy(GetComponent<FixedJoint>());
 
-        rbRef.velocity = ownerObj.GetComponent<Rigidbody>().velocity + launchShove();
+        rbRef.velocity = ownerObj.GetComponent<Rigidbody>().velocity + shoveDownVel();
 
         myHardpoint.roundsRemain = 0;
 
@@ -90,10 +92,6 @@ public class BasicBomb : Weapon
         myCombatFlow.isActive = true;
     }
 
-    private Vector3 launchShove()
-    {
-        return -ownerObj.transform.up * dropDownSpeed;
-    }
 
     private void OnTriggerEnter(Collider other)
     {

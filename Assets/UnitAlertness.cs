@@ -37,6 +37,14 @@ public class UnitAlertness : MonoBehaviour
     public float closeWakeTimeRange = 1750;
     public float normalWakeTimeRange = 3000f;
 
+    public bool showAlertness = false;
+
+    private CombatFlow myFlow;
+
+    private void Awake()
+    {
+        myFlow = GetComponent<CombatFlow>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +57,32 @@ public class UnitAlertness : MonoBehaviour
     {
         wakeTimerProcess(Time.fixedDeltaTime);
         tryLowerGuard(Time.fixedDeltaTime);
+    }
+
+    private void Update()
+    {
+        if (showAlertness)
+        {
+            updateAlertnessDisplay();
+        }
+    }
+
+    public void updateAlertnessDisplay()
+    {
+        AlertnessIndicator alertnessIndic = myFlow.myHudIconRef.getAlertnessIndic();
+        
+        if (isAlert)
+        {
+            alertnessIndic.setAlertnessDisplay(AlertnessIndicator.State.ALERT);
+        }
+        else if (beginWakingUp)
+        {
+            alertnessIndic.setAlertnessDisplay(AlertnessIndicator.State.WAKING);
+        }
+        else
+        {
+            alertnessIndic.setAlertnessDisplay(AlertnessIndicator.State.SLEEP);
+        }
     }
 
     public bool checkAlertStatus()

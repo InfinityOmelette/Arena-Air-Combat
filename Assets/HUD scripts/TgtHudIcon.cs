@@ -69,6 +69,7 @@ public class TgtHudIcon : MonoBehaviour
     public bool showSupplies;
 
     
+    
 
     public enum TargetedState
     {
@@ -121,6 +122,8 @@ public class TgtHudIcon : MonoBehaviour
     public List<Text> specialMoveTexts;
     public List<Vector3> specialMoveTextsOrigPos;
     public FlareIndicator flareIndic;
+
+    public AlertnessIndicator alertIndic;
 
     void Awake()
     {
@@ -176,6 +179,15 @@ public class TgtHudIcon : MonoBehaviour
             reloadIndicator = GetComponent<ReloadIndicator>();
         }
         return reloadIndicator;
+    }
+
+    public AlertnessIndicator getAlertnessIndic()
+    {
+        if(alertIndic == null)
+        {
+            alertIndic = GetComponent<AlertnessIndicator>();
+        }
+        return alertIndic;
     }
 
     public void setReload(bool reloadSet)

@@ -116,7 +116,7 @@ public class SamAI : MonoBehaviour
             if (locked)
             {
                 if (Vector3.Distance(currentTarget.transform.position, transform.position) < maxLaunchRange
-                     && mag.tryShoot())
+                     && saturationCheck(currentTarget) && mag.tryShoot())
                 {
                     samNet.launchMissile(currentTarget, this);
                     //Debug.LogError("Firing SAM at " + currentTarget.name);
@@ -198,6 +198,24 @@ public class SamAI : MonoBehaviour
         }
     }
 
+    // true if UNSATURATED --> no restrictions related to saturation
+    private bool saturationCheck(CombatFlow target)
+    {
+        CombatFlow.Type type = target.type;
+
+        bool targetUnsaturated = true;
+        switch (type)
+        {
+            case CombatFlow.Type.AIRCRAFT:
+                targetUnsaturated = aircraftSaturationCheck(target);
+                break;
+            case CombatFlow.Type.PROJECTILE:
+                targetUnsaturated = projectileSaturationCheck(target);
+                break;
+        }
+        return targetUnsaturated;
+    }
+
     private bool aircraftSaturationCheck(CombatFlow target)
     {
         return target.rwr != null && target.rwr.incomingMissiles.Count < maxTargetSaturation_Aircraft;
@@ -214,11 +232,18 @@ public class SamAI : MonoBehaviour
             || target.rwr.lockedBy.Contains(radar.myFlow)) || iAmClosestByWideMargin(target.rwr));
     }
 
+    
+
     private bool iAmClosestByWideMargin(RWR targetRWR)
     {
         float myDist = Vector3.Distance(transform.position, targetRWR.transform.position);
 
         return myDist + closerOversaturateMargin < targetRWR.closestLocker();
+    }
+
+    private bool isAircraft(CombatFlow flow)
+    {
+        return flow.type == CombatFlow.Type.AIRCRAFT;
     }
 
     private CombatFlow findNearestTarget()
@@ -230,16 +255,22 @@ public class SamAI : MonoBehaviour
 
         List<CombatFlow> allUnits = CombatFlow.combatUnits;
 
+        bool selectedTargetUnsaturated = false;
+
         for (int i = 0; i < allUnits.Count; i++)
         {
             CombatFlow currentFlow = allUnits[i];
             bool seeFlow = false;
             if (currentFlow != null)
             {
+                //if (currentFlow.team != rootFlow.team &&
+                //    ((currentFlow.type == CombatFlow.Type.AIRCRAFT && aircraftSaturationCheck(currentFlow)) || 
+                //    (radar.projectileCheck(currentFlow) && projectileSaturationCheck(currentFlow))))
                 if (currentFlow.team != rootFlow.team &&
-                    ((currentFlow.type == CombatFlow.Type.AIRCRAFT && aircraftSaturationCheck(currentFlow)) || 
-                    (radar.projectileCheck(currentFlow) && projectileSaturationCheck(currentFlow))))
+                    ((currentFlow.type == CombatFlow.Type.AIRCRAFT) ||
+                    (radar.projectileCheck(currentFlow))))
                 {
+                    bool currentUnsaturated = saturationCheck(currentFlow);
 
                     if (radar.tryDetect(currentFlow))
                     {
@@ -249,10 +280,39 @@ public class SamAI : MonoBehaviour
                         
 
                         float currentDistance = Vector3.Distance(currentFlow.transform.position, transform.position);
-                        if (currentDistance < shortestDist)
+                        //if (currentDistance < shortestDist)
+                        //{
+                        //    closestTarget = currentFlow;
+                        //    shortestDist = currentDistance;
+                        //}
+                        if (currentDistance < maxTargetRange)
                         {
-                            closestTarget = currentFlow;
-                            shortestDist = currentDistance;
+                            bool validTarget;
+
+                            if (selectedTargetUnsaturated)
+                            {
+                                validTarget = currentUnsaturated && currentDistance < shortestDist;
+                            }
+                            else // selected target IS saturated
+                            {
+                                validTarget = currentUnsaturated || 
+                                    (currentDistance < shortestDist && isAircraft(currentFlow));
+                            }
+
+                            //if(currentUnsaturated && 
+                            //    (currentDistance < shortestDist || !selectedTargetUnsaturated))
+                            //{
+                            //    validTarget = true;
+                            //}
+
+
+
+                            if (validTarget)
+                            {
+                                closestTarget = currentFlow;
+                                shortestDist = currentDistance;
+                                selectedTargetUnsaturated = currentUnsaturated;
+                            }
                         }
                     }
 

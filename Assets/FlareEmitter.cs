@@ -107,9 +107,14 @@ public class FlareEmitter : MonoBehaviourPun
 
     }
 
-    private void updateFlareIndicator()
+    private void updateFlareIndicator(bool doCount = true)
     {
-        countAvailableFlares();
+        if (doCount)
+        {
+            countAvailableFlares();
+        }
+        
+
         if (useFlareIndicator)
         {
             myFlow.myHudIconRef.setFlares(availableFlareCount);
@@ -135,6 +140,7 @@ public class FlareEmitter : MonoBehaviourPun
         //Debug.Log(count + " flares available");
 
         availableFlareCount = count;
+        updateFlareIndicator(false);
         return count;
     }
 
@@ -145,7 +151,7 @@ public class FlareEmitter : MonoBehaviourPun
         for(int i = 0; i < flareSlotReloads.Length && index == -1; i++)
         {
             float flareSlotTime = flareSlotReloads[i];
-            if(flareSlotTime < 0f)
+            if(flareSlotTime <= 0f)
             {
                 index = i;
             }
@@ -156,20 +162,33 @@ public class FlareEmitter : MonoBehaviourPun
 
     private void doFlareSlotReloadTimer()
     {
+        int flaresAvailable = 0;
         for(int i = 0; i < flareSlotReloads.Length; i++)
         {
-            bool ready = flareSlotReloads[i] < 0f;
+            bool ready = flareSlotReloads[i] <= 0f;
 
-            if (!ready)
+            if (ready)
+            {
+                flaresAvailable++;
+
+            }
+            else
             {
                 flareSlotReloads[i] -= Time.deltaTime;
             }
+            
+            //if(flareSlotReloads[i] <= 0f)
+            //{
+                
+            //}
 
             if (myFlow.isLocalPlayer)
             {
                 flareIconManager.icons[i].setReloadStatus(ready, flareSlotReloads[i], flareReloadDelay);
             }
         }
+        availableFlareCount = flaresAvailable;
+        updateFlareIndicator(false);
     }
 
     private void doJammingTimer()

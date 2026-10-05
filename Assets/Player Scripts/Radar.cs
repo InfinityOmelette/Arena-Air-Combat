@@ -101,6 +101,12 @@ public class Radar : MonoBehaviourPun
 
     public bool canLockProjectiles = false;
 
+    public CombatFlow lockTarget;
+
+    public float timeSinceHalfLock = 0.0f;
+    public float fullLockTime = 1.0f;
+    public bool halfLock = false;
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -138,6 +144,18 @@ public class Radar : MonoBehaviourPun
         
     }
 
+    private void FixedUpdate()
+    {
+        lockTimer(Time.fixedDeltaTime);
+    }
+
+    private void lockTimer(float deltaTime)
+    {
+        if (halfLock)
+        {
+            timeSinceHalfLock += deltaTime;
+        }
+    }
 
     public void copyLockData(Radar radar)
     {
@@ -327,9 +345,29 @@ public class Radar : MonoBehaviourPun
         return isDetected;
     }
   
+    private void setHalflockTarget(CombatFlow targetFlow)
+    {
+        //Debug.Log("Setting halflocktarget: " + targetFlow + ", when previous target was: " + lockTarget);
+        if(lockTarget != targetFlow)
+        {
+            //Debug.Log("New target, resetting halflock");
+            resetHalfLock();
+        }
+        lockTarget = targetFlow;
+    }
+
+    private void resetHalfLock()
+    {
+        halfLock = false;
+        timeSinceHalfLock = 0.0f;
+    }
 
     public bool tryLock(CombatFlow targetFlow, bool debug = false)
     {
+        bool fullLock = false;
+        //lockTarget = targetFlow;
+        setHalflockTarget(targetFlow);
+        bool successfulHalfLock = false;
 
         if (lockableType(targetFlow) && !targetFlow.jamming)
         {
@@ -385,7 +423,12 @@ public class Radar : MonoBehaviourPun
             }
 
             //return radarOn && angleOffNose < lockAngle && dist < (maxLockRange + heightDiffAdvantage + closingSpeedAdv) && tryDetect(targetFlow);
-            return radarOn && angleOffNose < lockAngle && dist < maxLockRange && tryDetect(targetFlow);
+            if(halfLockConditions(targetFlow) )
+            {
+                //Debug.Log("Successful halflock");
+                successfulHalfLock = true;
+                fullLock = fullLockConditions();
+            }
         }
         else
         {
@@ -395,8 +438,30 @@ public class Radar : MonoBehaviourPun
             }
 
             setRangeAdvantages(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-            return false;
+            fullLock = false;
         }
+
+        if (!successfulHalfLock)
+        {
+            //Debug.Log("Unable to halflock, resetting halflock timer");
+            resetHalfLock();
+        }
+
+        halfLock = successfulHalfLock;
+
+
+        return fullLock;
+    }
+
+    private bool fullLockConditions()
+    {
+        //Debug.Log("Attempting full lock: " + timeSinceHalfLock + "s / " + fullLockTime + "s");
+        return timeSinceHalfLock > fullLockTime;
+    }
+
+    private bool halfLockConditions(CombatFlow targetFlow)
+    {
+        return radarOn && angleOffNose < lockAngle && dist < maxLockRange && tryDetect(targetFlow);
     }
 
     private float calculatePerpendicularVelocity(Vector3 targetBearingLine, Vector3 velocity)

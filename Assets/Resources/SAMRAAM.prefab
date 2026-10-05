@@ -900,6 +900,7 @@ MonoBehaviour:
   radar: {fileID: 0}
   PASS_OWNERSHIP_DISTANCE: 3000
   launchSafetyHoldDelay: 0.5
+  tickDelayShovedown: 1
 --- !u!114 &3073351815072546590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,6 +974,10 @@ MonoBehaviour:
   rangeLadder: {fileID: 0}
   weaponLinked: 0
   canLockProjectiles: 1
+  lockTarget: {fileID: 0}
+  timeSinceHalfLock: 0
+  fullLockTime: 1
+  halfLock: 0
 --- !u!114 &6574464956620050637
 MonoBehaviour:
   m_ObjectHideFlags: 0

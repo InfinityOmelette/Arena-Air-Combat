@@ -22,6 +22,7 @@ public class TgtIconManager : MonoBehaviour
     public Color friendlyColor;
     public Color enemyColor;
     public Color lockedColor;
+    public Color halfLockedColor = new Color(1.0f, 1.0f, 0.0f, 1.0f);
     public Color neutralColor;
 
     public float targetedBlinkTime;

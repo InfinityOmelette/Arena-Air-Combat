@@ -68,13 +68,14 @@ public class TgtHudIcon : MonoBehaviour
     public Text suppliesText;
     public bool showSupplies;
 
-    
+    //public bool halfLocked = false;
     
 
     public enum TargetedState
     {
         NONE,
         TARGETED,
+        HALFLOCKED,
         LOCKED,
         NULL
     }
@@ -104,6 +105,9 @@ public class TgtHudIcon : MonoBehaviour
 
     public List<GameObject> showOnLock;
     public List<GameObject> hideOnLock;
+
+    public List<GameObject> showOnHalflock;
+    public List<GameObject> hideOnHalflock;
 
     public List<GameObject> showOnTargeted;
     public List<GameObject> hideOnTargeted;
@@ -315,6 +319,12 @@ public class TgtHudIcon : MonoBehaviour
         
     }
 
+    protected virtual void halflockStateProcess()
+    {
+        setElementsActive(showOnHalflock, true);
+        setElementsActive(hideOnHalflock, false);
+    }
+
 
     protected virtual void untargetedStateProcess()
     {
@@ -332,40 +342,79 @@ public class TgtHudIcon : MonoBehaviour
         if (targetedState != activeState)
         {
 
-            // SET COLOR BASED ON LOCK STATE
-            if (targetedState == TargetedState.LOCKED) // LOCKED
+
+            switch (targetedState)
             {
+                case TargetedState.LOCKED:
+                    changeChildColors(tgtIconManager.lockedColor);
+                    doBlink = false;
+                    lockStateProcess();
+                    break;
 
+                case TargetedState.HALFLOCKED:
+                    doBlink = true;
+                    changeChildColors(tgtIconManager.neutralColor);
+                    halflockStateProcess();
+                    break;
 
-
-                changeChildColors(tgtIconManager.lockedColor);
-                doBlink = false;
-
-                lockStateProcess();
-                
-
-            }
-            else // NONE OR TARGETED
-            {
-
-                setTeamInfo(); // a bit inefficient. Checks team every frame
-
-                if (targetedState == TargetedState.TARGETED)
-                {
+                case TargetedState.TARGETED:
+                    setTeamInfo();
                     doBlink = true;
                     targetedStateProcess();
+                    break;
 
-                }
-                else // NONE -- NOT TARGETED AT ALL
-                {
-                    //txtKPH.enabled = false;
+                default:    // not targeted at all
+                    setTeamInfo();
                     doBlink = false;
-
                     untargetedStateProcess();
+                    break;
 
-
-                }
             }
+
+            //// SET COLOR BASED ON LOCK STATE
+            //if (targetedState == TargetedState.LOCKED) // LOCKED
+            //{
+
+            //    changeChildColors(tgtIconManager.lockedColor);
+            //    doBlink = false;
+
+            //    lockStateProcess();
+
+
+
+
+            //}
+            //else if (targetedState == TargetedState.HALFLOCKED)
+            //{
+            //    doBlink = true;
+            //    changeChildColors(tgtIconManager.halfLockedColor);
+            //    halflockStateProcess();
+
+            //}
+            //else // NONE OR TARGETED
+            //{
+
+            //    setTeamInfo(); // a bit inefficient. Checks team every frame
+
+            //    //switch
+
+
+            //    if (targetedState == TargetedState.TARGETED)
+            //    {
+            //        doBlink = true;
+            //        targetedStateProcess();
+
+            //    }
+            //    else // NONE -- NOT TARGETED AT ALL
+            //    {
+            //        //txtKPH.enabled = false;
+            //        doBlink = false;
+
+            //        untargetedStateProcess();
+
+
+            //    }
+            //}
 
         }
 

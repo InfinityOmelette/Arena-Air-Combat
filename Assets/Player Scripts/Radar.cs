@@ -106,6 +106,7 @@ public class Radar : MonoBehaviourPun
     public float timeSinceHalfLock = 0.0f;
     public float fullLockTime = 1.0f;
     public bool halfLock = false;
+    public bool updateHalflockIcon = false;
 
     void Awake()
     {
@@ -279,7 +280,8 @@ public class Radar : MonoBehaviourPun
             {
                 GameObject.Destroy(rwrIcon.gameObject);
             }
-            
+
+
         }
 
 

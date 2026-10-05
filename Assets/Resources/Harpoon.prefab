@@ -465,7 +465,7 @@ MonoBehaviour:
   att_guidance: 1
   att_domain: 1
   stockWeight: 4
-  dropDownSpeed: 5
+  dropDownSpeed: 3.5
   launchSoundDelay: 0
   proximityFuseRange: 7
   fuseLeadTime: 0.1
@@ -475,6 +475,8 @@ MonoBehaviour:
   selfDestructSpeed: 15
   radar: {fileID: 0}
   PASS_OWNERSHIP_DISTANCE: 1000
+  launchSafetyHoldDelay: 0.5
+  tickDelayShovedown: 1
 --- !u!114 &7548661424938522269
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -343,6 +343,7 @@ public class Weapon : MonoBehaviourPunCallbacks
     {
         if(ownerObj == null)
         {
+            //Debug.LogError("Parent of weapon not found. 0 dropdown applied");
             return new Vector3();
         }
         else

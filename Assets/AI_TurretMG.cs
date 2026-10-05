@@ -358,7 +358,7 @@ public class AI_TurretMG : MonoBehaviour
             if (gunSet)
             {
                 gunfireSound.loop = true;
-                gunfireSound.Play();
+                gunfireSound.PlayDelayed(gun.startDelay);
 
                 if(gun != null)
                 {

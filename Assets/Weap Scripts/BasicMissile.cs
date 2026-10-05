@@ -43,9 +43,16 @@ public class BasicMissile : Weapon
 
     private RocketMotor motor;
 
+    public float launchSafetyHoldDelay = .5f;
+    private float launchSafetyTimer;
+    private bool tryDelayedLaunch = false;
+
+    public bool tickDelayShovedown = true;
+
     void Awake()
     {
         init();
+        resetLaunchSafety();
         
     }
 
@@ -117,7 +124,11 @@ public class BasicMissile : Weapon
         checkLinecastCollision();
     }
 
-    
+    private void applyDelayedShovedown()
+    {
+        tickDelayShovedown = false;
+        rbRef.velocity += shoveDownVel();
+    }
 
     private void FixedUpdate()
     {
@@ -125,7 +136,12 @@ public class BasicMissile : Weapon
 
         if ( launched )
         {
-            
+            //Debug.Log("Missile velocity: " + rbRef.velocity + " with magnitude: " + rbRef.velocity.magnitude);
+
+            if (tickDelayShovedown)
+            {
+                applyDelayedShovedown();
+            }
 
             if (myCombatFlow.localOwned)
             {
@@ -165,6 +181,27 @@ public class BasicMissile : Weapon
                     }
                 }
             }
+        }
+        else if (tryDelayedLaunch)
+        {
+            tryDelayedLaunchProcess(Time.fixedDeltaTime);
+        }
+
+
+
+    }
+
+    
+
+    private void tryDelayedLaunchProcess(float deltaTime)
+    {
+        if(launchSafetyTimer <= 0f)
+        {
+            launchProcess();
+        }
+        else
+        {
+            launchSafetyTimer -= deltaTime;
         }
     }
 
@@ -296,11 +333,7 @@ public class BasicMissile : Weapon
     }
 
 
-
-
-    // only callable by the local player. No need to check photon ownership
-    override
-    public void launch()
+    private void launchProcess()
     {
         init();
         myCombatFlow.localOwned = true; // NetPosition will propogate this instance to rest of clients
@@ -308,9 +341,9 @@ public class BasicMissile : Weapon
 
         photonView.RPC("rpcLaunch", RpcTarget.AllBuffered);
 
-        guidedLaunch = myTarget != null;
 
-        
+
+
 
         if (guidedLaunch)
         {
@@ -334,7 +367,37 @@ public class BasicMissile : Weapon
         }
 
         radar.radarOn = true;
+        tryDelayedLaunch = false;
+    }
 
+
+    // only callable by the local player. No need to check photon ownership
+    override
+    public void launch()
+    {
+        guidedLaunch = myTarget != null;
+
+        if (guidedLaunch)
+        {
+            launchProcess();
+        }
+        else
+        {
+            tryDelayedLaunch = true;
+        }
+        
+    }
+
+    override
+    public void launchEnd()
+    {
+        resetLaunchSafety();
+    }
+
+    private void resetLaunchSafety()
+    {
+        launchSafetyTimer = launchSafetyHoldDelay;
+        tryDelayedLaunch = false;
     }
 
     [PunRPC]
@@ -429,7 +492,10 @@ public class BasicMissile : Weapon
         flightSound.loop = true;
         flightSound.Play();
 
-        rbRef.velocity += shoveDownVel();
+        // shovedown has to be delayed a tick for some fucking reason
+        // Shovedown would apply to velocity here but then fucking SOMETHING overwrites it
+        //rbRef.velocity += shoveDownVel();
+
     }
 
 

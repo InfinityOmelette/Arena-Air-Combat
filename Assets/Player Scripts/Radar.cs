@@ -451,8 +451,25 @@ public class Radar : MonoBehaviourPun
 
         halfLock = successfulHalfLock;
 
+        if (myFlow.isLocalPlayer)
+        {
+            displayLockProgress(targetFlow);
+        }
 
         return fullLock;
+    }
+
+    private void displayLockProgress(CombatFlow targetflow)
+    {
+
+        float progress = timeSinceHalfLock / lockTime();
+        targetflow.myHudIconRef.getLockIndic().setLockProgress(progress);
+
+    }
+
+    public float lockTime()
+    {
+        return fullLockTime;
     }
 
     private bool fullLockConditions()

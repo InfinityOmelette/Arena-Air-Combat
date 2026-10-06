@@ -1,0 +1,46 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LockIndicator : MonoBehaviour
+{
+    public GameObject lockImageCenter;
+    public Image lockImage;
+
+    public float minScale = .42f;
+    public float maxScale = 1.5f;
+
+    public float baseScale = 1.0f;
+
+    public Color activeColor;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void setLockProgress(float progressLerp)
+    {
+        progressLerp = Mathf.Clamp(progressLerp, 0.0f, 1.0f);
+        float scale = Mathf.Lerp(maxScale, minScale, progressLerp);
+
+        lockImageCenter.transform.localScale = new Vector3(baseScale * scale, baseScale * scale, 1.0f);
+    }
+
+    public void setColor(Color color)
+    {
+        if(color != activeColor)
+        {
+            activeColor = color;
+            lockImage.color = activeColor;
+        }
+    }
+}

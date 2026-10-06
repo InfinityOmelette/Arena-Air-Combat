@@ -69,6 +69,8 @@ public class TgtHudIcon : MonoBehaviour
     public bool showSupplies;
 
     //public bool halfLocked = false;
+
+    
     
 
     public enum TargetedState
@@ -129,11 +131,23 @@ public class TgtHudIcon : MonoBehaviour
 
     public AlertnessIndicator alertIndic;
 
+    private LockIndicator lockIndic;
+    public GameObject lockIndicCenter;
+
     void Awake()
     {
         transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
         getReloadIndic();
         flareIndic = GetComponent<FlareIndicator>();
+    }
+
+    public LockIndicator getLockIndic()
+    {
+        if(lockIndic == null)
+        {
+            lockIndic = GetComponent<LockIndicator>();
+        }
+        return lockIndic;
     }
 
     private void initMovingTextPositions()
@@ -323,6 +337,7 @@ public class TgtHudIcon : MonoBehaviour
     {
         setElementsActive(showOnHalflock, true);
         setElementsActive(hideOnHalflock, false);
+
     }
 
 
@@ -347,13 +362,15 @@ public class TgtHudIcon : MonoBehaviour
             {
                 case TargetedState.LOCKED:
                     changeChildColors(tgtIconManager.lockedColor);
+                    lockIndic.setColor(tgtIconManager.lockedColor);
                     doBlink = false;
                     lockStateProcess();
                     break;
 
                 case TargetedState.HALFLOCKED:
                     doBlink = true;
-                    changeChildColors(tgtIconManager.neutralColor);
+                    //changeChildColors(tgtIconManager.neutralColor);
+                    lockIndic.setColor(tgtIconManager.neutralColor);
                     halflockStateProcess();
                     break;
 
@@ -371,50 +388,6 @@ public class TgtHudIcon : MonoBehaviour
 
             }
 
-            //// SET COLOR BASED ON LOCK STATE
-            //if (targetedState == TargetedState.LOCKED) // LOCKED
-            //{
-
-            //    changeChildColors(tgtIconManager.lockedColor);
-            //    doBlink = false;
-
-            //    lockStateProcess();
-
-
-
-
-            //}
-            //else if (targetedState == TargetedState.HALFLOCKED)
-            //{
-            //    doBlink = true;
-            //    changeChildColors(tgtIconManager.halfLockedColor);
-            //    halflockStateProcess();
-
-            //}
-            //else // NONE OR TARGETED
-            //{
-
-            //    setTeamInfo(); // a bit inefficient. Checks team every frame
-
-            //    //switch
-
-
-            //    if (targetedState == TargetedState.TARGETED)
-            //    {
-            //        doBlink = true;
-            //        targetedStateProcess();
-
-            //    }
-            //    else // NONE -- NOT TARGETED AT ALL
-            //    {
-            //        //txtKPH.enabled = false;
-            //        doBlink = false;
-
-            //        untargetedStateProcess();
-
-
-            //    }
-            //}
 
         }
 
@@ -604,6 +577,11 @@ public class TgtHudIcon : MonoBehaviour
         // Output: change scale of image
         tgtImageCenter.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
 
+        if(lockIndic != null)
+        {
+            lockIndic.baseScale = currentScale;
+        }
+        
 
         // ====================== LINEAR
 

@@ -37,6 +37,10 @@ public class TgtComputer : MonoBehaviour
 
     public RangeLadder rangeLadder;
 
+    private bool playingHalfLockTone;
+    public float halfLockToneTimerMax = .15f;
+    private float halfLockToneTimer = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,6 +98,26 @@ public class TgtComputer : MonoBehaviour
             lockTone.loop = false;
             lockTone.Stop();
             playingLockTone = false;
+        }
+
+        halfLockToneProcess(Time.deltaTime);
+    }
+
+    private void halfLockToneProcess(float deltaTime)
+    {
+        if (playingHalfLockTone)
+        {
+            lockTone.loop = false;
+
+            if(halfLockToneTimer < 0f)
+            {
+                lockTone.Play();
+                halfLockToneTimer = halfLockToneTimerMax;
+            }
+            else
+            {
+                halfLockToneTimer -= deltaTime;
+            }
         }
     }
 
@@ -485,6 +509,7 @@ public class TgtComputer : MonoBehaviour
                     lockTone.loop = true;
                     lockTone.Play();
                     playingLockTone = true;
+                    playingHalfLockTone = false;
 
                     if(currentFlow.rwr != null)
                     {
@@ -514,10 +539,12 @@ public class TgtComputer : MonoBehaviour
                 if (myRadar.halfLock)
                 {
                     currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.HALFLOCKED;
+                    playingHalfLockTone = true;
                 }
                 else
                 {
                     currentFlow.myHudIconRef.targetedState = TgtHudIcon.TargetedState.TARGETED;
+                    playingHalfLockTone = false;
                 }
                 
             }

@@ -2386,6 +2386,7 @@ MonoBehaviour:
   visibleRange: 1500
   lockTone: {fileID: 1117854191916234273}
   rangeLadder: {fileID: 0}
+  halfLockToneTimerMax: 0.175
 --- !u!114 &4119210450518891418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2428,6 +2429,11 @@ MonoBehaviour:
   rangeLadder: {fileID: 0}
   weaponLinked: 0
   canLockProjectiles: 0
+  lockTarget: {fileID: 0}
+  timeSinceHalfLock: 0
+  fullLockTime: 1
+  halfLock: 0
+  updateHalflockIcon: 0
 --- !u!114 &4424309726456864805
 MonoBehaviour:
   m_ObjectHideFlags: 0

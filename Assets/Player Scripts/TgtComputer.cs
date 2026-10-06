@@ -32,6 +32,7 @@ public class TgtComputer : MonoBehaviour
 
 
     public AudioSource lockTone;
+    public AudioSource halfLockTone;
 
     private bool playingLockTone;
 
@@ -107,11 +108,11 @@ public class TgtComputer : MonoBehaviour
     {
         if (playingHalfLockTone)
         {
-            lockTone.loop = false;
+            halfLockTone.loop = false;
 
             if(halfLockToneTimer < 0f)
             {
-                lockTone.Play();
+                halfLockTone.Play();
                 halfLockToneTimer = halfLockToneTimerMax;
             }
             else

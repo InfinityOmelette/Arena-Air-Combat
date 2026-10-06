@@ -15,6 +15,8 @@ public class LockIndicator : MonoBehaviour
 
     public Color activeColor;
 
+    public float beginRotation = -360f;
+    public float endRotation = 45f;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +32,15 @@ public class LockIndicator : MonoBehaviour
     public void setLockProgress(float progressLerp)
     {
         progressLerp = Mathf.Clamp(progressLerp, 0.0f, 1.0f);
-        float scale = Mathf.Lerp(maxScale, minScale, progressLerp);
 
+
+        float scale = Mathf.Lerp(maxScale, minScale, progressLerp);
         lockImageCenter.transform.localScale = new Vector3(baseScale * scale, baseScale * scale, 1.0f);
+
+        float rotation = Mathf.Lerp(beginRotation, endRotation, progressLerp);
+        Vector3 rotEuler = lockImageCenter.transform.localEulerAngles;
+        rotEuler.z = rotation;
+        lockImageCenter.transform.localEulerAngles = rotEuler;
     }
 
     public void setColor(Color color)

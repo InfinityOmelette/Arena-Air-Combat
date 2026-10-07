@@ -42,6 +42,8 @@ public class Radar : MonoBehaviourPun
 
     public bool isSam = false;
 
+    
+
     public enum LockType
     {
         AIR_ONLY,
@@ -108,6 +110,9 @@ public class Radar : MonoBehaviourPun
     public bool halfLock = false;
     public bool updateHalflockIcon = false;
 
+    public static int halfLockDecayTicks = 1;
+    private uint countTicksSinceHalflock = 0;
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
@@ -148,6 +153,23 @@ public class Radar : MonoBehaviourPun
     private void FixedUpdate()
     {
         lockTimer(Time.fixedDeltaTime);
+        checkHalflockDecay();
+    }
+    private void checkHalflockDecay()
+    {
+        if (halfLock)
+        {
+            if(countTicksSinceHalflock > halfLockDecayTicks)
+            {
+                resetHalfLock();
+            }
+            countTicksSinceHalflock++;
+        }
+    }
+
+    private void resetHalflockDecay()
+    {
+        countTicksSinceHalflock = 0;
     }
 
     private void lockTimer(float deltaTime)
@@ -443,7 +465,11 @@ public class Radar : MonoBehaviourPun
             fullLock = false;
         }
 
-        if (!successfulHalfLock)
+        if (successfulHalfLock)
+        {
+            resetHalflockDecay();
+        }
+        else
         {
             //Debug.Log("Unable to halflock, resetting halflock timer");
             resetHalfLock();
@@ -458,6 +484,8 @@ public class Radar : MonoBehaviourPun
 
         return fullLock;
     }
+
+    
 
     private void displayLockProgress(CombatFlow targetflow)
     {

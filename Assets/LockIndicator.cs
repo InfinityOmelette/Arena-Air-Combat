@@ -33,14 +33,13 @@ public class LockIndicator : MonoBehaviour
     public void setLockProgress(float progressLerp)
     {
         progressLerp = Mathf.Clamp(progressLerp, 0.0f, 1.0f);
+
+        // SCALE
         float effectiveMax = Mathf.Max(maxScale, maxScale * baseScale);
-
         float scale = Mathf.Lerp(effectiveMax, minScale * baseScale, progressLerp);
-
-
-
         lockImageCenter.transform.localScale = new Vector3(scale, scale, 1.0f);
 
+        // ROTATION
         float rotation = Mathf.Lerp(beginRotation, endRotation, progressLerp);
         Vector3 rotEuler = lockImageCenter.transform.localEulerAngles;
         rotEuler.z = rotation;

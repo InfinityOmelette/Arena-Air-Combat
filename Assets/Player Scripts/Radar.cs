@@ -163,8 +163,10 @@ public class Radar : MonoBehaviourPun
     }
     private void checkHalflockDecay()
     {
-        if (halfLock)
+        if (halfLock || (myFlow.isLocalPlayer && tgtComputer.playingHalfLockTone))
         {
+            //Debug.Log("halfLock decay");
+
             if(countTicksSinceHalflock > halfLockDecayTicks)
             {
                 resetHalfLock();
@@ -392,9 +394,23 @@ public class Radar : MonoBehaviourPun
     {
         halfLock = false;
         timeSinceHalfLock = 0.0f;
-        tgtComputer.stopHalflockTone();
+
+        if (myFlow.isLocalPlayer)
+        {
+            tgtComputer.stopHalflockTone();
+
+            if (lockTarget != null)
+            {
+                displayLockProgress(lockTarget);
+            }
+        }
+        
+
+        
 
     }
+
+    
 
     public bool tryLock(CombatFlow targetFlow, bool debug = false)
     {

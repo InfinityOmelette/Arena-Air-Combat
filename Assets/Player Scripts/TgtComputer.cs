@@ -38,7 +38,7 @@ public class TgtComputer : MonoBehaviour
 
     public RangeLadder rangeLadder;
 
-    private bool playingHalfLockTone;
+    public bool playingHalfLockTone;
     public float halfLockToneTimerMax = .15f;
     private float halfLockToneTimer = 0.0f;
 
@@ -480,6 +480,7 @@ public class TgtComputer : MonoBehaviour
     public void stopHalflockTone()
     {
         halfLockTone.Stop();
+        playingHalfLockTone = false;
     }
 
     void tryLockTarget(CombatFlow currentFlow)

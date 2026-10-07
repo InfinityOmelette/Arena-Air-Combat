@@ -491,7 +491,7 @@ RectTransform:
   m_GameObject: {fileID: 3672315854511136105}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_Children:
   - {fileID: 8900633597001822939}
   m_Father: {fileID: 4105813311710501635}
@@ -659,10 +659,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockImageCenter: {fileID: 3672315854511136105}
   lockImage: {fileID: 7989278303111388387}
-  minScale: 0.42
-  maxScale: 1.5
+  minScale: 1
+  maxScale: 1
   baseScale: 1
   activeColor: {r: 0, g: 0, b: 0, a: 0}
+  beginRotation: -360
+  endRotation: 45
 --- !u!1 &4586797580652843447
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +844,7 @@ RectTransform:
   m_GameObject: {fileID: 4909637992951829702}
   m_LocalRotation: {x: -0, y: -0, z: 0.38268343, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8793001, y: 1.8793001, z: 1.8793}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_Children: []
   m_Father: {fileID: 9007457641108940340}
   m_RootOrder: 0

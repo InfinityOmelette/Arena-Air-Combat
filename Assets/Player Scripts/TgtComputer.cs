@@ -477,7 +477,10 @@ public class TgtComputer : MonoBehaviour
         }
     }
 
-
+    public void stopHalflockTone()
+    {
+        halfLockTone.Stop();
+    }
 
     void tryLockTarget(CombatFlow currentFlow)
     {

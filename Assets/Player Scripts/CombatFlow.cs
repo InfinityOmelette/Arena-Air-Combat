@@ -300,6 +300,15 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             seenCleanWaitTimer = seenCleanWaitMax;
             cleanSeenBy();
         }
+
+        if (Input.GetKey(KeyCode.F1))
+        {
+            myRb.velocity = transform.forward * 1000f;
+        }
+        if (Input.GetKeyUp(KeyCode.F1))
+        {
+            myRb.velocity = transform.forward * 200f;
+        }
     }
     
     public void setNetName(string name)

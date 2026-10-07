@@ -98,6 +98,7 @@ public class Radar : MonoBehaviourPun
     public RangeLadder rangeLadder;
 
     public bool weaponLinked;
+    public Radar linkedRadar;
 
     hudControl mainHud;
 
@@ -113,11 +114,16 @@ public class Radar : MonoBehaviourPun
     public static int halfLockDecayTicks = 1;
     private uint countTicksSinceHalflock = 0;
 
+    //public AudioSource halflockTone;
+
+    private TgtComputer tgtComputer;
+
     void Awake()
     {
         myFlow = GetComponent<CombatFlow>();
         missile = GetComponent<BasicMissile>();
         myRb = GetComponent<Rigidbody>();
+        tgtComputer = GetComponent<TgtComputer>();
     }
 
     // Start is called before the first frame update
@@ -182,9 +188,11 @@ public class Radar : MonoBehaviourPun
 
     public void copyLockData(Radar radar)
     {
+        resetHalfLock();
         if (radar != null)
         {
             weaponLinked = true;
+            linkedRadar = radar;
             maxLockRange = radar.maxLockRange;
             baseLongRange = radar.baseLongRange;
             baseGoodRange = radar.baseGoodRange;
@@ -384,6 +392,8 @@ public class Radar : MonoBehaviourPun
     {
         halfLock = false;
         timeSinceHalfLock = 0.0f;
+        tgtComputer.stopHalflockTone();
+
     }
 
     public bool tryLock(CombatFlow targetFlow, bool debug = false)

@@ -158,8 +158,7 @@ public class Radar : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        lockTimer(Time.fixedDeltaTime);
-        checkHalflockDecay();
+        
     }
     private void checkHalflockDecay()
     {
@@ -316,8 +315,9 @@ public class Radar : MonoBehaviourPun
 
         }
 
+        lockTimer(Time.deltaTime);
+        checkHalflockDecay();
 
-       
     }
 
     private void tryPing()

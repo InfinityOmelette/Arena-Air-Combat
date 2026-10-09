@@ -18,10 +18,15 @@ public class LockIndicator : MonoBehaviour
     public float beginRotation = -360f;
     public float endRotation = 45f;
 
+    public float oversizeBeginPercent = .85f;
+    public float oversizeScaleAdd = .5f;
+
+    TgtIconManager manag;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        manag = TgtIconManager.tgtIconManager;   
     }
 
     // Update is called once per frame
@@ -35,8 +40,10 @@ public class LockIndicator : MonoBehaviour
         progressLerp = Mathf.Clamp(progressLerp, 0.0f, 1.0f);
 
         // SCALE
-        float effectiveMax = Mathf.Max(maxScale, maxScale * baseScale);
-        float scale = Mathf.Lerp(effectiveMax, minScale * baseScale, progressLerp);
+        float effectiveMaxScale = effectiveMax();
+
+
+        float scale = Mathf.Lerp(effectiveMaxScale, minScale * baseScale, progressLerp);
         lockImageCenter.transform.localScale = new Vector3(scale, scale, 1.0f);
 
         // ROTATION
@@ -46,6 +53,20 @@ public class LockIndicator : MonoBehaviour
         lockImageCenter.transform.localEulerAngles = rotEuler;
 
 
+    }
+
+    public float effectiveMax()
+    {
+        float scalePercent = manag.readScalePercent(baseScale);
+        float effectiveOversize = (1.0f + oversizeScaleAdd) * maxScale;
+
+        return Mathf.Lerp(maxScale, effectiveOversize, oversizePercent(scalePercent));
+    }
+
+    private float oversizePercent(float scalePercent)
+    {
+        float percent = (scalePercent - oversizeBeginPercent) / (1.0f - oversizeBeginPercent);
+        return Mathf.Clamp(percent, 0.0f, 1.0f);
     }
 
     public void setColor(Color color)

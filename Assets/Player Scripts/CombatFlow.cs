@@ -301,14 +301,28 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             cleanSeenBy();
         }
 
-        if (Input.GetKey(KeyCode.F1))
+        cheats();
+    }
+
+    private void cheats()
+    {
+        if (isLocalPlayer)
         {
-            myRb.velocity = transform.forward * 1000f;
+            if (Input.GetKey(KeyCode.F1))
+            {
+                myRb.velocity = transform.forward * 1000f;
+            }
+            if (Input.GetKeyUp(KeyCode.F1))
+            {
+                myRb.velocity = transform.forward * 200f;
+            }
+
+            if (Input.GetKey(KeyCode.F2))
+            {
+                setHP(maxHP);
+            }
         }
-        if (Input.GetKeyUp(KeyCode.F1))
-        {
-            myRb.velocity = transform.forward * 200f;
-        }
+        
     }
     
     public void setNetName(string name)

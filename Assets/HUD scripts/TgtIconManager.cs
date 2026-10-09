@@ -185,4 +185,19 @@ public class TgtIconManager : MonoBehaviour
     {
         
     }
+
+    public float readScalePercent(float scale, bool clamped = false)
+    {
+        float percent = (scale - minIconScale) / (maxIconScale - minIconScale);
+        if (clamped)
+        {
+            return Mathf.Clamp(percent, 0.0f, 1.0f);
+        }
+        else
+        {
+            return percent;
+        }
+    }
+
+    
 }

@@ -434,6 +434,8 @@ MonoBehaviour:
   selfDestructSpeed: 15
   radar: {fileID: 0}
   PASS_OWNERSHIP_DISTANCE: 1000
+  launchSafetyHoldDelay: 0.5
+  tickDelayShovedown: 1
 --- !u!114 &7548661424938522269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +466,7 @@ MonoBehaviour:
   corkscrewRate: 0
   timeSinceLaunch: 0
   avoidGround: 0
+  corkscrewBeginAngle: 90
 --- !u!114 &2458642289922689017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +508,13 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  linkedRadar: {fileID: 0}
   canLockProjectiles: 0
+  lockTarget: {fileID: 0}
+  timeSinceHalfLock: 0
+  fullLockTime: 1
+  halfLock: 0
+  updateHalflockIcon: 0
 --- !u!114 &782758107410536790
 MonoBehaviour:
   m_ObjectHideFlags: 0

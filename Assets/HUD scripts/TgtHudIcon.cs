@@ -208,6 +208,7 @@ public class TgtHudIcon : MonoBehaviour
         return alertIndic;
     }
 
+
     public void setReload(bool reloadSet)
     {
         // raw nullcheck instead of get method to avoid excessive GetComponenet calls
@@ -577,7 +578,8 @@ public class TgtHudIcon : MonoBehaviour
         // Output: change scale of image
         tgtImageCenter.transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
 
-        if(lockIndic != null)
+
+        if (getLockIndic() != null)
         {
             lockIndic.baseScale = currentScale;
         }

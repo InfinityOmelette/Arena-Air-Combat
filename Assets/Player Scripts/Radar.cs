@@ -189,9 +189,14 @@ public class Radar : MonoBehaviourPun
 
     public void copyLockData(Radar radar)
     {
-        resetHalfLock();
+        
         if (radar != null)
         {
+            if (radar.lockType != this.lockType)
+            {
+                resetHalfLock();
+            }
+
             weaponLinked = true;
             linkedRadar = radar;
             maxLockRange = radar.maxLockRange;
@@ -216,6 +221,7 @@ public class Radar : MonoBehaviourPun
         }
         else
         {
+            resetHalfLock();
             weaponLinked = false;
         }
     }
@@ -518,6 +524,7 @@ public class Radar : MonoBehaviourPun
 
         float progress = timeSinceHalfLock / lockTime();
         targetflow.myHudIconRef.getLockIndic().setLockProgress(progress);
+        
 
     }
 

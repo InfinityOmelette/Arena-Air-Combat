@@ -112,6 +112,9 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public bool linkHPToIconBar = false;
 
+    public float baseLockTime = 1.0f;
+
+
     // ??????????
     public static Team convertNumToTeam(short num)
     {

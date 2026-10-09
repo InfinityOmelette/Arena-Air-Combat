@@ -114,6 +114,8 @@ public class Radar : MonoBehaviourPun
     public static int halfLockDecayTicks = 1;
     private uint countTicksSinceHalflock = 0;
 
+    public float lockPowerCoeff = 1.0f;
+
     //public AudioSource halflockTone;
 
     private TgtComputer tgtComputer;
@@ -205,7 +207,7 @@ public class Radar : MonoBehaviourPun
             baseKillRange = radar.baseKillRange;
             lockAngle = radar.lockAngle;
             lockType = radar.lockType;
-
+            lockPowerCoeff = radar.lockPowerCoeff;
 
             closingSpeedFactor = radar.closingSpeedFactor;
 
@@ -483,7 +485,7 @@ public class Radar : MonoBehaviourPun
             {
                 //Debug.Log("Successful halflock");
                 successfulHalfLock = true;
-                fullLock = fullLockConditions();
+                fullLock = fullLockConditions(targetFlow);
             }
         }
         else
@@ -533,10 +535,16 @@ public class Radar : MonoBehaviourPun
         return fullLockTime;
     }
 
-    private bool fullLockConditions()
+    private bool fullLockConditions(CombatFlow target)
     {
         //Debug.Log("Attempting full lock: " + timeSinceHalfLock + "s / " + fullLockTime + "s");
-        return timeSinceHalfLock > fullLockTime;
+        return timeSinceHalfLock > calculateLockTime(target);
+    }
+
+    private float calculateLockTime(CombatFlow target)
+    {
+        fullLockTime = target.baseLockTime / lockPowerCoeff;
+        return fullLockTime;
     }
 
     private bool halfLockConditions(CombatFlow targetFlow)

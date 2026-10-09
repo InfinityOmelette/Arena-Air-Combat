@@ -33094,6 +33094,7 @@ MonoBehaviour:
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
   linkHPToIconBar: 1
+  baseLockTime: 0.5
 --- !u!114 &5057426601441702812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33158,7 +33159,14 @@ MonoBehaviour:
   effectiveKillRange: 0
   rangeLadder: {fileID: 0}
   weaponLinked: 0
+  linkedRadar: {fileID: 0}
   canLockProjectiles: 1
+  lockTarget: {fileID: 0}
+  timeSinceHalfLock: 0
+  fullLockTime: 1
+  halfLock: 0
+  updateHalflockIcon: 0
+  lockPowerCoeff: 1
 --- !u!114 &6406732512501020692
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -594,7 +594,7 @@ public class Radar : MonoBehaviourPun
     {
         return (projectileCheck(flow) || flow.type !=CombatFlow.Type.PROJECTILE)
             && (lockType == LockType.AIR_OR_GROUND
-            || (lockType == LockType.AIR_ONLY && flow.type == CombatFlow.Type.AIRCRAFT)
+            || (lockType == LockType.AIR_ONLY && (flow.type == CombatFlow.Type.AIRCRAFT || flow.type == CombatFlow.Type.PROJECTILE))
             || (lockType == LockType.GROUND_ONLY && flow.type != CombatFlow.Type.AIRCRAFT)
             || (canLockProjectiles && flow.type == CombatFlow.Type.PROJECTILE));
     }
@@ -603,9 +603,9 @@ public class Radar : MonoBehaviourPun
     {
         
 
-        return flow.type == CombatFlow.Type.PROJECTILE && flow.isLaunched() && canLockProjectiles
+        return myFlow.isLocalPlayer || (flow.type == CombatFlow.Type.PROJECTILE && flow.isLaunched() && canLockProjectiles
             && (flow.mslGuidance == null || (flow.mslGuidance.isLocked 
-            && flow.mslGuidance.getTargetType() != CombatFlow.Type.PROJECTILE)); 
+            && flow.mslGuidance.getTargetType() != CombatFlow.Type.PROJECTILE))); 
         // only bother intercepting missile if it isn't targeting another projectile
     }
 

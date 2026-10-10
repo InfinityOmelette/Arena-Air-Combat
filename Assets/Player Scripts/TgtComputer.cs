@@ -373,7 +373,7 @@ public class TgtComputer : MonoBehaviour
                     if ((currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
                         //!currentFlow.myHudIconRef.isFar &&
                         currentFlow.isActive &&
-                        currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
+                        //currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
                         currentAngle < changeTargetMaxAngle &&
                         currentAngle < smallestAngle &&
                         !currentFlow.isLocalPlayer &&

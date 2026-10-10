@@ -2295,7 +2295,7 @@ MonoBehaviour:
   weaponRef: {fileID: 0}
   assumedGravityAccel: 0
   targetPosForwardProjectionTime: 0.1
-  scanConeFactor: 0.9
+  scanConeFactor: 0.85
   timeRemainDragEstFactor: 15
   isLocked: 0
   maxLoftDegrees: 18
@@ -2354,6 +2354,7 @@ MonoBehaviour:
   fullLockTime: 1
   halfLock: 0
   updateHalflockIcon: 0
+  lockPowerCoeff: 1
 --- !u!114 &2231978451065688927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2471,6 +2472,7 @@ MonoBehaviour:
   alertNess: {fileID: 0}
   mslGuidance: {fileID: 0}
   linkHPToIconBar: 0
+  baseLockTime: 1.5
 --- !u!114 &6194466470016553413
 MonoBehaviour:
   m_ObjectHideFlags: 0

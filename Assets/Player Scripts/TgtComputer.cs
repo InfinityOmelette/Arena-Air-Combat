@@ -262,24 +262,38 @@ public class TgtComputer : MonoBehaviour
 
 
 
-    public CombatFlow autoTargetGround(bool targetByClosest = true, bool hogMode = true)
+    public CombatFlow autoTarget_SelfProtect(bool targetByClosest = true, bool hogMode = true)
     {
         CombatFlow newTarget = null;
-
-        // First try to target a vulnerable SAM
-        newTarget = changeTarget(CombatFlow.Type.SAM, targetByClosest, hogMode); // target by closest
-
-        if(newTarget == null)
+        
+        if(myRadar.lockType == Radar.LockType.GROUND_ONLY)
         {
-            // If no SAM's found, try to target AAA gun
-            newTarget = changeTarget(CombatFlow.Type.ANTI_AIR, targetByClosest, hogMode);
+            // First try to target a vulnerable SAM
+            newTarget = changeTarget(CombatFlow.Type.SAM, targetByClosest, hogMode); // target by closest
 
-            if(newTarget == null)
+            if (newTarget == null)
             {
-                // if no AAA guns found, try to target ground unit
-                newTarget = changeTarget(CombatFlow.Type.GROUND, targetByClosest, hogMode);
+                // If no SAM's found, try to target AAA gun
+                newTarget = changeTarget(CombatFlow.Type.ANTI_AIR, targetByClosest, hogMode);
+
+                if (newTarget == null)
+                {
+                    // if no AAA guns found, try to target ground unit
+                    newTarget = changeTarget(CombatFlow.Type.GROUND, targetByClosest, hogMode);
+                }
             }
         }
+        else if(myRadar.lockType == Radar.LockType.AIR_ONLY)
+        {
+            newTarget = changeTarget(CombatFlow.Type.PROJECTILE, targetByClosest, hogMode);
+
+            if (newTarget == null)
+            {
+                newTarget = changeTarget(CombatFlow.Type.AIRCRAFT, targetByClosest, hogMode);
+            }
+        }
+
+        
         
 
         return newTarget;
@@ -417,7 +431,7 @@ public class TgtComputer : MonoBehaviour
                 if ((currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
                         //!currentFlow.myHudIconRef.isFar &&
                         currentFlow.isActive &&
-                        currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
+                        //currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles
                         currentDistance < changeTargetMaxDistance &&
                         currentDistance < smallestDistance &&
                         !currentFlow.isLocalPlayer &&

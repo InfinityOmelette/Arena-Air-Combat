@@ -410,9 +410,9 @@ MonoBehaviour:
   maxCorrectionErrorAngle: 10
   weaponRef: {fileID: 0}
   assumedGravityAccel: 0
-  targetPosForwardProjectionTime: 0.1
+  targetPosForwardProjectionTime: 0.06
   scanConeFactor: 0.85
-  timeRemainDragEstFactor: 10
+  timeRemainDragEstFactor: 20
   isLocked: 0
   maxLoftDegrees: 18
   loftChangeSlope: 6.7
@@ -499,10 +499,10 @@ MonoBehaviour:
   pitchTrim: 0
   downPitchMultiplier: 1
   wingLiftCoefficient: 0.065
-  wingDragCoefficient: 0.25
+  wingDragCoefficient: 0.2
   wingDragOffset: 0.001
   bodySideLiftCoefficient: 0.065
-  bodySideDragCoefficient: 0.25
+  bodySideDragCoefficient: 0.2
   bodySideDragOffset: 0.001
   totalParasiticDrag: 0
   pitchStability: 0
@@ -1011,7 +1011,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.7
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

@@ -115,12 +115,14 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
 
             if (Input.GetKeyDown(KeyCode.C))
             {
-                Debug.LogWarning("AutoTargetGround enabled");
-                tgtComputer.autoTargetGround();
+                Debug.LogWarning("AutoTarget SelfProtect enabled");
+                tgtComputer.autoTarget_SelfProtect();
             }
 
         }
     }
+
+    
 
     private void processCamOffset()
     {

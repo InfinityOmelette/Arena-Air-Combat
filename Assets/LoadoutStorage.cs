@@ -423,6 +423,7 @@ public class LoadoutStorage : MonoBehaviour
 
     public LoadoutPreset getDefaultLoadoutCopy(CombatFlow.Team team)
     {
+        validateLoadoutConstruction(ref standardLoadouts[(int)team]);
         return standardLoadouts[(int)team];
     }
 

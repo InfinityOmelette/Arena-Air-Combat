@@ -122,12 +122,35 @@ public class BasicMissile : Weapon
         tryArm();
         //effectsObj.transform.position = effectsCenter.position;
         checkLinecastCollision();
+
+        if(launched && myCombatFlow.localOwned)
+        {
+            fuzeProcess();
+        }
     }
 
     private void applyDelayedShovedown()
     {
         tickDelayShovedown = false;
         rbRef.velocity += shoveDownVel();
+    }
+
+    void fuzeProcess()
+    {
+        if (checkProximityFuse())
+        {
+            // make this rpc
+            if (effectsObj != null)
+            {
+                //effectsObj.GetComponent<Light>().enabled = false;
+                photonView.RPC("rpcDisableLight", RpcTarget.All);
+            }
+            if (myCombatFlow != null && myCombatFlow.localOwned)
+            {
+                // blow up local instance. Death itself should be networked fine
+                myCombatFlow.dealLocalDamage(myCombatFlow.getHP());
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -166,20 +189,7 @@ public class BasicMissile : Weapon
                     updateTargetPosition();
                 }
 
-                if (checkProximityFuse())
-                {
-                    // make this rpc
-                    if (effectsObj != null)
-                    {
-                        //effectsObj.GetComponent<Light>().enabled = false;
-                        photonView.RPC("rpcDisableLight", RpcTarget.All);
-                    }
-                    if (myCombatFlow != null && myCombatFlow.localOwned)
-                    {
-                        // blow up local instance. Death itself should be networked fine
-                        myCombatFlow.dealLocalDamage(myCombatFlow.getHP()); 
-                    }
-                }
+                fuzeProcess();
             }
         }
         else if (tryDelayedLaunch)

@@ -94,6 +94,18 @@ public class WheelsControl : MonoBehaviour
         }
     }
 
+    public bool groundedCheck()
+    {
+        for(int i = 0; i < wheels.Length; i++)
+        {
+            if (wheels[i].wheelCollider.isGrounded)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // calculate steering input, factoring in speed limiting
     private float steerInputProcess()
     {

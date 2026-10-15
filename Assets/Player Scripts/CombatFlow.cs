@@ -507,8 +507,9 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             input.hardpointController.destroyWeapons();
 
             TeamSpawner.localPlayerInstance = null;
-            
 
+            ticketReturnCheck();
+            // check if spawnticket can be credited back to any of team's spawners?
         }
 
         if(camManager != null)
@@ -551,6 +552,19 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     }
 
+    void ticketReturnCheck()
+    {
+        // wheels are grounded
+        PlayerInput_Aircraft input = GetComponent<PlayerInput_Aircraft>();
+        bool grounded = input.wheels.groundedCheck();
+
+        // distance to spawner within threshold
+        if (grounded)
+        {
+            AirSpawnController.getTeamController(team).tryReturnTicket(this);
+        }
+        
+    }
 
 
     void OnDestroy()

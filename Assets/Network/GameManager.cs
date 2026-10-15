@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         return spawnerSelectors[teamNum].value;
     }
 
-    // called by button
+    // called by button -- only spawns player
     public void spawnPlayerNoReturn(int teamNum)
     {
 

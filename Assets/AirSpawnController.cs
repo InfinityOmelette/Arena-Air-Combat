@@ -200,4 +200,20 @@ public class AirSpawnController : MonoBehaviour
         return teamControllers[(int)team];
     }
 
+    public bool tryReturnTicket(CombatFlow player)
+    {
+
+        for(int i = 0; i < spawners.Count; i++)
+        {
+            TeamSpawner spawner = spawners[i];
+            if (spawner.tryReturnTicket(player))
+            {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
 }

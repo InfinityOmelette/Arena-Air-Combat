@@ -48,7 +48,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     public float linkTimer = 1f;
 
 
-    
+    public float ticketReturnDistance = 350f;
 
     private void Awake()
     {
@@ -360,6 +360,19 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
         }
     }
 
+    public bool tryReturnTicket(CombatFlow player)
+    {
+        bool ticketReturned = false;
 
+        float dist = Vector3.Distance(player.transform.position, transform.position);
+
+        if(dist < ticketReturnDistance)
+        {
+            ticketReturned = true;
+            addTicket(1);
+        }
+
+        return ticketReturned;
+    }
 
 }

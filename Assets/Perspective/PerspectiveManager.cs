@@ -26,11 +26,14 @@ public class PerspectiveManager : MonoBehaviour
     public bool warThunderCamEnabled = false;
     public bool levelCamera;
 
+    public GameManager gm;
+
     // Start is called before the first frame update
     void Start()
     {
         //enableCamIndex(activeCamIndex); // enable first camera in list
         cameras = new List<GameObject>();
+        gm = GameManager.getGM();
     }
 
     public static PerspectiveManager getPManager()
@@ -45,7 +48,32 @@ public class PerspectiveManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && aircraftPlayerInputRef != null)
+        {
+            spawnScreenToggle();
 
+            
+        }
+    }
+
+    public void linkInput(PlayerInput_Aircraft input)
+    {
+        aircraftPlayerInputRef = input;
+    }
+
+    void spawnScreenToggle()
+    {
+        bool toggleSync = !aircraftPlayerInputRef.enabled;
+        aircraftPlayerInputRef.setActive(toggleSync);
+
+        if (toggleSync) // player controls becoming enabled
+        {
+            gm.hideSpawnMenu();
+        }
+        else // player controls becoming disabled
+        {
+            gm.showSpawnMenu(false);
+        }
     }
 
     //  SWITCH TO CAM PERSPECTIVE

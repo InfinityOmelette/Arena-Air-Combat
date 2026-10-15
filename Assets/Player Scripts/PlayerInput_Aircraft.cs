@@ -319,6 +319,20 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
         }
     }
 
+    public void setActive(bool active)
+    {
+        //if (!active)
+        //{
+        //    cam.input_freeLookHoriz = 0.0f;
+        //    cam.input_freeLookVert = 0.0f;
+        //}
+
+        cam.setLookAllow(active);
+
+        this.enabled = active;
+    }
+
+
     // CALL FROM FIXEDUPDATE -- determine precise physics update when button pressed
     void launchManagement()
     {

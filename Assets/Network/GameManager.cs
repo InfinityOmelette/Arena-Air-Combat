@@ -302,17 +302,27 @@ public class GameManager : MonoBehaviourPunCallbacks
         return newSpawn;
     }
 
-    public void showSpawnMenu()
+    public void showSpawnMenu(bool playerDeath = true)
     {
-        hudControl.setHudVisible(false);
-        hudControl.linkHudToAircraft(null);
-        pm.switchToType(PerspectiveProperties.CamType.SPECTATOR);
+        if (playerDeath)
+        {
+            hudControl.setHudVisible(false);
+            hudControl.linkHudToAircraft(null);
+            pm.switchToType(PerspectiveProperties.CamType.SPECTATOR);
+        }
+        
         pm.setMouseLock(false);
         spawnUIPanel.SetActive(true);
     }
 
+    public void hideSpawnMenu()
+    {
+        pm.setMouseLock(true);
+        spawnUIPanel.SetActive(false);
+    }
 
-    #region Public Methods
+
+    #region Public Photon Methods
 
 
     public void LeaveRoom()
@@ -323,7 +333,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
 
-    #region Private Methods
+    #region Private Photon Methods
 
     private TeamSpawner getSpawnerByTeam(CombatFlow.Team team, int spawnerIndex = 0)
     {

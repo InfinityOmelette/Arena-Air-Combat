@@ -104,11 +104,18 @@ public class CamManipulation : MonoBehaviour
 
     private CombatFlow rootFlow;
 
+    private bool lookAllow = true;
+
 
     void Awake()
     {
         rootFlow = aircraftRootRB.GetComponent<CombatFlow>();
         pManager = PerspectiveManager.getPManager();
+    }
+
+    public void setLookAllow(bool set)
+    {
+        lookAllow = set;
     }
 
     // Start is called before the first frame update
@@ -197,8 +204,9 @@ public class CamManipulation : MonoBehaviour
         }
         else
         {
-            // right stick to look around aircraft
+
             processFreeLook();
+
         }
 
         if (levelCamera)
@@ -483,8 +491,11 @@ public class CamManipulation : MonoBehaviour
         if (warThunderCamEnabled)
         {
             activeRotateLerpRate = warThunderLerpRate;
-
-            worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
+            if (lookAllow)
+            {
+                worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
+            }
+            
 
             targetLocalRotation = Quaternion.LookRotation(
                     camAxisRollRef.transform.InverseTransformPoint(camAxisHorizRef.transform.position + worldLockedLookDirection),
@@ -500,13 +511,15 @@ public class CamManipulation : MonoBehaviour
             // If there is no stick input..
             if (mouseLookEnabled)
             {
-
+                
+                
                 activeRotateLerpRate = mouseRotateLerpRate;
 
                 // use mouse input to rotate camera
                 targetLocalEuler = mouseFreeLookEuler(
                     input_mouseSpeedX,
                     input_mouseSpeedY);
+                
 
 
             }

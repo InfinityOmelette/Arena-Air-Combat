@@ -719,6 +719,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         PlayerInput_Aircraft inputRoot = gameObject.GetComponent<PlayerInput_Aircraft>();
         inputRoot.enabled = true;
 
+        PerspectiveManager.getPManager().linkInput(inputRoot);
+
         const int localPlayerLayer = 8;
         inputRoot.cannons.setIgnoreLayer(localPlayerLayer);
 
@@ -746,6 +748,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         // activate targeting computer and radar
         gameObject.GetComponent<Radar>().enabled = true;
         gameObject.GetComponent<TgtComputer>().enabled = true;
+
+        
 
 
         inputRoot.isReady = true; // start receiving and processing input

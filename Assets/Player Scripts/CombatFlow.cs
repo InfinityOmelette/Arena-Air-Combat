@@ -419,7 +419,7 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         
     }
 
-    public void die()
+    public void die(bool doExplode = true)
     {
         if (!deathCommanded) // avoid repeated calls by outside objects
         {
@@ -428,24 +428,24 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             {
 
                 //photonView.RPC("explode", RpcTarget.All); // don't buffer explosion
-                photonView.RPC("rpcDie", RpcTarget.AllBuffered);
+                photonView.RPC("rpcDie", RpcTarget.AllBuffered, doExplode);
             }
             else
             {
-                rpcDie(); // execute locally, don't propogate
+                rpcDie(doExplode); // execute locally, don't propogate
             }
         }
 
     }
 
     [PunRPC]
-    private void rpcDie()
+    private void rpcDie(bool doExplode = true)
     {
         Debug.LogWarning("rpcDie commanded");
         deathCommanded = true;
         isActive = false;
 
-        if (firstFramePassed)
+        if (firstFramePassed && doExplode)
         {
             explode();
         }
@@ -505,6 +505,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
             PlayerInput_Aircraft input = GetComponent<PlayerInput_Aircraft>();
             input.hardpointController.destroyWeapons();
+
+            TeamSpawner.localPlayerInstance = null;
             
 
         }

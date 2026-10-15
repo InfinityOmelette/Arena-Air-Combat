@@ -72,15 +72,16 @@ public class FlareEmitter : MonoBehaviourPun
 
     void Start()
     {
-        flareIconManager = hudControl.mainHud.GetComponent<hudControl>().flareIconManager;
-
-        updateFlareIndicator();
+        //flareIconManager = hudControl.mainHud.GetComponent<hudControl>().flareIconManager;
+        getFlareIconManag();
+        
 
         if (myFlow.isLocalPlayer)
         {
             //Debug.LogError("Creating new icons");
             flareIconManager.createIcons(flareSlotReloads.Length);
         }
+        updateFlareIndicator();
     }
 
     
@@ -182,13 +183,23 @@ public class FlareEmitter : MonoBehaviourPun
                 
             //}
 
-            if (myFlow.isLocalPlayer)
+            if (myFlow.isLocalPlayer && getFlareIconManag().icons != null)
             {
-                flareIconManager.icons[i].setReloadStatus(ready, flareSlotReloads[i], flareReloadDelay);
+                FlareIcon icon = getFlareIconManag().icons[i];
+                icon.setReloadStatus(ready, flareSlotReloads[i], flareReloadDelay);
             }
         }
         availableFlareCount = flaresAvailable;
         updateFlareIndicator(false);
+    }
+
+    public FlareIconManager getFlareIconManag()
+    {
+        if(flareIconManager == null)
+        {
+            flareIconManager = hudControl.mainHud.GetComponent<hudControl>().flareIconManager;
+        }
+        return flareIconManager;
     }
 
     private void doJammingTimer()

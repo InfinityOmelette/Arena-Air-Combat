@@ -79,9 +79,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
 
     public List<Dropdown> spawnerSelectors;
-    
 
 
+    public int spawnTickDelayMax = 3;
+    private int spawnTickDelayCounter = 3;
+    public bool doDelayedSpawn = false;
+    public int delaySpawnTeam = 0;
 
     public static GameManager getGM()
     {
@@ -91,6 +94,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         return gm;
+    }
+
+    void initiatePlayerSpawnDelay(int team)
+    {
+        spawnTickDelayCounter = spawnTickDelayMax;
+        delaySpawnTeam = team;
+        doDelayedSpawn = true;
     }
 
     void Awake()
@@ -166,6 +176,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (doDelayedSpawn)
+        {
+            spawnDelayProcess();
+        }
+    }
+
+    private void spawnDelayProcess()
+    {
+        if(spawnTickDelayCounter <= 0)
+        {
+            spawnPlayerNoReturn(delaySpawnTeam);
+        }
+        else
+        {
+            spawnTickDelayCounter--;
+        }
+    }
+
 
     public void setSelectedAircraft()
     {
@@ -214,6 +244,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         return spawnerSelectors[teamNum].value;
     }
 
+    // called by button
     public void spawnPlayerNoReturn(int teamNum)
     {
 
@@ -221,10 +252,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             //this.
 
+            if(localPlayer != null)
+            {
+                localPlayer.GetComponent<CombatFlow>().die(false); // do not explode
+                initiatePlayerSpawnDelay(teamNum);
+                return;
+            }
+            
+
             GameObject playerInstance = spawnPlayer(teamNum, false, getSelectedSpawnIndex(teamNum)).gameObject;
             AirSpawnController.setLocalPlayerInstance( playerInstance );
             AirSpawnController.timeSincePlayerDeath = 0.0f;
         }
+        doDelayedSpawn = false;
         
     }
 
@@ -296,6 +336,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 //spawner.setPlayerAsControllable(playerObj);
                 //localPlayer = playerObj;
 
+            }
+            else
+            {
+                Debug.LogWarning("Unable to spawn, localPlayerInstance is not null");
             }
         }
 

@@ -268,6 +268,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         
     }
 
+    public void despawn()
+    {
+        if(localPlayer != null)
+        {
+            localPlayer.GetComponent<CombatFlow>().die(false);
+        }
+    }
 
     public CombatFlow spawnPlayer(int teamNum)
     {

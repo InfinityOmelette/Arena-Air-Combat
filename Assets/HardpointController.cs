@@ -677,6 +677,8 @@ public class HardpointController : MonoBehaviourPunCallbacks
     {
         List<Weapon> loadoutWeapons = loadout.loadout;
 
+        getStorage().activeLoadout = loadout;
+
         //Debug.Log("Equipping Loadout: \n" + getStorage().reportLoadout(ref loadout));
 
         for(int i = 0; i < getHardpoints().Length; i++)
@@ -742,8 +744,10 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogError("Cancelling rearm: active prefab " + loaderRef.activeAircraftPrefab.name 
-                + " different from live aircraft prefab " + getRootFlow().prefabRef.gameObject);
+            //Debug.LogError("Cancelling rearm: active prefab " + loaderRef.activeAircraftPrefab.name 
+            //    + " different from live aircraft prefab " + getRootFlow().prefabRef.gameObject);
+            Debug.LogWarning("Reloading current loadout because active prefab different from live aircraft prefab");
+            equipLoadoutPreset(ref getStorage().activeLoadout);
         }
 
         //loaderRef.equipLoadoutOntoSpawnedAircraft(getRootFlow().gameObject);

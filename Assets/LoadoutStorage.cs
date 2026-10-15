@@ -7,7 +7,7 @@ public class LoadoutStorage : MonoBehaviour
 {
     public HardpointController hardpointController;
 
-
+    public LoadoutPreset activeLoadout;
     public LoadoutPreset[] standardLoadouts;
     public LoadoutPreset[] customLoadouts;
 
@@ -49,7 +49,14 @@ public class LoadoutStorage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.Destroy(this); // no reason to store loadouts on instantiated aircraft
+        //GameObject.Destroy(this); // no reason to store loadouts on instantiated aircraft
+        destroyExtraLoadouts();
+    }
+
+    void destroyExtraLoadouts()
+    {
+        standardLoadouts = null;
+        customLoadouts = null;
     }
 
     // Update is called once per frame

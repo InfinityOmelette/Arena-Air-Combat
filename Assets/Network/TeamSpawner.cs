@@ -48,7 +48,7 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     public float linkTimer = 1f;
 
 
-    public float ticketReturnDistance = 350f;
+    public float airfieldServiceRadius = 350f;
 
     private void Awake()
     {
@@ -364,15 +364,33 @@ public class TeamSpawner : MonoBehaviourPunCallbacks
     {
         bool ticketReturned = false;
 
-        float dist = Vector3.Distance(player.transform.position, transform.position);
+        //float dist = Vector3.Distance(player.transform.position, transform.position);
 
-        if(dist < ticketReturnDistance)
+        if(withinAirfieldRadius(player))
         {
             ticketReturned = true;
             addTicket(1);
         }
 
         return ticketReturned;
+    }
+
+    public bool tryRearm(CombatFlow player)
+    {
+        bool didRearm = false;
+
+        if (withinAirfieldRadius(player))
+        {
+            player.fullGroundService();
+        }
+
+        return didRearm;
+    }
+
+    public bool withinAirfieldRadius(CombatFlow aircraft)
+    {
+        float dist = Vector3.Distance(aircraft.transform.position, transform.position);
+        return dist < airfieldServiceRadius;
     }
 
 }

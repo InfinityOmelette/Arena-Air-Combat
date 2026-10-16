@@ -552,14 +552,33 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     }
 
-    void ticketReturnCheck()
+    public void fullGroundService(bool allowMidair = false)
+    {
+        if(allowMidair || groundedCheck())
+        {
+            rearm();
+            fullHeal();
+        }
+        
+    }
+
+    public void rearm()
+    {
+        hardpoints.rearm();
+    }
+
+    public bool groundedCheck()
     {
         // wheels are grounded
         PlayerInput_Aircraft input = GetComponent<PlayerInput_Aircraft>();
-        bool grounded = input.wheels.groundedCheck();
+        return input.wheels.groundedCheck();
+    }
+
+    void ticketReturnCheck()
+    {
 
         // distance to spawner within threshold
-        if (grounded)
+        if (groundedCheck())
         {
             AirSpawnController.getTeamController(team).tryReturnTicket(this);
         }

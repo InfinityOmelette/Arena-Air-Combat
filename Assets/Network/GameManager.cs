@@ -276,6 +276,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void tryRearm()
+    {
+        if(localPlayer != null)
+        {
+            CombatFlow playerFlow = localPlayer.GetComponent<CombatFlow>();
+
+            CombatFlow.Team team = playerFlow.team;
+            AirSpawnController spawnCont = AirSpawnController.getTeamController(team);
+            spawnCont.tryRearm(playerFlow);
+            
+        }
+    }
+
     public CombatFlow spawnPlayer(int teamNum)
     {
         return spawnPlayer(teamNum, false);

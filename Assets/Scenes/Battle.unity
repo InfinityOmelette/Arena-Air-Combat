@@ -12797,7 +12797,7 @@ MonoBehaviour:
   parentController: {fileID: 0}
   rootFlow: {fileID: 0}
   linkTimer: 1
-  ticketReturnDistance: 350
+  airfieldServiceRadius: 350
 --- !u!4 &1265437874
 Transform:
   m_ObjectHideFlags: 0
@@ -19699,7 +19699,7 @@ MonoBehaviour:
   parentController: {fileID: 0}
   rootFlow: {fileID: 0}
   linkTimer: 1
-  ticketReturnDistance: 350
+  airfieldServiceRadius: 350
 --- !u!4 &2031357647
 Transform:
   m_ObjectHideFlags: 0
@@ -22483,6 +22483,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4713572689604935960, guid: 383684bc5f9a17e44bddd3618f3ac871,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4713572689604935960, guid: 383684bc5f9a17e44bddd3618f3ac871,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 412476887}
+    - target: {fileID: 4713572689604935960, guid: 383684bc5f9a17e44bddd3618f3ac871,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: tryRearm
       objectReference: {fileID: 0}
     - target: {fileID: 6628015071007334028, guid: 383684bc5f9a17e44bddd3618f3ac871,
         type: 3}

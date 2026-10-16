@@ -216,4 +216,18 @@ public class AirSpawnController : MonoBehaviour
         return false;
     }
 
+    public bool tryRearm(CombatFlow player)
+    {
+        bool successfulRearm = false;
+        for(int i = 0; i < spawners.Count && !successfulRearm; i++)
+        {
+            TeamSpawner spawner = spawners[i];
+            successfulRearm = spawner.tryRearm(player);
+
+        }
+
+        return successfulRearm;
+    }
+
+
 }

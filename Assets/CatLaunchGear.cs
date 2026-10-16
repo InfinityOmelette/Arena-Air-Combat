@@ -112,6 +112,7 @@ public class CatLaunchGear : MonoBehaviour
         shootTimer = shootTimerMax;
         launchAxis = linkedCat.launchCenter.forward;
 
+
         //if (wheelControl != null)
         //{
         //    wheelControl.externApplyBrake(0f);
@@ -218,6 +219,8 @@ public class CatLaunchGear : MonoBehaviour
                         //wheelControl.beginSlide();
                         wheelControl.setSteeringLock(true);
                     }
+
+                    rootFlow.rearm();
                 }
             }
 

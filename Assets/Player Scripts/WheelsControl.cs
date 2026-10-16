@@ -98,7 +98,7 @@ public class WheelsControl : MonoBehaviour
     {
         for(int i = 0; i < wheels.Length; i++)
         {
-            if (wheels[i].wheelCollider.isGrounded)
+            if (gearIsDown && wheels[i].wheelCollider.isGrounded)
             {
                 return true;
             }

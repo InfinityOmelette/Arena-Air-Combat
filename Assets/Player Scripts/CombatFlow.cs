@@ -559,8 +559,19 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             rearm();
             fullHeal();
             refuel();
+            equipAbility();
         }
         
+    }
+
+    public void equipAbility()
+    {
+        //if (GameManager.getGM().checkTeamSelect(this.team))
+        //{
+
+        //}
+        AbilityParent.clearAbility(this.gameObject);
+        TechInventory.getTeamInventory(this.team).equipSelectedAbilityToAircraft(this.gameObject);
     }
 
     public void refuel()

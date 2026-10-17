@@ -155,9 +155,13 @@ public class TechInventory : MonoBehaviour
         Debug.Log("SelectAbility() called for TechInventory of " + myTeam);
         if (checkTeamSelect())
         {
-
-            int index = abilitySelectDropdown.value;
-            selectedAbility = unlockedAbilityScripts[index];
+            refreshAbilitySelectIndex();
+            //int index = abilitySelectDropdown.value;
+            //selectedAbility = unlockedAbilityScripts[index];
+        }
+        else if(selectedAbility == null && unlockedAbilityScripts.Count > 0)
+        {
+            selectedAbility = unlockedAbilityScripts[0];
         }
     }
 
@@ -165,13 +169,25 @@ public class TechInventory : MonoBehaviour
     {
         if (checkTeamSelect())
         {
+            selectAbility();
             if (selectedAbility != null && unlockedAbilityScripts.Count > 0)
             {
                 Debug.Log("Equipping ability " + selectedAbility.abilityName + " to " + aircraftObj.name);
+                //selectAbility();
                 selectedAbility.equipAbilityToAircraftObject(aircraftObj);
             }
         }
         
+    }
+
+    public void refreshAbilitySelectIndex()
+    {
+        int index = abilitySelectDropdown.value;
+        if (checkTeamSelect() && index < unlockedAbilityScripts.Count)
+        {
+            selectedAbility = unlockedAbilityScripts[index];
+            
+        }
     }
 
     public bool checkTeamSelect()

@@ -63,7 +63,10 @@ public class AbilityIconManager : MonoBehaviour
 
     public void cleanup()
     {
-        GameObject.Destroy(reloadStatusIcon.gameObject);
+        if (reloadStatusIcon != null)
+        {
+            GameObject.Destroy(reloadStatusIcon.gameObject);
+        }
         linkedAircraftAbility = null;
     }
 }

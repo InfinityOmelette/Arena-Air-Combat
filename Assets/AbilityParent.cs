@@ -14,10 +14,14 @@ public class AbilityParent : MonoBehaviour
 
     public CombatFlow myFlow;
 
-    
+    public int bullshitDelayMax = 3;
+    public int bullshitfuckingdelay;
+    public bool didStart = false;
 
     public void init()
     {
+        bullshitDelayMax = bullshitfuckingdelay;
+
         Debug.Log("Ability parent init() called");
         //reloadTimer = reloadTimerMax;
 
@@ -38,7 +42,10 @@ public class AbilityParent : MonoBehaviour
         if (myFlow.isLocalPlayer)
         {
             AbilityIconManager.iconManager.linkToAircraft(this);
+
         }
+
+        didStart = true;
     }
 
     private void Awake()
@@ -53,25 +60,43 @@ public class AbilityParent : MonoBehaviour
         
     }
 
+    public void delayStartProcess()
+    {
+        if(bullshitfuckingdelay > 0)
+        {
+            bullshitfuckingdelay--;
+        }
+        else
+        {
+            startProcess();
+        }
+    }
 
     public void updateProcess()
     {
-        // if timer complete
-        if (reloadTimer < 0)
+        if (didStart)
         {
-            // available to activate warp
-            // gather input if user pressing warp button
-            // only reset timer after activating warp
-
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            // if timer complete
+            if (reloadTimer < 0)
             {
-                activate();
+                // available to activate warp
+                // gather input if user pressing warp button
+                // only reset timer after activating warp
+
+                if (Input.GetKeyDown(KeyCode.LeftControl))
+                {
+                    activate();
+                }
+            }
+            else
+            {
+                reloadTimer -= Time.deltaTime;
+                // update UI to show reload status
             }
         }
         else
         {
-            reloadTimer -= Time.deltaTime;
-            // update UI to show reload status
+            delayStartProcess();
         }
     }
 
@@ -93,6 +118,20 @@ public class AbilityParent : MonoBehaviour
 
         // so we must add the raw script initially
         // and then copy values from the tech object onto the aircraft
+        clearAbility(aircraftObj);
+
+    }
+
+    public static void clearAbility(GameObject aircraftObj)
+    {
+        AbilityParent ability = aircraftObj.GetComponent<AbilityParent>();
+
+
+        if (ability != null)
+        {
+            AbilityIconManager.iconManager.cleanup();
+            GameObject.Destroy(ability);
+        } 
     }
 
     virtual public void copyOther(AbilityParent other)

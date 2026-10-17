@@ -27,7 +27,7 @@ public class BoostAbility : AbilityParent
     // Start is called before the first frame update
     void Start()
     {
-        base.startProcess();
+       // base.startProcess();
     }
 
     private void Update()
@@ -81,6 +81,8 @@ public class BoostAbility : AbilityParent
     override
     public void equipAbilityToAircraftObject(GameObject aircraftObj)
     {
+        base.equipAbilityToAircraftObject(aircraftObj);
+
         // How to get unity editor values to pass into script?
         // tech object's attached script can have edited values
 

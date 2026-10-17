@@ -737,7 +737,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
             TechInventory.teamTechInventories[(int)getRootFlow().team].weaponLoader;
         Debug.Log("Rearming Hardpointcontroller");
 
-        if(loaderRef.activeAircraftPrefab == getRootFlow().prefabRef.gameObject)
+        if(validateLoadoutPrefab(loaderRef.activeAircraftPrefab) && checkTeam())
         {
             //equipLoadoutPreset(ref loaderRef.getCurrentLoadoutRef());
             loaderRef.equipLoadoutOntoSpawnedAircraft(getRootFlow().gameObject, getRootFlow().aiControlled);
@@ -751,6 +751,16 @@ public class HardpointController : MonoBehaviourPunCallbacks
         }
 
         //loaderRef.equipLoadoutOntoSpawnedAircraft(getRootFlow().gameObject);
+    }
+
+    public bool checkTeam()
+    {
+        return GameManager.getGM().checkTeamSelect(getRootFlow().team);
+    }
+
+    public bool validateLoadoutPrefab(GameObject prefab)
+    {
+        return prefab == getRootFlow().prefabRef.gameObject;
     }
     
 }

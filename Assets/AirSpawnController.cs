@@ -57,24 +57,25 @@ public class AirSpawnController : MonoBehaviour
     {
         tryIncrementPlayerRespawnTimer(Time.deltaTime);
 
-        getSelectedSpawner().refreshTicketDisplay(ticketDisplay);
-        getSelectedSpawner().updateTicketGenerateTimerDisplay(ticketGenerateTimeDisplay);
-
-
-        if (!shittyFuckingRefreshComplete)
+        if (checkTeam())
         {
-            if (shittyfuckingrefreshtimer < 0)
+            getSelectedSpawner().refreshTicketDisplay(ticketDisplay);
+            getSelectedSpawner().updateTicketGenerateTimerDisplay(ticketGenerateTimeDisplay);
+
+            if (!shittyFuckingRefreshComplete)
             {
-                //Debug.LogError("Performing shitty fucking refresh");
-                shittyFuckingRefreshComplete = true;
-                buildSpawnDropdown();
-            }
-            else
-            {
-                shittyfuckingrefreshtimer -= Time.deltaTime;
+                if (shittyfuckingrefreshtimer < 0)
+                {
+                    //Debug.LogError("Performing shitty fucking refresh");
+                    shittyFuckingRefreshComplete = true;
+                    buildSpawnDropdown();
+                }
+                else
+                {
+                    shittyfuckingrefreshtimer -= Time.deltaTime;
+                }
             }
         }
-
 
     }
 
@@ -99,10 +100,13 @@ public class AirSpawnController : MonoBehaviour
 
     private void updateTimerText()
     {
-        TeamSpawner selectedSpawner = getSpawner(spawnSelector.value);
+        if (checkTeam())
+        {
+            TeamSpawner selectedSpawner = getSpawner(spawnSelector.value);
 
-        float spawnTimer = selectedSpawner.respawnTimeEffective - timeSincePlayerDeath;
-        timerText.text = (Mathf.Max(Mathf.RoundToInt(spawnTimer), 0)).ToString();
+            float spawnTimer = selectedSpawner.respawnTimeEffective - timeSincePlayerDeath;
+            timerText.text = (Mathf.Max(Mathf.RoundToInt(spawnTimer), 0)).ToString();
+        }
     }
 
     public bool playerCanRespawn()
@@ -122,32 +126,44 @@ public class AirSpawnController : MonoBehaviour
 
     private void cleanSpawnerList()
     {
-        for(int i = 0; i < spawners.Count; i++)
+        if (checkTeam())
         {
-            TeamSpawner spawner = spawners[i];
-            if(spawner == null || getTeam() != spawner.team)
+            for (int i = 0; i < spawners.Count; i++)
             {
-                spawners.RemoveAt(i);
-                i--;
+                TeamSpawner spawner = spawners[i];
+                if (spawner == null || getTeam() != spawner.team)
+                {
+                    spawners.RemoveAt(i);
+                    i--;
+                }
             }
         }
     }
 
+    public bool checkTeam()
+    {
+        return GameManager.getGM().checkTeamSelect(getFlow().team);
+    }
+
     public void buildSpawnDropdown()
     {
-        cleanSpawnerList();
-
-        spawnSelector.options.Clear();
-
-        for(int i = 0; i < spawners.Count; i++)
+        if (checkTeam())
         {
-            TeamSpawner spawner = spawners[i];
 
-            spawnSelector.options.Add(new Dropdown.OptionData(spawner.displayName));
+            cleanSpawnerList();
+
+            spawnSelector.options.Clear();
+
+            for (int i = 0; i < spawners.Count; i++)
+            {
+                TeamSpawner spawner = spawners[i];
+
+                spawnSelector.options.Add(new Dropdown.OptionData(spawner.displayName));
+            }
+
+            spawnSelector.value = 0;
+            spawnSelector.RefreshShownValue();
         }
-
-        spawnSelector.value = 0;
-        spawnSelector.RefreshShownValue();
     }
 
     public void tryAddSpawner(TeamSpawner spawner)

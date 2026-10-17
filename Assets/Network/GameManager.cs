@@ -201,6 +201,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void onTeamSelectValueChanged()
     {
         setSelectedAircraft();
+
+        getTeamSpawnController().buildSpawnDropdown();
+    }
+
+    public AirSpawnController getTeamSpawnController()
+    {
+        return AirSpawnController.getTeamController((CombatFlow.Team)getSelectedTeam());
     }
 
     public int getSelectedTeam()
@@ -251,10 +258,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     }
 
-
+    // refactoring this to only use one spawner selector for both teams
     public int getSelectedSpawnIndex(int teamNum)
     {
-        return spawnerSelectors[teamNum].value;
+        return spawnerSelectors[0].value;
     }
 
     // called by button -- only spawns player

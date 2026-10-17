@@ -123,6 +123,11 @@ public class EngineControl : MonoBehaviour
         }
     }
 
+    public void refuel()
+    {
+        currentFuelMass = maxFuelMass;
+    }
+
     private void checkAirStatsRefError()
     {
         if (air == null)

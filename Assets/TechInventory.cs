@@ -136,17 +136,30 @@ public class TechInventory : MonoBehaviour
         // read index from dropdown
         // set selectedAbility reference
         Debug.Log("SelectAbility() called for TechInventory of " + myTeam);
+        if (checkTeamSelect())
+        {
 
-        int index = abilitySelectDropdown.value;
-        selectedAbility = unlockedAbilityScripts[index];
+            int index = abilitySelectDropdown.value;
+            selectedAbility = unlockedAbilityScripts[index];
+        }
     }
 
     public void equipSelectedAbilityToAircraft(GameObject aircraftObj)
     {
-        if(selectedAbility != null && unlockedAbilityScripts.Count > 0)
+        if (checkTeamSelect())
         {
-            Debug.Log("Equipping ability " + selectedAbility.abilityName + " to " + aircraftObj.name);
-            selectedAbility.equipAbilityToAircraftObject(aircraftObj);
+            if (selectedAbility != null && unlockedAbilityScripts.Count > 0)
+            {
+                Debug.Log("Equipping ability " + selectedAbility.abilityName + " to " + aircraftObj.name);
+                selectedAbility.equipAbilityToAircraftObject(aircraftObj);
+            }
         }
+        
+    }
+
+    public bool checkTeamSelect()
+    {
+        GameManager gm = GameManager.getGM();
+        return gm.checkTeamSelect(myTeam);
     }
 }

@@ -220,7 +220,7 @@ public class CatLaunchGear : MonoBehaviour
                         wheelControl.setSteeringLock(true);
                     }
 
-                    rootFlow.rearm();
+                    rootFlow.fullGroundService();
                 }
             }
 

@@ -86,6 +86,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public bool doDelayedSpawn = false;
     public int delaySpawnTeam = 0;
 
+    public Dropdown teamSelectDropdown;
+
     public static GameManager getGM()
     {
         if(gm == null)
@@ -196,6 +198,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void onTeamSelectValueChanged()
+    {
+        setSelectedAircraft();
+    }
+
+    public int getSelectedTeam()
+    {
+        return teamSelectDropdown.value;
+    }
 
     public void setSelectedAircraft()
     {
@@ -212,9 +223,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         selectedPlayerPrefab = aircraftPrefabs[dropDownIndex];
 
 
+        int team = getSelectedTeam();
+
         //TechInventory.teamTechInventories[(int)localTeam].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
-        TechInventory.teamTechInventories[(int)CombatFlow.Team.TEAM1].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
-        TechInventory.teamTechInventories[(int)CombatFlow.Team.TEAM2].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
+        TechInventory.teamTechInventories[team].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
+        //TechInventory.teamTechInventories[(int)CombatFlow.Team.TEAM2].weaponLoader.refreshAvailableWeapons(selectedPlayerPrefab);
 
         // normally the player would join a team and then select loadout. But right now, we have to refresh
         // both team loadouts because unknown which team player will spawn in
@@ -247,7 +260,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // called by button -- only spawns player
     public void spawnPlayerNoReturn(int teamNum)
     {
-
+        teamNum = getSelectedTeam();
         if (teamSpawnControllers[teamNum].playerCanRespawn())
         {
             //this.
@@ -447,6 +460,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         
     }
 
+    public bool checkTeamSelect (CombatFlow.Team team)
+    {
+        return getSelectedTeam() == (int)team;
+    }
 
     public override void OnPlayerLeftRoom(Player other)
     {

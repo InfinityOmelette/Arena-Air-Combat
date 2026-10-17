@@ -543,6 +543,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hardpointController: {fileID: 3718655085937672987}
+  activeLoadout:
+    name: 
+    loadout: []
+    stock: 
+    generateDefaultStock: 0
+    weaponTypes: []
   standardLoadouts:
   - name: Default1
     loadout:
@@ -2382,7 +2388,7 @@ MonoBehaviour:
   currentBurnMod: 0
   maxFuelMass: 250
   currentFuelMass: 250
-  seaLevelMaxBurnRate: 0.001
+  seaLevelMaxBurnRate: 0.1
   burnRateAltitudeResiliency: 0.1
   massUpdateGap: 1
   input_throttleAxis: 0

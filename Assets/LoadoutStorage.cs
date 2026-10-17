@@ -277,7 +277,7 @@ public class LoadoutStorage : MonoBehaviour
         return hardpointController;
     }
 
-    public ref LoadoutPreset getLoadoutRef(int loadoutIndex, CombatFlow.Team team = CombatFlow.Team.NEUTRAL)
+    public ref LoadoutPreset getLoadoutRef(int loadoutDropdownIndex, CombatFlow.Team team = CombatFlow.Team.NEUTRAL)
     {
         Debug.Log("LoadoutStorage.getLoadoutRef()");
         // establishing scope of loadoutRef, though requires instantiation to arbitrary value
@@ -286,7 +286,7 @@ public class LoadoutStorage : MonoBehaviour
         // loadout 0 index from selector is always a default
 
         // If we attempt to index a non-default loadout
-        if(loadoutIndex != 0)
+        if(loadoutDropdownIndex != 0)
         {
             // we must be trying to read a CUSTOM loadout
             loadoutRef = ref customLoadouts[(int)team];

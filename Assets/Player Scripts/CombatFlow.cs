@@ -558,7 +558,15 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         {
             rearm();
             fullHeal();
+            refuel();
         }
+        
+    }
+
+    public void refuel()
+    {
+        EngineControl engine = GetComponent<EngineControl>();
+        engine.refuel();
         
     }
 

@@ -203,6 +203,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         setSelectedAircraft();
 
         getTeamSpawnController().buildSpawnDropdown();
+
+        getSelectedTeamInventory().buildAbilityDropdown();
+    }
+
+    public TechInventory getSelectedTeamInventory()
+    {
+        return TechInventory.getTeamInventory(getSelectedTeam());
     }
 
     public AirSpawnController getTeamSpawnController()

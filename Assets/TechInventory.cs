@@ -107,15 +107,32 @@ public class TechInventory : MonoBehaviour
         // add index to dropdown list
         // Are ability's editor values preserved?
 
-        // update spawn panel UI
-        abilitySelectDropdown.options.Add(new Dropdown.OptionData(newAbility.abilityName));
-        abilitySelectDropdown.value = abilitySelectDropdown.value; // refresh display? idfk if this does anything but i don't see any cops around
-        abilitySelectDropdown.RefreshShownValue();
 
+        buildAbilityDropdown();
 
         selectAbility();
         //abilitySelectDropdown.itemText = new Text("test");
         // aside note: when spawning, access inventory's selected ability and equip it onto aircraft
+    }
+
+    public void buildAbilityDropdown()
+    {
+        if (checkTeamSelect())
+        {
+
+            abilitySelectDropdown.options.Clear();
+
+            for (int i = 0; i < unlockedAbilityScripts.Count; i++)
+            {
+                AbilityParent newAbility = unlockedAbilityScripts[i];
+                // update spawn panel UI
+                abilitySelectDropdown.options.Add(new Dropdown.OptionData(newAbility.abilityName));
+            }
+
+
+            abilitySelectDropdown.value = abilitySelectDropdown.value; // refresh display? idfk if this does anything but i don't see any cops around
+            abilitySelectDropdown.RefreshShownValue();
+        }
     }
 
     public void addWeapon(Weapon newWeaponPrefab)
@@ -161,5 +178,15 @@ public class TechInventory : MonoBehaviour
     {
         GameManager gm = GameManager.getGM();
         return gm.checkTeamSelect(myTeam);
+    }
+
+    public static TechInventory getTeamInventory(CombatFlow.Team team)
+    {
+        return getTeamInventory((int)team);
+    }
+
+    public static TechInventory getTeamInventory(int teamNum)
+    {
+        return teamTechInventories[teamNum];
     }
 }

@@ -282,6 +282,8 @@ public class WeaponLoader : MonoBehaviour
 
             ref LoadoutStorage.LoadoutPreset activeLoadoutRef = ref getSelectedLoadoutRef();
 
+            getStorage().instantiateStockList(ref activeLoadoutRef, true);
+
             // loop through weapon types
             for (int i = 0; i < activeLoadoutRef.weaponTypes.Count; i++)
             {
@@ -345,6 +347,8 @@ public class WeaponLoader : MonoBehaviour
         if (checkTeamSelect())
         {
             ref LoadoutStorage.LoadoutPreset loadoutRef = ref getSelectedLoadoutRef();
+
+            getStorage().instantiateStockList(ref loadoutRef, true);
 
             // loop through all sliders
             for (int i = 0; i < stockSliderOrigin.transform.childCount; i++)
@@ -546,6 +550,7 @@ public class WeaponLoader : MonoBehaviour
 
                 weapDropdown.RefreshShownValue();
             }
+
 
             generateStockSliders();
         }

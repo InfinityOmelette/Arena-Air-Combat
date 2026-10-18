@@ -419,7 +419,7 @@ public class LoadoutStorage : MonoBehaviour
 
 
         if(getController().getRootFlow().team == CombatFlow.Team.TEAM1 &&
-            string.Equals(loadoutRef.name, "Test 2"))
+            string.Equals(loadoutRef.name, "Anti Ship"))
         {
             Debug.Log("Test case found");
         }
@@ -468,10 +468,10 @@ public class LoadoutStorage : MonoBehaviour
     public void clearAllPresetLoadouts()
     {
         //Debug.LogError("Refreshing loadouts");
-        for(int i = 0; i < standardLoadouts.Length; i++)
-        {
-            standardLoadouts[i].loadout.Clear();
-        }
+        //for(int i = 0; i < standardLoadouts.Length; i++)
+        //{
+        //    standardLoadouts[i].loadout.Clear();
+        //}
 
         for(int i = 0; i < customLoadouts.Length; i++)
         {
@@ -552,13 +552,13 @@ public class LoadoutStorage : MonoBehaviour
 
     public ref LoadoutPreset getDefaultLoadout(CombatFlow.Team team)
     {
-        return ref standardLoadouts[(int)team];
+        return ref standardLoadouts[0];
     }
 
     public LoadoutPreset getDefaultLoadoutCopy(CombatFlow.Team team)
     {
-        validateLoadoutConstruction(ref standardLoadouts[(int)team]);
-        return standardLoadouts[(int)team];
+        validateLoadoutConstruction(ref standardLoadouts[0]);
+        return standardLoadouts[0];
     }
 
     public string reportAllLoadouts()

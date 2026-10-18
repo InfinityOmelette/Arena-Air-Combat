@@ -117,39 +117,8 @@ public class LoadoutStorage : MonoBehaviour
         }
 
         // only regenerate fresh stock values if auto-generate stock checked
-        if (carryoverPrevStock)
+        if (carryoverPrevStock && !loadout.generateDefaultStock)
         {
-            // loop through previous weapon types.
-            // for each type, see if same type exists in new types
-            //   - if found, save old stock onto new
-
-            //Debug.LogError("Carrying over previous stock. old weap type count: "
-            //    + loadout.weaponTypes.Count + ", old stock count: " +
-            //    loadout.stock.Count + ", new weap type count: " + newWeapTypes.Count +
-            //    ", new stock count: " + newStock.Count);
-
-            //// loop through all pre-existing weapon types
-            //for (int i = 0; i < loadout.weaponTypes.Count; i++)
-            //{
-            //    Weapon oldWeapType = loadout.weaponTypes[i];
-            //    //Debug.LogError("Grabbing oldType " + i);
-
-            //    // loop through all newly found weapon types
-            //    for (int j = 0; j < newWeapTypes.Count; j++)
-            //    {
-            //        //Debug.LogError("Grabbing new type: " + j);
-            //        Weapon newWeapType = newWeapTypes[j];
-
-            //        if (oldWeapType == newWeapType)
-            //        {
-            //            // same weapon type found, save old stock onto new
-            //            newStock[j] = loadout.stock[i];
-            //        }
-            //    }
-            //}
-
-            //loadout.stock = newStock;
-            //loadout.weaponTypes = newWeapTypes;
 
             carryOverPrevStock(ref loadout, newWeapTypes, newStock);
 
@@ -229,7 +198,7 @@ public class LoadoutStorage : MonoBehaviour
 
         } while (weaponAdded);
 
-
+        loadoutRef.generateDefaultStock = false; // subsequent stock calls won't regenerate defaults
     }
 
     private void zeroStock(ref LoadoutPreset loadout)

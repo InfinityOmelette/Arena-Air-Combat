@@ -242,6 +242,25 @@ public class AirSpawnController : MonoBehaviour
         return false;
     }
 
+    public bool trySelectAirfield(CombatFlow player)
+    {
+        bool airfieldSelected = false;
+
+        for(int i = 0; i < spawners.Count && !airfieldSelected; i++)
+        {
+            TeamSpawner spawner = spawners[i];
+            if (spawner.withinAirfieldRadius(player))
+            {
+                airfieldSelected = true;
+                spawnSelector.value = i;
+                spawnSelector.RefreshShownValue();
+                
+            }
+        }
+
+        return airfieldSelected;
+    }
+
     public bool tryRearm(CombatFlow player)
     {
         bool successfulRearm = false;

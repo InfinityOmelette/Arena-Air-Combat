@@ -23,6 +23,7 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     public FlareEmitter myFlare;
     public DirectionAI dirAI;
 
+
     private CombatFlow myFlow;
 
     public float testExplosionDistance;
@@ -56,6 +57,15 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
         myRadar = GetComponent<Radar>();
         myFlare = GetComponent<FlareEmitter>();
         dirAI = GetComponent<DirectionAI>();
+    }
+
+    public CombatFlow getFlow()
+    {
+        if(myFlow == null)
+        {
+            myFlow = GetComponent<CombatFlow>();
+        }
+        return myFlow;
     }
 
     // Start is called before the first frame update

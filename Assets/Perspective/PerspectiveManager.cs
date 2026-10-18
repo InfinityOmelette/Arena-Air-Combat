@@ -73,6 +73,18 @@ public class PerspectiveManager : MonoBehaviour
         else // player controls becoming disabled
         {
             gm.showSpawnMenu(false);
+            trySelectAirfield();
+        }
+    }
+
+    void trySelectAirfield()
+    {
+        CombatFlow playerFlow = aircraftPlayerInputRef.getFlow();
+
+        if (playerFlow.groundedCheck())
+        {
+            AirSpawnController controller = AirSpawnController.getTeamController(playerFlow.team);
+            controller.trySelectAirfield(playerFlow);
         }
     }
 

@@ -110,7 +110,7 @@ public class WeaponLoader : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.F10))
             {
-                Debug.LogError(getStorage().reportLoadout(ref getCurrentLoadoutRef()));
+                Debug.LogError(getStorage().reportLoadout(ref getSelectedLoadoutRef()));
             }
         }
     }
@@ -280,7 +280,7 @@ public class WeaponLoader : MonoBehaviour
 
             deleteAllStockSliders();
 
-            ref LoadoutStorage.LoadoutPreset activeLoadoutRef = ref getCurrentLoadoutRef();
+            ref LoadoutStorage.LoadoutPreset activeLoadoutRef = ref getSelectedLoadoutRef();
 
             // loop through weapon types
             for (int i = 0; i < activeLoadoutRef.weaponTypes.Count; i++)
@@ -344,7 +344,7 @@ public class WeaponLoader : MonoBehaviour
     {
         if (checkTeamSelect())
         {
-            ref LoadoutStorage.LoadoutPreset loadoutRef = ref getCurrentLoadoutRef();
+            ref LoadoutStorage.LoadoutPreset loadoutRef = ref getSelectedLoadoutRef();
 
             // loop through all sliders
             for (int i = 0; i < stockSliderOrigin.transform.childCount; i++)
@@ -368,7 +368,7 @@ public class WeaponLoader : MonoBehaviour
 
     public bool validateWeight()
     {
-        return acceptableWeight = getStorage().checkWeight(ref getCurrentLoadoutRef());
+        return acceptableWeight = getStorage().checkWeight(ref getSelectedLoadoutRef());
     }
 
     // called whenever selected aircraft changed
@@ -420,6 +420,22 @@ public class WeaponLoader : MonoBehaviour
                 // This actually should select the custom loadout
                 ref LoadoutStorage.LoadoutPreset customLoadout = ref getCustomLoadoutRef();
 
+                int presetIndexDropdown = loadoutPresetDropdown.value;
+
+                Debug.Log("------------------------ modifyLoadoutFromDropdowns, preset index: " + presetIndexDropdown +
+                    " with customBeginIndex of: " + getStorage().getCustomBeginIndex());
+
+                if(presetIndexDropdown >= getStorage().getCustomBeginIndex())
+                {
+                    Debug.Log("Selected index past customBeginIndex, selecting a custom loadout other than first");
+                    customLoadout = ref getStorage().getLoadoutRef(presetIndexDropdown, getTeam());
+                    
+                }
+                else
+                {
+                    presetIndexDropdown = getStorage().getCustomBeginIndex();
+                }
+
                 // Debug.Log("Test 6");
 
                 // loop through all dropdowns
@@ -455,7 +471,7 @@ public class WeaponLoader : MonoBehaviour
                 //    loadoutPresetDropdown.value = getCustomIndex();
                 //    loadoutPresetDropdown.RefreshShownValue();
                 //}
-                loadoutPresetDropdown.value = getCustomIndex();
+                loadoutPresetDropdown.value = presetIndexDropdown;
                 loadoutPresetDropdown.RefreshShownValue();
 
                 generateStockSliders();
@@ -471,6 +487,11 @@ public class WeaponLoader : MonoBehaviour
 
         
         
+    }
+
+    public CombatFlow.Team getTeam()
+    {
+        return myTeamTechInventory.myTeam;
     }
 
     public bool checkTeamSelect()
@@ -491,7 +512,7 @@ public class WeaponLoader : MonoBehaviour
 
 
 
-            ref LoadoutStorage.LoadoutPreset currentLoadoutRef = ref getCurrentLoadoutRef();
+            ref LoadoutStorage.LoadoutPreset currentLoadoutRef = ref getSelectedLoadoutRef();
 
             // prevent weapon dropdowns from re-setting loadout preset dropdown if...
             // ...setting preset to a non-custom loadout
@@ -535,7 +556,7 @@ public class WeaponLoader : MonoBehaviour
     {
         if (checkTeamSelect())
         {
-            int weight = LoadoutStorage.weightTally(ref getCurrentLoadoutRef());
+            int weight = LoadoutStorage.weightTally(ref getSelectedLoadoutRef());
             int maxWeight = getStorage().getController().maxWeight;
 
 
@@ -597,7 +618,7 @@ public class WeaponLoader : MonoBehaviour
             }
             else
             {
-                hardpointControllerInstance.equipLoadoutPreset(ref getCurrentLoadoutRef());
+                hardpointControllerInstance.equipLoadoutPreset(ref getSelectedLoadoutRef());
             }
         }
         
@@ -630,7 +651,7 @@ public class WeaponLoader : MonoBehaviour
     {
         if (checkTeamSelect())
         {
-            getStorage().generateDefaultStock(ref getCurrentLoadoutRef());
+            getStorage().generateDefaultStock(ref getSelectedLoadoutRef());
             generateStockSliders();
             // slightly inefficient to rebuild sliders completely when only new values needed
             // but eh, only executes once per click so idc 
@@ -661,22 +682,23 @@ public class WeaponLoader : MonoBehaviour
     }
 
     // current loadout is based on loadout preset selection, and this loader's team
-    public ref LoadoutStorage.LoadoutPreset getCurrentLoadoutRef()
+    public ref LoadoutStorage.LoadoutPreset getSelectedLoadoutRef()
     {
         //Debug.Log("WeaponLoader's getCurrentLoadoutRef()");
         return ref selectedAircraftPrefabHardpointController.getStorage().getLoadoutRef(loadoutPresetDropdown.value, myTeamTechInventory.myTeam);
     }
 
-    public ref LoadoutStorage.LoadoutPreset getCustomLoadoutRef()
+    public ref LoadoutStorage.LoadoutPreset getCustomLoadoutRef(int customIndex = 0)
     {
         //Debug.Log("WeaponLoader's getCustomLoadoutRef()");
-        return ref selectedAircraftPrefabHardpointController.getStorage().getCustomLoadout(myTeamTechInventory.myTeam);
+        return ref selectedAircraftPrefabHardpointController.getStorage().
+            getCustomLoadout(myTeamTechInventory.myTeam, customIndex);
     }
 
     public int getCustomIndex()
     {
         //Debug.Log("WeaponLoader's getCustomIndex()");
-        return selectedAircraftPrefabHardpointController.getStorage().getCustomIndex();
+        return selectedAircraftPrefabHardpointController.getStorage().getCustomBeginIndex();
     }
 
     public Dropdown getWeaponDropdown(int index)

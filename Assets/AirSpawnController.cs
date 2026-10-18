@@ -91,11 +91,13 @@ public class AirSpawnController : MonoBehaviour
 
     private void tryIncrementPlayerRespawnTimer(float deltaTime)
     {
-        if(localPlayerInstance == null)
+        if(localPlayerInstance == null && checkTeam())
         {
-            timeSincePlayerDeath += deltaTime / 2f;
-            updateTimerText();
+            timeSincePlayerDeath += deltaTime;
+            
         }
+
+        updateTimerText();
     }
 
     private void updateTimerText()
@@ -105,7 +107,15 @@ public class AirSpawnController : MonoBehaviour
             TeamSpawner selectedSpawner = getSpawner(spawnSelector.value);
 
             float spawnTimer = selectedSpawner.respawnTimeEffective - timeSincePlayerDeath;
-            timerText.text = (Mathf.Max(Mathf.RoundToInt(spawnTimer), 0)).ToString();
+
+            if (localPlayerInstance == null)
+            {
+                timerText.text = (Mathf.Max(Mathf.RoundToInt(spawnTimer), 0)).ToString();
+            }
+            else
+            {
+                timerText.text = "---";
+            }
         }
     }
 

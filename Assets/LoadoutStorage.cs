@@ -7,9 +7,20 @@ public class LoadoutStorage : MonoBehaviour
 {
     public HardpointController hardpointController;
 
+    
     public LoadoutPreset activeLoadout;
-    public LoadoutPreset[] standardLoadouts;
+
+    // why the fuck isn't this a list..?
+    // Maybe not an issue since it's set at inspector, not runtime?
+    public LoadoutPreset[] standardLoadouts; 
+
     public LoadoutPreset[] customLoadouts;
+
+    // One list per team -- which list is selected by team, then indexed to loadout within team
+    public LoadoutPreset[][] allCustomLoadouts;
+
+
+    public int defaultCustomListSize = 3;
 
     // this makes loadouts editable from inspector
     // ....but also makes programmatic changes to loadout prefab go to disk
@@ -281,20 +292,21 @@ public class LoadoutStorage : MonoBehaviour
     {
         Debug.Log("LoadoutStorage.getLoadoutRef()");
         // establishing scope of loadoutRef, though requires instantiation to arbitrary value
-        ref LoadoutPreset loadoutRef = ref standardLoadouts[(int)team]; 
+        ref LoadoutPreset loadoutRef = ref standardLoadouts[0]; 
 
         // loadout 0 index from selector is always a default
 
         // If we attempt to index a non-default loadout
-        if(loadoutDropdownIndex != 0)
+        if(loadoutDropdownIndex >= getCustomBeginIndex())
         {
+            checkCustomStorageInitialization();
             // we must be trying to read a CUSTOM loadout
-            loadoutRef = ref customLoadouts[(int)team];
+            loadoutRef = ref allCustomLoadouts[(int)team][customConvertIndex(loadoutDropdownIndex, team)];
         }
-        //else // if we are accessing a standard loadout
-        //{
-        //    loadoutRef = ref standardLoadouts[loadoutIndex];
-        //}
+        else // if we are accessing a standard loadout
+        {
+            loadoutRef = ref standardLoadouts[loadoutDropdownIndex];
+        }
 
         // validate and, if need be, construct loadout as default
         validateLoadoutConstruction(ref loadoutRef);
@@ -302,10 +314,100 @@ public class LoadoutStorage : MonoBehaviour
         return ref loadoutRef;
     }
 
-    public ref LoadoutPreset getCustomLoadout(CombatFlow.Team team)
+    private int customConvertIndex(int dropdownIndex, CombatFlow.Team team)
+    {
+        int customIndex = dropdownIndex - getCustomBeginIndex();
+
+        return validateCustomIndex(customIndex, team);
+    }
+
+    public int getCustomListSize(CombatFlow.Team team)
+    {
+        return (allCustomLoadouts[(int)team]).Length;
+    }
+
+    public int validateCustomIndex(int customIndex, CombatFlow.Team team)
+    {
+        return Mathf.Clamp(customIndex, 0, getCustomListSize(team) - 1);
+    }
+
+
+    public ref LoadoutPreset getCustomLoadout(CombatFlow.Team team, int customIndex = 0)
     {
         Debug.Log("LoadoutStorage.getCustomLoadout()");
-        return ref getLoadoutRef(standardLoadouts.Length, team);
+
+        
+
+        checkCustomStorageInitialization();
+
+
+        return ref getLoadoutRef(getCustomBeginIndex() + customIndex, team);
+    }
+
+    private void checkCustomStorageInitialization()
+    {
+        if (allCustomLoadouts == null || allCustomLoadouts.Length == 0)
+        {
+            allCustomLoadouts = new LoadoutPreset[2][]; // 2 for number of teams
+
+            initializeCustomArray(ref allCustomLoadouts[0]);
+            initializeCustomArray(ref allCustomLoadouts[1]);
+
+        }
+    }
+
+    private void initializeCustomArray(ref LoadoutPreset[] loadouts)
+    {
+        loadouts = new LoadoutPreset[defaultCustomListSize];
+
+        for (int i = 0; i < defaultCustomListSize; i++)
+        {
+            ref LoadoutPreset loadoutRef = ref loadouts[i];
+            loadoutRef.name = "Custom " + (1 + i);
+
+            //validateLoadoutConstruction(ref loadoutRef);
+
+
+
+        }
+    }
+
+
+    public void tryInitializeLoadout(ref LoadoutPreset loadoutRef)
+    {
+
+        bool doConstruct = false;
+
+        if (loadoutRef.loadout == null)
+        {
+            loadoutRef.loadout = new List<Weapon>();
+
+            //for (int i = 0; i < getController().getHardpoints().Length; i++)
+            //{
+            //    loadoutRef.loadout.Add(null);
+            //}
+
+            //doConstruct = true;
+
+        }
+
+        if (loadoutRef.weaponTypes == null)
+        {
+            loadoutRef.weaponTypes = new List<Weapon>();
+            doConstruct = true;
+        }
+
+        if (loadoutRef.stock == null)
+        {
+            loadoutRef.stock = new List<int>();
+            doConstruct = true;
+        }
+
+        //if (doConstruct)
+        //{
+        //    constructLoadoutAsDefault(ref loadoutRef);
+        //}
+
     }
 
     public void validateLoadoutConstruction(ref LoadoutPreset loadoutRef)
@@ -314,6 +416,15 @@ public class LoadoutStorage : MonoBehaviour
         Hardpoint[] hardpoints = getController().getHardpoints(); // throws array out of bounds exception somewhere after this
 
         Debug.Log("Test 1");
+
+
+        if(getController().getRootFlow().team == CombatFlow.Team.TEAM1 &&
+            string.Equals(loadoutRef.name, "Test 2"))
+        {
+            Debug.Log("Test case found");
+        }
+
+        tryInitializeLoadout(ref loadoutRef);
 
         if (loadoutRef.loadout.Count != hardpoints.Length)
         {
@@ -393,11 +504,11 @@ public class LoadoutStorage : MonoBehaviour
     }
 
     // index of custom loadout as seen by preset dropdown selector
-    public int getCustomIndex()
+    public int getCustomBeginIndex()
     {
         Debug.Log("LoadoutStorage.getCustomIndex()");
-        //return standardLoadouts.Length;
-        return 1; // structure changed so that 0 index is default, custom is 1
+        return standardLoadouts.Length;
+        //return 1; // structure changed so that 0 index is default, custom is 1
     }
 
     // this is also used to index selected loadouts from UI
@@ -415,9 +526,25 @@ public class LoadoutStorage : MonoBehaviour
         //}
         //reportArray[standardLoadouts.Length] = customLoadouts[(int)team].name;
 
-        string[] reportArray = new string[2]; // one default, one custom loadout
-        reportArray[0] = standardLoadouts[(int)team].name;
-        reportArray[1] = customLoadouts[(int)team].name;
+        checkCustomStorageInitialization();
+
+        int standardLength = standardLoadouts.Length;
+        int customLength = allCustomLoadouts[(int)team].Length;
+
+        string[] reportArray = new string[standardLength + customLength]; // one default, one custom loadout
+
+        for(int i = 0; i < standardLoadouts.Length; i++)
+        {
+            reportArray[i] = standardLoadouts[i].name;
+        }
+
+        for(int i = 0; i < customLength; i++)
+        {
+            reportArray[standardLength + i] = allCustomLoadouts[(int)team][i].name;
+        }
+
+        //reportArray[0] = standardLoadouts[(int)team].name;
+        //reportArray[1] = customLoadouts[(int)team].name;
 
         return reportArray;
 
@@ -451,6 +578,15 @@ public class LoadoutStorage : MonoBehaviour
             report += reportLoadout(ref customLoadouts[i]);
         }
 
+        for(int i = 0; i < allCustomLoadouts.Length; i++)
+        {
+            report += "\nNew Custom Loadouts Team" + i + ": \n";
+            for(int j = 0; j < allCustomLoadouts[i].Length; j++)
+            {
+                report += reportLoadout(ref allCustomLoadouts[i][j]);
+            }
+        }
+
         return report;
     }
     
@@ -463,9 +599,17 @@ public class LoadoutStorage : MonoBehaviour
         
         report += "Loadout name: " + loadout.name + "\n";
 
+        tryInitializeLoadout(ref loadout);
+
         for (int j = 0; j < loadout.loadout.Count; j++)
         {
-            report += "Weapon " + j + ": " + loadout.loadout[j].gameObject.name + "\n";
+            Weapon weap = loadout.loadout[j];
+            string name = "null";
+            if(weap != null)
+            {
+                name = weap.gameObject.name;
+            }
+            report += "Weapon " + j + ": " + name + "\n";
         }
 
         report += "\nStock Levels: \n  ";

@@ -893,15 +893,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hardpointController: {fileID: 3718655085937672987}
-  standardLoadouts:
-  - name: Default1
-    loadout:
-    - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
-    - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
+  activeLoadout:
+    name: 
+    loadout: []
     stock: 
     generateDefaultStock: 0
     weaponTypes: []
-  - name: Default2
+  standardLoadouts:
+  - name: Default1
     loadout:
     - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}
     - {fileID: 6833064068241929335, guid: 7dfeca63062b3ea4abca505adc9a53b8, type: 3}

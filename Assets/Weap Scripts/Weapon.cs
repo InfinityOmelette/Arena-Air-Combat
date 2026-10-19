@@ -88,7 +88,7 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public float launchSoundDelay = 0.0f;
 
-    public float camVertOffset = -7.0f;
+    public float camOffsetVert = 0.0f;
 
     public enum Weight
     {

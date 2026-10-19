@@ -81,7 +81,7 @@ public class GunLeadComputer : MonoBehaviour
 
     private float rangeTo(Vector3 to)
     {
-        return Vector3.Distance(aimPoint, transform.position);
+        return Vector3.Distance(aimPoint, Camera.main.transform.position);
     }
 
     private Vector3 calculateAimPoint()

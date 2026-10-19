@@ -620,7 +620,7 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
     private void setDropCamOffset(Weapon weap)
     {
-        rootFlow.getCam().setVertOffset(weap.camVertOffset);
+        rootFlow.getCam().setWeapVertOffset(weap.camOffsetVert);
     }
 
     private void fetchDropComputerValues(short typeIndex)

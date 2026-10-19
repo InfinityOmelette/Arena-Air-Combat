@@ -348,6 +348,13 @@ public class TgtComputer : MonoBehaviour
         return currentTarget = newTarget;
     }
 
+
+    public Vector3 selectLookDir()
+    {
+       return playerInput.cam.camLookDir(true);
+
+    }
+
     // change target to unit closet to zero angle off of camera direction
     public CombatFlow selectByLookAngle(CombatFlow.Type desiredTargetType = (CombatFlow.Type)(-1), bool hog = false)
     {
@@ -367,8 +374,8 @@ public class TgtComputer : MonoBehaviour
                 if (currentFlow != null && ((int)desiredTargetType == -1 || currentFlow.type == desiredTargetType))
                 {
 
-                    float currentAngle = Vector3.Angle(playerInput.cam.camRef.transform.forward, currentFlow.transform.position
-                        - playerInput.cam.camRef.transform.position);
+                    float currentAngle = Vector3.Angle(selectLookDir(), currentFlow.transform.position
+                        - playerInput.cam.camPos());
 
                     // If maverick is equipped, bias target selection in favor of SAM's
                     if (hardpointController.getActiveHardpoint().weaponTypePrefab.name.Equals("Maverick"))

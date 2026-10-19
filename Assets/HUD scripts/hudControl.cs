@@ -107,6 +107,8 @@ public class hudControl : MonoBehaviour
     public GameObject upMarker;
     public GameObject downMarker;
 
+    private CamManipulation root_camRef;
+
     public void setHudVisible(bool makeVisible)
     {
         Debug.LogWarning("Making hud visible: " + makeVisible);
@@ -173,12 +175,18 @@ public class hudControl : MonoBehaviour
             root_flightInfoObjRef = aircraftRootObj.GetComponent<RealFlightControl>();
             root_Engine = aircraftRootObj.GetComponent<EngineControl>();
             root_combatFlow = aircraftRootObj.GetComponent<CombatFlow>();
+            root_camRef = root_combatFlow.getCam();
+
+            //setCenterPosition();
         }
 
         
     }
 
-
+    void setCenterPosition()
+    {
+        drawItemOnScreen(screenCenterObj, root_camRef.camLookPos(), 1.0f);
+    }
 
     // ====================================================================
     // *****************************     LATEUPDATE     *******************
@@ -211,7 +219,7 @@ public class hudControl : MonoBehaviour
 
 
             noseAndVelIndicators();
-
+            //setCenterPosition();
 
         }
 
@@ -247,14 +255,23 @@ public class hudControl : MonoBehaviour
              //   camRef.transform.position - camRef.transform.forward, 0.5f);
         }
 
+        noseIndicatorProcess();
+    }
+
+    public void noseIndicatorProcess()
+    {
         if (cnnUI.cnnOn)
         {
             // nose indicator
-            drawItemOnScreen(noseIndicatorRef, aircraftRootObj.transform.position + aircraftRootObj.transform.forward * reticle.aimPointDist, velVectLerpRate * Time.deltaTime);
+            drawItemOnScreen(noseIndicatorRef, root_camRef.camRef.transform.position +
+                aircraftRootObj.transform.forward * reticle.aimPointDist,
+                velVectLerpRate * Time.deltaTime);
         }
         else
         {
-            drawItemOnScreen(noseIndicatorRef, camRef.transform.position + aircraftRootObj.transform.forward, velVectLerpRate * Time.deltaTime);
+            drawItemOnScreen(noseIndicatorRef,
+                root_camRef.camRef.transform.position + aircraftRootObj.transform.forward,
+                velVectLerpRate * Time.deltaTime);
         }
     }
 

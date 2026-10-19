@@ -75,6 +75,8 @@ public class DirectionAI : MonoBehaviour
 
     PerspectiveManager pm;
 
+    PlayerInput_Aircraft input;
+
     void Awake()
     {
         pm = PerspectiveManager.getPManager();
@@ -82,6 +84,7 @@ public class DirectionAI : MonoBehaviour
         myFlow = GetComponent<CombatFlow>();
         myRb = GetComponent<Rigidbody>();
         ai = GetComponent<AI_Aircraft>();
+        input = GetComponent<PlayerInput_Aircraft>();
     }
 
 
@@ -131,6 +134,7 @@ public class DirectionAI : MonoBehaviour
                 {
                     freeLookOn = true;
                     hudRef.screenCenterObj.SetActive(true);
+                    input.mouseFreeLookRead = true;
                 }
 
                 if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -138,6 +142,7 @@ public class DirectionAI : MonoBehaviour
                     freeLookOn = false;
                     hudRef.screenCenterObj.SetActive(false);
                     camRef.worldLockedLookDirection = targetDir;
+                    input.mouseFreeLookRead = false;
                 }
             }
 

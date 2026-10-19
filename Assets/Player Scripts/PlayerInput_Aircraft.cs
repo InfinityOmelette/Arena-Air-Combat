@@ -50,6 +50,8 @@ public class PlayerInput_Aircraft : MonoBehaviourPunCallbacks
     private GameObject upMarker;
     private GameObject downMarker;
 
+    public bool mouseFreeLookRead = false;
+
     private void Awake()
     {
         tgtComputer = GetComponent<TgtComputer>();

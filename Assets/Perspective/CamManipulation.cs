@@ -106,8 +106,8 @@ public class CamManipulation : MonoBehaviour
 
     private bool lookAllow = true;
 
-    public float vertOffset = 20.0f;
-
+    public float weapVertOffset = 20.0f;
+    public float baseVertOffset = -7.5f;
 
     void Awake()
     {
@@ -482,14 +482,14 @@ public class CamManipulation : MonoBehaviour
         return newAimWorldDir;
     }
 
-    public void setVertOffset(float newOffset)
+    public void setWeapVertOffset(float newOffset)
     {
-        vertOffset = newOffset;
+        weapVertOffset = newOffset;
     }
 
-    private Vector3 angleVectDown(Vector3 lookDir, float angleDown)
+    private Vector3 angleVectDown(Vector3 lookDir, float angleDown = 0.0f)
     {
-        Quaternion rotateBy = Quaternion.AngleAxis(-angleDown, 
+        Quaternion rotateBy = Quaternion.AngleAxis(-(angleDown + baseVertOffset), 
             Vector3.Cross(lookDir, camAxisHorizRef.transform.up));
         return rotateBy * lookDir;
     }
@@ -511,7 +511,7 @@ public class CamManipulation : MonoBehaviour
                 worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
             }
 
-            Vector3 offsetLook = angleVectDown(worldLockedLookDirection, vertOffset);
+            Vector3 offsetLook = angleVectDown(worldLockedLookDirection, weapVertOffset);
 
             targetLocalRotation = Quaternion.LookRotation(
                     camAxisRollRef.transform.InverseTransformPoint(camAxisHorizRef.transform.position + offsetLook),
@@ -646,8 +646,30 @@ public class CamManipulation : MonoBehaviour
         return returnQuat;
     }
 
-    
+    public Vector3 camPos()
+    {
+        return camRef.transform.position;
+    }
 
+    public Vector3 camLookDir(bool noOffset = false)
+    {
+        if (noOffset)
+        {
+            return camRef.transform.forward;
+        }
+        else
+        {
+            return angleVectDown(camRef.transform.forward, -2 * baseVertOffset);
+        }
+        
+    }
+
+
+
+    public Vector3 camLookPos(bool noOffset = false)
+    {
+        return camPos() + camLookDir(noOffset);
+    }
 
 
 }

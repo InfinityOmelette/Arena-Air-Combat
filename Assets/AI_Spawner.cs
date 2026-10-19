@@ -203,6 +203,10 @@ public class AI_Spawner : MonoBehaviourPunCallbacks
                     // add a slot -- note that this is NOT spawning the aircraft here
                     //  spawning done one at a time via timer in update
                     listAI.Add(null);
+
+                    TeamSpawner spawner = spawnControl.getSpawner();
+                    float spawnTimeEffective = spawner.respawnTimeEffective;
+
                     aiRespawnTimers.Add(spawnControl.getSpawner().respawnTimeEffective);
                 }
                 else if (listAI.Count > newSize)

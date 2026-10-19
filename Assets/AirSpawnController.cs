@@ -131,23 +131,27 @@ public class AirSpawnController : MonoBehaviour
 
     public TeamSpawner getSpawner(int index = 0)
     {
+        TeamSpawner spawner = spawners[index];
+        if(spawner == null)
+        {
+            cleanSpawnerList();
+        }
         return spawners[index];
     }
 
     private void cleanSpawnerList()
     {
-        if (checkTeam())
+
+        for (int i = 0; i < spawners.Count; i++)
         {
-            for (int i = 0; i < spawners.Count; i++)
+            TeamSpawner spawner = spawners[i];
+            if (spawner == null || getTeam() != spawner.team)
             {
-                TeamSpawner spawner = spawners[i];
-                if (spawner == null || getTeam() != spawner.team)
-                {
-                    spawners.RemoveAt(i);
-                    i--;
-                }
+                spawners.RemoveAt(i);
+                i--;
             }
         }
+        
     }
 
     public bool checkTeam()

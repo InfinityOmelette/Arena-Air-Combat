@@ -584,7 +584,7 @@ public class WeaponLoader : MonoBehaviour
     //  --> not strictly necessary, but for cleanliness, I should refactor this to use the loadout struct
     public void equipLoadoutOntoSpawnedAircraft(GameObject spawnedAircraftInstance, bool isAI = false)
     {
-        if (checkTeamSelect())
+        if (checkTeamSelect() || isAI)
         {
             //Debug.Log("equipLoadoutOntoSpawnedAircraft()");
             HardpointController hardpointControllerInstance = spawnedAircraftInstance.GetComponent<TgtComputer>().getHardpointController();
@@ -618,7 +618,7 @@ public class WeaponLoader : MonoBehaviour
                 // need to access LoadoutStorage from prefab of AI selected aircraft
                 HardpointController prefabHPController = hardpointControllerInstance.getRootFlow().prefabRef.hardpoints;
                 LoadoutStorage.LoadoutPreset tempLoadout = prefabHPController.getStorage().getDefaultLoadoutCopy(myTeamTechInventory.myTeam);
-                getStorage().instantiateStockList(ref tempLoadout);
+                prefabHPController.getStorage().instantiateStockList(ref tempLoadout);
                 hardpointControllerInstance.equipLoadoutPreset(ref tempLoadout);
             }
             else

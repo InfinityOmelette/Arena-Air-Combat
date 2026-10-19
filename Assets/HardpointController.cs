@@ -618,11 +618,18 @@ public class HardpointController : MonoBehaviourPunCallbacks
         return activeHardpointIndexes[typeIndex];
     }
 
+    private void setDropCamOffset(Weapon weap)
+    {
+        rootFlow.getCam().setVertOffset(weap.camVertOffset);
+    }
+
     private void fetchDropComputerValues(short typeIndex)
     {
         Weapon weap = weaponTypeHardpointLists[typeIndex][0].weaponTypePrefab.GetComponent<Weapon>();
         dropSight.setComputer(weap.useDropComputer, weap.dropInitSpeed, weap.dropComputerMaxRange,
             weap.dropDownSpeed);
+
+        setDropCamOffset(weap);
     }
 
     public void setWeaponType(short index)

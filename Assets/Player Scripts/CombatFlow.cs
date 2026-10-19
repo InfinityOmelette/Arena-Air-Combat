@@ -114,6 +114,8 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     public float baseLockTime = 1.0f;
 
+    private PlayerInput_Aircraft input;
+
 
     // ??????????
     public static Team convertNumToTeam(short num)
@@ -154,6 +156,14 @@ public class CombatFlow : MonoBehaviourPunCallbacks
         }
     }
 
+    public PlayerInput_Aircraft getInput()
+    {
+        if(input == null)
+        {
+            input = GetComponent<PlayerInput_Aircraft>();
+        }
+        return input;
+    }
 
     public Team getEnemyTeam()
     {
@@ -562,6 +572,18 @@ public class CombatFlow : MonoBehaviourPunCallbacks
             equipAbility();
         }
         
+    }
+
+    public CamManipulation getCam()
+    {
+        CamManipulation cam = null;
+        PlayerInput_Aircraft input = getInput();
+        if(input != null)
+        {
+            cam = input.cam;
+        }
+
+        return cam;
     }
 
     public void equipAbility()

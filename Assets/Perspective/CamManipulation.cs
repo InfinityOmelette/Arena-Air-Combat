@@ -106,6 +106,8 @@ public class CamManipulation : MonoBehaviour
 
     private bool lookAllow = true;
 
+    public float vertOffset = 20.0f;
+
 
     void Awake()
     {
@@ -475,8 +477,21 @@ public class CamManipulation : MonoBehaviour
 
         // reconvert back to world space
         //newAimWorldDir = aircraftRootRB.transform.TransformDirection(newAimWorldDir);
+        //newAimWorldDir = angleVectDown(newAimWorldDir, vertOffset);
 
         return newAimWorldDir;
+    }
+
+    public void setVertOffset(float newOffset)
+    {
+        vertOffset = newOffset;
+    }
+
+    private Vector3 angleVectDown(Vector3 lookDir, float angleDown)
+    {
+        Quaternion rotateBy = Quaternion.AngleAxis(-angleDown, 
+            Vector3.Cross(lookDir, camAxisHorizRef.transform.up));
+        return rotateBy * lookDir;
     }
 
     private Vector3 dir2Euler(Vector3 dir)
@@ -495,10 +510,11 @@ public class CamManipulation : MonoBehaviour
             {
                 worldLockedLookDirection = warThunderMouseAim(input_mouseSpeedX, input_mouseSpeedY);
             }
-            
+
+            Vector3 offsetLook = angleVectDown(worldLockedLookDirection, vertOffset);
 
             targetLocalRotation = Quaternion.LookRotation(
-                    camAxisRollRef.transform.InverseTransformPoint(camAxisHorizRef.transform.position + worldLockedLookDirection),
+                    camAxisRollRef.transform.InverseTransformPoint(camAxisHorizRef.transform.position + offsetLook),
                     Vector3.up) * (Quaternion.Inverse(defaultCamRotation));
         }
         else

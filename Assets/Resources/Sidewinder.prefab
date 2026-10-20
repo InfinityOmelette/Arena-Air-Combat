@@ -381,6 +381,7 @@ MonoBehaviour:
   stockWeight: 1
   dropDownSpeed: 0
   launchSoundDelay: 0
+  camOffsetVert: 0
   proximityFuseRange: 10
   fuseLeadTime: 0.02
   impactDamage: 0
@@ -995,8 +996,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142452502505703935}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 4e-15, y: 0, z: -44.4}
-  m_LocalScale: {x: 4.2440586, y: 49.90826, z: 4.2440586}
+  m_LocalPosition: {x: 4e-15, y: -0, z: -4.26}
+  m_LocalScale: {x: 3.8620934, y: 16.10424, z: 3.8620934}
   m_Children: []
   m_Father: {fileID: 1035871852779225303}
   m_RootOrder: 3
@@ -1009,10 +1010,10 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142452502505703935}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.7
-  m_Height: 2
+  m_Radius: 0.5
+  m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2426263282288252752

@@ -50,7 +50,7 @@ public class GunLeadComputer : MonoBehaviour
         if (myFlow.isLocalPlayer)
         {
 
-            if (tgtComp.currentTarget != null && tgtComp.currentTarget.type == CombatFlow.Type.AIRCRAFT)
+            if (tgtComp.currentTarget != null) //&& tgtComp.currentTarget.type == CombatFlow.Type.AIRCRAFT)
             {
 
                 this.aimPoint = calculateAimPoint();
@@ -168,6 +168,8 @@ public class GunLeadComputer : MonoBehaviour
         //==================================  LEAD ANGLE CALCULATION
 
         Vector3 targetRelVel = (targetRb.velocity - myRb.velocity);
+
+        
 
         // Lead axis (cross of bearing line and target velocity)
         Vector3 leadRotationAxis = Vector3.Cross(targetBearingLine, targetRelVel);

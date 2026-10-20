@@ -1730,8 +1730,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8326097113324871018}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 5e-15, y: 0, z: -31.7}
-  m_LocalScale: {x: 4.990225, y: 39.078667, z: 4.990225}
+  m_LocalPosition: {x: 5e-15, y: -0, z: -2.45}
+  m_LocalScale: {x: 4.990225, y: 14.441913, z: 4.990225}
   m_Children: []
   m_Father: {fileID: 6942193217100502082}
   m_RootOrder: 1
@@ -1744,10 +1744,10 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8326097113324871018}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.7
-  m_Height: 2
+  m_Radius: 0.5
+  m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8411173090501739122
@@ -1935,7 +1935,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 30
+  m_AngularDrag: 24
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -2006,6 +2006,7 @@ MonoBehaviour:
   stockWeight: 3
   dropDownSpeed: 3
   launchSoundDelay: 0
+  camOffsetVert: 0
   proximityFuseRange: 7
   fuseLeadTime: 0.1
   impactDamage: 0

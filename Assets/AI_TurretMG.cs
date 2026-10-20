@@ -396,30 +396,30 @@ public class AI_TurretMG : MonoBehaviour
         Vector3 relativeVelocity, float bulletSpeed, float targetVelMultiplier = 1.0f,
         AI_TurretMG turret = null, float targetClosingTrim = 1.0f)
     {
-        float distance = Vector3.Distance(myPos, targetPosition);
-        Vector3 targetBearingLine = targetPosition - myPos;
+        //float distance = Vector3.Distance(myPos, targetPosition);
+        //Vector3 targetBearingLine = targetPosition - myPos;
 
 
-        targetBearingLine = Vector3.Project(relativeVelocity, targetBearingLine);
+        //targetBearingLine = Vector3.Project(relativeVelocity, targetBearingLine);
 
-        float closingVel = targetBearingLine.magnitude * targetClosingTrim;
-        if (Vector3.Distance(myPos, targetPosition + targetBearingLine) < distance)
-        {
-            closingVel *= -1f;
-        }
-
-        float timeToImpact = distance / (bulletSpeed - closingVel);
-
-
-
-        Vector3 targetPos = targetPosition + relativeVelocity * timeToImpact * targetVelMultiplier;
-
-        //if (turret != null)
+        //float closingVel = targetBearingLine.magnitude * targetClosingTrim;
+        //if (Vector3.Distance(myPos, targetPosition + targetBearingLine) < distance)
         //{
-        //    turret.estimatedTimeToImpact = timeToImpact;
-        //    turret.estimatedImpactPoint = targetPos;
-
+        //    closingVel *= -1f;
         //}
+
+        //float timeToImpact = distance / (bulletSpeed - closingVel);
+
+
+
+        //Vector3 targetPos = targetPosition + relativeVelocity * timeToImpact * targetVelMultiplier;
+
+        ////if (turret != null)
+        ////{
+        ////    turret.estimatedTimeToImpact = timeToImpact;
+        ////    turret.estimatedImpactPoint = targetPos;
+
+        ////}
 
 
         //return Quaternion.LookRotation(targetPos - myPos, Vector3.up);

@@ -2088,6 +2088,8 @@ MonoBehaviour:
   altRollRateMod: 1
   levelCamera: 0
   pManager: {fileID: 0}
+  weapVertOffset: 0
+  baseVertOffset: -7.5
 --- !u!114 &3469465798034293480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2431,6 +2433,7 @@ MonoBehaviour:
   rocketPodOffset: 20
   bombOffset: 32.5
   isReady: 0
+  mouseFreeLookRead: 0
 --- !u!114 &1243636948586757761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2803,7 +2806,7 @@ MonoBehaviour:
   reticle2: {fileID: 0}
   bulletSpeed: 400
   maxRange: 650
-  velScale: 0.9
+  velScale: 1
 --- !u!114 &2224204426752407437
 MonoBehaviour:
   m_ObjectHideFlags: 0

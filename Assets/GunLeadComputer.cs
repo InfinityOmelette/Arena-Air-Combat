@@ -108,6 +108,56 @@ public class GunLeadComputer : MonoBehaviour
         return aimPoint;
     }
     
+    public static Quaternion calculateLeadAngleRot(Vector3 myPos, Vector3 targetPos, Vector3 relativeVel,
+        float bulletSpeed, AI_TurretMG turret = null)
+    {
+        Vector3 targetBearingLine = targetPos - myPos;
+        Vector3 leadRotationAxis = Vector3.Cross(targetBearingLine, relativeVel);
+
+        float leadAngle = calculateLeadAngleFloat(myPos, targetPos, relativeVel, bulletSpeed);
+        Vector3 leadDirection = Quaternion.AngleAxis(leadAngle, leadRotationAxis) * targetBearingLine.normalized;
+
+        // calculate impact time
+        if(turret != null)
+        {
+            Vector3 gunDir = turret.transform.forward;
+            Vector3 bulletRelVel = relativeVel - gunDir * bulletSpeed;
+            Vector3 bulletLeadVel = Vector3.Project(bulletRelVel, leadDirection);
+            
+
+            float bulletTime = (targetBearingLine.magnitude) / (bulletLeadVel.magnitude);
+
+            Vector3 impactPos = targetPos + relativeVel * bulletTime;
+
+            turret.estimatedTimeToImpact = bulletTime;
+            turret.estimatedImpactPoint = impactPos;
+        }
+
+
+        return Quaternion.LookRotation(leadDirection, Vector3.up);
+    }
+
+    public static float calculateLeadAngleFloat(Vector3 myPos, Vector3 targetPos, Vector3 relativeVelocity,
+        float bulletSpeed, float targetVelMult = 1.0f)
+    {
+       // Rigidbody targetRb = tgtComp.currentTarget.GetComponent<Rigidbody>();
+
+        Vector3 targetBearingLine = targetPos - myPos;
+
+        // Lead axis (cross of bearing line and target velocity)
+        Vector3 leadRotationAxis = Vector3.Cross(targetBearingLine, relativeVelocity);
+
+        // Target tangential velocity --> missile will try to match its tangential velocity to this
+        Vector3 targetTangentialVelocity = Vector3.Project(relativeVelocity,
+            Vector3.Cross(leadRotationAxis, targetBearingLine));
+
+        // Lead angle -- direction vector
+        //  - trig from velocity magnitude to get angle where tangential velocity matches target tangential velocity
+        return Mathf.Rad2Deg * Mathf.Asin(targetTangentialVelocity.magnitude / bulletSpeed) * 1.0f;//targetVelMult;
+
+
+    }
+
     private Vector3 calculateAimAngle()
     {
         Rigidbody targetRb = tgtComp.currentTarget.GetComponent<Rigidbody>();
@@ -148,4 +198,8 @@ public class GunLeadComputer : MonoBehaviour
         return Camera.main.transform.position + leadDirection;
     }
 
+    //private float interceptTime(Vector3 targetBearingLine, Vector3 relativeVel)
+    //{
+
+    //}
 }

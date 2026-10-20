@@ -44,7 +44,7 @@ public class AI_TurretMG : MonoBehaviour
 
     public float estimatedTimeToImpact = 0.0f;
 
-    private Vector3 estimatedImpactPoint;
+    public Vector3 estimatedImpactPoint;
 
     //public float rotationSpeed;
 
@@ -410,18 +410,21 @@ public class AI_TurretMG : MonoBehaviour
 
         float timeToImpact = distance / (bulletSpeed - closingVel);
 
-        
+
 
         Vector3 targetPos = targetPosition + relativeVelocity * timeToImpact * targetVelMultiplier;
 
-        if (turret != null)
-        {
-            turret.estimatedTimeToImpact = timeToImpact;
-            turret.estimatedImpactPoint = targetPos;
+        //if (turret != null)
+        //{
+        //    turret.estimatedTimeToImpact = timeToImpact;
+        //    turret.estimatedImpactPoint = targetPos;
 
-        }
+        //}
 
-        return Quaternion.LookRotation(targetPos - myPos, Vector3.up);
+
+        //return Quaternion.LookRotation(targetPos - myPos, Vector3.up);
+        return GunLeadComputer.calculateLeadAngleRot(myPos, targetPosition, relativeVelocity,
+            bulletSpeed, turret);
     }
 
     public static Quaternion calculateBulletLeadRot(Vector3 myPos, Rigidbody targetBody, 

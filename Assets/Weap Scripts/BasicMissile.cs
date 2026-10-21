@@ -242,7 +242,10 @@ public class BasicMissile : Weapon
         }
     }
 
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnTriggerEnter(collision.collider);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -273,6 +273,8 @@ public class DirectionAI : MonoBehaviour
         //float yawAngle = Vector3.Angle(localDirLateral, transform.forward ) * Mathf.Sign(correctiveTorqueVect.y);
         //float yawError = Mathf.Clamp(yawAngle / maxYawErrorForRoll, -1.0f, 1.0f);
 
+
+        // at LEAT this whole fucking roll section needs to be completely redone.
         Vector3 rollRateVect = Vector3.Project(myRb.angularVelocity, transform.forward);
         float currentRollRate = rollRateVect.magnitude * Mathf.Sign(rollRateVect.z);
         float targetRollRate = correctiveTorqueVect.y * maxRollAngularVel;

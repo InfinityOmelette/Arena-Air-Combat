@@ -61,6 +61,18 @@ public class PerspectiveManager : MonoBehaviour
         aircraftPlayerInputRef = input;
     }
 
+    public CamManipulation getPlayerCam()
+    {
+        CamManipulation cam = null;
+        if(aircraftPlayerInputRef != null && aircraftPlayerInputRef.cam != null)
+        {
+            cam = aircraftPlayerInputRef.cam;
+        }
+
+        return cam;
+
+    }
+
     void spawnScreenToggle()
     {
         bool toggleSync = !aircraftPlayerInputRef.enabled;

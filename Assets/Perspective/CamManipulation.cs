@@ -106,13 +106,29 @@ public class CamManipulation : MonoBehaviour
 
     private bool lookAllow = true;
 
-    public float weapVertOffset = 20.0f;
+    public float weapVertOffset = 0.0f;
     public float baseVertOffset = -7.5f;
+
+    public CamKnocker knocker;
+
 
     void Awake()
     {
         rootFlow = aircraftRootRB.GetComponent<CombatFlow>();
         pManager = PerspectiveManager.getPManager();
+    }
+
+    public CamKnocker getKnocker()
+    {
+        return knocker;
+    }
+
+    public void knock(float radius, Vector3 explodePos)
+    {
+        if(knocker != null)
+        {
+            knocker.knock(radius, explodePos);
+        }
     }
 
     public void setLookAllow(bool set)

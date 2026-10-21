@@ -1,0 +1,129 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CamKnocker : MonoBehaviour
+{
+    public class OneKnock
+    {
+        public float timeRemain;
+        public float timeRemainMax;
+        public Vector3 knockEuler;
+
+# region knockMethods
+        public float knockTimePercent()
+        {
+            return timeRemain / timeRemainMax;
+        }
+
+        public bool knockComplete()
+        {
+            return timeRemain < 0.0f;
+        }
+#endregion
+    }
+
+    Quaternion originalLocalRot;
+
+    public HashSet<OneKnock> allKnocks;
+
+    public float rotReturnLerpRate;
+
+
+    public Vector3 debugKnockEuler;
+    public float debugKnockTime;
+
+    private void Awake()
+    {
+        originalLocalRot = transform.localRotation;
+        allKnocks = new HashSet<OneKnock>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        Quaternion quatEulerKnocked = getKnockedEuler(Time.deltaTime);
+
+        transform.localRotation = decayKnock(quatEulerKnocked, Time.deltaTime);
+            
+        
+
+
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            addKnock(debugKnockEuler, debugKnockTime);
+        }
+    }
+
+    public Quaternion decayKnock(Quaternion knockedRot, float deltaTime)
+    {
+        return Quaternion.Slerp(knockedRot, originalLocalRot, rotReturnLerpRate * deltaTime);
+    }
+
+    public Quaternion getKnockedEuler(float deltaTime)
+    {
+        Vector3 totalKnockEuler = allKnocksEuler(deltaTime);
+        Vector3 currentEuler = transform.localEulerAngles + totalKnockEuler;
+        return Quaternion.Euler(currentEuler.x, currentEuler.y, currentEuler.z);
+    }
+
+    public Vector3 allKnocksEuler(float deltaTime)
+    {
+        Vector3 totalKnockEuler = new Vector3();
+
+        // process knocks --> "torque" applied to cam
+        // Euler to push rotation off center
+        foreach (OneKnock knock in allKnocks)
+        {
+            totalKnockEuler += knock.knockEuler * knock.knockTimePercent() * deltaTime;
+            knock.timeRemain -= deltaTime;
+
+
+        }
+
+
+
+        if (allKnocks.Count > 0)
+        {
+            allKnocks.RemoveWhere(knockComplete);
+        }
+
+
+
+
+        return totalKnockEuler;
+    }
+
+    public bool knockComplete(OneKnock knock)
+    {
+        return knock.knockComplete();
+    }
+
+    public void addKnock(OneKnock knock)
+    {
+        allKnocks.Add(knock);
+    }
+
+    public void addKnock(Vector3 knockEuler, float timeRemain)
+    {
+        OneKnock knock = new OneKnock();
+        knock.knockEuler = knockEuler;
+        knock.timeRemain = timeRemain;
+        knock.timeRemainMax = timeRemain;
+        addKnock(knock);
+    }
+
+    public void knock(float radius, Vector3 explodePos)
+    {
+
+    }
+
+
+}

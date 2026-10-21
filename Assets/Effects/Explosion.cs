@@ -202,7 +202,22 @@ public class Explosion : MonoBehaviour
 
         }
 
+        
+        knock();
     }
+
+    private void knock()
+    {
+        CamManipulation camManip = PerspectiveManager.getPManager().getPlayerCam();
+
+        if(camManip != null)
+        {
+            camManip.knock(radius, transform.position);
+            
+        }
+    }
+
+    
 
     private float randomizePitch()
     {

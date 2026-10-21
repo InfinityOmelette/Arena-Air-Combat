@@ -37,11 +37,16 @@ public class CamKnocker : MonoBehaviour
 
     public Vector3 debugKnockEuler;
     public float debugKnockTime;
+    public Transform root;
+
+    public static float minDist = 4f; // avoid excessively massive knocks from small impacts
 
     private void Awake()
     {
         originalLocalRot = transform.localRotation;
         allKnocks = new HashSet<OneKnock>();
+
+        root = transform.root;
     }
 
     // Start is called before the first frame update
@@ -125,20 +130,22 @@ public class CamKnocker : MonoBehaviour
         addKnock(knock);
     }
 
-    public void knock(float radius, Vector3 explodePos)
+    public void knockExplode(float radius, Vector3 explodePos)
     {
-        Vector3 explodeToCam = transform.position - explodePos;
-        float dist = explodeToCam.magnitude;
+        Vector3 explodeToCam = root.position - explodePos;
+        float dist = Mathf.Max( explodeToCam.magnitude, minDist);
 
-        float knockEulerRadius = (radius * knockPowerCoeff) / dist;
+        float knockEulerRadius = (radius * radius * knockPowerCoeff) / (dist * dist);
         knockEulerRadius = Mathf.Min(knockEulerRadius, maxKnockEulerRadius);
 
         if (knockEulerRadius > minKnockEulerRadius)
         {
 
-            Vector3 knockLineLocal = transform.InverseTransformDirection(explodeToCam);
+            Vector3 knockLineLocal = -transform.InverseTransformDirection(explodeToCam);
             knockLineLocal.z = 0;
-            knockLineLocal.x *= -1f;
+            //knockLineLocal.x = -1f;
+            knockLineLocal = swapXY(knockLineLocal);
+
             knockLineLocal = knockLineLocal.normalized * knockEulerRadius;
 
             knockLineLocal.z = Random.Range(-knockLineLocal.y * rollCoeff, knockLineLocal.y * rollCoeff);
@@ -150,6 +157,14 @@ public class CamKnocker : MonoBehaviour
         }
 
 
+    }
+
+    Vector3 swapXY(Vector3 vect)
+    {
+        float tempX = vect.x;
+        vect.x = vect.y;
+        vect.y = tempX;
+        return vect;
     }
 
 

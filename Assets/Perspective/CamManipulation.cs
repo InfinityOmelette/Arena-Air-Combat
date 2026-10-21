@@ -132,7 +132,7 @@ public class CamManipulation : MonoBehaviour
 
         if(getKnocker() != null)
         {
-            knocker.knock(radius, explodePos);
+            knocker.knockExplode(radius, explodePos);
         }
     }
 

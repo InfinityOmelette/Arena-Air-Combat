@@ -13,7 +13,7 @@ public class CamKnocker : MonoBehaviour
 # region knockMethods
         public float knockTimePercent()
         {
-            return timeRemain / timeRemainMax;
+            return Mathf.Clamp(timeRemain / timeRemainMax, 0.0f, 1.0f);
         }
 
         public bool knockComplete()
@@ -29,6 +29,11 @@ public class CamKnocker : MonoBehaviour
 
     public float rotReturnLerpRate;
 
+    public float knockPowerCoeff;
+
+    public float minKnockEulerRadius = 1.0f;
+    public float maxKnockEulerRadius = 60f;
+    public float rollCoeff = 5.0f;
 
     public Vector3 debugKnockEuler;
     public float debugKnockTime;
@@ -122,6 +127,28 @@ public class CamKnocker : MonoBehaviour
 
     public void knock(float radius, Vector3 explodePos)
     {
+        Vector3 explodeToCam = transform.position - explodePos;
+        float dist = explodeToCam.magnitude;
+
+        float knockEulerRadius = (radius * knockPowerCoeff) / dist;
+        knockEulerRadius = Mathf.Min(knockEulerRadius, maxKnockEulerRadius);
+
+        if (knockEulerRadius > minKnockEulerRadius)
+        {
+
+            Vector3 knockLineLocal = transform.InverseTransformDirection(explodeToCam);
+            knockLineLocal.z = 0;
+            knockLineLocal.x *= -1f;
+            knockLineLocal = knockLineLocal.normalized * knockEulerRadius;
+
+            knockLineLocal.z = Random.Range(-knockLineLocal.y * rollCoeff, knockLineLocal.y * rollCoeff);
+
+            float timeRemain = .5f;
+
+            addKnock(knockLineLocal, timeRemain);
+
+        }
+
 
     }
 

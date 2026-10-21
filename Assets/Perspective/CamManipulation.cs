@@ -120,12 +120,17 @@ public class CamManipulation : MonoBehaviour
 
     public CamKnocker getKnocker()
     {
+        if(knocker == null)
+        {
+            knocker = camRef.GetComponent<CamKnocker>();
+        }
         return knocker;
     }
 
     public void knock(float radius, Vector3 explodePos)
     {
-        if(knocker != null)
+
+        if(getKnocker() != null)
         {
             knocker.knock(radius, explodePos);
         }

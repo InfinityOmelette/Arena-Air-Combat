@@ -34,10 +34,11 @@ public class RocketMotor : MonoBehaviour
         if (makeEffect)
         {
             myWeapon.effectsObj = Instantiate(myWeapon.effectsOriginalObj);
+            myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+            myWeapon.effectsObj.GetComponent<TrailRenderer>().emitting = false;
             myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.position;
 
-            myWeapon.effectsObj.GetComponent<Light>().enabled = false;
-            myWeapon.effectsObj.GetComponent<TrailRenderer>().enabled = false;
+            
 
             //myWeapon.effectsObj.GetComponent<AutoDelete>().setReference(gameObject);
         }
@@ -63,12 +64,17 @@ public class RocketMotor : MonoBehaviour
             if (myWeapon.launched && burnTime > 0)
             {
                 burnTime -= Time.deltaTime;
+                
+                myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
+                
                 if (!doBurn) // activate effects on the very first frame that doBurn is enabled
                 {
                     myWeapon.effectsObj.GetComponent<Light>().enabled = true;
-                    myWeapon.effectsObj.GetComponent<TrailRenderer>().enabled = true;
+                    TrailRenderer trail = myWeapon.effectsObj.GetComponent<TrailRenderer>();
+                    trail.enabled = true;
+                    trail.Clear();
+                    trail.emitting = true;
                 }
-                myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
                 doBurn = true;
                 doCruise = true;
             }

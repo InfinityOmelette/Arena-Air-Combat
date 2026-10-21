@@ -477,8 +477,8 @@ public class BasicMissile : Weapon
             }
 
 
-            effectsObj.GetComponent<Light>().enabled = true;
-            effectsObj.GetComponent<TrailRenderer>().enabled = true;
+            //effectsObj.GetComponent<Light>().enabled = true;
+            //effectsObj.GetComponent<TrailRenderer>().enabled = true;
             launched = true;
             armTimeRemaining = armingTime;
 

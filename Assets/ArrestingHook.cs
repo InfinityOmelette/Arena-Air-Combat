@@ -113,16 +113,36 @@ public class ArrestingHook : MonoBehaviour
     {
         if(other.gameObject.layer == CARRIER_OPS_LAYER && !isCatching)
         {
-            isCatching = true;
-            releaseTimer = releaseTime;
-            catchPoint = other.transform.position;
-            caughtGroup = other.GetComponent<WireGroup>();
-            caughtWire = caughtGroup.selectWire(getHookPoint().position);
-            caughtWire.Catch(this);
+            Catch(other);
 
         }
         //isCatching = other.gameObject.layer == 14;
     }
+
+    private void Catch(Collider otherCollider)
+    {
+        isCatching = true;
+        releaseTimer = releaseTime;
+        catchPoint = otherCollider.transform.position;
+        caughtGroup = otherCollider.GetComponent<WireGroup>();
+        caughtWire = caughtGroup.selectWire(getHookPoint().position);
+        caughtWire.Catch(this);
+        catchEffects();
+    }
+
+    void catchEffects()
+    {
+        if (getRootFlow().isLocalPlayer)
+        {
+            // Sound?
+            // Particles?
+
+            // zoom
+            AccelZoom.startCoolZoom(releaseTime);
+        }
+    }
+
+
 
     public Transform getHookPoint()
     {

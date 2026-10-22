@@ -27,6 +27,8 @@ public class AccelZoom : MonoBehaviour
 
     public float accelDiscard = 10f;
 
+    static bool coolZoomEnabled = false;
+
     public bool debug = false;
 
     public float accelMagnitude;
@@ -35,6 +37,8 @@ public class AccelZoom : MonoBehaviour
     public float accelModLerpRate = 2f;
     public float maxAccelModRadius = 20f;
     Vector3 accelModSmoothed;
+
+    private static float coolZoomTimer;
 
     private void Awake()
     {
@@ -53,6 +57,32 @@ public class AccelZoom : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public static bool coolZoomIsEnabled()
+    {
+        return coolZoomEnabled;
+    }
+
+    public static void startCoolZoom(float zoomTime)
+    {
+        if (!coolZoomEnabled)
+        {
+            setCoolZoom(true, zoomTime);
+        }
+    }
+
+    public static void setCoolZoom(bool enable, float zoomTime)
+    {
+        coolZoomEnabled = enable;
+        coolZoomTimer = zoomTime;
+        
+    }
+
+    public static void setZoomTimer(float zoomTime)
+    {
+        coolZoomTimer = zoomTime;
+
     }
 
     Vector3 clamDirVect(Vector3 dir, float maxRadius)
@@ -75,19 +105,31 @@ public class AccelZoom : MonoBehaviour
         return accelModSmoothed;
     }
 
+    private static void zoomTimer(float deltaTime)
+    {
+        coolZoomTimer -= deltaTime;
+
+        if(coolZoomTimer < 0)
+        {
+            setCoolZoom(false, 0.0f);
+        }
+    }
+
     public float zoomMod(float deltaTime)
     {
         //float fwdAccel = localAccel.z;
         float fwdAccel = this.accelMagnitude;
         float targetMod = 0.0f;
 
-        if (Mathf.Abs(fwdAccel) > minAccel)
+        if (coolZoomEnabled && Mathf.Abs(fwdAccel) > minAccel)
         {
 
             targetMod = Mathf.Clamp(fwdAccel * zoomRate, -maxModAbs, maxModAbs);
         }
 
         this.currentZoomMod = Mathf.Lerp(currentZoomMod, targetMod, zoomLerpRate * deltaTime);
+
+        zoomTimer(deltaTime);
 
         return currentZoomMod;
     }

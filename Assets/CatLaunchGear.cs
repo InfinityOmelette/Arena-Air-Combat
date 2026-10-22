@@ -112,12 +112,25 @@ public class CatLaunchGear : MonoBehaviour
         shootTimer = shootTimerMax;
         launchAxis = linkedCat.launchCenter.forward;
 
+        startLaunchEffects();
 
         //if (wheelControl != null)
         //{
         //    wheelControl.externApplyBrake(0f);
         //    wheelControl.endSlide();
         //}
+    }
+
+    private void startLaunchEffects()
+    {
+        // sound?
+        // particles?
+
+        //zoom
+        if (getRootFlow().isLocalPlayer)
+        {
+            AccelZoom.startCoolZoom(shootTimerMax);
+        }
     }
 
     //  - close to launch point

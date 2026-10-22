@@ -211,7 +211,7 @@ public class CamManipulation : MonoBehaviour
         {
             zoomTarget = highZoom;
         }
-        camRef.fieldOfView = Mathf.Lerp(camRef.fieldOfView, zoomTarget,
+        camRef.fieldOfView = Mathf.Lerp(camRef.fieldOfView, zoomTarget + accelZoomMod(Time.deltaTime),
             zoomLerpRate * Time.deltaTime);
 
 

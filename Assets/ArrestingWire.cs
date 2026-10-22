@@ -83,6 +83,14 @@ public class ArrestingWire : MonoBehaviour
     {
         caughtHook = hook;
         centered = false;
+
+        catchWireEffects(hook);
+    }
+
+    public void catchWireEffects(ArrestingHook hook)
+    {
+        // Sound?
+        // Particles?
     }
 
     public void release(ArrestingHook hook)

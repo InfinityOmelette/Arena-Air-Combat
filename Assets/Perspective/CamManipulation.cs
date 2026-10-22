@@ -110,12 +110,22 @@ public class CamManipulation : MonoBehaviour
     public float baseVertOffset = -7.5f;
 
     public CamKnocker knocker;
+    public AccelZoom accelZoom;
 
 
     void Awake()
     {
         rootFlow = aircraftRootRB.GetComponent<CombatFlow>();
         pManager = PerspectiveManager.getPManager();
+    }
+
+    public AccelZoom getAccelZoom()
+    {
+        if(accelZoom == null)
+        {
+            accelZoom = GetComponent<AccelZoom>();
+        }
+        return accelZoom;
     }
 
     public CamKnocker getKnocker()
@@ -127,7 +137,7 @@ public class CamManipulation : MonoBehaviour
         return knocker;
     }
 
-    public void knock(float radius, Vector3 explodePos)
+    public void knockExplode(float radius, Vector3 explodePos)
     {
 
         if(getKnocker() != null)
@@ -174,6 +184,19 @@ public class CamManipulation : MonoBehaviour
 
     }
 
+    float accelZoomMod(float deltaTime)
+    {
+        float zoomMod = 0.0f;
+
+        if(getAccelZoom() != null)
+        {
+            zoomMod = getAccelZoom().zoomMod(deltaTime); ;
+        }
+
+
+        return zoomMod;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
@@ -188,7 +211,8 @@ public class CamManipulation : MonoBehaviour
         {
             zoomTarget = highZoom;
         }
-        camRef.fieldOfView = Mathf.Lerp(camRef.fieldOfView, zoomTarget, zoomLerpRate * Time.deltaTime);
+        camRef.fieldOfView = Mathf.Lerp(camRef.fieldOfView, zoomTarget,
+            zoomLerpRate * Time.deltaTime);
 
 
 
@@ -277,8 +301,20 @@ public class CamManipulation : MonoBehaviour
         camTargetLocalPos = new Vector3(0.0f, camDefaultHeight, -camDefaultHorizDist);
         camTargetLocalPos -= camDistanceByVelocity();
         camTargetLocalPos -= camRef.transform.InverseTransformDirection(velocityGlobalForwardMinimized(fwdGlobalVelocityScale) * camVelocityMod);
+        camTargetLocalPos += accelOffset(Time.fixedDeltaTime);
 
+    }
 
+    private Vector3 accelOffset(float deltaTime)
+    {
+        Vector3 accelOffset = new Vector3();
+        if(getAccelZoom() != null)
+        {
+            accelOffset = getAccelZoom().accelOffset(deltaTime);
+            accelOffset = camRef.transform.InverseTransformDirection(accelOffset);
+        }
+
+        return accelOffset;
     }
 
     

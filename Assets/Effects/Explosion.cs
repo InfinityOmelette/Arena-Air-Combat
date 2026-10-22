@@ -212,7 +212,7 @@ public class Explosion : MonoBehaviour
 
         if(camManip != null)
         {
-            camManip.knock(radius, transform.position);
+            camManip.knockExplode(radius, transform.position);
             
         }
     }

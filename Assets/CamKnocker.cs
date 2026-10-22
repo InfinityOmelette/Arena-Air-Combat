@@ -23,7 +23,9 @@ public class CamKnocker : MonoBehaviour
 #endregion
     }
 
-    Quaternion originalLocalRot;
+    //Quaternion originalLocalRot;
+    Vector3 originalLocalEuler;
+    public Vector3 returnLocalEulerOffset;
 
     public HashSet<OneKnock> allKnocks;
 
@@ -43,7 +45,10 @@ public class CamKnocker : MonoBehaviour
 
     private void Awake()
     {
-        originalLocalRot = transform.localRotation;
+        //originalLocalRot = transform.localRotation;
+        originalLocalEuler = transform.localEulerAngles;
+        //transform.local
+
         allKnocks = new HashSet<OneKnock>();
 
         root = transform.root;
@@ -74,7 +79,11 @@ public class CamKnocker : MonoBehaviour
 
     public Quaternion decayKnock(Quaternion knockedRot, float deltaTime)
     {
-        return Quaternion.Slerp(knockedRot, originalLocalRot, rotReturnLerpRate * deltaTime);
+        Vector3 totalEulerReturn = originalLocalEuler + returnLocalEulerOffset;
+        Quaternion returnLocalRot = 
+            Quaternion.Euler(totalEulerReturn.x, totalEulerReturn.y, totalEulerReturn.z);
+
+        return Quaternion.Slerp(knockedRot, returnLocalRot, rotReturnLerpRate * deltaTime);
     }
 
     public Quaternion getKnockedEuler(float deltaTime)
@@ -167,5 +176,19 @@ public class CamKnocker : MonoBehaviour
         return vect;
     }
 
+    public void zoomPitchCompensation(float startFOV, float newFOV, float restOrbitPitch)
+    {
+        float origFovRemain = (.5f * startFOV) - Mathf.Abs(restOrbitPitch);
+
+        float origRatio = restOrbitPitch / origFovRemain;
+
+        float newPitch = (origRatio * newFOV) / 3f; // aimpoint should be this pitch below horizon
+
+        float newPitchEffective = newPitch - restOrbitPitch;
+
+        returnLocalEulerOffset.x = newPitchEffective;
+
+
+    }
 
 }

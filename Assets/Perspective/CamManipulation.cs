@@ -197,6 +197,8 @@ public class CamManipulation : MonoBehaviour
         return zoomMod;
     }
 
+    
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
@@ -214,9 +216,11 @@ public class CamManipulation : MonoBehaviour
         camRef.fieldOfView = Mathf.Lerp(camRef.fieldOfView, zoomTarget + accelZoomMod(Time.deltaTime),
             zoomLerpRate * Time.deltaTime);
 
+        getKnocker().zoomPitchCompensation(lowZoom, camRef.fieldOfView, baseVertOffset + weapVertOffset);
 
 
         camRef.transform.localPosition = Vector3.Lerp(camRef.transform.localPosition, camTargetLocalPos, camTargetLocalPosLerpRate * Time.deltaTime);
+
         
 
 

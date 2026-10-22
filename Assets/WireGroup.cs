@@ -28,7 +28,7 @@ public class WireGroup : MonoBehaviour
         for(int i = 0; i < wires.Count; i++)
         {
             ArrestingWire wire = wires[i];
-            float dist = Vector3.Distance(catchPosition, wire.transform.position);
+            float dist = Vector3.Distance(catchPosition, wire.wireCenter.position);
 
             if(dist < minDist)
             {

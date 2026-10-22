@@ -67,9 +67,26 @@ public class ArrestingWire : MonoBehaviour
         return rootFlow;
     }
 
+    public Vector3 getVelocity()
+    {
+        Vector3 vel = new Vector3();
+        if(rootRB() != null)
+        {
+            vel = rootRB().velocity;
+        }
+        return vel;
+    }
+
     public Rigidbody rootRB()
     {
-        return getRootFlow().myRb;
+        if (getRootFlow() != null)
+        {
+            return getRootFlow().myRb;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     // Update is called once per frame

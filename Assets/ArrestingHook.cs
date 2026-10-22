@@ -81,7 +81,7 @@ public class ArrestingHook : MonoBehaviour
 
         float effectiveDecay = linearDecayRate * Time.fixedDeltaTime * displacementFactor;
 
-        Vector3 relativeVelocity = rootRB.velocity - caughtWire.rootRB().velocity;
+        Vector3 relativeVelocity = rootRB.velocity - caughtWire.getVelocity();
 
         if (relativeVelocity.magnitude < effectiveDecay)
         {

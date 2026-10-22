@@ -4420,7 +4420,7 @@ PrefabInstance:
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: radius
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -4530,7 +4530,7 @@ PrefabInstance:
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: radius
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -4635,12 +4635,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 15
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5485,6 +5485,11 @@ PrefabInstance:
       propertyPath: explosions.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: radius
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -5582,6 +5587,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
+      propertyPath: radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
       propertyPath: dissipationTime
       value: 1.5
       objectReference: {fileID: 0}
@@ -5598,12 +5608,17 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: startDelay.scalar
-      value: 0.1
+      value: 0.066
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: startDelay.minScalar
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: startDelay.minMaxState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5633,7 +5648,7 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5663,12 +5678,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 30
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -5899,6 +5914,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7160427416421413583}
     m_Modifications:
+    - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: radius
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3922597331839051892, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Layer
@@ -5996,6 +6016,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
+      propertyPath: radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
       propertyPath: dissipationTime
       value: 1.5
       objectReference: {fileID: 0}
@@ -6042,7 +6067,7 @@ PrefabInstance:
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6969001383883059577, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -6077,12 +6102,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 30
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -6123,7 +6148,7 @@ PrefabInstance:
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: radius
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2841702368167520896, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -6233,7 +6258,7 @@ PrefabInstance:
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: radius
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6685327531406274122, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -6338,12 +6363,12 @@ PrefabInstance:
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: bounceDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7569868343482116481, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: impactDamage
-      value: 15
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7791952048769901196, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}

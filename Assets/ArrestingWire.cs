@@ -14,14 +14,47 @@ public class ArrestingWire : MonoBehaviour
     private bool centered = false;
 
     public CombatFlow rootFlow;
+    public Transform root;
 
-    
+    private Vector3 localRestPos;
+    public static float returnSpeed = 9f; // meters/second
+    public static float centeredSnapDist = .25f; // meters
+
+    private void Awake()
+    {
+
+        initWireReturnPos();
+
+        fullyReturnWire();
+        
+    }
+
+    private void fullyReturnWire()
+    {
+        stretchToPoint(transform.root.TransformPoint(localRestPos));
+    }
+
+    private void initWireReturnPos()
+    {
+        localRestPos = getRoot().InverseTransformPoint(wireCenter.position);
+
+    }
+
+    public Transform getRoot()
+    {
+        if(root == null)
+        {
+            root = transform.root;
+        }
+        return root;
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
         //stretchToPoint(wireCenter.position);
-        returnToCenter();
+        returnToRestPos();
     }
 
     public CombatFlow getRootFlow()
@@ -44,22 +77,58 @@ public class ArrestingWire : MonoBehaviour
     {
         if(caughtHook != null)
         {
-            stretchToPoint(caughtHook.getHookPoint().position);
+            wireCenter.position = caughtHook.getHookPoint().position;
+            stretchToPoint(wireCenter.position);
         }
         else
         {
-            returnToCenter();
+            returnToRestPos(Time.deltaTime);
         }
+
+
+
+
+        //if(caughtHook != null)
+        //{
+        //    stretchToPoint(caughtHook.getHookPoint().position);
+        //}
+        //else
+        //{
+        //    returnToCenter();
+        //}
     }
 
-    private void returnToCenter()
+    private void returnToRestPos(float deltaTime = 1.0f)
     {
         if (!centered)
         {
+            //stretchToPoint(wireCenter.position);
+            Vector3 restPosWorldSpace = getRoot().transform.TransformPoint(localRestPos);
+
+            float maxDistDelta = Vector3.Distance(wireCenter.transform.position, restPosWorldSpace);
+            maxDistDelta = Mathf.Min(maxDistDelta, deltaTime * returnSpeed);
+
+            wireCenter.transform.position = Vector3.MoveTowards(wireCenter.transform.position,
+                restPosWorldSpace, maxDistDelta);
+
             stretchToPoint(wireCenter.position);
-            centered = true;
+
+            //centered = Vector3.Equals(wireCenter.transform.position, restPosWorldSpace);
+            checkCentered(restPosWorldSpace);
         }
     }
+
+    void checkCentered(Vector3 restPosWorldSpace)
+    {
+        float distToCenter = Vector3.Distance(wireCenter.transform.position, restPosWorldSpace);
+        if(distToCenter < centeredSnapDist)
+        {
+            centered = true;
+            fullyReturnWire();
+        }
+    }
+
+    
 
     public void stretchToPoint(Transform wire, Vector3 point)
     {

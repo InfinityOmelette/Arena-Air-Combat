@@ -150,20 +150,19 @@ public class AccelZoom : MonoBehaviour
 
         Debug.DrawRay(root.position, trueAccel, Color.cyan);
 
-        
-        
-
-        //if (trueAccel.magnitude < accelDiscard || debug)
-        if(accelMagnitude < accelDiscard || debug)
-        {
 
 
-            this.accelMagnitude = accelMagnitude;
-            this.trueAccel = trueAccel;
 
 
-            localAccel = root.InverseTransformDirection(trueAccel);
-        }
+        ////if (trueAccel.magnitude < accelDiscard || debug)
+        //if (accelMagnitude < accelDiscard || debug)
+        //{
+
+        this.accelMagnitude = accelMagnitude;
+        this.trueAccel = trueAccel;
+        this.localAccel = root.InverseTransformDirection(trueAccel);
+
+        //}
 
 
 

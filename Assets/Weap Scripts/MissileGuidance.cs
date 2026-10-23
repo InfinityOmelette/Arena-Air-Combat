@@ -92,6 +92,7 @@ public class MissileGuidance : MonoBehaviour
 
     public float corkscrewBeginAngle = 90f;
 
+
     private void Awake()
     {
         missileRef = GetComponent<BasicMissile>();
@@ -196,7 +197,7 @@ public class MissileGuidance : MonoBehaviour
                     }
                 }
 
-                // If missile loses track of target, continue intercepting previous known course
+                
                 if (targetFlowPersistent != null)
                 {
                     guidanceProcess();
@@ -526,35 +527,38 @@ public class MissileGuidance : MonoBehaviour
         return targetFlowPersistent.myRb.velocity * projectionTime;
     }
 
+    public void tryInterceptFuze()
+    {
+        if (weaponRef.myTarget != null)
+        {
+            CombatFlow bullShitFuckingReference = weaponRef.myTarget.GetComponent<CombatFlow>();
+            targetFlowPersistent = bullShitFuckingReference;
+        }
+
+
+
+        if (targetFlowPersistent != null)// && isLocked)
+        {
+            if (targetFlowPersistent.rwr != null)
+            {
+                targetFlowPersistent.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
+            }
+
+
+
+            // aid in missile interception via prox fuze
+            if (targetFlowPersistent.type == CombatFlow.Type.PROJECTILE && checkProxFuze(targetFlowPersistent))
+            {
+                targetFlowPersistent.die(); // arbitrary large value. Missiles usually 1hp.
+            }
+
+        }
+
+    }
 
     void OnDestroy()
     {
-        if(targetFlowDeprecated != null)// && isLocked)
-        {
-            if(targetFlowDeprecated.rwr != null)
-            {
-                targetFlowDeprecated.rwr.rpcEndLockedBy(myRadar.photonView.ViewID);
-            }
-
-            // aid in missile interception via prox fuze
-            if (targetFlowDeprecated.type == CombatFlow.Type.PROJECTILE && checkProxFuze(targetFlowDeprecated))
-            {
-                targetFlowDeprecated.dealDamage(50f); // arbitrary large value. Missiles usually 1hp.
-            }
-            
-        }
-
-        //if(targetFlowDeprecated == null)
-        //{
-        //    Debug.LogError("Missile unable to prox fuze on missile because target is null");
-        //}
-
-        //if (!isLocked)
-        //{
-        //    Debug.LogError("Missile unable to prox fuse because no lock");
-        //}
-
-        //if(targetFlow !=)
+        tryInterceptFuze();
     }
 
     private bool checkProxFuze(CombatFlow target)

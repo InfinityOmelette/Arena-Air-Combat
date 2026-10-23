@@ -113,6 +113,8 @@ public class CamManipulation : MonoBehaviour
     public AccelZoom accelZoom;
 
 
+    public static float maxDeltaTime = .025f; // 60fps --> .0167s per frame
+
     void Awake()
     {
         rootFlow = aircraftRootRB.GetComponent<CombatFlow>();
@@ -413,13 +415,15 @@ public class CamManipulation : MonoBehaviour
             currentPitchRate = mouse_pitchRateSlow;
         }
 
-        float angleOffsetHoriz = currentYawRate * mouseSpeedX * Time.deltaTime;
-        float angleOffsetVert = -currentPitchRate * mouseSpeedY * Time.deltaTime;
+        float deltaTimeClamped = Mathf.Min(Time.deltaTime, maxDeltaTime);
+
+        float angleOffsetHoriz = currentYawRate * mouseSpeedX * deltaTimeClamped;
+        float angleOffsetVert = -currentPitchRate * mouseSpeedY * deltaTimeClamped;
 
         // DEBUG --- RULE OUT ANY HORIZONTAL MOUSE INPUT AS CAUSE OF ISSUE
         //angleOffsetHoriz = 0f;
 
-        float maxMouseStep = maxMouseTraverseSpeed * Time.deltaTime;
+        float maxMouseStep = maxMouseTraverseSpeed * deltaTimeClamped;
 
         Vector3 tempOldDir = worldLockedLookDirection;
         Vector3 oldDirEuler = dir2Euler(tempOldDir);
@@ -625,9 +629,11 @@ public class CamManipulation : MonoBehaviour
     private Vector3 mouseFreeLookEuler(float mouseSpeedX, float mouseSpeedY)
     {
         // horribly inefficient. Surely this can be done in 5 lines or fewer
+        float deltaTimeClamped = Mathf.Min(Time.deltaTime, maxDeltaTime);
 
-        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * Time.deltaTime;
-        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * Time.deltaTime;
+
+        float angleOffsetHoriz = mouse_yawRate * mouseSpeedX * deltaTimeClamped;
+        float angleOffsetVert = -mouse_pitchRate * mouseSpeedY * deltaTimeClamped;
 
         Vector3 newRotationEuler = Mathf.Rad2Deg * Quaternion.ToEulerAngles(targetLocalRotation) +
                 new Vector3(angleOffsetVert, angleOffsetHoriz, 0.0f);

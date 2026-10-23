@@ -149,6 +149,7 @@ public class BasicMissile : Weapon
             {
                 // blow up local instance. Death itself should be networked fine
                 myCombatFlow.dealLocalDamage(myCombatFlow.getHP());
+                GetComponent<MissileGuidance>().tryInterceptFuze();
             }
         }
     }
@@ -263,9 +264,13 @@ public class BasicMissile : Weapon
                 if (explodeOnOther(otherRoot))
                 {
                     Debug.Log("Missile collider triggered");
+                    
+
                     //rpcContactProcess(transform.position, other.transform.root.gameObject.GetComponent<PhotonView>().ViewID);
                     photonView.RPC("rpcContactProcess", RpcTarget.All,
                         transform.position, otherId);
+
+                    GetComponent<MissileGuidance>().tryInterceptFuze();
                 }
 
 

@@ -435,7 +435,8 @@ public class TgtComputer : MonoBehaviour
 
                 float currentDistance = (currentFlow.transform.position - transform.position).magnitude;
 
-                if ((currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
+                if (currentFlow.myHudIconRef != null &&
+                    (currentFlow.myHudIconRef.isDetected || currentFlow.myHudIconRef.dataLink) &&
                         //!currentFlow.myHudIconRef.isFar &&
                         currentFlow.isActive &&
                         //currentFlow.type != CombatFlow.Type.PROJECTILE && // cannot lock onto projectiles

@@ -529,7 +529,7 @@ public class MissileGuidance : MonoBehaviour
 
     void OnDestroy()
     {
-        if(targetFlowDeprecated != null && isLocked)
+        if(targetFlowDeprecated != null)// && isLocked)
         {
             if(targetFlowDeprecated.rwr != null)
             {
@@ -543,6 +543,16 @@ public class MissileGuidance : MonoBehaviour
             }
             
         }
+
+        //if(targetFlowDeprecated == null)
+        //{
+        //    Debug.LogError("Missile unable to prox fuze on missile because target is null");
+        //}
+
+        //if (!isLocked)
+        //{
+        //    Debug.LogError("Missile unable to prox fuse because no lock");
+        //}
 
         //if(targetFlow !=)
     }

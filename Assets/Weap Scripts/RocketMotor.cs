@@ -15,7 +15,7 @@ public class RocketMotor : MonoBehaviour
     private Weapon myWeapon;
 
 
-    
+
 
     public bool doBurn;
 
@@ -24,6 +24,18 @@ public class RocketMotor : MonoBehaviour
     private bool makeEffect = true;
 
     public float burnDelay = 0.0f;
+
+    public GameObject rocketPlume;
+    public float lightCruiseRangeRatio = .45f;
+
+    private void setRocketPlume(bool activate)
+    {
+        if(rocketPlume != null)
+        {
+            rocketPlume.SetActive(activate);
+        }
+    }
+
 
     private void Awake()
     {
@@ -75,14 +87,16 @@ public class RocketMotor : MonoBehaviour
                     trail.Clear();
                     trail.emitting = true;
                 }
+                setRocketPlume(true);
                 doBurn = true;
                 doCruise = true;
             }
             else
             {
-                if (doBurn) // disable light on the very first frame that doBurn is disabled
+                if (doBurn) 
                 {
-                    myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+                    //myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+                    myWeapon.effectsObj.GetComponent<Light>().range *= lightCruiseRangeRatio;
                 }
                 doBurn = false;
 
@@ -98,7 +112,14 @@ public class RocketMotor : MonoBehaviour
                 }
                 else
                 {
+                    // disable light on the very first frame that doCruise is disabled
+                    if (doCruise)
+                    {
+                        myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+                        setRocketPlume(false);
+                    }
                     doCruise = false;
+                    
                 }
             }
         }

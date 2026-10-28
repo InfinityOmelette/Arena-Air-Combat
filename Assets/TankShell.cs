@@ -76,7 +76,7 @@ public class TankShell : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(rb.velocity, transform.up);
 
 
-        if (transform.position.y < 0)
+        if (transform.position.y < SeaProperties.getSeaLevel())
         {
             ded();
         }

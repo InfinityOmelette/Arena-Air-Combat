@@ -264,8 +264,16 @@ public class CombatFlow : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {
-        if (currentHP <= 0 && (isLocalPlayer || localOwned || !networkDeath)) // 0hp and is currently alive
-            die(); // kill self
+        if ((currentHP <= 0 || killIfBelowFloor())
+            && (isLocalPlayer || localOwned || !networkDeath))
+        { 
+            die();
+        }
+    }
+
+    public bool killIfBelowFloor()
+    {
+        return transform.position.y < SeaProperties.getSeaLevel();
     }
 
     public void tryBeginLock(Radar incomingRadarSource)

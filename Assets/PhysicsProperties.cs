@@ -8,11 +8,25 @@ public class PhysicsProperties : MonoBehaviour
 
     private const int UNITY_MAX_LAYERS = 32;
     public int numLayers = 0;
+    
 
     private void Awake()
     {
-        phys = this;
+        //phys = this;
+        getPhys();
+        //seaLevel = seaLevelOverride;
     }
+
+
+    public static PhysicsProperties getPhys()
+    {
+        if(phys == null)
+        {
+            phys = GameObject.Find("EnvironmentProperties").GetComponent<PhysicsProperties>();
+        }
+        return phys;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -71,8 +85,4 @@ public class PhysicsProperties : MonoBehaviour
     }
 
 
-    public static PhysicsProperties getPhys()
-    {
-        return phys;
-    }
 }

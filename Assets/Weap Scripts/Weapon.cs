@@ -269,7 +269,7 @@ public class Weapon : MonoBehaviourPunCallbacks
     public void killIfBelowFloor()
     {
         CombatFlow combatFlow = GetComponent<CombatFlow>();
-        if (transform.position.y < 0f && combatFlow.localOwned)
+        if (transform.position.y < SeaProperties.getSeaLevel() && combatFlow.localOwned)
         {
             combatFlow.dealDamage(combatFlow.getHP());
             

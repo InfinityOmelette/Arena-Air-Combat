@@ -127,7 +127,8 @@ public class ShipPhysics : MonoBehaviour
 
     public Vector3 calculateHoverYVel()
     {
-        float hoverVel = (hoverTargetAlt - transform.position.y) * hoverSensitivity;
+        float targetAlt = hoverTargetAlt + SeaProperties.getSeaLevel();
+        float hoverVel = (targetAlt - transform.position.y) * hoverSensitivity;
 
 
         return new Vector3(0.0f, hoverVel, 0.0f);

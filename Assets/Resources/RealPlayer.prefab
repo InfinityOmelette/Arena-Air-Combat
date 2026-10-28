@@ -737,7 +737,7 @@ MonoBehaviour:
   moveToCatSpeed: 3
   rotateToCatRate: 4
   shootTimerMax: 1.2
-  launchAcceleration: 100
+  launchAcceleration: 125
   maxLinkInitiateSpeed: 20
   maxRotSpeedDEG: 40
   wheelControl: {fileID: 6801349663249705164}
@@ -4516,7 +4516,7 @@ PrefabInstance:
     - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.034
+      value: -0.007
       objectReference: {fileID: 0}
     - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -4526,17 +4526,27 @@ PrefabInstance:
     - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.66733956
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7447536
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 96.276
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4957760895351644023, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -4576,12 +4586,12 @@ PrefabInstance:
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.27
+      value: 0.229
       objectReference: {fileID: 0}
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.487
+      value: 3.628
       objectReference: {fileID: 0}
     - target: {fileID: 5072710595775559579, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
@@ -4717,7 +4727,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 45552cf03b18e5246a91c0543cf9ca5c, type: 2}
+      objectReference: {fileID: 2100000, guid: d35a3a7b621c7a44fa048c362ecfe1cd, type: 2}
     - target: {fileID: 7156727981668905918, guid: 1f6621483e39ab946bc87a3b8543702f,
         type: 3}
       propertyPath: m_Name

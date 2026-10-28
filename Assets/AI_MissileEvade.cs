@@ -211,7 +211,7 @@ public class AI_MissileEvade : MonoBehaviour
             float alt = transform.position.y;
 
             // if too close to the ground, go upwards
-            if (spiralDir.y < 0f && alt < minDiveAlt)
+            if (spiralDir.y < SeaProperties.getSeaLevel() && alt < minDiveAlt)
             {
                 spiralDir.y *= -1f;
             }

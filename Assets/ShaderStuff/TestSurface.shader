@@ -12,15 +12,25 @@
         _wave2ySpeed ("Wave2 Speed y", Float) = 0.2
         //_wave2Velocity ("Wave 2 Velocity", float2) = (0.3, 0.2){}
 
-        _wave2Concentration ("Wave2 Concentration", Float) = 1.0
+        _wave2Concentration ("Wave2 Concentration", Float) = 0.5
+
+        _foamSaturation ("Foam Saturation", float) = 0.5
+        _FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
+
+        _fadeSaturation ("Fade Saturation", float) = 0.5
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Tags { "RenderType"="Opaque" }//
         LOD 200
+        //ZWrite Off
+        //Blend SrcAlpha OneMinusSrcAlpha
 
         CGPROGRAM
-        #pragma surface surf Standard //alpha:fade
+        #pragma surface surf Standard alpha vertex:vert //alpha:fade
+        #pragma target 3.0
+
+        //sampler2D _CameraDepthTexture;
 
         sampler2D _MainTex;
         fixed4 _Color;
@@ -32,11 +42,24 @@
         float _wave2ySpeed;
         float _wave2Concentration;
 
+        float _foamSaturation;
+        fixed4 _FoamColor;
+
+        float _fadeSaturation;
+
         struct Input
         {
+           // float4 screenPos;
+           // float eyeDepth;
             float2 uv_MainTex;
             float2 uv_NormWave2;
         };
+
+        void vert (inout appdata_full v, out Input o)
+        {
+            UNITY_INITIALIZE_OUTPUT(Input, o);
+            //COMPUTE_EYEDEPTH(o.eyeDepth);
+        }
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
@@ -50,10 +73,25 @@
             //o.Normal = normalize(lerp(normal1, normal2, _wave2Concentration));
 
 
-            o.Normal = UnpackNormal(tex2D(_MainTex, combinedUV));
-            o.Albedo = _Color.rgb;
+            
+            
             o.Smoothness = _Smoothness;
+
+
+            // calculate depth
+           // float rawZ = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(IN.screenPos));
+            //float sceneZ = LinearEyeDepth(rawZ);
+            //float waterSurface = IN.eyeDepth;
+            //float fade = saturate(_fadeSaturation * (sceneZ - waterSurface));
+
+            o.Normal = UnpackNormal(tex2D(_MainTex, combinedUV));
+
+
+            //o.Albedo = lerp(_Color.rgb, _FoamColor.rgb, 1-fade);
+            o.Albedo = _Color.rgb;
+
             o.Alpha = _Color.a;
+            //o.Alpha = fade * _Color.a;
         }
         ENDCG
     }

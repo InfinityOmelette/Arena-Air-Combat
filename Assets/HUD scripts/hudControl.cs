@@ -273,6 +273,23 @@ public class hudControl : MonoBehaviour
                 root_camRef.camRef.transform.position + aircraftRootObj.transform.forward,
                 velVectLerpRate * Time.deltaTime);
         }
+
+
+
+        rollIndicators();
+    }
+
+    private void rollIndicators()
+    {
+        Quaternion rollRot = getRootRoll();
+        noseIndicatorRef.transform.localRotation = rollRot;
+        velocityVectorRef.transform.localRotation = rollRot;
+    }
+
+    private Quaternion getRootRoll()
+    {
+        float roll = -root_camRef.camAxisRollRef.transform.localEulerAngles.z;
+        return Quaternion.Euler(0f, 0f, roll);
     }
 
     private void FixedUpdate()

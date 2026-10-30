@@ -2072,7 +2072,7 @@ MonoBehaviour:
   lockType: 0
   scanConeAngle: 35
   maxDetectRange: 25000
-  maxLockRange: 19000
+  maxLockRange: 11000
   lockAngle: 35
   detectionThreshold: 1
   radarOn: 0
@@ -2081,9 +2081,9 @@ MonoBehaviour:
   myFlow: {fileID: 0}
   pingPlayer: 1
   debug: 0
-  baseLongRange: 13000
-  baseGoodRange: 5000
-  baseKillRange: 2000
+  baseLongRange: 10000
+  baseGoodRange: 9000
+  baseKillRange: 8000
   effectiveLongRange: 0
   effectiveGoodRange: 0
   effectiveKillRange: 0
@@ -2161,6 +2161,8 @@ MonoBehaviour:
   cruiseTime: 20
   doBurn: 0
   burnDelay: 0.6
+  rocketPlume: {fileID: 0}
+  lightCruiseRangeRatio: 0.45
 --- !u!114 &4268398709732474751
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -65,6 +65,8 @@ public class ArrestingHook : MonoBehaviour
             caughtWire.release(this);
             caughtGroup = null;
             caughtWire = null;
+
+            getRootFlow().fullGroundService();
         }
     }
 

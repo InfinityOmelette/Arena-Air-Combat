@@ -3,6 +3,9 @@
     Properties
     {
         _Color ("Water Color", Color) = (0.0, 0.4, 0.6, 1.0)
+        _ColorTex("Color Texture", 2D) = "white" {}
+        _ColorLerp("Color Lerp", Range(0,1)) = 0.5
+
         _MainTex ("Normal Map", 2D) = "bump" {}
         _Speed ("Wave Speed", Float) = 0.5
         _Smoothness ("Smoothness", Range(0,1)) = 0.9
@@ -18,6 +21,8 @@
         _FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
 
         _fadeSaturation ("Fade Saturation", float) = 0.5
+
+
     }
     SubShader
     {
@@ -47,12 +52,16 @@
 
         float _fadeSaturation;
 
+        sampler2D _ColorTex;
+        float _ColorLerp;
+
         struct Input
         {
            // float4 screenPos;
            // float eyeDepth;
             float2 uv_MainTex;
             float2 uv_NormWave2;
+            float2 uv_ColorTex;
         };
 
         void vert (inout appdata_full v, out Input o)
@@ -88,7 +97,10 @@
 
 
             //o.Albedo = lerp(_Color.rgb, _FoamColor.rgb, 1-fade);
-            o.Albedo = _Color.rgb;
+            //o.Albedo = tex2D(_ColorTex, scrolledUV).rgb;
+            //o.Albedo = _Color.rgb;
+            fixed3 colorTex = tex2D(_ColorTex, combinedUV).rgb;
+            o.Albedo = lerp(_Color.rgb, colorTex, _ColorLerp);
 
             o.Alpha = _Color.a;
             //o.Alpha = fade * _Color.a;

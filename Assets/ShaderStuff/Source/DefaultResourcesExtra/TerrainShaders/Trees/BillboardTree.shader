@@ -22,7 +22,6 @@ Shader "Hidden/TerrainEngine/BillboardTree" {
 
             float _fadeEndDist;
             float _fadeStartPercent;
-            float _testFadeEndDist = 500;
 
             struct v2f {
                 float4 pos : SV_POSITION;
@@ -46,8 +45,6 @@ Shader "Hidden/TerrainEngine/BillboardTree" {
 
 
                 // Calculate fade factor based on distance
-                float3 viewPos = UnityObjectToViewPos(v.vertex).xyz;
-                float viewDepth = -viewPos.z;
                 float fadeStartDist = _fadeEndDist * _fadeStartPercent;
                 float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 float3 camPos = _WorldSpaceCameraPos;

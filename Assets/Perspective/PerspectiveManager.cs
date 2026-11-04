@@ -109,6 +109,8 @@ public class PerspectiveManager : MonoBehaviour
 
             // activate proper camera
             cameras[index].SetActive(true);
+            Camera cam = cameras[index].GetComponent<Camera>();
+            //GPUInstancer.GPUInstancerAPI.SetCamera(cam);
 
             // deactivate all cameras that aren't specified cam
             for (short i = 0; i < cameras.Count; i++)
@@ -123,6 +125,8 @@ public class PerspectiveManager : MonoBehaviour
             showUI = camPropertiesRef.showUI;
             mouseIsLocked = camPropertiesRef.mouseIsLocked;
             aircraftInputActive = camPropertiesRef.aircraftInputActive;
+
+            
 
 
             

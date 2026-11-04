@@ -164,6 +164,8 @@ public class CamManipulation : MonoBehaviour
             camTargetLocalPos = camRef.transform.localPosition;
 
             defaultCamRotation = camRef.transform.localRotation;
+
+            //GPUInstancer.GPUInstancerAPI.SetCamera(camRef);
         }
 
         

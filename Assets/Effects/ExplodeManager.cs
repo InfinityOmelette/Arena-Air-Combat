@@ -11,8 +11,12 @@ public class ExplodeManager : MonoBehaviourPunCallbacks
     private static ExplodeManager explodeManager;
 
     public GameObject explodePrefab;
+    public ExplosionSizer fancySmallExplPrefab;
+    public ExplosionSizer fancyLargeExplPrefab;
 
     public static float FLASH_PERCENT = .65f;
+
+    public bool useFancy = true;
 
     public static ExplodeManager getExplodeManager()
     {
@@ -79,51 +83,62 @@ public class ExplodeManager : MonoBehaviourPunCallbacks
         float newExplosiveForce, Color flashColor, float flashDurationDeprecated, int sparkCountOverride,
         int smokeshootCountOverride)
     {
-        GameObject newExplosion = GameObject.Instantiate(explodePrefab);
-        newExplosion.transform.position = position;
-        
-        Explosion newExplosionScript = newExplosion.GetComponent<Explosion>();
-        //newExplosionScript.localOwned = localOwned;
-        CombatFlow.Team newTeam = CombatFlow.convertNumToTeam(newTeamNum);
-
-
-        // smoke settings
-        newExplosionScript.emissionColor = glowColor;
-        newExplosionScript.smokeColor = newSmokeColor;
-
-        //mat.SetColor("_EmissionColor", Color.yellow);
-        newExplosionScript.radius = setRadius;
-        newExplosionScript.coreDamage = setCoreDamage;
-        newExplosionScript.doExplode = true;
-        newExplosionScript.fadeOutTime = dissipationTime;
-        newExplosionScript.GetComponent<Collider>().enabled = doCollide;
-
-        newExplosionScript.expandTime = newExpandTime;
-        newExplosionScript.team = newTeam;
-        newExplosionScript.damageProjectiles = newDamageProjectiles;
-        newExplosionScript.friendlyFire = newFriendlyFire;
-        newExplosionScript.explosiveForce = newExplosiveForce;
-
-        newExplosionScript.flashColor = flashColor;
-        //newExplosionScript.flashDuration = flashDuration;
-        //newExplosionScript.initFlashDuration = flashDuration;
-
-        newExplosionScript.flashDuration = newExpandTime * FLASH_PERCENT;
-        newExplosionScript.initFlashDuration = newExpandTime * FLASH_PERCENT;
-
-        newExplosionScript.sparkCountOverride = sparkCountOverride;
-        newExplosionScript.smokeshootCountOverride = smokeshootCountOverride;
-
-        // light settings
-        Light light = newExplosionScript.GetComponent<Light>();
-        light.enabled = doEmitLight;
-
-        if (doEmitLight)
+        if (useFancy)
         {
-
-            light.color = glowColor;
-            light.range = newExplosionScript.radius * newExplosionScript.lightRangeScaleFactor;
+            GameObject newExplosion = GameObject.Instantiate(fancySmallExplPrefab.gameObject);
+            newExplosion.transform.position = position;
+            ExplosionSizer explSizer = newExplosion.GetComponent<ExplosionSizer>();
+            explSizer.applyResize(setRadius);
         }
+        else
+        {
+            GameObject newExplosion = GameObject.Instantiate(explodePrefab);
+            newExplosion.transform.position = position;
+
+            Explosion newExplosionScript = newExplosion.GetComponent<Explosion>();
+            //newExplosionScript.localOwned = localOwned;
+            CombatFlow.Team newTeam = CombatFlow.convertNumToTeam(newTeamNum);
+
+
+            // smoke settings
+            newExplosionScript.emissionColor = glowColor;
+            newExplosionScript.smokeColor = newSmokeColor;
+
+            //mat.SetColor("_EmissionColor", Color.yellow);
+            newExplosionScript.radius = setRadius;
+            newExplosionScript.coreDamage = setCoreDamage;
+            newExplosionScript.doExplode = true;
+            newExplosionScript.fadeOutTime = dissipationTime;
+            newExplosionScript.GetComponent<Collider>().enabled = doCollide;
+
+            newExplosionScript.expandTime = newExpandTime;
+            newExplosionScript.team = newTeam;
+            newExplosionScript.damageProjectiles = newDamageProjectiles;
+            newExplosionScript.friendlyFire = newFriendlyFire;
+            newExplosionScript.explosiveForce = newExplosiveForce;
+
+            newExplosionScript.flashColor = flashColor;
+            //newExplosionScript.flashDuration = flashDuration;
+            //newExplosionScript.initFlashDuration = flashDuration;
+
+            newExplosionScript.flashDuration = newExpandTime * FLASH_PERCENT;
+            newExplosionScript.initFlashDuration = newExpandTime * FLASH_PERCENT;
+
+            newExplosionScript.sparkCountOverride = sparkCountOverride;
+            newExplosionScript.smokeshootCountOverride = smokeshootCountOverride;
+
+            // light settings
+            Light light = newExplosionScript.GetComponent<Light>();
+            light.enabled = doEmitLight;
+
+            if (doEmitLight)
+            {
+
+                light.color = glowColor;
+                light.range = newExplosionScript.radius * newExplosionScript.lightRangeScaleFactor;
+            }
+        }
+        
 
     }
 

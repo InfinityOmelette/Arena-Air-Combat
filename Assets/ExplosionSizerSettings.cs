@@ -44,7 +44,7 @@ public class ExplosionSizerSettings : MonoBehaviour
     {
         //float time = flashTimeMin + flashTimeRatio * radius;
         //return Mathf.Min(time, flashTimeMax);
-        float time = flashTimeRadiusRatio * radius * radius;
+        float time = flashTimeRadiusRatio * radius;
         return Mathf.Clamp(time, flashTimeMin, flashTimeMax);
     }
 }

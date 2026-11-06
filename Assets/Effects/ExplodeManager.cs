@@ -89,6 +89,8 @@ public class ExplodeManager : MonoBehaviourPunCallbacks
             newExplosion.transform.position = position;
             ExplosionSizer explSizer = newExplosion.GetComponent<ExplosionSizer>();
             explSizer.applyResize(setRadius);
+            ExplodeContactor contactor = newExplosion.GetComponent<ExplodeContactor>();
+            contactor.init(newDamageProjectiles, newTeamNum, setCoreDamage, newFriendlyFire);
         }
         else
         {

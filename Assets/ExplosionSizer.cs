@@ -20,6 +20,11 @@ public class ExplosionSizer : MonoBehaviour
 
     public bool awake = false;
 
+    public Light flash;
+    private float flashMaxRange = 0.0f;
+    private float flashTimer = 0.0f;
+    private float flashTimerMax = 0.0f;
+
     private void OnValidate()
     {
         Debug.Log("ExplosionSizer Validate");
@@ -36,60 +41,119 @@ public class ExplosionSizer : MonoBehaviour
         applyResize();
     }
 
+    private void setOuterScale(float scaleFactor)
+    {
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+    }
+
+    private void setLightScale(float scaleFactor)
+    {
+        float lightScale = settingsPrefab.lightScaleRatio * scaleFactor;
+        light.transform.localScale = new Vector3(lightScale, lightScale, lightScale);
+    }
+
+    private void setSmokeScale(float scaleFactor)
+    {
+        float smokeScale = settingsPrefab.smokeScaleRatio * scaleFactor;
+        additionalSmoke.transform.localScale = new Vector3(smokeScale, smokeScale, smokeScale);
+    }
+
+    private void setEmberVel(float scaleFactor)
+    {
+        float emberVelFactor = settingsPrefab.ember_velocityModifierRatio * scaleFactor;
+        var emberVelLifetime = embers.velocityOverLifetime;
+        emberVelLifetime.speedModifierMultiplier *= emberVelFactor;
+    }
+
+    private void setEmberSize(float scaleFactor)
+    {
+        float emberSizeFactor = settingsPrefab.ember_startSizeRatio * scaleFactor;
+        var embersMain = embers.main;
+        //embersMain.startSize 
+        var embersMainSize = embers.main.startSize;
+        float newMax = embersMainSize.constantMax * emberSizeFactor;
+        float newMin = embersMainSize.constantMin * emberSizeFactor;
+        embersMain.startSize = new ParticleSystem.MinMaxCurve(newMin, newMax);
+    }
+
+    private void setShockwaveTime(float scaleFactor)
+    {
+        //  - lifetime .2x outer rate
+        float shockTimeFactor = settingsPrefab.shock_lifetimeRatio * scaleFactor;
+        var shockTimeSetter = shockwave.main;
+        shockTimeSetter.startLifetime = shockwave.main.startLifetime.constant * shockTimeFactor
+            + settingsPrefab.shock_lifetimeBase;
+    }
+
+    private void setShockwaveScale(float scaleFactor)
+    {
+        float shockSize = settingsPrefab.shock_startSizeRatio * scaleFactor;
+        //var shockSizeSetter = shockwave.main.startSize.constant;
+        //shockSizeSetter *= shockSize;
+        shockwave.transform.localScale = new Vector3(shockSize, shockSize, shockSize);
+    }
+
+    private void setFlash(float radius)
+    {
+        // range
+        flashMaxRange = settingsPrefab.flashRangeRadiusRatio * radius;
+        applyFlashRange(flashMaxRange);
+
+        // timer
+        flashTimer = settingsPrefab.calcFlashTime(radius);
+        flashTimerMax = flashTimer;
+    }
+
+    private void applyFlashRange(float range)
+    {
+        //flash.transform.localScale = new Vector3(scale, scale, scale);
+        flash.range = range;
+    }
+
     public void applyResize()
     {
         awake = true;
 
         // Ratio radius to outer scale
-        float scaleFactor = radius * settingsPrefab.radiusToScaleRatio;
+        float scaleFactor = calculateScaleFactor(radius);
 
         // Scale up outer prefab
-        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+        setOuterScale(scaleFactor);
 
         // Scale up light
         if (light != null)
         {
-            float lightScale = settingsPrefab.lightScaleRatio * scaleFactor;
-            light.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            setLightScale(scaleFactor);
         }
 
 
         // Scale up additional smoke
-        float smokeScale = settingsPrefab.smokeScaleRatio * scaleFactor;
-        additionalSmoke.transform.localScale = new Vector3(smokeScale, smokeScale, smokeScale);
+        setSmokeScale(scaleFactor);
 
         // embers:
-        //  - inner velocity 1x outer rate
-        float emberVelFactor = settingsPrefab.ember_velocityModifierRatio * scaleFactor;
-        var emberVelLifetime = embers.velocityOverLifetime;
-        emberVelLifetime.speedModifier = emberVelLifetime.speedModifier.constant * emberVelFactor;
-
-        //  - start size 4x outer rate
-        float emberSizeFactor = settingsPrefab.ember_startSizeRatio * scaleFactor;
-        var embersMainSize = embers.main.startSize;
-        embersMainSize.constantMax *= emberSizeFactor;
-        embersMainSize.constantMin *= emberSizeFactor;
+        setEmberVel(scaleFactor);
+        setEmberSize(scaleFactor);
 
 
         // Shockwave:
-        //  - lifetime .2x outer rate
-        float shockTimeFactor = settingsPrefab.shock_lifetimeRatio * scaleFactor;
-        var shockTimeSetter = shockwave.main;
-        shockTimeSetter.startLifetime = shockwave.main.startLifetime.constant * shockTimeFactor 
-            + settingsPrefab.shock_lifetimeBase;
-
-        //  - start size 1.2x outer rate
-        float shockSize = settingsPrefab.shock_startSizeRatio * scaleFactor;
-        //var shockSizeSetter = shockwave.main.startSize.constant;
-        //shockSizeSetter *= shockSize;
-        shockwave.transform.localScale = new Vector3(shockSize, shockSize, shockSize);
+        setShockwaveTime(scaleFactor);
+        setShockwaveScale(scaleFactor);
 
         // Debris:
         //  - scale outer x and y by .5x outer rate
         //  - scale outer z by .2x outer rate
         //  - increase start size of hard debris by .25x outer rate
         //  - increase smoke trail start size by .3x outer rate
+
+        setFlash(radius);
+        
     }
+
+    private float calculateScaleFactor(float newRadius)
+    {
+        return newRadius * settingsPrefab.radiusToScaleRatio;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -100,6 +164,24 @@ public class ExplosionSizer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(flash != null)
+        {
+            decayFlash(Time.deltaTime);
+        }
         
+    }
+
+    void decayFlash(float deltaTime)
+    {
+        if(flashTimer > 0.0f)
+        {
+            float percentTimeRemain = flashTimer / flashTimerMax;
+            applyFlashRange(Mathf.Lerp(0.0f, flashMaxRange, percentTimeRemain));
+            flashTimer -= deltaTime;
+        }
+        else
+        {
+            flash.enabled = false;
+        }
     }
 }

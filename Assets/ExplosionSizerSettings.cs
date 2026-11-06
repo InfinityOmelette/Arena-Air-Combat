@@ -21,6 +21,13 @@ public class ExplosionSizerSettings : MonoBehaviour
 
     public Vector3 debrisScaleRatios;
 
+    // FLASH
+    public float flashTimeMin;
+    public float flashTimeRadiusRatio;
+    public float flashTimeMax;
+    public float flashRangeRadiusRatio;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,5 +38,13 @@ public class ExplosionSizerSettings : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public float calcFlashTime(float radius)
+    {
+        //float time = flashTimeMin + flashTimeRatio * radius;
+        //return Mathf.Min(time, flashTimeMax);
+        float time = flashTimeRadiusRatio * radius * radius;
+        return Mathf.Clamp(time, flashTimeMin, flashTimeMax);
     }
 }

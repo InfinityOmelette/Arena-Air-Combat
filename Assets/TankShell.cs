@@ -135,7 +135,7 @@ public class TankShell : MonoBehaviour
         if (effectsLight != null)
         {
             effectsLight.enabled = false;
-            effectsBehavior.doCount = true;
+            effectsBehavior.enableDissipationTimer = true;
         }
 
         explodeStats.explode(transform.position);

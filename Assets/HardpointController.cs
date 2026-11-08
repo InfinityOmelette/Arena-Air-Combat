@@ -682,30 +682,35 @@ public class HardpointController : MonoBehaviourPunCallbacks
 
     public void equipLoadoutPreset(ref LoadoutStorage.LoadoutPreset loadout)
     {
-        List<Weapon> loadoutWeapons = loadout.loadout;
-
-        getStorage().activeLoadout = loadout;
-
-        //Debug.Log("Equipping Loadout: \n" + getStorage().reportLoadout(ref loadout));
-
-        for(int i = 0; i < getHardpoints().Length; i++)
+        if(getStorage().checkWeight(ref loadout))
         {
-            Weapon weap = loadoutWeapons[i];
-            hardpoints[i].equipNewWeapon(weap);
+            List<Weapon> loadoutWeapons = loadout.loadout;
+
+            getStorage().activeLoadout = loadout;
+
+            //Debug.Log("Equipping Loadout: \n" + getStorage().reportLoadout(ref loadout));
+
+            for (int i = 0; i < getHardpoints().Length; i++)
+            {
+                Weapon weap = loadoutWeapons[i];
+                hardpoints[i].equipNewWeapon(weap);
+            }
+
+            //for(int i = 0; i < loadout.weaponTypes.Count; i++)
+            //{
+            //    this.reloadStock[i] = loadout.stock[i];
+            //}
+            copyStock(ref loadout);
+
+            // set this aircraft's stock according to  loadout's stock values
+            // if AI, generate default stock values
+            // otherwise, load stock values from selection onto aircraft
+
+
+            initializeEquippedLoadout();
         }
 
-        //for(int i = 0; i < loadout.weaponTypes.Count; i++)
-        //{
-        //    this.reloadStock[i] = loadout.stock[i];
-        //}
-        copyStock(ref loadout);
-
-        // set this aircraft's stock according to  loadout's stock values
-        // if AI, generate default stock values
-        // otherwise, load stock values from selection onto aircraft
-
-
-        initializeEquippedLoadout();
+        
     }
 
     public void copyStock(ref LoadoutStorage.LoadoutPreset loadout)

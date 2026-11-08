@@ -28,6 +28,8 @@ public class RocketMotor : MonoBehaviour
     public GameObject rocketPlume;
     public float lightCruiseRangeRatio = .45f;
 
+    private EffectsBehavior effectsBehavior;
+
     private void setRocketPlume(bool activate)
     {
         if(rocketPlume != null)
@@ -43,18 +45,24 @@ public class RocketMotor : MonoBehaviour
         myRB = GetComponent<Rigidbody>();
         myWeapon = GetComponent<Weapon>();
 
-        if (makeEffect)
-        {
-            myWeapon.effectsObj = Instantiate(myWeapon.effectsOriginalObj);
-            myWeapon.effectsObj.GetComponent<Light>().enabled = false;
-            myWeapon.effectsObj.GetComponent<TrailRenderer>().emitting = false;
-            myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.position;
-
-            
-
-            //myWeapon.effectsObj.GetComponent<AutoDelete>().setReference(gameObject);
-        }
+        if(makeEffect)
+            createEffect();
+        
         Destroy(myWeapon.effectsOriginalObj);
+    }
+
+    public void createEffect()
+    {
+
+        myWeapon.effectsObj = Instantiate(myWeapon.effectsOriginalObj);
+        //myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+        //myWeapon.effectsObj.GetComponent<TrailRenderer>().emitting = false;
+        myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.position;
+        myWeapon.effectsBehavior = myWeapon.effectsObj.GetComponent<EffectsBehavior>();
+
+        effectsBehavior = myWeapon.effectsBehavior;
+
+        //myWeapon.effectsObj.GetComponent<AutoDelete>().setReference(gameObject);
     }
 
     public void cancelEffect()
@@ -81,11 +89,12 @@ public class RocketMotor : MonoBehaviour
                 
                 if (!doBurn) // activate effects on the very first frame that doBurn is enabled
                 {
-                    myWeapon.effectsObj.GetComponent<Light>().enabled = true;
-                    TrailRenderer trail = myWeapon.effectsObj.GetComponent<TrailRenderer>();
-                    trail.enabled = true;
-                    trail.Clear();
-                    trail.emitting = true;
+                    //myWeapon.effectsObj.GetComponent<Light>().enabled = true;
+                    //TrailRenderer trail = myWeapon.effectsObj.GetComponent<TrailRenderer>();
+                    //trail.enabled = true;
+                    //trail.Clear();
+                    //trail.emitting = true;
+                    effectsBehavior.activate();
                 }
                 setRocketPlume(true);
                 doBurn = true;
@@ -96,7 +105,8 @@ public class RocketMotor : MonoBehaviour
                 if (doBurn) 
                 {
                     //myWeapon.effectsObj.GetComponent<Light>().enabled = false;
-                    myWeapon.effectsObj.GetComponent<Light>().range *= lightCruiseRangeRatio;
+                    //myWeapon.effectsObj.GetComponent<Light>().range *= lightCruiseRangeRatio;
+                    effectsBehavior.multLightRange(lightCruiseRangeRatio);
                 }
                 doBurn = false;
 
@@ -107,7 +117,8 @@ public class RocketMotor : MonoBehaviour
                 if (cruiseTime > 0)
                 {
                     //Debug.Log("Time for cruise");
-                    myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
+                    //myWeapon.effectsObj.transform.position = myWeapon.effectsCenter.transform.position;
+                    effectsBehavior.updatePos(myWeapon.effectsCenter.transform.position);
                     cruiseTime -= Time.deltaTime;
                 }
                 else
@@ -115,7 +126,8 @@ public class RocketMotor : MonoBehaviour
                     // disable light on the very first frame that doCruise is disabled
                     if (doCruise)
                     {
-                        myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+                        //myWeapon.effectsObj.GetComponent<Light>().enabled = false;
+                        effectsBehavior.emitLight(false);
                         setRocketPlume(false);
                     }
                     doCruise = false;

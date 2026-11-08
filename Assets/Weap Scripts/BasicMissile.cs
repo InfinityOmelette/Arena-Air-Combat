@@ -49,7 +49,7 @@ public class BasicMissile : Weapon
 
     public bool tickDelayShovedown = true;
 
-    
+    //private EffectsBehavior effects;
 
     void Awake()
     {
@@ -97,6 +97,7 @@ public class BasicMissile : Weapon
         rbRef = GetComponent<Rigidbody>();
         flightSound = GetComponent<AudioSource>();
         motor = GetComponent<RocketMotor>();
+        //effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
     }
 
     override
@@ -228,7 +229,8 @@ public class BasicMissile : Weapon
     [PunRPC]
     private void rpcDisableLight()
     {
-        effectsObj.GetComponent<Light>().enabled = false;
+        //effectsObj.GetComponent<Light>().enabled = false;
+        effectsBehavior.emitLight(false);
     }
 
     void updateTargetPosition()
@@ -337,9 +339,10 @@ public class BasicMissile : Weapon
 
         }
 
-        if (effectsObj != null)
+        if (effectsBehavior != null)
         {
-            effectsObj.GetComponent<Light>().enabled = false;
+            //effectsObj.GetComponent<Light>().enabled = false;
+            effectsBehavior.emitLight(false);
 
         }
 
@@ -568,9 +571,12 @@ public class BasicMissile : Weapon
         //Debug.LogWarning("Effects obj found: " + effectsObj.name);
         //Destroy(effectsObj.gameObject);
 
-        effectsObj.GetComponent<Light>().enabled = false;
+        //effectsObj.GetComponent<Light>().enabled = false;
 
-        effectsObj.GetComponent<EffectsBehavior>().doCount = true;
+        //effectsObj.GetComponent<EffectsBehavior>().doCount = true;
+
+        effectsBehavior.beginDissipation();
+
         //Debug.LogWarning("Destroy successful: " + effectsObj == null);
         
         

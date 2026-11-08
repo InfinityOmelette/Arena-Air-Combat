@@ -42,7 +42,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.94731724, b: 0.49803922, a: 1}
   m_Intensity: 1
   m_Range: 1
   m_SpotAngle: 30
@@ -214,6 +214,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: {fileID: 0}
+  friendlyFire: 0
+  damageProjectiles: 0
+  coreDamage: 0
+  explosiveForce: 0
+  team: 0
 --- !u!114 &-6013278061706524769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +236,19 @@ MonoBehaviour:
   mediumExplodeSound: {fileID: 8300000, guid: ad772d65e34173446bea5bc779d54f36, type: 3}
   largeExplodeSound: {fileID: 8300000, guid: 8ff59ce40b7ec8246bddcde6845d0057, type: 3}
   sizer: {fileID: 8781469745928798418}
+--- !u!114 &7291438116022929354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546649500644599490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e047574fa413d4682dc830d4130d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KillTime: 5
 --- !u!114 &8781469745928798418
 MonoBehaviour:
   m_ObjectHideFlags: 0

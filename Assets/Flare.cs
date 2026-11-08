@@ -14,10 +14,16 @@ public class Flare : MonoBehaviour
 
     private AudioSource audio;
 
+    private ParticleSystem sparkParticles;
+    public ParticleSystem smokeParticles;
+
+    Light myLight;
 
     void Awake()
     {
         audio = GetComponent<AudioSource>();
+        myLight = GetComponent<Light>();
+        sparkParticles = GetComponent<ParticleSystem>();
     }
 
     // Start is called before the first frame update
@@ -25,6 +31,8 @@ public class Flare : MonoBehaviour
     {
 
         burning = true;
+        smokeParticles.Play();
+        sparkParticles.Play();
     }
 
     // Update is called once per frame
@@ -45,14 +53,14 @@ public class Flare : MonoBehaviour
         {
             burning = false;
 
-            GetComponent<TrailRenderer>().emitting = false;
-            GetComponent<Light>().enabled = false;
+            //GetComponent<TrailRenderer>().emitting = false;
+            myLight.enabled = false;
 
             sphere.SetActive(false);
-
+            smokeParticles.Stop();
             audio.Stop();
 
-            GetComponent<ParticleSystem>().Stop();
+            sparkParticles.Stop();
         }
     }
 

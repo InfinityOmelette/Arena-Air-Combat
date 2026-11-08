@@ -15,6 +15,7 @@ public class ExplosionSizerSettings : MonoBehaviour
     public float ember_startSizeRatio;
 
     // SHOCKWAVE:
+    public float shock_minRadius;
     public float shock_lifetimeRatio;
     public float shock_lifetimeBase;
     public float shock_startSizeRatio;

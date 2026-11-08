@@ -117,27 +117,33 @@ public class ExplosionSizer : MonoBehaviour
         // Ratio radius to outer scale
         float scaleFactor = calculateScaleFactor(radius);
 
-        // Scale up outer prefab
+        // outer scale
         setOuterScale(scaleFactor);
 
-        // Scale up light
+        // light
         if (light != null)
         {
             setLightScale(scaleFactor);
         }
 
-
-        // Scale up additional smoke
+        // Smoke
         setSmokeScale(scaleFactor);
 
         // embers:
         setEmberVel(scaleFactor);
         setEmberSize(scaleFactor);
 
-
         // Shockwave:
-        setShockwaveTime(scaleFactor);
-        setShockwaveScale(scaleFactor);
+        if (checkShockRadius(radius))
+        {
+            setShockwaveTime(scaleFactor);
+            setShockwaveScale(scaleFactor);
+        }
+        else
+        {
+            disableShock();
+        }
+        
 
         // Debris:
         //  - scale outer x and y by .5x outer rate
@@ -147,6 +153,16 @@ public class ExplosionSizer : MonoBehaviour
 
         setFlash(radius);
         
+    }
+
+    private bool checkShockRadius(float radius)
+    {
+        return radius >= settingsPrefab.shock_minRadius;
+    }
+
+    private void disableShock()
+    {
+        shockwave.gameObject.SetActive(false);
     }
 
     private float calculateScaleFactor(float newRadius)

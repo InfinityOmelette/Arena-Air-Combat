@@ -28,12 +28,12 @@ public class Rocket : Weapon
     private bool tempArmed = false;
 
 
-    private TrailRenderer effectTrail;
+    //private TrailRenderer effectTrail;
     public bool doSmokeForWholeFlight = false;
 
     //PhotonView photonView;
 
-        
+    //private EffectsBehavior effects;
 
     void Awake()
     {
@@ -50,20 +50,27 @@ public class Rocket : Weapon
 
         armed = false;
         setColliders(false);
-        effectsObj = Instantiate(rocketEffectsPrefab);
-        effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
-        effectTrail = effectsObj.GetComponent<TrailRenderer>();
-        effectsObj.transform.position = effectsCenter.position;
+        
 
         rbRef = GetComponent<Rigidbody>();
         myFlow = GetComponent<CombatFlow>();
 
-
+        createEffect();
+        effectsBehavior.activate();
 
         tempTimerCurrent = tempTimerMax;
 
         rbRef.velocity += transform.forward * motorBurnTime * motorForce;
 
+    }
+
+    void createEffect()
+    {
+        effectsObj = Instantiate(rocketEffectsPrefab);
+        effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
+        //effectTrail = effectsObj.GetComponent<TrailRenderer>();
+        //effectsObj.transform.position = effectsCenter.position;
+        effectsBehavior.updatePos(effectsCenter.position);
     }
 
 
@@ -82,7 +89,8 @@ public class Rocket : Weapon
     void FixedUpdate()
     {
 
-        effectsObj.transform.position = effectsCenter.transform.position;
+        //effectsObj.transform.position = effectsCenter.transform.position;
+        effectsBehavior.updatePos(effectsCenter.transform.position);
 
         if (armed)
         {
@@ -100,7 +108,10 @@ public class Rocket : Weapon
 
 
                 if (effectsObj != null)
-                    effectTrail.emitting = doSmokeForWholeFlight;
+                {
+                    effectsBehavior.emitSmoke(doSmokeForWholeFlight);
+                }
+                    //effectTrail.emitting = doSmokeForWholeFlight;
             }
 
         }
@@ -194,7 +205,8 @@ public class Rocket : Weapon
                 myFlow.dealLocalDamage(myFlow.getHP());
                 if (effectsObj != null)
                 {
-                    effectsObj.GetComponent<Light>().enabled = false;
+                    //effectsObj.GetComponent<Light>().enabled = false;
+                    effectsBehavior.emitLight(false);
                 }
                 //Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
             }
@@ -250,8 +262,11 @@ public class Rocket : Weapon
 
                 myFlow.dealLocalDamage(myFlow.getHP());
 
-                effectsObj.GetComponent<Light>().enabled = false;
-                effectsBehavior.doCount = true;
+                //effectsObj.GetComponent<Light>().enabled = false;
+                effectsBehavior.emitLight(false);
+                effectsBehavior.enableDissipationTimer = true;
+
+                effectsBehavior.beginDissipation();
 
                 //Debug.Log("Rocket HP after impact: " + myFlow.getHP());
             }

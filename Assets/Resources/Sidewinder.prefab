@@ -2888,13 +2888,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5563634311087048043, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5563634311087048043, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5563634311087048043, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5563634311087048043, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
       propertyPath: InitialModule.startSize.minScalar
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5563634311087048043, guid: c6bd0690b0d1b734d9d11488553094e5,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.minScalar
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}

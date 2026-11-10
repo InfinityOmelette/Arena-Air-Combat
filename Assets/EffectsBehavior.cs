@@ -9,10 +9,10 @@ public class EffectsBehavior : MonoBehaviour
     public bool enableDissipationTimer;
 
 
-    public ParticleSystem particleTrail;
+    public ParticleSystem smokeParticles;
     public Light myLight;
-    public TrailRenderer smokeTrailOld;
-
+    public TrailRenderer lightTrail;
+    public ParticleSystem sparkParticles;
 
     public void activate()
     {
@@ -25,7 +25,7 @@ public class EffectsBehavior : MonoBehaviour
 
     public void deactivate()
     {
-        smokeTrailOld.enabled = false;
+        lightTrail.enabled = false;
         myLight.enabled = false;
         emitSmoke(false);
         emitLight(false);
@@ -46,11 +46,14 @@ public class EffectsBehavior : MonoBehaviour
         //var main = particleTrail.main;
         if (set)
         {
-            particleTrail.Play();
+            smokeParticles.Play();
+            if (sparkParticles != null) sparkParticles.Play();
+            //sparkParticles.Play();
         }
         else
         {
-            particleTrail.Stop();
+            smokeParticles.Stop();
+            if (sparkParticles != null) sparkParticles.Stop();
         }
         
     }
@@ -58,11 +61,14 @@ public class EffectsBehavior : MonoBehaviour
     public void emitLight(bool set)
     {
         myLight.enabled = set;
+        lightTrail.enabled = set;
+        lightTrail.emitting = set;
     }
 
     public void multLightRange(float range)
     {
         myLight.range *= range;
+        //lightTrail.widthCurve;
     }
 
     
@@ -75,8 +81,8 @@ public class EffectsBehavior : MonoBehaviour
     private void Awake()
     {
         myLight = GetComponent<Light>();
-        particleTrail = GetComponent<ParticleSystem>();
-        smokeTrailOld = GetComponent<TrailRenderer>();
+        smokeParticles = GetComponent<ParticleSystem>();
+        lightTrail = GetComponent<TrailRenderer>();
     }
 
     // Start is called before the first frame update

@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3795491082417072009}
   m_LocalRotation: {x: -0, y: -0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 1430.42, y: 384.58, z: 335.3}
+  m_LocalPosition: {x: 1428.3, y: 386.7, z: 334.14}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -104,7 +104,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3795491082417072009}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -115,7 +115,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7eebf3c6061081840911950e593fc780, type: 2}
+  - {fileID: 2100000, guid: 7578a16a1537950459faa8bb1687f14c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -136,7 +136,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 0.1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.35
@@ -234,9 +234,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathCountDown: 5
   enableDissipationTimer: 0
-  particleTrail: {fileID: 0}
+  smokeParticles: {fileID: 0}
   myLight: {fileID: 8186045508680316369}
-  smokeTrailOld: {fileID: 1939399806112172704}
+  lightTrail: {fileID: 0}
+  sparkParticles: {fileID: 0}
 --- !u!199 &7285093272599515073
 ParticleSystemRenderer:
   serializedVersion: 6

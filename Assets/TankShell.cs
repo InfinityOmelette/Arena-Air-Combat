@@ -15,8 +15,8 @@ public class TankShell : MonoBehaviour
     public GameObject effectsInit;
 
     public GameObject effectsObj;
-    public Light effectsLight;
-    public TrailRenderer trail;
+    //public Light effectsLight;
+    //public TrailRenderer trail;
     private EffectsBehavior effectsBehavior;
 
     public float smokeEmitTime;
@@ -49,11 +49,15 @@ public class TankShell : MonoBehaviour
     void Start()
     {
         effectsObj = GameObject.Instantiate(effectsInit);
-        trail = effectsObj.GetComponent<TrailRenderer>();
-        effectsLight = effectsObj.GetComponent<Light>();
+        //trail = effectsObj.GetComponent<TrailRenderer>();
+        //effectsLight = effectsObj.GetComponent<Light>();
         effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
-        effectsObj.transform.position = effectsCenter.transform.position;
+        effectsBehavior.updatePos(effectsCenter.transform.position);
+        effectsBehavior.activate();
+        //effectsObj.transform.position = effectsCenter.transform.position;
         GameObject.Destroy(effectsInit);
+
+
 
         if (!GameManager.getGM().isHostInstance)
         {
@@ -86,11 +90,13 @@ public class TankShell : MonoBehaviour
     {
         if (effectsObj != null)
         {
-            effectsObj.transform.position = effectsCenter.transform.position;
+            //effectsObj.transform.position = effectsCenter.transform.position;
+
+            effectsBehavior.updatePos(effectsCenter.transform.position);
 
             //trail.emitting = readyToEmit;
 
-            if (trail.emitting)
+            if (effectsBehavior.smokeParticles.isEmitting)
             {
                 if (smokeEmitTime > 0)
                 {
@@ -98,11 +104,12 @@ public class TankShell : MonoBehaviour
                 }
                 else
                 {
-                    trail.emitting = false;
+                    //trail.emitting = false;
+                    effectsBehavior.emitSmoke(false);
                 }
             }
 
-            if (effectsLight.enabled)
+            if (effectsBehavior.myLight.enabled)
             {
                 if (lightEmitTime > 0)
                 {
@@ -110,7 +117,8 @@ public class TankShell : MonoBehaviour
                 }
                 else
                 {
-                    effectsLight.enabled = false;
+                    //effectsLight.enabled = false;
+                    effectsBehavior.emitLight(false);
                 }
             }
 
@@ -132,10 +140,11 @@ public class TankShell : MonoBehaviour
 
     private void ded()
     {
-        if (effectsLight != null)
+        if (effectsBehavior != null)
         {
-            effectsLight.enabled = false;
-            effectsBehavior.enableDissipationTimer = true;
+            effectsBehavior.beginDissipation();
+            //effectsLight.enabled = false;
+            //effectsBehavior.enableDissipationTimer = true;
         }
 
         explodeStats.explode(transform.position);

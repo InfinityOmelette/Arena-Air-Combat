@@ -141,9 +141,10 @@ public class RocketMotor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!makeEffect && myWeapon.effectsObj != null)
+        if (!makeEffect && myWeapon.effectsObj != null && effectsBehavior != null)
         {
-            Destroy(myWeapon.effectsObj);
+            //Destroy(myWeapon.effectsObj);
+            effectsBehavior.beginDissipation();
         }
 
 

@@ -70,7 +70,8 @@ public class Rocket : Weapon
         effectsBehavior = effectsObj.GetComponent<EffectsBehavior>();
         //effectTrail = effectsObj.GetComponent<TrailRenderer>();
         //effectsObj.transform.position = effectsCenter.position;
-        effectsBehavior.updatePos(effectsCenter.position);
+        //effectsBehavior.updatePos(getEffectCentPos());
+        updateEffectPos();
     }
 
 
@@ -79,18 +80,45 @@ public class Rocket : Weapon
         //Debug.Log("RocketArmed: " + armed + ", with " + armTimeRemaining + " time remaining");
 
         checkLinecastCollision();
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            //impactLocal(transform.position, gameObject);
+            //myFlow.die();
+            Destroy(gameObject);
+        }
     }
 
 
     
+    Vector3 getEffectCentPos()
+    {
+        Vector3 returnVect;
+        if(effectsCenter != null && effectsCenter.transform != null)
+        {
+            returnVect = effectsCenter.transform.position;
+        }
+        else
+        {
+            returnVect = new Vector3();
+        }
 
+        return returnVect;
+    }
     
+
+    void updateEffectPos()
+    {
+        if(effectsBehavior != null)
+        {
+            effectsBehavior.updatePos(getEffectCentPos());
+        }
+    }
 
     void FixedUpdate()
     {
 
         //effectsObj.transform.position = effectsCenter.transform.position;
-        effectsBehavior.updatePos(effectsCenter.transform.position);
+        updateEffectPos();
 
         if (armed)
         {
@@ -110,6 +138,7 @@ public class Rocket : Weapon
                 if (effectsObj != null)
                 {
                     effectsBehavior.emitSmoke(doSmokeForWholeFlight);
+                    
                 }
                     //effectTrail.emitting = doSmokeForWholeFlight;
             }
@@ -141,10 +170,22 @@ public class Rocket : Weapon
 
     }
 
+    private void OnDestroy()
+    {
+        effectsBehavior.beginDissipation();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnTriggerEnter(collision.collider);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
 
         //photonView.RPC("rpcContactProcess")
+
+        Debug.Log("Rocket trigger enter");
 
         if (myFlow != null)
         {
@@ -176,6 +217,8 @@ public class Rocket : Weapon
 
         transform.position = position;
 
+        Debug.Log("Impact local begin");
+
         if (otherRoot != null) // do not do anything against effects
         {
             bool doExplode = !otherRoot.CompareTag("Effects");
@@ -202,15 +245,19 @@ public class Rocket : Weapon
             if (doExplode)
             {
                // myFlow.currentHP -= myFlow.currentHP;
-                myFlow.dealLocalDamage(myFlow.getHP());
+                //myFlow.dealLocalDamage(myFlow.getHP());
+
                 if (effectsObj != null)
                 {
                     //effectsObj.GetComponent<Light>().enabled = false;
                     effectsBehavior.emitLight(false);
                 }
                 //Debug.Log("Rocket HP after impact: " + myFlow.currentHP);
+                myFlow.die();
             }
         }
+
+        Debug.Log("Impact local end");
     }
 
     [PunRPC]
@@ -264,7 +311,7 @@ public class Rocket : Weapon
 
                 //effectsObj.GetComponent<Light>().enabled = false;
                 effectsBehavior.emitLight(false);
-                effectsBehavior.enableDissipationTimer = true;
+                //effectsBehavior.enableDissipationTimer = true;
 
                 effectsBehavior.beginDissipation();
 

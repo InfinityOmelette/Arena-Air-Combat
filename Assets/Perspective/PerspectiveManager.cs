@@ -36,6 +36,19 @@ public class PerspectiveManager : MonoBehaviour
         gm = GameManager.getGM();
     }
 
+    public static bool tryKnock(float radius, Vector3 knockPos)
+    {
+        CamManipulation camManip = getPManager().getPlayerCam();
+
+        bool didKnock = false;
+        if (camManip != null)
+        {
+            camManip.knockExplode(radius, knockPos);
+            didKnock = true;
+        }
+        return didKnock;
+    }
+
     public static PerspectiveManager getPManager()
     {
         if(globalPerspectiveManager == null)

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1938676724783723672}
   - component: {fileID: 8360976141621314336}
   - component: {fileID: 2267750829577452625}
-  - component: {fileID: 6394539870900264016}
   - component: {fileID: 5563634311087048043}
+  - component: {fileID: 6394539870900264016}
   - component: {fileID: 8998221150758828599}
   m_Layer: 0
   m_Name: MissileEffects
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3548486328413409656}
   m_LocalRotation: {x: -0, y: -0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 177.8, y: 72.8, z: -529.49}
+  m_LocalPosition: {x: 82.5, y: 94.1, z: -619}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -220,24 +220,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &6394539870900264016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3548486328413409656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b1323d6bca2b7547831bc63ad2f36e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathCountDown: 7
-  enableDissipationTimer: 0
-  smokeParticles: {fileID: 0}
-  myLight: {fileID: 0}
-  lightTrail: {fileID: 0}
-  sparkParticles: {fileID: 0}
 --- !u!198 &5563634311087048043
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -252,7 +234,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -806,7 +788,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 600
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -952,7 +934,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.1
+      value: 0.125
       mode: 0
       spread: 0
       speed:
@@ -1124,8 +1106,8 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.1
+      scalar: 0.1
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1187,7 +1169,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: 0.016204834
+          time: 0
           value: 0
           inSlope: 0.08483483
           outSlope: 0.08483483
@@ -1196,7 +1178,7 @@ ParticleSystem:
           inWeight: 0
           outWeight: 1
         - serializedVersion: 3
-          time: 0.027164085
+          time: 0.027164087
           value: 1
           inSlope: 0.164453
           outSlope: 0.164453
@@ -2780,13 +2762,13 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxis: 0
     inWorldSpace: 0
-    multiplyDragByParticleSize: 1
+    multiplyDragByParticleSize: 0
     multiplyDragByParticleVelocity: 1
     dampen: 0
     drag:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.02
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4923,6 +4905,26 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &6394539870900264016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3548486328413409656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1323d6bca2b7547831bc63ad2f36e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathCountDown: 7
+  enableDissipationTimer: 0
+  smokeParticles: {fileID: 0}
+  myLight: {fileID: 0}
+  lightTrail: {fileID: 0}
+  sparkParticles: {fileID: 0}
+  playCalled: 0
+  launchKnockRadius: -1
 --- !u!199 &8998221150758828599
 ParticleSystemRenderer:
   serializedVersion: 6

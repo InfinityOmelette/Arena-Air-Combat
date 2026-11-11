@@ -142,6 +142,7 @@ public class Weapon : MonoBehaviourPunCallbacks
 
     public void checkLinecastCollision()
     {
+
         if (lineCastViaDistance)
         {
             // project line toward rear
@@ -204,6 +205,7 @@ public class Weapon : MonoBehaviourPunCallbacks
                 {
                     //Debug.LogError("MYERROR: linecast triggered");
                     //rpcContactProcess(transform.position, id);
+                    Debug.Log("Linecast not networked, do impact local");
                     impactLocal(transform.position, otherRootObj);
                 }
                 

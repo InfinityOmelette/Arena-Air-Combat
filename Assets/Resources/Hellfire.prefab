@@ -424,7 +424,7 @@ MonoBehaviour:
   att_guidance: 1
   att_domain: 1
   stockWeight: 1
-  dropDownSpeed: 0
+  dropDownSpeed: 5
   launchSoundDelay: 0
   camOffsetVert: 0
   proximityFuseRange: 7
@@ -496,7 +496,7 @@ MonoBehaviour:
   lockAngle: 65
   detectionThreshold: 1
   radarOn: 0
-  radarID: PHX
+  radarID: HEL
   rwrIcon: {fileID: 0}
   myFlow: {fileID: 0}
   pingPlayer: 1
@@ -580,7 +580,7 @@ MonoBehaviour:
   cruiseThrust: 65
   cruiseTime: 10
   doBurn: 0
-  burnDelay: 0
+  burnDelay: 0.25
   rocketPlume: {fileID: 0}
   lightCruiseRangeRatio: 0.45
 --- !u!114 &5442397668170603962
@@ -1990,7 +1990,7 @@ PrefabInstance:
     - target: {fileID: 2267750829577452625, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_Parameters.widthMultiplier
-      value: 3.5
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 3548486328413409656, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
@@ -2005,17 +2005,17 @@ PrefabInstance:
     - target: {fileID: 5563634311087048043, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: InitialModule.startSize.scalar
-      value: 3.75
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 5563634311087048043, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: InitialModule.startSize.minScalar
-      value: 3.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8360976141621314336, guid: c6bd0690b0d1b734d9d11488553094e5,
         type: 3}
       propertyPath: m_Range
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6bd0690b0d1b734d9d11488553094e5, type: 3}

@@ -19,6 +19,7 @@
         _Wave2Velocity ("Wave2 Velocity", Vector) = (-.005, -.005, 0.0, 0.0)
         //_wave2Velocity ("Wave 2 Velocity", float2) = (0.3, 0.2){}
         _wave2Concentration ("Wave2 Concentration", Range(0,1)) = 0.5
+        _wave2ColConcentration ("Wave2 Color Concentration", Range(0,1)) = 0.5 //
 
         [Header(Wave 3 (Normal Blend) Settings)]
         _ColWave3 ("Wave3 Color", 2D) = "white" {}
@@ -70,6 +71,7 @@
         //float _wave2ySpeed;
         float4 _Wave2Velocity;
         float _wave2Concentration;
+        float _wave2ColConcentration;
 
         sampler2D _ColWave3;
         sampler2D _NormWave3;
@@ -113,15 +115,15 @@
         {
             float2 scrolledUV = IN.uv_MainTex + float2(_Time.y * _Speed * _WaveVelocity.x, _Time.y * _Speed * _WaveVelocity.y);
             float2 scrolledUV2 = IN.uv_NormWave2 + float2(_Time.y * _Wave2Velocity.x, _Time.y * _Wave2Velocity.y);
-            float2 uvDistort = (tex2D(_NormWave2, scrolledUV2).rg - 0.5) * _wave2Concentration;
-            float2 combinedUV_12 = scrolledUV + uvDistort;
+            //float2 uvDistort = (tex2D(_NormWave2, scrolledUV2).rg - 0.5) * _wave2Concentration;
+            //float2 combinedUV_12 = scrolledUV + uvDistort;
+//
+            half3 normal1 = UnpackNormal(tex2D(_MainTex, scrolledUV));
+            half3 normal2 = UnpackNormal(tex2D(_NormWave2, scrolledUV2));
+            half3 normal12 = normalize(lerp(normal1, normal2, _wave2Concentration));//UnpackNormal(tex2D(_MainTex, combinedUV_12));
 
-            //half3 normal1 = UnpackNormal(tex2D(_MainTex, scrolledUV));
-            //half3 normal2 = UnpackNormal(tex2D(_NormWave2, scrolledUV2));
-            half3 normal12 = UnpackNormal(tex2D(_MainTex, combinedUV_12));
-
-            float2 scrolledUV3 = uvDistort + IN.uv_NormWave3 + _Wave3SpeedMod * float2(_Time.y * _Wave3Velocity.x, _Time.y * _Wave3Velocity.y);
-            half3 normal3 = UnpackNormal(tex2D(_NormWave3, scrolledUV3 + uvDistort));
+            float2 scrolledUV3 = IN.uv_NormWave3 + _Wave3SpeedMod * float2(_Time.y * _Wave3Velocity.x, _Time.y * _Wave3Velocity.y);
+            half3 normal3 = UnpackNormal(tex2D(_NormWave3, scrolledUV3));
             half3 fullNormal = normalize(lerp(normal12, normal3, _Wave3Concentration));
             //o.Normal = normalize(lerp(normal1, normal2, _wave2Concentration));
             o.Normal = fullNormal;
@@ -143,15 +145,18 @@
             //o.Albedo = lerp(_Color.rgb, _FoamColor.rgb, 1-fade);
             //o.Albedo = tex2D(_ColorTex, scrolledUV).rgb;
             //o.Albedo = _Color.rgb;
-            fixed3 colorTex = tex2D(_ColorTex, combinedUV_12).rgb;
+            fixed3 colorTex = tex2D(_ColorTex, scrolledUV).rgb;
+            fixed3 colorTex2 = tex2D(_ColorTex, scrolledUV2).rgb;
+            fixed3 mixColor = lerp(colorTex, colorTex2, _wave2ColConcentration);
+
             //fixed3 mainColMix = lerp(_Color.rgb, colorTex, _ColorLerp);
-            fixed3 colorTex2 = tex2D(_ColWave3, scrolledUV3).rgb;
-            fixed3 mixColor = lerp(colorTex, colorTex2, _Wave3ColConcentration);
+            fixed3 colorTex3 = tex2D(_ColWave3, scrolledUV3).rgb;
+            fixed3 mixColor2 = lerp(mixColor, colorTex3, _Wave3ColConcentration);
 
-            fixed3 colorTex3 = tex2D(_ColWave4, scrolledUV4).rgb;
-            fixed3 mixColor2 = lerp(mixColor, colorTex3, _Wave4ColConcentration);
+            fixed3 colorTex4 = tex2D(_ColWave4, scrolledUV4).rgb;
+            fixed3 mixColor3 = lerp(mixColor2, colorTex4, _Wave4ColConcentration);
 
-            o.Albedo = lerp(_Color.rgb, mixColor2, _ColorLerp);
+            o.Albedo = lerp(_Color.rgb, mixColor3, _ColorLerp);
 
             o.Alpha = _Color.a;
             //o.Alpha = fade * _Color.a;
